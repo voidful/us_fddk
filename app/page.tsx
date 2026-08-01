@@ -285,7 +285,7 @@ export default function Home() {
 
             <div className="challenger-verdict">
               <div><span>研究決定</span><strong>不替換 v2；v3 留在隔離 Paper</strong></div>
-              <p>v3 已建立獨立的 10 萬美元 Paper 帳戶，{challengerPaper.pending_order ? "目前只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊代理使用 Nasdaq-100 價格指數與零報酬現金，不是假造的 QQQ 總報酬回填；因此它只能當壓力測試，但失敗結果必須保留。</p>
+              <p>v3 已建立獨立的 10 萬美元 Paper 帳戶，{challengerPaper.pending_order ? "目前只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊代理使用 Nasdaq-100 價格指數與零報酬現金，不是假造的 QQQ 總報酬回填；因此它只能當壓力測試，但失敗結果必須保留。每次發布前也會核對 v3 的日期、快照、權益與委託，任何漂移都拒絕更新網站。</p>
             </div>
           </div>
         </section>

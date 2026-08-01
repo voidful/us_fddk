@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T14:31:52.905224Z",
+  "generated_at_utc": "2026-08-01T14:51:39.621641Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -234,6 +234,10 @@
           "volatility": 0.21161974146260507,
           "turnover": 0.09108989793311668
         },
+        "current_target": {
+          "QQQ": 1.0,
+          "SHY": 0.0
+        },
         "cagr_difference_vs_qqq": 0.00929469078290679,
         "drawdown_improvement_vs_qqq": 0.1720957265267361,
         "active_return_newey_west": {
@@ -247,6 +251,8 @@
           "started_at": "2026-07-31",
           "equity": 100000.0,
           "return": 0.0,
+          "cash": 100000.0,
+          "snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
           "forward_sessions": 0,
           "transactions": 0,
           "pending_order": {
@@ -257,7 +263,8 @@
               "QQQ": 1.0
             },
             "status": "pending"
-          }
+          },
+          "holdings": {}
         },
         "proxy_validation": {
           "passed": false,

@@ -37,6 +37,7 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /1986–2006 · 更早期代理/);
   assert.match(html, /36\.9%/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
+  assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
   assert.match(html, /252 日/);
   assert.match(html, /v3 回測贏 QQQ，為什麼不用/);
@@ -85,6 +86,9 @@ test("v3 challenger remains isolated when older proxy stability fails", async ()
   assert.equal(v3.paper.forward_sessions, 0);
   assert.equal(v3.paper.transactions, 0);
   assert.ok(v3.paper.pending_order);
+  assert.equal(v3.paper.snapshot_sha256, payload.snapshot_sha256);
+  assert.deepEqual(v3.paper.pending_order.target_weights, { QQQ: 1 });
+  assert.deepEqual(v3.current_target, { QQQ: 1, SHY: 0 });
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
