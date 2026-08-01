@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T14:51:39.621641Z",
+  "generated_at_utc": "2026-08-01T15:14:40.492133Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -194,6 +194,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v3 在下載前凍結的五市場測試僅 1/5 完整期勝出，跨市場機制未能泛化；不得用單一市場成功作為實金依據。",
     "這是依凍結歷史資料選出的研究候選，不是獨立於搜尋之外的全新樣本。",
     "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
     "相對被動 90% QQQ／10% SHY，後十年、5 年滾動一致性與 25 bps 成本檢查未通過；目前只能視為降回撤研究，不是已證實 alpha。",
@@ -304,6 +305,107 @@
             "positive_average_daily_active_return": true
           },
           "caveat": "This is an older disjoint market proxy, not a QQQ total-return backfill. Its first ten-year half did not beat buy-and-hold and is retained as a negative subperiod result."
+        }
+      }
+    },
+    "cross_market": {
+      "status": "cross_market_failed",
+      "passed": false,
+      "period": {
+        "start": "1989-01-03",
+        "end": "2006-07-28",
+        "calendar": "each market local sessions; pooled series equal-weights available markets",
+        "halves_midpoint": "1997-10-15"
+      },
+      "protocol_sha256": "8de1eafd2e8cbf28ee68dfc7322187d9b6c06e3b8aefc32d76d516046ec88117",
+      "counts": {
+        "full_cagr": 1,
+        "sharpe": 3,
+        "drawdown_10pp": 1,
+        "cost_50bps": 1,
+        "rolling_60pct": 0,
+        "both_halves": 1
+      },
+      "aggregate_gates": {
+        "at_least_four_full_cagr_wins": false,
+        "at_least_four_sharpe_wins": false,
+        "at_least_four_drawdown_improvements_of_10pp": false,
+        "at_least_four_cost_50bps_wins": false,
+        "rolling_median_and_three_markets_at_least_60pct": false,
+        "pooled_active_newey_west_t_at_least_1_96": false,
+        "at_least_three_markets_win_both_halves": false
+      },
+      "rolling_five_year_win_rate_median": 0.039473684210526314,
+      "pooled_active_return": {
+        "annualized": -0.008830108315433063,
+        "newey_west_t": -1.1952621711030431,
+        "deflated_sharpe_probability": 5.589474088019131e-07
+      },
+      "markets": {
+        "^GSPC": {
+          "market": "美國",
+          "index": "S&P 500",
+          "strategy_cagr": 0.08903914377463651,
+          "benchmark_cagr": 0.09130327939194438,
+          "cagr_difference": -0.002264135617307872,
+          "sharpe_difference": 0.01509485522326981,
+          "drawdown_improvement": 0.022029181169890832,
+          "cost_50bps_cagr_difference": -0.004767469387429113,
+          "rolling_five_year_win_fraction": 0.039473684210526314,
+          "first_half_cagr_difference": -0.0016487863589558227,
+          "second_half_cagr_difference": -0.0028090393247202083
+        },
+        "^FTSE": {
+          "market": "英國",
+          "index": "FTSE 100",
+          "strategy_cagr": 0.06756847566614166,
+          "benchmark_cagr": 0.07113659719201859,
+          "cagr_difference": -0.0035681215258769328,
+          "sharpe_difference": 0.006588290584851442,
+          "drawdown_improvement": 0.02771890016774836,
+          "cost_50bps_cagr_difference": -0.006095844762890934,
+          "rolling_five_year_win_fraction": 0.02631578947368421,
+          "first_half_cagr_difference": -0.003571276394012557,
+          "second_half_cagr_difference": -0.0035588451041144165
+        },
+        "^GDAXI": {
+          "market": "德國",
+          "index": "DAX",
+          "strategy_cagr": 0.08896440734466249,
+          "benchmark_cagr": 0.0845628844021884,
+          "cagr_difference": 0.00440152294247409,
+          "sharpe_difference": 0.065646468715443,
+          "drawdown_improvement": 0.10951039779878569,
+          "cost_50bps_cagr_difference": 0.0003710434194301726,
+          "rolling_five_year_win_fraction": 0.33774834437086093,
+          "first_half_cagr_difference": 0.0005014739992124095,
+          "second_half_cagr_difference": 0.007967157999168473
+        },
+        "^N225": {
+          "market": "日本",
+          "index": "Nikkei 225",
+          "strategy_cagr": -0.039968979106791425,
+          "benchmark_cagr": -0.03799159256642659,
+          "cagr_difference": -0.001977386540364834,
+          "sharpe_difference": -0.06470348853316722,
+          "drawdown_improvement": 0.0017358187675783343,
+          "cost_50bps_cagr_difference": -0.011245063488285356,
+          "rolling_five_year_win_fraction": 0.34,
+          "first_half_cagr_difference": -0.005005975689566622,
+          "second_half_cagr_difference": 0.001233375950405069
+        },
+        "^HSI": {
+          "market": "香港",
+          "index": "Hang Seng",
+          "strategy_cagr": 0.09290299959678983,
+          "benchmark_cagr": 0.10935751768452118,
+          "cagr_difference": -0.01645451808773135,
+          "sharpe_difference": -0.029322936970785807,
+          "drawdown_improvement": 0.004256964431568644,
+          "cost_50bps_cagr_difference": -0.020913174517812605,
+          "rolling_five_year_win_fraction": 0.026490066225165563,
+          "first_half_cagr_difference": -0.002062147594876551,
+          "second_half_cagr_difference": -0.028532372651353777
         }
       }
     }

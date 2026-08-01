@@ -82,6 +82,7 @@ export default function Home() {
   const challenger = data.research_pipeline.challengers.v3;
   const challengerProxy = challenger.proxy_validation;
   const challengerPaper = challenger.paper;
+  const crossMarket = data.research_pipeline.cross_market;
   return (
     <>
       <header className="topbar">
@@ -269,6 +270,29 @@ export default function Home() {
               </article>
             </div>
 
+            <div className="cross-market-audit">
+              <div className="cross-market-head">
+                <div><span>1989–2006 · 五市場事前凍結</span><h3>只有 {crossMarket.counts.full_cagr} / 5 完整期勝出，機制未能泛化</h3></div>
+                <strong>{crossMarket.passed ? "通過" : "未通過"}</strong>
+              </div>
+              <p>在看結果前固定美、英、德、日、港與七道門檻。只有德國 DAX 的完整期 CAGR 勝出；不能拿單一成功掩蓋四個失敗市場。</p>
+              <div className="cross-market-grid">
+                {Object.entries(crossMarket.markets).map(([ticker, item]) => (
+                  <article className={item.cagr_difference > 0 ? "passed" : "failed"} key={ticker}>
+                    <span>{item.market} · {item.index}</span>
+                    <strong>{pct(item.cagr_difference, 2)}</strong>
+                    <p>相對買進持有 CAGR；5 年滾動勝率 {pct(item.rolling_five_year_win_fraction, 1)}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="cross-market-stats">
+                <span>50 bps 仍勝出 <b>{crossMarket.counts.cost_50bps} / 5</b></span>
+                <span>滾動達標 <b>{crossMarket.counts.rolling_60pct} / 5</b></span>
+                <span>等權主動報酬 <b>{pct(crossMarket.pooled_active_return.annualized, 2)}</b></span>
+                <span>Newey–West t <b>{crossMarket.pooled_active_return.newey_west_t.toFixed(2)}</b></span>
+              </div>
+            </div>
+
             <div className="challenger-flow" aria-label="v3 升級關卡">
               <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
                 <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
@@ -278,14 +302,14 @@ export default function Home() {
                 <span>2</span><div><b>更早期不重疊代理</b><p>{challengerProxy.passed ? "通過" : "失敗：滾動穩定性不足"}</p></div>
               </article>
               <i aria-hidden="true">→</i>
-              <article className={challenger.reference_trade_candidate ? "passed" : "waiting"}>
-                <span>3</span><div><b>獨立 Paper 驗證</b><p>{challengerPaper.forward_sessions} / 252 日 · {challengerPaper.transactions} 筆成交</p></div>
+              <article className={crossMarket.passed ? "passed" : "failed"}>
+                <span>3</span><div><b>五市場機制驗證</b><p>{crossMarket.passed ? "通過" : `失敗：完整期僅 ${crossMarket.counts.full_cagr}/5 勝出`}</p></div>
               </article>
             </div>
 
             <div className="challenger-verdict">
               <div><span>研究決定</span><strong>不替換 v2；v3 留在隔離 Paper</strong></div>
-              <p>v3 已建立獨立的 10 萬美元 Paper 帳戶，{challengerPaper.pending_order ? "目前只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊代理使用 Nasdaq-100 價格指數與零報酬現金，不是假造的 QQQ 總報酬回填；因此它只能當壓力測試，但失敗結果必須保留。每次發布前也會核對 v3 的日期、快照、權益與委託，任何漂移都拒絕更新網站。</p>
+              <p>v3 已建立獨立的 10 萬美元 Paper 帳戶，目前累積 {challengerPaper.forward_sessions} / 252 個前瞻交易日與 {challengerPaper.transactions} 筆成交；{challengerPaper.pending_order ? "現在只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊 Nasdaq-100 代理與下載前凍結的五市場測試都失敗，因此獨立 Paper 驗證只用來觀察實作，不會把策略救回實金候選。每次發布前也會核對日期、快照、權益與委託，任何漂移都拒絕更新網站。</p>
             </div>
           </div>
         </section>
@@ -356,7 +380,7 @@ export default function Home() {
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
             <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
-            <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>v3 在 2006–2026 的完整期間與相近曝險基準都通過，但在不重疊的 1986–2006 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}，而且前十年落後。這代表優勢可能依賴特定年代，先留在獨立 Paper，不取代主訊號。</p></details>
+            <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>近期 2006–2026 看起來漂亮，但不重疊的 1986–2006 Nasdaq-100 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}；下載前固定的美、英、德、日、港測試也只有 {crossMarket.counts.full_cagr}/5 完整期勝出。這代表優勢依賴特定市場與年代，先留在獨立 Paper，不取代主訊號。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

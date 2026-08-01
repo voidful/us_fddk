@@ -35,11 +35,18 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /保留 Paper 追蹤，不升級成實金參考策略/);
   assert.match(html, /v3 在 20 年贏 QQQ/);
   assert.match(html, /1986–2006 · 更早期代理/);
+  assert.match(html, /1989–2006 · 五市場事前凍結/);
+  assert.match(html, /完整期勝出，機制未能泛化/);
+  assert.match(html, /不能拿單一成功掩蓋四個失敗市場/);
+  assert.match(html, /德國/);
+  assert.match(html, /DAX/);
+  assert.match(html, /50 bps 仍勝出/);
+  assert.match(html, /Newey–West t/);
   assert.match(html, /36\.9%/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
-  assert.match(html, /252 日/);
+  assert.match(html, /252 個交易日/);
   assert.match(html, /v3 回測贏 QQQ，為什麼不用/);
   assert.match(html, /LIVE 累積中/);
   assert.match(html, /SPY 同期/);
@@ -89,6 +96,20 @@ test("v3 challenger remains isolated when older proxy stability fails", async ()
   assert.equal(v3.paper.snapshot_sha256, payload.snapshot_sha256);
   assert.deepEqual(v3.paper.pending_order.target_weights, { QQQ: 1 });
   assert.deepEqual(v3.current_target, { QQQ: 1, SHY: 0 });
+  const cross = payload.research_pipeline.cross_market;
+  assert.equal(cross.status, "cross_market_failed");
+  assert.equal(cross.passed, false);
+  assert.equal(cross.counts.full_cagr, 1);
+  assert.equal(cross.counts.cost_50bps, 1);
+  assert.equal(cross.counts.rolling_60pct, 0);
+  assert.equal(cross.counts.both_halves, 1);
+  assert.ok(Object.values(cross.aggregate_gates).every((passed) => passed === false));
+  assert.ok(cross.pooled_active_return.annualized < 0);
+  assert.ok(cross.pooled_active_return.newey_west_t < 0);
+  assert.ok(cross.markets["^GDAXI"].cagr_difference > 0);
+  for (const ticker of ["^GSPC", "^FTSE", "^N225", "^HSI"]) {
+    assert.ok(cross.markets[ticker].cagr_difference < 0);
+  }
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
