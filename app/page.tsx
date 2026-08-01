@@ -84,6 +84,7 @@ export default function Home() {
   const challengerPaper = challenger.paper;
   const crossMarket = data.research_pipeline.cross_market;
   const styleRotation = data.research_pipeline.style_rotation;
+  const threeClock = data.research_pipeline.three_clock;
   return (
     <>
       <header className="topbar">
@@ -328,6 +329,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="three-clock-audit">
+              <div className="cross-market-head">
+                <div><span>1986–2026 · v5 三時鐘等權集成</span><h3>近期幾乎追平 QQQ，為何仍不開 Paper？</h3></div>
+                <strong>{threeClock.passed_gate_count} / {threeClock.required_gate_count} 道 · 不建立 Paper</strong>
+              </div>
+              <p>固定持有、波動管理、趨勢確認各占 1/3，不搜尋袖套比例。2006–2026 的單一起訖點很好看，但舊年代的滾動穩定性和五市場泛化直接失敗，因此不能把近期成功當成可上線訊號。</p>
+              <div className="three-clock-grid">
+                <article className="passed">
+                  <span>策略 / QQQ 年化</span>
+                  <strong>{pct(threeClock.main.strategy_metrics.cagr, 2)} / {pct(threeClock.main.benchmark_metrics.opportunity.cagr, 2)}</strong>
+                  <p>近期只領先 {pct(threeClock.main.comparisons.opportunity.cagr_difference, 2)}</p>
+                </article>
+                <article className="passed">
+                  <span>策略 / QQQ 最大回撤</span>
+                  <strong>{pct(threeClock.main.strategy_metrics.max_drawdown, 1)} / {pct(threeClock.main.benchmark_metrics.opportunity.max_drawdown, 1)}</strong>
+                  <p>回撤改善 {pct(threeClock.main.comparisons.opportunity.drawdown_improvement, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>公平 95/5 · 統計證據</span>
+                  <strong>t {threeClock.main.comparisons.matched_95_5.newey_west_t.toFixed(2)}</strong>
+                  <p>搜尋懲罰後機率 {pct(threeClock.main.comparisons.matched_95_5.deflated_sharpe_probability, 3)}</p>
+                </article>
+                <article className="failed">
+                  <span>1986–2006 · 五年滾動</span>
+                  <strong>{pct(threeClock.proxy.rolling_five_year.market.win_fraction, 1)}</strong>
+                  <p>對舊 Nasdaq-100 的中位年化差 {pct(threeClock.proxy.rolling_five_year.market.median_cagr_difference, 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>五市場完整期</span>
+                  <strong>{threeClock.cross_market.counts.full_cagr_beats_both} / 5</strong>
+                  <p>50 bps 後同勝兩基準：{threeClock.cross_market.counts.cost_50bps_beats_both} / 5</p>
+                </article>
+                <article className="failed">
+                  <span>22 道事前門檻</span>
+                  <strong>{threeClock.passed_gate_count} / {threeClock.required_gate_count}</strong>
+                  <p>需全數通過才可建立 Paper</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>研究配置，不是主訊號</b>
+                <p>最新研究權重為 QQQ {pct(threeClock.main.current_target.QQQ, 1)}、SHY {pct(threeClock.main.current_target.SHY, 1)}。這裡不提供金額試算，也不建立 Paper 帳戶，避免把失敗研究誤當成今日下單建議。</p>
+              </div>
+            </div>
+
             <div className="challenger-flow" aria-label="v3 升級關卡">
               <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
                 <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
@@ -417,6 +462,7 @@ export default function Home() {
             <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
             <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>近期 2006–2026 看起來漂亮，但不重疊的 1986–2006 Nasdaq-100 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}；下載前固定的美、英、德、日、港測試也只有 {crossMarket.counts.full_cagr}/5 完整期勝出。這代表優勢依賴特定市場與年代，先留在獨立 Paper，不取代主訊號。</p></details>
             <details><summary>v4 回撤較淺，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為事前規定 14 道門檻要全部通過，實際只有 {styleRotation.passed_gate_count} 道。策略 20 年 CAGR 落後 SPY、後十年與 50 bps 成本失敗，五年滾動勝率只有 {pct(styleRotation.rolling_five_year.market.win_fraction, 1)}；舊代理資料也不足。只改善回撤不能補足報酬與泛化證據。</p></details>
+            <details><summary>v5 幾乎追平 QQQ，為什麼還是不開 Paper？<span>＋</span></summary><p>近期 20 年只看 CAGR，v5 是 {pct(threeClock.main.strategy_metrics.cagr, 2)}、QQQ 是 {pct(threeClock.main.benchmark_metrics.opportunity.cagr, 2)}，而且回撤較淺；但更早 1986–2006 的 5 年滾動勝率只有 {pct(threeClock.proxy.rolling_five_year.market.win_fraction, 1)}，五市場完整期只有 {threeClock.cross_market.counts.full_cagr_beats_both}/5 同時勝過買進持有與公平基準。事前 22 道門檻只過 {threeClock.passed_gate_count} 道，因此研究到此停止，不開 Paper。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

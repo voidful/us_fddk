@@ -48,6 +48,13 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /舊代理資料門檻失敗/);
   assert.match(html, /2002-09-30/);
   assert.match(html, /v4 回撤較淺，為什麼連 Paper 都不開/);
+  assert.match(html, /1986–2026 · v5 三時鐘等權集成/);
+  assert.match(html, /近期幾乎追平 QQQ，為何仍不開 Paper/);
+  assert.match(html, /研究配置，不是主訊號/);
+  assert.match(html, /最新研究權重為 QQQ/);
+  assert.match(html, /91\.8%/);
+  assert.match(html, /五市場完整期/);
+  assert.match(html, /v5 幾乎追平 QQQ，為什麼還是不開 Paper/);
   assert.match(html, /36\.9%/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
@@ -136,6 +143,32 @@ test("v4 style rotation fails closed without creating a paper candidate", async 
   assert.equal(v4.proxy.coverage["^RLG"].first_valid, "2002-09-30");
   assert.equal(v4.proxy.coverage["^RLV"].warmup_sessions_before_1996_07_31, 0);
   assert.deepEqual(v4.current_target, { IWD: 0.5, IJR: 0.5 });
+});
+
+test("v5 three-clock research fails closed across older and external evidence", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v5 = payload.research_pipeline.three_clock;
+  assert.equal(v5.status, "historical_failed");
+  assert.equal(v5.historical_gate_passed, false);
+  assert.equal(v5.paper_eligible, false);
+  assert.equal(v5.passed_gate_count, 10);
+  assert.equal(v5.required_gate_count, 22);
+  assert.ok(v5.main.strategy_metrics.cagr > v5.main.benchmark_metrics.opportunity.cagr);
+  assert.ok(v5.main.comparisons.opportunity.drawdown_improvement > 0.1);
+  assert.ok(v5.main.comparisons.matched_95_5.newey_west_t < 1.96);
+  assert.deepEqual(v5.main.current_target, {
+    QQQ: 0.9181810645199134,
+    SHY: 0.08181893548008656,
+  });
+  assert.ok(v5.proxy.rolling_five_year.market.win_fraction < 0.4);
+  assert.ok(v5.proxy.rolling_five_year.market.median_cagr_difference < 0);
+  assert.equal(v5.cross_market.counts.full_cagr_beats_both, 1);
+  assert.equal(v5.cross_market.counts.cost_50bps_beats_both, 0);
+  assert.equal(v5.cross_market.counts.rolling_60pct_vs_both, 0);
+  assert.ok(v5.cross_market.pooled_active_return.market.annualized < 0);
+  assert.ok(v5.cross_market.pooled_active_return.market.newey_west_t < 0);
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
