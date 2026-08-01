@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T16:07:10.876965Z",
+  "generated_at_utc": "2026-08-01T16:26:52.342483Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -151,6 +151,8 @@
       "minimum_filled_rebalances": 6,
       "forward_sessions": 0,
       "filled_rebalances": 0,
+      "remaining_sessions": 252,
+      "remaining_filled_rebalances": 6,
       "strategy": {
         "return": 0.0,
         "max_drawdown": 0.0,
@@ -181,8 +183,8 @@
         "positive_return_after_costs": false,
         "beats_spy_total_return": false,
         "beats_passive_90_10_total_return": false,
-        "max_drawdown_no_worse_than_spy": true,
-        "max_drawdown_no_worse_than_passive_90_10": true
+        "max_drawdown_no_worse_than_spy": false,
+        "max_drawdown_no_worse_than_passive_90_10": false
       },
       "live_confirmed": false
     }
@@ -886,5 +888,63 @@
         "22_cross_pooled_newey_west_t_at_least_1_96_vs_both": false
       }
     }
+  },
+  "readiness": {
+    "contract_version": 2,
+    "trade_ready": false,
+    "decision": "paper_only",
+    "passed_gate_count": 2,
+    "required_gate_count": 11,
+    "gates": {
+      "fresh_integrity": true,
+      "historical_gate_passed": true,
+      "exposure_control_passed": false,
+      "statistically_confirmed": false,
+      "at_least_252_forward_sessions": false,
+      "at_least_6_filled_rebalances": false,
+      "positive_return_after_costs": false,
+      "beats_spy_total_return": false,
+      "beats_passive_90_10_total_return": false,
+      "max_drawdown_no_worse_than_spy": false,
+      "max_drawdown_no_worse_than_passive_90_10": false
+    },
+    "failed": [
+      {
+        "gate": "exposure_control_passed",
+        "label": "公平曝險基準門檻通過"
+      },
+      {
+        "gate": "statistically_confirmed",
+        "label": "多重搜尋後的統計證據通過"
+      },
+      {
+        "gate": "at_least_252_forward_sessions",
+        "label": "至少累積 252 個前瞻交易日"
+      },
+      {
+        "gate": "at_least_6_filled_rebalances",
+        "label": "至少完成 6 次前瞻換倉"
+      },
+      {
+        "gate": "positive_return_after_costs",
+        "label": "前瞻扣成本報酬為正"
+      },
+      {
+        "gate": "beats_spy_total_return",
+        "label": "前瞻總報酬勝過 SPY"
+      },
+      {
+        "gate": "beats_passive_90_10_total_return",
+        "label": "前瞻總報酬勝過被動 90/10"
+      },
+      {
+        "gate": "max_drawdown_no_worse_than_spy",
+        "label": "前瞻最大回撤不深於 SPY"
+      },
+      {
+        "gate": "max_drawdown_no_worse_than_passive_90_10",
+        "label": "前瞻最大回撤不深於被動 90/10"
+      }
+    ]
   }
 }

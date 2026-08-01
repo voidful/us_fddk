@@ -30,6 +30,11 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /固定 18% 目標波動政策/);
   assert.match(html, /統計尚未確認/);
   assert.match(html, /曝險控制未通過/);
+  assert.match(html, /資料可安全發布/);
+  assert.match(html, /實金參考未開放/);
+  assert.match(html, /不可回填的等待期/);
+  assert.match(html, /維持 Paper-only/);
+  assert.match(html, /為什麼資料檢查通過，還是不能下單/);
   assert.match(html, /真正難的基準：不用預測的 90\/10/);
   assert.match(html, /5 年滾動勝率至少 75%/);
   assert.match(html, /保留 Paper 追蹤，不升級成實金參考策略/);
@@ -89,6 +94,17 @@ test("data contract fails closed when the exposure-control benchmark is not robu
   assert.equal(payload.evidence.exposure_control_gates.still_beats_passive_90_10_at_25bps, false);
   assert.equal(payload.paper.forward_evidence.benchmarks.QQQ90_SHY10.return, 0);
   assert.equal(payload.paper.forward_evidence.live_confirmed, false);
+  assert.equal(payload.paper.forward_evidence.remaining_sessions, 252);
+  assert.equal(payload.paper.forward_evidence.remaining_filled_rebalances, 6);
+  assert.equal(payload.readiness.contract_version, 2);
+  assert.equal(payload.readiness.trade_ready, false);
+  assert.equal(payload.readiness.decision, "paper_only");
+  assert.equal(payload.readiness.passed_gate_count, 2);
+  assert.equal(payload.readiness.required_gate_count, 11);
+  assert.equal(payload.readiness.gates.fresh_integrity, true);
+  assert.equal(payload.readiness.gates.historical_gate_passed, true);
+  assert.equal(payload.readiness.gates.exposure_control_passed, false);
+  assert.equal(payload.readiness.gates.max_drawdown_no_worse_than_spy, false);
 });
 
 test("v3 challenger remains isolated when older proxy stability fails", async () => {

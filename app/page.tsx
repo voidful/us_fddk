@@ -76,6 +76,7 @@ export default function Home() {
   const pending = data.paper.pending_order !== null;
   const invested = data.paper.status === "invested";
   const forward = data.paper.forward_evidence;
+  const readiness = data.readiness;
   const referenceCandidate = data.evidence.reference_trade_candidate;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
@@ -175,6 +176,38 @@ export default function Home() {
           <div><span className={data.evidence.exposure_control_passed ? "check" : "wait"}>{data.evidence.exposure_control_passed ? "✓" : "!"}</span><p><b>{data.evidence.exposure_control_passed ? "曝險控制通過" : "曝險控制未通過"}</b><small>對照被動 90/10</small></p></div>
           <div><span className="wait">!</span><p><b>統計尚未確認</b><small>NW t = {data.evidence.newey_west_t.toFixed(2)}，門檻 1.96</small></p></div>
           <div><span className={data.evidence.live_confirmed ? "check" : "wait"}>{data.evidence.live_confirmed ? "✓" : "→"}</span><p><b>{data.evidence.live_confirmed ? "LIVE 門檻通過" : "LIVE 累積中"}</b><small>{forward.forward_sessions} / {forward.minimum_sessions} 日 · {forward.filled_rebalances} / {forward.minimum_filled_rebalances} 次換倉</small></p></div>
+        </section>
+
+        <section className="readiness-section wrap" id="readiness" aria-labelledby="readiness-title">
+          <div className="readiness-head">
+            <div>
+              <p className="eyebrow">REAL-MONEY READINESS</p>
+              <h2 id="readiness-title">資料可安全發布，<br />不等於可以實金參考。</h2>
+            </div>
+            <div className={readiness.trade_ready ? "readiness-verdict ready" : "readiness-verdict blocked"}>
+              <span>{readiness.trade_ready ? "實金參考已開放" : "實金參考未開放"}</span>
+              <strong>{readiness.passed_gate_count} / {readiness.required_gate_count}</strong>
+              <small>所有門檻必須同時通過</small>
+            </div>
+          </div>
+          <div className="readiness-grid">
+            <article>
+              <span>01 · 歷史與公平基準</span>
+              <strong>{data.evidence.historical_gate_passed ? "SPY 歷史通過" : "歷史未通過"}</strong>
+              <p>公平 90/10：{data.evidence.exposure_control_passed ? "通過" : "失敗"}；搜尋懲罰後統計：{data.evidence.statistically_confirmed ? "通過" : "失敗"}。歷史回測只能決定是否值得前瞻觀察。</p>
+            </article>
+            <article>
+              <span>02 · 不可回填的等待期</span>
+              <strong>{forward.forward_sessions} / {forward.minimum_sessions} 日</strong>
+              <p>還缺 {forward.remaining_sessions} 個前瞻交易日、{forward.remaining_filled_rebalances} 次完成換倉。未滿樣本前，報酬與回撤門檻一律鎖定為未通過。</p>
+            </article>
+            <article>
+              <span>03 · 最終升級條件</span>
+              <strong>{readiness.trade_ready ? "全部通過" : "維持 Paper-only"}</strong>
+              <p>扣成本後必須為正、同時勝 SPY 與被動 90/10，且最大回撤不比兩者深；資料過期或任何帳戶漂移都立即停止參考。</p>
+            </article>
+          </div>
+          <p className="readiness-note"><b>今天的明確決定：</b>{readiness.trade_ready ? "已通過完整合約，才可顯示參考交易配置。" : "只允許查看研究與 Paper 進度；主配置不是實金下單指令。"}</p>
         </section>
 
         <section className="section wrap" id="allocation">
@@ -458,6 +491,7 @@ export default function Home() {
           <div className="section-heading"><p className="eyebrow">08 · BEGINNER FAQ</p><h2>常見問題</h2></div>
           <div className="faq-list">
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
+            <details><summary>為什麼資料檢查通過，還是不能下單？<span>＋</span></summary><p>資料檢查通過只代表日期、快照、Paper 帳戶、基準和網站彼此一致，沒有表示策略已證實。實金參考另外要求 {readiness.required_gate_count} 道門檻全過；目前只有 {readiness.passed_gate_count} 道，決定仍是 Paper-only。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
             <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
             <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>近期 2006–2026 看起來漂亮，但不重疊的 1986–2006 Nasdaq-100 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}；下載前固定的美、英、德、日、港測試也只有 {crossMarket.counts.full_cagr}/5 完整期勝出。這代表優勢依賴特定市場與年代，先留在獨立 Paper，不取代主訊號。</p></details>
