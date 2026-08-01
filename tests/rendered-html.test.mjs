@@ -24,10 +24,16 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /QQQ 75\.5%/);
   assert.match(html, /SHY 24\.5%/);
   assert.match(html, /18% 目標波動/);
+  assert.match(html, /固定 18% 目標波動政策/);
   assert.match(html, /統計尚未確認/);
+  assert.match(html, /LIVE 累積中/);
+  assert.match(html, /SPY 同期/);
+  assert.match(html, /QQQ 同期/);
+  assert.match(html, /同一天現金起跑/);
   assert.match(html, /資料已過期/);
   assert.match(html, /停止參考舊配置/);
   assert.match(html, /Paper trade 不回填漂亮歷史/);
   assert.match(html, /研究與教育用途，不構成投資建議/);
+  assert.doesNotMatch(html, /固定 80\/20 政策/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
 });

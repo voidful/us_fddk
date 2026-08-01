@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T12:35:31.297272Z",
+  "generated_at_utc": "2026-08-01T12:49:29.858277Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -99,6 +99,9 @@
     "cash": 100000.0,
     "forward_sessions": 0,
     "transactions": 0,
+    "filled_rebalances": 0,
+    "status": "awaiting_fill",
+    "holdings": {},
     "pending_order": {
       "signal_date": "2026-07-31",
       "queued_at": "2026-07-31",
@@ -108,11 +111,43 @@
         "SHY": 0.2454568064402599
       },
       "status": "pending"
+    },
+    "forward_evidence": {
+      "minimum_sessions": 252,
+      "minimum_filled_rebalances": 6,
+      "forward_sessions": 0,
+      "filled_rebalances": 0,
+      "strategy": {
+        "return": 0.0,
+        "max_drawdown": 0.0,
+        "equity": 100000.0
+      },
+      "benchmarks": {
+        "SPY": {
+          "return": 0.0,
+          "max_drawdown": 0.0,
+          "equity": 100000.0
+        },
+        "QQQ": {
+          "return": 0.0,
+          "max_drawdown": 0.0,
+          "equity": 100000.0
+        }
+      },
+      "return_difference_vs_spy": 0.0,
+      "gates": {
+        "at_least_252_forward_sessions": false,
+        "at_least_6_filled_rebalances": false,
+        "positive_return_after_costs": false,
+        "beats_spy_total_return": false,
+        "max_drawdown_no_worse_than_spy": true
+      },
+      "live_confirmed": false
     }
   },
   "beginner": {
     "action": "等待下一個新增交易日開盤模擬成交",
-    "why": "系統在最近月末收盤後算出目標配置；為避免偷看同一天開盤價，只會在未來新增的交易日執行。",
+    "why": "月末訊號已排隊；為避免偷看同一天開盤價，只會在未來新增的交易日執行。",
     "next_check": "行情快照新增交易日後，再執行 paper update 並核對成交明細。",
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },

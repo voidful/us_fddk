@@ -4,7 +4,7 @@ import FreshnessGuard from "./FreshnessGuard";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
-  title: "成長守門員｜美股 ETF 研究訊號",
+  title: "成長守門員 v2｜美股 ETF 研究訊號",
   description: "20 年凍結回測、SPY／QQQ 比較、LIVE paper trade 與新手可讀的目標配置。",
 };
 
@@ -43,7 +43,7 @@ const targets = Object.entries(data.strategy.current_target)
   .sort((a, b) => b.weight - a.weight);
 
 const benchmarks = [
-  { name: "成長守門員", note: "研究候選", ...data.strategy.metrics },
+  { name: "成長守門員 v2", note: "研究候選", ...data.strategy.metrics },
   { name: "SPY", note: "必須跨過的基準", ...data.benchmarks.SPY },
   { name: "QQQ", note: "更積極的成長基準", ...data.benchmarks.QQQ },
 ];
@@ -63,6 +63,8 @@ const gateLabels: Record<string, string> = {
 
 export default function Home() {
   const pending = data.paper.pending_order !== null;
+  const invested = data.paper.status === "invested";
+  const forward = data.paper.forward_evidence;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
   return (
@@ -88,13 +90,16 @@ export default function Home() {
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · LIVE PAPER</p>
-            <div className="status-badge pending fresh-only"><span />資料有效 · 等待成交</div>
+            <div className="status-badge pending fresh-only"><span />資料有效 · {pending ? "等待成交" : invested ? "照規則持有中" : "維持現金"}</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
             <h1 className="fresh-only">今天不用猜。<br />照規則，等下一個開盤。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
-              系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，
-              就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。
+              {pending
+                ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
+                : invested
+                ? <>Paper 帳戶已按規則持有。現在不需要追價或手動換倉；系統會在下一個完整月末重新計算配置。</>
+                : <>目前沒有可執行的月末訊號，Paper 帳戶維持現金；不要為了交易而交易。</>}
             </p>
             <p className="hero-lead stale-only">
               資料應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
@@ -111,7 +116,7 @@ export default function Home() {
             <div className="signal-card-head">
               <div>
                 <p>今天該做什麼</p>
-                <h2 id="today-title" className="fresh-only">{pending ? "等待模擬成交" : "暫無待辦"}</h2>
+                <h2 id="today-title" className="fresh-only">{pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金"}</h2>
                 <h2 className="stale-only">資料過期，停止參考</h2>
               </div>
               <span className="clock" aria-hidden="true">↗</span>
@@ -133,7 +138,7 @@ export default function Home() {
             </div>
             <div className="next-step">
               <span>下一步</span>
-              <p>行情新增後，先核對成交明細；不是現在追價買進。</p>
+              <p>{pending ? "行情新增後，先核對成交明細；不是現在追價買進。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立部位。"}</p>
             </div>
             </div>
             <div className="stale-only stale-signal">
@@ -147,7 +152,7 @@ export default function Home() {
         <section className="truth-strip" aria-label="證據狀態">
           <div><span className="check">✓</span><p><b>回測門檻通過</b><small>凍結 20 年資料</small></p></div>
           <div><span className="wait">!</span><p><b>統計尚未確認</b><small>NW t = {data.evidence.newey_west_t.toFixed(2)}，門檻 1.96</small></p></div>
-          <div><span className="wait">→</span><p><b>LIVE 剛開始</b><small>{data.paper.forward_sessions} 個前瞻交易日 · {data.paper.transactions} 筆成交</small></p></div>
+          <div><span className={data.evidence.live_confirmed ? "check" : "wait"}>{data.evidence.live_confirmed ? "✓" : "→"}</span><p><b>{data.evidence.live_confirmed ? "LIVE 門檻通過" : "LIVE 累積中"}</b><small>{forward.forward_sessions} / {forward.minimum_sessions} 日 · {forward.filled_rebalances} / {forward.minimum_filled_rebalances} 次換倉</small></p></div>
         </section>
 
         <section className="section wrap" id="allocation">
@@ -187,7 +192,7 @@ export default function Home() {
             </div>
             <div className="evidence-numbers">
               <article><span>相對 SPY 年化</span><strong>+{pct(data.evidence.cagr_difference_vs_spy, 2)}</strong><p>20 年單一起訖點</p></article>
-              <article><span>回撤改善</span><strong>+{pct(data.evidence.drawdown_improvement_vs_spy, 2)}</strong><p>仍曾跌逾四成</p></article>
+              <article><span>回撤改善</span><strong>+{pct(data.evidence.drawdown_improvement_vs_spy, 2)}</strong><p>仍曾跌約三成六</p></article>
               <article><span>5 年滾動勝率</span><strong>{pct(data.evidence.rolling_five_year.win_fraction_vs_spy, 1)}</strong><p>{data.evidence.rolling_five_year.windows} 個月末視窗</p></article>
               <article className="caution"><span>最近 5 年相對 SPY</span><strong>{pct(data.evidence.rolling_five_year.latest_cagr_difference_vs_spy, 2)}</strong><p>不是每段都領先</p></article>
             </div>
@@ -215,7 +220,7 @@ export default function Home() {
             </article>
           </div>
           <article className="period-card">
-            <div><span>固定 80/20 政策 · 2012 至今</span><h3>{pct(data.evidence.fixed_post_2012.cagr, 2)} <small>vs SPY {pct(data.evidence.fixed_post_2012.spy_cagr, 2)}</small></h3></div>
+            <div><span>固定 18% 目標波動政策 · 2012 至今</span><h3>{pct(data.evidence.fixed_post_2012.cagr, 2)} <small>vs SPY {pct(data.evidence.fixed_post_2012.spy_cagr, 2)}</small></h3></div>
             <p>年化領先 {pct(data.evidence.fixed_post_2012.cagr_difference_vs_spy, 2)}，但這個政策是在較廣泛探索後才凍結，仍不是純粹獨立樣本。</p>
           </article>
         </section>
@@ -225,7 +230,7 @@ export default function Home() {
             <div className="section-heading light">
               <p className="eyebrow">04 · FORWARD ONLY</p>
               <h2>Paper trade 不回填漂亮歷史</h2>
-              <p>帳戶建立當天維持現金，只有快照新增後才會成交。這讓前瞻成績與回測清楚分開。</p>
+              <p>主策略、SPY 與 QQQ 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且報酬跑贏 SPY、回撤不比 SPY 深，才標成 LIVE 通過。</p>
             </div>
             <article className="account-card">
               <div className="account-top"><span>LIVE PAPER</span><i /></div>
@@ -235,9 +240,12 @@ export default function Home() {
                 <div><dt>現金</dt><dd>{money(data.paper.cash)}</dd></div>
                 <div><dt>前瞻日數</dt><dd>{data.paper.forward_sessions}</dd></div>
                 <div><dt>成交筆數</dt><dd>{data.paper.transactions}</dd></div>
-                <div><dt>目前報酬</dt><dd>{pct(data.paper.return, 2)}</dd></div>
+                <div><dt>完成換倉</dt><dd>{data.paper.filled_rebalances}</dd></div>
+                <div><dt>v2 前瞻報酬</dt><dd>{pct(data.paper.return, 2)}</dd></div>
+                <div><dt>SPY 同期</dt><dd>{pct(forward.benchmarks.SPY.return, 2)}</dd></div>
+                <div><dt>QQQ 同期</dt><dd>{pct(forward.benchmarks.QQQ.return, 2)}</dd></div>
               </dl>
-              <div className="queued"><span />訊號已排隊，等待下一個新增交易日</div>
+              <div className="queued"><span />{pending ? "訊號已排隊，等待下一個新增交易日" : invested ? "目前持有中，等待下一個月末重算" : "目前維持現金，等待有效月末訊號"}</div>
             </article>
           </div>
         </section>
