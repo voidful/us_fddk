@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T18:03:05.854248Z",
+  "generated_at_utc": "2026-08-01T18:45:13.595513Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v12 保留 60% 核心，剩餘 40% 依序切到成長、核心或防守；2006–2026 CAGR 11.10% 低於 SPY 11.25%，雖把最大回撤改善 13.96%，50 bps 後年化落後 1.19%。1973–1988 後半也落後，Paper 入口 16/23，不建帳戶。",
     "v9 改為只在狀態切換時交易、成長槽位降至 40%；2006–2026 CAGR 12.10% 勝 SPY 11.25%，但 50 bps 後僅領先 0.004%；舊代理回撤多深 7.94%，1973–1988 外部期後半也落後。Paper 入口 20/23，不建帳戶。",
     "v8 永遠維持 100% 股票曝險，2006–2026 CAGR 12.32% 勝 SPY 11.27%，但 50 bps 成本後略輸 SPY；1989–2006 代理最大回撤又比 S&P 500 深 6.97pp。Paper 入口 14/16，依凍結規格不建帳戶。",
     "v7 永久 50% SPY 核心加相對成長開關，在 2006–2026 的 CAGR 10.59% 低於 SPY 11.27%，最大回撤雖較 SPY 淺，卻比相同月度股票曝險對照更深；19 道只過 6 道，不建立 Paper。",
@@ -1691,6 +1692,311 @@
         "main_probability": 0.010311600901698303,
         "old_proxy_probability": 0.007057509008047802,
         "external_probability": 0.0039202029109154934
+      }
+    },
+    "hierarchical_defense": {
+      "name": "v12 階層式成長／核心／防守三態",
+      "status": "historical_economic_failed",
+      "paper_eligible": false,
+      "historically_confirmed": false,
+      "passed_gate_count": 16,
+      "required_gate_count": 29,
+      "paper_entry_passed_gate_count": 16,
+      "paper_entry_required_gate_count": 23,
+      "protocol_sha256": "902fd24841a323c70023b240e695a9bcc0a32c4eb21cbd96b7cfdff9a9918c34",
+      "main": {
+        "period": {
+          "start": "2006-07-31",
+          "end": "2026-07-31",
+          "sessions": 5032,
+          "initial_signal": "2006-06-30",
+          "initial_execution": "2006-07-03"
+        },
+        "strategy_metrics": {
+          "cagr": 0.1109898281914119,
+          "sharpe": 0.7135989714491371,
+          "max_drawdown": -0.4122575949613789,
+          "volatility": 0.16748189126258706,
+          "turnover": 2.333198959721818
+        },
+        "benchmark_metrics": {
+          "market": {
+            "cagr": 0.11252967777323386,
+            "sharpe": 0.6470902335044229,
+            "max_drawdown": -0.5518944601682292,
+            "volatility": 0.19427561335213106,
+            "turnover": 0.0
+          },
+          "opportunity": {
+            "cagr": 0.16629755154594794,
+            "sharpe": 0.8082104451926393,
+            "max_drawdown": -0.534039887215981,
+            "volatility": 0.22091668293421357,
+            "turnover": 0.0
+          },
+          "one_time_60_40": {
+            "cagr": 0.13930905936381843,
+            "sharpe": 0.7387682923664116,
+            "max_drawdown": -0.5394473820989342,
+            "volatility": 0.20545170650426936,
+            "turnover": 0.0
+          }
+        },
+        "comparison": {
+          "cagr_difference": -0.0015398495818219615,
+          "drawdown_improvement": 0.13963686520685026,
+          "newey_west_t": -0.5123078408059885,
+          "probabilistic_sharpe_probability": 0.3362490728613767,
+          "global_deflated_sharpe_probability": 1.583258464421533e-05
+        },
+        "cost_50bps_cagr_difference": -0.011867664447323012,
+        "fixed_halves": {
+          "first": {
+            "cagr_difference": 0.007766356679244302
+          },
+          "second": {
+            "cagr_difference": -0.011321152479098373
+          }
+        },
+        "rolling_five_year": {
+          "win_fraction": 0.26666666666666666,
+          "median_cagr_difference": -0.0077754921986781245,
+          "latest_cagr_difference": -0.02582013173214137
+        },
+        "signals": {
+          "completed_month_ends_in_formal_period": 241,
+          "state_month_counts": {
+            "growth": 155,
+            "core": 48,
+            "defense": 38
+          },
+          "state_change_signals_in_formal_period": 58,
+          "completed_executions_in_formal_period": 58,
+          "latest_completed_month_end": "2026-07-31",
+          "latest_state": "growth",
+          "latest_state_change_signal": "2026-04-30",
+          "pending_execution_after_snapshot": false
+        },
+        "current_policy_allocation": {
+          "SPY": 0.6,
+          "QQQ": 0.4
+        },
+        "historical_final_drifted_weights": {
+          "SPY": 0.6021204347796281,
+          "QQQ": 0.39787956522037815
+        }
+      },
+      "old_proxy": {
+        "period": {
+          "start": "1989-01-03",
+          "end": "2006-07-28",
+          "sessions": 4432,
+          "initial_signal": "1988-12-30",
+          "initial_execution": "1989-01-03"
+        },
+        "strategy_metrics": {
+          "cagr": 0.10997040034667704,
+          "sharpe": 0.7152958644955741,
+          "max_drawdown": -0.45548387270744817,
+          "volatility": 0.1646697201818457,
+          "turnover": 2.1357947945395606
+        },
+        "benchmark_metrics": {
+          "market": {
+            "cagr": 0.09136538422616147,
+            "sharpe": 0.6316994186218182,
+            "max_drawdown": -0.49146947898286897,
+            "volatility": 0.1580054198218759,
+            "turnover": 0.05687881876496609
+          },
+          "opportunity": {
+            "cagr": 0.13069713047592857,
+            "sharpe": 0.561233393146876,
+            "max_drawdown": -0.8289721157174366,
+            "volatility": 0.29686040133353536,
+            "turnover": 0.05687881876496609
+          },
+          "one_time_60_40": {
+            "cagr": 0.10986749975403076,
+            "sharpe": 0.564168115801318,
+            "max_drawdown": -0.7483013085026289,
+            "volatility": 0.2322606640343365,
+            "turnover": 0.05687881876496609
+          }
+        },
+        "comparison": {
+          "cagr_difference": 0.018605016120515572,
+          "drawdown_improvement": 0.0359856062754208,
+          "newey_west_t": 1.0718371900756518,
+          "probabilistic_sharpe_probability": 0.8377714679138549,
+          "global_deflated_sharpe_probability": 0.00295181866557237
+        },
+        "cost_50bps_cagr_difference": 0.00940635767311826,
+        "fixed_halves": {
+          "first": {
+            "cagr_difference": 0.005752818955655936
+          },
+          "second": {
+            "cagr_difference": 0.03032079890778472
+          }
+        },
+        "rolling_five_year": {
+          "win_fraction": 0.8552631578947368,
+          "median_cagr_difference": 0.02624293696856106,
+          "latest_cagr_difference": 0.005351140320905889
+        },
+        "signals": {
+          "completed_month_ends_in_formal_period": 210,
+          "state_month_counts": {
+            "growth": 124,
+            "core": 38,
+            "defense": 48
+          },
+          "state_change_signals_in_formal_period": 45,
+          "completed_executions_in_formal_period": 46,
+          "latest_completed_month_end": "2006-06-30",
+          "latest_state": "core",
+          "latest_state_change_signal": "2006-05-31",
+          "pending_execution_after_snapshot": false
+        },
+        "current_policy_allocation": {
+          "^GSPC": 1.0
+        },
+        "historical_final_drifted_weights": {
+          "^GSPC": 0.9999999999992344
+        }
+      },
+      "external": {
+        "period": {
+          "start": "1973-01-03",
+          "end": "1988-12-30",
+          "sessions": 4043,
+          "initial_signal": "1972-12-29",
+          "initial_execution": "1973-01-02"
+        },
+        "strategy_metrics": {
+          "cagr": 0.05983951422496925,
+          "sharpe": 0.4980759208899752,
+          "max_drawdown": -0.33236332320555184,
+          "volatility": 0.13502408825715392,
+          "turnover": 1.8682991299545295
+        },
+        "benchmark_metrics": {
+          "market": {
+            "cagr": 0.05411806294553689,
+            "sharpe": 0.4059108385297793,
+            "max_drawdown": -0.48203592924333394,
+            "volatility": 0.16239695148783068,
+            "turnover": 0.0
+          },
+          "opportunity": {
+            "cagr": 0.06692235114663725,
+            "sharpe": 0.5522482929480933,
+            "max_drawdown": -0.599020751142181,
+            "volatility": 0.13310073970262473,
+            "turnover": 0.0
+          },
+          "one_time_60_40": {
+            "cagr": 0.05949862699303754,
+            "sharpe": 0.4768637548225541,
+            "max_drawdown": -0.528773302384537,
+            "volatility": 0.14225524325556543,
+            "turnover": 0.0
+          }
+        },
+        "comparison": {
+          "cagr_difference": 0.005721451279432355,
+          "drawdown_improvement": 0.1496726060377821,
+          "newey_west_t": 0.10250050219874948,
+          "probabilistic_sharpe_probability": 0.5433021605887368,
+          "global_deflated_sharpe_probability": 0.000141892063871496
+        },
+        "cost_50bps_cagr_difference": -0.00217455007919809,
+        "fixed_halves": {
+          "first": {
+            "cagr_difference": 0.019554414064145265
+          },
+          "second": {
+            "cagr_difference": -0.0090594917471567
+          }
+        },
+        "rolling_five_year": {
+          "win_fraction": 0.556390977443609,
+          "median_cagr_difference": 0.0023859517639877037,
+          "latest_cagr_difference": -0.02369647308153433
+        },
+        "signals": {
+          "completed_month_ends_in_formal_period": 192,
+          "state_month_counts": {
+            "growth": 81,
+            "core": 51,
+            "defense": 60
+          },
+          "state_change_signals_in_formal_period": 38,
+          "completed_executions_in_formal_period": 37,
+          "latest_completed_month_end": "1988-12-30",
+          "latest_state": "growth",
+          "latest_state_change_signal": "1988-12-30",
+          "pending_execution_after_snapshot": true
+        },
+        "current_policy_allocation": {
+          "^GSPC": 0.6,
+          "^IXIC": 0.4
+        },
+        "historical_final_drifted_weights": {
+          "^GSPC": 0.9999999999992322
+        }
+      },
+      "prior_data_failures": {
+        "v10": {
+          "status": "fetch_failed",
+          "receipt_sha256": "7b4a1b2d436b003d2b5d6b1d79e234a165b86d8113720530e40919d025f0c5b2"
+        },
+        "v11": {
+          "status": "data_contract_failed",
+          "failure_stage": "official_http_get",
+          "error": "HTTP Error 403: Forbidden",
+          "receipt_sha256": "a020faffcfc2204bf046cb535e6876df05002678d5ef562898cea42ca6cbf642"
+        }
+      },
+      "paper_entry_gates": {
+        "01_main_cagr_beats_market_10bp": false,
+        "02_main_sharpe_beats_market": true,
+        "03_main_drawdown_not_worse_than_market_5pp": true,
+        "04_main_calmar_beats_market": true,
+        "05_main_50bps_cagr_beats_market_10bp": false,
+        "06_main_both_halves_cagr_beat_market_10bp": false,
+        "07_main_rolling_wins_60pct_and_positive_median": false,
+        "08_old_proxy_cagr_beats_market_10bp": true,
+        "09_old_proxy_sharpe_beats_market": true,
+        "10_old_proxy_drawdown_not_worse_than_market_5pp": true,
+        "11_old_proxy_calmar_beats_market": true,
+        "12_old_proxy_50bps_cagr_beats_market_10bp": true,
+        "13_old_proxy_both_halves_cagr_beat_market_10bp": true,
+        "14_old_proxy_rolling_wins_60pct_and_positive_median": true,
+        "15_external_cagr_beats_market_10bp": true,
+        "16_external_sharpe_beats_market": true,
+        "17_external_drawdown_not_worse_than_market_5pp": true,
+        "18_external_calmar_beats_market": true,
+        "19_external_50bps_cagr_beats_market_10bp": false,
+        "20_external_both_halves_cagr_beat_market_10bp": false,
+        "21_external_rolling_wins_60pct_and_positive_median": false,
+        "22_all_samples_fully_invested_95pct_no_leverage_or_short": true,
+        "23_all_hashes_warmup_cash_execution_and_failure_receipts_pass": true
+      },
+      "statistical_gates": {
+        "24_main_newey_west_t_at_least_1_96": false,
+        "25_old_proxy_newey_west_t_at_least_1_96": false,
+        "26_external_newey_west_t_at_least_1_96": false,
+        "27_main_psr_probability_95pct": false,
+        "28_old_proxy_psr_probability_95pct": false,
+        "29_external_psr_probability_95pct": false
+      },
+      "global_dsr_promotion_sensitivity": {
+        "passed": false,
+        "main_probability": 1.583258464421533e-05,
+        "old_proxy_probability": 0.00295181866557237,
+        "external_probability": 0.000141892063871496
       }
     }
   },

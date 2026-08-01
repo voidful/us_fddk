@@ -82,6 +82,10 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /1973–2026 · v9 低換手＋下載前未見外部期/);
   assert.match(html, /政策狀態不等於今天的下單建議/);
   assert.match(html, /v9 已減少交易，為什麼成本門檻還是失敗/);
+  assert.match(html, /1973–2026 · v10–v12 階層式三態/);
+  assert.match(html, /回撤改善了，為什麼仍不能當成跑贏 ETF 策略/);
+  assert.match(html, /Paper 指令鎖定/);
+  assert.match(html, /v12 已把回撤壓低，為什麼仍不值得 Paper/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -302,6 +306,34 @@ test("v9 reduces signal frequency but fails cost, old drawdown, and external-hal
   assert.equal(v9.global_dsr_promotion_sensitivity.passed, false);
   assert.deepEqual(v9.main.current_policy_allocation, { SPY: 0.6, QQQ: 0.4 });
   assert.ok(payload.limitations.some((item) => /v9 改為只在狀態切換時交易.*Paper 入口 20\/23/.test(item)));
+});
+
+test("v12 improves drawdown but rejects return, cost, persistence, and statistics", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v12 = payload.research_pipeline.hierarchical_defense;
+  assert.equal(v12.status, "historical_economic_failed");
+  assert.equal(v12.paper_eligible, false);
+  assert.equal(v12.historically_confirmed, false);
+  assert.equal(v12.paper_entry_passed_gate_count, 16);
+  assert.equal(v12.paper_entry_required_gate_count, 23);
+  assert.equal(v12.passed_gate_count, 16);
+  assert.equal(v12.required_gate_count, 29);
+  assert.ok(v12.main.strategy_metrics.cagr < v12.main.benchmark_metrics.market.cagr);
+  assert.ok(v12.main.comparison.drawdown_improvement > 0.13);
+  assert.ok(v12.main.cost_50bps_cagr_difference < -0.01);
+  assert.ok(v12.main.fixed_halves.second.cagr_difference < 0);
+  assert.ok(v12.external.fixed_halves.second.cagr_difference < 0);
+  assert.ok(v12.main.rolling_five_year.win_fraction < 0.3);
+  assert.ok(v12.main.comparison.newey_west_t < 0);
+  assert.ok(v12.old_proxy.comparison.newey_west_t < 1.96);
+  assert.ok(v12.external.comparison.newey_west_t < 1.96);
+  assert.equal(v12.global_dsr_promotion_sensitivity.passed, false);
+  assert.equal(v12.prior_data_failures.v10.status, "fetch_failed");
+  assert.match(v12.prior_data_failures.v11.error, /403/);
+  assert.deepEqual(v12.main.current_policy_allocation, { SPY: 0.6, QQQ: 0.4 });
+  assert.ok(payload.limitations.some((item) => /v12 保留 60% 核心.*Paper 入口 16\/23/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {

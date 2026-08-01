@@ -90,6 +90,7 @@ export default function Home() {
   const relativeGrowth = data.research_pipeline.relative_growth;
   const alwaysInvested = data.research_pipeline.always_invested;
   const lowTurnover = data.research_pipeline.low_turnover;
+  const hierarchicalDefense = data.research_pipeline.hierarchical_defense;
   return (
     <>
       <header className="topbar">
@@ -461,6 +462,50 @@ export default function Home() {
 
             <div className="industry-tilt-audit">
               <div className="cross-market-head">
+                <div><span>1973–2026 · v10–v12 階層式三態</span><h3>回撤改善了，為什麼仍不能當成跑贏 ETF 策略？</h3></div>
+                <strong>{hierarchicalDefense.paper_entry_passed_gate_count} / {hierarchicalDefense.paper_entry_required_gate_count} 道入口 · Paper 指令鎖定</strong>
+              </div>
+              <p>規則永久保留 60% 核心，剩下 40% 依序判斷：成長強且在 200 日線上就放 QQQ；否則 SPY 在 200 日線上就回到 SPY；兩者都不成立才放 SHY。v10 的 Yahoo DJIA 沒資料、v11 的 S&amp;P 官方檔唯一一次下載回覆 403，兩次都在計算前封存；v12 沒有偷換來源，只用三段既有凍結資料第一次計算同一規則。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>ETF 主期 · 策略 / SPY 年化</span>
+                  <strong>{pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)} / {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>年化落後 {pct(Math.abs(hierarchicalDefense.main.comparison.cagr_difference), 2)}，第一道門直接失敗</p>
+                </article>
+                <article className="passed">
+                  <span>ETF 主期 · 策略 / SPY 最大回撤</span>
+                  <strong>{pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)} / {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)}</strong>
+                  <p>回撤改善 {pct(hierarchicalDefense.main.comparison.drawdown_improvement, 1)}，但降風險不等於有超額</p>
+                </article>
+                <article className="failed">
+                  <span>50 bps 成本 · 相對 SPY 年化</span>
+                  <strong>{pct(hierarchicalDefense.main.cost_50bps_cagr_difference, 2)}</strong>
+                  <p>58 次完成切換後，成本壓力明顯落後</p>
+                </article>
+                <article className="failed">
+                  <span>ETF 主期 · 前十年 / 後十年年化差</span>
+                  <strong>{pct(hierarchicalDefense.main.fixed_halves.first.cagr_difference, 2)} / {pct(hierarchicalDefense.main.fixed_halves.second.cagr_difference, 2)}</strong>
+                  <p>後十年落後，五年滾動勝率僅 {pct(hierarchicalDefense.main.rolling_five_year.win_fraction, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>外部期 · 前半 / 後半年化差</span>
+                  <strong>{pct(hierarchicalDefense.external.fixed_halves.first.cagr_difference, 2)} / {pct(hierarchicalDefense.external.fixed_halves.second.cagr_difference, 2)}</strong>
+                  <p>1973–1980 有效，1981–1988 又轉為落後</p>
+                </article>
+                <article className="failed">
+                  <span>主期 / 舊代理 / 外部 · NW t</span>
+                  <strong>{hierarchicalDefense.main.comparison.newey_west_t.toFixed(2)} / {hierarchicalDefense.old_proxy.comparison.newey_west_t.toFixed(2)} / {hierarchicalDefense.external.comparison.newey_west_t.toFixed(2)}</strong>
+                  <p>三段都未達 1.96；6,109 次搜尋後 DSR 也全失敗</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>最新歷史狀態不是今天的下單訊號</b>
+                <p>最後完整月末判斷為 {Object.entries(hierarchicalDefense.main.current_policy_allocation).filter(([, weight]) => weight > 0).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；241 個月末中 growth／core／defense 分別為 {hierarchicalDefense.main.signals.state_month_counts.growth}／{hierarchicalDefense.main.signals.state_month_counts.core}／{hierarchicalDefense.main.signals.state_month_counts.defense} 個月。因 Paper 入口只過 {hierarchicalDefense.paper_entry_passed_gate_count}/{hierarchicalDefense.paper_entry_required_gate_count}，網站不提供金額試算，`paper update --strategy v12` 也會讀收據後拒絕建帳戶。</p>
+              </div>
+            </div>
+
+            <div className="industry-tilt-audit">
+              <div className="cross-market-head">
                 <div><span>1989–2026 · v7 相對成長衛星</span><h3>降低 SPY 回撤，為何仍不是已證實 alpha？</h3></div>
                 <strong>{relativeGrowth.passed_gate_count} / {relativeGrowth.required_gate_count} 道 · 不建立 Paper</strong>
               </div>
@@ -686,6 +731,7 @@ export default function Home() {
             <details><summary>v7 回撤比 SPY 淺，為什麼仍不建立 Paper？<span>＋</span></summary><p>因為風險較低可能只是少持股票，不代表 QQQ 選擇有穩健 alpha。v7 主期年化 {pct(relativeGrowth.main.strategy_metrics.cagr, 2)}，低於 SPY {pct(relativeGrowth.main.benchmark_metrics.market.cagr, 2)}；相對 SPY 的五年滾動勝率只有 {pct(relativeGrowth.main.rolling_five_year.market.win_fraction, 1)}，NW t 為 {relativeGrowth.main.comparisons.market.newey_west_t.toFixed(2)}。舊代理前半期也落後市場。19 道只過 {relativeGrowth.passed_gate_count} 道，所以封存負結果、不調參、不開 Paper。</p></details>
             <details><summary>v8 已經連續兩段都跑贏市場，為什麼還是不開 Paper？<span>＋</span></summary><p>因為「全期勝出」不是唯一條件。v8 主期年化 {pct(alwaysInvested.main.strategy_metrics.cagr, 2)}，確實高於 SPY {pct(alwaysInvested.main.benchmark_metrics.market.cagr, 2)}，舊代理也勝出；但 50 bps 成本後主期略輸 SPY，舊代理最大回撤比市場深 {pct(Math.abs(alwaysInvested.proxy.comparison.drawdown_difference), 1)}，而兩段 NW t 都未達 1.96。事前 16 道 Paper 入口只過 {alwaysInvested.paper_entry_passed_gate_count} 道，所以不能用結果出來後再放寬規格。</p></details>
             <details><summary>v9 已減少交易，為什麼成本門檻還是失敗？<span>＋</span></summary><p>因為一次從 100% SPY 切到 60% SPY／40% QQQ，再切回來，仍會買賣相當多部位。主期 {lowTurnover.main.signals.completed_month_ends_in_formal_period} 個月末只完成 {lowTurnover.main.signals.completed_executions_in_formal_period} 次切換，但年換手仍約 {pct(lowTurnover.main.strategy_metrics.turnover, 1)}；50 bps 後只領先 SPY {pct(lowTurnover.main.cost_50bps_cagr_difference, 3)}，低於事前 0.10% 門檻。加上舊期回撤與全新外部期後半失敗，23 道只過 {lowTurnover.paper_entry_passed_gate_count} 道，因此仍不開 Paper。</p></details>
+            <details><summary>v12 已把回撤壓低，為什麼仍不值得 Paper？<span>＋</span></summary><p>主期最大回撤從 SPY 的 {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)} 改善到 {pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)}，但 CAGR 也從 {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)} 降到 {pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)}；50 bps 成本後年化再落後 {pct(Math.abs(hierarchicalDefense.main.cost_50bps_cagr_difference), 2)}，後十年與外部期後半都沒跑贏。它是有用的風險控制負結果，不是穩健 alpha，所以事前 23 道入口只過 {hierarchicalDefense.paper_entry_passed_gate_count} 道，Paper 指令必須拒絕。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
