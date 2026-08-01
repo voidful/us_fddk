@@ -83,6 +83,7 @@ export default function Home() {
   const challengerProxy = challenger.proxy_validation;
   const challengerPaper = challenger.paper;
   const crossMarket = data.research_pipeline.cross_market;
+  const styleRotation = data.research_pipeline.style_rotation;
   return (
     <>
       <header className="topbar">
@@ -293,6 +294,40 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="style-rotation-audit">
+              <div className="cross-market-head">
+                <div><span>2006–2026 · v4 股權風格輪動</span><h3>回撤較淺，但 14 道門檻只過 {styleRotation.passed_gate_count} 道</h3></div>
+                <strong>{styleRotation.historical_gate_passed ? "通過" : "不建立 Paper"}</strong>
+              </div>
+              <p>這次在下載資料前固定 IWF、IWD、IJR 的 12–1 月動量與兩個 50% 槽位。結果不能只看較淺回撤：長期報酬、成本、後十年、五年滾動和統計證據都沒有一起過關。</p>
+              <div className="style-rotation-grid">
+                <article>
+                  <span>策略 / SPY 年化</span>
+                  <strong>{pct(styleRotation.strategy_metrics.cagr, 2)} / {pct(styleRotation.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>策略落後 {pct(Math.abs(styleRotation.comparisons.market.cagr_difference), 2)}</p>
+                </article>
+                <article className="passed">
+                  <span>策略 / SPY 最大回撤</span>
+                  <strong>{pct(styleRotation.strategy_metrics.max_drawdown, 1)} / {pct(styleRotation.benchmark_metrics.market.max_drawdown, 1)}</strong>
+                  <p>回撤改善 {pct(styleRotation.comparisons.market.drawdown_improvement, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>相對 SPY · 五年滾動勝率</span>
+                  <strong>{pct(styleRotation.rolling_five_year.market.win_fraction, 1)}</strong>
+                  <p>事前門檻 70%；NW t = {styleRotation.comparisons.market.newey_west_t.toFixed(2)}</p>
+                </article>
+                <article className="failed">
+                  <span>50 bps · 相對 SPY 年化</span>
+                  <strong>{pct(styleRotation.cost_50bps.market.cagr_difference, 2)}</strong>
+                  <p>較高成本下明顯落後</p>
+                </article>
+              </div>
+              <div className="proxy-data-failure">
+                <b>舊代理資料門檻失敗</b>
+                <p>`^RLG`、`^RLV` 在凍結來源只從 2002-09-30 開始，1996 起算前暖機都是 0；協議禁止事後換代號，所以六道舊代理門檻全部關閉。</p>
+              </div>
+            </div>
+
             <div className="challenger-flow" aria-label="v3 升級關卡">
               <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
                 <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
@@ -381,6 +416,7 @@ export default function Home() {
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
             <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
             <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>近期 2006–2026 看起來漂亮，但不重疊的 1986–2006 Nasdaq-100 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}；下載前固定的美、英、德、日、港測試也只有 {crossMarket.counts.full_cagr}/5 完整期勝出。這代表優勢依賴特定市場與年代，先留在獨立 Paper，不取代主訊號。</p></details>
+            <details><summary>v4 回撤較淺，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為事前規定 14 道門檻要全部通過，實際只有 {styleRotation.passed_gate_count} 道。策略 20 年 CAGR 落後 SPY、後十年與 50 bps 成本失敗，五年滾動勝率只有 {pct(styleRotation.rolling_five_year.market.win_fraction, 1)}；舊代理資料也不足。只改善回撤不能補足報酬與泛化證據。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

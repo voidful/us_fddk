@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T15:14:40.492133Z",
+  "generated_at_utc": "2026-08-01T15:43:10.943946Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -194,6 +194,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v4 股權風格輪動雖改善 SPY 回撤，但 14 道事前門檻只通過 2 道；CAGR、成本、後十年、滾動與統計均不足，且舊代理資料門檻失敗，因此不建立 Paper。",
     "v3 在下載前凍結的五市場測試僅 1/5 完整期勝出，跨市場機制未能泛化；不得用單一市場成功作為實金依據。",
     "這是依凍結歷史資料選出的研究候選，不是獨立於搜尋之外的全新樣本。",
     "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
@@ -407,6 +408,274 @@
           "first_half_cagr_difference": -0.002062147594876551,
           "second_half_cagr_difference": -0.028532372651353777
         }
+      }
+    },
+    "style_rotation": {
+      "status": "historical_failed",
+      "historical_gate_passed": false,
+      "paper_eligible": false,
+      "data_gate_passed": false,
+      "passed_gate_count": 2,
+      "required_gate_count": 14,
+      "protocol_sha256": "9be20a10a0d27809d9e420e6bf41cc6ce04c4d46a51c5b4651c54a4b28efae48",
+      "period": {
+        "start": "2006-07-31",
+        "end": "2026-07-31",
+        "sessions": 5032
+      },
+      "strategy_metrics": {
+        "cagr": 0.10853340508799225,
+        "sharpe": 0.7259437745153551,
+        "max_drawdown": -0.34963912795547647,
+        "volatility": 0.15984376237585599,
+        "turnover": 3.802829337319734
+      },
+      "benchmark_metrics": {
+        "market": {
+          "cagr": 0.11269642114345158,
+          "sharpe": 0.6478703896131072,
+          "max_drawdown": -0.5518945489875399,
+          "volatility": 0.19427256050178812,
+          "turnover": 0.049949024281623206
+        },
+        "equal_weight": {
+          "cagr": 0.1071088217465821,
+          "sharpe": 0.603852220630263,
+          "max_drawdown": -0.5633075468398541,
+          "volatility": 0.20304873614508231,
+          "turnover": 0.20234797460980533
+        },
+        "opportunity": {
+          "cagr": 0.16676036898915925,
+          "sharpe": 0.8100743320419598,
+          "max_drawdown": -0.5340400056874424,
+          "volatility": 0.2208926397228191,
+          "turnover": 0.049949024281623206
+        }
+      },
+      "comparisons": {
+        "market": {
+          "cagr_difference": -0.004163016055459323,
+          "sharpe_difference": 0.07807338490224791,
+          "drawdown_improvement": 0.2022554210320634,
+          "newey_west_t": -0.408238894490002,
+          "deflated_sharpe_probability": 2.2801309423448046e-05
+        },
+        "equal_weight": {
+          "cagr_difference": 0.0014245833414101572,
+          "sharpe_difference": 0.12209155388509207,
+          "drawdown_improvement": 0.2136684188843776,
+          "newey_west_t": -0.2574473190630953,
+          "deflated_sharpe_probability": 3.672846490576642e-05
+        },
+        "opportunity": {
+          "cagr_difference": -0.058226963901166995,
+          "sharpe_difference": -0.0841305575266047,
+          "drawdown_improvement": 0.1844008777319659,
+          "newey_west_t": -2.1245948229803164,
+          "deflated_sharpe_probability": 8.455801725482104e-09
+        }
+      },
+      "cost_50bps": {
+        "market": {
+          "strategy_cagr": 0.09177994669700973,
+          "benchmark_cagr": 0.11247457386096649,
+          "cagr_difference": -0.020694627163956758
+        },
+        "equal_weight": {
+          "strategy_cagr": 0.09177994669700973,
+          "benchmark_cagr": 0.10621369530763403,
+          "cagr_difference": -0.014433748610624297
+        },
+        "opportunity": {
+          "strategy_cagr": 0.09177994669700973,
+          "benchmark_cagr": 0.16652774254026115,
+          "cagr_difference": -0.07474779584325142
+        }
+      },
+      "rolling_five_year": {
+        "market": {
+          "win_fraction": 0.17777777777777778,
+          "median_cagr_difference": -0.030265325839111457,
+          "worst_cagr_difference": -0.08505158176745753
+        },
+        "equal_weight": {
+          "win_fraction": 0.15555555555555556,
+          "median_cagr_difference": -0.02233749308113575,
+          "worst_cagr_difference": -0.08582022310993209
+        },
+        "opportunity": {
+          "win_fraction": 0.1111111111111111,
+          "median_cagr_difference": -0.07547236001343416,
+          "worst_cagr_difference": -0.16988015843715876
+        }
+      },
+      "fixed_halves": {
+        "first": {
+          "start": "2006-07-31",
+          "end": "2016-07-29",
+          "strategy_metrics": {
+            "total_return": 1.6801905502692036,
+            "cagr": 0.10365485638027527,
+            "volatility": 0.14922725512257085,
+            "sharpe": 0.7360765629418945,
+            "sortino": 0.901910158513597,
+            "max_drawdown": -0.22520418788862295,
+            "calmar": 0.46027055425602853,
+            "turnover": 4.564975651640104
+          },
+          "benchmarks": {
+            "market": {
+              "metrics": {
+                "total_return": 1.0953618591303798,
+                "cagr": 0.0768084187392084,
+                "volatility": 0.20803327206011135,
+                "sharpe": 0.45981540356682804,
+                "sortino": 0.5675854810585548,
+                "max_drawdown": -0.5518945489875399,
+                "calmar": 0.13917227281935432,
+                "turnover": 0.09993909131121816
+              },
+              "cagr_difference": 0.026846437641066867
+            },
+            "equal_weight": {
+              "metrics": {
+                "total_return": 1.182409059132012,
+                "cagr": 0.08120200997057081,
+                "volatility": 0.2155073223523858,
+                "sharpe": 0.4704159225008011,
+                "sortino": 0.5940040880274812,
+                "max_drawdown": -0.5633075468398541,
+                "calmar": 0.14415217837238775,
+                "turnover": 0.21509770532124897
+              },
+              "cagr_difference": 0.022452846409704463
+            },
+            "opportunity": {
+              "metrics": {
+                "total_return": 2.41656346500173,
+                "cagr": 0.13078431410255598,
+                "volatility": 0.21678431885290006,
+                "sharpe": 0.6756631907668985,
+                "sortino": 0.8850579462673916,
+                "max_drawdown": -0.5340400056874424,
+                "calmar": 0.2448960989995572,
+                "turnover": 0.09993909131121816
+              },
+              "cagr_difference": -0.027129457722280703
+            }
+          }
+        },
+        "second": {
+          "start": "2016-08-01",
+          "end": "2026-07-31",
+          "strategy_metrics": {
+            "total_return": 1.9395204524494085,
+            "cagr": 0.11389928619951939,
+            "volatility": 0.16984218449508215,
+            "sharpe": 0.7197407425057674,
+            "sortino": 0.8423239182379911,
+            "max_drawdown": -0.34963912795547647,
+            "calmar": 0.3257624135649471,
+            "turnover": 3.043807780055502
+          },
+          "benchmarks": {
+            "market": {
+              "metrics": {
+                "total_return": 3.04253678274588,
+                "cagr": 0.14997679238455874,
+                "volatility": 0.17945684258095992,
+                "sharpe": 0.8699475319468019,
+                "sortino": 1.0485555658701058,
+                "max_drawdown": -0.33717269303801745,
+                "calmar": 0.44480705431162637,
+                "turnover": 0.0
+              },
+              "cagr_difference": -0.036077506185039354
+            },
+            "equal_weight": {
+              "metrics": {
+                "total_return": 2.5082963909488245,
+                "cagr": 0.1337855117589597,
+                "volatility": 0.1897859064891171,
+                "sharpe": 0.7581098692833248,
+                "sortino": 0.9377300291938837,
+                "max_drawdown": -0.3705694088071392,
+                "calmar": 0.3610268645477631,
+                "turnover": 0.1897645117493147
+              },
+              "cagr_difference": -0.019886225559440307
+            },
+            "opportunity": {
+              "metrics": {
+                "total_return": 5.3647055582233785,
+                "cagr": 0.20339777318014773,
+                "volatility": 0.2249568077873649,
+                "sharpe": 0.9399910560934397,
+                "sortino": 1.205005749047538,
+                "max_drawdown": -0.3511873004503919,
+                "calmar": 0.5791717779068134,
+                "turnover": 0.0
+              },
+              "cagr_difference": -0.08949848698062834
+            }
+          }
+        }
+      },
+      "current_target": {
+        "IWD": 0.5,
+        "IJR": 0.5
+      },
+      "gates": {
+        "01_trade_cagr_above_spy_and_equal_weight": false,
+        "02_trade_sharpe_above_spy_and_equal_weight": true,
+        "03_trade_drawdown_improves_spy_by_10pp": true,
+        "04_trade_50bps_beats_spy_and_equal_weight": false,
+        "05_trade_both_ten_year_halves_beat_spy_and_equal_weight": false,
+        "06_trade_rolling_five_year_wins_70pct_and_positive_median": false,
+        "07_trade_newey_west_t_at_least_1_96_vs_spy_and_equal_weight": false,
+        "08_trade_qqq_opportunity_cost_and_drawdown": false,
+        "09_proxy_cagr_above_gspc_and_equal_weight": false,
+        "10_proxy_sharpe_above_gspc_and_equal_weight": false,
+        "11_proxy_rolling_five_year_wins_60pct": false,
+        "12_proxy_both_five_year_halves_beat_gspc_and_equal_weight": false,
+        "13_proxy_50bps_beats_gspc_and_equal_weight": false,
+        "14_proxy_newey_west_t_at_least_1_96_vs_gspc_and_equal_weight": false
+      },
+      "proxy": {
+        "status": "data_gate_failed",
+        "period": {
+          "start": "1996-07-31",
+          "end": "2006-07-28"
+        },
+        "required_warmup_sessions": 273,
+        "coverage": {
+          "^RLG": {
+            "valid_sessions": 965,
+            "first_valid": "2002-09-30",
+            "last_valid": "2006-07-28",
+            "warmup_sessions_before_1996_07_31": 0
+          },
+          "^RLV": {
+            "valid_sessions": 965,
+            "first_valid": "2002-09-30",
+            "last_valid": "2006-07-28",
+            "warmup_sessions_before_1996_07_31": 0
+          },
+          "^SP600": {
+            "valid_sessions": 3295,
+            "first_valid": "1993-07-01",
+            "last_valid": "2006-07-28",
+            "warmup_sessions_before_1996_07_31": 779
+          },
+          "^GSPC": {
+            "valid_sessions": 3295,
+            "first_valid": "1993-07-01",
+            "last_valid": "2006-07-28",
+            "warmup_sessions_before_1996_07_31": null
+          }
+        },
+        "reason": "The frozen ^RLG/^RLV Yahoo series begin after the proxy evaluation start and have zero valid warmup sessions. The protocol forbids symbol substitution, so proxy performance gates are unavailable and fail closed."
       }
     }
   }

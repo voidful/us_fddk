@@ -42,6 +42,12 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /DAX/);
   assert.match(html, /50 bps 仍勝出/);
   assert.match(html, /Newey–West t/);
+  assert.match(html, /2006–2026 · v4 股權風格輪動/);
+  assert.match(html, /14 道門檻只過/);
+  assert.match(html, /不建立 Paper/);
+  assert.match(html, /舊代理資料門檻失敗/);
+  assert.match(html, /2002-09-30/);
+  assert.match(html, /v4 回撤較淺，為什麼連 Paper 都不開/);
   assert.match(html, /36\.9%/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
@@ -110,6 +116,26 @@ test("v3 challenger remains isolated when older proxy stability fails", async ()
   for (const ticker of ["^GSPC", "^FTSE", "^N225", "^HSI"]) {
     assert.ok(cross.markets[ticker].cagr_difference < 0);
   }
+});
+
+test("v4 style rotation fails closed without creating a paper candidate", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v4 = payload.research_pipeline.style_rotation;
+  assert.equal(v4.status, "historical_failed");
+  assert.equal(v4.historical_gate_passed, false);
+  assert.equal(v4.paper_eligible, false);
+  assert.equal(v4.data_gate_passed, false);
+  assert.equal(v4.passed_gate_count, 2);
+  assert.equal(v4.required_gate_count, 14);
+  assert.ok(v4.comparisons.market.cagr_difference < 0);
+  assert.ok(v4.comparisons.market.drawdown_improvement > 0.2);
+  assert.ok(v4.rolling_five_year.market.win_fraction < 0.2);
+  assert.equal(v4.proxy.status, "data_gate_failed");
+  assert.equal(v4.proxy.coverage["^RLG"].first_valid, "2002-09-30");
+  assert.equal(v4.proxy.coverage["^RLV"].warmup_sessions_before_1996_07_31, 0);
+  assert.deepEqual(v4.current_target, { IWD: 0.5, IJR: 0.5 });
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
