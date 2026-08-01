@@ -21,6 +21,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不用猜/);
   assert.match(html, /等待模擬成交/);
+  assert.match(html, /QQQ 75\.5%/);
+  assert.match(html, /SHY 24\.5%/);
+  assert.match(html, /18% 目標波動/);
   assert.match(html, /統計尚未確認/);
   assert.match(html, /資料已過期/);
   assert.match(html, /停止參考舊配置/);

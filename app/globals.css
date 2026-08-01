@@ -83,7 +83,7 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .signal-card h2 { margin: 0; font: 500 26px/1.2 Georgia, serif; }
 .clock { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--forest); color: white; font-size: 22px; }
 .donut-row { display: grid; grid-template-columns: 180px 1fr; align-items: center; gap: 26px; margin: 30px 0; }
-.donut { width: 180px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--forest) 0 81.08%, var(--gold) 81.08% 91.08%, var(--mint) 91.08% 100%); }
+.donut { width: 180px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--forest); }
 .donut::before { content: ""; grid-area: 1 / 1; width: 126px; aspect-ratio: 1; border-radius: 50%; background: var(--card); }
 .donut > div { grid-area: 1 / 1; position: relative; display: grid; text-align: center; }
 .donut strong { font: 600 32px/1 Georgia, serif; }

@@ -51,21 +51,26 @@ const benchmarks = [
 const gateLabels: Record<string, string> = {
   full_cagr_at_least_spy_plus_3pp: "全期年化至少領先 SPY 3%",
   sharpe_above_spy: "風險調整報酬高於 SPY",
-  drawdown_improvement_at_least_10pp: "最大回撤至少改善 10%",
+  drawdown_improvement_at_least_15pp: "最大回撤至少改善 15%",
   both_ten_year_halves_beat_spy: "前後兩個十年都領先",
-  rolling_five_year_win_rate_at_least_85pct: "5 年滾動勝率至少 85%",
-  still_beats_spy_at_50bps: "成本提高到 50 bps 仍領先",
-  walk_forward_beats_spy: "固定政策 2012 至今仍領先",
+  rolling_five_year_win_rate_at_least_90pct: "5 年滾動勝率至少 90%",
+  latest_five_year_window_beats_spy: "最近 5 年仍領先",
+  still_beats_spy_at_100bps: "成本提高到 100 bps 仍領先",
+  fixed_policy_2012_beats_spy: "固定政策 2012 至今仍領先",
+  improves_incumbent_cagr_and_drawdown: "報酬與回撤都改善 v1",
+  average_qqq_weight_no_more_than_90pct: "歷史平均 QQQ 不超過 90%",
 };
 
 export default function Home() {
   const pending = data.paper.pending_order !== null;
+  const qqqWeight = data.strategy.current_target.QQQ;
+  const shyWeight = data.strategy.current_target.SHY;
   return (
     <>
       <header className="topbar">
         <a className="brand" href="#top" aria-label="回到頁首">
           <span className="brand-mark">G</span>
-          <span>成長守門員</span>
+          <span>成長守門員 v2</span>
         </a>
         <nav aria-label="主要導覽">
           <a href="#allocation">配置</a>
@@ -88,8 +93,8 @@ export default function Home() {
             <h1 className="fresh-only">今天不用猜。<br />照規則，等下一個開盤。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
-              系統已用 {data.data_through} 的月末收盤資料算出配置。為避免偷看未來，
-              這筆訊號只能在下一個新增交易日的開盤模擬成交。
+              系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，
+              就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。
             </p>
             <p className="hero-lead stale-only">
               資料應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
@@ -113,13 +118,17 @@ export default function Home() {
             </div>
             <div className="fresh-only">
             <div className="donut-row">
-              <div className="donut" role="img" aria-label="目標配置：QQQ 81.1%，SHY 10%，其他分散部位 8.9%">
-                <div><strong>{pct(data.strategy.current_target.QQQ, 0)}</strong><span>QQQ</span></div>
+              <div
+                className="donut"
+                style={{ background: `conic-gradient(var(--forest) 0 ${qqqWeight * 100}%, var(--gold) ${qqqWeight * 100}% 100%)` }}
+                role="img"
+                aria-label={`目標配置：QQQ ${pct(qqqWeight)}，SHY ${pct(shyWeight)}`}
+              >
+                <div><strong>{pct(qqqWeight, 0)}</strong><span>QQQ</span></div>
               </div>
               <div className="donut-legend">
-                <div><i className="qqq" /><span>QQQ 成長引擎</span><b>{pct(data.strategy.current_target.QQQ)}</b></div>
-                <div><i className="shy" /><span>SHY 防守</span><b>{pct(data.strategy.current_target.SHY)}</b></div>
-                <div><i className="other" /><span>其他分散</span><b>{pct(1 - data.strategy.current_target.QQQ - data.strategy.current_target.SHY)}</b></div>
+                <div><i className="qqq" /><span>QQQ 成長曝險</span><b>{pct(qqqWeight)}</b></div>
+                <div><i className="shy" /><span>SHY 防守準備</span><b>{pct(shyWeight)}</b></div>
               </div>
             </div>
             <div className="next-step">
@@ -153,7 +162,7 @@ export default function Home() {
           </div>
           <div className="plain-note fresh-only">
             <b>一句話讀法</b>
-            <p>{data.beginner.allocation_hint} 集中度仍然很高，不能把它當低風險策略。</p>
+            <p>{data.beginner.allocation_hint} 規則是「18% 目標波動 ÷ 最近 21 日 QQQ 波動」，上限 100%、不使用槓桿；集中度仍高，不能把它當低風險策略。</p>
           </div>
         </section>
 
@@ -201,7 +210,7 @@ export default function Home() {
               <h3>超額報酬還不夠確定</h3>
               <div className="stat-meter"><i style={{ width: `${Math.min(data.evidence.newey_west_t / 1.96, 1) * 100}%` }} /></div>
               <p>Newey–West t 值 {data.evidence.newey_west_t.toFixed(2)}，低於 95% 常用門檻 1.96。</p>
-              <p>考慮約 6,005 次研究搜尋後，Deflated Sharpe 機率只有 {pct(data.evidence.deflated_sharpe_probability, 2)}。</p>
+              <p>考慮約 6,014 次研究搜尋後，Deflated Sharpe 機率只有 {pct(data.evidence.deflated_sharpe_probability, 2)}。</p>
               <div className="verdict">所以：可 paper 追蹤，不可宣稱穩定獲利。</div>
             </article>
           </div>
@@ -245,7 +254,7 @@ export default function Home() {
           <div className="faq-list">
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
-            <details><summary>最大回撤 -44% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 44%。10 萬美元可能一度只剩約 5.6 萬美元，而且回復時間未知。</p></details>
+            <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
           </div>
         </section>
@@ -253,7 +262,7 @@ export default function Home() {
 
       <footer>
         <div className="wrap footer-grid">
-          <div><span className="brand-mark">G</span><p><b>成長守門員</b><br />規則比預測重要，證據比故事重要。</p></div>
+          <div><span className="brand-mark">G</span><p><b>成長守門員 v2</b><br />規則比預測重要，證據比故事重要。</p></div>
           <div><p>{data.disclaimer}</p><code>快照 {data.snapshot_sha256.slice(0, 12)}…</code></div>
         </div>
       </footer>
