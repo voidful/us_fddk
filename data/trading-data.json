@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "data_through": "2026-07-31",
+  "research_start": "2006-07-31",
+  "snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "strategy": {
+    "name": "成長守門員（上線研究候選）",
+    "status": "historical_outperformance_candidate_pending_live",
+    "execution_clock": "月末收盤產生訊號；下一個新增交易日用調整後開盤價模擬成交",
+    "parameters": {
+      "core_share": 0.2,
+      "qqq_satellite_share": 0.8,
+      "selection_rule": "Policy cap: QQQ satellite is limited to 80% and 20% remains in a diversified trend core. Nearby 90/10 and 85/15 settings had higher return, so 80/20 was not chosen as the return-maximizing row.",
+      "execution": "month-end close signal; next-session adjusted open",
+      "cost_bps": 10.0
+    },
+    "current_target": {
+      "QQQ": 0.8108131948897331,
+      "SHY": 0.1,
+      "SPY": 0.020219161205605796,
+      "VNQ": 0.017673860176390853,
+      "EFA": 0.015862917497982132,
+      "IWM": 0.0151375824061347,
+      "DBC": 0.012284090316397156,
+      "EEM": 0.008009193507756227
+    },
+    "metrics": {
+      "cagr": 0.14543015011013738,
+      "sharpe": 0.8462311995557005,
+      "max_drawdown": -0.4443531476842615,
+      "volatility": 0.17988818587919922,
+      "turnover": 0.6080111087427219
+    }
+  },
+  "benchmarks": {
+    "SPY": {
+      "cagr": 0.11269644523266886,
+      "sharpe": 0.6478704480529792,
+      "max_drawdown": -0.5518944601682294,
+      "volatility": 0.19427258364478736,
+      "turnover": 0.049949024281623206
+    },
+    "QQQ": {
+      "cagr": 0.16676036898915925,
+      "sharpe": 0.810074182354235,
+      "max_drawdown": -0.5340398872160015,
+      "volatility": 0.2208926965586946,
+      "turnover": 0.049949024281623206
+    }
+  },
+  "evidence": {
+    "historical_gate_passed": true,
+    "statistically_confirmed": false,
+    "live_confirmed": false,
+    "cagr_difference_vs_spy": 0.03273370487746852,
+    "drawdown_improvement_vs_spy": 0.10754131248396792,
+    "newey_west_t": 1.8014693460753146,
+    "deflated_sharpe_probability": 0.01410677330410448,
+    "rolling_five_year": {
+      "windows": 180,
+      "win_fraction_vs_spy": 0.8833333333333333,
+      "median_cagr_difference_vs_spy": 0.02550051465488079,
+      "worst_cagr_difference_vs_spy": -0.01381744982403954,
+      "latest_cagr_difference_vs_spy": -0.003677632149182486
+    },
+    "fixed_post_2012": {
+      "cagr": 0.16704064787959383,
+      "spy_cagr": 0.14880850920161626,
+      "cagr_difference_vs_spy": 0.018232138677977572,
+      "newey_west_t": 1.054871707953885,
+      "caveat": "Fixed-policy forward-period simulation beginning in 2012. The 80/20 policy was chosen after broader exploration, so this is not a pristine independent holdout."
+    },
+    "historical_gates": {
+      "full_cagr_at_least_spy_plus_3pp": true,
+      "sharpe_above_spy": true,
+      "drawdown_improvement_at_least_10pp": true,
+      "both_ten_year_halves_beat_spy": true,
+      "rolling_five_year_win_rate_at_least_85pct": true,
+      "still_beats_spy_at_50bps": true,
+      "walk_forward_beats_spy": true
+    }
+  },
+  "paper": {
+    "mode": "live",
+    "as_of": "2026-07-31",
+    "started_at": "2026-07-31",
+    "equity": 100000.0,
+    "return": 0.0,
+    "cash": 100000.0,
+    "forward_sessions": 0,
+    "transactions": 0,
+    "pending_order": {
+      "signal_date": "2026-07-31",
+      "queued_at": "2026-07-31",
+      "execute_after": "2026-07-31",
+      "target_weights": {
+        "SPY": 0.020219161205605796,
+        "QQQ": 0.8108131948897331,
+        "IWM": 0.0151375824061347,
+        "EFA": 0.015862917497982132,
+        "EEM": 0.008009193507756227,
+        "VNQ": 0.017673860176390853,
+        "DBC": 0.012284090316397156,
+        "SHY": 0.1
+      },
+      "status": "pending"
+    }
+  },
+  "beginner": {
+    "action": "等待下一個新增交易日開盤模擬成交",
+    "why": "系統在最近月末收盤後算出目標配置；為避免偷看同一天開盤價，只會在未來新增的交易日執行。",
+    "next_check": "行情快照新增交易日後，再執行 paper update 並核對成交明細。",
+    "allocation_hint": "目前成長引擎 QQQ 約 81%；其餘為多資產趨勢核心與 SHY 防守部位。"
+  },
+  "limitations": [
+    "這是依凍結歷史資料選出的研究候選，不是獨立於搜尋之外的全新樣本。",
+    "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
+    "QQQ 集中度高，仍可能出現約四成或更深的長期回撤。",
+    "回測含設定的換手成本，但不含稅、買賣價差變動、市場衝擊與匯率。",
+    "免費調整後行情可能被供應商回溯修訂；每次更新都要留下快照雜湊。"
+  ],
+  "disclaimer": "研究與教育用途，不構成投資建議；不保證未來跑贏 SPY 或任何 ETF。"
+}
