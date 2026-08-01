@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20 年凍結回測、SPY／QQQ 比較、LIVE paper trade 與新手可讀的目標配置。",
+  description: "20 年凍結回測、SPY／QQQ／被動 90/10 比較、LIVE paper trade 與新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -43,7 +43,8 @@ const targets = Object.entries(data.strategy.current_target)
   .sort((a, b) => b.weight - a.weight);
 
 const benchmarks = [
-  { name: "成長守門員 v2", note: "研究候選", ...data.strategy.metrics },
+  { name: "成長守門員 v2", note: "Paper-only", ...data.strategy.metrics },
+  { name: "被動 90/10", note: "曝險控制", ...data.benchmarks.QQQ90_SHY10 },
   { name: "SPY", note: "必須跨過的基準", ...data.benchmarks.SPY },
   { name: "QQQ", note: "更積極的成長基準", ...data.benchmarks.QQQ },
 ];
@@ -61,10 +62,21 @@ const gateLabels: Record<string, string> = {
   average_qqq_weight_no_more_than_90pct: "歷史平均 QQQ 不超過 90%",
 };
 
+const exposureGateLabels: Record<string, string> = {
+  full_cagr_above_passive_90_10: "20 年 CAGR 高於被動 90/10",
+  sharpe_above_passive_90_10: "Sharpe 高於被動 90/10",
+  drawdown_improvement_at_least_10pp_vs_passive_90_10: "最大回撤至少改善 10%",
+  both_ten_year_halves_beat_passive_90_10: "前後兩個十年都領先",
+  rolling_five_year_win_rate_vs_passive_at_least_75pct: "5 年滾動勝率至少 75%",
+  still_beats_passive_90_10_at_25bps: "成本提高到 25 bps 仍領先",
+  positive_average_daily_active_return_vs_passive_90_10: "平均每日超額報酬為正",
+};
+
 export default function Home() {
   const pending = data.paper.pending_order !== null;
   const invested = data.paper.status === "invested";
   const forward = data.paper.forward_evidence;
+  const referenceCandidate = data.evidence.reference_trade_candidate;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
   return (
@@ -90,12 +102,14 @@ export default function Home() {
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · LIVE PAPER</p>
-            <div className="status-badge pending fresh-only"><span />資料有效 · {pending ? "等待成交" : invested ? "照規則持有中" : "維持現金"}</div>
+            <div className="status-badge pending fresh-only"><span />資料有效 · {referenceCandidate ? (pending ? "等待成交" : invested ? "照規則持有中" : "維持現金") : "僅限 Paper 觀察"}</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
-            <h1 className="fresh-only">今天不用猜。<br />照規則，等下一個開盤。</h1>
+            <h1 className="fresh-only">先別急著照單。<br />降回撤有效，超額未穩健。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
-              {pending
+              {!referenceCandidate
+                ? <>v2 在 20 年回測勝過 SPY，但對相近成長曝險的被動 90% QQQ／10% SHY，後十年、滾動一致性與成本壓力都沒有通過。配置只供 Paper 驗證，不是實金下單指令。</>
+                : pending
                 ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
                 : invested
                 ? <>Paper 帳戶已按規則持有。現在不需要追價或手動換倉；系統會在下一個完整月末重新計算配置。</>
@@ -106,7 +120,7 @@ export default function Home() {
               但目前仍只到 {data.data_through}。請先更新行情、paper 狀態與部署版本。
             </p>
             <div className="hero-actions">
-              <a className="button primary fresh-only" href="#allocation">看我的配置</a>
+              <a className="button primary fresh-only" href={referenceCandidate ? "#allocation" : "#exposure-control"}>{referenceCandidate ? "看我的配置" : "查看未通過證據"}</a>
               <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
               <a className="button ghost" href="#evidence">先看證據</a>
             </div>
@@ -116,7 +130,7 @@ export default function Home() {
             <div className="signal-card-head">
               <div>
                 <p>今天該做什麼</p>
-                <h2 id="today-title" className="fresh-only">{pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金"}</h2>
+                <h2 id="today-title" className="fresh-only">{referenceCandidate ? (pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金") : "只做 Paper，不照單"}</h2>
                 <h2 className="stale-only">資料過期，停止參考</h2>
               </div>
               <span className="clock" aria-hidden="true">↗</span>
@@ -138,7 +152,7 @@ export default function Home() {
             </div>
             <div className="next-step">
               <span>下一步</span>
-              <p>{pending ? "行情新增後，先核對成交明細；不是現在追價買進。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立部位。"}</p>
+              <p>{!referenceCandidate ? "先累積與被動 90/10 同起點的 LIVE 證據；目前不要把研究配置當成實金建議。" : pending ? "行情新增後，先核對成交明細；不是現在追價買進。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立部位。"}</p>
             </div>
             </div>
             <div className="stale-only stale-signal">
@@ -151,14 +165,15 @@ export default function Home() {
 
         <section className="truth-strip" aria-label="證據狀態">
           <div><span className="check">✓</span><p><b>回測門檻通過</b><small>凍結 20 年資料</small></p></div>
+          <div><span className={data.evidence.exposure_control_passed ? "check" : "wait"}>{data.evidence.exposure_control_passed ? "✓" : "!"}</span><p><b>{data.evidence.exposure_control_passed ? "曝險控制通過" : "曝險控制未通過"}</b><small>對照被動 90/10</small></p></div>
           <div><span className="wait">!</span><p><b>統計尚未確認</b><small>NW t = {data.evidence.newey_west_t.toFixed(2)}，門檻 1.96</small></p></div>
           <div><span className={data.evidence.live_confirmed ? "check" : "wait"}>{data.evidence.live_confirmed ? "✓" : "→"}</span><p><b>{data.evidence.live_confirmed ? "LIVE 門檻通過" : "LIVE 累積中"}</b><small>{forward.forward_sessions} / {forward.minimum_sessions} 日 · {forward.filled_rebalances} / {forward.minimum_filled_rebalances} 次換倉</small></p></div>
         </section>
 
         <section className="section wrap" id="allocation">
           <div className="section-heading split-heading">
-            <div><p className="eyebrow">01 · CURRENT SIGNAL</p><h2>把百分比換成你看得懂的金額</h2></div>
-            <p>輸入預算只做試算，不會下單、連券商或儲存資料。</p>
+            <div><p className="eyebrow">01 · PAPER ALLOCATION</p><h2>研究配置換算，不是下單建議</h2></div>
+            <p>輸入預算只看 Paper 權重會對應多少金額；不會下單、連券商或儲存資料。</p>
           </div>
           <div className="fresh-only"><AllocationCalculator allocations={targets} /></div>
           <div className="stale-only allocation-stale">
@@ -167,7 +182,7 @@ export default function Home() {
           </div>
           <div className="plain-note fresh-only">
             <b>一句話讀法</b>
-            <p>{data.beginner.allocation_hint} 規則是「18% 目標波動 ÷ 最近 21 日 QQQ 波動」，上限 100%、不使用槓桿；集中度仍高，不能把它當低風險策略。</p>
+            <p>{data.beginner.allocation_hint} 這只是正在驗證的 Paper 配置。規則是「18% 目標波動 ÷ 最近 21 日 QQQ 波動」，上限 100%、不使用槓桿；曝險控制未通過前不要照單。</p>
           </div>
         </section>
 
@@ -175,8 +190,8 @@ export default function Home() {
           <div className="wrap">
             <div className="section-heading light">
               <p className="eyebrow">02 · THE RECEIPT</p>
-              <h2>它在這 20 年跑贏 SPY，<br />但沒有跑贏 QQQ。</h2>
-              <p>這是更誠實也更有用的比較：候選提升了 SPY 的報酬與回撤，但放棄一部分 QQQ 的長期漲幅。</p>
+              <h2>它跑贏 SPY，<br />但只略贏被動 90/10。</h2>
+              <p>加入相近 QQQ 曝險的簡單被動組合後，真正能歸因於波動管理的報酬優勢很小，而且跨期間不穩定。</p>
             </div>
             <div className="comparison-grid">
               {benchmarks.map((row, index) => (
@@ -191,17 +206,38 @@ export default function Home() {
               ))}
             </div>
             <div className="evidence-numbers">
-              <article><span>相對 SPY 年化</span><strong>+{pct(data.evidence.cagr_difference_vs_spy, 2)}</strong><p>20 年單一起訖點</p></article>
-              <article><span>回撤改善</span><strong>+{pct(data.evidence.drawdown_improvement_vs_spy, 2)}</strong><p>仍曾跌約三成六</p></article>
-              <article><span>5 年滾動勝率</span><strong>{pct(data.evidence.rolling_five_year.win_fraction_vs_spy, 1)}</strong><p>{data.evidence.rolling_five_year.windows} 個月末視窗</p></article>
-              <article className="caution"><span>最近 5 年相對 SPY</span><strong>{pct(data.evidence.rolling_five_year.latest_cagr_difference_vs_spy, 2)}</strong><p>不是每段都領先</p></article>
+              <article><span>相對被動 90/10 年化</span><strong>+{pct(data.evidence.cagr_difference_vs_passive_90_10, 2)}</strong><p>只看 20 年單一起訖點</p></article>
+              <article><span>相對 90/10 回撤改善</span><strong>+{pct(data.evidence.drawdown_improvement_vs_passive_90_10, 2)}</strong><p>降風險效果明顯</p></article>
+              <article><span>5 年滾動勝率</span><strong>{pct(data.evidence.rolling_five_year_vs_passive_90_10.win_fraction, 1)}</strong><p>門檻 75%，實際接近擲硬幣</p></article>
+              <article className="caution"><span>後十年相對 90/10</span><strong>{pct(data.evidence.second_ten_year_cagr_difference_vs_passive_90_10, 2)}</strong><p>未能跨時期維持領先</p></article>
             </div>
+          </div>
+        </section>
+
+        <section className="section wrap" id="exposure-control">
+          <div className="section-heading split-heading">
+            <div><p className="eyebrow">03 · EXPOSURE CONTROL</p><h2>真正難的基準：不用預測的 90/10</h2></div>
+            <p>被動 90% QQQ／10% SHY 每月末再平衡。這項稽核是在 v2 選定後補上，因此只算反證，不冒充預先註冊。</p>
+          </div>
+          <div className="gate-layout">
+            <div className="gate-list">
+              {Object.entries(data.evidence.exposure_control_gates).map(([key, passed]) => (
+                <div key={key}><span className={passed ? "gate-pass" : "gate-fail"}>{passed ? "通過" : "失敗"}</span><p>{exposureGateLabels[key] ?? key}</p></div>
+              ))}
+            </div>
+            <article className="stat-card">
+              <span>最重要的新反證</span>
+              <h3>降回撤，不等於穩健超額</h3>
+              <p>全期 CAGR 仍略高 {pct(data.evidence.cagr_difference_vs_passive_90_10, 2)}，但每日超額報酬年化平均為 {pct(data.evidence.active_return_vs_passive_90_10.annualized_mean, 2)}，NW t 只有 {data.evidence.active_return_vs_passive_90_10.newey_west_t.toFixed(2)}。</p>
+              <p>成本提高到 25 bps 後，年化差轉為 {pct(data.evidence.cost_25bps_cagr_difference_vs_passive_90_10, 2)}；所以不能只看最好看的單一起訖 CAGR。</p>
+              <div className="verdict">目前結論：保留 Paper 追蹤，不升級成實金參考策略。</div>
+            </article>
           </div>
         </section>
 
         <section className="section wrap">
           <div className="section-heading split-heading">
-            <div><p className="eyebrow">03 · PASS / NOT PROVEN</p><h2>通過的是歷史規則，不是未來保證</h2></div>
+            <div><p className="eyebrow">04 · PASS / NOT PROVEN</p><h2>通過 SPY，不代表通過公平基準</h2></div>
             <p>策略搜尋會放大運氣。因此除了績效，我們也保留沒有通過的統計檢查。</p>
           </div>
           <div className="gate-layout">
@@ -228,9 +264,9 @@ export default function Home() {
         <section className="section paper-section" id="paper">
           <div className="wrap paper-grid">
             <div className="section-heading light">
-              <p className="eyebrow">04 · FORWARD ONLY</p>
+              <p className="eyebrow">05 · FORWARD ONLY</p>
               <h2>Paper trade 不回填漂亮歷史</h2>
-              <p>主策略、SPY 與 QQQ 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且報酬跑贏 SPY、回撤不比 SPY 深，才標成 LIVE 通過。除息或拆股造成調整價格回溯時，只重基準總報酬單位，不回寫既有損益。</p>
+              <p>主策略、SPY、QQQ 與被動 90/10 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且同時跑贏 SPY 與被動 90/10、回撤不更深，才標成 LIVE 通過。除息或拆股造成調整價格回溯時，只重基準總報酬單位，不回寫既有損益。</p>
             </div>
             <article className="account-card">
               <div className="account-top"><span>LIVE PAPER</span><i /></div>
@@ -245,6 +281,7 @@ export default function Home() {
                 <div><dt>v2 前瞻報酬</dt><dd>{pct(data.paper.return, 2)}</dd></div>
                 <div><dt>SPY 同期</dt><dd>{pct(forward.benchmarks.SPY.return, 2)}</dd></div>
                 <div><dt>QQQ 同期</dt><dd>{pct(forward.benchmarks.QQQ.return, 2)}</dd></div>
+                <div><dt>被動 90/10 同期</dt><dd>{pct(forward.benchmarks.QQQ90_SHY10.return, 2)}</dd></div>
               </dl>
               <div className="queued"><span />{pending ? "訊號已排隊，等待下一個新增交易日" : invested ? "目前持有中，等待下一個月末重算" : "目前維持現金，等待有效月末訊號"}</div>
             </article>
@@ -252,17 +289,18 @@ export default function Home() {
         </section>
 
         <section className="section wrap" id="risks">
-          <div className="section-heading"><p className="eyebrow">05 · READ BEFORE USE</p><h2>先知道最壞的事，再看最好看的數字</h2></div>
+          <div className="section-heading"><p className="eyebrow">06 · READ BEFORE USE</p><h2>先知道最壞的事，再看最好看的數字</h2></div>
           <div className="risk-grid">
             {data.limitations.map((item, index) => <article key={item}><span>0{index + 1}</span><p>{item}</p></article>)}
           </div>
         </section>
 
         <section className="section wrap faq-section">
-          <div className="section-heading"><p className="eyebrow">06 · BEGINNER FAQ</p><h2>常見問題</h2></div>
+          <div className="section-heading"><p className="eyebrow">07 · BEGINNER FAQ</p><h2>常見問題</h2></div>
           <div className="faq-list">
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
+            <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

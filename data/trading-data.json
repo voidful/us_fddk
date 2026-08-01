@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T13:14:02.874986Z",
+  "generated_at_utc": "2026-08-01T13:33:49.623666Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -14,7 +14,7 @@
   "strategy": {
     "name": "成長守門員 v2（波動管理）",
     "version": 2,
-    "status": "historical_outperformance_candidate_pending_live",
+    "status": "exposure_control_failed_paper_only",
     "execution_clock": "月末收盤產生訊號；下一個新增交易日用調整後開盤價模擬成交",
     "parameters": {
       "growth_asset": "QQQ",
@@ -53,14 +53,37 @@
       "max_drawdown": -0.5340398872160015,
       "volatility": 0.2208926965586946,
       "turnover": 0.049949024281623206
+    },
+    "QQQ90_SHY10": {
+      "cagr": 0.15307126959052697,
+      "sharpe": 0.8204590702487178,
+      "max_drawdown": -0.48858611537979146,
+      "volatility": 0.19777882746707218,
+      "turnover": 0.14637468783864302
     }
   },
   "evidence": {
     "historical_gate_passed": true,
+    "exposure_control_passed": false,
+    "reference_trade_candidate": false,
     "statistically_confirmed": false,
     "live_confirmed": false,
     "cagr_difference_vs_spy": 0.04342648163445295,
     "drawdown_improvement_vs_spy": 0.19229226338357674,
+    "cagr_difference_vs_passive_90_10": 0.0030516572765948435,
+    "drawdown_improvement_vs_passive_90_10": 0.1289839185951388,
+    "active_return_vs_passive_90_10": {
+      "annualized_mean": -0.002413647203973771,
+      "newey_west_t": -0.19135549678673452
+    },
+    "rolling_five_year_vs_passive_90_10": {
+      "windows": 180,
+      "win_fraction": 0.5166666666666667,
+      "latest_cagr_difference": 0.01573850552292555,
+      "worst_cagr_difference": -0.040494137398178864
+    },
+    "second_ten_year_cagr_difference_vs_passive_90_10": -0.010238800275662374,
+    "cost_25bps_cagr_difference_vs_passive_90_10": -0.000664955315073712,
     "newey_west_t": 1.6942164466635923,
     "deflated_sharpe_probability": 0.010081384751431166,
     "rolling_five_year": {
@@ -88,6 +111,15 @@
       "fixed_policy_2012_beats_spy": true,
       "improves_incumbent_cagr_and_drawdown": true,
       "average_qqq_weight_no_more_than_90pct": true
+    },
+    "exposure_control_gates": {
+      "full_cagr_above_passive_90_10": true,
+      "sharpe_above_passive_90_10": true,
+      "drawdown_improvement_at_least_10pp_vs_passive_90_10": true,
+      "both_ten_year_halves_beat_passive_90_10": false,
+      "rolling_five_year_win_rate_vs_passive_at_least_75pct": false,
+      "still_beats_passive_90_10_at_25bps": false,
+      "positive_average_daily_active_return_vs_passive_90_10": false
     }
   },
   "paper": {
@@ -134,21 +166,29 @@
           "return": 0.0,
           "max_drawdown": 0.0,
           "equity": 100000.0
+        },
+        "QQQ90_SHY10": {
+          "return": 0.0,
+          "max_drawdown": 0.0,
+          "equity": 100000.0
         }
       },
       "return_difference_vs_spy": 0.0,
+      "return_difference_vs_passive_90_10": 0.0,
       "gates": {
         "at_least_252_forward_sessions": false,
         "at_least_6_filled_rebalances": false,
         "positive_return_after_costs": false,
         "beats_spy_total_return": false,
-        "max_drawdown_no_worse_than_spy": true
+        "beats_passive_90_10_total_return": false,
+        "max_drawdown_no_worse_than_spy": true,
+        "max_drawdown_no_worse_than_passive_90_10": true
       },
       "live_confirmed": false
     }
   },
   "beginner": {
-    "action": "等待下一個新增交易日開盤模擬成交",
+    "action": "只做 Paper：等待下一個新增交易日開盤模擬成交",
     "why": "月末訊號已排隊；為避免偷看同一天開盤價，只會在未來新增的交易日執行。",
     "next_check": "行情快照新增交易日後，再執行 paper update 並核對成交明細。",
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
@@ -156,6 +196,7 @@
   "limitations": [
     "這是依凍結歷史資料選出的研究候選，不是獨立於搜尋之外的全新樣本。",
     "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
+    "相對被動 90% QQQ／10% SHY，後十年、5 年滾動一致性與 25 bps 成本檢查未通過；目前只能視為降回撤研究，不是已證實 alpha。",
     "QQQ 仍是主要風險來源；回測最深回撤約三成六，未來可能更深。",
     "回測含設定的換手成本，但不含稅、買賣價差變動、市場衝擊與匯率。",
     "免費調整後行情可能被供應商回溯修訂；每次更新都要留下快照雜湊。",

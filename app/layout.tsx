@@ -3,17 +3,18 @@ import data from "../data/trading-data.json";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://growth-guard-tw.voidful819957.chatgpt.site"),
   title: {
-    default: "成長守門員｜美股 ETF 研究訊號",
+    default: "成長守門員 v2｜Paper-only 美股 ETF 研究",
     template: "%s｜成長守門員",
   },
-  description: "20 年凍結回測、SPY／QQQ 比較、LIVE paper trade 與新手可讀的目標配置。",
+  description: "20 年凍結回測顯示降回撤有效，但被動 90/10 曝險控制未通過；目前僅供 LIVE paper 研究。",
   openGraph: {
-    title: "成長守門員｜今天不用猜，照規則等下一個開盤",
-    description: "20 年凍結回測與 LIVE paper trade；歷史門檻通過，統計與前瞻紀錄尚待確認。",
+    title: "成長守門員 v2｜降回撤有效，不等於穩健超額",
+    description: "勝過 SPY，但未穩定勝過被動 90% QQQ／10% SHY；目前只做 LIVE paper，不作實金照單訊號。",
     locale: "zh_TW",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "成長守門員美股 ETF 研究訊號" }],
+    images: [{ url: "/og.png", width: 1731, height: 909, alt: "成長守門員 v2 Paper-only 風險管理研究" }],
   },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
   icons: { icon: "/favicon.svg" },
