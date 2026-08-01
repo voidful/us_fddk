@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T12:49:29.858277Z",
+  "generated_at_utc": "2026-08-01T13:14:02.874986Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -100,6 +100,8 @@
     "forward_sessions": 0,
     "transactions": 0,
     "filled_rebalances": 0,
+    "adjustment_rebases": 0,
+    "latest_adjustment_rebase": null,
     "status": "awaiting_fill",
     "holdings": {},
     "pending_order": {
@@ -156,7 +158,8 @@
     "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
     "QQQ 仍是主要風險來源；回測最深回撤約三成六，未來可能更深。",
     "回測含設定的換手成本，但不含稅、買賣價差變動、市場衝擊與匯率。",
-    "免費調整後行情可能被供應商回溯修訂；每次更新都要留下快照雜湊。"
+    "免費調整後行情可能被供應商回溯修訂；每次更新都要留下快照雜湊。",
+    "Paper 持倉採總報酬調整單位，不是券商股數；除息、拆股或價格修訂時只重基準單位，不回寫既有損益。"
   ],
   "disclaimer": "研究與教育用途，不構成投資建議；不保證未來跑贏 SPY 或任何 ETF。"
 }

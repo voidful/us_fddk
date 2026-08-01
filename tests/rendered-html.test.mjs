@@ -34,6 +34,10 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /資料已過期/);
   assert.match(html, /停止參考舊配置/);
   assert.match(html, /Paper trade 不回填漂亮歷史/);
+  assert.match(html, /價格重基準/);
+  assert.match(html, /不回寫既有損益/);
+  assert.match(html, /為什麼除息後 Paper 單位數可能改變/);
+  assert.match(html, /不是券商實際股數/);
   assert.match(html, /研究與教育用途，不構成投資建議/);
   assert.doesNotMatch(html, /固定 80\/20 政策/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);

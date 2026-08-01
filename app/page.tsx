@@ -230,7 +230,7 @@ export default function Home() {
             <div className="section-heading light">
               <p className="eyebrow">04 · FORWARD ONLY</p>
               <h2>Paper trade 不回填漂亮歷史</h2>
-              <p>主策略、SPY 與 QQQ 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且報酬跑贏 SPY、回撤不比 SPY 深，才標成 LIVE 通過。</p>
+              <p>主策略、SPY 與 QQQ 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且報酬跑贏 SPY、回撤不比 SPY 深，才標成 LIVE 通過。除息或拆股造成調整價格回溯時，只重基準總報酬單位，不回寫既有損益。</p>
             </div>
             <article className="account-card">
               <div className="account-top"><span>LIVE PAPER</span><i /></div>
@@ -241,6 +241,7 @@ export default function Home() {
                 <div><dt>前瞻日數</dt><dd>{data.paper.forward_sessions}</dd></div>
                 <div><dt>成交筆數</dt><dd>{data.paper.transactions}</dd></div>
                 <div><dt>完成換倉</dt><dd>{data.paper.filled_rebalances}</dd></div>
+                <div><dt>價格重基準</dt><dd>{data.paper.adjustment_rebases}</dd></div>
                 <div><dt>v2 前瞻報酬</dt><dd>{pct(data.paper.return, 2)}</dd></div>
                 <div><dt>SPY 同期</dt><dd>{pct(forward.benchmarks.SPY.return, 2)}</dd></div>
                 <div><dt>QQQ 同期</dt><dd>{pct(forward.benchmarks.QQQ.return, 2)}</dd></div>
@@ -263,6 +264,7 @@ export default function Home() {
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
+            <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
           </div>
         </section>
