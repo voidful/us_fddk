@@ -79,6 +79,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /1989–2026 · v8 永遠持股相對成長/);
   assert.match(html, /最接近目標，不等於通過/);
   assert.match(html, /v8 已經連續兩段都跑贏市場/);
+  assert.match(html, /1973–2026 · v9 低換手＋下載前未見外部期/);
+  assert.match(html, /政策狀態不等於今天的下單建議/);
+  assert.match(html, /v9 已減少交易，為什麼成本門檻還是失敗/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -272,7 +275,33 @@ test("v8 beats SPY in both full periods but respects cost and drawdown rejection
   assert.ok(v8.proxy.comparison.newey_west_t < 1.96);
   assert.equal(v8.global_dsr_promotion_sensitivity.passed, false);
   assert.deepEqual(v8.main.current_target, { SPY: 0.5, QQQ: 0.5 });
-  assert.match(payload.limitations[0], /Paper 入口 14\/16/);
+  assert.ok(payload.limitations.some((item) => /v8 永遠維持.*Paper 入口 14\/16/.test(item)));
+});
+
+test("v9 reduces signal frequency but fails cost, old drawdown, and external-half gates", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v9 = payload.research_pipeline.low_turnover;
+  assert.equal(v9.status, "historical_economic_failed");
+  assert.equal(v9.paper_eligible, false);
+  assert.equal(v9.historically_confirmed, false);
+  assert.equal(v9.paper_entry_passed_gate_count, 20);
+  assert.equal(v9.paper_entry_required_gate_count, 23);
+  assert.equal(v9.passed_gate_count, 20);
+  assert.equal(v9.required_gate_count, 29);
+  assert.ok(v9.main.strategy_metrics.cagr > v9.main.benchmark_metrics.market.cagr);
+  assert.ok(v9.main.signals.completed_executions_in_formal_period < v9.main.signals.completed_month_ends_in_formal_period);
+  assert.ok(v9.main.cost_50bps_cagr_difference > 0);
+  assert.ok(v9.main.cost_50bps_cagr_difference < 0.001);
+  assert.ok(v9.old_proxy.comparison.drawdown_difference < -0.05);
+  assert.ok(v9.external.fixed_halves.second.cagr_difference < 0);
+  assert.ok(v9.main.comparison.newey_west_t < 1.96);
+  assert.ok(v9.old_proxy.comparison.newey_west_t < 1.96);
+  assert.ok(v9.external.comparison.newey_west_t < 1.96);
+  assert.equal(v9.global_dsr_promotion_sensitivity.passed, false);
+  assert.deepEqual(v9.main.current_policy_allocation, { SPY: 0.6, QQQ: 0.4 });
+  assert.ok(payload.limitations.some((item) => /v9 改為只在狀態切換時交易.*Paper 入口 20\/23/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
