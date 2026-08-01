@@ -63,6 +63,16 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /五市場完整期/);
   assert.match(html, /v5 幾乎追平 QQQ，為什麼還是不開 Paper/);
   assert.match(html, /36\.9%/);
+  assert.match(html, /1927–2026 · v6 產業動能核心傾斜/);
+  assert.match(html, /長期代理支持，為何可交易主期仍淘汰/);
+  assert.match(html, /道 · 不建立 Paper/);
+  assert.match(html, /ETF 主期 · 策略 \/ SPY 年化/);
+  assert.match(html, /10\.00%/);
+  assert.match(html, /11\.27%/);
+  assert.match(html, /同總權益曝險下，選產業沒有增加淨報酬/);
+  assert.match(html, /負結果已封存/);
+  assert.match(html, /不可照單、不提供金額試算/);
+  assert.match(html, /v6 長期代理有效，為什麼還是淘汰/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -187,6 +197,31 @@ test("v5 three-clock research fails closed across older and external evidence", 
   assert.equal(v5.cross_market.counts.rolling_60pct_vs_both, 0);
   assert.ok(v5.cross_market.pooled_active_return.market.annualized < 0);
   assert.ok(v5.cross_market.pooled_active_return.market.newey_west_t < 0);
+});
+
+test("v6 industry tilt keeps the proxy success but rejects the tradeable rule", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v6 = payload.research_pipeline.industry_tilt;
+  assert.equal(v6.status, "historical_failed");
+  assert.equal(v6.historical_gate_passed, false);
+  assert.equal(v6.paper_eligible, false);
+  assert.equal(v6.passed_gate_count, 11);
+  assert.equal(v6.required_gate_count, 22);
+  assert.ok(v6.main.strategy_metrics.cagr < v6.main.benchmark_metrics.spy.cagr);
+  assert.ok(v6.main.strategy_metrics.cagr < v6.main.benchmark_metrics.matched.cagr);
+  assert.ok(v6.main.strategy_metrics.max_drawdown > v6.main.benchmark_metrics.spy.max_drawdown);
+  assert.ok(v6.proxy.strategy_metrics.cagr > v6.proxy.benchmark_metrics.market.cagr);
+  assert.ok(v6.proxy.strategy_metrics.cagr > v6.proxy.benchmark_metrics.matched.cagr);
+  assert.equal(v6.proxy.decade_wins, 5);
+  assert.deepEqual(v6.main.current_target, {
+    SPY: 0.5,
+    XLE: 1 / 6,
+    XLI: 1 / 6,
+    XLK: 1 / 6,
+  });
+  assert.match(payload.limitations[0], /不可照單、不建立 Paper/);
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
