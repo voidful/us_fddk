@@ -17,10 +17,13 @@ test("server-renders the beginner trading reference", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<html lang="zh-Hant">/);
+  assert.match(html, /<html[^>]*lang="zh-Hant"/);
+  assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不用猜/);
   assert.match(html, /等待模擬成交/);
   assert.match(html, /統計尚未確認/);
+  assert.match(html, /資料已過期/);
+  assert.match(html, /停止參考舊配置/);
   assert.match(html, /Paper trade 不回填漂亮歷史/);
   assert.match(html, /研究與教育用途，不構成投資建議/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);

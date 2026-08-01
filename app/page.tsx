@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AllocationCalculator from "./AllocationCalculator";
+import FreshnessGuard from "./FreshnessGuard";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
@@ -72,21 +73,31 @@ export default function Home() {
           <a href="#paper">Paper</a>
           <a href="#risks">風險</a>
         </nav>
-        <span className="data-date">資料截至 {data.data_through}</span>
+        <FreshnessGuard
+          dataThrough={data.data_through}
+          refreshDueAtUtc={data.freshness.refresh_due_at_utc}
+        />
       </header>
 
       <main id="top">
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · LIVE PAPER</p>
-            <div className="status-badge pending"><span />等待成交</div>
-            <h1>今天不用猜。<br />照規則，等下一個開盤。</h1>
-            <p className="hero-lead">
+            <div className="status-badge pending fresh-only"><span />資料有效 · 等待成交</div>
+            <div className="status-badge expired stale-only"><span />訊號已停用</div>
+            <h1 className="fresh-only">今天不用猜。<br />照規則，等下一個開盤。</h1>
+            <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
+            <p className="hero-lead fresh-only">
               系統已用 {data.data_through} 的月末收盤資料算出配置。為避免偷看未來，
               這筆訊號只能在下一個新增交易日的開盤模擬成交。
             </p>
+            <p className="hero-lead stale-only">
+              資料應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
+              但目前仍只到 {data.data_through}。請先更新行情、paper 狀態與部署版本。
+            </p>
             <div className="hero-actions">
-              <a className="button primary" href="#allocation">看我的配置</a>
+              <a className="button primary fresh-only" href="#allocation">看我的配置</a>
+              <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
               <a className="button ghost" href="#evidence">先看證據</a>
             </div>
           </div>
@@ -95,10 +106,12 @@ export default function Home() {
             <div className="signal-card-head">
               <div>
                 <p>今天該做什麼</p>
-                <h2 id="today-title">{pending ? "等待模擬成交" : "暫無待辦"}</h2>
+                <h2 id="today-title" className="fresh-only">{pending ? "等待模擬成交" : "暫無待辦"}</h2>
+                <h2 className="stale-only">資料過期，停止參考</h2>
               </div>
               <span className="clock" aria-hidden="true">↗</span>
             </div>
+            <div className="fresh-only">
             <div className="donut-row">
               <div className="donut" role="img" aria-label="目標配置：QQQ 81.1%，SHY 10%，其他分散部位 8.9%">
                 <div><strong>{pct(data.strategy.current_target.QQQ, 0)}</strong><span>QQQ</span></div>
@@ -112,6 +125,12 @@ export default function Home() {
             <div className="next-step">
               <span>下一步</span>
               <p>行情新增後，先核對成交明細；不是現在追價買進。</p>
+            </div>
+            </div>
+            <div className="stale-only stale-signal">
+              <strong>停止參考舊配置</strong>
+              <p>舊權重已隱藏。請等資料契約、LIVE paper 與網站三者更新到同一個交易日後再查看。</p>
+              <code>refresh due {data.freshness.refresh_due_at_utc}</code>
             </div>
           </article>
         </section>
@@ -127,8 +146,12 @@ export default function Home() {
             <div><p className="eyebrow">01 · CURRENT SIGNAL</p><h2>把百分比換成你看得懂的金額</h2></div>
             <p>輸入預算只做試算，不會下單、連券商或儲存資料。</p>
           </div>
-          <AllocationCalculator allocations={targets} />
-          <div className="plain-note">
+          <div className="fresh-only"><AllocationCalculator allocations={targets} /></div>
+          <div className="stale-only allocation-stale">
+            <b>配置試算已停用</b>
+            <p>過期資料不顯示目標金額，避免把舊訊號誤認成今天的行動建議。</p>
+          </div>
+          <div className="plain-note fresh-only">
             <b>一句話讀法</b>
             <p>{data.beginner.allocation_hint} 集中度仍然很高，不能把它當低風險策略。</p>
           </div>

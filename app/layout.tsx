@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import data from "../data/trading-data.json";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,5 +26,14 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-Hant"><body>{children}</body></html>;
+  return (
+    <html
+      lang="zh-Hant"
+      data-signal-freshness="checking"
+      data-refresh-due={data.freshness.refresh_due_at_utc}
+      suppressHydrationWarning
+    >
+      <body>{children}</body>
+    </html>
+  );
 }
