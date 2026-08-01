@@ -33,6 +33,13 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /真正難的基準：不用預測的 90\/10/);
   assert.match(html, /5 年滾動勝率至少 75%/);
   assert.match(html, /保留 Paper 追蹤，不升級成實金參考策略/);
+  assert.match(html, /v3 在 20 年贏 QQQ/);
+  assert.match(html, /1986–2006 · 更早期代理/);
+  assert.match(html, /36\.9%/);
+  assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
+  assert.match(html, /獨立 Paper 驗證/);
+  assert.match(html, /252 日/);
+  assert.match(html, /v3 回測贏 QQQ，為什麼不用/);
   assert.match(html, /LIVE 累積中/);
   assert.match(html, /SPY 同期/);
   assert.match(html, /QQQ 同期/);
@@ -61,6 +68,23 @@ test("data contract fails closed when the exposure-control benchmark is not robu
   assert.equal(payload.evidence.exposure_control_gates.still_beats_passive_90_10_at_25bps, false);
   assert.equal(payload.paper.forward_evidence.benchmarks.QQQ90_SHY10.return, 0);
   assert.equal(payload.paper.forward_evidence.live_confirmed, false);
+});
+
+test("v3 challenger remains isolated when older proxy stability fails", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v3 = payload.research_pipeline.challengers.v3;
+  assert.equal(v3.historical_gate_passed, true);
+  assert.equal(v3.matched_control_passed, true);
+  assert.equal(v3.proxy_validation.passed, false);
+  assert.equal(v3.proxy_validation.gates.rolling_five_year_win_rate_at_least_60pct, false);
+  assert.ok(v3.proxy_validation.rolling_five_year_win_fraction < 0.6);
+  assert.equal(v3.reference_trade_candidate, false);
+  assert.equal(v3.statistically_confirmed, false);
+  assert.equal(v3.paper.forward_sessions, 0);
+  assert.equal(v3.paper.transactions, 0);
+  assert.ok(v3.paper.pending_order);
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {

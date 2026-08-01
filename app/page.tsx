@@ -79,6 +79,9 @@ export default function Home() {
   const referenceCandidate = data.evidence.reference_trade_candidate;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
+  const challenger = data.research_pipeline.challengers.v3;
+  const challengerProxy = challenger.proxy_validation;
+  const challengerPaper = challenger.paper;
   return (
     <>
       <header className="topbar">
@@ -89,6 +92,7 @@ export default function Home() {
         <nav aria-label="主要導覽">
           <a href="#allocation">配置</a>
           <a href="#evidence">證據</a>
+          <a href="#challenger">v3 研究</a>
           <a href="#paper">Paper</a>
           <a href="#risks">風險</a>
         </nav>
@@ -235,9 +239,60 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="section challenger-section" id="challenger">
+          <div className="wrap">
+            <div className="section-heading light split-heading">
+              <div><p className="eyebrow">04 · CHALLENGER AUDIT</p><h2>v3 在 20 年贏 QQQ，<br />為什麼還不能上線？</h2></div>
+              <p>因為單一起訖點可以很好看，真正的考題是：換成相近曝險、更早年代和全新前瞻交易後，優勢還在不在。</p>
+            </div>
+
+            <div className="challenger-scorecards">
+              <article>
+                <span>2006–2026 · 近期 20 年</span>
+                <strong>{pct(challenger.metrics.cagr, 2)}</strong>
+                <p>QQQ 為 {pct(challenger.qqq_metrics.cagr, 2)}；v3 年化領先 {pct(challenger.cagr_difference_vs_qqq, 2)}，最大回撤改善 {pct(challenger.drawdown_improvement_vs_qqq, 2)}。</p>
+              </article>
+              <article>
+                <span>96% QQQ／4% SHY · 公平基準</span>
+                <strong>{challenger.matched_control_passed ? "通過" : "未通過"}</strong>
+                <p>v3 年化 {pct(challenger.metrics.cagr, 2)}，固定曝險組合 {pct(challenger.matched_96_4_metrics.cagr, 2)}；這一層不是失敗原因。</p>
+              </article>
+              <article className="failed">
+                <span>1986–2006 · 更早期代理</span>
+                <strong>{pct(challengerProxy.rolling_five_year_win_fraction, 1)}</strong>
+                <p>有效 5 年滾動勝率，門檻 60%。雖然全期領先 {pct(challengerProxy.cagr_difference_vs_ndx, 2)}，前十年卻落後 {pct(Math.abs(challengerProxy.ten_year_cagr_differences.first), 2)}。</p>
+              </article>
+              <article className="failed">
+                <span>搜尋運氣懲罰 · 6,100 次</span>
+                <strong>{pct(challenger.deflated_sharpe_probability, 3)}</strong>
+                <p>Deflated Sharpe 機率；每日超額報酬的 Newey–West t 值只有 {challenger.active_return_newey_west.t_stat.toFixed(2)}，尚未達統計確認。</p>
+              </article>
+            </div>
+
+            <div className="challenger-flow" aria-label="v3 升級關卡">
+              <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
+                <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
+              </article>
+              <i aria-hidden="true">→</i>
+              <article className={challengerProxy.passed ? "passed" : "failed"}>
+                <span>2</span><div><b>更早期不重疊代理</b><p>{challengerProxy.passed ? "通過" : "失敗：滾動穩定性不足"}</p></div>
+              </article>
+              <i aria-hidden="true">→</i>
+              <article className={challenger.reference_trade_candidate ? "passed" : "waiting"}>
+                <span>3</span><div><b>獨立 Paper 驗證</b><p>{challengerPaper.forward_sessions} / 252 日 · {challengerPaper.transactions} 筆成交</p></div>
+              </article>
+            </div>
+
+            <div className="challenger-verdict">
+              <div><span>研究決定</span><strong>不替換 v2；v3 留在隔離 Paper</strong></div>
+              <p>v3 已建立獨立的 10 萬美元 Paper 帳戶，{challengerPaper.pending_order ? "目前只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊代理使用 Nasdaq-100 價格指數與零報酬現金，不是假造的 QQQ 總報酬回填；因此它只能當壓力測試，但失敗結果必須保留。</p>
+            </div>
+          </div>
+        </section>
+
         <section className="section wrap">
           <div className="section-heading split-heading">
-            <div><p className="eyebrow">04 · PASS / NOT PROVEN</p><h2>通過 SPY，不代表通過公平基準</h2></div>
+            <div><p className="eyebrow">05 · PASS / NOT PROVEN</p><h2>通過 SPY，不代表通過公平基準</h2></div>
             <p>策略搜尋會放大運氣。因此除了績效，我們也保留沒有通過的統計檢查。</p>
           </div>
           <div className="gate-layout">
@@ -264,7 +319,7 @@ export default function Home() {
         <section className="section paper-section" id="paper">
           <div className="wrap paper-grid">
             <div className="section-heading light">
-              <p className="eyebrow">05 · FORWARD ONLY</p>
+              <p className="eyebrow">06 · FORWARD ONLY</p>
               <h2>Paper trade 不回填漂亮歷史</h2>
               <p>主策略、SPY、QQQ 與被動 90/10 都從同一天現金起跑、使用同一成本與下一開盤成交。至少累積 252 個交易日、6 次換倉，且同時跑贏 SPY 與被動 90/10、回撤不更深，才標成 LIVE 通過。除息或拆股造成調整價格回溯時，只重基準總報酬單位，不回寫既有損益。</p>
             </div>
@@ -289,18 +344,19 @@ export default function Home() {
         </section>
 
         <section className="section wrap" id="risks">
-          <div className="section-heading"><p className="eyebrow">06 · READ BEFORE USE</p><h2>先知道最壞的事，再看最好看的數字</h2></div>
+          <div className="section-heading"><p className="eyebrow">07 · READ BEFORE USE</p><h2>先知道最壞的事，再看最好看的數字</h2></div>
           <div className="risk-grid">
             {data.limitations.map((item, index) => <article key={item}><span>0{index + 1}</span><p>{item}</p></article>)}
           </div>
         </section>
 
         <section className="section wrap faq-section">
-          <div className="section-heading"><p className="eyebrow">07 · BEGINNER FAQ</p><h2>常見問題</h2></div>
+          <div className="section-heading"><p className="eyebrow">08 · BEGINNER FAQ</p><h2>常見問題</h2></div>
           <div className="faq-list">
             <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 paper 模擬成交的研究訊號，不是即時買進指令。若自行實作，仍要評估風險承受度、稅務、匯率和券商成本。</p></details>
             <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批資料試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
             <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股曝險誤認成策略能力。90/10 不預測波動、只固定再平衡，是更公平的曝險控制；目前 v2 沒有穩定跨過它。</p></details>
+            <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>v3 在 2006–2026 的完整期間與相近曝險基準都通過，但在不重疊的 1986–2006 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}，而且前十年落後。這代表優勢可能依賴特定年代，先留在獨立 Paper，不取代主訊號。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
