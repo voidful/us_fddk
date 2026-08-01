@@ -87,6 +87,7 @@ export default function Home() {
   const styleRotation = data.research_pipeline.style_rotation;
   const threeClock = data.research_pipeline.three_clock;
   const industryTilt = data.research_pipeline.industry_tilt;
+  const relativeGrowth = data.research_pipeline.relative_growth;
   return (
     <>
       <header className="topbar">
@@ -456,6 +457,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="industry-tilt-audit">
+              <div className="cross-market-head">
+                <div><span>1989–2026 · v7 相對成長衛星</span><h3>降低 SPY 回撤，為何仍不是已證實 alpha？</h3></div>
+                <strong>{relativeGrowth.passed_gate_count} / {relativeGrowth.required_gate_count} 道 · 不建立 Paper</strong>
+              </div>
+              <p>永久保留 50% SPY；只有 QQQ 的 12–1 動能領先 SPY、且仍在 200 日均線上時，另一半才持有 QQQ，否則放 SHY。公平 matched 對照每月維持完全相同的股票比例，卻不選 QQQ，藉此把「少持股票」的政策效果和「選成長股」的 alpha 分開。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>ETF 主期 · 策略 / SPY 年化</span>
+                  <strong>{pct(relativeGrowth.main.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.main.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>20 年策略仍落後 SPY {pct(Math.abs(relativeGrowth.main.comparisons.market.cagr_difference), 2)}</p>
+                </article>
+                <article className="passed">
+                  <span>ETF 主期 · 策略 / matched 年化</span>
+                  <strong>{pct(relativeGrowth.main.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.main.benchmark_metrics.matched.cagr, 2)}</strong>
+                  <p>QQQ 選擇效果為正，但證據沒有同時跨過 SPY</p>
+                </article>
+                <article className="passed">
+                  <span>ETF 主期 · 策略 / SPY 最大回撤</span>
+                  <strong>{pct(relativeGrowth.main.strategy_metrics.max_drawdown, 1)} / {pct(relativeGrowth.main.benchmark_metrics.market.max_drawdown, 1)}</strong>
+                  <p>風險政策有緩衝，但策略回撤比 matched 深</p>
+                </article>
+                <article className="failed">
+                  <span>五年滾動 · 對 SPY / matched</span>
+                  <strong>{pct(relativeGrowth.main.rolling_five_year.market.win_fraction, 1)} / {pct(relativeGrowth.main.rolling_five_year.matched.win_fraction, 1)}</strong>
+                  <p>對 SPY 未達事前 60% 門檻</p>
+                </article>
+                <article className="passed">
+                  <span>1989–2006 代理 · 策略 / 市場</span>
+                  <strong>{pct(relativeGrowth.proxy.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.proxy.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>全期略勝，但前半期落後，且回撤比 matched 深</p>
+                </article>
+                <article className="failed">
+                  <span>ETF 主期 · 對 SPY / matched NW t</span>
+                  <strong>{relativeGrowth.main.comparisons.market.newey_west_t.toFixed(2)} / {relativeGrowth.main.comparisons.matched.newey_west_t.toFixed(2)}</strong>
+                  <p>兩者都必須至少 1.96；不能只挑接近通過的一邊</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>政策值得理解，不代表可以照單</b>
+                <p>歷史規則最後算出的配置是 {Object.entries(relativeGrowth.main.current_target).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；這只是淘汰研究的最後狀態。19 道只過 {relativeGrowth.passed_gate_count} 道，因此不提供金額試算、不建立 Paper，也不把降低回撤寫成保證跑贏。</p>
+              </div>
+            </div>
+
             <div className="challenger-flow" aria-label="v3 升級關卡">
               <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
                 <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
@@ -548,6 +593,7 @@ export default function Home() {
             <details><summary>v4 回撤較淺，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為事前規定 14 道門檻要全部通過，實際只有 {styleRotation.passed_gate_count} 道。策略 20 年 CAGR 落後 SPY、後十年與 50 bps 成本失敗，五年滾動勝率只有 {pct(styleRotation.rolling_five_year.market.win_fraction, 1)}；舊代理資料也不足。只改善回撤不能補足報酬與泛化證據。</p></details>
             <details><summary>v5 幾乎追平 QQQ，為什麼還是不開 Paper？<span>＋</span></summary><p>近期 20 年只看 CAGR，v5 是 {pct(threeClock.main.strategy_metrics.cagr, 2)}、QQQ 是 {pct(threeClock.main.benchmark_metrics.opportunity.cagr, 2)}，而且回撤較淺；但更早 1986–2006 的 5 年滾動勝率只有 {pct(threeClock.proxy.rolling_five_year.market.win_fraction, 1)}，五市場完整期只有 {threeClock.cross_market.counts.full_cagr_beats_both}/5 同時勝過買進持有與公平基準。事前 22 道門檻只過 {threeClock.passed_gate_count} 道，因此研究到此停止，不開 Paper。</p></details>
             <details><summary>v6 長期代理有效，為什麼還是淘汰？<span>＋</span></summary><p>代理資料能說明產業動能在 1927–2005 曾有作用，卻不是可以直接下單的 ETF。真正可交易的 2006–2026 主期，策略年化 {pct(industryTilt.main.strategy_metrics.cagr, 2)}，低於 SPY {pct(industryTilt.main.benchmark_metrics.spy.cagr, 2)}，也低於同月相同股票曝險的 matched {pct(industryTilt.main.benchmark_metrics.matched.cagr, 2)}。22 道只過 {industryTilt.passed_gate_count} 道，所以依事前規則淘汰、不調參救援。</p></details>
+            <details><summary>v7 回撤比 SPY 淺，為什麼仍不建立 Paper？<span>＋</span></summary><p>因為風險較低可能只是少持股票，不代表 QQQ 選擇有穩健 alpha。v7 主期年化 {pct(relativeGrowth.main.strategy_metrics.cagr, 2)}，低於 SPY {pct(relativeGrowth.main.benchmark_metrics.market.cagr, 2)}；相對 SPY 的五年滾動勝率只有 {pct(relativeGrowth.main.rolling_five_year.market.win_fraction, 1)}，NW t 為 {relativeGrowth.main.comparisons.market.newey_west_t.toFixed(2)}。舊代理前半期也落後市場。19 道只過 {relativeGrowth.passed_gate_count} 道，所以封存負結果、不調參、不開 Paper。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

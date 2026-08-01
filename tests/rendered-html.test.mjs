@@ -73,6 +73,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /負結果已封存/);
   assert.match(html, /不可照單、不提供金額試算/);
   assert.match(html, /v6 長期代理有效，為什麼還是淘汰/);
+  assert.match(html, /1989–2026 · v7 相對成長衛星/);
+  assert.match(html, /政策值得理解，不代表可以照單/);
+  assert.match(html, /v7 回撤比 SPY 淺，為什麼仍不建立 Paper/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -221,7 +224,28 @@ test("v6 industry tilt keeps the proxy success but rejects the tradeable rule", 
     XLI: 1 / 6,
     XLK: 1 / 6,
   });
-  assert.match(payload.limitations[0], /不可照單、不建立 Paper/);
+  assert.ok(payload.limitations.some((item) => /v6 產業動能.*不可照單、不建立 Paper/.test(item)));
+});
+
+test("v7 separates exposure policy from alpha and fails closed", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v7 = payload.research_pipeline.relative_growth;
+  assert.equal(v7.status, "historical_failed");
+  assert.equal(v7.historical_gate_passed, false);
+  assert.equal(v7.paper_eligible, false);
+  assert.equal(v7.passed_gate_count, 6);
+  assert.equal(v7.required_gate_count, 19);
+  assert.ok(v7.main.strategy_metrics.cagr < v7.main.benchmark_metrics.market.cagr);
+  assert.ok(v7.main.strategy_metrics.cagr > v7.main.benchmark_metrics.matched.cagr);
+  assert.ok(v7.main.strategy_metrics.max_drawdown > v7.main.benchmark_metrics.market.max_drawdown);
+  assert.ok(v7.main.strategy_metrics.max_drawdown < v7.main.benchmark_metrics.matched.max_drawdown);
+  assert.ok(v7.main.rolling_five_year.market.win_fraction < 0.6);
+  assert.ok(v7.main.comparisons.market.newey_west_t < 0);
+  assert.ok(v7.proxy.strategy_metrics.cagr > v7.proxy.benchmark_metrics.market.cagr);
+  assert.deepEqual(v7.main.current_target, { SPY: 0.5, QQQ: 0.5 });
+  assert.match(payload.limitations[0], /19 道只過 6 道，不建立 Paper/);
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
