@@ -47,7 +47,7 @@ button, input { font: inherit; }
   background: color-mix(in srgb, var(--paper) 90%, transparent);
   backdrop-filter: blur(18px);
 }
-.brand { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 760; letter-spacing: .04em; }
+.brand { min-height: 44px; display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 760; letter-spacing: .04em; }
 .brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; background: var(--forest); color: var(--lime); border-radius: 11px; font-family: Georgia, serif; font-size: 20px; font-style: italic; }
 .topbar nav { display: flex; gap: 28px; font-size: 13px; color: var(--muted); }
 .topbar nav a:hover { color: var(--ink); }
@@ -119,7 +119,7 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .money-input span { color: var(--lime); font: 30px Georgia, serif; }
 .money-input input { width: 100%; border: 0; outline: 0; background: transparent; color: white; font: 38px Georgia, serif; }
 .quick-values { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.quick-values button { padding: 9px; border: 1px solid rgba(255,255,255,.15); border-radius: 9px; background: transparent; color: #d6e1dd; font-size: 11px; cursor: pointer; }
+.quick-values button { min-height: 44px; padding: 9px; border: 1px solid rgba(255,255,255,.15); border-radius: 9px; background: transparent; color: #d6e1dd; font-size: 12px; cursor: pointer; }
 .quick-values button:hover,.quick-values button.active { background: var(--lime); color: var(--forest); border-color: var(--lime); }
 .capital-control > p { margin: 20px 0 0; color: #9fb4ac; font-size: 11px; line-height: 1.6; }
 .allocation-list { padding: 10px 28px; }
@@ -151,7 +151,7 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .account-card { padding: 30px; border-radius: 26px; background: #f7f7ef; box-shadow: 0 22px 60px rgba(21,45,37,.14); }.account-top { display: flex; justify-content: space-between; color: var(--muted); font: 700 10px ui-monospace, monospace; letter-spacing: .14em; }.account-top i { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 5px rgba(215,168,74,.16); }.account-card > strong { display: block; margin: 24px 0 2px; font: 500 45px Georgia, serif; }.account-card > small { color: var(--muted); }.account-card dl { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }.account-card dl div { padding-top: 10px; border-top: 1px solid var(--line); }.account-card dt { color: var(--muted); font-size: 10px; }.account-card dd { margin: 4px 0 0; font-size: 14px; font-weight: 700; }.queued { display: flex; align-items: center; gap: 9px; padding: 12px; border-radius: 10px; background: #f3e7ca; color: #72571f; font-size: 11px; }.queued span { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
 
 .risk-grid { display: grid; grid-template-columns: repeat(5, 1fr); border-block: 1px solid var(--line); }.risk-grid article { min-height: 230px; padding: 22px; border-right: 1px solid var(--line); }.risk-grid article:last-child { border-right: 0; }.risk-grid span { color: #8c9892; font: 11px ui-monospace, monospace; }.risk-grid p { margin: 54px 0 0; font-size: 13px; line-height: 1.75; }
-.faq-section { padding-top: 50px; }.faq-list { border-top: 1px solid var(--line); }.faq-list details { border-bottom: 1px solid var(--line); }.faq-list summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; font: 500 19px Georgia, serif; }.faq-list summary::-webkit-details-marker { display: none; }.faq-list summary span { font: 300 24px ui-sans-serif, system-ui; transition: transform .2s; }.faq-list details[open] summary span { transform: rotate(45deg); }.faq-list details p { max-width: 780px; margin: -8px 0 24px; color: var(--muted); line-height: 1.75; font-size: 13px; }
+.faq-section { padding-top: 50px; }.faq-list { border-top: 1px solid var(--line); }.faq-list details { border-bottom: 1px solid var(--line); }.faq-list summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; font: 500 19px Georgia, serif; }.faq-list summary::-webkit-details-marker { display: none; }.faq-list summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }.faq-list summary span { font: 300 24px ui-sans-serif, system-ui; transition: transform .2s; }.faq-list details[open] summary span { transform: rotate(45deg); }.faq-list details p { max-width: 780px; margin: 12px 0 24px; padding-right: 36px; color: var(--muted); line-height: 1.75; font-size: 13px; }
 
 footer { padding: 50px 0; border-top: 1px solid var(--line); background: #e7e2d7; }
 .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }.footer-grid > div { display: flex; align-items: center; gap: 14px; }.footer-grid p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }.footer-grid > div:last-child { display: grid; justify-items: end; text-align: right; }.footer-grid code { color: #7c8781; font-size: 10px; }

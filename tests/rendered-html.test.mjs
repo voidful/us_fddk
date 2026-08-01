@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -36,4 +37,12 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /研究與教育用途，不構成投資建議/);
   assert.doesNotMatch(html, /固定 80\/20 政策/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
+});
+
+test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(css, /\.brand \{ min-height: 44px;/);
+  assert.match(css, /\.quick-values button \{ min-height: 44px;/);
+  assert.match(css, /\.faq-list details p \{[^}]*margin: 12px 0 24px;/);
+  assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
 });
