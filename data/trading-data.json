@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T17:16:41.718204Z",
+  "generated_at_utc": "2026-08-01T17:35:22.764193Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v8 永遠維持 100% 股票曝險，2006–2026 CAGR 12.32% 勝 SPY 11.27%，但 50 bps 成本後略輸 SPY；1989–2006 代理最大回撤又比 S&P 500 深 6.97pp。Paper 入口 14/16，依凍結規格不建帳戶。",
     "v7 永久 50% SPY 核心加相對成長開關，在 2006–2026 的 CAGR 10.59% 低於 SPY 11.27%，最大回撤雖較 SPY 淺，卻比相同月度股票曝險對照更深；19 道只過 6 道，不建立 Paper。",
     "v6 產業動能在 1927–2005 代理期有效，但 2006–2026 可交易 ETF 主期 CAGR 10.00%，低於 SPY 11.27% 與同曝險對照 10.20%；22 道只過 11 道，研究配置不可照單、不建立 Paper。",
     "v5 三時鐘集成在近期 20 年幾乎追平 QQQ 且回撤較淺，但舊年代 5 年滾動勝率僅約 37%、五市場完整期僅 1/5 同勝兩基準，22 道門檻只過 10 道；研究配置不是交易訊號，不建立 Paper。",
@@ -1255,6 +1256,164 @@
         "17_proxy_rolling_wins_60pct_and_positive_medians": true,
         "18_proxy_newey_west_t_at_least_1_96_vs_both": false,
         "19_proxy_psr_probability_95pct_vs_both": false
+      }
+    },
+    "always_invested": {
+      "name": "v8 永遠持股相對成長傾斜",
+      "status": "historical_economic_failed",
+      "paper_eligible": false,
+      "historically_confirmed": false,
+      "passed_gate_count": 14,
+      "required_gate_count": 20,
+      "paper_entry_passed_gate_count": 14,
+      "paper_entry_required_gate_count": 16,
+      "protocol_sha256": "2d21d2b81ad9285839a7036085231b6c670bbf63559179a144d6e6a8ddc9769c",
+      "main": {
+        "period": {
+          "start": "2006-07-31",
+          "end": "2026-07-31",
+          "sessions": 5032,
+          "entry_signal": "2006-07-31"
+        },
+        "strategy_metrics": {
+          "cagr": 0.12322453275598866,
+          "sharpe": 0.6797744123752678,
+          "max_drawdown": -0.5680712919829662,
+          "volatility": 0.20099616806283616,
+          "turnover": 2.450510266282831
+        },
+        "benchmark_metrics": {
+          "market": {
+            "cagr": 0.11269644523266886,
+            "sharpe": 0.6478704480529792,
+            "max_drawdown": -0.5518944601682294,
+            "volatility": 0.19427258364478736,
+            "turnover": 0.049949024281623206
+          },
+          "opportunity": {
+            "cagr": 0.16676036898915925,
+            "sharpe": 0.810074182354235,
+            "max_drawdown": -0.5340398872160015,
+            "volatility": 0.2208926965586946,
+            "turnover": 0.049949024281623206
+          },
+          "fixed_50_50": {
+            "cagr": 0.1401838466543408,
+            "sharpe": 0.7477947412952158,
+            "max_drawdown": -0.5371163557944446,
+            "volatility": 0.20345451673015594,
+            "turnover": 0.15535844355791298
+          }
+        },
+        "comparison": {
+          "cagr_difference": 0.010528087523319796,
+          "drawdown_difference": -0.016176831814736836,
+          "newey_west_t": 1.5996562753644366,
+          "probabilistic_sharpe_probability": 0.9282255088032662,
+          "global_deflated_sharpe_probability": 0.011436195605569521
+        },
+        "cost_50bps_cagr_difference": -0.00021162317188161417,
+        "rolling_five_year": {
+          "win_fraction": 0.8,
+          "median_cagr_difference": 0.0104912891231016
+        },
+        "signals": {
+          "completed_month_ends": 259,
+          "growth_tilt_count": 161,
+          "all_spy_count": 98,
+          "growth_tilt_fraction": 0.6216216216216216
+        },
+        "current_target": {
+          "SPY": 0.5,
+          "QQQ": 0.5
+        }
+      },
+      "proxy": {
+        "period": {
+          "start": "1989-01-03",
+          "end": "2006-07-28",
+          "sessions": 4432,
+          "entry_signal": "1988-12-30"
+        },
+        "strategy_metrics": {
+          "cagr": 0.10984782377530355,
+          "sharpe": 0.6499913441154302,
+          "max_drawdown": -0.561215512335907,
+          "volatility": 0.18710011555423994,
+          "turnover": 2.4224438383217217
+        },
+        "benchmark_metrics": {
+          "market": {
+            "cagr": 0.09136538422616147,
+            "sharpe": 0.6316994186218193,
+            "max_drawdown": -0.49146947898286897,
+            "volatility": 0.15800541982187594,
+            "turnover": 0.05687881876496609
+          },
+          "opportunity": {
+            "cagr": 0.13069713047592857,
+            "sharpe": 0.561233393146876,
+            "max_drawdown": -0.8289721157174366,
+            "volatility": 0.29686040133353536,
+            "turnover": 0.05687881876496609
+          },
+          "fixed_50_50": {
+            "cagr": 0.11523402846917818,
+            "sharpe": 0.6106097911988533,
+            "max_drawdown": -0.6952899916390903,
+            "volatility": 0.21685717620456646,
+            "turnover": 0.2871060932872722
+          }
+        },
+        "comparison": {
+          "cagr_difference": 0.018482439549142082,
+          "drawdown_difference": -0.06974603335303808,
+          "newey_west_t": 1.4761060592554263,
+          "probabilistic_sharpe_probability": 0.9129716347310928
+        },
+        "cost_50bps_cagr_difference": 0.008025204072095615,
+        "rolling_five_year": {
+          "win_fraction": 0.868421052631579,
+          "median_cagr_difference": 0.03865109106184872
+        },
+        "signals": {
+          "completed_month_ends": 223,
+          "growth_tilt_count": 130,
+          "all_spy_count": 93,
+          "growth_tilt_fraction": 0.5829596412556054
+        },
+        "current_target": {
+          "^GSPC": 1.0
+        }
+      },
+      "paper_entry_gates": {
+        "01_main_cagr_beats_spy_10bp": true,
+        "02_main_sharpe_beats_spy": true,
+        "03_main_drawdown_not_worse_than_spy_5pp": true,
+        "04_main_calmar_beats_spy": true,
+        "05_main_50bps_cagr_beats_spy_10bp": false,
+        "06_main_both_halves_cagr_beat_spy_10bp": true,
+        "07_main_rolling_wins_60pct_and_positive_median": true,
+        "10_main_weights_fully_invested_95pct_no_leverage_or_short": true,
+        "11_proxy_cagr_beats_gspc_10bp": true,
+        "12_proxy_sharpe_beats_gspc": true,
+        "13_proxy_drawdown_not_worse_than_gspc_5pp": false,
+        "14_proxy_calmar_beats_gspc": true,
+        "15_proxy_50bps_cagr_beats_gspc_10bp": true,
+        "16_proxy_both_halves_cagr_beat_gspc_10bp": true,
+        "17_proxy_rolling_wins_60pct_and_positive_median": true,
+        "20_proxy_data_translation_and_warmup_integrity": true
+      },
+      "statistical_gates": {
+        "08_main_newey_west_t_at_least_1_96": false,
+        "09_main_psr_probability_95pct": false,
+        "18_proxy_newey_west_t_at_least_1_96": false,
+        "19_proxy_psr_probability_95pct": false
+      },
+      "global_dsr_promotion_sensitivity": {
+        "passed": false,
+        "main_probability": 0.011436195605569521,
+        "proxy_probability": 0.00868036415395107
       }
     }
   },

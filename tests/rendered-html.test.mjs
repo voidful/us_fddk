@@ -76,6 +76,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /1989–2026 · v7 相對成長衛星/);
   assert.match(html, /政策值得理解，不代表可以照單/);
   assert.match(html, /v7 回撤比 SPY 淺，為什麼仍不建立 Paper/);
+  assert.match(html, /1989–2026 · v8 永遠持股相對成長/);
+  assert.match(html, /最接近目標，不等於通過/);
+  assert.match(html, /v8 已經連續兩段都跑贏市場/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -245,7 +248,31 @@ test("v7 separates exposure policy from alpha and fails closed", async () => {
   assert.ok(v7.main.comparisons.market.newey_west_t < 0);
   assert.ok(v7.proxy.strategy_metrics.cagr > v7.proxy.benchmark_metrics.market.cagr);
   assert.deepEqual(v7.main.current_target, { SPY: 0.5, QQQ: 0.5 });
-  assert.match(payload.limitations[0], /19 道只過 6 道，不建立 Paper/);
+  assert.ok(payload.limitations.some((item) => /v7 永久 50% SPY.*19 道只過 6 道，不建立 Paper/.test(item)));
+});
+
+test("v8 beats SPY in both full periods but respects cost and drawdown rejection", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v8 = payload.research_pipeline.always_invested;
+  assert.equal(v8.status, "historical_economic_failed");
+  assert.equal(v8.paper_eligible, false);
+  assert.equal(v8.historically_confirmed, false);
+  assert.equal(v8.paper_entry_passed_gate_count, 14);
+  assert.equal(v8.paper_entry_required_gate_count, 16);
+  assert.equal(v8.passed_gate_count, 14);
+  assert.equal(v8.required_gate_count, 20);
+  assert.ok(v8.main.strategy_metrics.cagr > v8.main.benchmark_metrics.market.cagr);
+  assert.ok(v8.proxy.strategy_metrics.cagr > v8.proxy.benchmark_metrics.market.cagr);
+  assert.ok(v8.main.rolling_five_year.win_fraction >= 0.8);
+  assert.ok(v8.main.cost_50bps_cagr_difference < 0);
+  assert.ok(v8.proxy.comparison.drawdown_difference < -0.05);
+  assert.ok(v8.main.comparison.newey_west_t < 1.96);
+  assert.ok(v8.proxy.comparison.newey_west_t < 1.96);
+  assert.equal(v8.global_dsr_promotion_sensitivity.passed, false);
+  assert.deepEqual(v8.main.current_target, { SPY: 0.5, QQQ: 0.5 });
+  assert.match(payload.limitations[0], /Paper 入口 14\/16/);
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
