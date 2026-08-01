@@ -78,6 +78,7 @@ export default function Home() {
   const forward = data.paper.forward_evidence;
   const readiness = data.readiness;
   const referenceCandidate = data.evidence.reference_trade_candidate;
+  const canShowReferenceAllocation = readiness.trade_ready && referenceCandidate;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
   const challenger = data.research_pipeline.challengers.v3;
@@ -99,7 +100,7 @@ export default function Home() {
           <span>成長守門員 v2</span>
         </a>
         <nav aria-label="主要導覽">
-          <a href="#allocation">配置</a>
+          <a href="#allocation">今日決定</a>
           <a href="#evidence">證據</a>
           <a href="#challenger">v3 研究</a>
           <a href="#paper">Paper</a>
@@ -115,12 +116,12 @@ export default function Home() {
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · LIVE PAPER</p>
-            <div className="status-badge pending fresh-only"><span />資料有效 · {referenceCandidate ? (pending ? "等待成交" : invested ? "照規則持有中" : "維持現金") : "僅限 Paper 觀察"}</div>
+            <div className="status-badge pending fresh-only"><span />資料有效 · {canShowReferenceAllocation ? (pending ? "等待成交" : invested ? "照規則持有中" : "維持現金") : "實金訊號關閉"}</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
-            <h1 className="fresh-only">先別急著照單。<br />降回撤有效，超額未穩健。</h1>
+            <h1 className="fresh-only">今天不下單。<br />超額報酬尚未證實。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
-              {!referenceCandidate
+              {!canShowReferenceAllocation
                 ? <>v2 在 20 年回測勝過 SPY，但對相近成長曝險的被動 90% QQQ／10% SHY，後十年、滾動一致性與成本壓力都沒有通過。配置只供 Paper 驗證，不是實金下單指令。</>
                 : pending
                 ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
@@ -133,7 +134,7 @@ export default function Home() {
               但目前仍只到 {data.data_through}。請先更新行情、paper 狀態與部署版本。
             </p>
             <div className="hero-actions">
-              <a className="button primary fresh-only" href={referenceCandidate ? "#allocation" : "#exposure-control"}>{referenceCandidate ? "看我的配置" : "查看未通過證據"}</a>
+              <a className="button primary fresh-only" href={canShowReferenceAllocation ? "#allocation" : "#readiness"}>{canShowReferenceAllocation ? "看我的配置" : "查看還缺什麼"}</a>
               <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
               <a className="button ghost" href="#evidence">先看證據</a>
             </div>
@@ -143,12 +144,12 @@ export default function Home() {
             <div className="signal-card-head">
               <div>
                 <p>今天該做什麼</p>
-                <h2 id="today-title" className="fresh-only">{referenceCandidate ? (pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金") : "只做 Paper，不照單"}</h2>
+                <h2 id="today-title" className="fresh-only">{canShowReferenceAllocation ? (pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金") : "不建立實金部位"}</h2>
                 <h2 className="stale-only">資料過期，停止參考</h2>
               </div>
               <span className="clock" aria-hidden="true">↗</span>
             </div>
-            <div className="fresh-only">
+            {canShowReferenceAllocation ? <div className="fresh-only">
             <div className="donut-row">
               <div
                 className="donut"
@@ -165,9 +166,18 @@ export default function Home() {
             </div>
             <div className="next-step">
               <span>下一步</span>
-              <p>{!referenceCandidate ? "先累積與被動 90/10 同起點的 LIVE 證據；目前不要把研究配置當成實金建議。" : pending ? "行情新增後，先核對成交明細；不是現在追價買進。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立部位。"}</p>
+              <p>{pending ? "行情新增後，先核對成交明細；不是現在追價買進。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立部位。"}</p>
             </div>
-            </div>
+            </div> : <div className="fresh-only signal-stop">
+              <strong>今日實金動作：0</strong>
+              <p>系統仍會記錄 Paper 結果，但不顯示可照抄的 ETF 百分比或金額。</p>
+              <ul>
+                <li><span>未通過</span>相近曝險的被動 90/10 基準</li>
+                <li><span>未通過</span>多重搜尋後的統計確認</li>
+                <li><span>等待中</span>{forward.forward_sessions} / {forward.minimum_sessions} 個前瞻交易日</li>
+              </ul>
+              <a href="#paper">只查看 Paper 觀察紀錄 →</a>
+            </div>}
             <div className="stale-only stale-signal">
               <strong>停止參考舊配置</strong>
               <p>舊權重已隱藏。請等資料契約、LIVE paper 與網站三者更新到同一個交易日後再查看。</p>
@@ -222,18 +232,21 @@ export default function Home() {
 
         <section className="section wrap" id="allocation">
           <div className="section-heading split-heading">
-            <div><p className="eyebrow">01 · PAPER ALLOCATION</p><h2>研究配置換算，不是下單建議</h2></div>
-            <p>輸入預算只看 Paper 權重會對應多少金額；不會下單、連券商或儲存資料。</p>
+            <div><p className="eyebrow">01 · TODAY’S DECISION</p><h2>{canShowReferenceAllocation ? "已開放的參考配置" : "目前沒有實金配置"}</h2></div>
+            <p>{canShowReferenceAllocation ? "只有完整門檻通過後，才會顯示可換算的參考權重。" : "Paper 仍在背景觀察；為避免新手把研究結果誤認成指令，百分比與金額試算維持關閉。"}</p>
           </div>
-          <div className="fresh-only"><AllocationCalculator allocations={targets} /></div>
+          {canShowReferenceAllocation ? <div className="fresh-only"><AllocationCalculator allocations={targets} /></div> : <div className="fresh-only allocation-stale">
+            <b>實金配置鎖定中</b>
+            <p>目前只通過 {readiness.passed_gate_count} / {readiness.required_gate_count} 道上線門檻。今天的清楚做法是不依這套策略建立新部位。</p>
+          </div>}
           <div className="stale-only allocation-stale">
             <b>配置試算已停用</b>
             <p>過期資料不顯示目標金額，避免把舊訊號誤認成今天的行動建議。</p>
           </div>
-          <div className="plain-note fresh-only">
+          {canShowReferenceAllocation && <div className="plain-note fresh-only">
             <b>一句話讀法</b>
-            <p>{data.beginner.allocation_hint} 這只是正在驗證的 Paper 配置。規則是「18% 目標波動 ÷ 最近 21 日 QQQ 波動」，上限 100%、不使用槓桿；曝險控制未通過前不要照單。</p>
-          </div>
+            <p>{data.beginner.allocation_hint} 規則是「18% 目標波動 ÷ 最近 21 日 QQQ 波動」，上限 100%、不使用槓桿。</p>
+          </div>}
         </section>
 
         <section className="section contrast" id="evidence">

@@ -96,6 +96,14 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .next-step { padding: 16px 18px; border-radius: 16px; background: #e8efe8; }
 .next-step span { color: #537165; font-size: 10px; font-weight: 800; letter-spacing: .14em; }
 .next-step p { margin: 5px 0 0; font-size: 13px; line-height: 1.55; }
+.signal-stop { position: relative; z-index: 1; min-height: 280px; margin-top: 28px; padding: 28px; border: 1px solid #d7a696; border-radius: 20px; background: #f5e5df; }
+.signal-stop > strong { color: #853e31; font: 500 28px Georgia, serif; }
+.signal-stop > p { margin: 10px 0 18px; color: #745f58; font-size: 13px; line-height: 1.7; }
+.signal-stop ul { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.signal-stop li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: center; color: #5f4e48; font-size: 12px; }
+.signal-stop li span { padding: 5px 7px; border-radius: 7px; background: #edd2c9; color: #8b3f31; text-align: center; font-size: 9px; font-weight: 800; }
+.signal-stop li:last-child span { background: #f2e5c9; color: #765b20; }
+.signal-stop > a { display: inline-flex; margin-top: 22px; color: var(--forest); font-size: 12px; font-weight: 800; }
 .stale-signal { min-height: 260px; margin-top: 30px; padding: 40px 28px; border: 1px dashed #d0a493; border-radius: 20px; background: #f5e5df; }
 .stale-signal strong { color: #853e31; font: 500 26px Georgia, serif; }.stale-signal p { color: #745f58; font-size: 13px; line-height: 1.7; }.stale-signal code { color: #95736a; font-size: 10px; }
 

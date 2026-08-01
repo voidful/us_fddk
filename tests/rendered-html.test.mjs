@@ -22,11 +22,13 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /成長守門員 v2｜降回撤有效，不等於穩健超額/);
   assert.match(html, /https:\/\/growth-guard-tw\.voidful819957\.chatgpt\.site\/og\.png/);
   assert.match(html, /data-signal-freshness="checking"/);
-  assert.match(html, /先別急著照單/);
-  assert.match(html, /只做 Paper，不照單/);
-  assert.match(html, /QQQ 75\.5%/);
-  assert.match(html, /SHY 24\.5%/);
-  assert.match(html, /18% 目標波動/);
+  assert.match(html, /今天不下單/);
+  assert.match(html, /不建立實金部位/);
+  assert.match(html, /今日實金動作：0/);
+  assert.match(html, /不顯示可照抄的 ETF 百分比或金額/);
+  assert.match(html, /目前沒有實金配置/);
+  assert.match(html, /實金配置鎖定中/);
+  assert.doesNotMatch(html, /我的試算資金/);
   assert.match(html, /固定 18% 目標波動政策/);
   assert.match(html, /統計尚未確認/);
   assert.match(html, /曝險控制未通過/);
