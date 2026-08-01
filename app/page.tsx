@@ -182,12 +182,16 @@ export default function Home() {
           <div className="readiness-head">
             <div>
               <p className="eyebrow">REAL-MONEY READINESS</p>
-              <h2 id="readiness-title">資料可安全發布，<br />不等於可以實金參考。</h2>
+              <h2 id="readiness-title" className="fresh-only">資料可安全發布，<br />不等於可以實金參考。</h2>
+              <h2 className="stale-only">資料已過期，<br />Paper 與實金都停止參考。</h2>
             </div>
             <div className={readiness.trade_ready ? "readiness-verdict ready" : "readiness-verdict blocked"}>
-              <span>{readiness.trade_ready ? "實金參考已開放" : "實金參考未開放"}</span>
-              <strong>{readiness.passed_gate_count} / {readiness.required_gate_count}</strong>
-              <small>所有門檻必須同時通過</small>
+              <span className="fresh-only">{readiness.trade_ready ? "實金參考已開放" : "實金參考未開放"}</span>
+              <span className="stale-only">資料過期，停止參考</span>
+              <strong className="fresh-only">{readiness.passed_gate_count} / {readiness.required_gate_count}</strong>
+              <strong className="stale-only">STOP</strong>
+              <small className="fresh-only">所有門檻必須同時通過</small>
+              <small className="stale-only">更新與完整性檢查完成前維持關閉</small>
             </div>
           </div>
           <div className="readiness-grid">
@@ -207,7 +211,8 @@ export default function Home() {
               <p>扣成本後必須為正、同時勝 SPY 與被動 90/10，且最大回撤不比兩者深；資料過期或任何帳戶漂移都立即停止參考。</p>
             </article>
           </div>
-          <p className="readiness-note"><b>今天的明確決定：</b>{readiness.trade_ready ? "已通過完整合約，才可顯示參考交易配置。" : "只允許查看研究與 Paper 進度；主配置不是實金下單指令。"}</p>
+          <p className="readiness-note fresh-only"><b>今天的明確決定：</b>{readiness.trade_ready ? "已通過完整合約，才可顯示參考交易配置。" : "只允許查看研究與 Paper 進度；主配置不是實金下單指令。"}</p>
+          <p className="readiness-note stale-only"><b>今天的明確決定：</b>停止使用所有舊配置；等待新快照、Paper 與網站重新通過一致性檢查。</p>
         </section>
 
         <section className="section wrap" id="allocation">

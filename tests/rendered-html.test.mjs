@@ -32,6 +32,8 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /曝險控制未通過/);
   assert.match(html, /資料可安全發布/);
   assert.match(html, /實金參考未開放/);
+  assert.match(html, /Paper 與實金都停止參考/);
+  assert.match(html, /更新與完整性檢查完成前維持關閉/);
   assert.match(html, /不可回填的等待期/);
   assert.match(html, /維持 Paper-only/);
   assert.match(html, /為什麼資料檢查通過，還是不能下單/);
