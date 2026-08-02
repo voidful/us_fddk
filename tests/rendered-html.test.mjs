@@ -113,6 +113,12 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /六個美國市場都好看，海外還能重現嗎/);
   assert.match(html, /美國回測成功，不代表規則能泛化/);
   assert.match(html, /v18 在六個美國市場都改善，為什麼海外失敗更重要/);
+  assert.match(html, /2016–2026 · v20 三組新區域 ETF 日線/);
+  assert.match(html, /id="v20-research"/);
+  assert.match(html, /每月挑較強的債券或黃金，真的比固定配置好嗎/);
+  assert.match(html, /動態輪替沒有勝過更簡單的固定配置/);
+  assert.match(html, /中國大型股/);
+  assert.match(html, /v20 會挑較強的分散器，為什麼仍輸固定配置/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -502,9 +508,37 @@ test("v18 external paths reject the US-selected stock bond gold structure", asyn
   assert.ok(payload.limitations.some((item) => /v18 在六個已見美國市場.*不建 Paper/.test(item)));
 });
 
+test("v20 diversifier strength rejects rotation across all eleven datasets", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v20 = payload.research_pipeline.diversifier_strength;
+  assert.equal(v20.status, "diversifier_rotation_validation_failed");
+  assert.equal(v20.paper_eligible, false);
+  assert.equal(v20.design_economic_passed_gate_count, 38);
+  assert.equal(v20.design_economic_required_gate_count, 112);
+  assert.equal(v20.external_economic_passed_gate_count, 7);
+  assert.equal(v20.external_economic_required_gate_count, 42);
+  assert.equal(v20.economic_passed_gate_count, 45);
+  assert.equal(v20.economic_required_gate_count, 154);
+  assert.equal(v20.data_passed_gate_count, 13);
+  assert.equal(v20.data_required_gate_count, 13);
+  assert.equal(v20.statistical_passed_gate_count, 0);
+  assert.equal(v20.statistical_required_gate_count, 27);
+  assert.equal(v20.external_years, 10);
+  assert.equal(v20.datasets.china_large_cap.passed_gate_count, 0);
+  assert.equal(Object.keys(v20.datasets).length, 11);
+  for (const data of Object.values(v20.datasets)) {
+    assert.equal(data.data_gate_passed, true);
+    assert.ok(data.strategy_metrics.cagr < data.benchmark_metrics.fixed_v18.cagr);
+  }
+  assert.ok(payload.limitations.some((item) => /v20 固定 50%.*不建 Paper/.test(item)));
+});
+
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-  assert.match(css, /\.brand \{ min-height: 44px;/);
+  assert.match(css, /\.brand \{ min-height: 48px;/);
+  assert.match(css, /\.signal-stop > a \{[^}]*min-height: 44px;/);
   assert.match(css, /\.quick-values button \{ min-height: 44px;/);
   assert.match(css, /\.faq-list details p \{[^}]*margin: 12px 0 24px;/);
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);

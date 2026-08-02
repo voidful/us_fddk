@@ -47,7 +47,7 @@ button, input { font: inherit; }
   background: color-mix(in srgb, var(--paper) 90%, transparent);
   backdrop-filter: blur(18px);
 }
-.brand { min-height: 44px; display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 760; letter-spacing: .04em; }
+.brand { min-height: 48px; display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 760; letter-spacing: .04em; }
 .brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; background: var(--forest); color: var(--lime); border-radius: 11px; font-family: Georgia, serif; font-size: 20px; font-style: italic; }
 .topbar nav { display: flex; gap: 28px; font-size: 13px; color: var(--muted); }
 .topbar nav a:hover { color: var(--ink); }
@@ -103,7 +103,7 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .signal-stop li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: center; color: #5f4e48; font-size: 12px; }
 .signal-stop li span { padding: 5px 7px; border-radius: 7px; background: #edd2c9; color: #8b3f31; text-align: center; font-size: 9px; font-weight: 800; }
 .signal-stop li:last-child span { background: #f2e5c9; color: #765b20; }
-.signal-stop > a { display: inline-flex; margin-top: 22px; color: var(--forest); font-size: 12px; font-weight: 800; }
+.signal-stop > a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 11px; color: var(--forest); font-size: 12px; font-weight: 800; }
 .stale-signal { min-height: 260px; margin-top: 30px; padding: 40px 28px; border: 1px dashed #d0a493; border-radius: 20px; background: #f5e5df; }
 .stale-signal strong { color: #853e31; font: 500 26px Georgia, serif; }.stale-signal p { color: #745f58; font-size: 13px; line-height: 1.7; }.stale-signal code { color: #95736a; font-size: 10px; }
 

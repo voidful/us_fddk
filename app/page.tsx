@@ -114,6 +114,10 @@ export default function Home() {
   const equalDiversifier = data.research_pipeline.equal_diversifier;
   const diversifierDeveloped = equalDiversifier.datasets.developed_ex_us;
   const diversifierEmerging = equalDiversifier.datasets.emerging_markets;
+  const diversifierStrength = data.research_pipeline.diversifier_strength;
+  const strengthJapan = diversifierStrength.datasets.japan;
+  const strengthChina = diversifierStrength.datasets.china_large_cap;
+  const strengthBrazil = diversifierStrength.datasets.brazil;
   return (
     <>
       <header className="topbar">
@@ -583,6 +587,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div id="v20-research" className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2016–2026 · v20 三組新區域 ETF 日線</span><h3>每月挑較強的債券或黃金，真的比固定配置好嗎？</h3></div>
+                <strong>{diversifierStrength.economic_passed_gate_count} / {diversifierStrength.economic_required_gate_count} 道完整經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v20 不改 50% 每日 2 倍股票 ETF，而是每個完整月末比較 IEF、GLD、SHY 的 12–1 月相對強度，只保留前兩名各 25%。v19 先因 VGK／UPV 的歷史指數範圍有約十一個月不一致而停止；v20 修正資料契約後，才下載日本、中國大型股與巴西日線。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>日本 · 輪替 / EWJ 年化</span>
+                  <strong>{pct(strengthJapan.strategy_metrics.cagr, 2)} / {pct(strengthJapan.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>回撤 {pct(strengthJapan.strategy_metrics.max_drawdown, 1)}，比 EWJ 的 {pct(strengthJapan.benchmark_metrics.core.max_drawdown, 1)} 更深</p>
+                </article>
+                <article className="failed">
+                  <span>中國大型股 · 輪替 / FXI 年化</span>
+                  <strong>{pct(strengthChina.strategy_metrics.cagr, 2)} / {pct(strengthChina.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>14 道經濟門檻通過 {strengthChina.passed_gate_count} 道</p>
+                </article>
+                <article className="failed">
+                  <span>巴西 · 輪替 / EWZ 年化</span>
+                  <strong>{pct(strengthBrazil.strategy_metrics.cagr, 2)} / {pct(strengthBrazil.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>少跌一部分，但仍輸固定 v18 與同政策不槓桿版本</p>
+                </article>
+                <article className="failed">
+                  <span>已見設計 / 新外部</span>
+                  <strong>{diversifierStrength.design_economic_passed_gate_count}/{diversifierStrength.design_economic_required_gate_count} · {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}</strong>
+                  <p>不能只挑美國大型股較漂亮的完整期報酬</p>
+                </article>
+                <article className="failed">
+                  <span>資料 / 外部統計</span>
+                  <strong>{diversifierStrength.data_passed_gate_count}/{diversifierStrength.data_required_gate_count} · {diversifierStrength.statistical_passed_gate_count}/{diversifierStrength.statistical_required_gate_count}</strong>
+                  <p>資料完整不等於策略成立；外部統計沒有一項通過</p>
+                </article>
+                <article className="failed">
+                  <span>20 年 / 新外部期間</span>
+                  <strong>美國大型股 20 年 / 外部 {diversifierStrength.external_years} 年</strong>
+                  <p>實際區域 2 倍 ETF 歷史不足，不用合成資料補成 20 年</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：動態輪替沒有勝過更簡單的固定配置</b>
+                <p>11 個市場的輪替 CAGR 全部低於固定 v18 50/25/25；完整經濟門檻只過 {diversifierStrength.economic_passed_gate_count}/{diversifierStrength.economic_required_gate_count}。系統保留負結果，但沒有 v20 帳戶、沒有委託，也不提供 SSO 與分散器的今天配置。</p>
+              </div>
+            </div>
+
             <div className="industry-tilt-audit v13-audit">
               <div className="cross-market-head">
                 <div><span>2006–2026 · v13 規則先鎖定、再下載新 ETF</span><h3>已知年代看起來進步，真正的新資料答應了嗎？</h3></div>
@@ -1037,6 +1085,7 @@ export default function Home() {
             <details><summary>v16 已降低回撤，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為它同時大幅犧牲長期複利。三個市場年化只剩約 2.8%–5.6%，全都低於原始 ETF，也低於不槓桿的相同趨勢控制；48 道只過 {trendVolatilityBrake.economic_passed_gate_count} 道。降低回撤是好現象，但不能掩蓋踏空與頻繁調整造成的報酬損失。</p></details>
             <details><summary>v17 六市場 CAGR 多數較高，為什麼仍不算跑贏？<span>＋</span></summary><p>因為六組最大回撤全部比原始 ETF 更深，Sharpe 與 Calmar 多數也更差。總名目曝險約 160%，本來就可能在多頭市場放大 CAGR；只有同時跨過風險、成本、前後半、五年滾動與三個公平基準，才算穩健。84 道只過 {capitalEfficient.economic_passed_gate_count} 道，因此不建立 Paper。</p></details>
             <details><summary>v18 在六個美國市場都改善，為什麼海外失敗更重要？<span>＋</span></summary><p>因為 50/25/25 正是在那六個美國市場中選出，漂亮結果可能含有選擇偏誤。規則鎖定後的海外日線顯示：已開發市場五年勝率只有 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}，新興市場只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}，而且兩組回撤都更深。外部 18 道只過 {equalDiversifier.economic_passed_gate_count} 道，所以不調比例、不開 Paper。</p></details>
+            <details><summary>v20 會挑較強的分散器，為什麼仍輸固定配置？<span>＋</span></summary><p>相對強弱是落後指標，快速反轉時可能在較晚的位置換進；而且股票曝險始終約 100%，沒有崩跌退場。結果 11 個市場的輪替 CAGR 全部低於固定 v18，三組新外部經濟門檻只過 {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}，中國大型股更是 0/14，所以不能把「會輪替」直接等同於更穩健。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
