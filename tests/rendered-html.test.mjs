@@ -119,6 +119,11 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /動態輪替沒有勝過更簡單的固定配置/);
   assert.match(html, /中國大型股/);
   assert.match(html, /v20 會挑較強的分散器，為什麼仍輸固定配置/);
+  assert.match(html, /2006–2026.+2011–2026 · v21 常駐核心＋受控槓桿/);
+  assert.match(html, /id="v21-research"/);
+  assert.match(html, /不完全退場、也不永遠滿倉/);
+  assert.match(html, /折衷曝險仍不是穩健超額/);
+  assert.match(html, /v21 已在退場與滿倉之間折衷，為什麼還是失敗/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -533,6 +538,39 @@ test("v20 diversifier strength rejects rotation across all eleven datasets", asy
     assert.ok(data.strategy_metrics.cagr < data.benchmark_metrics.fixed_v18.cagr);
   }
   assert.ok(payload.limitations.some((item) => /v20 固定 50%.*不建 Paper/.test(item)));
+});
+
+test("v21 hybrid leverage core fails the new mid and small cap paths", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v21 = payload.research_pipeline.hybrid_leverage_core;
+  assert.equal(v21.status, "hybrid_leverage_core_validation_failed");
+  assert.equal(v21.paper_eligible, false);
+  assert.equal(v21.trade_ready, false);
+  assert.equal(v21.configuration_visible, false);
+  assert.equal(v21.design_economic_passed_gate_count, 49);
+  assert.equal(v21.design_economic_required_gate_count, 96);
+  assert.equal(v21.external_economic_passed_gate_count, 4);
+  assert.equal(v21.external_economic_required_gate_count, 32);
+  assert.equal(v21.economic_passed_gate_count, 53);
+  assert.equal(v21.economic_required_gate_count, 128);
+  assert.equal(v21.data_passed_gate_count, 10);
+  assert.equal(v21.data_required_gate_count, 10);
+  assert.equal(v21.statistical_passed_gate_count, 0);
+  assert.equal(v21.statistical_required_gate_count, 18);
+  assert.equal(v21.design_20_year_markets, 3);
+  assert.equal(v21.external_years, 15);
+  assert.equal(Object.keys(v21.datasets).length, 8);
+  assert.equal(v21.datasets.midcap400_3x.passed_gate_count, 2);
+  assert.equal(v21.datasets.russell2000_3x.passed_gate_count, 2);
+  for (const key of ["midcap400_3x", "russell2000_3x"]) {
+    const dataset = v21.datasets[key];
+    assert.equal(dataset.data_gate_passed, true);
+    assert.ok(dataset.strategy_metrics.cagr < dataset.benchmark_metrics.core.cagr);
+    assert.ok(dataset.strategy_metrics.max_drawdown < dataset.benchmark_metrics.core.max_drawdown);
+  }
+  assert.ok(payload.limitations.some((item) => /v21 永久保留 60% 核心.*不建 Paper/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {

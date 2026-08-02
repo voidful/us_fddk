@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20／18 年凍結回測、六市場 ETF 與公平基準比較、LIVE paper trade，以及新手可讀的風險判讀。",
+  description: "20 年大型股、15 年新中小型股凍結驗證、公平基準、Paper 守門，以及新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -118,6 +118,10 @@ export default function Home() {
   const strengthJapan = diversifierStrength.datasets.japan;
   const strengthChina = diversifierStrength.datasets.china_large_cap;
   const strengthBrazil = diversifierStrength.datasets.brazil;
+  const hybridLeverageCore = data.research_pipeline.hybrid_leverage_core;
+  const hybridNasdaq2x = hybridLeverageCore.datasets.nasdaq100_2x;
+  const hybridMidcap = hybridLeverageCore.datasets.midcap400_3x;
+  const hybridRussell = hybridLeverageCore.datasets.russell2000_3x;
   return (
     <>
       <header className="topbar">
@@ -631,6 +635,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div id="v21-research" className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2006–2026 / 2011–2026 · v21 常駐核心＋受控槓桿</span><h3>不完全退場、也不永遠滿倉，能同時補好報酬與回撤嗎？</h3></div>
+                <strong>{hybridLeverageCore.economic_passed_gate_count} / {hybridLeverageCore.economic_required_gate_count} 道完整經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>把普通 ETF 的完整股票風險想成 100 格：v21 永久保留 60 格；連續兩個完整月站上 200 日均線才升到約 120 格，確認轉弱就回到約 60 格。它專門檢查能否修補 v14「退太多、錯過反彈」與 v15「留太多、回撤過深」，不測其他均線、比例或確認月數。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>MidCap 400 · v21 / IJH 年化</span>
+                  <strong>{pct(hybridMidcap.strategy_metrics.cagr, 2)} / {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>外部 15 年落後 {pct(Math.abs(hybridMidcap.comparison_vs_core.cagr_difference), 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>MidCap 400 · v21 / IJH 回撤</span>
+                  <strong>{pct(hybridMidcap.strategy_metrics.max_drawdown, 1)} / {pct(hybridMidcap.benchmark_metrics.core.max_drawdown, 1)}</strong>
+                  <p>降曝險仍沒有換到較淺的最大回撤</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · v21 / IWM 年化</span>
+                  <strong>{pct(hybridRussell.strategy_metrics.cagr, 2)} / {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>外部 15 年落後 {pct(Math.abs(hybridRussell.comparison_vs_core.cagr_difference), 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · v21 / IWM 回撤</span>
+                  <strong>{pct(hybridRussell.strategy_metrics.max_drawdown, 1)} / {pct(hybridRussell.benchmark_metrics.core.max_drawdown, 1)}</strong>
+                  <p>兩組新外部市場都只通過 2/16 道</p>
+                </article>
+                <article className="passed">
+                  <span>Nasdaq-100 · 20 年 2 倍實作</span>
+                  <strong>{hybridNasdaq2x.passed_gate_count}/{hybridNasdaq2x.required_gate_count} · {pct(hybridNasdaq2x.strategy_metrics.cagr, 2)}</strong>
+                  <p>單一漂亮市場不能覆蓋 S&amp;P、Dow 與兩組新外部失敗</p>
+                </article>
+                <article className="failed">
+                  <span>設計 / 新外部 / 資料 / 統計</span>
+                  <strong>{hybridLeverageCore.design_economic_passed_gate_count}/{hybridLeverageCore.design_economic_required_gate_count} · {hybridLeverageCore.external_economic_passed_gate_count}/{hybridLeverageCore.external_economic_required_gate_count}</strong>
+                  <p>資料 {hybridLeverageCore.data_passed_gate_count}/{hybridLeverageCore.data_required_gate_count} 全過，統計仍是 {hybridLeverageCore.statistical_passed_gate_count}/{hybridLeverageCore.statistical_required_gate_count}</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：折衷曝險仍不是穩健超額</b>
+                <p>三組大型股 2 倍產品保留實際 20 年已見診斷；新 UMDD／URTY 只有 15 年實際產品史，不用合成資料冒充 20 年。外部日線在規則凍結後才下載，卻同時落後普通 ETF 且回撤更深。系統沒有 v21 帳戶、沒有委託，也不顯示被淘汰規則的今天百分比。</p>
+              </div>
+            </div>
+
             <div className="industry-tilt-audit v13-audit">
               <div className="cross-market-head">
                 <div><span>2006–2026 · v13 規則先鎖定、再下載新 ETF</span><h3>已知年代看起來進步，真正的新資料答應了嗎？</h3></div>
@@ -1086,6 +1134,7 @@ export default function Home() {
             <details><summary>v17 六市場 CAGR 多數較高，為什麼仍不算跑贏？<span>＋</span></summary><p>因為六組最大回撤全部比原始 ETF 更深，Sharpe 與 Calmar 多數也更差。總名目曝險約 160%，本來就可能在多頭市場放大 CAGR；只有同時跨過風險、成本、前後半、五年滾動與三個公平基準，才算穩健。84 道只過 {capitalEfficient.economic_passed_gate_count} 道，因此不建立 Paper。</p></details>
             <details><summary>v18 在六個美國市場都改善，為什麼海外失敗更重要？<span>＋</span></summary><p>因為 50/25/25 正是在那六個美國市場中選出，漂亮結果可能含有選擇偏誤。規則鎖定後的海外日線顯示：已開發市場五年勝率只有 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}，新興市場只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}，而且兩組回撤都更深。外部 18 道只過 {equalDiversifier.economic_passed_gate_count} 道，所以不調比例、不開 Paper。</p></details>
             <details><summary>v20 會挑較強的分散器，為什麼仍輸固定配置？<span>＋</span></summary><p>相對強弱是落後指標，快速反轉時可能在較晚的位置換進；而且股票曝險始終約 100%，沒有崩跌退場。結果 11 個市場的輪替 CAGR 全部低於固定 v18，三組新外部經濟門檻只過 {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}，中國大型股更是 0/14，所以不能把「會輪替」直接等同於更穩健。</p></details>
+            <details><summary>v21 已在退場與滿倉之間折衷，為什麼還是失敗？<span>＋</span></summary><p>折衷只是合理假說，不是成功證據。中型股版本年化 {pct(hybridMidcap.strategy_metrics.cagr, 2)}，低於 IJH 的 {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}；小型股版本年化 {pct(hybridRussell.strategy_metrics.cagr, 2)}，低於 IWM 的 {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}，兩組回撤也更深。新外部 32 道只過 {hybridLeverageCore.external_economic_passed_gate_count} 道，因此不能只挑 Nasdaq 的 15/16 宣稱泛化。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
