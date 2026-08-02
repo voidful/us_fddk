@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T20:10:09.911478Z",
+  "generated_at_utc": "2026-08-02T21:00:11.362131Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v22 九產業完整期 CAGR 全數勝普通 ETF，但五年滾動有效勝率沒有一組達 60%，等權也只有 51.2%；經濟入口 13/15、統計 0/3，不建 Paper、不顯示 50/25/25。",
     "v21 永久保留 60% 核心，確認上升時約 120% 股票名目曝險、確認轉弱時約 60%。三組大型股 2 倍實作有 20 年已見診斷，新中小型股 3 倍外部期為 15 年；完整經濟門檻 53/128，新外部 4/32。MidCap CAGR 8.61% / IJH 11.31%，Russell 2000 7.84% / IWM 10.51%；不建 Paper。",
     "v20 固定 50% 實際 2 倍股票 ETF，再從 IEF／GLD／SHY 依 12–1 月相對強度選兩檔。資料與時序完整，但 11 市場經濟門檻 45/154，新外部 7/42；日本 CAGR 8.08% / EWJ 8.66%，中國大型股 1.33% / FXI 2.23%，巴西 6.19% / EWZ 6.25%。輪替未勝固定 v18，不建 Paper。",
     "v18 在六個已見美國市場選定 50% 實際 2 倍股票 ETF／25% IEF／25% GLD，再以凍結後的海外日線驗證。已開發市場 CAGR 8.00% / EFA 7.70%，新興市場 5.12% / EEM 4.98%；兩組回撤都更深，外部經濟門檻 5/18，不建 Paper。",
@@ -5884,6 +5885,705 @@
         }
       },
       "paper_entry_decision": "do_not_create"
+    },
+    "sector_capital_efficiency": {
+      "name": "v22 美國產業股債金資本效率",
+      "status": "us_sector_capital_efficiency_validation_failed",
+      "paper_eligible": false,
+      "trade_ready": false,
+      "configuration_visible": false,
+      "statistically_confirmed": false,
+      "individual_passed_gate_count": 51,
+      "individual_required_gate_count": 63,
+      "individual_pass_count_by_gate": {
+        "cagr_beats_core_25bp": 9,
+        "sharpe_beats_core": 9,
+        "drawdown_not_worse_than_core": 7,
+        "calmar_beats_core": 9,
+        "50bps_cagr_beats_core_10bp": 9,
+        "both_halves_cagr_beat_core_10bp": 8,
+        "rolling_wins_60pct_and_positive_median": 0
+      },
+      "individual_pass_count_by_dataset": {
+        "materials": 6,
+        "consumer_staples": 6,
+        "consumer_discretionary": 6,
+        "financials": 5,
+        "health_care": 6,
+        "industrials": 6,
+        "energy": 5,
+        "technology": 6,
+        "utilities": 5
+      },
+      "consistency_gates": {
+        "each_gate_passes_in_at_least_6_of_9_sectors": false,
+        "at_least_6_of_9_sectors_pass_at_least_5_of_7_gates": true,
+        "individual_gate_total_at_least_45_of_63": true,
+        "no_sector_cagr_lags_core_more_than_2pp": true,
+        "no_sector_drawdown_deeper_than_core_by_more_than_10pp": true
+      },
+      "economic_passed_gate_count": 13,
+      "economic_required_gate_count": 15,
+      "data_passed_gate_count": 11,
+      "data_required_gate_count": 11,
+      "statistical_passed_gate_count": 0,
+      "statistical_required_gate_count": 3,
+      "external_years": 11.89,
+      "evidence_classification": "semi_independent_external_daily_path_validation_not_fully_blind",
+      "protocol_sha256": "e9e9f43b30833c8131889b1967b0f47c3106f34611ef37e89a9cc62df2c72254",
+      "datasets": {
+        "materials": {
+          "label": "基礎材料",
+          "assets": {
+            "core": "IYM",
+            "leveraged": "UYM",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.05884439966920052,
+            "sharpe": 0.3479706058608449,
+            "max_drawdown": -0.6754390259531298,
+            "volatility": 0.2682651236815476,
+            "turnover": 0.6450680039530383
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.0445451414332112,
+              "sharpe": 0.29666817913846266,
+              "max_drawdown": -0.6778284337001114,
+              "volatility": 0.2778313878982714,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.057430643634234,
+              "sharpe": 0.3931286341937734,
+              "max_drawdown": -0.5175231812208334,
+              "volatility": 0.1864946733992954,
+              "turnover": 0.3109103549623081
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.4523809523809524,
+            "median_cagr_difference": -7.154057065639208e-06,
+            "worst_cagr_difference": -0.02179482464695992
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.0249156327351594
+            },
+            "second": {
+              "cagr_difference": 0.003214960692071056
+            }
+          }
+        },
+        "consumer_staples": {
+          "label": "民生消費",
+          "assets": {
+            "core": "IYK",
+            "leveraged": "UGE",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.10776324099317414,
+            "sharpe": 0.7472698164197964,
+            "max_drawdown": -0.3975903308548322,
+            "volatility": 0.15267597920788337,
+            "turnover": 0.4307866437821434
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.08505519123922678,
+              "sharpe": 0.6009033740292838,
+              "max_drawdown": -0.4263586240223737,
+              "volatility": 0.15625992065243977,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.0800483324028427,
+              "sharpe": 0.7883075102676643,
+              "max_drawdown": -0.26979960469798037,
+              "volatility": 0.10469871440070504,
+              "turnover": 0.23735647750598704
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.5357142857142857,
+            "median_cagr_difference": 0.0022418956041042604,
+            "worst_cagr_difference": -0.019976723847035194
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.04158908758812596
+            },
+            "second": {
+              "cagr_difference": 0.0033478086504574733
+            }
+          }
+        },
+        "consumer_discretionary": {
+          "label": "非必需消費",
+          "assets": {
+            "core": "IYC",
+            "leveraged": "UCC",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.1404241847229326,
+            "sharpe": 0.8044120504800076,
+            "max_drawdown": -0.48826547474718873,
+            "volatility": 0.1846976277254986,
+            "turnover": 0.5369768474756771
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.11695083479107593,
+              "sharpe": 0.6696579701900497,
+              "max_drawdown": -0.5133967771391765,
+              "volatility": 0.19314812092916414,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.10297198244179473,
+              "sharpe": 0.8459442542786894,
+              "max_drawdown": -0.3446174299698722,
+              "volatility": 0.12520067388448908,
+              "turnover": 0.2788099660731358
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.5595238095238095,
+            "median_cagr_difference": 0.0029957974406737975,
+            "worst_cagr_difference": -0.019698203303611495
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.03984798678812029
+            },
+            "second": {
+              "cagr_difference": 0.005602760294207698
+            }
+          }
+        },
+        "financials": {
+          "label": "金融",
+          "assets": {
+            "core": "IYF",
+            "leveraged": "UYG",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 5,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.037148453529994185,
+            "sharpe": 0.2706655467821649,
+            "max_drawdown": -0.7828220380650366,
+            "volatility": 0.27578631088271754,
+            "turnover": 0.6493387776700923
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.033020904765673764,
+              "sharpe": 0.2583299518538042,
+              "max_drawdown": -0.780893387383679,
+              "volatility": 0.30099886073417853,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.050309090490516795,
+              "sharpe": 0.3505425139362189,
+              "max_drawdown": -0.5913064395828305,
+              "volatility": 0.19338011872606176,
+              "turnover": 0.33281138592581905
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.36904761904761907,
+            "median_cagr_difference": -0.0008940281262406202,
+            "worst_cagr_difference": -0.020237277700121847
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.002971443763607251
+            },
+            "second": {
+              "cagr_difference": 0.005551232628428826
+            }
+          }
+        },
+        "health_care": {
+          "label": "醫療",
+          "assets": {
+            "core": "IYH",
+            "leveraged": "RXL",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.1331191134239953,
+            "sharpe": 0.8250379430690923,
+            "max_drawdown": -0.38447861351629997,
+            "volatility": 0.16891109128807585,
+            "turnover": 0.47028537113475677
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.1120190348641188,
+              "sharpe": 0.7057973733782341,
+              "max_drawdown": -0.38549004141503385,
+              "volatility": 0.1713656256326392,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.09831932275977362,
+              "sharpe": 0.8813424285094807,
+              "max_drawdown": -0.263378638489314,
+              "volatility": 0.1138340903921939,
+              "turnover": 0.24772772864812498
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.47619047619047616,
+            "median_cagr_difference": 0.0005854119000446856,
+            "worst_cagr_difference": -0.02304099137061666
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.03957518239196456
+            },
+            "second": {
+              "cagr_difference": 0.0019479625752638619
+            }
+          }
+        },
+        "industrials": {
+          "label": "工業",
+          "assets": {
+            "core": "IYJ",
+            "leveraged": "UXI",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.10653984400538619,
+            "sharpe": 0.5927662163297505,
+            "max_drawdown": -0.5891352974719003,
+            "volatility": 0.20720899045870392,
+            "turnover": 0.5902196590206875
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.08364137484385381,
+              "sharpe": 0.48017290576660876,
+              "max_drawdown": -0.6197058025178752,
+              "volatility": 0.21622685882120424,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.0822079366135604,
+              "sharpe": 0.6296587793021543,
+              "max_drawdown": -0.43219585702766616,
+              "volatility": 0.14146264348689905,
+              "turnover": 0.29646626502948703
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.5238095238095238,
+            "median_cagr_difference": 0.0021472495368926037,
+            "worst_cagr_difference": -0.021446761015833316
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.038520566368886344
+            },
+            "second": {
+              "cagr_difference": 0.005607565810863191
+            }
+          }
+        },
+        "energy": {
+          "label": "能源",
+          "assets": {
+            "core": "IYE",
+            "leveraged": "DIG",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 5,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.014462157894621797,
+            "sharpe": 0.18725597394770963,
+            "max_drawdown": -0.5863599779167459,
+            "volatility": 0.2647841762570579,
+            "turnover": 0.6447559533200115
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.006680204190406158,
+              "sharpe": 0.16672578810049812,
+              "max_drawdown": -0.5581616151167397,
+              "volatility": 0.2864093321359834,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.030939926708088983,
+              "sharpe": 0.25567924220721433,
+              "max_drawdown": -0.4025658766624741,
+              "volatility": 0.1901590303707233,
+              "turnover": 0.3182932611030945
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.44047619047619047,
+            "median_cagr_difference": -0.001710955781137391,
+            "worst_cagr_difference": -0.024885354294481354
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.012682631380412479
+            },
+            "second": {
+              "cagr_difference": 0.0029948669784440884
+            }
+          }
+        },
+        "technology": {
+          "label": "科技",
+          "assets": {
+            "core": "IYW",
+            "leveraged": "ROM",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.14006209712256945,
+            "sharpe": 0.7316966981300057,
+            "max_drawdown": -0.5275656787931888,
+            "volatility": 0.20920539337143612,
+            "turnover": 0.5969347029061188
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.11728628881847869,
+              "sharpe": 0.619986267409615,
+              "max_drawdown": -0.5491255288512268,
+              "volatility": 0.21698243585014737,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.10438486481379772,
+              "sharpe": 0.7706915158298989,
+              "max_drawdown": -0.38884017258006554,
+              "volatility": 0.14199583426055298,
+              "turnover": 0.3016453876925221
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.4642857142857143,
+            "median_cagr_difference": -0.0004271631890573335,
+            "worst_cagr_difference": -0.021647571617446237
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.03894328313780915
+            },
+            "second": {
+              "cagr_difference": 0.004833794327585128
+            }
+          }
+        },
+        "utilities": {
+          "label": "公用事業",
+          "assets": {
+            "core": "IDU",
+            "leveraged": "UPW",
+            "duration_defensive": "IEF",
+            "inflation_diversifier": "GLD",
+            "short_duration_control": "SHY"
+          },
+          "period": {
+            "start": "2007-07-31",
+            "end": "2019-06-21",
+            "sessions": 2995,
+            "years": 11.89,
+            "initial_signal": "2007-02-28",
+            "initial_execution": "2007-03-01"
+          },
+          "passed_gate_count": 5,
+          "required_gate_count": 7,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": true,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": false
+          },
+          "data_gate_passed": true,
+          "strategy_metrics": {
+            "cagr": 0.09700947916703173,
+            "sharpe": 0.6028675706556711,
+            "max_drawdown": -0.47430038256651574,
+            "volatility": 0.18080440143908838,
+            "turnover": 0.4365402684264064
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.07950850331281112,
+              "sharpe": 0.5230865823475467,
+              "max_drawdown": -0.47784115429888185,
+              "volatility": 0.1759294270696866,
+              "turnover": 0.0
+            },
+            "unlevered_same_assets": {
+              "cagr": 0.07610242828250646,
+              "sharpe": 0.6657884348687492,
+              "max_drawdown": -0.31835604995188016,
+              "volatility": 0.1212726404984942,
+              "turnover": 0.22805941406843683
+            }
+          },
+          "rolling_five_year_vs_core": {
+            "windows": 84,
+            "cagr_win_fraction": 0.4880952380952381,
+            "median_cagr_difference": 0.00023809094153903754,
+            "worst_cagr_difference": -0.019644700056042685
+          },
+          "fixed_halves_vs_core": {
+            "first": {
+              "cagr_difference": 0.032090837913451686
+            },
+            "second": {
+              "cagr_difference": 0.0009603528497672542
+            }
+          }
+        }
+      },
+      "pooled": {
+        "strategy_metrics": {
+          "cagr": 0.09993138463773321,
+          "sharpe": 0.619023182386729,
+          "max_drawdown": -0.5218213532571102,
+          "volatility": 0.18030205230056837,
+          "turnover": 0.5556562475209924
+        },
+        "core_metrics": {
+          "cagr": 0.08230716266700844,
+          "sharpe": 0.5045921442943821,
+          "max_drawdown": -0.5306741984307334,
+          "volatility": 0.19432658362656755,
+          "turnover": 0.0
+        },
+        "unlevered_same_assets_metrics": {
+          "cagr": 0.07884441612732163,
+          "sharpe": 0.655438210920991,
+          "max_drawdown": -0.3617115349229598,
+          "volatility": 0.12845495193351816,
+          "turnover": 0.2835644712232128
+        },
+        "passed_gate_count": 8,
+        "required_gate_count": 9,
+        "economic_gates": {
+          "cagr_beats_core_25bp": true,
+          "sharpe_beats_core": true,
+          "drawdown_not_worse_than_core": true,
+          "calmar_beats_core": true,
+          "50bps_cagr_beats_core_10bp": true,
+          "both_halves_cagr_beat_core_10bp": true,
+          "rolling_wins_60pct_and_positive_median": false,
+          "cagr_beats_unlevered_same_assets_10bp": true,
+          "50bps_cagr_beats_unlevered_same_assets_10bp": true
+        },
+        "rolling_five_year_vs_core": {
+          "windows": 84,
+          "cagr_win_fraction": 0.5119047619047619,
+          "median_cagr_difference": 0.0018360479815026087,
+          "worst_cagr_difference": -0.019756857722902144
+        }
+      },
+      "statistics": {
+        "newey_west_t": 0.8581026257273535,
+        "probabilistic_sharpe_probability": 0.7605449371519866,
+        "global_deflated_sharpe_probability": 0.001218779964604011,
+        "global_search_trials": 6124
+      }
     }
   },
   "readiness": {

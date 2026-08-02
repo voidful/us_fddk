@@ -124,6 +124,10 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /不完全退場、也不永遠滿倉/);
   assert.match(html, /折衷曝險仍不是穩健超額/);
   assert.match(html, /v21 已在退場與滿倉之間折衷，為什麼還是失敗/);
+  assert.match(html, /id="v22-research"/);
+  assert.match(html, /九個產業完整期都贏，為什麼仍不能拿來交易/);
+  assert.match(html, /單一起訖點跑贏，不等於可以穩健跑贏 ETF/);
+  assert.match(html, /v22 九個產業完整期都跑贏，為什麼還不開 Paper/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -571,6 +575,34 @@ test("v21 hybrid leverage core fails the new mid and small cap paths", async () 
     assert.ok(dataset.strategy_metrics.max_drawdown < dataset.benchmark_metrics.core.max_drawdown);
   }
   assert.ok(payload.limitations.some((item) => /v21 永久保留 60% 核心.*不建 Paper/.test(item)));
+});
+
+test("v22 sector validation fails the preregistered five-year consistency gate", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v22 = payload.research_pipeline.sector_capital_efficiency;
+  assert.equal(v22.status, "us_sector_capital_efficiency_validation_failed");
+  assert.equal(v22.paper_eligible, false);
+  assert.equal(v22.trade_ready, false);
+  assert.equal(v22.configuration_visible, false);
+  assert.equal(v22.individual_passed_gate_count, 51);
+  assert.equal(v22.individual_required_gate_count, 63);
+  assert.equal(v22.economic_passed_gate_count, 13);
+  assert.equal(v22.economic_required_gate_count, 15);
+  assert.equal(v22.data_passed_gate_count, 11);
+  assert.equal(v22.data_required_gate_count, 11);
+  assert.equal(v22.statistical_passed_gate_count, 0);
+  assert.equal(v22.statistical_required_gate_count, 3);
+  assert.equal(v22.individual_pass_count_by_gate.cagr_beats_core_25bp, 9);
+  assert.equal(v22.individual_pass_count_by_gate.rolling_wins_60pct_and_positive_median, 0);
+  assert.equal(v22.pooled.passed_gate_count, 8);
+  assert.equal(v22.pooled.required_gate_count, 9);
+  assert.ok(v22.pooled.strategy_metrics.cagr > v22.pooled.core_metrics.cagr);
+  assert.ok(v22.pooled.rolling_five_year_vs_core.cagr_win_fraction < 0.60);
+  assert.ok(v22.pooled.strategy_metrics.max_drawdown < -0.50);
+  assert.equal(Object.keys(v22.datasets).length, 9);
+  assert.ok(payload.limitations.some((item) => /v22 九產業完整期 CAGR.*不建 Paper/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {

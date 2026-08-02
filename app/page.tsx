@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20 年大型股、15 年新中小型股凍結驗證、公平基準、Paper 守門，以及新手可讀的風險判讀。",
+  description: "20 年美國市場研究、九產業凍結驗證、公平基準、Paper 守門，以及新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -122,6 +122,8 @@ export default function Home() {
   const hybridNasdaq2x = hybridLeverageCore.datasets.nasdaq100_2x;
   const hybridMidcap = hybridLeverageCore.datasets.midcap400_3x;
   const hybridRussell = hybridLeverageCore.datasets.russell2000_3x;
+  const sectorCapitalEfficiency = data.research_pipeline.sector_capital_efficiency;
+  const sectorPooled = sectorCapitalEfficiency.pooled;
   return (
     <>
       <header className="topbar">
@@ -679,6 +681,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div id="v22-research" className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>20 年美國設計 / 2007–2019 九產業新日線 · v22</span><h3>九個產業完整期都贏，為什麼仍不能拿來交易？</h3></div>
+                <strong>{sectorCapitalEfficiency.economic_passed_gate_count} / {sectorCapitalEfficiency.economic_required_gate_count} 道經濟入口 · 不建立 Paper</strong>
+              </div>
+              <p>v22 沒有再挑權重：每月固定 50% 實際每日 2 倍產業 ETF、25% IEF、25% GLD。六個美國廣泛市場的 20／18 年結果只算已見設計；九組產業產品、共同指數截止日、成本、兩半期與五年門檻先寫死，才第一次下載本輪日線。</p>
+              <div className="industry-tilt-grid">
+                <article className="passed">
+                  <span>九產業 · 完整期 CAGR 勝普通 ETF</span>
+                  <strong>{sectorCapitalEfficiency.individual_pass_count_by_gate.cagr_beats_core_25bp} / 9</strong>
+                  <p>個別七道門檻合計 {sectorCapitalEfficiency.individual_passed_gate_count}/{sectorCapitalEfficiency.individual_required_gate_count}；不是沒有歷史優勢</p>
+                </article>
+                <article className="passed">
+                  <span>九產業等權 · v22 / 普通 ETF 年化</span>
+                  <strong>{pct(sectorPooled.strategy_metrics.cagr, 2)} / {pct(sectorPooled.core_metrics.cagr, 2)}</strong>
+                  <p>Sharpe {sectorPooled.strategy_metrics.sharpe.toFixed(2)} / {sectorPooled.core_metrics.sharpe.toFixed(2)}，完整期平均較好</p>
+                </article>
+                <article className="failed">
+                  <span>五年滾動 · 等權有效勝率</span>
+                  <strong>{pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}</strong>
+                  <p>事前要求至少 60%；84 個月末視窗只接近一半</p>
+                </article>
+                <article className="failed">
+                  <span>五年滾動 · 個別產業通過</span>
+                  <strong>{sectorCapitalEfficiency.individual_pass_count_by_gate.rolling_wins_60pct_and_positive_median} / 9</strong>
+                  <p>完整期 9/9 勝出，換起訖點後卻沒有一組穩定達標</p>
+                </article>
+                <article className="failed">
+                  <span>最大回撤 · v22 / 同資產不槓桿</span>
+                  <strong>{pct(sectorPooled.strategy_metrics.max_drawdown, 1)} / {pct(sectorPooled.unlevered_same_assets_metrics.max_drawdown, 1)}</strong>
+                  <p>多出的完整期 CAGR，代價是可能經歷約一半資產縮水</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{sectorCapitalEfficiency.economic_passed_gate_count}/{sectorCapitalEfficiency.economic_required_gate_count} · {sectorCapitalEfficiency.data_passed_gate_count}/{sectorCapitalEfficiency.data_required_gate_count} · {sectorCapitalEfficiency.statistical_passed_gate_count}/{sectorCapitalEfficiency.statistical_required_gate_count}</strong>
+                  <p>NW t {sectorCapitalEfficiency.statistics.newey_west_t.toFixed(2)}；6,124 次搜尋後 DSR {pct(sectorCapitalEfficiency.statistics.global_deflated_sharpe_probability, 2)}</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：單一起訖點跑贏，不等於可以穩健跑贏 ETF</b>
+                <p>v22 是目前最接近需求的固定結構之一，但它在不同五年起點沒有維持優勢，統計也未確認。系統因此沒有 v22 帳戶、沒有今日委託，且不顯示 SSO／IEF／GLD 的 50/25/25 作為配置。2019 後部分產業指數定義改變，也不硬拼成「獨立 20 年」。</p>
+              </div>
+            </div>
+
             <div className="industry-tilt-audit v13-audit">
               <div className="cross-market-head">
                 <div><span>2006–2026 · v13 規則先鎖定、再下載新 ETF</span><h3>已知年代看起來進步，真正的新資料答應了嗎？</h3></div>
@@ -1135,6 +1181,7 @@ export default function Home() {
             <details><summary>v18 在六個美國市場都改善，為什麼海外失敗更重要？<span>＋</span></summary><p>因為 50/25/25 正是在那六個美國市場中選出，漂亮結果可能含有選擇偏誤。規則鎖定後的海外日線顯示：已開發市場五年勝率只有 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}，新興市場只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}，而且兩組回撤都更深。外部 18 道只過 {equalDiversifier.economic_passed_gate_count} 道，所以不調比例、不開 Paper。</p></details>
             <details><summary>v20 會挑較強的分散器，為什麼仍輸固定配置？<span>＋</span></summary><p>相對強弱是落後指標，快速反轉時可能在較晚的位置換進；而且股票曝險始終約 100%，沒有崩跌退場。結果 11 個市場的輪替 CAGR 全部低於固定 v18，三組新外部經濟門檻只過 {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}，中國大型股更是 0/14，所以不能把「會輪替」直接等同於更穩健。</p></details>
             <details><summary>v21 已在退場與滿倉之間折衷，為什麼還是失敗？<span>＋</span></summary><p>折衷只是合理假說，不是成功證據。中型股版本年化 {pct(hybridMidcap.strategy_metrics.cagr, 2)}，低於 IJH 的 {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}；小型股版本年化 {pct(hybridRussell.strategy_metrics.cagr, 2)}，低於 IWM 的 {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}，兩組回撤也更深。新外部 32 道只過 {hybridLeverageCore.external_economic_passed_gate_count} 道，因此不能只挑 Nasdaq 的 15/16 宣稱泛化。</p></details>
+            <details><summary>v22 九個產業完整期都跑贏，為什麼還不開 Paper？<span>＋</span></summary><p>因為「換一個起訖點還能不能贏」才是穩定性的核心。九個產業的完整期 CAGR 都高至少 0.25%，但 1,260 日滾動勝率沒有一組達到事前 60%，九產業等權也只有 {pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}。再加上約 {pct(sectorPooled.strategy_metrics.max_drawdown, 0)} 的歷史回撤與 0/3 統計門檻，系統依凍結規則拒絕建立帳戶。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>
