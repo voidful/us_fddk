@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T21:00:11.362131Z",
+  "generated_at_utc": "2026-08-02T21:50:24.032936Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v23 50% SSO／50% KMLM 的 20 年代理把最大回撤由 -50.8% 改善到 -41.5%，但 CAGR 只領先 0.04%；長期 6/10、KMLM 7/10、FMF 2/7，不建 Paper、不顯示 50/50。",
     "v22 九產業完整期 CAGR 全數勝普通 ETF，但五年滾動有效勝率沒有一組達 60%，等權也只有 51.2%；經濟入口 13/15、統計 0/3，不建 Paper、不顯示 50/25/25。",
     "v21 永久保留 60% 核心，確認上升時約 120% 股票名目曝險、確認轉弱時約 60%。三組大型股 2 倍實作有 20 年已見診斷，新中小型股 3 倍外部期為 15 年；完整經濟門檻 53/128，新外部 4/32。MidCap CAGR 8.61% / IJH 11.31%，Russell 2000 7.84% / IWM 10.51%；不建 Paper。",
     "v20 固定 50% 實際 2 倍股票 ETF，再從 IEF／GLD／SHY 依 12–1 月相對強度選兩檔。資料與時序完整，但 11 市場經濟門檻 45/154，新外部 7/42；日本 CAGR 8.08% / EWJ 8.66%，中國大型股 1.33% / FXI 2.23%，巴西 6.19% / EWZ 6.25%。輪替未勝固定 v18，不建 Paper。",
@@ -6583,6 +6584,176 @@
         "probabilistic_sharpe_probability": 0.7605449371519866,
         "global_deflated_sharpe_probability": 0.001218779964604011,
         "global_search_trials": 6124
+      }
+    },
+    "managed_futures_capital_efficiency": {
+      "name": "v23 50% SSO／50% KMLM",
+      "status": "managed_futures_capital_efficiency_validation_failed",
+      "paper_eligible": false,
+      "trade_ready": false,
+      "signal_display_allowed": false,
+      "long_passed_gate_count": 6,
+      "long_required_gate_count": 10,
+      "kmlm_bridge_passed_gate_count": 7,
+      "kmlm_bridge_required_gate_count": 10,
+      "fmf_passed_gate_count": 2,
+      "fmf_required_gate_count": 7,
+      "fmf_required_pass_count": 5,
+      "data_passed_gate_count": 7,
+      "data_required_gate_count": 7,
+      "global_search_trials": 6130,
+      "protocol_sha256": "083583b5b9b35a3384ff72cde50e9d0aa6aa3a8986df48a88564cce0df62ae25",
+      "evidence_classification": "seen_long_history_design_data_plus_post_freeze_product_paths_not_fully_blind",
+      "long_horizon": {
+        "period": {
+          "start_equity_date": "2006-06-30",
+          "first_return_month_end": "2006-07-31",
+          "end": "2026-06-30",
+          "months": 240
+        },
+        "strategy_metrics": {
+          "cagr": 0.11314236485233042,
+          "sharpe": 0.8133502321035805,
+          "max_drawdown": -0.4151110035327169,
+          "volatility": 0.14457275845026699,
+          "turnover": 0.5506934459404899
+        },
+        "spy_metrics": {
+          "cagr": 0.11270322852751491,
+          "sharpe": 0.7771657106537971,
+          "max_drawdown": -0.5078480021509916,
+          "volatility": 0.1525019654646286,
+          "turnover": 0.049998973305954826
+        },
+        "fixed_halves_vs_spy": {
+          "first": {
+            "cagr_difference": 0.016767409086405394
+          },
+          "second": {
+            "cagr_difference": -0.016862832175853715
+          }
+        },
+        "rolling_five_year_vs_spy": {
+          "windows": 181,
+          "cagr_win_fraction": 0.580110497237569,
+          "median_cagr_difference": 0.0051926136769842035,
+          "worst_cagr_difference": -0.04724017922080126
+        },
+        "economic_gates": {
+          "cagr_beats_SPY_25bp": false,
+          "sharpe_beats_SPY": true,
+          "drawdown_not_worse_than_SPY": true,
+          "calmar_beats_SPY": true,
+          "50bps_cagr_beats_SPY_10bp": false,
+          "both_fixed_decades_cagr_beat_SPY_10bp": false,
+          "rolling_5y_wins_60pct_and_median_10bp": false,
+          "cagr_beats_same_notional_SHY_control_10bp": true,
+          "drawdown_not_worse_than_same_notional_SHY_control": true,
+          "cagr_beats_unlevered_same_assets_10bp": true
+        },
+        "cost_50bps_cagr_difference": -0.0017881655970222177
+      },
+      "kmlm_actual_bridge": {
+        "period": {
+          "start_equity_date": "2020-12-31",
+          "first_return_month_end": "2021-01-29",
+          "end": "2026-07-31",
+          "months": 67
+        },
+        "strategy_metrics": {
+          "cagr": 0.15334368577969504,
+          "sharpe": 1.056750683824045,
+          "max_drawdown": -0.12501804674287598,
+          "volatility": 0.14315608684618875,
+          "turnover": 0.6862223754982113
+        },
+        "spy_metrics": {
+          "cagr": 0.14700691667758092,
+          "sharpe": 0.9715796304547386,
+          "max_drawdown": -0.23927177204237537,
+          "volatility": 0.15140086568224576,
+          "turnover": 0.17921614327772326
+        },
+        "fixed_halves_vs_spy": {
+          "first": {
+            "cagr_difference": 0.056354675537849674
+          },
+          "second": {
+            "cagr_difference": -0.04715217056350318
+          }
+        },
+        "rolling_five_year_vs_spy": {
+          "windows": 8,
+          "cagr_win_fraction": 0.0,
+          "median_cagr_difference": -0.0044704158930690685,
+          "worst_cagr_difference": -0.009502463042087461
+        },
+        "entry_gates": {
+          "actual_months_ohlc_and_unique_dates_pass": true,
+          "index_fund_monthly_correlation_at_least_097": true,
+          "tracking_gap_0_to_2pct_and_monthly_deviation_at_most_8pct": false,
+          "actual_candidate_cagr_beats_SPY_10bp": true,
+          "actual_candidate_sharpe_beats_SPY": true,
+          "actual_candidate_drawdown_not_worse_than_SPY": true,
+          "actual_candidate_calmar_beats_SPY": true,
+          "actual_50bps_cagr_not_below_SPY": true,
+          "actual_both_halves_cagr_not_below_SPY": false,
+          "actual_rolling_5y_wins_60pct_and_positive_median": false
+        },
+        "tracking": {
+          "monthly_return_correlation": 0.978444725457356,
+          "annualized_geometric_tracking_gap": 0.02859411269040124
+        }
+      },
+      "fmf_cross_manager": {
+        "period": {
+          "start_equity_date": "2013-08-30",
+          "first_return_month_end": "2013-09-30",
+          "end": "2026-07-31",
+          "months": 155
+        },
+        "strategy_metrics": {
+          "cagr": 0.1325412147687084,
+          "sharpe": 0.8875910280484741,
+          "max_drawdown": -0.20738598744008907,
+          "volatility": 0.15323479892816386,
+          "turnover": 0.4724604021959782
+        },
+        "spy_metrics": {
+          "cagr": 0.14403122874171914,
+          "sharpe": 1.0054024695376396,
+          "max_drawdown": -0.2392717362837372,
+          "volatility": 0.14398009334824222,
+          "turnover": 0.0774146884272997
+        },
+        "fixed_halves_vs_spy": {
+          "first": {
+            "cagr_difference": -0.021201512570902636
+          },
+          "second": {
+            "cagr_difference": -0.0016228721976878635
+          }
+        },
+        "rolling_five_year_vs_spy": {
+          "windows": 96,
+          "cagr_win_fraction": 0.0,
+          "median_cagr_difference": -0.013840665353877957,
+          "worst_cagr_difference": -0.03580901696537442
+        },
+        "entry_gates": {
+          "cagr_beats_SPY_10bp": false,
+          "sharpe_beats_SPY": false,
+          "drawdown_not_worse_than_SPY": true,
+          "calmar_beats_SPY": true,
+          "50bps_cagr_not_below_SPY": false,
+          "both_halves_cagr_not_below_SPY": false,
+          "rolling_5y_wins_60pct_and_positive_median": false
+        }
+      },
+      "statistics": {
+        "newey_west_t": -0.06086417330581202,
+        "probabilistic_sharpe_probability": 0.47612273630242863,
+        "global_deflated_sharpe_probability": 7.258872924964521e-05
       }
     }
   },

@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20 年美國市場研究、九產業凍結驗證、公平基準、Paper 守門，以及新手可讀的風險判讀。",
+  description: "20 年美國市場研究、管理期貨產品橋接、公平基準、Paper 守門，以及新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -124,6 +124,10 @@ export default function Home() {
   const hybridRussell = hybridLeverageCore.datasets.russell2000_3x;
   const sectorCapitalEfficiency = data.research_pipeline.sector_capital_efficiency;
   const sectorPooled = sectorCapitalEfficiency.pooled;
+  const managedFutures = data.research_pipeline.managed_futures_capital_efficiency;
+  const managedLong = managedFutures.long_horizon;
+  const managedKmlm = managedFutures.kmlm_actual_bridge;
+  const managedFmf = managedFutures.fmf_cross_manager;
   return (
     <>
       <header className="topbar">
@@ -147,14 +151,14 @@ export default function Home() {
       <main id="top">
         <section className="hero wrap">
           <div className="hero-copy">
-            <p className="eyebrow">20 年凍結研究 · LIVE PAPER</p>
+            <p className="eyebrow">20 年凍結研究 · PAPER 嚴格守門</p>
             <div className="status-badge pending fresh-only"><span />資料有效 · {canShowReferenceAllocation ? (pending ? "等待成交" : invested ? "照規則持有中" : "維持現金") : "實金訊號關閉"}</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
             <h1 className="fresh-only">今天不下單。<br />超額報酬尚未證實。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
               {!canShowReferenceAllocation
-                ? <>v2 在 20 年回測勝過 SPY，但對相近成長曝險的被動 90% QQQ／10% SHY，後十年、滾動一致性與成本壓力都沒有通過。配置只供 Paper 驗證，不是實金下單指令。</>
+                ? <>v2 在 20 年回測勝過 SPY，但對相近成長曝險的被動 90% QQQ／10% SHY，後十年、滾動一致性與成本壓力都沒有通過。最新 v23 股票＋管理期貨也只改善回撤，未穩健跑贏 SPY。配置只供 Paper 驗證，不是實金下單指令。</>
                 : pending
                 ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
                 : invested
@@ -681,6 +685,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div id="v23-research" className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2006–2026 / KMLM / FMF · v23 管理期貨</span><h3>回撤變淺了，為什麼仍不是可參考交易策略？</h3></div>
+                <strong>20 年 {managedFutures.long_passed_gate_count}/{managedFutures.long_required_gate_count} · KMLM {managedFutures.kmlm_bridge_passed_gate_count}/{managedFutures.kmlm_bridge_required_gate_count} · 不建立 Paper</strong>
+              </div>
+              <p>唯一候選每月固定 50% SSO／50% KMLM。半數每日 2 倍 S&amp;P 500 約保留完整股票名目曝險，另一半使用商品、貨幣與全球公債的多空趨勢。權重、20 年期間、成本、前後半與五年門檻先寫死，才下載 KMLM／FMF 日線並計算聯合路徑。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>20 年 CAGR · 候選 / SPY</span>
+                  <strong>{pct(managedLong.strategy_metrics.cagr, 2)} / {pct(managedLong.spy_metrics.cagr, 2)}</strong>
+                  <p>只多 {pct(managedLong.strategy_metrics.cagr - managedLong.spy_metrics.cagr, 2)}，未達事前要求的 0.25%</p>
+                </article>
+                <article className="passed">
+                  <span>20 年最大回撤 · 候選 / SPY</span>
+                  <strong>{pct(managedLong.strategy_metrics.max_drawdown, 1)} / {pct(managedLong.spy_metrics.max_drawdown, 1)}</strong>
+                  <p>風險路徑確實較平滑，但這一點不能取代超額報酬證據</p>
+                </article>
+                <article className="failed">
+                  <span>50 bps 成本 / 後十年差距</span>
+                  <strong>{pct(managedLong.cost_50bps_cagr_difference, 2)} / {pct(managedLong.fixed_halves_vs_spy.second.cagr_difference, 2)}</strong>
+                  <p>成本與時間切半都反轉成落後 SPY</p>
+                </article>
+                <article className="failed">
+                  <span>KMLM 實際產品 · 五年勝率</span>
+                  <strong>{pct(managedKmlm.rolling_five_year_vs_spy.cagr_win_fraction, 1)}</strong>
+                  <p>八個五年窗沒有一個以 10 bps 門檻勝出；追蹤差年化 {pct(managedKmlm.tracking.annualized_geometric_tracking_gap, 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>FMF 跨管理人 · 候選 / SPY 年化</span>
+                  <strong>{pct(managedFmf.strategy_metrics.cagr, 2)} / {pct(managedFmf.spy_metrics.cagr, 2)}</strong>
+                  <p>只過 {managedFutures.fmf_passed_gate_count}/{managedFutures.fmf_required_gate_count}，未達事前至少 {managedFutures.fmf_required_pass_count} 道</p>
+                </article>
+                <article className="failed">
+                  <span>搜尋懲罰後統計 / 資料</span>
+                  <strong>DSR {pct(managedFutures.statistics.global_deflated_sharpe_probability, 3)} · {managedFutures.data_passed_gate_count}/{managedFutures.data_required_gate_count}</strong>
+                  <p>資料完整通過；{managedFutures.global_search_trials.toLocaleString("zh-TW")} 次研究後，超額報酬仍未確認</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：降低回撤是有價值的發現，但不是「穩健跑贏」</b>
+                <p>20 年完整期只小幅領先，後十年、成本、滾動視窗與另一位管理人都沒有保留優勢。系統因此沒有 v23 帳戶、沒有委託，也不顯示 SSO／KMLM 的 50/50 作為今天配置。</p>
+              </div>
+            </div>
+
             <div id="v22-research" className="industry-tilt-audit v13-audit">
               <div className="cross-market-head">
                 <div><span>20 年美國設計 / 2007–2019 九產業新日線 · v22</span><h3>九個產業完整期都贏，為什麼仍不能拿來交易？</h3></div>
@@ -1182,6 +1230,7 @@ export default function Home() {
             <details><summary>v20 會挑較強的分散器，為什麼仍輸固定配置？<span>＋</span></summary><p>相對強弱是落後指標，快速反轉時可能在較晚的位置換進；而且股票曝險始終約 100%，沒有崩跌退場。結果 11 個市場的輪替 CAGR 全部低於固定 v18，三組新外部經濟門檻只過 {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}，中國大型股更是 0/14，所以不能把「會輪替」直接等同於更穩健。</p></details>
             <details><summary>v21 已在退場與滿倉之間折衷，為什麼還是失敗？<span>＋</span></summary><p>折衷只是合理假說，不是成功證據。中型股版本年化 {pct(hybridMidcap.strategy_metrics.cagr, 2)}，低於 IJH 的 {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}；小型股版本年化 {pct(hybridRussell.strategy_metrics.cagr, 2)}，低於 IWM 的 {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}，兩組回撤也更深。新外部 32 道只過 {hybridLeverageCore.external_economic_passed_gate_count} 道，因此不能只挑 Nasdaq 的 15/16 宣稱泛化。</p></details>
             <details><summary>v22 九個產業完整期都跑贏，為什麼還不開 Paper？<span>＋</span></summary><p>因為「換一個起訖點還能不能贏」才是穩定性的核心。九個產業的完整期 CAGR 都高至少 0.25%，但 1,260 日滾動勝率沒有一組達到事前 60%，九產業等權也只有 {pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}。再加上約 {pct(sectorPooled.strategy_metrics.max_drawdown, 0)} 的歷史回撤與 0/3 統計門檻，系統依凍結規則拒絕建立帳戶。</p></details>
+            <details><summary>v23 回撤改善很多，為什麼仍不能照 50/50 買？<span>＋</span></summary><p>因為 20 年 CAGR 只由 SPY 的 {pct(managedLong.spy_metrics.cagr, 2)} 提高到 {pct(managedLong.strategy_metrics.cagr, 2)}，未達事前 0.25% 門檻；50 bps 成本與後十年又轉為落後。KMLM 上市後八個五年窗沒有一個通過，FMF 跨管理人也只過 {managedFutures.fmf_passed_gate_count}/{managedFutures.fmf_required_gate_count}。回撤改善可作資產配置研究，但還不是經過多路徑確認的超額報酬。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

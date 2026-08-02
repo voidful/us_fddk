@@ -605,6 +605,37 @@ test("v22 sector validation fails the preregistered five-year consistency gate",
   assert.ok(payload.limitations.some((item) => /v22 九產業完整期 CAGR.*不建 Paper/.test(item)));
 });
 
+test("v23 managed futures improves drawdown but fails persistence and product bridges", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v23 = payload.research_pipeline.managed_futures_capital_efficiency;
+  assert.equal(v23.status, "managed_futures_capital_efficiency_validation_failed");
+  assert.equal(v23.paper_eligible, false);
+  assert.equal(v23.trade_ready, false);
+  assert.equal(v23.signal_display_allowed, false);
+  assert.equal(v23.long_passed_gate_count, 6);
+  assert.equal(v23.long_required_gate_count, 10);
+  assert.equal(v23.kmlm_bridge_passed_gate_count, 7);
+  assert.equal(v23.kmlm_bridge_required_gate_count, 10);
+  assert.equal(v23.fmf_passed_gate_count, 2);
+  assert.equal(v23.fmf_required_pass_count, 5);
+  assert.equal(v23.data_passed_gate_count, 7);
+  assert.equal(v23.data_required_gate_count, 7);
+  assert.equal(v23.long_horizon.period.months, 240);
+  assert.ok(v23.long_horizon.strategy_metrics.cagr > v23.long_horizon.spy_metrics.cagr);
+  assert.ok(
+    v23.long_horizon.strategy_metrics.max_drawdown >
+      v23.long_horizon.spy_metrics.max_drawdown,
+  );
+  assert.ok(v23.long_horizon.cost_50bps_cagr_difference < 0);
+  assert.ok(v23.long_horizon.fixed_halves_vs_spy.second.cagr_difference < 0);
+  assert.equal(v23.kmlm_actual_bridge.rolling_five_year_vs_spy.cagr_win_fraction, 0);
+  assert.ok(v23.kmlm_actual_bridge.tracking.annualized_geometric_tracking_gap > 0.02);
+  assert.ok(v23.fmf_cross_manager.strategy_metrics.cagr < v23.fmf_cross_manager.spy_metrics.cagr);
+  assert.ok(payload.limitations.some((item) => /v23 50% SSO.*不建 Paper/.test(item)));
+});
+
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /\.brand \{ min-height: 48px;/);
