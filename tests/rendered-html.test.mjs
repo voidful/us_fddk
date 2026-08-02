@@ -123,9 +123,11 @@ test("data contract fails closed when the exposure-control benchmark is not robu
   assert.equal(payload.paper.forward_evidence.live_confirmed, false);
   assert.equal(payload.paper.forward_evidence.remaining_sessions, 252);
   assert.equal(payload.paper.forward_evidence.remaining_filled_rebalances, 6);
-  assert.equal(payload.readiness.contract_version, 2);
+  assert.equal(payload.readiness.contract_version, 3);
   assert.equal(payload.readiness.trade_ready, false);
   assert.equal(payload.readiness.decision, "paper_only");
+  assert.equal(payload.readiness.ui_mode, "paper_only");
+  assert.equal(payload.readiness.allocation_visible, false);
   assert.equal(payload.readiness.passed_gate_count, 2);
   assert.equal(payload.readiness.required_gate_count, 11);
   assert.equal(payload.readiness.gates.fresh_integrity, true);

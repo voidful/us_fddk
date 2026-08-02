@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T18:45:13.595513Z",
+  "generated_at_utc": "2026-08-02T15:42:07.902665Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -2001,9 +2001,11 @@
     }
   },
   "readiness": {
-    "contract_version": 2,
+    "contract_version": 3,
     "trade_ready": false,
     "decision": "paper_only",
+    "ui_mode": "paper_only",
+    "allocation_visible": false,
     "passed_gate_count": 2,
     "required_gate_count": 11,
     "gates": {

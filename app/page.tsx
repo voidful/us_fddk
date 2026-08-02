@@ -77,8 +77,7 @@ export default function Home() {
   const invested = data.paper.status === "invested";
   const forward = data.paper.forward_evidence;
   const readiness = data.readiness;
-  const referenceCandidate = data.evidence.reference_trade_candidate;
-  const canShowReferenceAllocation = readiness.trade_ready && referenceCandidate;
+  const canShowReferenceAllocation = readiness.allocation_visible === true;
   const qqqWeight = data.strategy.current_target.QQQ;
   const shyWeight = data.strategy.current_target.SHY;
   const challenger = data.research_pipeline.challengers.v3;
