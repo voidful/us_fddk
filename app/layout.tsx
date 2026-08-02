@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     default: "成長守門員 v2｜Paper-only 美股 ETF 研究",
     template: "%s｜成長守門員",
   },
-  description: "20／18 年凍結回測、六市場 ETF 比較與 LIVE paper；v16、v17 風險門檻未通過，目前不提供實金訊號。",
+  description: "20／18／16 年凍結回測、六個美國與兩個海外市場比較；v16–v18 均未通過，目前不提供實金訊號。",
   openGraph: {
     title: "成長守門員 v2｜降回撤有效，不等於穩健超額",
-    description: "長期回測不等於可下單證據；v16、v17 均被風險與統計門檻否決，目前只做 LIVE paper。",
+    description: "長期回測不等於可下單證據；v18 的股債金結構也未通過海外風險與穩定性門檻，目前只做既有 LIVE paper。",
     locale: "zh_TW",
     type: "website",
     images: [{ url: "/og.png", width: 1731, height: 909, alt: "成長守門員 v2 Paper-only 風險管理研究" }],

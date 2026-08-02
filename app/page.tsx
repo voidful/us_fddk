@@ -111,6 +111,9 @@ export default function Home() {
   const capitalSp500 = capitalEfficient.datasets.sp500;
   const capitalNasdaq = capitalEfficient.datasets.nasdaq100;
   const capitalRussell = capitalEfficient.datasets.russell2000;
+  const equalDiversifier = data.research_pipeline.equal_diversifier;
+  const diversifierDeveloped = equalDiversifier.datasets.developed_ex_us;
+  const diversifierEmerging = equalDiversifier.datasets.emerging_markets;
   return (
     <>
       <header className="topbar">
@@ -533,6 +536,50 @@ export default function Home() {
               <div className="research-target-warning">
                 <b>最新歷史狀態不是今天的下單訊號</b>
                 <p>最後完整月末判斷為 {Object.entries(hierarchicalDefense.main.current_policy_allocation).filter(([, weight]) => weight > 0).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；241 個月末中 growth／core／defense 分別為 {hierarchicalDefense.main.signals.state_month_counts.growth}／{hierarchicalDefense.main.signals.state_month_counts.core}／{hierarchicalDefense.main.signals.state_month_counts.defense} 個月。因 Paper 入口只過 {hierarchicalDefense.paper_entry_passed_gate_count}/{hierarchicalDefense.paper_entry_required_gate_count}，網站不提供金額試算，`paper update --strategy v12` 也會讀收據後拒絕建帳戶。</p>
+              </div>
+            </div>
+
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2010–2026 · v18 規則先凍結、再下載 EFO／EET 日線</span><h3>六個美國市場都好看，海外還能重現嗎？</h3></div>
+                <strong>{equalDiversifier.economic_passed_gate_count} / {equalDiversifier.economic_required_gate_count} 道外部經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v18 把股票名目曝險降回約 100%，再各放 25% IEF 與 GLD，試圖同時處理偏通縮與偏通膨的風險。50/25/25 是在六個已見美國市場、七個固定候選中選定；之後先鎖死海外區間、成本、半期與五年門檻，才下載 EFO/EET 的每日路徑。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>已開發市場 · 策略 / EFA 年化</span>
+                  <strong>{pct(diversifierDeveloped.strategy_metrics.cagr, 2)} / {pct(diversifierDeveloped.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>只略高，但 Sharpe {diversifierDeveloped.strategy_metrics.sharpe.toFixed(2)} 低於 {diversifierDeveloped.benchmark_metrics.core.sharpe.toFixed(2)}</p>
+                </article>
+                <article className="failed">
+                  <span>已開發市場 · 策略 / EFA 回撤</span>
+                  <strong>{pct(diversifierDeveloped.strategy_metrics.max_drawdown, 1)} / {pct(diversifierDeveloped.benchmark_metrics.core.max_drawdown, 1)}</strong>
+                  <p>前半期年化差 {pct(diversifierDeveloped.fixed_halves_vs_core.first.cagr_difference, 2)}；五年勝率 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>新興市場 · 策略 / EEM 年化</span>
+                  <strong>{pct(diversifierEmerging.strategy_metrics.cagr, 2)} / {pct(diversifierEmerging.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>同資產不槓桿反而有 {pct(diversifierEmerging.benchmark_metrics.unlevered_same_assets.cagr, 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>新興市場 · 策略 / EEM 回撤</span>
+                  <strong>{pct(diversifierEmerging.strategy_metrics.max_drawdown, 1)} / {pct(diversifierEmerging.benchmark_metrics.core.max_drawdown, 1)}</strong>
+                  <p>五年滾動勝率只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>正式期間 · 美國設計 / 海外驗證</span>
+                  <strong>20 年 / {equalDiversifier.external_years} 年</strong>
+                  <p>EFO/EET 2009 年才成立，不用合成資料補成海外 20 年</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{equalDiversifier.economic_passed_gate_count}/{equalDiversifier.economic_required_gate_count} · {equalDiversifier.data_passed_gate_count}/{equalDiversifier.data_required_gate_count} · {equalDiversifier.statistical_passed_gate_count}/{equalDiversifier.statistical_required_gate_count}</strong>
+                  <p>資料完整，但風險、跨時期與統計證據沒有通過</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：美國回測成功，不代表規則能泛化</b>
+                <p>官方成立日與摘要績效在凍結前已看過，所以這只能稱日線路徑與組合未見的半獨立驗證；即使如此，結果仍直接否決候選。系統沒有 v18 帳戶、沒有委託，也不顯示 SSO／IEF／GLD 的 50/25/25 當成今天配置。</p>
               </div>
             </div>
 
@@ -989,6 +1036,7 @@ export default function Home() {
             <details><summary>v15 三市場年化都贏 ETF，為什麼還是不能 Paper？<span>＋</span></summary><p>因為額外報酬是用額外風險換來的：S&amp;P 500、Nasdaq-100、Dow 30 的最大回撤全部比原始 ETF 深，Sharpe 也都沒有嚴格勝出。更公平的固定 90/10 對照顯示，S&amp;P 500 與 Dow 版本還犧牲了報酬。事前 36 道只過 {modestLeverageOverlay.economic_passed_gate_count} 道、統計只過 {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}；不能把「多加槓桿」包裝成穩健 alpha。</p></details>
             <details><summary>v16 已降低回撤，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為它同時大幅犧牲長期複利。三個市場年化只剩約 2.8%–5.6%，全都低於原始 ETF，也低於不槓桿的相同趨勢控制；48 道只過 {trendVolatilityBrake.economic_passed_gate_count} 道。降低回撤是好現象，但不能掩蓋踏空與頻繁調整造成的報酬損失。</p></details>
             <details><summary>v17 六市場 CAGR 多數較高，為什麼仍不算跑贏？<span>＋</span></summary><p>因為六組最大回撤全部比原始 ETF 更深，Sharpe 與 Calmar 多數也更差。總名目曝險約 160%，本來就可能在多頭市場放大 CAGR；只有同時跨過風險、成本、前後半、五年滾動與三個公平基準，才算穩健。84 道只過 {capitalEfficient.economic_passed_gate_count} 道，因此不建立 Paper。</p></details>
+            <details><summary>v18 在六個美國市場都改善，為什麼海外失敗更重要？<span>＋</span></summary><p>因為 50/25/25 正是在那六個美國市場中選出，漂亮結果可能含有選擇偏誤。規則鎖定後的海外日線顯示：已開發市場五年勝率只有 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}，新興市場只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}，而且兩組回撤都更深。外部 18 道只過 {equalDiversifier.economic_passed_gate_count} 道，所以不調比例、不開 Paper。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

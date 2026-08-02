@@ -109,6 +109,10 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /年化比較高，為什麼仍不是穩健策略/);
   assert.match(html, /更高 CAGR 不是免費午餐/);
   assert.match(html, /v17 六市場 CAGR 多數較高，為什麼仍不算跑贏/);
+  assert.match(html, /2010–2026 · v18 規則先凍結、再下載 EFO／EET 日線/);
+  assert.match(html, /六個美國市場都好看，海外還能重現嗎/);
+  assert.match(html, /美國回測成功，不代表規則能泛化/);
+  assert.match(html, /v18 在六個美國市場都改善，為什麼海外失敗更重要/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -475,6 +479,27 @@ test("v17 preserves twenty years where available but rejects deeper drawdowns", 
     assert.ok(data.strategy_metrics.max_drawdown < data.benchmark_metrics.core.max_drawdown);
   }
   assert.ok(payload.limitations.some((item) => /v17 每月固定.*不建 Paper/.test(item)));
+});
+
+test("v18 external paths reject the US-selected stock bond gold structure", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v18 = payload.research_pipeline.equal_diversifier;
+  assert.equal(v18.status, "equal_diversifier_external_validation_failed");
+  assert.equal(v18.paper_eligible, false);
+  assert.equal(v18.economic_passed_gate_count, 5);
+  assert.equal(v18.economic_required_gate_count, 18);
+  assert.equal(v18.data_passed_gate_count, 3);
+  assert.equal(v18.data_required_gate_count, 3);
+  assert.equal(v18.statistical_passed_gate_count, 0);
+  assert.equal(v18.statistical_required_gate_count, 12);
+  assert.equal(v18.external_years, 16);
+  assert.equal(v18.evidence_classification, "semi_independent_external_validation_not_fully_blind");
+  for (const data of Object.values(v18.datasets)) {
+    assert.ok(data.strategy_metrics.max_drawdown < data.benchmark_metrics.core.max_drawdown);
+  }
+  assert.ok(payload.limitations.some((item) => /v18 在六個已見美國市場.*不建 Paper/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
