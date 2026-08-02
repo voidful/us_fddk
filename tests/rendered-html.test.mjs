@@ -636,6 +636,42 @@ test("v23 managed futures improves drawdown but fails persistence and product br
   assert.ok(payload.limitations.some((item) => /v23 50% SSO.*不建 Paper/.test(item)));
 });
 
+test("v24 separates academic factor success from failed investable ETF bridges", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v24 = payload.research_pipeline.quality_momentum_factor;
+  assert.equal(v24.status, "quality_momentum_factor_validation_failed");
+  assert.equal(v24.paper_eligible, false);
+  assert.equal(v24.trade_ready, false);
+  assert.equal(v24.signal_display_allowed, false);
+  assert.equal(v24.academic_passed_gate_count, 10);
+  assert.equal(v24.academic_required_gate_count, 10);
+  assert.equal(v24.ishares_passed_gate_count, 5);
+  assert.equal(v24.ishares_required_gate_count, 10);
+  assert.equal(v24.invesco_passed_gate_count, 0);
+  assert.equal(v24.invesco_required_gate_count, 7);
+  assert.equal(v24.data_passed_gate_count, 8);
+  assert.equal(v24.data_required_gate_count, 8);
+  assert.equal(v24.academic_formal_20y.period.months, 240);
+  assert.ok(
+    v24.academic_formal_20y.strategy_metrics.cagr >
+      v24.academic_formal_20y.market_metrics.cagr,
+  );
+  assert.ok(
+    v24.academic_formal_20y.strategy_metrics.max_drawdown >
+      v24.academic_formal_20y.market_metrics.max_drawdown,
+  );
+  assert.ok(v24.academic_formal_20y.rolling_five_year_vs_market.cagr_win_fraction > 0.60);
+  assert.ok(v24.ishares_actual.fixed_halves_vs_market.second.cagr_difference < 0);
+  assert.ok(v24.ishares_actual.rolling_five_year_vs_market.cagr_win_fraction < 0.50);
+  assert.ok(
+    v24.invesco_cross_manager.strategy_metrics.cagr <
+      v24.invesco_cross_manager.market_metrics.cagr,
+  );
+  assert.ok(payload.limitations.some((item) => /v24 學術品質＋動能.*不建 Paper/.test(item)));
+});
+
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /\.brand \{ min-height: 48px;/);
