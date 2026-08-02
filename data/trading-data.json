@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T23:44:47.370691Z",
+  "generated_at_utc": "2026-08-02T23:52:57.540250Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -7880,6 +7880,151 @@
                 "start": "2021-07-30",
                 "end": "2026-07-31",
                 "cagr_difference": 0.03308699147904259
+              }
+            }
+          },
+          "paired_moving_block_bootstrap": {
+            "used_for_frozen_entry_gate": false,
+            "method": "paired circular moving-block bootstrap of monthly returns",
+            "trials_per_block_length": 10000,
+            "block_months": [
+              6,
+              12,
+              24
+            ],
+            "selection_bias_or_future_proof": false,
+            "benchmarks": {
+              "SPY": {
+                "6": {
+                  "block_months": 6,
+                  "trials": 10000,
+                  "seed": 25006,
+                  "probability_cagr_above": 0.8489,
+                  "probability_cagr_edge_at_least_10bp": 0.8331,
+                  "probability_drawdown_not_worse": 0.8613,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.7549,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.00863709777215037,
+                    "p50": 0.016323916409431094,
+                    "p95": 0.042637043001447494
+                  }
+                },
+                "12": {
+                  "block_months": 12,
+                  "trials": 10000,
+                  "seed": 25012,
+                  "probability_cagr_above": 0.847,
+                  "probability_cagr_edge_at_least_10bp": 0.8335,
+                  "probability_drawdown_not_worse": 0.8288,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.7368,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.01051739804845798,
+                    "p50": 0.01652149395735003,
+                    "p95": 0.043679958154706586
+                  }
+                },
+                "24": {
+                  "block_months": 24,
+                  "trials": 10000,
+                  "seed": 25024,
+                  "probability_cagr_above": 0.8397,
+                  "probability_cagr_edge_at_least_10bp": 0.8261,
+                  "probability_drawdown_not_worse": 0.792,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.7137,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.010454855619325597,
+                    "p50": 0.016916670133605205,
+                    "p95": 0.04434161443502593
+                  }
+                }
+              },
+              "growth": {
+                "6": {
+                  "block_months": 6,
+                  "trials": 10000,
+                  "seed": 25106,
+                  "probability_cagr_above": 0.3667,
+                  "probability_cagr_edge_at_least_10bp": 0.3366,
+                  "probability_drawdown_not_worse": 0.9985,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.3663,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.023608286661038713,
+                    "p50": -0.0038928025612301465,
+                    "p95": 0.015495807944742267
+                  }
+                },
+                "12": {
+                  "block_months": 12,
+                  "trials": 10000,
+                  "seed": 25112,
+                  "probability_cagr_above": 0.372,
+                  "probability_cagr_edge_at_least_10bp": 0.3385,
+                  "probability_drawdown_not_worse": 0.9995,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.372,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.022972061304082646,
+                    "p50": -0.003662002662349728,
+                    "p95": 0.014819241077402212
+                  }
+                },
+                "24": {
+                  "block_months": 24,
+                  "trials": 10000,
+                  "seed": 25124,
+                  "probability_cagr_above": 0.3733,
+                  "probability_cagr_edge_at_least_10bp": 0.3416,
+                  "probability_drawdown_not_worse": 0.9999,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.3733,
+                  "cagr_difference_percentiles": {
+                    "p05": -0.023300753977929665,
+                    "p50": -0.00384675367611631,
+                    "p95": 0.01598673731438227
+                  }
+                }
+              },
+              "matched": {
+                "6": {
+                  "block_months": 6,
+                  "trials": 10000,
+                  "seed": 25206,
+                  "probability_cagr_above": 0.9881,
+                  "probability_cagr_edge_at_least_10bp": 0.9833,
+                  "probability_drawdown_not_worse": 0.5258,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.5227,
+                  "cagr_difference_percentiles": {
+                    "p05": 0.004621313032964147,
+                    "p50": 0.017428421948388118,
+                    "p95": 0.030592684795928284
+                  }
+                },
+                "12": {
+                  "block_months": 12,
+                  "trials": 10000,
+                  "seed": 25212,
+                  "probability_cagr_above": 0.987,
+                  "probability_cagr_edge_at_least_10bp": 0.9828,
+                  "probability_drawdown_not_worse": 0.6058,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.6006,
+                  "cagr_difference_percentiles": {
+                    "p05": 0.004800469363707149,
+                    "p50": 0.017558875742901048,
+                    "p95": 0.031130003775527316
+                  }
+                },
+                "24": {
+                  "block_months": 24,
+                  "trials": 10000,
+                  "seed": 25224,
+                  "probability_cagr_above": 0.9843,
+                  "probability_cagr_edge_at_least_10bp": 0.979,
+                  "probability_drawdown_not_worse": 0.67,
+                  "probability_cagr_above_and_drawdown_not_worse": 0.663,
+                  "cagr_difference_percentiles": {
+                    "p05": 0.004218837909751527,
+                    "p50": 0.01765257469420256,
+                    "p95": 0.03181466278171482
+                  }
+                }
               }
             }
           }

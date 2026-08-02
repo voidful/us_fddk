@@ -147,6 +147,7 @@ export default function Home() {
   const growthGoldRelativeSpy = growthGoldDiagnostics.relative_wealth_underwater.SPY;
   const growthGoldRelativeGrowth = growthGoldDiagnostics.relative_wealth_underwater.growth;
   const growthGoldWorstSpyWindow = growthGoldDiagnostics.rolling_five_year_entry_timing_risk.SPY.worst_window;
+  const growthGoldBootstrapSpy = growthGoldDiagnostics.paired_moving_block_bootstrap.benchmarks.SPY["12"];
   const growthGoldIntegrity = [
     "all_accounts_live_and_same_start",
     "all_accounts_same_as_of",
@@ -313,6 +314,7 @@ export default function Home() {
               <article><span>自己最久低於先前高點</span><strong>{growthGoldUnderwater.max_underwater_months} 個月</strong><p>{growthGoldUnderwater.longest_episode.peak.slice(0, 7)} 高點後下跌，至 {growthGoldUnderwater.longest_episode.recovery?.slice(0, 7) ?? "期末仍未復原"} 才回到先前高點。</p></article>
               <article className="caution"><span>相對純成長的等待</span><strong>{growthGoldRelativeGrowth.max_underwater_months} 個月</strong><p>相對財富期末仍比先前高點低 {pct(Math.abs(growthGoldRelativeGrowth.current_drawdown), 1)}；這不代表每月都輸，而是可能多年懷疑策略。</p></article>
               <article><span>相對 SPY 的等待</span><strong>{growthGoldRelativeSpy.max_underwater_months} 個月</strong><p>全期最後雖勝 SPY，累積相對財富仍曾長達約 14 年未回到先前相對高點。</p></article>
+              <article className="caution"><span>12 月區塊重抽樣</span><strong>{pct(growthGoldBootstrapSpy.probability_cagr_above_and_drawdown_not_worse, 1)}</strong><p>報酬與回撤同時不差於 SPY 的樣本比例；較差 5% 情境的年化差為 {pct(growthGoldBootstrapSpy.cagr_difference_percentiles.p05, 2)}。這不是未來勝率。</p></article>
             </div>
           </div>
           <PaperAllocationLab paperOnly={!growthGoldReady} />
