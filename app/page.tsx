@@ -139,6 +139,15 @@ export default function Home() {
   const growthGoldPaper = growthGold.paper;
   const growthGoldForward = growthGoldPaper.forward_evidence;
   const growthGoldPending = growthGoldPaper.pending_order !== null;
+  const growthGoldReady = growthGold.real_money_signal_display_allowed === true;
+  const growthGoldIntegrity = [
+    "all_accounts_live_and_same_start",
+    "all_accounts_same_as_of",
+    "all_accounts_same_snapshot",
+    "all_accounts_same_cost_and_cash",
+    "all_accounts_same_session_path",
+    "zero_integrity_violations",
+  ].every((gate) => growthGoldForward.gates[gate as keyof typeof growthGoldForward.gates] === true);
   return (
     <>
       <header className="topbar">
@@ -163,12 +172,14 @@ export default function Home() {
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · PAPER 嚴格守門</p>
-            <div className="status-badge pending fresh-only"><span />v25 歷史入口通過 · 實金訊號關閉</div>
+            <div className={`status-badge fresh-only ${growthGoldReady ? "active" : "pending"}`}><span />{growthGoldReady ? "v25 前瞻門檻通過 · 可顯示參考配置" : "v25 歷史入口通過 · 實金訊號關閉"}</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
-            <h1 className="fresh-only">今天不下單。<br />v25 先做 Paper。</h1>
+            <h1 className="fresh-only">{growthGoldReady ? <>前瞻驗證通過。<br />按 80/20 規則參考。</> : <>今天不下單。<br />v25 先做 Paper。</>}</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
-              {!canShowReferenceAllocation
+              {growthGoldReady
+                ? <>v25 已完成事前規定的 252 個新增交易日與 6 次再平衡，並同時勝過 SPY 與相同股票曝險的 SHY 基準。這時才顯示 80% VUG／20% GLD 參考配置，仍需自行評估風險與稅務。</>
+                : !canShowReferenceAllocation
                 ? <>最新 v25 固定 80% 大型成長股／20% 黃金，在 Vanguard、iShares、State Street 三條實際 20 年路徑都通過 12/12，彙總 10/10；但 LIVE Paper 才剛建立、尚無成交。歷史資格通過不等於今天可以實金照買。</>
                 : pending
                 ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
@@ -236,19 +247,19 @@ export default function Home() {
         <section className="readiness-section wrap" id="v25-paper" aria-labelledby="v25-paper-title">
           <div className="readiness-head">
             <div>
-              <p className="eyebrow">FIRST HISTORICAL QUALIFIER · PAPER ONLY</p>
+              <p className="eyebrow">FIRST HISTORICAL QUALIFIER · {growthGoldReady ? "FORWARD CONFIRMED" : "PAPER ONLY"}</p>
               <h2 id="v25-paper-title">第一個跨三家產品通過的候選，<br />先從同一天現金起跑。</h2>
             </div>
-            <div className="readiness-verdict blocked">
+            <div className={`readiness-verdict ${growthGoldReady ? "ready" : "blocked"}`}>
               <span>{growthGoldPending ? "等待下一交易日模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "Paper 維持現金"}</span>
               <strong>{growthGoldForward.forward_sessions} / {growthGoldForward.minimum_sessions}</strong>
-              <small>前瞻交易日；實金仍關閉</small>
+              <small>{growthGoldReady ? "前瞻門檻通過；開放參考配置" : "前瞻交易日；實金仍關閉"}</small>
             </div>
           </div>
           <div className="gate-layout">
             <article className="signal-card">
               <div className="signal-card-head">
-                <div><p>v25 PAPER 目標，不是實金指令</p><h3>{growthGoldPending ? "排隊等待模擬成交" : "按月末規則觀察"}</h3></div>
+                <div><p>{growthGoldReady ? "v25 參考配置" : "v25 PAPER 目標，不是實金指令"}</p><h3>{growthGoldPending ? "排隊等待模擬成交" : "按月末規則觀察"}</h3></div>
                 <span className="clock" aria-hidden="true">P</span>
               </div>
               <div className="donut-row">
@@ -256,7 +267,7 @@ export default function Home() {
                   className="donut"
                   style={{ background: "conic-gradient(var(--forest) 0 80%, var(--gold) 80% 100%)" }}
                   role="img"
-                  aria-label="v25 Paper 目標：VUG 80%，GLD 20%"
+                  aria-label={`v25 ${growthGoldReady ? "參考" : "Paper"}目標：VUG 80%，GLD 20%`}
                 >
                   <div><strong>80%</strong><span>VUG</span></div>
                 </div>
@@ -267,7 +278,7 @@ export default function Home() {
               </div>
               <div className="next-step">
                 <span>新手現在該做什麼</span>
-                <p>不要手動追價。這筆 Paper 委託只會在 {growthGoldPaper.started_at} 之後第一個新增交易日開盤模擬成交；真實資金動作仍是 0。</p>
+                <p>{growthGoldReady ? "依固定月末規則檢查 80/20；不要因盤中漲跌、新聞或情緒追價改權重。" : <>不要手動追價。這筆 Paper 委託只會在 {growthGoldPaper.started_at} 之後第一個新增交易日開盤模擬成交；真實資金動作仍是 0。</>}</p>
               </div>
             </article>
             <div className="readiness-grid">
@@ -277,7 +288,13 @@ export default function Home() {
               <article><span>04 · 尚未證明</span><strong>NW t {growthGoldPooled.statistics_vs_spy.newey_west_t.toFixed(2)}</strong><p>相對 SPY 仍低於 1.96；最差五年曾落後 {pct(Math.abs(growthGoldPooled.rolling_five_year_vs_spy.worst_cagr_difference), 2)}。</p></article>
             </div>
           </div>
-          <p className="readiness-note"><b>升級規則：</b>還缺 {growthGoldForward.remaining_sessions} 個真正新增交易日與 {growthGoldForward.remaining_filled_rebalances} 次完成再平衡；同起點 SPY 與 80% VUG／20% SHY Paper 會一起比較。任何一項失敗都繼續 Paper-only。</p>
+          <div className="v25-live-health" aria-label="v25 每日更新健康狀態">
+            <article><span>行情資料截止</span><strong>{data.data_through}</strong><small>下一個應有交易日 {data.freshness.next_expected_session}</small></article>
+            <article><span>三帳戶一致性</span><strong>{growthGoldIntegrity ? "同步通過" : "停止發布"}</strong><small>日期、快照、成本與交易日序列全部核對</small></article>
+            <article><span>目前狀態</span><strong>{growthGoldPending ? "等待模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "維持現金"}</strong><small>{growthGoldPaper.transactions} 筆成交 · {money(growthGoldPaper.equity)}</small></article>
+            <article><span>更新期限</span><strong>{data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</strong><small>超過期限，頁面會自動隱藏舊訊號</small></article>
+          </div>
+          <p className="readiness-note"><b>{growthGoldReady ? "通過後紀律：" : "升級規則："}</b>{growthGoldReady ? "每次日更仍須維持三帳戶同步、資料未過期且前瞻優勢沒有失效；任一完整性門檻失敗就立即停止顯示參考配置。" : <>還缺 {growthGoldForward.remaining_sessions} 個真正新增交易日與 {growthGoldForward.remaining_filled_rebalances} 次完成再平衡；同起點 SPY 與 80% VUG／20% SHY Paper 會一起比較。任何一項失敗都繼續 Paper-only。</>}</p>
         </section>
 
         <section className="truth-strip" aria-label="證據狀態">

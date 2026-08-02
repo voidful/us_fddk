@@ -29,6 +29,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /VUG 大型成長股/);
   assert.match(html, /GLD 實物黃金/);
   assert.match(html, /真實資金動作仍是 0/);
+  assert.match(html, /三帳戶一致性/);
+  assert.match(html, /同步通過/);
+  assert.match(html, /更新期限/);
   assert.match(html, /不建立實金部位/);
   assert.match(html, /今日實金動作：0/);
   assert.match(html, /不顯示可照抄的 ETF 百分比或金額/);
@@ -712,6 +715,11 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.equal(v25.paper.forward_evidence.minimum_sessions, 252);
   assert.equal(v25.paper.forward_evidence.filled_rebalances, 0);
   assert.equal(v25.paper.forward_evidence.live_confirmed, false);
+  assert.equal(typeof v25.paper.snapshot_sha256, "string");
+  assert.equal(v25.paper.snapshot_sha256.length, 64);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_snapshot, true);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_cost_and_cash, true);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_session_path, true);
   assert.ok(payload.limitations.some((item) => /v25 三條實際 20 年.*只顯示 Paper 80\/20/.test(item)));
 });
 

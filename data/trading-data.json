@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T22:48:43.875939Z",
+  "generated_at_utc": "2026-08-02T23:05:08.383602Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -7274,6 +7274,7 @@
         "mode": "live",
         "as_of": "2026-07-31",
         "started_at": "2026-07-31",
+        "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
         "equity": 100000.0,
         "return": 0.0,
         "cash": 100000.0,
@@ -7320,6 +7321,9 @@
           "gates": {
             "all_accounts_live_and_same_start": true,
             "all_accounts_same_as_of": true,
+            "all_accounts_same_snapshot": true,
+            "all_accounts_same_cost_and_cash": true,
+            "all_accounts_same_session_path": true,
             "at_least_252_new_sessions": false,
             "at_least_6_filled_rebalances": false,
             "zero_integrity_violations": true,
