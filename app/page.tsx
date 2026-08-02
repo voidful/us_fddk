@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20 年美國市場研究、管理期貨產品橋接、公平基準、Paper 守門，以及新手可讀的風險判讀。",
+  description: "v25 三條實際 20 年美股成長＋黃金驗證、LIVE Paper、公平基準與新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -17,6 +17,8 @@ const labels: Record<string, { name: string; role: string }> = {
   IWM: { name: "美國小型股", role: "規模分散" },
   DBC: { name: "廣泛商品", role: "通膨分散" },
   EEM: { name: "新興市場", role: "區域分散" },
+  VUG: { name: "美國大型成長股", role: "Paper 成長核心" },
+  GLD: { name: "實物黃金", role: "Paper 分散袖套" },
 };
 
 const pct = (value: number, digits = 1) =>
@@ -132,6 +134,11 @@ export default function Home() {
   const qualityAcademic = qualityMomentum.academic_formal_20y;
   const qualityIshares = qualityMomentum.ishares_actual;
   const qualityInvesco = qualityMomentum.invesco_cross_manager;
+  const growthGold = data.research_pipeline.growth_gold_diversification;
+  const growthGoldPooled = growthGold.pooled;
+  const growthGoldPaper = growthGold.paper;
+  const growthGoldForward = growthGoldPaper.forward_evidence;
+  const growthGoldPending = growthGoldPaper.pending_order !== null;
   return (
     <>
       <header className="topbar">
@@ -140,7 +147,7 @@ export default function Home() {
           <span>成長守門員 v2</span>
         </a>
         <nav aria-label="主要導覽">
-          <a href="#allocation">今日決定</a>
+          <a href="#v25-paper">v25 Paper</a>
           <a href="#evidence">證據</a>
           <a href="#challenger">v3 研究</a>
           <a href="#paper">Paper</a>
@@ -156,13 +163,13 @@ export default function Home() {
         <section className="hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">20 年凍結研究 · PAPER 嚴格守門</p>
-            <div className="status-badge pending fresh-only"><span />資料有效 · {canShowReferenceAllocation ? (pending ? "等待成交" : invested ? "照規則持有中" : "維持現金") : "實金訊號關閉"}</div>
+            <div className="status-badge pending fresh-only"><span />v25 歷史入口通過 · 實金訊號關閉</div>
             <div className="status-badge expired stale-only"><span />訊號已停用</div>
-            <h1 className="fresh-only">今天不下單。<br />超額報酬尚未證實。</h1>
+            <h1 className="fresh-only">今天不下單。<br />v25 先做 Paper。</h1>
             <h1 className="stale-only">資料已過期。<br />今天先不要照做。</h1>
             <p className="hero-lead fresh-only">
               {!canShowReferenceAllocation
-                ? <>v2 在 20 年回測勝過 SPY，但公平基準檢查沒有通過。最新 v24 品質＋動能雖在學術代理通過 10/10，可買的 QUAL／MTUM 只有 5/10、另一管理人版本 0/7。學術成功不能直接變成 ETF 訊號，因此今天不下單。</>
+                ? <>最新 v25 固定 80% 大型成長股／20% 黃金，在 Vanguard、iShares、State Street 三條實際 20 年路徑都通過 12/12，彙總 10/10；但 LIVE Paper 才剛建立、尚無成交。歷史資格通過不等於今天可以實金照買。</>
                 : pending
                 ? <>系統已用 {data.data_through} 的月末收盤資料算出配置。最近波動越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開盤模擬成交。</>
                 : invested
@@ -174,7 +181,7 @@ export default function Home() {
               但目前仍只到 {data.data_through}。請先更新行情、paper 狀態與部署版本。
             </p>
             <div className="hero-actions">
-              <a className="button primary fresh-only" href={canShowReferenceAllocation ? "#allocation" : "#readiness"}>{canShowReferenceAllocation ? "看我的配置" : "查看還缺什麼"}</a>
+              <a className="button primary fresh-only" href="#v25-paper">看 v25 Paper 訊號</a>
               <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
               <a className="button ghost" href="#evidence">先看證據</a>
             </div>
@@ -224,6 +231,53 @@ export default function Home() {
               <code>refresh due {data.freshness.refresh_due_at_utc}</code>
             </div>
           </article>
+        </section>
+
+        <section className="readiness-section wrap" id="v25-paper" aria-labelledby="v25-paper-title">
+          <div className="readiness-head">
+            <div>
+              <p className="eyebrow">FIRST HISTORICAL QUALIFIER · PAPER ONLY</p>
+              <h2 id="v25-paper-title">第一個跨三家產品通過的候選，<br />先從同一天現金起跑。</h2>
+            </div>
+            <div className="readiness-verdict blocked">
+              <span>{growthGoldPending ? "等待下一交易日模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "Paper 維持現金"}</span>
+              <strong>{growthGoldForward.forward_sessions} / {growthGoldForward.minimum_sessions}</strong>
+              <small>前瞻交易日；實金仍關閉</small>
+            </div>
+          </div>
+          <div className="gate-layout">
+            <article className="signal-card">
+              <div className="signal-card-head">
+                <div><p>v25 PAPER 目標，不是實金指令</p><h3>{growthGoldPending ? "排隊等待模擬成交" : "按月末規則觀察"}</h3></div>
+                <span className="clock" aria-hidden="true">P</span>
+              </div>
+              <div className="donut-row">
+                <div
+                  className="donut"
+                  style={{ background: "conic-gradient(var(--forest) 0 80%, var(--gold) 80% 100%)" }}
+                  role="img"
+                  aria-label="v25 Paper 目標：VUG 80%，GLD 20%"
+                >
+                  <div><strong>80%</strong><span>VUG</span></div>
+                </div>
+                <div className="donut-legend">
+                  <div><i className="qqq" /><span>VUG 大型成長股</span><b>80%</b></div>
+                  <div><i className="shy" /><span>GLD 實物黃金</span><b>20%</b></div>
+                </div>
+              </div>
+              <div className="next-step">
+                <span>新手現在該做什麼</span>
+                <p>不要手動追價。這筆 Paper 委託只會在 {growthGoldPaper.started_at} 之後第一個新增交易日開盤模擬成交；真實資金動作仍是 0。</p>
+              </div>
+            </article>
+            <div className="readiness-grid">
+              <article><span>01 · 三家實際產品</span><strong>12/12 · 12/12 · 12/12</strong><p>VUG／GLD、IWF／IAU、SPYG／GLD 全部使用相同 80/20 與 240 個月。</p></article>
+              <article><span>02 · 20 年彙總</span><strong>{pct(growthGoldPooled.strategy_metrics.cagr, 2)} vs {pct(growthGoldPooled.spy_metrics.cagr, 2)}</strong><p>最大回撤 {pct(growthGoldPooled.strategy_metrics.max_drawdown, 1)}，SPY 為 {pct(growthGoldPooled.spy_metrics.max_drawdown, 1)}。</p></article>
+              <article><span>03 · 公平基準</span><strong>{pct(growthGoldPooled.strategy_metrics.cagr - growthGoldPooled.matched_metrics.cagr, 2)}</strong><p>相對 80% 成長股／20% SHY 的年化差；NW t = {growthGoldPooled.statistics_vs_matched.newey_west_t.toFixed(2)}。</p></article>
+              <article><span>04 · 尚未證明</span><strong>NW t {growthGoldPooled.statistics_vs_spy.newey_west_t.toFixed(2)}</strong><p>相對 SPY 仍低於 1.96；最差五年曾落後 {pct(Math.abs(growthGoldPooled.rolling_five_year_vs_spy.worst_cagr_difference), 2)}。</p></article>
+            </div>
+          </div>
+          <p className="readiness-note"><b>升級規則：</b>還缺 {growthGoldForward.remaining_sessions} 個真正新增交易日與 {growthGoldForward.remaining_filled_rebalances} 次完成再平衡；同起點 SPY 與 80% VUG／20% SHY Paper 會一起比較。任何一項失敗都繼續 Paper-only。</p>
         </section>
 
         <section className="truth-strip" aria-label="證據狀態">
@@ -1280,6 +1334,7 @@ export default function Home() {
             <details><summary>v22 九個產業完整期都跑贏，為什麼還不開 Paper？<span>＋</span></summary><p>因為「換一個起訖點還能不能贏」才是穩定性的核心。九個產業的完整期 CAGR 都高至少 0.25%，但 1,260 日滾動勝率沒有一組達到事前 60%，九產業等權也只有 {pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}。再加上約 {pct(sectorPooled.strategy_metrics.max_drawdown, 0)} 的歷史回撤與 0/3 統計門檻，系統依凍結規則拒絕建立帳戶。</p></details>
             <details><summary>v23 回撤改善很多，為什麼仍不能照 50/50 買？<span>＋</span></summary><p>因為 20 年 CAGR 只由 SPY 的 {pct(managedLong.spy_metrics.cagr, 2)} 提高到 {pct(managedLong.strategy_metrics.cagr, 2)}，未達事前 0.25% 門檻；50 bps 成本與後十年又轉為落後。KMLM 上市後八個五年窗沒有一個通過，FMF 跨管理人也只過 {managedFutures.fmf_passed_gate_count}/{managedFutures.fmf_required_gate_count}。回撤改善可作資產配置研究，但還不是經過多路徑確認的超額報酬。</p></details>
             <details><summary>v24 學術測試全過，為什麼實際 ETF 還是不能買？<span>＋</span></summary><p>因為學術代理用 French 大型股高獲利能力與高動能分組，不是 QUAL／MTUM 的精確可交易歷史。實際 iShares 組合後半 CAGR 落後 SPY {pct(Math.abs(qualityIshares.fixed_halves_vs_market.second.cagr_difference), 2)}，五年勝率只有 {pct(qualityIshares.rolling_five_year_vs_market.cagr_win_fraction, 1)}；SPHQ／PDP 跨管理人更是 0/7。產品驗證失敗時，系統不會把代理成功轉成今天的買進百分比。</p></details>
+            <details><summary>v25 已通過 20 年驗證，為什麼仍不能用實金？<span>＋</span></summary><p>因為這只證明它值得前瞻驗證，不代表未來一定延續。相對 SPY 的 Newey-West t 只有 {growthGoldPooled.statistics_vs_spy.newey_west_t.toFixed(2)}，而且最差五年窗仍曾落後。三個 Paper 帳戶目前都從 {growthGoldPaper.started_at} 的 10 萬美元現金起跑，成交 0 筆；至少累積 252 個新增交易日與 6 次完成再平衡後，才重新檢查是否同時勝 SPY 與公平基準。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

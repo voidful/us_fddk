@@ -23,6 +23,12 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /https:\/\/growth-guard-tw\.voidful819957\.chatgpt\.site\/og\.png/);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不下單/);
+  assert.match(html, /v25 先做 Paper/);
+  assert.match(html, /第一個跨三家產品通過的候選/);
+  assert.match(html, /v25 PAPER 目標，不是實金指令/);
+  assert.match(html, /VUG 大型成長股/);
+  assert.match(html, /GLD 實物黃金/);
+  assert.match(html, /真實資金動作仍是 0/);
   assert.match(html, /不建立實金部位/);
   assert.match(html, /今日實金動作：0/);
   assert.match(html, /不顯示可照抄的 ETF 百分比或金額/);
@@ -670,6 +676,43 @@ test("v24 separates academic factor success from failed investable ETF bridges",
       v24.invesco_cross_manager.market_metrics.cagr,
   );
   assert.ok(payload.limitations.some((item) => /v24 學術品質＋動能.*不建 Paper/.test(item)));
+});
+
+test("v25 passes three frozen product paths but exposes only an unfilled Paper signal", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v25 = payload.research_pipeline.growth_gold_diversification;
+  assert.equal(v25.status, "growth_gold_diversification_passed_for_isolated_paper");
+  assert.equal(v25.paper_eligible, true);
+  assert.equal(v25.paper_state_created, true);
+  assert.equal(v25.trade_ready, false);
+  assert.equal(v25.paper_signal_display_allowed, true);
+  assert.equal(v25.real_money_signal_display_allowed, false);
+  assert.equal(v25.all_paths_passed, true);
+  for (const path of Object.values(v25.paths)) {
+    assert.equal(path.period.months, 240);
+    assert.equal(path.passed_gate_count, 12);
+    assert.equal(path.required_gate_count, 12);
+    assert.ok(path.strategy_metrics.cagr > path.spy_metrics.cagr);
+    assert.ok(path.strategy_metrics.max_drawdown > path.spy_metrics.max_drawdown);
+  }
+  assert.equal(v25.pooled.passed_gate_count, 10);
+  assert.equal(v25.pooled.required_gate_count, 10);
+  assert.ok(v25.pooled.strategy_metrics.cagr > v25.pooled.spy_metrics.cagr);
+  assert.ok(v25.pooled.strategy_metrics.cagr > v25.pooled.matched_metrics.cagr);
+  assert.ok(v25.pooled.rolling_five_year_vs_spy.cagr_win_fraction > 0.60);
+  assert.ok(v25.pooled.statistics_vs_spy.newey_west_t < 1.96);
+  assert.equal(v25.paper.mode, "live");
+  assert.equal(v25.paper.as_of, "2026-07-31");
+  assert.equal(v25.paper.transactions, 0);
+  assert.equal(v25.paper.status, "awaiting_fill");
+  assert.deepEqual(v25.paper.pending_order.target_weights, { GLD: 0.2, VUG: 0.8 });
+  assert.equal(v25.paper.forward_evidence.forward_sessions, 0);
+  assert.equal(v25.paper.forward_evidence.minimum_sessions, 252);
+  assert.equal(v25.paper.forward_evidence.filled_rebalances, 0);
+  assert.equal(v25.paper.forward_evidence.live_confirmed, false);
+  assert.ok(payload.limitations.some((item) => /v25 三條實際 20 年.*只顯示 Paper 80\/20/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
