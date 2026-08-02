@@ -95,6 +95,14 @@ export default function Home() {
   const confirmedR1000 = confirmedGrowth.datasets.russell_1000;
   const confirmedR2000 = confirmedGrowth.datasets.russell_2000;
   const confirmedEafe = confirmedGrowth.datasets.eafe;
+  const modestLeverage = data.research_pipeline.modest_leverage;
+  const leverageSp500 = modestLeverage.datasets.sp500;
+  const leverageNasdaq = modestLeverage.datasets.nasdaq100;
+  const leverageDow = modestLeverage.datasets.dow30;
+  const modestLeverageOverlay = data.research_pipeline.modest_leverage_overlay;
+  const overlaySp500 = modestLeverageOverlay.datasets.sp500;
+  const overlayNasdaq = modestLeverageOverlay.datasets.nasdaq100;
+  const overlayDow = modestLeverageOverlay.datasets.dow30;
   return (
     <>
       <header className="topbar">
@@ -564,6 +572,94 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2011–2026 · v15 先凍結、再首次查看實際 3 倍 ETF</span><h3>三市場都賺比較多，就能稱為穩健跑贏嗎？</h3></div>
+                <strong>{modestLeverageOverlay.economic_passed_gate_count} / {modestLeverageOverlay.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v15 平時維持 100% 原始 ETF；只有連續兩個完整月站上 200 日均線時，才改成 90% 原始 ETF／10% 實際每日 3 倍 ETF，約 120% 名目股票曝險。規則與淘汰門檻先鎖定，之後才首次下載 UPRO、TQQQ、UDOW。固定 90/10 對照用來拆開「趨勢有用」與「只是多加槓桿」。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>S&amp;P 500 · 策略 / SPY 年化</span>
+                  <strong>{pct(overlaySp500.strategy_metrics.cagr, 2)} / {pct(overlaySp500.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>年化多 {pct(overlaySp500.comparison_vs_core.cagr_difference, 2)}，但最大回撤更深 {pct(Math.abs(overlaySp500.comparison_vs_core.drawdown_improvement), 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>S&amp;P 500 · Sharpe：策略 / SPY</span>
+                  <strong>{overlaySp500.strategy_metrics.sharpe.toFixed(2)} / {overlaySp500.benchmark_metrics.core.sharpe.toFixed(2)}</strong>
+                  <p>固定 90/10 年化更高，趨勢開關沒有增加風險效率</p>
+                </article>
+                <article className="failed">
+                  <span>Nasdaq-100 · 策略 / QQQ 年化</span>
+                  <strong>{pct(overlayNasdaq.strategy_metrics.cagr, 2)} / {pct(overlayNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>三組中最接近，但回撤仍由 {pct(overlayNasdaq.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(overlayNasdaq.strategy_metrics.max_drawdown, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>Nasdaq-100 · Sharpe：策略 / QQQ</span>
+                  <strong>{overlayNasdaq.strategy_metrics.sharpe.toFixed(3)} / {overlayNasdaq.benchmark_metrics.core.sharpe.toFixed(3)}</strong>
+                  <p>只差一點仍是未通過；結果出來後不能放寬門檻</p>
+                </article>
+                <article className="failed">
+                  <span>Dow 30 · 策略 / DIA 年化</span>
+                  <strong>{pct(overlayDow.strategy_metrics.cagr, 2)} / {pct(overlayDow.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>回撤由 {pct(overlayDow.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(overlayDow.strategy_metrics.max_drawdown, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{modestLeverageOverlay.economic_passed_gate_count}/{modestLeverageOverlay.economic_required_gate_count} · {modestLeverageOverlay.data_passed_gate_count}/{modestLeverageOverlay.data_required_gate_count} · {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}</strong>
+                  <p>資料全部合格，但風險與多重搜尋後證據不夠</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：報酬放大了，虧損也放大了</b>
+                <p>v15 三市場 CAGR 都高於原始 ETF，卻不是穩健超額：三組最大回撤全部更深，三組 Sharpe 全都沒有嚴格勝過原始 ETF。20 年 v14 是設計探索，v15 真正首次查看的 3 倍 ETF 產品史只有 {modestLeverageOverlay.independent_confirmation_years} 年，不能拼成「獨立 20 年」。系統沒有 v15 帳戶、沒有委託，也不顯示被淘汰的 90/10 比例作為今日配置。</p>
+              </div>
+            </div>
+
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2006–2026 · v14 先凍結、再下載實際槓桿 ETF</span><h3>小幅槓桿加趨勢，真的能兼顧報酬與風險嗎？</h3></div>
+                <strong>{modestLeverage.economic_passed_gate_count} / {modestLeverage.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v14 在看 SSO、QLD、DDM 歷史前，先寫死兩月確認、200 日均線，以及風險開啟時 60% 實際 2 倍每日目標 ETF／40% SHY。每組除了原始 1 倍 ETF，還要比較不擇時的固定 60/40；這能分辨結果來自趨勢規則，還是只是多承擔槓桿。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>S&amp;P 500 · 策略 / SPY 年化</span>
+                  <strong>{pct(leverageSp500.strategy_metrics.cagr, 2)} / {pct(leverageSp500.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>回撤較淺，但長期報酬少 {pct(Math.abs(leverageSp500.comparison_vs_core.cagr_difference), 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>S&amp;P 500 · 策略 / 固定 60/40</span>
+                  <strong>{pct(leverageSp500.strategy_metrics.cagr, 2)} / {pct(leverageSp500.benchmark_metrics.fixed_60_40.cagr, 2)}</strong>
+                  <p>兩個公平問題都未跨過</p>
+                </article>
+                <article className="passed">
+                  <span>Nasdaq-100 · 策略 / QQQ 年化</span>
+                  <strong>{pct(leverageNasdaq.strategy_metrics.cagr, 2)} / {pct(leverageNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>樣本年化略高，最大回撤也較淺</p>
+                </article>
+                <article className="failed">
+                  <span>Nasdaq-100 · 策略 / 固定 60/40</span>
+                  <strong>{pct(leverageNasdaq.strategy_metrics.cagr, 2)} / {pct(leverageNasdaq.benchmark_metrics.fixed_60_40.cagr, 2)}</strong>
+                  <p>一加入同產品對照，趨勢開關的報酬優勢消失</p>
+                </article>
+                <article className="failed">
+                  <span>Dow 30 · 策略 / DIA 年化</span>
+                  <strong>{pct(leverageDow.strategy_metrics.cagr, 2)} / {pct(leverageDow.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>在不同大型股指數沒有泛化</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{modestLeverage.economic_passed_gate_count}/{modestLeverage.economic_required_gate_count} · {modestLeverage.data_passed_gate_count}/{modestLeverage.data_required_gate_count} · {modestLeverage.statistical_passed_gate_count}/{modestLeverage.statistical_required_gate_count}</strong>
+                  <p>資料完整不代表策略成立；統計證據仍是 0 道</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：槓桿不是免費報酬，少跌也不能抵銷少賺</b>
+                <p>2 倍 ETF 追求的是每日兩倍，不是二十年一定兩倍；每日重設、費用、波動與複利都會改變結果。v14 的 60/40 只是被淘汰的研究比例，不是今天的配置。系統沒有 v14 帳戶、沒有待成交委託，也不會把 Nasdaq 單一成功包裝成三市場都有效。</p>
+              </div>
+            </div>
+
             <div className="industry-tilt-audit">
               <div className="cross-market-head">
                 <div><span>1989–2026 · v7 相對成長衛星</span><h3>降低 SPY 回撤，為何仍不是已證實 alpha？</h3></div>
@@ -793,6 +889,8 @@ export default function Home() {
             <details><summary>v9 已減少交易，為什麼成本門檻還是失敗？<span>＋</span></summary><p>因為一次從 100% SPY 切到 60% SPY／40% QQQ，再切回來，仍會買賣相當多部位。主期 {lowTurnover.main.signals.completed_month_ends_in_formal_period} 個月末只完成 {lowTurnover.main.signals.completed_executions_in_formal_period} 次切換，但年換手仍約 {pct(lowTurnover.main.strategy_metrics.turnover, 1)}；50 bps 後只領先 SPY {pct(lowTurnover.main.cost_50bps_cagr_difference, 3)}，低於事前 0.10% 門檻。加上舊期回撤與全新外部期後半失敗，23 道只過 {lowTurnover.paper_entry_passed_gate_count} 道，因此仍不開 Paper。</p></details>
             <details><summary>v12 已把回撤壓低，為什麼仍不值得 Paper？<span>＋</span></summary><p>主期最大回撤從 SPY 的 {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)} 改善到 {pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)}，但 CAGR 也從 {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)} 降到 {pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)}；50 bps 成本後年化再落後 {pct(Math.abs(hierarchicalDefense.main.cost_50bps_cagr_difference), 2)}，後十年與外部期後半都沒跑贏。它是有用的風險控制負結果，不是穩健 alpha，所以事前 23 道入口只過 {hierarchicalDefense.paper_entry_passed_gate_count} 道，Paper 指令必須拒絕。</p></details>
             <details><summary>v13 交易更少、舊年代更好，為什麼還是淘汰？<span>＋</span></summary><p>因為降低換手是在已知資料上找到的改善，不是獨立證據。規則鎖定後才下載的 Russell 1000 組，策略年化 {pct(confirmedR1000.strategy_metrics.cagr, 2)} 低於 IWB {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}；Russell 2000 組也以 {pct(confirmedR2000.strategy_metrics.cagr, 2)} 落後 IWM {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}。新資料 30 道只過 {confirmedGrowth.economic_passed_gate_count} 道，所以不能用既有年代的漂亮結果覆蓋真正的新反證。</p></details>
+            <details><summary>v14 的 Nasdaq 結果贏 QQQ，為什麼仍不開 Paper？<span>＋</span></summary><p>因為同一套規則在 S&amp;P 500 與 Dow 30 都明顯落後，而且 Nasdaq 版本年化 {pct(leverageNasdaq.strategy_metrics.cagr, 2)} 雖高於 QQQ 的 {pct(leverageNasdaq.benchmark_metrics.core.cagr, 2)}，仍低於不預測趨勢的固定 60/40 的 {pct(leverageNasdaq.benchmark_metrics.fixed_60_40.cagr, 2)}。三市場 36 道只過 {modestLeverage.economic_passed_gate_count} 道、統計 0/{modestLeverage.statistical_required_gate_count}，不能只挑唯一漂亮的一格。</p></details>
+            <details><summary>v15 三市場年化都贏 ETF，為什麼還是不能 Paper？<span>＋</span></summary><p>因為額外報酬是用額外風險換來的：S&amp;P 500、Nasdaq-100、Dow 30 的最大回撤全部比原始 ETF 深，Sharpe 也都沒有嚴格勝出。更公平的固定 90/10 對照顯示，S&amp;P 500 與 Dow 版本還犧牲了報酬。事前 36 道只過 {modestLeverageOverlay.economic_passed_gate_count} 道、統計只過 {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}；不能把「多加槓桿」包裝成穩健 alpha。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

@@ -93,6 +93,15 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /道新資料經濟門檻/);
   assert.match(html, /少跌不等於有能力跑贏/);
   assert.match(html, /v13 交易更少、舊年代更好，為什麼還是淘汰/);
+  assert.match(html, /2006–2026 · v14 先凍結、再下載實際槓桿 ETF/);
+  assert.match(html, /小幅槓桿加趨勢，真的能兼顧報酬與風險嗎/);
+  assert.match(html, /槓桿不是免費報酬，少跌也不能抵銷少賺/);
+  assert.match(html, /v14 的 Nasdaq 結果贏 QQQ，為什麼仍不開 Paper/);
+  assert.match(html, /2011–2026 · v15 先凍結、再首次查看實際 3 倍 ETF/);
+  assert.match(html, /三市場都賺比較多，就能稱為穩健跑贏嗎/);
+  assert.match(html, /報酬放大了，虧損也放大了/);
+  assert.match(html, /不能拼成「獨立 20 年」/);
+  assert.match(html, /v15 三市場年化都贏 ETF，為什麼還是不能 Paper/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -368,6 +377,55 @@ test("v13 freezes the rule before new ETF pairs and rejects cross-universe claim
   assert.equal(v13.datasets.eafe.required_warmup_sessions, 252);
   assert.equal(v13.paper_entry_decision, "do_not_create");
   assert.ok(payload.limitations.some((item) => /v13 先凍結兩月確認.*新資料經濟門檻 9\/30/.test(item)));
+});
+
+test("v14 uses real leveraged ETFs but rejects cherry-picking Nasdaq", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v14 = payload.research_pipeline.modest_leverage;
+  assert.equal(v14.status, "new_leveraged_etf_validation_failed");
+  assert.equal(v14.paper_eligible, false);
+  assert.equal(v14.statistically_confirmed, false);
+  assert.equal(v14.economic_passed_gate_count, 13);
+  assert.equal(v14.economic_required_gate_count, 36);
+  assert.equal(v14.data_passed_gate_count, 4);
+  assert.equal(v14.data_required_gate_count, 4);
+  assert.equal(v14.statistical_passed_gate_count, 0);
+  assert.equal(v14.statistical_required_gate_count, 18);
+  assert.equal(v14.maximum_equity_notional, 1.2);
+  assert.ok(v14.datasets.sp500.strategy_metrics.cagr < v14.datasets.sp500.benchmark_metrics.core.cagr);
+  assert.ok(v14.datasets.nasdaq100.strategy_metrics.cagr > v14.datasets.nasdaq100.benchmark_metrics.core.cagr);
+  assert.ok(v14.datasets.nasdaq100.strategy_metrics.cagr < v14.datasets.nasdaq100.benchmark_metrics.fixed_60_40.cagr);
+  assert.ok(v14.datasets.dow30.strategy_metrics.cagr < v14.datasets.dow30.benchmark_metrics.core.cagr);
+  assert.ok(payload.limitations.some((item) => /v14 先凍結.*不建 Paper/.test(item)));
+});
+
+test("v15 beats each core CAGR but rejects deeper drawdown and weaker Sharpe", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v15 = payload.research_pipeline.modest_leverage_overlay;
+  assert.equal(v15.status, "new_3x_etf_validation_failed");
+  assert.equal(v15.paper_eligible, false);
+  assert.equal(v15.statistically_confirmed, false);
+  assert.equal(v15.economic_passed_gate_count, 17);
+  assert.equal(v15.economic_required_gate_count, 36);
+  assert.equal(v15.data_passed_gate_count, 4);
+  assert.equal(v15.data_required_gate_count, 4);
+  assert.equal(v15.statistical_passed_gate_count, 4);
+  assert.equal(v15.statistical_required_gate_count, 18);
+  assert.equal(v15.risk_on_equity_notional, 1.2);
+  assert.equal(v15.independent_confirmation_years, 15);
+  assert.equal(v15.cannot_claim_independent_twenty_year_v15, true);
+  for (const data of Object.values(v15.datasets)) {
+    assert.ok(data.strategy_metrics.cagr > data.benchmark_metrics.core.cagr);
+    assert.ok(data.strategy_metrics.sharpe < data.benchmark_metrics.core.sharpe);
+    assert.ok(data.strategy_metrics.max_drawdown < data.benchmark_metrics.core.max_drawdown);
+  }
+  assert.ok(v15.datasets.sp500.strategy_metrics.cagr < v15.datasets.sp500.benchmark_metrics.fixed_90_10.cagr);
+  assert.ok(v15.datasets.dow30.strategy_metrics.cagr < v15.datasets.dow30.benchmark_metrics.fixed_90_10.cagr);
+  assert.ok(payload.limitations.some((item) => /v15 先凍結.*不建 Paper/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
