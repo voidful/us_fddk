@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T23:32:42.588613Z",
+  "generated_at_utc": "2026-08-02T23:44:47.370691Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -7903,6 +7903,10 @@
         "as_of": "2026-07-31",
         "started_at": "2026-07-31",
         "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+        "initial_cash": 100000.0,
+        "cost_bps": 10.0,
+        "total_costs": 0.0,
+        "execution_clock": "signal at close t; rebalance at adjusted open t+1",
         "equity": 100000.0,
         "return": 0.0,
         "cash": 100000.0,
@@ -7918,6 +7922,61 @@
             "GLD": 0.2
           },
           "status": "pending"
+        },
+        "recent_transactions": [],
+        "recent_filled_orders": [],
+        "accounts": {
+          "candidate": {
+            "as_of": "2026-07-31",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
+            "filled_rebalances": 0,
+            "equity_curve": [
+              {
+                "date": "2026-07-31",
+                "equity": 100000.0,
+                "drawdown": 0.0
+              }
+            ]
+          },
+          "SPY": {
+            "as_of": "2026-07-31",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
+            "filled_rebalances": 0,
+            "equity_curve": [
+              {
+                "date": "2026-07-31",
+                "equity": 100000.0,
+                "drawdown": 0.0
+              }
+            ]
+          },
+          "matched_80_VUG_20_SHY": {
+            "as_of": "2026-07-31",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
+            "filled_rebalances": 0,
+            "equity_curve": [
+              {
+                "date": "2026-07-31",
+                "equity": 100000.0,
+                "drawdown": 0.0
+              }
+            ]
+          }
         },
         "forward_evidence": {
           "as_of": "2026-07-31",

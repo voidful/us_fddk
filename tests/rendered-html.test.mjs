@@ -39,6 +39,16 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /PAPER 教學試算 · 不會送單/);
   assert.match(html, /假設的 Paper 本金/);
   assert.match(html, /目前實金動作仍是 0/);
+  assert.match(html, /LIVE PAPER · 同起點公平競賽/);
+  assert.match(html, /不是看回測冠軍，是看三個真實等待中的帳戶/);
+  assert.match(html, /相同股票曝險控制/);
+  assert.match(html, /等待足夠樣本/);
+  assert.match(html, /待成交不算完成/);
+  assert.match(html, /尚無成交/);
+  assert.match(html, /沒有把待成交委託偽裝成已成交/);
+  assert.match(html, /前瞻累積財富/);
+  assert.match(html, /尚無可畫的前瞻走勢/);
+  assert.match(html, /不把 20 年回測接到 LIVE 圖上/);
   assert.match(html, /不建立實金部位/);
   assert.match(html, /今日實金動作：0/);
   assert.match(html, /不顯示可照抄的實金下單金額/);
@@ -727,6 +737,26 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.equal(v25.paper.as_of, "2026-07-31");
   assert.equal(v25.paper.transactions, 0);
   assert.equal(v25.paper.status, "awaiting_fill");
+  assert.equal(v25.paper.initial_cash, 100000);
+  assert.equal(v25.paper.cost_bps, 10);
+  assert.equal(v25.paper.total_costs, 0);
+  assert.equal(v25.paper.recent_transactions.length, 0);
+  assert.equal(v25.paper.recent_filled_orders.length, 0);
+  assert.deepEqual(Object.keys(v25.paper.accounts).sort(), [
+    "SPY",
+    "candidate",
+    "matched_80_VUG_20_SHY",
+  ]);
+  for (const account of Object.values(v25.paper.accounts)) {
+    assert.equal(account.as_of, "2026-07-31");
+    assert.equal(account.equity, 100000);
+    assert.equal(account.return, 0);
+    assert.equal(account.max_drawdown, 0);
+    assert.equal(account.transactions, 0);
+    assert.equal(account.filled_rebalances, 0);
+    assert.equal(account.equity_curve.length, 1);
+    assert.equal(account.equity_curve[0].date, "2026-07-31");
+  }
   assert.deepEqual(v25.paper.pending_order.target_weights, { GLD: 0.2, VUG: 0.8 });
   assert.equal(v25.paper.forward_evidence.forward_sessions, 0);
   assert.equal(v25.paper.forward_evidence.minimum_sessions, 252);
@@ -745,6 +775,8 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.match(css, /\.brand \{ min-height: 48px;/);
   assert.match(css, /\.signal-stop > a \{[^}]*min-height: 44px;/);
   assert.match(css, /\.quick-values button \{ min-height: 44px;/);
+  assert.match(css, /\.forward-score-grid \{ grid-template-columns: 1fr;/);
+  assert.match(css, /\.forward-decision-grid \{ grid-template-columns: 1fr;/);
   assert.match(css, /\.faq-list details p \{[^}]*margin: 12px 0 24px;/);
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
 });

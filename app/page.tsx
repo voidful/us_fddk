@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AllocationCalculator from "./AllocationCalculator";
 import FreshnessGuard from "./FreshnessGuard";
 import PaperAllocationLab from "./PaperAllocationLab";
+import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
@@ -300,6 +301,7 @@ export default function Home() {
             <article><span>目前狀態</span><strong>{growthGoldPending ? "等待模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "維持現金"}</strong><small>{growthGoldPaper.transactions} 筆成交 · {money(growthGoldPaper.equity)}</small></article>
             <article><span>更新期限</span><strong>{data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</strong><small>超過期限，頁面會自動隱藏舊訊號</small></article>
           </div>
+          <V25ForwardBoard paper={growthGoldPaper} integrity={growthGoldIntegrity} />
           <div className="v25-risk-reality" aria-labelledby="v25-risk-reality-title">
             <div className="paper-lab-heading">
               <div><span>先看壞消息，再看報酬</span><h3 id="v25-risk-reality-title">跑贏 SPY，不等於跑贏每一種 ETF</h3></div>
