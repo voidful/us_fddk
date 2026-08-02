@@ -5,7 +5,7 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "20 年凍結回測、SPY／QQQ／被動 90/10 比較、LIVE paper trade 與新手可讀的風險判讀。",
+  description: "20／18 年凍結回測、六市場 ETF 與公平基準比較、LIVE paper trade，以及新手可讀的風險判讀。",
 };
 
 const labels: Record<string, { name: string; role: string }> = {
@@ -103,6 +103,14 @@ export default function Home() {
   const overlaySp500 = modestLeverageOverlay.datasets.sp500;
   const overlayNasdaq = modestLeverageOverlay.datasets.nasdaq100;
   const overlayDow = modestLeverageOverlay.datasets.dow30;
+  const trendVolatilityBrake = data.research_pipeline.trend_volatility_brake;
+  const brakeMidcap = trendVolatilityBrake.datasets.midcap400;
+  const brakeRussell = trendVolatilityBrake.datasets.russell2000;
+  const brakeSmallcap = trendVolatilityBrake.datasets.smallcap600;
+  const capitalEfficient = data.research_pipeline.capital_efficient;
+  const capitalSp500 = capitalEfficient.datasets.sp500;
+  const capitalNasdaq = capitalEfficient.datasets.nasdaq100;
+  const capitalRussell = capitalEfficient.datasets.russell2000;
   return (
     <>
       <header className="topbar">
@@ -574,6 +582,94 @@ export default function Home() {
 
             <div className="industry-tilt-audit v13-audit">
               <div className="cross-market-head">
+                <div><span>2006–2026 / 2008–2026 · v17 六市場股債資本效率</span><h3>年化比較高，為什麼仍不是穩健策略？</h3></div>
+                <strong>{capitalEfficient.economic_passed_gate_count} / {capitalEfficient.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v17 在第一次組合計算前固定每月 60% 實際每日 2 倍股票 ETF／40% IEF，約為 120% 股票加 40% 7–10 年美國公債曝險。大型股保留完整 20 年，中小型股依實際產品史使用 18 年；同時比較原始 ETF、未槓桿 75/25 與相同股票曝險的 2x/SHY。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>S&amp;P 500 · 策略 / SPY 年化</span>
+                  <strong>{pct(capitalSp500.strategy_metrics.cagr, 2)} / {pct(capitalSp500.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>年化較高，但回撤由 {pct(capitalSp500.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(capitalSp500.strategy_metrics.max_drawdown, 1)}</p>
+                </article>
+                <article className="failed">
+                  <span>Nasdaq-100 · 策略 / QQQ 年化</span>
+                  <strong>{pct(capitalNasdaq.strategy_metrics.cagr, 2)} / {pct(capitalNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>報酬增加，Sharpe 仍由 {capitalNasdaq.benchmark_metrics.core.sharpe.toFixed(2)} 降為 {capitalNasdaq.strategy_metrics.sharpe.toFixed(2)}</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · 策略 / IWM 年化</span>
+                  <strong>{pct(capitalRussell.strategy_metrics.cagr, 2)} / {pct(capitalRussell.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>只多 {pct(capitalRussell.comparison_vs_core.cagr_difference, 2)}，最大回撤卻多深 {pct(Math.abs(capitalRussell.comparison_vs_core.drawdown_improvement), 1)}</p>
+                </article>
+                <article className="passed">
+                  <span>資產分散 · IEF / SHY 對照</span>
+                  <strong>{pct(capitalSp500.strategy_metrics.cagr, 2)} / {pct(capitalSp500.benchmark_metrics.leveraged_60_40_shy.cagr, 2)}</strong>
+                  <p>中期公債比短債留存更有幫助，但不代表已勝原始 ETF 的風險效率</p>
+                </article>
+                <article className="failed">
+                  <span>正式期間 · 大型 / 中小型</span>
+                  <strong>{capitalEfficient.large_cap_years} 年 / {capitalEfficient.mid_small_cap_years} 年</strong>
+                  <p>不把產品上市前的合成報酬冒充實際 ETF 紀錄</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{capitalEfficient.economic_passed_gate_count}/{capitalEfficient.economic_required_gate_count} · {capitalEfficient.data_passed_gate_count}/{capitalEfficient.data_required_gate_count} · {capitalEfficient.statistical_passed_gate_count}/{capitalEfficient.statistical_required_gate_count}</strong>
+                  <p>資料完整，仍有 36 道經濟與 45 道統計檢查未通過</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：更高 CAGR 不是免費午餐</b>
+                <p>六組策略的最大回撤都落在約 −58% 至 −63%，而且全都比原始 ETF 更深。這代表 IEF 確實改善了 2x/SHY 對照，卻還不足以抵銷槓桿股票的尾部風險。系統沒有 v17 帳戶、沒有委託，也不顯示 60/40 當成今天配置。</p>
+              </div>
+            </div>
+
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2008–2026 · v16 中小型股週度趨勢／波動煞車</span><h3>少跌一些，是否值得犧牲一半以上報酬？</h3></div>
+                <strong>{trendVolatilityBrake.economic_passed_gate_count} / {trendVolatilityBrake.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v16 只在核心高於 200 日均線時持股，並用 21 日實現波動把股票名目曝險限制在約 100%–150%；轉弱時全部進 SHY。MVV、UWM、SAA 是規則凍結後才首次查看的實際每日 2 倍 ETF，正式期受產品史限制為 18 年。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>MidCap 400 · 策略 / IJH 年化</span>
+                  <strong>{pct(brakeMidcap.strategy_metrics.cagr, 2)} / {pct(brakeMidcap.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>回撤較淺，但年化少 {pct(Math.abs(brakeMidcap.comparison_vs_core.cagr_difference), 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · 策略 / IWM 年化</span>
+                  <strong>{pct(brakeRussell.strategy_metrics.cagr, 2)} / {pct(brakeRussell.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>也低於不加槓桿的相同趨勢控制 {pct(brakeRussell.benchmark_metrics.unlevered_trend.cagr, 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>SmallCap 600 · 策略 / IJR 年化</span>
+                  <strong>{pct(brakeSmallcap.strategy_metrics.cagr, 2)} / {pct(brakeSmallcap.benchmark_metrics.core.cagr, 2)}</strong>
+                  <p>三組中踏空最嚴重，長期報酬只剩約四分之一</p>
+                </article>
+                <article className="passed">
+                  <span>MidCap 400 · 策略 / IJH 回撤</span>
+                  <strong>{pct(brakeMidcap.strategy_metrics.max_drawdown, 1)} / {pct(brakeMidcap.benchmark_metrics.core.max_drawdown, 1)}</strong>
+                  <p>風險煞車有效降低部分跌幅，但不能單獨抵銷報酬失敗</p>
+                </article>
+                <article className="failed">
+                  <span>週訊號 / 實際換倉</span>
+                  <strong>{brakeMidcap.signals.completed_weekly_signals_in_formal_period} / {brakeMidcap.signals.completed_rebalances_in_formal_period}</strong>
+                  <p>週週重新估計造成大量微調與踏空</p>
+                </article>
+                <article className="failed">
+                  <span>經濟 / 資料 / 統計</span>
+                  <strong>{trendVolatilityBrake.economic_passed_gate_count}/{trendVolatilityBrake.economic_required_gate_count} · {trendVolatilityBrake.data_passed_gate_count}/{trendVolatilityBrake.data_required_gate_count} · {trendVolatilityBrake.statistical_passed_gate_count}/{trendVolatilityBrake.statistical_required_gate_count}</strong>
+                  <p>三組都只有兩道回撤檢查通過</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：風險控制不能只看「跌得比較少」</b>
+                <p>若策略把最大回撤降低約 10 個百分點，卻讓年化報酬從約 10% 降到 3%–6%，長期複利代價太大。v16 因此是清楚的負結果；不建立 Paper，也不依結果改均線、波動目標或換倉頻率救援。</p>
+              </div>
+            </div>
+
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
                 <div><span>2011–2026 · v15 先凍結、再首次查看實際 3 倍 ETF</span><h3>三市場都賺比較多，就能稱為穩健跑贏嗎？</h3></div>
                 <strong>{modestLeverageOverlay.economic_passed_gate_count} / {modestLeverageOverlay.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
               </div>
@@ -891,6 +987,8 @@ export default function Home() {
             <details><summary>v13 交易更少、舊年代更好，為什麼還是淘汰？<span>＋</span></summary><p>因為降低換手是在已知資料上找到的改善，不是獨立證據。規則鎖定後才下載的 Russell 1000 組，策略年化 {pct(confirmedR1000.strategy_metrics.cagr, 2)} 低於 IWB {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}；Russell 2000 組也以 {pct(confirmedR2000.strategy_metrics.cagr, 2)} 落後 IWM {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}。新資料 30 道只過 {confirmedGrowth.economic_passed_gate_count} 道，所以不能用既有年代的漂亮結果覆蓋真正的新反證。</p></details>
             <details><summary>v14 的 Nasdaq 結果贏 QQQ，為什麼仍不開 Paper？<span>＋</span></summary><p>因為同一套規則在 S&amp;P 500 與 Dow 30 都明顯落後，而且 Nasdaq 版本年化 {pct(leverageNasdaq.strategy_metrics.cagr, 2)} 雖高於 QQQ 的 {pct(leverageNasdaq.benchmark_metrics.core.cagr, 2)}，仍低於不預測趨勢的固定 60/40 的 {pct(leverageNasdaq.benchmark_metrics.fixed_60_40.cagr, 2)}。三市場 36 道只過 {modestLeverage.economic_passed_gate_count} 道、統計 0/{modestLeverage.statistical_required_gate_count}，不能只挑唯一漂亮的一格。</p></details>
             <details><summary>v15 三市場年化都贏 ETF，為什麼還是不能 Paper？<span>＋</span></summary><p>因為額外報酬是用額外風險換來的：S&amp;P 500、Nasdaq-100、Dow 30 的最大回撤全部比原始 ETF 深，Sharpe 也都沒有嚴格勝出。更公平的固定 90/10 對照顯示，S&amp;P 500 與 Dow 版本還犧牲了報酬。事前 36 道只過 {modestLeverageOverlay.economic_passed_gate_count} 道、統計只過 {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}；不能把「多加槓桿」包裝成穩健 alpha。</p></details>
+            <details><summary>v16 已降低回撤，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為它同時大幅犧牲長期複利。三個市場年化只剩約 2.8%–5.6%，全都低於原始 ETF，也低於不槓桿的相同趨勢控制；48 道只過 {trendVolatilityBrake.economic_passed_gate_count} 道。降低回撤是好現象，但不能掩蓋踏空與頻繁調整造成的報酬損失。</p></details>
+            <details><summary>v17 六市場 CAGR 多數較高，為什麼仍不算跑贏？<span>＋</span></summary><p>因為六組最大回撤全部比原始 ETF 更深，Sharpe 與 Calmar 多數也更差。總名目曝險約 160%，本來就可能在多頭市場放大 CAGR；只有同時跨過風險、成本、前後半、五年滾動與三個公平基準，才算穩健。84 道只過 {capitalEfficient.economic_passed_gate_count} 道，因此不建立 Paper。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

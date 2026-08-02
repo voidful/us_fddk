@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T17:06:32.651243Z",
+  "generated_at_utc": "2026-08-02T17:48:50.541070Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,8 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v17 每月固定 60% 實際 2 倍股票 ETF／40% IEF；大型股 20 年、中小型股 18 年。S&P 500 CAGR 12.08% / SPY 11.25%，Nasdaq-100 18.43% / QQQ 16.63%；但六組最大回撤都更深。經濟門檻 48/84，不建 Paper。",
+    "v16 先凍結 200 日趨勢、21 日波動與每週 100%–150% 股票曝險，再首次查看 MVV、UWM、SAA。三組策略 CAGR 分別為 5.56%、4.99%、2.79%，都低於原始 ETF；經濟門檻 6/48，不建 Paper。",
     "v15 先凍結約 120%／100% 股票曝險與兩月趨勢規則，再首次查看 UPRO、TQQQ、UDOW。三市場 CAGR 都高於原始 ETF：S&P 500 15.49% / SPY 14.39%，Nasdaq-100 21.47% / QQQ 18.94%，Dow 30 13.27% / DIA 12.58%；但三組回撤都更深、Sharpe 都未嚴格勝過原始 ETF。經濟門檻 17/36，不建 Paper。",
     "v14 先凍結 60% 實際 2 倍 ETF／40% SHY 與兩月趨勢規則，再下載 SSO、QLD、DDM；S&P 500 CAGR 9.21% 低於 SPY 11.25%，Dow 30 CAGR 7.28% 低於 DIA 10.44%。Nasdaq-100 雖略勝 QQQ，仍低於固定 60/40 的 17.69%。經濟門檻 13/36，不建 Paper。",
     "v13 先凍結兩月確認與部分防守規則，再下載三組新 ETF；Russell 1000 CAGR 10.94% 低於 IWB 11.17%，Russell 2000 CAGR 7.30% 低於 IWM 8.86%，EAFE 固定起點前只有 247/252 個暖機日。新資料經濟門檻 9/30，不建 Paper。",
@@ -2735,6 +2737,786 @@
             "completed_rebalances_in_formal_period": 173,
             "latest_state": "risk_on",
             "latest_completed_month_end": "2026-07-31"
+          }
+        }
+      },
+      "paper_entry_decision": "do_not_create"
+    },
+    "trend_volatility_brake": {
+      "name": "v16 週度趨勢與波動煞車",
+      "status": "new_mid_small_cap_leveraged_etf_validation_failed",
+      "paper_eligible": false,
+      "statistically_confirmed": false,
+      "economic_passed_gate_count": 6,
+      "economic_required_gate_count": 48,
+      "data_passed_gate_count": 4,
+      "data_required_gate_count": 4,
+      "statistical_passed_gate_count": 0,
+      "statistical_required_gate_count": 27,
+      "independent_confirmation_years": 18,
+      "datasets": {
+        "midcap400": {
+          "label": "S&P MidCap 400",
+          "assets": {
+            "core": "IJH",
+            "leveraged": "MVV",
+            "defensive": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": false,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": false,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median_vs_core": false,
+            "cagr_beats_unlevered_trend_25bp": false,
+            "sharpe_beats_unlevered_trend": false,
+            "calmar_beats_unlevered_trend": false,
+            "50bps_cagr_beats_unlevered_trend_10bp": false,
+            "both_halves_cagr_beat_unlevered_trend_10bp": false,
+            "sharpe_beats_fixed_150": false,
+            "calmar_beats_fixed_150": false,
+            "drawdown_improves_fixed_150_10pp": true,
+            "50bps_cagr_shortfall_vs_fixed_within_100bp": false
+          },
+          "passed_gate_count": 2,
+          "required_gate_count": 16,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "initial_signal": "2008-07-25",
+            "initial_execution": "2008-07-28"
+          },
+          "strategy_metrics": {
+            "cagr": 0.05563457197912425,
+            "sharpe": 0.4041670194442085,
+            "max_drawdown": -0.3821430899807525,
+            "volatility": 0.17013487551673306,
+            "turnover": 11.241080779087037
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.10578229753872437,
+              "sharpe": 0.5599343085297348,
+              "max_drawdown": -0.5028261163041087,
+              "volatility": 0.2255556036764185,
+              "turnover": 0.0
+            },
+            "unlevered_trend": {
+              "cagr": 0.06502648874096595,
+              "sharpe": 0.5196574324217877,
+              "max_drawdown": -0.3001955759186481,
+              "volatility": 0.14050420525273397,
+              "turnover": 6.105345065639897
+            },
+            "fixed_150": {
+              "cagr": 0.12205165123226602,
+              "sharpe": 0.5111814108893971,
+              "max_drawdown": -0.6792573645582373,
+              "volatility": 0.33903135910013155,
+              "turnover": 0.5405937147281571
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": -0.05014772555960012,
+            "drawdown_improvement": 0.12068302632335615,
+            "newey_west_t": -1.500525503701643
+          },
+          "signals": {
+            "completed_weekly_signals_in_formal_period": 940,
+            "risk_on_weeks": 723,
+            "risk_off_weeks": 217,
+            "completed_rebalances_in_formal_period": 710,
+            "latest_policy": "risk_on_scaled_equity",
+            "latest_completed_week_end": "2026-07-31",
+            "latest_target_equity_notional": 1.5
+          }
+        },
+        "russell2000": {
+          "label": "Russell 2000",
+          "assets": {
+            "core": "IWM",
+            "leveraged": "UWM",
+            "defensive": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": false,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": false,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median_vs_core": false,
+            "cagr_beats_unlevered_trend_25bp": false,
+            "sharpe_beats_unlevered_trend": false,
+            "calmar_beats_unlevered_trend": false,
+            "50bps_cagr_beats_unlevered_trend_10bp": false,
+            "both_halves_cagr_beat_unlevered_trend_10bp": false,
+            "sharpe_beats_fixed_150": false,
+            "calmar_beats_fixed_150": false,
+            "drawdown_improves_fixed_150_10pp": true,
+            "50bps_cagr_shortfall_vs_fixed_within_100bp": false
+          },
+          "passed_gate_count": 2,
+          "required_gate_count": 16,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "initial_signal": "2008-07-25",
+            "initial_execution": "2008-07-28"
+          },
+          "strategy_metrics": {
+            "cagr": 0.04990378621358427,
+            "sharpe": 0.36364420941034437,
+            "max_drawdown": -0.4371325413707011,
+            "volatility": 0.1776592917550614,
+            "turnover": 10.649381053426746
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.09610537801383345,
+              "sharpe": 0.4951964357728424,
+              "max_drawdown": -0.5388409019126325,
+              "volatility": 0.24802409111877122,
+              "turnover": 0.0
+            },
+            "unlevered_trend": {
+              "cagr": 0.06146268445545777,
+              "sharpe": 0.45713872081477813,
+              "max_drawdown": -0.3569198864191637,
+              "volatility": 0.15811530803227686,
+              "turnover": 6.549370161323924
+            },
+            "fixed_150": {
+              "cagr": 0.1042640597283393,
+              "sharpe": 0.45454848711474055,
+              "max_drawdown": -0.7165721479119439,
+              "volatility": 0.3717056543472109,
+              "turnover": 0.6184627900521965
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": -0.04620159180024919,
+            "drawdown_improvement": 0.10170836054193133,
+            "newey_west_t": -1.4072216404852265
+          },
+          "signals": {
+            "completed_weekly_signals_in_formal_period": 940,
+            "risk_on_weeks": 673,
+            "risk_off_weeks": 267,
+            "completed_rebalances_in_formal_period": 597,
+            "latest_policy": "risk_on_scaled_equity",
+            "latest_completed_week_end": "2026-07-31",
+            "latest_target_equity_notional": 1.3584804310804472
+          }
+        },
+        "smallcap600": {
+          "label": "S&P SmallCap 600",
+          "assets": {
+            "core": "IJR",
+            "leveraged": "SAA",
+            "defensive": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": false,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": true,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": false,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median_vs_core": false,
+            "cagr_beats_unlevered_trend_25bp": false,
+            "sharpe_beats_unlevered_trend": false,
+            "calmar_beats_unlevered_trend": false,
+            "50bps_cagr_beats_unlevered_trend_10bp": false,
+            "both_halves_cagr_beat_unlevered_trend_10bp": false,
+            "sharpe_beats_fixed_150": false,
+            "calmar_beats_fixed_150": false,
+            "drawdown_improves_fixed_150_10pp": true,
+            "50bps_cagr_shortfall_vs_fixed_within_100bp": false
+          },
+          "passed_gate_count": 2,
+          "required_gate_count": 16,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "initial_signal": "2008-07-25",
+            "initial_execution": "2008-07-28"
+          },
+          "strategy_metrics": {
+            "cagr": 0.02786275159421292,
+            "sharpe": 0.2446720317893679,
+            "max_drawdown": -0.440601441838367,
+            "volatility": 0.17582651528002297,
+            "turnover": 12.236601018187855
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.1057723909762125,
+              "sharpe": 0.5381276776238704,
+              "max_drawdown": -0.5359621699375778,
+              "volatility": 0.2416544697068573,
+              "turnover": 0.0
+            },
+            "unlevered_trend": {
+              "cagr": 0.035892847532646543,
+              "sharpe": 0.30278247353470894,
+              "max_drawdown": -0.38295189368563765,
+              "volatility": 0.15796713888603273,
+              "turnover": 7.881445448371128
+            },
+            "fixed_150": {
+              "cagr": 0.12014159576020966,
+              "sharpe": 0.49682127052143465,
+              "max_drawdown": -0.7098215166120766,
+              "volatility": 0.3603983619267969,
+              "turnover": 0.6469231080952632
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": -0.07790963938199957,
+            "drawdown_improvement": 0.09536072809921081,
+            "newey_west_t": -2.2018379573103384
+          },
+          "signals": {
+            "completed_weekly_signals_in_formal_period": 940,
+            "risk_on_weeks": 688,
+            "risk_off_weeks": 252,
+            "completed_rebalances_in_formal_period": 651,
+            "latest_policy": "risk_on_scaled_equity",
+            "latest_completed_week_end": "2026-07-31",
+            "latest_target_equity_notional": 1.5
+          }
+        }
+      },
+      "paper_entry_decision": "do_not_create"
+    },
+    "capital_efficient": {
+      "name": "v17 資本效率股票／公債組合",
+      "status": "capital_efficient_equity_bond_validation_failed",
+      "paper_eligible": false,
+      "statistically_confirmed": false,
+      "economic_passed_gate_count": 48,
+      "economic_required_gate_count": 84,
+      "data_passed_gate_count": 7,
+      "data_required_gate_count": 7,
+      "statistical_passed_gate_count": 9,
+      "statistical_required_gate_count": 54,
+      "large_cap_years": 20,
+      "mid_small_cap_years": 18,
+      "datasets": {
+        "sp500": {
+          "label": "S&P 500",
+          "assets": {
+            "core": "SPY",
+            "leveraged": "SSO",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 8,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2006-07-31",
+            "end": "2026-07-31",
+            "sessions": 5032,
+            "years": 20,
+            "initial_signal": "2006-06-30",
+            "initial_execution": "2006-07-03"
+          },
+          "strategy_metrics": {
+            "cagr": 0.12082778948395201,
+            "sharpe": 0.6416286883784077,
+            "max_drawdown": -0.6270163817058921,
+            "volatility": 0.21387486129081257,
+            "turnover": 0.4302106092187816
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.11252967297909855,
+              "sharpe": 0.6470901483308908,
+              "max_drawdown": -0.5518944765193945,
+              "volatility": 0.19427563921372681,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.09543375931058917,
+              "sharpe": 0.7241915245431415,
+              "max_drawdown": -0.41974632845419513,
+              "volatility": 0.1395381839940704,
+              "turnover": 0.17606740311446153
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.1137188868173058,
+              "sharpe": 0.6015147412833121,
+              "max_drawdown": -0.6423602652112423,
+              "volatility": 0.2196519161311474,
+              "turnover": 0.41954537926088115
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.008298116504853459,
+            "drawdown_improvement": -0.07512190518649764,
+            "newey_west_t": 1.3002962343806153
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 241,
+            "completed_rebalances_in_formal_period": 240,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "SSO": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
+          }
+        },
+        "nasdaq100": {
+          "label": "Nasdaq-100",
+          "assets": {
+            "core": "QQQ",
+            "leveraged": "QLD",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": true,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 9,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2006-07-31",
+            "end": "2026-07-31",
+            "sessions": 5032,
+            "years": 20,
+            "initial_signal": "2006-06-30",
+            "initial_execution": "2006-07-03"
+          },
+          "strategy_metrics": {
+            "cagr": 0.18427550063120668,
+            "sharpe": 0.8015745410403361,
+            "max_drawdown": -0.5981636594375201,
+            "volatility": 0.2507053984454144,
+            "turnover": 0.5254529397650107
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.16629754805328534,
+              "sharpe": 0.8082105681295224,
+              "max_drawdown": -0.5340401644868734,
+              "volatility": 0.22091663276166576,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.1360710474522857,
+              "sharpe": 0.8758068460493297,
+              "max_drawdown": -0.40180177656562066,
+              "volatility": 0.16068240272873588,
+              "turnover": 0.21206661023064452
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.17693620312974745,
+              "sharpe": 0.7674857985625334,
+              "max_drawdown": -0.6148007026809129,
+              "volatility": 0.2552412115784018,
+              "turnover": 0.5158177590474043
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.01797795257792134,
+            "drawdown_improvement": -0.06412349495064673,
+            "newey_west_t": 2.229884767732552
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 241,
+            "completed_rebalances_in_formal_period": 240,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "QLD": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
+          }
+        },
+        "dow30": {
+          "label": "Dow 30",
+          "assets": {
+            "core": "DIA",
+            "leveraged": "DDM",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": true,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 9,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2006-07-31",
+            "end": "2026-07-31",
+            "sessions": 5032,
+            "years": 20,
+            "initial_signal": "2006-06-30",
+            "initial_execution": "2006-07-03"
+          },
+          "strategy_metrics": {
+            "cagr": 0.11280029332548591,
+            "sharpe": 0.6343381319351735,
+            "max_drawdown": -0.5909767333340403,
+            "volatility": 0.2006396489298458,
+            "turnover": 0.41586052197455164
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.10439055006554421,
+              "sharpe": 0.6303478046794808,
+              "max_drawdown": -0.5186841558363026,
+              "volatility": 0.18492195424935245,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.08921575233729184,
+              "sharpe": 0.7128761172073297,
+              "max_drawdown": -0.38924737449063185,
+              "volatility": 0.13238047405328146,
+              "turnover": 0.1714919176279465
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.10569272576916267,
+              "sharpe": 0.5912396215712671,
+              "max_drawdown": -0.6075477793236685,
+              "volatility": 0.20641679265394394,
+              "turnover": 0.40534602185722246
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.008409743259941704,
+            "drawdown_improvement": -0.07229257749773776,
+            "newey_west_t": 1.2476703197782717
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 241,
+            "completed_rebalances_in_formal_period": 240,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "DDM": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
+          }
+        },
+        "midcap400": {
+          "label": "S&P MidCap 400",
+          "assets": {
+            "core": "IJH",
+            "leveraged": "MVV",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 8,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "years": 18,
+            "initial_signal": "2006-06-30",
+            "initial_execution": "2006-07-03"
+          },
+          "strategy_metrics": {
+            "cagr": 0.1096838263710167,
+            "sharpe": 0.5380515950347393,
+            "max_drawdown": -0.5776138152113949,
+            "volatility": 0.2540796426099792,
+            "turnover": 0.5156313691608678
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.10578233079970834,
+              "sharpe": 0.5599345080480989,
+              "max_drawdown": -0.5028263056515674,
+              "volatility": 0.2255555593937366,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.09035656404774062,
+              "sharpe": 0.614070987462249,
+              "max_drawdown": -0.3884835801822589,
+              "volatility": 0.16276742961870985,
+              "turnover": 0.20907771295569696
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.10299627967997882,
+              "sharpe": 0.5087846195408304,
+              "max_drawdown": -0.5863044244750018,
+              "volatility": 0.2596602560205526,
+              "turnover": 0.5037583873718917
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.0039014955713083666,
+            "drawdown_improvement": -0.07478750955982749,
+            "newey_west_t": 1.0080958582813624
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 217,
+            "completed_rebalances_in_formal_period": 216,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "MVV": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
+          }
+        },
+        "russell2000": {
+          "label": "Russell 2000",
+          "assets": {
+            "core": "IWM",
+            "leveraged": "UWM",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": false,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": false,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "years": 18,
+            "initial_signal": "2007-01-31",
+            "initial_execution": "2007-02-01"
+          },
+          "strategy_metrics": {
+            "cagr": 0.09726148909625909,
+            "sharpe": 0.47210480345043154,
+            "max_drawdown": -0.615878581453314,
+            "volatility": 0.2809047417691167,
+            "turnover": 0.5790100061640112
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.09610540298047066,
+              "sharpe": 0.4951966553834132,
+              "max_drawdown": -0.5388406256389022,
+              "volatility": 0.24802396806181143,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.08419153117296285,
+              "sharpe": 0.5401182123222941,
+              "max_drawdown": -0.4198428427696932,
+              "volatility": 0.18000657224571243,
+              "turnover": 0.23698582761525816
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.09034402027532229,
+              "sharpe": 0.44653809405045114,
+              "max_drawdown": -0.6244737691789015,
+              "volatility": 0.2862686503027614,
+              "turnover": 0.563288552460163
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.001156086115788435,
+            "drawdown_improvement": -0.07703795581441175,
+            "newey_west_t": 0.865469168181704
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 217,
+            "completed_rebalances_in_formal_period": 216,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "UWM": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
+          }
+        },
+        "smallcap600": {
+          "label": "S&P SmallCap 600",
+          "assets": {
+            "core": "IJR",
+            "leveraged": "SAA",
+            "duration_defensive": "IEF",
+            "short_duration_control": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "economic_gates": {
+            "cagr_beats_core_25bp": true,
+            "sharpe_beats_core": false,
+            "drawdown_not_worse_than_core": false,
+            "calmar_beats_core": false,
+            "50bps_cagr_beats_core_10bp": true,
+            "both_halves_cagr_beat_core_10bp": false,
+            "rolling_wins_60pct_and_positive_median": true,
+            "sharpe_beats_unlevered_75_25": false,
+            "calmar_beats_unlevered_75_25": false,
+            "50bps_cagr_beats_unlevered_75_25_10bp": true,
+            "cagr_beats_60_40_shy_10bp": true,
+            "sharpe_beats_60_40_shy": true,
+            "drawdown_not_worse_than_60_40_shy": true,
+            "calmar_beats_60_40_shy": true
+          },
+          "passed_gate_count": 8,
+          "required_gate_count": 14,
+          "period": {
+            "start": "2008-07-31",
+            "end": "2026-07-31",
+            "sessions": 4528,
+            "years": 18,
+            "initial_signal": "2007-01-31",
+            "initial_execution": "2007-02-01"
+          },
+          "strategy_metrics": {
+            "cagr": 0.11039810569510111,
+            "sharpe": 0.5188302424338559,
+            "max_drawdown": -0.6060065717854473,
+            "volatility": 0.2757257286465597,
+            "turnover": 0.5799741023207933
+          },
+          "benchmark_metrics": {
+            "core": {
+              "cagr": 0.10577240573359759,
+              "sharpe": 0.5381277571904859,
+              "max_drawdown": -0.5359623469306107,
+              "volatility": 0.24165445328182877,
+              "turnover": 0.0
+            },
+            "unlevered_75_25": {
+              "cagr": 0.09119825402490855,
+              "sharpe": 0.5864333611631114,
+              "max_drawdown": -0.4178862914961122,
+              "volatility": 0.17538718730236771,
+              "turnover": 0.23176900749335225
+            },
+            "leveraged_60_40_shy": {
+              "cagr": 0.10336940548799567,
+              "sharpe": 0.49164507760621307,
+              "max_drawdown": -0.614435611715456,
+              "volatility": 0.28113490318554896,
+              "turnover": 0.5623054625785321
+            }
+          },
+          "comparison_vs_core": {
+            "cagr_difference": 0.004625699961503527,
+            "drawdown_improvement": -0.07004422485483652,
+            "newey_west_t": 1.0316085885123154
+          },
+          "signals": {
+            "completed_month_end_targets_in_formal_period": 217,
+            "completed_rebalances_in_formal_period": 216,
+            "latest_completed_month_end": "2026-07-31",
+            "latest_target": {
+              "SAA": 0.6,
+              "IEF": 0.4
+            },
+            "approximate_equity_notional": 1.2,
+            "treasury_notional": 0.4,
+            "total_notional": 1.6
           }
         }
       },

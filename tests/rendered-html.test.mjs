@@ -102,6 +102,13 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /報酬放大了，虧損也放大了/);
   assert.match(html, /不能拼成「獨立 20 年」/);
   assert.match(html, /v15 三市場年化都贏 ETF，為什麼還是不能 Paper/);
+  assert.match(html, /2008–2026 · v16 中小型股週度趨勢／波動煞車/);
+  assert.match(html, /少跌一些，是否值得犧牲一半以上報酬/);
+  assert.match(html, /v16 已降低回撤，為什麼連 Paper 都不開/);
+  assert.match(html, /2006–2026 \/ 2008–2026 · v17 六市場股債資本效率/);
+  assert.match(html, /年化比較高，為什麼仍不是穩健策略/);
+  assert.match(html, /更高 CAGR 不是免費午餐/);
+  assert.match(html, /v17 六市場 CAGR 多數較高，為什麼仍不算跑贏/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -426,6 +433,48 @@ test("v15 beats each core CAGR but rejects deeper drawdown and weaker Sharpe", a
   assert.ok(v15.datasets.sp500.strategy_metrics.cagr < v15.datasets.sp500.benchmark_metrics.fixed_90_10.cagr);
   assert.ok(v15.datasets.dow30.strategy_metrics.cagr < v15.datasets.dow30.benchmark_metrics.fixed_90_10.cagr);
   assert.ok(payload.limitations.some((item) => /v15 先凍結.*不建 Paper/.test(item)));
+});
+
+test("v16 lowers drawdown but fails return and all statistical gates", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v16 = payload.research_pipeline.trend_volatility_brake;
+  assert.equal(v16.status, "new_mid_small_cap_leveraged_etf_validation_failed");
+  assert.equal(v16.paper_eligible, false);
+  assert.equal(v16.economic_passed_gate_count, 6);
+  assert.equal(v16.economic_required_gate_count, 48);
+  assert.equal(v16.data_passed_gate_count, 4);
+  assert.equal(v16.data_required_gate_count, 4);
+  assert.equal(v16.statistical_passed_gate_count, 0);
+  assert.equal(v16.statistical_required_gate_count, 27);
+  assert.equal(v16.independent_confirmation_years, 18);
+  for (const data of Object.values(v16.datasets)) {
+    assert.equal(data.passed_gate_count, 2);
+    assert.ok(data.strategy_metrics.cagr < data.benchmark_metrics.core.cagr);
+  }
+  assert.ok(payload.limitations.some((item) => /v16 先凍結.*不建 Paper/.test(item)));
+});
+
+test("v17 preserves twenty years where available but rejects deeper drawdowns", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v17 = payload.research_pipeline.capital_efficient;
+  assert.equal(v17.status, "capital_efficient_equity_bond_validation_failed");
+  assert.equal(v17.paper_eligible, false);
+  assert.equal(v17.economic_passed_gate_count, 48);
+  assert.equal(v17.economic_required_gate_count, 84);
+  assert.equal(v17.data_passed_gate_count, 7);
+  assert.equal(v17.data_required_gate_count, 7);
+  assert.equal(v17.statistical_passed_gate_count, 9);
+  assert.equal(v17.statistical_required_gate_count, 54);
+  assert.equal(v17.large_cap_years, 20);
+  assert.equal(v17.mid_small_cap_years, 18);
+  for (const data of Object.values(v17.datasets)) {
+    assert.ok(data.strategy_metrics.max_drawdown < data.benchmark_metrics.core.max_drawdown);
+  }
+  assert.ok(payload.limitations.some((item) => /v17 每月固定.*不建 Paper/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
