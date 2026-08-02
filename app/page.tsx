@@ -91,6 +91,10 @@ export default function Home() {
   const alwaysInvested = data.research_pipeline.always_invested;
   const lowTurnover = data.research_pipeline.low_turnover;
   const hierarchicalDefense = data.research_pipeline.hierarchical_defense;
+  const confirmedGrowth = data.research_pipeline.confirmed_relative_growth;
+  const confirmedR1000 = confirmedGrowth.datasets.russell_1000;
+  const confirmedR2000 = confirmedGrowth.datasets.russell_2000;
+  const confirmedEafe = confirmedGrowth.datasets.eafe;
   return (
     <>
       <header className="topbar">
@@ -516,6 +520,50 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="industry-tilt-audit v13-audit">
+              <div className="cross-market-head">
+                <div><span>2006–2026 · v13 規則先鎖定、再下載新 ETF</span><h3>已知年代看起來進步，真正的新資料答應了嗎？</h3></div>
+                <strong>{confirmedGrowth.economic_passed_gate_count} / {confirmedGrowth.economic_required_gate_count} 道新資料經濟門檻 · 不建立 Paper</strong>
+              </div>
+              <p>v13 用連續兩個月確認降低假切換；成長成立時是 40% 核心／60% 成長，成長關閉且核心也轉弱時才放 30% 短債。這套規則先在既有年代探索，之後才把參數與淘汰條件寫死，再第一次下載大中型、小型與海外三組 ETF。這一段比「舊回測變漂亮」更重要。</p>
+              <div className="industry-tilt-grid">
+                <article className="failed">
+                  <span>Russell 1000 · 策略 / IWB 年化</span>
+                  <strong>{pct(confirmedR1000.strategy_metrics.cagr, 2)} / {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>回撤較淺，但 20 年長期報酬仍少 {pct(Math.abs(confirmedR1000.comparison.cagr_difference), 2)}</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 1000 · 50 bps / 五年勝率</span>
+                  <strong>{pct(confirmedR1000.cost_50bps_cagr_difference, 2)} / {pct(confirmedR1000.rolling_five_year.win_fraction, 1)}</strong>
+                  <p>成本與跨起點一致性都未通過</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · 策略 / IWM 年化</span>
+                  <strong>{pct(confirmedR2000.strategy_metrics.cagr, 2)} / {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}</strong>
+                  <p>小型成長替代核心沒有產生穩健超額</p>
+                </article>
+                <article className="failed">
+                  <span>Russell 2000 · 50 bps / 五年勝率</span>
+                  <strong>{pct(confirmedR2000.cost_50bps_cagr_difference, 2)} / {pct(confirmedR2000.rolling_five_year.win_fraction, 1)}</strong>
+                  <p>前後十年也都沒有領先</p>
+                </article>
+                <article className="failed">
+                  <span>EAFE · 固定起點前暖機</span>
+                  <strong>{confirmedEafe.warmup_common_sessions} / {confirmedEafe.required_warmup_sessions} 日</strong>
+                  <p>少 5 日；不事後延後起點或替換 ETF</p>
+                </article>
+                <article className="failed">
+                  <span>新資料 / 完整性 / 統計</span>
+                  <strong>{confirmedGrowth.economic_passed_gate_count}/{confirmedGrowth.economic_required_gate_count} · {confirmedGrowth.data_passed_gate_count}/{confirmedGrowth.data_required_gate_count} · {confirmedGrowth.statistical_passed_gate_count}/{confirmedGrowth.statistical_required_gate_count}</strong>
+                  <p>三層都沒有同時通過，研究在 Paper 前停止</p>
+                </article>
+              </div>
+              <div className="research-target-warning">
+                <b>新手結論：少跌不等於有能力跑贏</b>
+                <p>Russell 1000 組的最大回撤確實較 IWB 淺，但 CAGR 反而較低；如果只挑回撤卡片，就會得出錯誤的「策略成功」。v13 沒有交易帳戶、沒有可照抄百分比，也不會因這次失敗再調 40/60、70/30 或確認月數。</p>
+              </div>
+            </div>
+
             <div className="industry-tilt-audit">
               <div className="cross-market-head">
                 <div><span>1989–2026 · v7 相對成長衛星</span><h3>降低 SPY 回撤，為何仍不是已證實 alpha？</h3></div>
@@ -744,6 +792,7 @@ export default function Home() {
             <details><summary>v8 已經連續兩段都跑贏市場，為什麼還是不開 Paper？<span>＋</span></summary><p>因為「全期勝出」不是唯一條件。v8 主期年化 {pct(alwaysInvested.main.strategy_metrics.cagr, 2)}，確實高於 SPY {pct(alwaysInvested.main.benchmark_metrics.market.cagr, 2)}，舊代理也勝出；但 50 bps 成本後主期略輸 SPY，舊代理最大回撤比市場深 {pct(Math.abs(alwaysInvested.proxy.comparison.drawdown_difference), 1)}，而兩段 NW t 都未達 1.96。事前 16 道 Paper 入口只過 {alwaysInvested.paper_entry_passed_gate_count} 道，所以不能用結果出來後再放寬規格。</p></details>
             <details><summary>v9 已減少交易，為什麼成本門檻還是失敗？<span>＋</span></summary><p>因為一次從 100% SPY 切到 60% SPY／40% QQQ，再切回來，仍會買賣相當多部位。主期 {lowTurnover.main.signals.completed_month_ends_in_formal_period} 個月末只完成 {lowTurnover.main.signals.completed_executions_in_formal_period} 次切換，但年換手仍約 {pct(lowTurnover.main.strategy_metrics.turnover, 1)}；50 bps 後只領先 SPY {pct(lowTurnover.main.cost_50bps_cagr_difference, 3)}，低於事前 0.10% 門檻。加上舊期回撤與全新外部期後半失敗，23 道只過 {lowTurnover.paper_entry_passed_gate_count} 道，因此仍不開 Paper。</p></details>
             <details><summary>v12 已把回撤壓低，為什麼仍不值得 Paper？<span>＋</span></summary><p>主期最大回撤從 SPY 的 {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)} 改善到 {pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)}，但 CAGR 也從 {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)} 降到 {pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)}；50 bps 成本後年化再落後 {pct(Math.abs(hierarchicalDefense.main.cost_50bps_cagr_difference), 2)}，後十年與外部期後半都沒跑贏。它是有用的風險控制負結果，不是穩健 alpha，所以事前 23 道入口只過 {hierarchicalDefense.paper_entry_passed_gate_count} 道，Paper 指令必須拒絕。</p></details>
+            <details><summary>v13 交易更少、舊年代更好，為什麼還是淘汰？<span>＋</span></summary><p>因為降低換手是在已知資料上找到的改善，不是獨立證據。規則鎖定後才下載的 Russell 1000 組，策略年化 {pct(confirmedR1000.strategy_metrics.cagr, 2)} 低於 IWB {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}；Russell 2000 組也以 {pct(confirmedR2000.strategy_metrics.cagr, 2)} 落後 IWM {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}。新資料 30 道只過 {confirmedGrowth.economic_passed_gate_count} 道，所以不能用既有年代的漂亮結果覆蓋真正的新反證。</p></details>
             <details><summary>最大回撤 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
             <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總報酬的調整單位，不是券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和損益不會被重寫。</p></details>
             <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收盤後重新計算；有新訊號時，只在下一個交易日開盤模擬調整。</p></details>

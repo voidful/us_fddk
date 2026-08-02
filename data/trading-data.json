@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T15:42:07.902665Z",
+  "generated_at_utc": "2026-08-02T16:13:43.671006Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,6 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
+    "v13 先凍結兩月確認與部分防守規則，再下載三組新 ETF；Russell 1000 CAGR 10.94% 低於 IWB 11.17%，Russell 2000 CAGR 7.30% 低於 IWM 8.86%，EAFE 固定起點前只有 247/252 個暖機日。新資料經濟門檻 9/30，不建 Paper。",
     "v12 保留 60% 核心，剩餘 40% 依序切到成長、核心或防守；2006–2026 CAGR 11.10% 低於 SPY 11.25%，雖把最大回撤改善 13.96%，50 bps 後年化落後 1.19%。1973–1988 後半也落後，Paper 入口 16/23，不建帳戶。",
     "v9 改為只在狀態切換時交易、成長槽位降至 40%；2006–2026 CAGR 12.10% 勝 SPY 11.25%，但 50 bps 後僅領先 0.004%；舊代理回撤多深 7.94%，1973–1988 外部期後半也落後。Paper 入口 20/23，不建帳戶。",
     "v8 永遠維持 100% 股票曝險，2006–2026 CAGR 12.32% 勝 SPY 11.27%，但 50 bps 成本後略輸 SPY；1989–2006 代理最大回撤又比 S&P 500 深 6.97pp。Paper 入口 14/16，依凍結規格不建帳戶。",
@@ -1998,6 +1999,225 @@
         "old_proxy_probability": 0.00295181866557237,
         "external_probability": 0.000141892063871496
       }
+    },
+    "confirmed_relative_growth": {
+      "name": "v13 兩月確認相對成長三態",
+      "status": "new_etf_validation_failed",
+      "paper_eligible": false,
+      "historically_confirmed": false,
+      "economic_passed_gate_count": 9,
+      "economic_required_gate_count": 30,
+      "data_passed_gate_count": 3,
+      "data_required_gate_count": 4,
+      "statistical_passed_gate_count": 0,
+      "statistical_required_gate_count": 9,
+      "protocol_sha256": "177e727f3a2c59ef9f5eb7b83b67b67468a8740bbeff0f22a9921fdbb034e0f1",
+      "datasets": {
+        "russell_1000": {
+          "label": "Russell 1000 大中型股",
+          "assets": {
+            "core": "IWB",
+            "growth": "IWF",
+            "defensive": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "warmup_common_sessions": 648,
+          "required_warmup_sessions": 252,
+          "economic_gates": {
+            "cagr_beats_market_10bp": false,
+            "sharpe_beats_market": true,
+            "drawdown_not_worse_than_market_5pp": true,
+            "calmar_beats_market": true,
+            "50bps_cagr_beats_market_10bp": false,
+            "both_halves_cagr_beat_market_10bp": false,
+            "rolling_wins_60pct_and_positive_median": false,
+            "cagr_beats_matched_10bp": true,
+            "sharpe_beats_matched": true,
+            "drawdown_not_worse_than_matched_5pp": true
+          },
+          "passed_gate_count": 6,
+          "required_gate_count": 10,
+          "strategy_metrics": {
+            "cagr": 0.1094129217445372,
+            "sharpe": 0.6836263996593068,
+            "max_drawdown": -0.41896328193101373,
+            "volatility": 0.17448100788823862,
+            "turnover": 2.1253191284389192
+          },
+          "benchmark_metrics": {
+            "market": {
+              "cagr": 0.11165210331657338,
+              "sharpe": 0.6452473045944328,
+              "max_drawdown": -0.5538074282471387,
+              "volatility": 0.19339133759947136,
+              "turnover": 0.0
+            },
+            "matched": {
+              "cagr": 0.1061305635678047,
+              "sharpe": 0.6809153234725598,
+              "max_drawdown": -0.4218570295194952,
+              "volatility": 0.16959028345349436,
+              "turnover": 0.6530510158063664
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.002239181572036175,
+            "drawdown_improvement": 0.13484414631612496,
+            "newey_west_t": -0.5626590965438191
+          },
+          "cost_50bps_cagr_difference": -0.011632618805729411,
+          "fixed_halves": {
+            "first": {
+              "cagr_difference": 0.0031693440439330978
+            },
+            "second": {
+              "cagr_difference": -0.008229661252788567
+            }
+          },
+          "rolling_five_year": {
+            "win_fraction": 0.35,
+            "median_cagr_difference": -0.005105503879103135
+          },
+          "signals": {
+            "completed_month_ends_in_formal_period": 241,
+            "state_month_counts": {
+              "growth": 133,
+              "core": 71,
+              "defense": 37
+            },
+            "state_change_signals_in_formal_period": 43,
+            "completed_executions_in_formal_period": 43,
+            "latest_state": "core",
+            "latest_completed_month_end": "2026-07-31"
+          }
+        },
+        "russell_2000": {
+          "label": "Russell 2000 小型股",
+          "assets": {
+            "core": "IWM",
+            "growth": "IWO",
+            "defensive": "SHY"
+          },
+          "status": "completed",
+          "data_gate_passed": true,
+          "warmup_common_sessions": 648,
+          "required_warmup_sessions": 252,
+          "economic_gates": {
+            "cagr_beats_market_10bp": false,
+            "sharpe_beats_market": false,
+            "drawdown_not_worse_than_market_5pp": true,
+            "calmar_beats_market": true,
+            "50bps_cagr_beats_market_10bp": false,
+            "both_halves_cagr_beat_market_10bp": false,
+            "rolling_wins_60pct_and_positive_median": false,
+            "cagr_beats_matched_10bp": false,
+            "sharpe_beats_matched": false,
+            "drawdown_not_worse_than_matched_5pp": true
+          },
+          "passed_gate_count": 3,
+          "required_gate_count": 10,
+          "strategy_metrics": {
+            "cagr": 0.07299395911490714,
+            "sharpe": 0.4393309987627151,
+            "max_drawdown": -0.46657016216050595,
+            "volatility": 0.21208054224665743,
+            "turnover": 2.4460651827155466
+          },
+          "benchmark_metrics": {
+            "market": {
+              "cagr": 0.0885691382300855,
+              "sharpe": 0.4700768946739146,
+              "max_drawdown": -0.5864000697552132,
+              "volatility": 0.2448721303498334,
+              "turnover": 0.0
+            },
+            "matched": {
+              "cagr": 0.0753563267003956,
+              "sharpe": 0.4514160140677019,
+              "max_drawdown": -0.4775399771226534,
+              "volatility": 0.2105934253733274,
+              "turnover": 1.123262871915259
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.015575179115178361,
+            "drawdown_improvement": 0.11982990759470724,
+            "newey_west_t": -1.8705538881205996
+          },
+          "cost_50bps_cagr_difference": -0.026025537580709246,
+          "fixed_halves": {
+            "first": {
+              "cagr_difference": -0.010828041306022662
+            },
+            "second": {
+              "cagr_difference": -0.020459869854565715
+            }
+          },
+          "rolling_five_year": {
+            "win_fraction": 0.022222222222222223,
+            "median_cagr_difference": -0.02024637411424668
+          },
+          "signals": {
+            "completed_month_ends_in_formal_period": 241,
+            "state_month_counts": {
+              "growth": 93,
+              "core": 87,
+              "defense": 61
+            },
+            "state_change_signals_in_formal_period": 55,
+            "completed_executions_in_formal_period": 55,
+            "latest_state": "core",
+            "latest_completed_month_end": "2026-07-31"
+          }
+        },
+        "eafe": {
+          "label": "EAFE 美國以外已開發市場",
+          "assets": {
+            "core": "EFA",
+            "growth": "EFG",
+            "defensive": "SHY"
+          },
+          "status": "insufficient_warmup",
+          "data_gate_passed": false,
+          "warmup_common_sessions": 247,
+          "required_warmup_sessions": 252,
+          "economic_gates": {
+            "cagr_beats_market_10bp": false,
+            "sharpe_beats_market": false,
+            "drawdown_not_worse_than_market_5pp": false,
+            "calmar_beats_market": false,
+            "50bps_cagr_beats_market_10bp": false,
+            "both_halves_cagr_beat_market_10bp": false,
+            "rolling_wins_60pct_and_positive_median": false,
+            "cagr_beats_matched_10bp": false,
+            "sharpe_beats_matched": false,
+            "drawdown_not_worse_than_matched_5pp": false
+          },
+          "passed_gate_count": 0,
+          "required_gate_count": 10,
+          "failure": "固定起點前只有 247 個共同有效交易日，少於 252；依協議不延後起點或替換 ETF",
+          "diagnostic": {
+            "gate_eligible": false,
+            "start": "2006-10-02",
+            "strategy_metrics": {
+              "cagr": 0.04791348056028166,
+              "sharpe": 0.35099796171042313,
+              "max_drawdown": -0.48252053224563785,
+              "volatility": 0.17982497565775096,
+              "turnover": 1.8638229506734572
+            },
+            "market_metrics": {
+              "cagr": 0.05403450803229637,
+              "sharpe": 0.3526686047124151,
+              "max_drawdown": -0.6103731033865369,
+              "volatility": 0.21530221545793812,
+              "turnover": 0.050383543548364745
+            }
+          }
+        }
+      },
+      "paper_entry_decision": "do_not_create"
     }
   },
   "readiness": {

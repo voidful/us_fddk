@@ -88,6 +88,11 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /回撤改善了，為什麼仍不能當成跑贏 ETF 策略/);
   assert.match(html, /Paper 指令鎖定/);
   assert.match(html, /v12 已把回撤壓低，為什麼仍不值得 Paper/);
+  assert.match(html, /2006–2026 · v13 規則先鎖定、再下載新 ETF/);
+  assert.match(html, /已知年代看起來進步，真正的新資料答應了嗎/);
+  assert.match(html, /道新資料經濟門檻/);
+  assert.match(html, /少跌不等於有能力跑贏/);
+  assert.match(html, /v13 交易更少、舊年代更好，為什麼還是淘汰/);
   assert.match(html, /不替換 v2；v3 留在隔離 Paper/);
   assert.match(html, /任何漂移都拒絕更新網站/);
   assert.match(html, /獨立 Paper 驗證/);
@@ -338,6 +343,31 @@ test("v12 improves drawdown but rejects return, cost, persistence, and statistic
   assert.match(v12.prior_data_failures.v11.error, /403/);
   assert.deepEqual(v12.main.current_policy_allocation, { SPY: 0.6, QQQ: 0.4 });
   assert.ok(payload.limitations.some((item) => /v12 保留 60% 核心.*Paper 入口 16\/23/.test(item)));
+});
+
+test("v13 freezes the rule before new ETF pairs and rejects cross-universe claims", async () => {
+  const payload = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const v13 = payload.research_pipeline.confirmed_relative_growth;
+  assert.equal(v13.status, "new_etf_validation_failed");
+  assert.equal(v13.paper_eligible, false);
+  assert.equal(v13.historically_confirmed, false);
+  assert.equal(v13.economic_passed_gate_count, 9);
+  assert.equal(v13.economic_required_gate_count, 30);
+  assert.equal(v13.data_passed_gate_count, 3);
+  assert.equal(v13.data_required_gate_count, 4);
+  assert.equal(v13.statistical_passed_gate_count, 0);
+  assert.equal(v13.statistical_required_gate_count, 9);
+  assert.ok(v13.datasets.russell_1000.strategy_metrics.cagr < v13.datasets.russell_1000.benchmark_metrics.market.cagr);
+  assert.ok(v13.datasets.russell_2000.strategy_metrics.cagr < v13.datasets.russell_2000.benchmark_metrics.market.cagr);
+  assert.ok(v13.datasets.russell_1000.cost_50bps_cagr_difference < 0);
+  assert.ok(v13.datasets.russell_2000.cost_50bps_cagr_difference < 0);
+  assert.equal(v13.datasets.eafe.status, "insufficient_warmup");
+  assert.equal(v13.datasets.eafe.warmup_common_sessions, 247);
+  assert.equal(v13.datasets.eafe.required_warmup_sessions, 252);
+  assert.equal(v13.paper_entry_decision, "do_not_create");
+  assert.ok(payload.limitations.some((item) => /v13 先凍結兩月確認.*新資料經濟門檻 9\/30/.test(item)));
 });
 
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
