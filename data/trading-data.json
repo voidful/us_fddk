@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T23:05:08.383602Z",
+  "generated_at_utc": "2026-08-02T23:32:42.588613Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -196,7 +196,7 @@
     "allocation_hint": "目前 QQQ 約 75%；SHY 防守準備金約 25%。"
   },
   "limitations": [
-    "v25 三條實際 20 年大型成長＋黃金路徑與彙總入口已通過，但相對 SPY 的 NW t 只有 0.98；LIVE Paper 只有 0 個新增交易日。現在只顯示 Paper 80/20，不是實金指令。",
+    "v25 三條實際 20 年大型成長＋黃金路徑與彙總入口已通過，但相對 SPY 的 NW t 只有 0.98；年化仍比三路徑純成長 ETF 彙總少 0.36 個百分點；LIVE Paper 只有 0 個新增交易日。現在只顯示 Paper 80/20，不是實金指令。",
     "v24 學術品質＋動能 20 年通過 10/10，但可買的 QUAL／MTUM 只有 5/10、SPHQ／PDP 跨管理人 0/7；學術代理不是實際 ETF，不建 Paper、不顯示 50/50。",
     "v23 50% SSO／50% KMLM 的 20 年代理把最大回撤由 -50.8% 改善到 -41.5%，但 CAGR 只領先 0.04%；長期 6/10、KMLM 7/10、FMF 2/7，不建 Paper、不顯示 50/50。",
     "v22 九產業完整期 CAGR 全數勝普通 ETF，但五年滾動有效勝率沒有一組達 60%，等權也只有 51.2%；經濟入口 13/15、統計 0/3，不建 Paper、不顯示 50/25/25。",
@@ -7021,6 +7021,14 @@
               "cagr_difference": 0.015060004264626281
             }
           },
+          "fixed_halves_vs_growth": {
+            "first": {
+              "cagr_difference": 0.0007843683543204971
+            },
+            "second": {
+              "cagr_difference": -0.008249495530298079
+            }
+          },
           "rolling_five_year_vs_spy": {
             "windows": 181,
             "cagr_win_fraction": 0.6022099447513812,
@@ -7032,6 +7040,152 @@
             "cagr_win_fraction": 0.7292817679558011,
             "median_cagr_difference": 0.013809771085568467,
             "worst_cagr_difference": -0.01694799586927931
+          },
+          "rolling_five_year_vs_growth": {
+            "windows": 181,
+            "cagr_win_fraction": 0.19889502762430938,
+            "median_cagr_difference": -0.014239318957259606,
+            "worst_cagr_difference": -0.044572403531395244
+          },
+          "post_entry_diagnostics_not_used_for_frozen_gate": {
+            "used_for_frozen_entry_gate": false,
+            "portfolio_underwater": {
+              "max_underwater_months": 35,
+              "current_drawdown": -0.060101012039439294,
+              "deepest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-10-29",
+                "underwater_months": 35,
+                "drawdown": -0.371253540990678,
+                "recovered": true
+              },
+              "longest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-10-29",
+                "underwater_months": 35,
+                "drawdown": -0.371253540990678,
+                "recovered": true
+              }
+            },
+            "relative_wealth_underwater": {
+              "SPY": {
+                "max_underwater_months": 168,
+                "current_drawdown": -0.06671806065771524,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2025-09-30",
+                  "underwater_months": 168,
+                  "drawdown": -0.22119681025772198,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2025-09-30",
+                  "underwater_months": 168,
+                  "drawdown": -0.22119681025772198,
+                  "recovered": true
+                }
+              },
+              "growth": {
+                "max_underwater_months": 179,
+                "current_drawdown": -0.22539898517883716,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28712169251185127,
+                  "recovered": false
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28712169251185127,
+                  "recovered": false
+                }
+              },
+              "matched": {
+                "max_underwater_months": 126,
+                "current_drawdown": -0.05036212333155521,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2022-03-31",
+                  "underwater_months": 126,
+                  "drawdown": -0.10263268316049057,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2022-03-31",
+                  "underwater_months": 126,
+                  "drawdown": -0.10263268316049057,
+                  "recovered": true
+                }
+              }
+            },
+            "rolling_five_year_entry_timing_risk": {
+              "SPY": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.6022099447513812,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.05012497597580978
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.008674842930488813
+                }
+              },
+              "growth": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.19889502762430938,
+                "worst_window": {
+                  "start": "2012-10-31",
+                  "end": "2017-10-31",
+                  "cagr_difference": -0.044572403531395244
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.014615437241952245
+                }
+              },
+              "matched": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.7292817679558011,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.01694799586927931
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.032922524769550376
+                }
+              }
+            }
           }
         },
         "ishares": {
@@ -7103,6 +7257,14 @@
               "cagr_difference": 0.014703660945350583
             }
           },
+          "fixed_halves_vs_growth": {
+            "first": {
+              "cagr_difference": 0.00108808052546161
+            },
+            "second": {
+              "cagr_difference": -0.007898905130640843
+            }
+          },
           "rolling_five_year_vs_spy": {
             "windows": 181,
             "cagr_win_fraction": 0.6464088397790055,
@@ -7114,6 +7276,152 @@
             "cagr_win_fraction": 0.7403314917127072,
             "median_cagr_difference": 0.01407826920900801,
             "worst_cagr_difference": -0.016567849851389038
+          },
+          "rolling_five_year_vs_growth": {
+            "windows": 181,
+            "cagr_win_fraction": 0.19337016574585636,
+            "median_cagr_difference": -0.015690008135757383,
+            "worst_cagr_difference": -0.04642542684776174
+          },
+          "post_entry_diagnostics_not_used_for_frozen_gate": {
+            "used_for_frozen_entry_gate": false,
+            "portfolio_underwater": {
+              "max_underwater_months": 35,
+              "current_drawdown": -0.0800422685576796,
+              "deepest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-10-29",
+                "underwater_months": 35,
+                "drawdown": -0.37908534699688556,
+                "recovered": true
+              },
+              "longest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-10-29",
+                "underwater_months": 35,
+                "drawdown": -0.37908534699688556,
+                "recovered": true
+              }
+            },
+            "relative_wealth_underwater": {
+              "SPY": {
+                "max_underwater_months": 106,
+                "current_drawdown": -0.10376988859015102,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.2151620369503925,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.2151620369503925,
+                  "recovered": true
+                }
+              },
+              "growth": {
+                "max_underwater_months": 179,
+                "current_drawdown": -0.22222928336929249,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28737622678388286,
+                  "recovered": false
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28737622678388286,
+                  "recovered": false
+                }
+              },
+              "matched": {
+                "max_underwater_months": 106,
+                "current_drawdown": -0.05003045284080654,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.10120120851164538,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.10120120851164538,
+                  "recovered": true
+                }
+              }
+            },
+            "rolling_five_year_entry_timing_risk": {
+              "SPY": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.6464088397790055,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.04780567397331881
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.004750103064329325
+                }
+              },
+              "growth": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.19337016574585636,
+                "worst_window": {
+                  "start": "2012-11-30",
+                  "end": "2017-11-30",
+                  "cagr_difference": -0.04642542684776174
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.015567179050595792
+                }
+              },
+              "matched": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.7403314917127072,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.016567849851389038
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.03315684377950512
+                }
+              }
+            }
           }
         },
         "state_street": {
@@ -7185,6 +7493,14 @@
               "cagr_difference": 0.014925327478373607
             }
           },
+          "fixed_halves_vs_growth": {
+            "first": {
+              "cagr_difference": 0.0005277310034741411
+            },
+            "second": {
+              "cagr_difference": -0.008571543476388666
+            }
+          },
           "rolling_five_year_vs_spy": {
             "windows": 181,
             "cagr_win_fraction": 0.6022099447513812,
@@ -7196,6 +7512,152 @@
             "cagr_win_fraction": 0.7292817679558011,
             "median_cagr_difference": 0.014174246769868004,
             "worst_cagr_difference": -0.01671946571392713
+          },
+          "rolling_five_year_vs_growth": {
+            "windows": 181,
+            "cagr_win_fraction": 0.19337016574585636,
+            "median_cagr_difference": -0.0137529587336358,
+            "worst_cagr_difference": -0.04594158216630517
+          },
+          "post_entry_diagnostics_not_used_for_frozen_gate": {
+            "used_for_frozen_entry_gate": false,
+            "portfolio_underwater": {
+              "max_underwater_months": 34,
+              "current_drawdown": -0.04928881438031918,
+              "deepest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-09-30",
+                "underwater_months": 34,
+                "drawdown": -0.3721481341821852,
+                "recovered": true
+              },
+              "longest_episode": {
+                "peak": "2007-10-31",
+                "underwater_start": "2007-11-30",
+                "trough": "2009-02-27",
+                "recovery": "2010-09-30",
+                "underwater_months": 34,
+                "drawdown": -0.3721481341821852,
+                "recovered": true
+              }
+            },
+            "relative_wealth_underwater": {
+              "SPY": {
+                "max_underwater_months": 172,
+                "current_drawdown": -0.03983836874086788,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2026-01-30",
+                  "underwater_months": 172,
+                  "drawdown": -0.2089960117964591,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2016-12-30",
+                  "recovery": "2026-01-30",
+                  "underwater_months": 172,
+                  "drawdown": -0.2089960117964591,
+                  "recovered": true
+                }
+              },
+              "growth": {
+                "max_underwater_months": 179,
+                "current_drawdown": -0.2290904814358259,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28434861536429434,
+                  "recovered": false
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2021-11-30",
+                  "recovery": null,
+                  "underwater_months": 179,
+                  "drawdown": -0.28434861536429434,
+                  "recovered": false
+                }
+              },
+              "matched": {
+                "max_underwater_months": 106,
+                "current_drawdown": -0.050039898530752414,
+                "deepest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.10121023340798052,
+                  "recovered": true
+                },
+                "longest_episode": {
+                  "peak": "2011-08-31",
+                  "underwater_start": "2011-09-30",
+                  "trough": "2015-12-31",
+                  "recovery": "2020-07-31",
+                  "underwater_months": 106,
+                  "drawdown": -0.10121023340798052,
+                  "recovered": true
+                }
+              }
+            },
+            "rolling_five_year_entry_timing_risk": {
+              "SPY": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.6022099447513812,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.04640739626042922
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.01739539591184225
+                }
+              },
+              "growth": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.19337016574585636,
+                "worst_window": {
+                  "start": "2012-11-30",
+                  "end": "2017-11-30",
+                  "cagr_difference": -0.04594158216630517
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.012139578176308286
+                }
+              },
+              "matched": {
+                "window_months": 60,
+                "windows": 181,
+                "winning_window_fraction": 0.7292817679558011,
+                "worst_window": {
+                  "start": "2011-11-30",
+                  "end": "2016-11-30",
+                  "cagr_difference": -0.01671946571392713
+                },
+                "latest_window": {
+                  "start": "2021-07-30",
+                  "end": "2026-07-31",
+                  "cagr_difference": 0.03317372998542356
+                }
+              }
+            }
           }
         }
       },
@@ -7219,6 +7681,13 @@
           "max_drawdown": -0.5078482110558489,
           "volatility": 0.1525062176371771,
           "turnover": 0.04999897330595516
+        },
+        "growth_metrics": {
+          "cagr": 0.13296808652220382,
+          "sharpe": 0.8306662572499831,
+          "max_drawdown": -0.4748686820878236,
+          "volatility": 0.16732947029127618,
+          "turnover": 0.08033423434153639
         },
         "matched_metrics": {
           "cagr": 0.11178308945864579,
@@ -7250,11 +7719,170 @@
             "cagr_difference": 0.014974836770035527
           }
         },
+        "fixed_halves_vs_growth": {
+          "first": {
+            "cagr_difference": 0.0007751022806752328
+          },
+          "second": {
+            "cagr_difference": -0.008284523417546152
+          }
+        },
         "rolling_five_year_vs_spy": {
           "windows": 181,
           "cagr_win_fraction": 0.6298342541436464,
           "median_cagr_difference": 0.010280242707691123,
           "worst_cagr_difference": -0.04805932091431342
+        },
+        "rolling_five_year_vs_growth": {
+          "windows": 181,
+          "cagr_win_fraction": 0.19337016574585636,
+          "median_cagr_difference": -0.014152182468777585,
+          "worst_cagr_difference": -0.04561817047273875
+        },
+        "tradeoff_vs_growth": {
+          "cagr_difference": -0.003609993012839041,
+          "sharpe_difference": 0.10346220995352484,
+          "drawdown_improvement": 0.1007188496019451
+        },
+        "post_entry_diagnostics_not_used_for_frozen_gate": {
+          "used_for_frozen_entry_gate": false,
+          "portfolio_underwater": {
+            "max_underwater_months": 35,
+            "current_drawdown": -0.06313218665784326,
+            "deepest_episode": {
+              "peak": "2007-10-31",
+              "underwater_start": "2007-11-30",
+              "trough": "2009-02-27",
+              "recovery": "2010-10-29",
+              "underwater_months": 35,
+              "drawdown": -0.3741498324858785,
+              "recovered": true
+            },
+            "longest_episode": {
+              "peak": "2007-10-31",
+              "underwater_start": "2007-11-30",
+              "trough": "2009-02-27",
+              "recovery": "2010-10-29",
+              "underwater_months": 35,
+              "drawdown": -0.3741498324858785,
+              "recovered": true
+            }
+          },
+          "relative_wealth_underwater": {
+            "SPY": {
+              "max_underwater_months": 168,
+              "current_drawdown": -0.06575184895418751,
+              "deepest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2016-12-30",
+                "recovery": "2025-09-30",
+                "underwater_months": 168,
+                "drawdown": -0.21492086832595692,
+                "recovered": true
+              },
+              "longest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2016-12-30",
+                "recovery": "2025-09-30",
+                "underwater_months": 168,
+                "drawdown": -0.21492086832595692,
+                "recovered": true
+              }
+            },
+            "growth": {
+              "max_underwater_months": 179,
+              "current_drawdown": -0.22598306943709112,
+              "deepest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2021-11-30",
+                "recovery": null,
+                "underwater_months": 179,
+                "drawdown": -0.2864541597618304,
+                "recovered": false
+              },
+              "longest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2021-11-30",
+                "recovery": null,
+                "underwater_months": 179,
+                "drawdown": -0.2864541597618304,
+                "recovered": false
+              }
+            },
+            "matched": {
+              "max_underwater_months": 106,
+              "current_drawdown": -0.05014378699642397,
+              "deepest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2015-12-31",
+                "recovery": "2020-07-31",
+                "underwater_months": 106,
+                "drawdown": -0.101682481805356,
+                "recovered": true
+              },
+              "longest_episode": {
+                "peak": "2011-08-31",
+                "underwater_start": "2011-09-30",
+                "trough": "2015-12-31",
+                "recovery": "2020-07-31",
+                "underwater_months": 106,
+                "drawdown": -0.101682481805356,
+                "recovered": true
+              }
+            }
+          },
+          "rolling_five_year_entry_timing_risk": {
+            "SPY": {
+              "window_months": 60,
+              "windows": 181,
+              "winning_window_fraction": 0.6298342541436464,
+              "worst_window": {
+                "start": "2011-11-30",
+                "end": "2016-11-30",
+                "cagr_difference": -0.04805932091431342
+              },
+              "latest_window": {
+                "start": "2021-07-30",
+                "end": "2026-07-31",
+                "cagr_difference": 0.010379044958859218
+              }
+            },
+            "growth": {
+              "window_months": 60,
+              "windows": 181,
+              "winning_window_fraction": 0.19337016574585636,
+              "worst_window": {
+                "start": "2012-11-30",
+                "end": "2017-11-30",
+                "cagr_difference": -0.04561817047273875
+              },
+              "latest_window": {
+                "start": "2021-07-30",
+                "end": "2026-07-31",
+                "cagr_difference": 0.014051579700240069
+              }
+            },
+            "matched": {
+              "window_months": 60,
+              "windows": 181,
+              "winning_window_fraction": 0.7292817679558011,
+              "worst_window": {
+                "start": "2011-11-30",
+                "end": "2016-11-30",
+                "cagr_difference": -0.01674632071633253
+              },
+              "latest_window": {
+                "start": "2021-07-30",
+                "end": "2026-07-31",
+                "cagr_difference": 0.03308699147904259
+              }
+            }
+          }
         },
         "statistics_vs_spy": {
           "newey_west_t": 0.9756303614861627,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AllocationCalculator from "./AllocationCalculator";
 import FreshnessGuard from "./FreshnessGuard";
+import PaperAllocationLab from "./PaperAllocationLab";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
@@ -140,6 +141,11 @@ export default function Home() {
   const growthGoldForward = growthGoldPaper.forward_evidence;
   const growthGoldPending = growthGoldPaper.pending_order !== null;
   const growthGoldReady = growthGold.real_money_signal_display_allowed === true;
+  const growthGoldDiagnostics = growthGoldPooled.post_entry_diagnostics_not_used_for_frozen_gate;
+  const growthGoldUnderwater = growthGoldDiagnostics.portfolio_underwater;
+  const growthGoldRelativeSpy = growthGoldDiagnostics.relative_wealth_underwater.SPY;
+  const growthGoldRelativeGrowth = growthGoldDiagnostics.relative_wealth_underwater.growth;
+  const growthGoldWorstSpyWindow = growthGoldDiagnostics.rolling_five_year_entry_timing_risk.SPY.worst_window;
   const growthGoldIntegrity = [
     "all_accounts_live_and_same_start",
     "all_accounts_same_as_of",
@@ -228,7 +234,7 @@ export default function Home() {
             </div>
             </div> : <div className="fresh-only signal-stop">
               <strong>今日實金動作：0</strong>
-              <p>系統仍會記錄 Paper 結果，但不顯示可照抄的 ETF 百分比或金額。</p>
+              <p>系統仍會記錄 Paper 結果，但不顯示可照抄的實金下單金額。</p>
               <ul>
                 <li><span>未通過</span>相近曝險的被動 90/10 基準</li>
                 <li><span>未通過</span>多重搜尋後的統計確認</li>
@@ -294,6 +300,20 @@ export default function Home() {
             <article><span>目前狀態</span><strong>{growthGoldPending ? "等待模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "維持現金"}</strong><small>{growthGoldPaper.transactions} 筆成交 · {money(growthGoldPaper.equity)}</small></article>
             <article><span>更新期限</span><strong>{data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</strong><small>超過期限，頁面會自動隱藏舊訊號</small></article>
           </div>
+          <div className="v25-risk-reality" aria-labelledby="v25-risk-reality-title">
+            <div className="paper-lab-heading">
+              <div><span>先看壞消息，再看報酬</span><h3 id="v25-risk-reality-title">跑贏 SPY，不等於跑贏每一種 ETF</h3></div>
+              <p>這些是入口通過後補做的透明診斷，沒有回頭加入凍結門檻，也沒有替 10/10 加分。</p>
+            </div>
+            <div className="v25-risk-grid">
+              <article><span>相對 SPY 年化</span><strong>+{pct(growthGoldPooled.strategy_metrics.cagr - growthGoldPooled.spy_metrics.cagr, 2)}</strong><p>20 年全期勝出，但最差五年 {growthGoldWorstSpyWindow.start.slice(0, 7)}–{growthGoldWorstSpyWindow.end.slice(0, 7)} 每年落後 {pct(Math.abs(growthGoldWorstSpyWindow.cagr_difference), 2)}。</p></article>
+              <article className="caution"><span>相對純成長 ETF</span><strong>{pct(growthGoldPooled.tradeoff_vs_growth.cagr_difference, 2)}</strong><p>純成長年化 {pct(growthGoldPooled.growth_metrics.cagr, 2)}，高於 v25；v25 換到約 {pct(growthGoldPooled.tradeoff_vs_growth.drawdown_improvement, 1)} 的回撤改善。</p></article>
+              <article><span>自己最久低於先前高點</span><strong>{growthGoldUnderwater.max_underwater_months} 個月</strong><p>{growthGoldUnderwater.longest_episode.peak.slice(0, 7)} 高點後下跌，至 {growthGoldUnderwater.longest_episode.recovery?.slice(0, 7) ?? "期末仍未復原"} 才回到先前高點。</p></article>
+              <article className="caution"><span>相對純成長的等待</span><strong>{growthGoldRelativeGrowth.max_underwater_months} 個月</strong><p>相對財富期末仍比先前高點低 {pct(Math.abs(growthGoldRelativeGrowth.current_drawdown), 1)}；這不代表每月都輸，而是可能多年懷疑策略。</p></article>
+              <article><span>相對 SPY 的等待</span><strong>{growthGoldRelativeSpy.max_underwater_months} 個月</strong><p>全期最後雖勝 SPY，累積相對財富仍曾長達約 14 年未回到先前相對高點。</p></article>
+            </div>
+          </div>
+          <PaperAllocationLab paperOnly={!growthGoldReady} />
           <p className="readiness-note"><b>{growthGoldReady ? "通過後紀律：" : "升級規則："}</b>{growthGoldReady ? "每次日更仍須維持三帳戶同步、資料未過期且前瞻優勢沒有失效；任一完整性門檻失敗就立即停止顯示參考配置。" : <>還缺 {growthGoldForward.remaining_sessions} 個真正新增交易日與 {growthGoldForward.remaining_filled_rebalances} 次完成再平衡；同起點 SPY 與 80% VUG／20% SHY Paper 會一起比較。任何一項失敗都繼續 Paper-only。</>}</p>
         </section>
 
