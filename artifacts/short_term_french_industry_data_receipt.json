@@ -1,0 +1,213 @@
+{
+  "status": "french_industry_daily_first_download_contract_failed",
+  "downloaded_at_utc": "2026-08-03T15:15:11.575907Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_INDUSTRY_MOMENTUM_PROTOCOL.md",
+    "sha256": "538df4e867dd807db55a7076cdba5015191f1f60e3cc63a7b25de5a393175510",
+    "commit": "8d0979c392e86100eaa95f3212a0c74db77b24b4"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_MAPPING.md",
+    "sha256": "abad4423b0463a7f88174359ba868e6eea17a119e62cce5913502d1e535f73e8"
+  },
+  "archives": {
+    "industry_49": {
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/49_Industry_Portfolios_Daily_CSV.zip",
+      "path": "artifacts/french_49_industry_daily_e214c54a.zip",
+      "sha256": "e214c54a41f058c03ed4a4e582b2126e04120d2a84bc19c023bd2a4251f77097",
+      "size_bytes": 4185680,
+      "member": "49_Industry_Portfolios_Daily.csv"
+    },
+    "ff_factors": {
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip",
+      "path": "artifacts/french_ff_factors_daily_af8aec07.zip",
+      "sha256": "af8aec07d55c98caa15045a77b87455be68cb8847b2ee5bd03bf5c2c8a3f96e2",
+      "size_bytes": 177699,
+      "member": "F-F_Research_Data_Factors_daily.csv"
+    },
+    "momentum": {
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Momentum_Factor_daily_CSV.zip",
+      "path": "artifacts/french_momentum_daily_f4237e2e.zip",
+      "sha256": "f4237e2e36dffa13fd7823f55376316a94b5ac663af951dd9eaca8ed2c678bcf",
+      "size_bytes": 89788,
+      "member": "F-F_Momentum_Factor_daily.csv"
+    }
+  },
+  "tables": {
+    "industry_49_value_weighted": {
+      "columns": [
+        "Agric",
+        "Food",
+        "Soda",
+        "Beer",
+        "Smoke",
+        "Toys",
+        "Fun",
+        "Books",
+        "Hshld",
+        "Clths",
+        "Hlth",
+        "MedEq",
+        "Drugs",
+        "Chems",
+        "Rubbr",
+        "Txtls",
+        "BldMt",
+        "Cnstr",
+        "Steel",
+        "FabPr",
+        "Mach",
+        "ElcEq",
+        "Autos",
+        "Aero",
+        "Ships",
+        "Guns",
+        "Gold",
+        "Mines",
+        "Coal",
+        "Oil",
+        "Util",
+        "Telcm",
+        "PerSv",
+        "BusSv",
+        "Hardw",
+        "Softw",
+        "Chips",
+        "LabEq",
+        "Paper",
+        "Boxes",
+        "Trans",
+        "Whlsl",
+        "Rtail",
+        "Meals",
+        "Banks",
+        "Insur",
+        "RlEst",
+        "Fin",
+        "Other"
+      ],
+      "rows": 26253,
+      "start": "1926-07-01",
+      "end": "2026-05-29",
+      "missing_cells": 67250,
+      "missing_by_column": {
+        "Agric": 0,
+        "Food": 0,
+        "Soda": 10420,
+        "Beer": 0,
+        "Smoke": 0,
+        "Toys": 2,
+        "Fun": 0,
+        "Books": 1,
+        "Hshld": 0,
+        "Clths": 0,
+        "Hlth": 11903,
+        "MedEq": 1,
+        "Drugs": 0,
+        "Chems": 0,
+        "Rubbr": 1495,
+        "Txtls": 0,
+        "BldMt": 0,
+        "Cnstr": 0,
+        "Steel": 0,
+        "FabPr": 10420,
+        "Mach": 0,
+        "ElcEq": 0,
+        "Autos": 0,
+        "Aero": 0,
+        "Ships": 0,
+        "Guns": 10420,
+        "Gold": 10420,
+        "Mines": 0,
+        "Coal": 0,
+        "Oil": 0,
+        "Util": 0,
+        "Telcm": 0,
+        "PerSv": 315,
+        "BusSv": 0,
+        "Hardw": 0,
+        "Softw": 10925,
+        "Chips": 0,
+        "LabEq": 1,
+        "Paper": 927,
+        "Boxes": 0,
+        "Trans": 0,
+        "Whlsl": 0,
+        "Rtail": 0,
+        "Meals": 0,
+        "Banks": 0,
+        "Insur": 0,
+        "RlEst": 0,
+        "Fin": 0,
+        "Other": 0
+      },
+      "missing_first": "19260701",
+      "missing_last": "19710311",
+      "maximum_absolute_daily_return": 1.5
+    },
+    "ff_factors": {
+      "columns": [
+        "Mkt-RF",
+        "SMB",
+        "HML",
+        "RF"
+      ],
+      "rows": 26253,
+      "start": "1926-07-01",
+      "end": "2026-05-29",
+      "missing_cells": 0,
+      "missing_by_column": {
+        "Mkt-RF": 0,
+        "SMB": 0,
+        "HML": 0,
+        "RF": 0
+      },
+      "missing_first": null,
+      "missing_last": null,
+      "maximum_absolute_daily_return": 0.1744
+    },
+    "momentum": {
+      "columns": [
+        "Mom"
+      ],
+      "rows": 26152,
+      "start": "1926-11-03",
+      "end": "2026-05-29",
+      "missing_cells": 0,
+      "missing_by_column": {
+        "Mom": 0
+      },
+      "missing_first": null,
+      "missing_last": null,
+      "maximum_absolute_daily_return": 0.18230000000000002
+    }
+  },
+  "common_period": {
+    "raw_start": "1926-11-03",
+    "raw_end": "2026-05-29",
+    "raw_sessions": 26152,
+    "formal_start": "1969-12-30",
+    "formal_end": "2026-05-29",
+    "formal_sessions": 14225
+  },
+  "checks": {
+    "three_urls_frozen_before_first_download": true,
+    "three_archives_nonempty_and_hashed": true,
+    "raw_common_start_no_later_than_1927_01_31": true,
+    "raw_common_end_is_in_2026_05_release": true,
+    "industry_columns_exactly_49": true,
+    "formal_start_found_no_later_than_1970_12_31": true,
+    "formal_period_all_three_files_complete": false,
+    "missing_codes_audited_without_imputation": true,
+    "all_dates_unique_and_strictly_increasing": true,
+    "signal_t_return_t_plus_1_rule_frozen": true
+  },
+  "download_performed_once": true,
+  "calculation_started": false,
+  "decision_boundary": {
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
