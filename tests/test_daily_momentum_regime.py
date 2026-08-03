@@ -7,7 +7,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from scripts.build_short_term_daily_momentum_regime_report import _site_summary
+from scripts.build_short_term_daily_momentum_regime_report import (
+    _canonicalize,
+    _site_summary,
+)
 from usfddk.daily_momentum_regime import (
     PRIOR_COLUMNS,
     build_daily_momentum_regime_research,
@@ -136,8 +139,13 @@ def test_published_summary_matches_the_frozen_full_result(result: dict[str, obje
             encoding="utf-8"
         )
     )
-    assert published == _site_summary(result)
+    assert published == _site_summary(_canonicalize(result))
     assert published["headline"] == "每日環境共振近期失效：27/48，不建立 Paper"
     assert published["recent"]["candidate"]["hypothetical_1000_usd_end"] == pytest.approx(
         1122.359367232924
     )
+
+
+def test_canonicalizer_removes_cross_platform_float_noise() -> None:
+    assert _canonicalize(0.123456789012345) == 0.123456789012
+    assert _canonicalize(0.0000000312078618503) == 3.120786185e-08

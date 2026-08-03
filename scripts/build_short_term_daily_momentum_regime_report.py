@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -16,6 +17,19 @@ from usfddk.daily_momentum_regime import (  # noqa: E402
 VALIDATION = ROOT / "artifacts/short_term_daily_momentum_regime_validation.json"
 SITE_DATA = ROOT / "site/data/short-term-daily-momentum-regime.json"
 REPORT = ROOT / "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md"
+
+
+def _canonicalize(value: Any) -> Any:
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError("研究輸出包含非有限浮點數")
+        digits = 10 if 0 < abs(value) < 1e-5 else 12
+        return float(f"{value:.{digits}g}")
+    if isinstance(value, dict):
+        return {key: _canonicalize(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize(item) for item in value]
+    return value
 
 
 def _pct(value: float, digits: int = 2) -> str:
@@ -283,7 +297,7 @@ v1 原樣重跑，並把日頻換手的 bid-ask spread／退出樣本真正計�
 
 
 def main() -> int:
-    data = build_daily_momentum_regime_research(ROOT)
+    data = _canonicalize(build_daily_momentum_regime_research(ROOT))
     _write_json(VALIDATION, data)
     _write_json(SITE_DATA, _site_summary(data))
     REPORT.write_text(_render_report(data), encoding="utf-8")
