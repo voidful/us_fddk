@@ -16,7 +16,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+html { scroll-behavior: auto; scroll-padding-top: 92px; }
 body {
   margin: 0;
   color: var(--ink);
@@ -266,9 +266,6 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
 .footer-grid b { display: block; font-size: 0.82rem; }
 .footer-grid p { margin: 5px 0 0; color: #a9bdb6; font-size: 0.7rem; }
 
-html[data-motion="ready"] .motion-reveal { opacity: 0; transform: translateY(16px); transition: opacity 560ms ease var(--motion-delay, 0ms), transform 560ms cubic-bezier(.2,.7,.2,1) var(--motion-delay, 0ms); }
-html[data-motion="ready"] .motion-reveal.is-visible { opacity: 1; transform: translateY(0); }
-
 @keyframes status-pulse {
   0% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
   70%, 100% { box-shadow: 0 0 0 7px transparent; opacity: 0.75; }
@@ -328,5 +325,4 @@ html[data-motion="ready"] .motion-reveal.is-visible { opacity: 1; transform: tra
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  html[data-motion] .motion-reveal { opacity: 1; transform: none; }
 }

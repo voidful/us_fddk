@@ -44,8 +44,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
         .map((name) => readFile(new URL(name, assetsUrl), "utf8")),
     )
   ).join("\n");
-  assert.match(javascript, /IntersectionObserver/);
-  assert.match(javascript, /motion-reveal/);
+  assert.doesNotMatch(javascript, /IntersectionObserver/);
+  assert.doesNotMatch(javascript, /motion-reveal/);
   assert.match(styles, /status-pulse/);
-  assert.match(styles, /data-motion=ready/);
+  assert.doesNotMatch(styles, /data-motion=ready|motion-reveal/);
 });
