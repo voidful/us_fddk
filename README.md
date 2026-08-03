@@ -48,6 +48,8 @@
 - 短線高回報第一輪把凍結的 12–1／6–1 月綜合動量規則跑成 20 年現時股池沙盒，並直譯三個台股 20 日動量版本。沙盒 CAGR 21.52% 雖勝 QQQ 16.70%，卻輸同股池漂移 23.04%；NW t 1.83、全專案 DSR 2.51%、PBO 69.05%，且逐期成分及退市回報未齊，因此不建立短線 Paper。
 - 短線第二輪在首次計算前另凍結[訊號層協議](docs/SHORT_TERM_SIGNAL_DIAGNOSTIC_PROTOCOL.md)：20 日 Top-7 固定持有事件相對同日合資格池平均 +0.32 個百分點、NW t 3.03，前後十年均為正；但仍屬現時股池倒推，故只保留為 CRSP／WRDS 或 Norgate 重測線索，不產生選股名單或 Paper。
 - 短線第三輪先凍結[Vanguard 行業 ETF 外部協議](docs/SHORT_TERM_SECTOR_ETF_PROTOCOL.md)，才首次下載十行業共同面板。月度 Top-3 CAGR 5.28%，遠低於 QQQ 16.73%；固定 20 日事件配對差 -0.05 個百分點、NW t -0.77，訊號 0/5、總門檻 7/21、PBO 79.37%。完整[負結果報告](docs/SHORT_TERM_SECTOR_ETF_RESEARCH_REPORT.md)保留，沒有改參數救援或建立 Paper。
+- 短線第四輪先凍結 French 49 Industry 日線資料契約，再取得官方首份快照；`Softw` 在 1971-03-11 缺值，違反完整共同面板要求。整輪在策略計算前停止，不補值、不移動起點，也不換一份資料重試。
+- 短線第五輪另行凍結[French 30 Industry 協議](docs/SHORT_TERM_FRENCH_30_INDUSTRY_MOMENTUM_PROTOCOL.md)後，才首次取得無缺值官方日線。月度 6–1 Top-3 在 1963–2005 的 CAGR 14.11%，但 2006–2026 只錄得 12.55%，50 bps 成本壓力下跌至 7.85%；近期 Newey–West t 值僅 0.67／0.90、DSR 只有 0.10%／0.21%、PBO 88.10%，資料／主期／近期合計只過 17/33。完整[研究報告](docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md)保留，短線 Paper 與實金維持關閉。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -206,6 +208,10 @@ python scripts/build_short_term_high_return.py
 
 # 只用已凍結的首次 Vanguard 行業快照重建第三輪外部產品負結果
 python scripts/build_short_term_sector_etf.py
+
+# 只用已凍結的首次 French 30 Industry 與因子快照重建第五輪學術代理負結果
+# 輸出完整驗證 JSON 及網站摘要；守門固定拒絕建立 Paper 或實金配置
+python scripts/build_short_term_french_30_industry_report.py
 
 # v25 三路徑 12/12、彙總 10/10、資料 8/8；同一快照同步推進候選、SPY
 # 與 80% VUG／20% SHY 公平基準，只做隔離 Paper，實金仍關閉

@@ -5,7 +5,7 @@ import StrategyTabs from "./StrategyTabs";
 import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
 import shortResearch from "../data/short-term-research.json";
-import sectorResearch from "../data/short-term-sector-etf.json";
+import frenchResearch from "../data/short-term-french-30-industry.json";
 
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
@@ -114,33 +114,39 @@ const shortSignalRows = [
 ];
 const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical_gates).filter(Boolean).length;
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
-const sectorCandidate = sectorResearch.frozen_candidate;
-const sectorBaselines = sectorResearch.baselines;
-const sectorComparison = sectorResearch.comparison_vs_qqq;
-const sectorSignal = sectorResearch.fixed_20_day_signal_external_diagnostic;
-const sectorSignalComparison = sectorSignal.comparisons.eligible_equal;
-const sectorBootstrap = sectorSignal.moving_block_bootstrap_mean_difference_vs_eligible_equal;
-const sectorCostRows = [
-  { label: "10 bps", metrics: sectorCandidate.cost_sensitivity["10_bps"] },
-  { label: "25 bps", metrics: sectorCandidate.cost_sensitivity["25_bps"] },
-  { label: "50 bps", metrics: sectorCandidate.cost_sensitivity["50_bps"] },
-];
-const sectorBaselineRows = [
-  { label: "凍結月度 Top-3", detail: "20 日動量＋60 日趨勢", metrics: sectorCandidate.metrics, featured: true },
-  { label: "QQQ 買入持有", detail: "高回報機會成本", metrics: sectorBaselines.QQQ },
-  { label: "SPY 買入持有", detail: "美國大型股", metrics: sectorBaselines.SPY },
-  { label: "VTI 買入持有", detail: "美國全市場", metrics: sectorBaselines.VTI },
-  { label: "相同持倉比率行業等權", detail: "公平股票持倉比率控制", metrics: sectorBaselines.matched_equity_exposure_equal_sector },
-  { label: "十行業月度等權", detail: "不排序、每月重設等權", metrics: sectorBaselines.sector_monthly_equal },
-  { label: "十行業等權後漂移", detail: "起點等權、不再輪選", metrics: sectorBaselines.sector_start_equal_then_drift },
-];
-const sectorTickerOrder = ["VGT", "VCR", "VIS", "VHT", "VDC", "VAW", "VPU", "VOX", "VFH", "VDE"] as const;
-const sectorIndividualRows = sectorTickerOrder.map((ticker) => ({
-  ticker,
-  ...sectorResearch.individual_sector_buy_and_hold_diagnostics[ticker],
+const frenchCandidate = frenchResearch.frozen_candidate;
+const frenchPrimary = frenchResearch.primary_external_period;
+const frenchRecent = frenchResearch.recent_confirmation_period;
+const frenchPrimaryEvent = frenchPrimary.fixed_20_day_event;
+const frenchRecentEvent = frenchRecent.fixed_20_day_event;
+const frenchPrimaryMarket = frenchPrimary.comparisons.market;
+const frenchPrimaryEqual = frenchPrimary.comparisons.industry_monthly_equal;
+const frenchRecentMarket = frenchRecent.comparisons.market;
+const frenchRecentEqual = frenchRecent.comparisons.industry_monthly_equal;
+const frenchCostRows = ["10_bps", "25_bps", "50_bps"].map((key) => ({
+  label: key.replace("_", " "),
+  metrics: frenchCandidate.cost_sensitivity_full_history[key as keyof typeof frenchCandidate.cost_sensitivity_full_history],
 }));
-const sectorDataPassed = Object.values(sectorResearch.data_gates).filter(Boolean).length;
-const sectorEconomicPassed = Object.values(sectorResearch.economic_and_statistical_gates).filter(Boolean).length;
+const frenchPrimaryRows = [
+  { label: "6–1 行業動量 Top-3", detail: "唯一凍結候選 · 10 bps", metrics: frenchPrimary.candidate_metrics, featured: true },
+  { label: "French 美國市場", detail: "Mkt-RF + RF", metrics: frenchPrimary.baseline_metrics.market },
+  { label: "30 行業月度等權", detail: "不排序、每月回復等權", metrics: frenchPrimary.baseline_metrics.industry_monthly_equal },
+  { label: "30 行業起點等權後漂移", detail: "不排序、不再輪替", metrics: frenchPrimary.baseline_metrics.industry_start_equal_then_drift },
+];
+const frenchRecentRows = [
+  { label: "6–1 行業動量 Top-3", detail: "唯一凍結候選 · 10 bps", metrics: frenchRecent.candidate_metrics, featured: true },
+  { label: "French 美國市場", detail: "Mkt-RF + RF", metrics: frenchRecent.baseline_metrics.market },
+  { label: "30 行業月度等權", detail: "不排序、每月回復等權", metrics: frenchRecent.baseline_metrics.industry_monthly_equal },
+  { label: "30 行業起點等權後漂移", detail: "不排序、不再輪替", metrics: frenchRecent.baseline_metrics.industry_start_equal_then_drift },
+];
+const frenchStressRows = [
+  { label: "1973–1974 石油危機", result: frenchResearch.stress_periods["1973_1974"] },
+  { label: "1987 股災", result: frenchResearch.stress_periods["1987_crash"] },
+  { label: "2000–2002 科網泡沫", result: frenchResearch.stress_periods.dotcom },
+  { label: "2008–2009 金融海嘯", result: frenchResearch.stress_periods.gfc },
+  { label: "2020 新冠衝擊", result: frenchResearch.stress_periods.covid_2020 },
+  { label: "2022 加息衝擊", result: frenchResearch.stress_periods.rate_shock_2022 },
+];
 
 export default function Home() {
   return (
@@ -488,119 +494,138 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FRENCH 30</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />大型股動量輪選</h1>
+              <h1>短線高回報<br />行業動量外部研究</h1>
               <p className="hero-lead">
-                最新一輪先凍結規則，再首次下載 Vanguard 十行業 ETF 做 20 年外部驗證。
-                月度 Top-3 只錄得 <strong>{pct(sectorCandidate.metrics.cagr, 2)}</strong>，遠低於 QQQ 的 {pct(sectorBaselines.QQQ.cagr, 2)}；
-                固定 20 日訊號亦沒有跨產品重現。
-                <strong> 沒有可執行持倉、沒有 Paper 成交、實金動作為 US$0</strong>。
+                最新一輪在下載前凍結 6–1 行業動量 Top-3，再以 French 30 行業日回報做逾 63 年外部測試。
+                1963–2005 的年率化回報達 <strong>{pct(frenchPrimary.candidate_metrics.cagr, 2)}</strong>，但 2006–2026 只有 {pct(frenchRecent.candidate_metrics.cagr, 2)}，
+                統計、成本及過度配適門檻未通過。
+                <strong> 這是學術組合，不是可落盤 ETF；Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看第一輪結果</a>
+                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看最新完整結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>短線策略摘要</span>
-                <b>外部驗證失敗 · 不追認參數</b>
+                <b>17/33 · 機制驗證失敗</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>{sectorResearch.passed_gate_count} / {sectorResearch.required_gate_count} 道門檻；Paper 保持關閉</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>{frenchResearch.passed_gate_count} / {frenchResearch.required_gate_count} 道門檻；Paper 保持關閉</small>
               </div>
               <dl className="decision-list">
-                <div><dt>外部 CAGR</dt><dd>{pct(sectorCandidate.metrics.cagr, 2)}／QQQ {pct(sectorBaselines.QQQ.cagr, 2)}</dd></div>
-                <div><dt>硬傷</dt><dd>訊號 0/5／PBO {pct(sectorResearch.pbo_across_top_k_2_3_4.pbo, 1)}</dd></div>
+                <div><dt>主要期 CAGR</dt><dd>{pct(frenchPrimary.candidate_metrics.cagr, 2)}／市場 {pct(frenchPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
+                <div><dt>近期 CAGR</dt><dd>{pct(frenchRecent.candidate_metrics.cagr, 2)}／市場 {pct(frenchRecent.baseline_metrics.market.cagr, 2)}</dd></div>
+                <div><dt>硬傷</dt><dd>近期 NW t {frenchRecentMarket.newey_west.t_stat.toFixed(2)}／PBO {pct(frenchResearch.pbo.recent.pbo, 1)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
-              <p>VGT 是事後最佳行業，不是新候選；網頁不展示任何最新買入名單。</p>
+              <p>US$1,000 複利數字只解釋歷史尺度，不包括通脹、稅項及真實買賣差價，亦不是預測。</p>
             </aside>
           </section>
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>外部 Top-3 CAGR</span><strong>{pct(sectorCandidate.metrics.cagr, 2)}</strong><small>凍結後首次計算</small></article>
-              <article><span>QQQ 20 年年率化回報</span><strong>{pct(sectorBaselines.QQQ.cagr, 2)}</strong><small>正式高回報 baseline</small></article>
-              <article><span>50 bps 成本 CAGR</span><strong>{pct(sectorCandidate.cost_sensitivity["50_bps"].cagr, 2)}</strong><small>回報轉負</small></article>
-              <article><span>訊號層 NW t</span><strong>{sectorSignalComparison.newey_west.t_stat.toFixed(2)}</strong><small>五項門檻 0/5</small></article>
-              <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+              <article><span>1963–2005 CAGR</span><strong>{pct(frenchPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(frenchPrimary.baseline_metrics.market.cagr, 2)}</small></article>
+              <article><span>2006–2026 CAGR</span><strong>{pct(frenchRecent.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(frenchRecent.baseline_metrics.market.cagr, 2)}</small></article>
+              <article><span>近期 50 bps CAGR</span><strong>{pct(frenchRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>成本壓力下落後市場</small></article>
+              <article><span>近期 20 日事件 NW t</span><strong>{frenchRecentEvent.newey_west.t_stat.toFixed(2)}</strong><small>Bootstrap 下界 {pp(frenchRecentEvent.moving_block_bootstrap.low)}</small></article>
+              <article><span>短線 Paper</span><strong>未啟動</strong><small>17/33 · 實金為 0</small></article>
             </div>
           </section>
 
           <section className="section wrap" id="aggressive-evidence">
             <div className="section-heading">
-              <div><span>LATEST EXTERNAL VALIDATION</span><h2>首次 Vanguard 十行業驗證：沒有重現</h2></div>
-              <p>{sectorResearch.period.start} 至 {sectorResearch.period.end}；產品、規則、成本及 21 道門檻在首次共同下載前已凍結。</p>
+              <div><span>LATEST EXTERNAL VALIDATION</span><h2>French 30 行業逾 63 年驗證：早期有效，近期不足</h2></div>
+              <p>原始共同期 1926–2026；正式候選從 {shortDate(frenchPrimary.start)} 起計。規則、數據映射、成本及 33 道門檻在首次下載 30 行業 ZIP 前已凍結。</p>
             </div>
             <div className="aggressive-overview-grid">
               <article className="aggressive-verdict">
                 <span>最新研究判斷</span>
-                <h3>Top-3 較 QQQ 每年落後 {pp(Math.abs(sectorComparison.cagr_difference))}</h3>
-                <p>候選亦低於相同股票持倉比率行業等權 {pp(Math.abs(sectorResearch.comparison_vs_matched_control.cagr_difference))}。最大跌幅較淺，但不能抵銷回報、成本、分段、滾動窗口及統計失敗。</p>
+                <h3>有歷史行業動量，不等於近期可穩健賺取超額</h3>
+                <p>主要外部期較市場高 {pp(frenchPrimary.candidate_metrics.cagr - frenchPrimary.baseline_metrics.market.cagr)}，20 日事件亦 5/5；但近期只高 {pp(frenchRecent.candidate_metrics.cagr - frenchRecent.baseline_metrics.market.cagr)}，2006–2015 更落後市場，近期主動 NW t 只有 {frenchRecentMarket.newey_west.t_stat.toFixed(2)}。因此整體判定失敗。</p>
               </article>
               <div className="aggressive-risk-stack">
-                <article><span>凍結順序</span><strong>{sectorDataPassed}/6 數據門檻</strong><p>協議提交、首次下載、快照雜湊、完整 OHLCV 及下一開市時序全部通過。</p></article>
-                <article><span>經濟／統計門檻</span><strong>{sectorEconomicPassed}/15</strong><p>只通過最大跌幅限制；總計 {sectorResearch.passed_gate_count}/{sectorResearch.required_gate_count}，外部驗證失敗。</p></article>
+                <article><span>數據與凍結順序</span><strong>{frenchResearch.gate_breakdown.data}</strong><p>官方 ZIP、雜湊、30 欄、缺值及訊號 t／回報 t+1 全部通過。</p></article>
+                <article><span>雙時期硬門檻</span><strong>{frenchResearch.gate_breakdown.primary} · {frenchResearch.gate_breakdown.recent}</strong><p>近期只過最大跌幅及對行業等權的五年滾動一致性。</p></article>
               </div>
             </div>
 
             <div className="subsection-heading stock-heading">
-              <div><span>FAIR BASELINES</span><h3>候選、三個市場 ETF 與三個行業控制</h3></div>
-              <p>同一快照、同一起訖日；候選及會重新平衡的控制採相同 10 bps 單邊換手成本。</p>
+              <div><span>PRIMARY EXTERNAL PERIOD · 1963–2005</span><h3>完整早期樣本：候選勝出，但仍未過全部門檻</h3></div>
+              <p>同一官方快照、同一日期、10 bps 單邊成本；Sharpe 全部以每日回報減 RF 計算。</p>
             </div>
             <div className="metric-table-wrap">
               <table className="metric-table short-result-table">
-                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>每年換手</th></tr></thead>
-                <tbody>{sectorBaselineRows.map((row) => (
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>每年換手</th></tr></thead>
+                <tbody>{frenchPrimaryRows.map((row) => (
                   <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
-                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{multiple(row.metrics.turnover)}x</td>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{multiple(row.metrics.annual_turnover)}x</td>
                   </tr>
                 ))}</tbody>
               </table>
             </div>
+            <div className="comparison-caveat"><b>US$1,000 歷史尺度：</b><p>1963 年投入候選的理論期末值為 {money(frenchPrimary.candidate_metrics.hypothetical_1000_usd_end)}，市場為 {money(frenchPrimary.baseline_metrics.market.hypothetical_1000_usd_end)}。這是 42 年名義複利、未計通脹與稅項；不能當成未來金額預測。</p></div>
 
             <div className="subsection-heading stock-heading">
-              <div><span>COST, WINDOWS &amp; STATISTICS</span><h3>不是單一 baseline 造成的失敗</h3></div>
-              <p>規則固定後不以 Top-2／Top-4、較低成本或事後最佳行業取代唯一候選。</p>
-            </div>
-            <div className="short-evidence-grid">
-              <article><span>成本敏感度</span><dl>{sectorCostRows.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{pct(row.metrics.cagr, 2)} CAGR</dd></div>)}</dl><p>50 bps 後累計回報亦為 {pct(sectorCandidate.cost_sensitivity["50_bps"].total_return, 1)}。</p></article>
-              <article><span>固定前後十年</span><strong>{pp(sectorResearch.fixed_halves_vs_qqq.first.cagr_difference)}／{pp(sectorResearch.fixed_halves_vs_qqq.second.cagr_difference)}</strong><p>兩段均輸 QQQ；不是由單一年代拖累。</p></article>
-              <article><span>滾動三年／五年</span><strong>{pct(sectorResearch.rolling_three_year_vs_qqq.cagr_win_fraction, 1)}／{pct(sectorResearch.rolling_five_year_vs_qqq.cagr_win_fraction, 1)}</strong><p>204 個三年窗、180 個五年窗；五年最佳窗口仍落後 {pp(Math.abs(sectorResearch.rolling_five_year_vs_qqq.best_cagr_difference))}。</p></article>
-              <article><span>統計與過度配適</span><strong>NW t {sectorComparison.active_newey_west.t_stat.toFixed(2)} · PBO {pct(sectorResearch.pbo_across_top_k_2_3_4.pbo, 1)}</strong><p>相對 QQQ PSR {pct(sectorComparison.active_probabilistic_sharpe.probability, 2)}；6,141 次搜尋校正 DSR 約為零。</p></article>
-            </div>
-
-            <div className="subsection-heading stock-heading">
-              <div><span>FIXED 20-DAY SIGNAL</span><h3>大型股的正面線索沒有跨產品重現</h3></div>
-              <p>874 個每週事件，下一開市入場、固定持有 20 個交易日、每個事件組合扣來回 20 bps。</p>
-            </div>
-            <div className="metric-table-wrap">
-              <table className="metric-table short-result-table signal-diagnostic-table">
-                <thead><tr><th>Top-3 平均淨回報</th><th>合資格行業等權</th><th>配對差</th><th>勝出率</th><th>NW t</th><th>Bootstrap 95% 區間</th></tr></thead>
-                <tbody><tr className="featured-row"><td>{pct(sectorSignal.net_return_summary.top3_mean, 2)}</td><td>{pct(sectorSignal.net_return_summary.eligible_equal_mean, 2)}</td><td>{pp(sectorSignalComparison.mean_difference)}</td><td>{pct(sectorSignalComparison.win_fraction, 1)}</td><td>{sectorSignalComparison.newey_west.t_stat.toFixed(2)}</td><td>{pp(sectorBootstrap.low)} 至 {pp(sectorBootstrap.high)}</td></tr></tbody>
-              </table>
-            </div>
-            <div className="signal-diagnostic-verdict">
-              <div><span>外部訊號診斷</span><strong>{sectorSignal.passed_gate_count}/{sectorSignal.required_gate_count} 通過</strong></div>
-              <p>前／後十年配對差為 {pp(sectorSignal.fixed_halves_vs_eligible_equal.first.mean_difference)}／{pp(sectorSignal.fixed_halves_vs_eligible_equal.second.mean_difference)}，方向均為負。這直接削弱現時大型股池 20 日 Top-7 的正面線索。</p>
-            </div>
-
-            <div className="subsection-heading stock-heading">
-              <div><span>ALL TEN SECTORS</span><h3>單一行業只作事後診斷</h3></div>
-              <p>VGT 全期略勝 QQQ，但不能由全期冠軍反選成新策略；其餘九個行業全部低於 QQQ。</p>
+              <div><span>RECENT CONFIRMATION · 2006–2026</span><h3>近期樣本：回報略高，證據強度大幅下降</h3></div>
+              <p>不能用 1963–2005 的漂亮結果掩蓋近期失敗；近期獨立再用同一 13 道門檻。</p>
             </div>
             <div className="metric-table-wrap">
               <table className="metric-table short-result-table">
-                <thead><tr><th>ETF</th><th>行業</th><th>年率化回報</th><th>Sharpe</th><th>波幅</th><th>最大跌幅</th></tr></thead>
-                <tbody>{sectorIndividualRows.map((row) => <tr key={row.ticker}><th><b>{row.ticker}</b><span>買入持有診斷</span></th><td>{row.label}</td><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td></tr>)}</tbody>
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>每年換手</th></tr></thead>
+                <tbody>{frenchRecentRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{multiple(row.metrics.annual_turnover)}x</td>
+                  </tr>
+                ))}</tbody>
               </table>
             </div>
-            <div className="comparison-caveat"><b>最新決策：</b><p>保留這個負結果，不改窗口、Top-K 或現金規則救援。短線 Paper 仍等候合格 point-in-time 個股成分與退市回報原樣重測；實金及 Paper 動作均為 US$0。</p></div>
-            <div className="protocol-link"><span>外部產品協議與首次結果</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SECTOR_ETF_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SECTOR_ETF_PRODUCT_MAPPING.md" target="_blank" rel="noreferrer">產品映射</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SECTOR_ETF_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整報告</a></div></div>
+            <div className="comparison-caveat"><b>US$1,000 歷史尺度：</b><p>2006 年起候選的理論期末值為 {money(frenchRecent.candidate_metrics.hypothetical_1000_usd_end)}，市場為 {money(frenchRecent.baseline_metrics.market.hypothetical_1000_usd_end)}；候選最大跌幅 {pct(frenchRecent.candidate_metrics.max_drawdown, 1)}，並非低風險捷徑。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, WINDOWS &amp; STATISTICS</span><h3>成本、分段、PBO 與因子解釋</h3></div>
+              <p>Top-3 是唯一候選；Top-2／5 只作敏感度及 CSCV PBO，不因 Top-2 全期回報較高便換冠軍。</p>
+            </div>
+            <div className="short-evidence-grid">
+              <article><span>全歷史成本敏感度</span><dl>{frenchCostRows.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{pct(row.metrics.cagr, 2)} CAGR</dd></div>)}</dl><p>每年雙邊換手約 {multiple(frenchCandidate.full_history_metrics.annual_turnover)}x；50 bps 把全期 CAGR 壓至 {pct(frenchCandidate.cost_sensitivity_full_history["50_bps"].cagr, 2)}。</p></article>
+              <article><span>固定近期分段</span><strong>{pp(frenchRecent.fixed_splits["2006_to_2015"].edge_vs_market)}／{pp(frenchRecent.fixed_splits["2016_to_end"].edge_vs_market)}</strong><p>2006–2015／2016–2026 對市場；第一段落後，不能用第二段反彈掩蓋。</p></article>
+              <article><span>五年滾動勝率</span><strong>市場 {pct(frenchRecent.rolling_five_year_vs_market.cagr_win_fraction, 1)} · 等權 {pct(frenchRecent.rolling_five_year_vs_industry_monthly_equal.cagr_win_fraction, 1)}</strong><p>近期 185 個窗口；對市場未達 60%，最差落後 {pp(frenchRecent.rolling_five_year_vs_market.worst_cagr_difference)}。</p></article>
+              <article><span>主動統計</span><strong>早期 t {frenchPrimaryMarket.newey_west.t_stat.toFixed(2)}／{frenchPrimaryEqual.newey_west.t_stat.toFixed(2)}</strong><p>對市場／行業等權；近期跌至 {frenchRecentMarket.newey_west.t_stat.toFixed(2)}／{frenchRecentEqual.newey_west.t_stat.toFixed(2)}。近期對市場 DSR 只有 {pct(frenchRecentMarket.active_global_deflated_sharpe.probability, 2)}。</p></article>
+              <article><span>CSCV 過度配適</span><strong>{pct(frenchResearch.pbo.primary.pbo, 1)}／{pct(frenchResearch.pbo.recent.pbo, 1)}</strong><p>主要／近期 PBO，遠高於 20% 上限；Top-2、3、5 的相對排序不穩定。</p></article>
+              <article><span>四因子解釋</span><strong>Alpha {pct(frenchResearch.factor_regression_full_history.annualized_alpha, 2)}</strong><p>市場 beta {multiple(frenchResearch.factor_regression_full_history.market_beta)}、Mom beta {multiple(frenchResearch.factor_regression_full_history.mom_beta)}、R² {pct(frenchResearch.factor_regression_full_history.r_squared, 1)}；全歷史 alpha 為負。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED 20-DAY SIGNAL</span><h3>早期 5/5，近期只 3/5</h3></div>
+              <p>每週以同一 6–1 排名選 Top-3，下一交易日開始持有 20 日，每個事件扣來回 20 bps；重疊事件用 NW lag 4 及固定區塊重抽樣。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table signal-diagnostic-table">
+                <thead><tr><th>時期</th><th>事件</th><th>Top-3 平均淨回報</th><th>30 行業等權</th><th>配對差</th><th>勝出率</th><th>NW t</th><th>Bootstrap 95% 區間</th></tr></thead>
+                <tbody>
+                  <tr className="featured-row"><th><b>1963–2005</b><span>主要外部期 · 5/5</span></th><td>{frenchPrimaryEvent.events}</td><td>{pct(frenchPrimaryEvent.selected_mean_return, 2)}</td><td>{pct(frenchPrimaryEvent.industry_equal_mean_return, 2)}</td><td>{pp(frenchPrimaryEvent.mean_difference_vs_industry_equal)}</td><td>{pct(frenchPrimaryEvent.paired_win_fraction, 1)}</td><td>{frenchPrimaryEvent.newey_west.t_stat.toFixed(2)}</td><td>{pp(frenchPrimaryEvent.moving_block_bootstrap.low)} 至 {pp(frenchPrimaryEvent.moving_block_bootstrap.high)}</td></tr>
+                  <tr><th><b>2006–2026</b><span>近期確認期 · 3/5</span></th><td>{frenchRecentEvent.events}</td><td>{pct(frenchRecentEvent.selected_mean_return, 2)}</td><td>{pct(frenchRecentEvent.industry_equal_mean_return, 2)}</td><td>{pp(frenchRecentEvent.mean_difference_vs_industry_equal)}</td><td>{pct(frenchRecentEvent.paired_win_fraction, 1)}</td><td>{frenchRecentEvent.newey_west.t_stat.toFixed(2)}</td><td>{pp(frenchRecentEvent.moving_block_bootstrap.low)} 至 {pp(frenchRecentEvent.moving_block_bootstrap.high)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CRISIS TESTS</span><h3>六段壓力期：上行較高，尾部風險仍大</h3></div>
+              <p>危機表只描述固定規則的實際歷史表現，不用個別危機勝出代替全套門檻。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>壓力期</th><th>候選回報</th><th>市場回報</th><th>行業等權回報</th><th>候選最大跌幅</th><th>候選最差單日</th></tr></thead>
+                <tbody>{frenchStressRows.map((row) => <tr key={row.label}><th><b>{row.label}</b><span>固定歷史窗口</span></th><td>{pct(row.result.candidate.return, 1)}</td><td>{pct(row.result.market.return, 1)}</td><td>{pct(row.result.industry_monthly_equal.return, 1)}</td><td>{pct(row.result.candidate.max_drawdown, 1)}</td><td>{pct(row.result.candidate.worst_day, 1)}</td></tr>)}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>最新決策：</b><p>保留早期正面與近期負面證據，不改 6–1、Top-3、20 日、成本或起訖日救援。French 組合不是可買賣產品，短線 Paper 仍等候合格逐股 point-in-time 成分與退市回報；實金及 Paper 動作均為 US$0。</p></div>
+            <div className="protocol-link"><span>最新研究協議、數據映射與失敗證據</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_MOMENTUM_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">完整 JSON</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業數據失敗</a></div></div>
           </section>
 
           <section className="section wrap" id="aggressive-sandbox">
@@ -732,31 +757,31 @@ export default function Home() {
           <section className="section aggressive-method" id="aggressive-gates">
             <div className="wrap">
               <div className="section-heading">
-                <div><span>GATE-BY-GATE DECISION</span><h2>最新外部驗證只過 {sectorResearch.passed_gate_count} / {sectorResearch.required_gate_count} 道</h2></div>
-                <p>六項數據門檻全部通過，但十五項經濟及統計門檻只過一項；不以較淺跌幅掩蓋整體失敗。</p>
+                <div><span>GATE-BY-GATE DECISION</span><h2>French 30 最新驗證只過 {frenchResearch.passed_gate_count} / {frenchResearch.required_gate_count} 道</h2></div>
+                <p>數據 7/7，主要外部期 8/13，近期確認期 2/13；早期成功不能抵銷近期與統計失敗。</p>
               </div>
               <div className="signal-formula" aria-label="最新外部驗證凍結規格">
-                <article><span>20D</span><b>短期相對強勢</b><p>只按十個行業過去 20 日總回報排序。</p></article>
-                <article><span>60D</span><b>趨勢資格</b><p>收市價須高於 60 日簡單平均線。</p></article>
-                <article><span>TOP 3</span><b>固定三個槽位</b><p>每個槽位 1/3，不事後改 Top-K。</p></article>
-                <article><span>SHY</span><b>未用比例</b><p>不足三個合資格行業時不放大持倉。</p></article>
+                <article><span>6–1</span><b>較慢行業動量</b><p>t-126 至 t-21 複利，跳過最近 20 個交易日。</p></article>
+                <article><span>TOP 3</span><b>固定三個行業</b><p>30 行業約 10% 集中度，不事後改用 Top-2。</p></article>
+                <article><span>20D</span><b>短線事件診斷</b><p>每週訊號另持有 20 日，檢查短線排序是否重現。</p></article>
+                <article><span>10 bps</span><b>主要單邊成本</b><p>另測 25／50 bps；高換手成本不被忽略。</p></article>
               </div>
 
               <div className="short-gate-grid">
-                <article className="waiting"><span>01</span><div><b>先凍結、後下載及完整 OHLCV</b><strong>6/6 通過</strong><p>數據時序、雜湊與下一開市成交時鐘均可重現。</p></div></article>
-                <article className="failed"><span>02</span><div><b>QQQ 高回報 baseline</b><strong>失敗</strong><p>候選 {pct(sectorCandidate.metrics.cagr, 2)}，QQQ {pct(sectorBaselines.QQQ.cagr, 2)}。</p></div></article>
-                <article className="failed"><span>03</span><div><b>三個行業控制 baseline</b><strong>全數失敗</strong><p>候選同時落後 matched、月度等權及起點等權後漂移。</p></div></article>
-                <article className="failed"><span>04</span><div><b>成本、固定十年及滾動窗口</b><strong>失敗</strong><p>50 bps CAGR {pct(sectorCandidate.cost_sensitivity["50_bps"].cagr, 2)}；五年窗口勝率 0%。</p></div></article>
-                <article className="failed"><span>05</span><div><b>NW、DSR、PBO 與訊號層</b><strong>失敗</strong><p>NW t {sectorComparison.active_newey_west.t_stat.toFixed(2)}；PBO {pct(sectorResearch.pbo_across_top_k_2_3_4.pbo, 1)}；訊號 0/5。</p></div></article>
-                <article className="failed"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>入口全過後才由全現金累積 252 日及 12 次月度輪選，不回填成交。</p></div></article>
+                <article className="waiting"><span>01</span><div><b>先凍結、後下載及完整數據</b><strong>7/7 通過</strong><p>官方 ZIP、雜湊、30 欄、缺值與 t／t+1 時序全部可重現。</p></div></article>
+                <article className="waiting"><span>02</span><div><b>主要外部期</b><strong>8/13</strong><p>CAGR、Sharpe、分段、市場 NW 與事件層通過；50 bps、等權 NW、DSR 及 PBO 失敗。</p></div></article>
+                <article className="failed"><span>03</span><div><b>近期確認期</b><strong>2/13</strong><p>候選 {pct(frenchRecent.candidate_metrics.cagr, 2)}，市場 {pct(frenchRecent.baseline_metrics.market.cagr, 2)}；差額沒有統計確認。</p></div></article>
+                <article className="failed"><span>04</span><div><b>成本與固定分段</b><strong>失敗</strong><p>近期 50 bps CAGR {pct(frenchRecent.candidate_50bps_metrics.cagr, 2)}；2006–2015 較市場低 {pp(Math.abs(frenchRecent.fixed_splits["2006_to_2015"].edge_vs_market))}。</p></div></article>
+                <article className="failed"><span>05</span><div><b>NW、DSR、PBO 與事件層</b><strong>失敗</strong><p>近期市場 NW t {frenchRecentMarket.newey_west.t_stat.toFixed(2)}；PBO {pct(frenchResearch.pbo.recent.pbo, 1)}；事件 3/5。</p></div></article>
+                <article className="failed"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>即使 33/33，French 組合仍不可直接交易；逐股數據另過門檻後才由全現金開始。</p></div></article>
               </div>
               <div className="data-source-decision">
-                <div><span>DATA SOURCE AUDIT</span><b>免費歷史名單不等於無偏差價格</b></div>
-                <p>公開成分名單沒有退市總回報；Yahoo 亦不能完整覆蓋退出及改名股票。正式下一輪只接受 CRSP／WRDS 或 Norgate 等可同時提供逐日成分與退市回報的來源，未取得權限前不拼湊假 20 年結果。</p>
-                <div className="data-source-links"><a href="https://github.com/hanshof/sp500_constituents" target="_blank" rel="noreferrer">免費名單稽核</a><a href="https://norgatedata.com/data-content-tables.php" target="_blank" rel="noreferrer">Norgate 覆蓋</a><a href="https://www.crsp.org/crsp_pdf/crsp-historical-indexes-guide/" target="_blank" rel="noreferrer">CRSP 指南</a></div>
+                <div><span>EVIDENCE LADDER</span><b>49 行業數據失敗與 30 行業結果同時保留</b></div>
+                <p>49 行業首次下載因 1971-03-11 一格官方缺值按協議停止，沒有延後日期救援；30 行業另立協議後才首次下載並計算。French 年度 SIC 行業組合降低現時存活公司倒推問題，但仍不是逐股 point-in-time 賬本。</p>
+                <div className="data-source-links"><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_30_ind_port.html" target="_blank" rel="noreferrer">French 30 官方說明</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗紀錄</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">機器可讀結果</a></div>
               </div>
-              <p className="aggressive-final-decision"><b>目前決策：</b>外部產品驗證已推翻短期排序可直接泛化的假設，不開短線 Paper。下一步只補逐期 S&amp;P 500 成分、退市／收購回報、歷史行業及公司行動賬本，再按既有個股凍結規則重跑一次；實金及 Paper 動作均為 US$0。</p>
-              <div className="protocol-link"><span>三輪證據完整保留 · 最新外部結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SECTOR_ETF_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新外部報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SECTOR_ETF_PROTOCOL.md" target="_blank" rel="noreferrer">外部協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">三輪總報告</a></div></div>
+              <p className="aggressive-final-decision"><b>目前決策：</b>行業動量在早期有研究價值，但近期差額、成本及統計不足，不開短線 Paper。下一步只在新數據與新協議下研究，不修改本輪 6–1 Top-3；逐股 point-in-time 成分與退市回報仍是 Paper 的必要門檻。實金及 Paper 動作均為 US$0。</p>
+              <div className="protocol-link"><span>最新證據完整保留 · French 30 結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_MOMENTUM_PROTOCOL.md" target="_blank" rel="noreferrer">30 行業協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
             </div>
           </section>
         </div>
