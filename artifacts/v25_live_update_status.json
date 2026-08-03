@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-02T23:17:25.032942Z",
+  "previous_data_through": "2026-07-31",
+  "data_through": "2026-07-31",
+  "expected_session": "2026-07-31",
+  "data_advanced": false,
+  "idempotent_no_new_session": true,
+  "state_changed_without_new_session": false,
+  "manual_review_required": false,
+  "state_write_applied": false,
+  "site_rebuild_required": false,
+  "private_deploy_candidate": false,
+  "reference_trade_allowed": false,
+  "snapshot": {
+    "path": "/Users/voidful/PycharmProjects/us_fddk/artifacts/snapshot_v25_live_20260731_c51a8802.zip",
+    "panel_sha256": "c51a8802680b7caabe37be5b5670bc21aa855a278125add6395c1d84678ac75f",
+    "archive_sha256": "c5a926d2178b1e4a49c8a3611ce92c49f105e721049dd42938e924fd35d3bb90",
+    "rows": 22,
+    "start": "2026-07-01",
+    "end": "2026-07-31",
+    "tickers": [
+      "GLD",
+      "SHY",
+      "SPY",
+      "VUG"
+    ],
+    "contract": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "last_session": "2026-07-31",
+        "expected_session": "2026-07-31",
+        "last_close_coverage": 1.0,
+        "thin_tickers": {},
+        "positive_price_fraction": 1.0,
+        "suspicious_last_moves": {},
+        "ohlc_violations": 0,
+        "latest_positive_volume": 1.0
+      }
+    }
+  },
+  "accounts": {
+    "candidate": {
+      "as_of": "2026-07-31",
+      "started_at": "2026-07-31",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+      "performance_state_sha256": "0b53b387d86285b80f281085c621090e3e8fa513525f48dbc176e0cf300c5ff6",
+      "proposed_performance_state_sha256": "0b53b387d86285b80f281085c621090e3e8fa513525f48dbc176e0cf300c5ff6"
+    },
+    "SPY": {
+      "as_of": "2026-07-31",
+      "started_at": "2026-07-31",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+      "performance_state_sha256": "0a6beaa7af7a9f7366671a6f13845596be68a9186594f8c5a087bd25f3bca0a4",
+      "proposed_performance_state_sha256": "0a6beaa7af7a9f7366671a6f13845596be68a9186594f8c5a087bd25f3bca0a4"
+    },
+    "matched": {
+      "as_of": "2026-07-31",
+      "started_at": "2026-07-31",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+      "performance_state_sha256": "705888c9f25b762879659b474d4d17e3509cf1384addea371b613d33b596fddb",
+      "proposed_performance_state_sha256": "705888c9f25b762879659b474d4d17e3509cf1384addea371b613d33b596fddb"
+    }
+  },
+  "forward_evidence": {
+    "as_of": "2026-07-31",
+    "started_at": "2026-07-31",
+    "forward_sessions": 0,
+    "minimum_sessions": 252,
+    "remaining_sessions": 252,
+    "filled_rebalances": 0,
+    "minimum_filled_rebalances": 6,
+    "remaining_filled_rebalances": 6,
+    "integrity_violations": 0,
+    "candidate": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "SPY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "matched_80_VUG_20_SHY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "return_difference_vs_SPY": 0.0,
+    "return_difference_vs_matched": 0.0,
+    "gates": {
+      "all_accounts_live_and_same_start": true,
+      "all_accounts_same_as_of": true,
+      "all_accounts_same_snapshot": true,
+      "all_accounts_same_cost_and_cash": true,
+      "all_accounts_same_session_path": true,
+      "at_least_252_new_sessions": false,
+      "at_least_6_filled_rebalances": false,
+      "zero_integrity_violations": true,
+      "candidate_return_above_SPY": false,
+      "candidate_return_above_matched": false,
+      "candidate_drawdown_not_worse_than_SPY": true,
+      "candidate_drawdown_not_worse_than_matched": true
+    },
+    "live_confirmed": false
+  },
+  "decision": "no_new_session_no_deploy"
+}

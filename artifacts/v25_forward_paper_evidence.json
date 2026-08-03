@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-07-31",
+  "started_at": "2026-07-31",
+  "forward_sessions": 0,
+  "minimum_sessions": 252,
+  "remaining_sessions": 252,
+  "filled_rebalances": 0,
+  "minimum_filled_rebalances": 6,
+  "remaining_filled_rebalances": 6,
+  "integrity_violations": 0,
+  "candidate": {
+    "equity": 100000.0,
+    "return": 0.0,
+    "max_drawdown": 0.0
+  },
+  "SPY": {
+    "equity": 100000.0,
+    "return": 0.0,
+    "max_drawdown": 0.0
+  },
+  "matched_80_VUG_20_SHY": {
+    "equity": 100000.0,
+    "return": 0.0,
+    "max_drawdown": 0.0
+  },
+  "return_difference_vs_SPY": 0.0,
+  "return_difference_vs_matched": 0.0,
+  "gates": {
+    "all_accounts_live_and_same_start": true,
+    "all_accounts_same_as_of": true,
+    "all_accounts_same_snapshot": true,
+    "all_accounts_same_cost_and_cash": true,
+    "all_accounts_same_session_path": true,
+    "at_least_252_new_sessions": false,
+    "at_least_6_filled_rebalances": false,
+    "zero_integrity_violations": true,
+    "candidate_return_above_SPY": false,
+    "candidate_return_above_matched": false,
+    "candidate_drawdown_not_worse_than_SPY": true,
+    "candidate_drawdown_not_worse_than_matched": true
+  },
+  "live_confirmed": false
+}

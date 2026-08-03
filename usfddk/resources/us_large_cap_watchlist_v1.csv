@@ -1,0 +1,31 @@
+symbol,name,sector,source_weight_pct,as_of
+AAPL,Apple Inc,Information Technology,7.64,2026-07-30
+NVDA,NVIDIA Corp,Information Technology,7.37,2026-07-30
+MSFT,Microsoft Corp,Information Technology,5.23,2026-07-30
+AMZN,Amazon.com Inc,Consumer Discretionary,3.60,2026-07-30
+GOOGL,Alphabet Inc Class A,Communication,3.05,2026-07-30
+AVGO,Broadcom Inc,Information Technology,2.87,2026-07-30
+GOOG,Alphabet Inc Class C,Communication,2.46,2026-07-30
+META,Meta Platforms Inc Class A,Communication,1.85,2026-07-30
+MU,Micron Technology Inc,Information Technology,1.54,2026-07-30
+JPM,JPMorgan Chase and Co,Financials,1.47,2026-07-30
+BRK-B,Berkshire Hathaway Inc Class B,Financials,1.46,2026-07-30
+LLY,Eli Lilly and Co,Health Care,1.43,2026-07-30
+TSLA,Tesla Inc,Consumer Discretionary,1.36,2026-07-30
+AMD,Advanced Micro Devices Inc,Information Technology,1.24,2026-07-30
+XOM,Exxon Mobil Corp,Energy,1.02,2026-07-30
+JNJ,Johnson and Johnson,Health Care,0.96,2026-07-30
+V,Visa Inc Class A,Financials,0.95,2026-07-30
+WMT,Walmart Inc,Consumer Staples,0.76,2026-07-30
+MA,Mastercard Inc Class A,Financials,0.73,2026-07-30
+ABBV,AbbVie Inc,Health Care,0.71,2026-07-30
+CSCO,Cisco Systems Inc,Information Technology,0.70,2026-07-30
+INTC,Intel Corp,Information Technology,0.67,2026-07-30
+COST,Costco Wholesale Corp,Consumer Staples,0.66,2026-07-30
+BAC,Bank of America Corp,Financials,0.63,2026-07-30
+AMAT,Applied Materials Inc,Information Technology,0.62,2026-07-30
+UNH,UnitedHealth Group Inc,Health Care,0.60,2026-07-30
+CAT,Caterpillar Inc,Industrials,0.58,2026-07-30
+LRCX,Lam Research Corp,Information Technology,0.58,2026-07-30
+GE,GE Aerospace,Industrials,0.58,2026-07-30
+CVX,Chevron Corp,Energy,0.56,2026-07-30

@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "frozen_at_utc": "2026-08-03T00:00:24Z",
+  "frozen_before_first_forward_fill": true,
+  "minimum_new_sessions": 252,
+  "minimum_completed_monthly_rebalances_excluding_initial_allocation": 6,
+  "minimum_annualized_edge": 0.001,
+  "require_positive_edge_in_both_fixed_halves": true,
+  "minimum_active_newey_west_t": 1.96,
+  "require_drawdown_not_worse_than_both_benchmarks": true,
+  "benchmarks": [
+    "SPY",
+    "matched_80_VUG_20_SHY"
+  ],
+  "sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6"
+}

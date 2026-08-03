@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "mode": "live",
+  "strategy": "v25 公平基準 80% VUG／20% SHY（隔離 Paper）",
+  "execution_clock": "signal at close t; rebalance at adjusted open t+1",
+  "created_at": "2026-08-02T22:37:29.709082+00:00",
+  "updated_at": "2026-08-02T23:05:20.932317+00:00",
+  "initial_cash": 100000.0,
+  "cash": 100000.0,
+  "cost_bps": 10.0,
+  "as_of": "2026-07-31",
+  "holdings": {},
+  "pending_order": {
+    "signal_date": "2026-07-31",
+    "queued_at": "2026-07-31",
+    "execute_after": "2026-07-31",
+    "target_weights": {
+      "VUG": 0.8,
+      "SHY": 0.2
+    },
+    "status": "pending"
+  },
+  "order_history": [],
+  "transactions": [],
+  "equity_curve": [
+    {
+      "date": "2026-07-31",
+      "equity": 100000.0,
+      "cash": 100000.0,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": 0.0
+    }
+  ],
+  "adjustment_rebases": [],
+  "total_costs": 0.0,
+  "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+  "started_at": "2026-07-31"
+}
