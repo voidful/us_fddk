@@ -28,6 +28,13 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /NVDA/);
   assert.match(html, /AMD/);
   assert.match(html, /Paper-only/);
+  assert.match(html, /兩條策略，兩套目標與門檻/);
+  assert.match(html, /長線穩定/);
+  assert.match(html, /短線高回報/);
+  assert.match(html, /大型股動量輪選/);
+  assert.match(html, /尚未取得 Paper 資格/);
+  assert.match(html, /12–1 個月動量/);
+  assert.match(html, /實金及 Paper 動作均為 US\$0/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });
 
@@ -38,10 +45,7 @@ test.skip("legacy public report assertions are retained as an archive", async ()
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
   assert.match(html, /成長守門員 v2｜收窄最大跌幅有效，不等於穩健超額/);
-  const publicSiteRoot = (
-    process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
-  ).replace(/\/$/, "");
-  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
+  assert.doesNotMatch(html, /property="og:image"/);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不落盤/);
   assert.match(html, /Paper Trading（模擬交易）/);
@@ -245,14 +249,14 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  const publicSiteRoot = (
-    process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
-  ).replace(/\/$/, "");
-
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
-  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
+  assert.doesNotMatch(html, /property="og:image"/);
   assert.match(html, /data-signal-freshness="checking"/);
-  assert.match(html, /LATEST STRATEGY REPORT · v25/);
+  assert.match(html, /LONG-TERM STABILITY · v25/);
+  assert.match(html, /SHORT-TERM RETURN RESEARCH/);
+  assert.match(html, /role="tablist"/);
+  assert.match(html, /長線穩定/);
+  assert.match(html, /短線高回報/);
   assert.match(html, /80% 美國大型成長股/);
   assert.match(html, /今日實金動作維持/);
   assert.match(html, /US\$0/);

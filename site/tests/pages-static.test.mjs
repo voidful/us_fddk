@@ -4,12 +4,12 @@ import test from "node:test";
 
 test("GitHub Pages output is self-contained under the repository base path", async () => {
   const html = await readFile(new URL("../pages-dist/index.html", import.meta.url), "utf8");
-  const publicSiteRoot = (process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk").replace(
-    /\/$/,
-    "",
-  );
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
-  assert.match(html, /LATEST STRATEGY REPORT · v25/);
+  assert.match(html, /LONG-TERM STABILITY · v25/);
+  assert.match(html, /SHORT-TERM RETURN RESEARCH/);
+  assert.match(html, /兩條策略，兩套目標與門檻/);
+  assert.match(html, /長線穩定/);
+  assert.match(html, /短線高回報/);
   assert.match(html, /今日實金動作維持/);
   assert.match(html, /US\$1,000/);
   assert.match(html, /US\$800/);
@@ -30,7 +30,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /對 SPY 未確認/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
+  assert.doesNotMatch(html, /property="og:image"/);
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 
   const script = html.match(/(?:src|href)="\/us_fddk\/(assets\/[^"]+\.js)"/);

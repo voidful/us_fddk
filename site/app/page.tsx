@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import FreshnessGuard from "./FreshnessGuard";
 import PaperAllocationLab from "./PaperAllocationLab";
+import StrategyTabs from "./StrategyTabs";
 import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
-  title: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
+  title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "最新 v25 80% VUG／20% GLD 的 20 年回測、九組 baseline、12 隻大型股、風險與市場指標、統計診斷及 Paper Trading 進度。",
+    "長線 ETF 分散策略與短線大型股動量研究分頁呈列，完整比較回報、最大跌幅、baseline、驗證門檻及 Paper 狀態。",
 };
 
 const readerCapital = 1_000;
@@ -41,7 +42,7 @@ const multiple = (value: number, digits = 2) => value.toFixed(digits);
 const shortDate = (value: string) => value.replaceAll("-", "/");
 
 const comparisonRows = [
-  { label: "最新策略", detail: "80% 大型成長股／20% 黃金", metrics: pooled.strategy_metrics },
+  { label: "長線穩定候選", detail: "80% 大型成長股／20% 黃金", metrics: pooled.strategy_metrics },
   { label: "SPY", detail: "美國大型股市場基準", metrics: pooled.spy_metrics },
   { label: "純成長 ETF", detail: "三路徑大型成長股彙總", metrics: pooled.growth_metrics },
   { label: "公平持倉比率基準", detail: "80% 成長股／20% SHY", metrics: pooled.matched_metrics },
@@ -64,6 +65,9 @@ const bootstrap = diagnostics.paired_moving_block_bootstrap.benchmarks;
 const expandedBaselines = expanded.formal_baselines;
 const stockComparisons = expanded.individual_stock_diagnostics.stocks;
 const baselineByKey = Object.fromEntries(expandedBaselines.map((row) => [row.key, row]));
+const qqqBaseline = baselineByKey.QQQ;
+const nvdaDiagnostic = stockComparisons.find((row) => row.symbol === "NVDA")!;
+const amdDiagnostic = stockComparisons.find((row) => row.symbol === "AMD")!;
 const sectorLabels: Record<string, string> = {
   "Information Technology": "資訊科技",
   "Consumer Discretionary": "非必需消費",
@@ -96,11 +100,9 @@ export default function Home() {
             <b>美股策略研究室</b>
           </a>
           <nav aria-label="報告導覽">
-            <a href="#market">市場狀況</a>
-            <a href="#backtest">20 年回測</a>
-            <a href="#comparisons">比較矩陣</a>
-            <a href="#tests">穩健測試</a>
-            <a href="#paper">Paper</a>
+            <a href="#strategy-tabs">兩條策略</a>
+            <a href="#strategy-evidence">研究證據</a>
+            <a href="#paper">Paper 狀態</a>
           </nav>
           <FreshnessGuard
             dataThrough={data.data_through}
@@ -110,15 +112,17 @@ export default function Home() {
       </header>
 
       <main id="top">
+        <StrategyTabs>
+        <div id="long-term" data-strategy-panel="stable">
         <section className="hero wrap">
           <div className="hero-copy">
             <div className="eyebrow-row">
-              <span className="eyebrow">LATEST STRATEGY REPORT · v25</span>
+              <span className="eyebrow">LONG-TERM STABILITY · v25</span>
               <span className="status-chip warning"><i /> PAPER ONLY</span>
             </div>
-            <h1>80% 美國大型成長股<br />＋20% 黃金</h1>
+            <h1>長線穩定<br />80% 美國大型成長股＋20% 黃金</h1>
             <p className="hero-lead">
-              20 年歷史入口及三家實際 ETF 產品路徑全部通過。最新前瞻樣本仍是
+              目標是保留增長、降低波幅與大型跌幅，不是追逐最高 CAGR。20 年歷史入口及三家實際 ETF 產品路徑全部通過；最新前瞻樣本仍是
               <strong> {forward.forward_sessions}/{forward.minimum_sessions} 個交易日</strong>，因此今日實金動作維持
               <strong> US$0</strong>。
             </p>
@@ -129,7 +133,7 @@ export default function Home() {
           </div>
           <aside className="decision-card" aria-label="最新策略決策摘要">
             <div className="decision-head">
-              <span>投資決策摘要</span>
+              <span>長線策略摘要</span>
               <b>{realMoneyLocked ? "實金配置鎖定" : "參考配置開放"}</b>
             </div>
             <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
@@ -148,8 +152,8 @@ export default function Home() {
 
         <section className="truth-strip">
           <div className="wrap truth-grid">
-            <article><span>20 年年率化回報</span><strong>{pct(pooled.strategy_metrics.cagr, 2)}</strong><small>SPY {pct(pooled.spy_metrics.cagr, 2)}</small></article>
-            <article><span>Sharpe 比率</span><strong>{pooled.strategy_metrics.sharpe.toFixed(2)}</strong><small>SPY {pooled.spy_metrics.sharpe.toFixed(2)}</small></article>
+            <article><span>長線策略年率化回報</span><strong>{pct(pooled.strategy_metrics.cagr, 2)}</strong><small>SPY {pct(pooled.spy_metrics.cagr, 2)}</small></article>
+            <article><span>QQQ 年率化回報</span><strong>{pct(qqqBaseline.metrics.cagr, 2)}</strong><small>高回報，但跌幅較深</small></article>
             <article><span>最大跌幅</span><strong>{pct(pooled.strategy_metrics.max_drawdown, 1)}</strong><small>SPY {pct(pooled.spy_metrics.max_drawdown, 1)}</small></article>
             <article><span>產品路徑</span><strong>3 / 3</strong><small>每條 12 / 12 門檻</small></article>
             <article><span>前瞻 Paper</span><strong>{forward.forward_sessions} / {forward.minimum_sessions}</strong><small>{paper.status === "awaiting_fill" ? "首筆仍待成交" : "已開始累積"}</small></article>
@@ -236,7 +240,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section comparison-section" id="comparisons">
+        <section className="section comparison-section" id="strategy-evidence">
           <div className="wrap">
             <div className="section-heading">
               <div><span>EXPANDED COMPARISON LAB</span><h2>更多 baseline，不迴避輸贏</h2></div>
@@ -300,38 +304,11 @@ export default function Home() {
               </table>
             </div>
             <div className="baseline-findings">
-              <article><span>最難增長 baseline</span><strong>{pp(baselineByKey.candidate.metrics.cagr - baselineByKey.QQQ.metrics.cagr)}</strong><p>最新策略的 CAGR 低於 QQQ，五年窗只有 {pct(baselineByKey.QQQ.candidate_rolling_five_year_win_fraction, 1)} 勝出。</p></article>
+              <article><span>高回報 baseline</span><strong>{pp(baselineByKey.candidate.metrics.cagr - baselineByKey.QQQ.metrics.cagr)}</strong><p>長線策略的 CAGR 低於 QQQ，五年窗只有 {pct(baselineByKey.QQQ.candidate_rolling_five_year_win_fraction, 1)} 勝出。</p></article>
               <article><span>同黃金比重控制</span><strong>{pp(baselineByKey["80_SPY_20_GLD"].candidate_cagr_difference)}</strong><p>成長股選擇相對 80% SPY／20% GLD 的 NW t 只有 {baselineByKey["80_SPY_20_GLD"].candidate_active_newey_west_t.toFixed(2)}。</p></article>
               <article><span>重新平衡測試</span><strong>{pp(baselineByKey["80_VUG_20_GLD_DRIFT"].candidate_cagr_difference)}</strong><p>每月重新平衡 CAGR 略高，但最大跌幅反而深 {pp(Math.abs(baselineByKey.candidate.metrics.max_drawdown - baselineByKey["80_VUG_20_GLD_DRIFT"].metrics.max_drawdown))}。</p></article>
             </div>
 
-            <div className="subsection-heading stock-heading">
-              <div><span>INDIVIDUAL STOCK DIAGNOSTICS</span><h3>12 隻現時大型股的完整 20 年比較</h3></div>
-              <p>按現時觀察名單權重選取且要求 240 個月完整歷史。這是倖存者偏差診斷，不是 2006 年可知的選股結果。</p>
-            </div>
-            <div className="metric-table-wrap">
-              <table className="metric-table stock-table">
-                <thead><tr><th>個股</th><th>行業</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Beta</th><th>策略五年窗勝率</th></tr></thead>
-                <tbody>
-                  {stockComparisons.map((row) => (
-                    <tr key={row.symbol}>
-                      <th><b>{row.symbol}</b><span>{row.name}</span></th>
-                      <td>{sectorLabels[row.sector] ?? row.sector}</td>
-                      <td>{pct(row.metrics.cagr, 2)}</td>
-                      <td>{multiple(row.excess_sharpe_vs_shy)}</td>
-                      <td>{pct(row.metrics.volatility, 1)}</td>
-                      <td>{pct(row.metrics.max_drawdown, 1)}</td>
-                      <td>{multiple(row.beta_to_spy)}</td>
-                      <td>{pct(row.candidate_rolling_five_year_win_fraction, 1)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="comparison-caveat">
-              <b>怎樣閱讀個股表：</b>
-              <p>高 CAGR 不代表較適合作為策略 baseline。例如 NVDA 的完整期回報很高，但最大跌幅達 {pct(stockComparisons.find((row) => row.symbol === "NVDA")!.metrics.max_drawdown, 1)}；AMD 更曾達 {pct(stockComparisons.find((row) => row.symbol === "AMD")!.metrics.max_drawdown, 1)}。未有 point-in-time 基本面歷史前，報告不會把今日估值或盈利預測倒灌進 20 年回測。</p>
-            </div>
             <div className="baseline-source-links" aria-label="ETF 官方產品定義">
               <span>官方產品定義</span>
               {Object.entries(expanded.official_product_sources).map(([ticker, href]) => (
@@ -447,17 +424,137 @@ export default function Home() {
             <div><span>QUICK ANSWERS</span><h2>四個關鍵問題</h2></div>
           </div>
           <div className="faq-list">
-            <details open><summary>最新策略現在可以用實金嗎？</summary><p>不可以。歷史回測通過只准建立 Paper。前瞻仍是 {forward.forward_sessions}/{forward.minimum_sessions} 個新增交易日、{forward.filled_rebalances}/{forward.minimum_filled_rebalances} 次完成重新平衡，實金動作為 US$0。</p></details>
+            <details open><summary>長線穩定策略現在可以用實金嗎？</summary><p>不可以。歷史回測通過只准建立 Paper。前瞻仍是 {forward.forward_sessions}/{forward.minimum_sessions} 個新增交易日、{forward.filled_rebalances}/{forward.minimum_filled_rebalances} 次完成重新平衡，實金動作為 US$0。</p></details>
             <details><summary>為甚麼同時比較 SPY、純成長和公平持倉比率基準？</summary><p>SPY 回答是否勝過廣泛市場；純成長回答黃金是否犧牲上行；80% 成長／20% SHY 回答黃金是否只靠降低股票持倉比率製造較淺跌幅。三者缺一不可。</p></details>
             <details><summary>目前市場判讀是買入還是避險？</summary><p>此策略沒有短線看好或看淡訊號，只在每個完整月末把比例拉回 80/20。最新五年窗仍領先 SPY，但組合距歷史高位約 {pct(Math.abs(diagnostics.portfolio_underwater.current_drawdown), 1)}，不能解讀為保證反彈。</p></details>
             <details><summary>US$1,000 應該如何理解？</summary><p>US$800 VUG／US$200 GLD 是瀏覽器內的 Paper 比例示例，不是落盤指令。正式前瞻比較仍以 US$100,000 同起點、相同成本及相同交易日序列運作。</p></details>
           </div>
         </section>
+        </div>
+
+        <div id="short-term" data-strategy-panel="aggressive">
+          <section className="hero aggressive-hero wrap">
+            <div className="hero-copy">
+              <div className="eyebrow-row">
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH</span>
+                <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
+              </div>
+              <h1>短線高回報<br />大型股動量輪選</h1>
+              <p className="hero-lead">
+                研究目標是以一至六個月持有期捕捉大型股相對強勢，並在扣除較高成本後跑贏 QQQ。
+                現有個股表仍有倖存者偏差，故目前只有研究規格，<strong>沒有可執行持倉、沒有 Paper 成交、實金動作為 US$0</strong>。
+              </p>
+              <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看高回報證據</a>
+                <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
+              </div>
+            </div>
+            <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
+              <div className="decision-head">
+                <span>短線策略摘要</span>
+                <b>尚未取得 Paper 資格</b>
+              </div>
+              <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
+              <div className="research-lock" aria-label="短線策略尚未開放配置">
+                <span>目前策略配置</span><strong>US$0</strong><small>等待無偏差回測及樣本外驗證</small>
+              </div>
+              <dl className="decision-list">
+                <div><dt>回報目標</dt><dd>扣成本後跑贏 QQQ</dd></div>
+                <div><dt>預定頻率</dt><dd>月末評分／下一開市執行</dd></div>
+                <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
+              </dl>
+              <p>短線不是即市買賣；目前定義為一至六個月的中短線動量研究，避免以高換手掩蓋成本。</p>
+            </aside>
+          </section>
+
+          <section className="truth-strip aggressive-truth">
+            <div className="wrap truth-grid">
+              <article><span>QQQ 20 年年率化回報</span><strong>{pct(qqqBaseline.metrics.cagr, 2)}</strong><small>正式高回報 baseline</small></article>
+              <article><span>QQQ 最大跌幅</span><strong>{pct(qqqBaseline.metrics.max_drawdown, 1)}</strong><small>風險容忍要求較高</small></article>
+              <article><span>NVDA 歷史診斷</span><strong>{pct(nvdaDiagnostic.metrics.cagr, 1)}</strong><small>倖存者偏差，不是訊號</small></article>
+              <article><span>NVDA 最大跌幅</span><strong>{pct(nvdaDiagnostic.metrics.max_drawdown, 1)}</strong><small>高回報伴隨極端風險</small></article>
+              <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="aggressive-evidence">
+            <div className="section-heading">
+              <div><span>RETURN FIRST, EVIDENCE FIRST</span><h2>高回報值得研究，不等於已找到策略</h2></div>
+              <p>QQQ 是正式機會成本；個股數字只用來量化上行與崩跌風險，不用今日贏家倒推可交易歷史。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict">
+                <span>目前研究判斷</span>
+                <h3>ETF 可作高回報基準；個股需要 point-in-time 證據才可成為策略</h3>
+                <p>長線 v25 每年較 QQQ 少 {pp(Math.abs(qqqBaseline.metrics.cagr - pooled.strategy_metrics.cagr))}，所以高回報分頁以 QQQ 為最低比較標準。任何個股輪選若只勝 SPY、但未勝 QQQ，都不算完成目標。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>極端個股跌幅</span><strong>{pct(amdDiagnostic.metrics.max_drawdown, 1)}</strong><p>AMD 的完整期最大跌幅；說明止蝕與集中風險必須另外驗證。</p></article>
+                <article><span>現時名單限制</span><strong>{expanded.individual_stock_diagnostics.displayed_count} / {expanded.individual_stock_diagnostics.watchlist_size}</strong><p>只展示具完整 240 個月歷史的現時大型股，並非歷史逐期成分股。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>INDIVIDUAL STOCK DIAGNOSTICS</span><h3>12 隻現時大型股的完整 20 年比較</h3></div>
+              <p>按現時觀察名單權重選取且要求 240 個月完整歷史。這是倖存者偏差診斷，不是 2006 年可知的選股結果。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table stock-table">
+                <thead><tr><th>個股</th><th>行業</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Beta</th><th>長線策略五年窗勝率</th></tr></thead>
+                <tbody>
+                  {stockComparisons.map((row) => (
+                    <tr key={row.symbol}>
+                      <th><b>{row.symbol}</b><span>{row.name}</span></th>
+                      <td>{sectorLabels[row.sector] ?? row.sector}</td>
+                      <td>{pct(row.metrics.cagr, 2)}</td>
+                      <td>{multiple(row.excess_sharpe_vs_shy)}</td>
+                      <td>{pct(row.metrics.volatility, 1)}</td>
+                      <td>{pct(row.metrics.max_drawdown, 1)}</td>
+                      <td>{multiple(row.beta_to_spy)}</td>
+                      <td>{pct(row.candidate_rolling_five_year_win_fraction, 1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat">
+              <b>不能直接照表買入：</b>
+              <p>NVDA 的完整期年率化回報達 {pct(nvdaDiagnostic.metrics.cagr, 1)}，但最大跌幅亦達 {pct(nvdaDiagnostic.metrics.max_drawdown, 1)}；AMD 更曾達 {pct(amdDiagnostic.metrics.max_drawdown, 1)}。今日仍在大型股名單本身已包含未來資訊，這些數字不能當成策略回測。</p>
+            </div>
+          </section>
+
+          <section className="section aggressive-method" id="aggressive-gates">
+            <div className="wrap">
+              <div className="section-heading">
+                <div><span>FROZEN RESEARCH DESIGN</span><h2>短線策略先鎖定規則，再下載結果</h2></div>
+                <p>以下是研究定義與升級條件，不是今日選股名單；完成前不開 Paper、不顯示配置金額。</p>
+              </div>
+              <div className="signal-formula" aria-label="短線策略評分規格">
+                <article><span>45%</span><b>12–1 個月動量</b><p>避開最近一個月，降低短期反轉干擾。</p></article>
+                <article><span>25%</span><b>6–1 個月動量</b><p>捕捉較近期、但不是即市的相對強勢。</p></article>
+                <article><span>20%</span><b>200 天趨勢</b><p>比較價格與長期平均線的距離。</p></article>
+                <article><span>10%</span><b>較低 63 日波幅</b><p>避免評分只獎勵最劇烈的股份。</p></article>
+              </div>
+
+              <div className="short-gate-grid">
+                <article className="failed"><span>01</span><div><b>歷史逐期成分股</b><strong>未完成</strong><p>必須包含當時成分、退市及被收購公司的完整回報。</p></div></article>
+                <article className="failed"><span>02</span><div><b>可用日正確的公司數據</b><strong>未完成</strong><p>財報只可在當時公開後使用，禁止回填最新修訂值。</p></div></article>
+                <article className="waiting"><span>03</span><div><b>固定 Walk-forward</b><strong>待驗證</strong><p>前段建立、後段只測一次，並保留每次失敗結果。</p></div></article>
+                <article className="waiting"><span>04</span><div><b>QQQ 與等權基準</b><strong>待驗證</strong><p>扣 10／25／50 bps 成本後仍須勝過兩個基準。</p></div></article>
+                <article className="waiting"><span>05</span><div><b>統計與搜尋校正</b><strong>待驗證</strong><p>檢查 NW、PSR、DSR、PBO 及多重搜尋影響。</p></div></article>
+                <article className="waiting"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>入口全過後才由全現金累積 252 日及 12 次月度輪選，不回填漂亮成交。</p></div></article>
+              </div>
+              <p className="aggressive-final-decision"><b>目前決策：</b>短線高回報研究線已獨立呈列，但尚未有合資格策略。QQQ 只作 baseline，個股只作觀察；實金及 Paper 動作均為 US$0。</p>
+              <div className="protocol-link"><span>研究定義 v1 · 2026-08-03 凍結</span><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">查看完整協議</a></div>
+            </div>
+          </section>
+        </div>
+        </StrategyTabs>
       </main>
 
       <footer>
         <div className="wrap footer-grid">
-          <div><b>US FDDK</b><p>美股策略研究及前瞻 Paper 紀錄。</p></div>
+          <div><b>US FDDK</b><p>長線穩定與短線高回報兩條獨立研究線。</p></div>
           <div><span>最新數據</span><b>{data.data_through}</b></div>
           <div><span>公開狀態</span><b>Research + Paper-only</b></div>
           <div><span>免責聲明</span><p>歷史表現不保證未來結果；本頁不構成投資建議或實金落盤指令。</p></div>

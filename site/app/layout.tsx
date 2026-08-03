@@ -9,18 +9,17 @@ const publicSiteRoot = publicSiteUrl.replace(/\/$/, "");
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl),
   title: {
-    default: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
+    default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "最新 v25 80% VUG／20% GLD 的 20 年回測、九組 baseline、12 隻大型股、風險與市場指標、統計診斷及 Paper Trading 進度。",
+  description: "長線 ETF 分散策略與短線大型股動量研究，以兩個分頁呈列回報、風險、baseline、驗證門檻及 Paper 狀態。",
   openGraph: {
-    title: "美股成長＋黃金策略｜20 年完整研究報告",
-    description: "最新策略的九組 baseline、12 隻大型股、產品敏感度、成本壓力、統計診斷與前瞻 Paper 狀態，一頁完整呈列。",
+    title: "美股雙策略研究｜穩定與進取分開驗證",
+    description: "長線穩定與短線高回報兩條研究線，分開展示目標、風險、比較基準及 Paper 狀態。",
     locale: "zh_HK",
     type: "website",
-    images: [{ url: `${publicSiteRoot}/og.png`, width: 1730, height: 909, alt: "US FDDK 美股成長加黃金最新研究報告" }],
   },
-  twitter: { card: "summary_large_image", images: [`${publicSiteRoot}/og.png`] },
+  twitter: { card: "summary" },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };
 
