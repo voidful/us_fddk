@@ -48,6 +48,7 @@ jobs:
           python scripts/audit_short_term_point_in_time_data.py
           python scripts/build_short_term_provider_qualification_report.py
           python scripts/build_short_term_crsp_sample_acceptance_report.py
+          python scripts/build_short_term_crsp_ciz_mapping_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -66,6 +67,9 @@ jobs:
             artifacts/short_term_crsp_sample_acceptance.json \
             site/data/short-term-crsp-sample-acceptance.json \
             docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_REPORT.md \
+            artifacts/short_term_crsp_ciz_mapping_validation.json \
+            site/data/short-term-crsp-ciz-mapping.json \
+            docs/SHORT_TERM_CRSP_CIZ_MAPPING_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -76,6 +80,7 @@ jobs:
           pytest tests/test_point_in_time_ledger.py
           pytest tests/test_provider_qualification.py
           pytest tests/test_crsp_sample_acceptance.py
+          pytest tests/test_crsp_ciz_mapping.py
           pytest tests/test_daily_momentum_regime.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit

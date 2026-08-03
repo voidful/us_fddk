@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "research_round": 13,
+  "status": "frozen_before_ciz_adapter_implementation",
+  "frozen_at": "2026-08-03T21:21:26Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md",
+    "sha256": "0b0f9d97f18427a21df7def9002993464fcfde86856068e654e1e066ffdaac87"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "manifest_schema": {
+    "path": "schemas/short_term_point_in_time_manifest.schema.json",
+    "sha256": "f6fba2f7117381c4bea3bde3db4f730bd282d6cc991d0e7b1df0e4ac1a24f160"
+  },
+  "strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
+  },
+  "sample_acceptance_protocol": {
+    "path": "docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md",
+    "sha256": "50d58265c36d126bcf4b315abbbc4bbf433b077d1e5a05b8d409e6a0e0c5f7a3"
+  },
+  "frozen_attack_count": 12,
+  "ciz_adapter_implemented_at_freeze": false,
+  "authorized_provider_sample_present_at_freeze": false,
+  "wrds_credentials_used": false,
+  "paid_data_rows_downloaded": false,
+  "true_readiness_at_freeze": {
+    "passed": 1,
+    "total": 20
+  },
+  "formal_stock_backtests_at_freeze": 0,
+  "short_paper_authorized_at_freeze": false,
+  "real_money_action_usd": 0,
+  "strategy_rule_changed": false
+}

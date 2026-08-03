@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "research_round": 13,
+  "status": "ciz_mapping_bridge_passed_provider_data_still_blocked",
+  "evidence_as_of": "2026-08-04",
+  "protocol_integrity": {
+    "passed": true,
+    "frozen_at": "2026-08-03T21:21:26Z",
+    "hash_checks": {
+      "protocol": true,
+      "point_in_time_contract": true,
+      "manifest_schema": true,
+      "strategy_protocol": true,
+      "sample_acceptance_protocol": true
+    }
+  },
+  "official_document_evidence": {
+    "current_format": "CIZ Flat File Format 2.0; legacy SIZ discontinued after December 2024 release",
+    "direct_fields_verified": [
+      "PERMNO",
+      "PERMCO",
+      "SecInfoStartDt/SecInfoEndDt",
+      "Ticker/PrimaryExch/CUSIP",
+      "DlyOpen/DlyHigh/DlyLow/DlyClose/DlyVol/DlyRet",
+      "MbrStartDt/MbrEndDt",
+      "DelistingDt/DelDlyDt/DelRet/DelRetMissType"
+    ],
+    "not_verified_in_public_table_definition": [
+      "membership announcement timestamp",
+      "security-info availability timestamp",
+      "exact authorized WRDS export schema",
+      "fixed-period missing delisting-return rate"
+    ],
+    "sources": [
+      {
+        "label": "WRDS Changes to CRSP Data",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/data-announcements/changes-to-crsp-data/"
+      },
+      {
+        "label": "WRDS CRSP CIZtoSIZ macro",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/crsp-ciztosiz-macro/"
+      },
+      {
+        "label": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+        "url": "https://index-website-frontend-prd.mif0286.eas.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true"
+      }
+    ]
+  },
+  "mapping_policy": {
+    "direct": [
+      "PERMNO/PERMCO",
+      "historical security identifiers",
+      "raw daily OHLCV",
+      "membership effective ranges",
+      "DelistingDt and DelRet"
+    ],
+    "deterministic_derived": [
+      "inclusive source end to half-open ledger end",
+      "1 + DlyRet total-return factor",
+      "CRSP permanent-ID prefixes"
+    ],
+    "external_evidence_required": [
+      "membership announced_at",
+      "security-info known_at",
+      "corporate-action announced_at and normalized terms",
+      "cash/stock exit terms when DelRet is missing"
+    ],
+    "prohibited_inference": [
+      "MbrStartDt as announcement time",
+      "SecInfoStartDt as known_at",
+      "current ticker/classification backfill",
+      "adjusted OHLC as raw",
+      "missing DelRet as zero",
+      "DelDlyDt as exit event date"
+    ]
+  },
+  "control": {
+    "synthetic_only": true,
+    "contains_provider_rows": false,
+    "mapping_completed": true,
+    "ledger_gate_summary": {
+      "passed": 20,
+      "total": 20,
+      "all_passed": true
+    },
+    "paper_authorized": false
+  },
+  "attacks": [
+    {
+      "id": "01",
+      "label": "缺少成分公布時間 overlay",
+      "expected_error_code": "source_file_set_mismatch",
+      "observed_error_code": "source_file_set_mismatch",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "02",
+      "label": "用 MbrStartDt 午夜冒充 announced_at",
+      "expected_error_code": "membership_effective_date_substitution",
+      "observed_error_code": "membership_effective_date_substitution",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "03",
+      "label": "security info 缺 availability 對數",
+      "expected_error_code": "security_info_availability_missing",
+      "observed_error_code": "security_info_availability_missing",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "04",
+      "label": "以現時 security info 整列倒填歷史",
+      "expected_error_code": "current_security_info_backfill",
+      "observed_error_code": "current_security_info_backfill",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "05",
+      "label": "把 adjusted OHLC 當 raw",
+      "expected_error_code": "adjusted_price_prohibited",
+      "observed_error_code": "adjusted_price_prohibited",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "06",
+      "label": "把 DelDlyDt 放在 DelistingDt 同日",
+      "expected_error_code": "delist_storage_date_invalid",
+      "observed_error_code": "delist_storage_date_invalid",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "07",
+      "label": "DelRet 缺失且沒有現金／換股代價",
+      "expected_error_code": "missing_exit_economics",
+      "observed_error_code": "missing_exit_economics",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "08",
+      "label": "換股 successor PERMNO 不在 master",
+      "expected_error_code": "unknown_successor_permno",
+      "observed_error_code": "unknown_successor_permno",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "09",
+      "label": "授權聲明缺 reference",
+      "expected_error_code": "license_attestation_invalid",
+      "observed_error_code": "license_attestation_invalid",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "10",
+      "label": "legacy SIZ／schema 漂移",
+      "expected_error_code": "source_schema_drift",
+      "observed_error_code": "source_schema_drift",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "11",
+      "label": "distribution 缺 announcement／事件 overlay",
+      "expected_error_code": "distribution_overlay_missing",
+      "observed_error_code": "distribution_overlay_missing",
+      "rejected": true,
+      "downstream_gate_summary": null
+    },
+    {
+      "id": "12",
+      "label": "security info 在生效後才可知",
+      "expected_error_code": "security_info_known_late",
+      "observed_error_code": "security_info_known_late",
+      "rejected": true,
+      "downstream_gate_summary": null
+    }
+  ],
+  "attack_summary": {
+    "rejected": 12,
+    "total": 12,
+    "all_rejected": true
+  },
+  "actual_point_in_time_readiness": {
+    "passed": 1,
+    "total": 20,
+    "all_passed": false
+  },
+  "actual_provider_bundle_present": false,
+  "authorized_provider_sample_received": false,
+  "wrds_catalog_queried": false,
+  "provider_qualified": false,
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "strategy_rule_changed": false,
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "next_action": "只接受合法 CIZ 小樣本加四類 evidence overlay；先逐欄通過 adapter 與 20 道賬本稽核，再考慮固定 20 年正式匯出。",
+  "disclaimer": "本輪只證明合成 CIZ 形狀的轉換及拒收規則；不證明 CRSP／WRDS 已授權或策略可盈利，不構成投資建議。"
+}

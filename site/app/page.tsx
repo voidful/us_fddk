@@ -8,7 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
-import crspAcceptance from "../data/short-term-crsp-sample-acceptance.json";
+import crspCizMapping from "../data/short-term-crsp-ciz-mapping.json";
 import providerQualification from "../data/short-term-provider-qualification.json";
 import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
 import dailyMomentumRegime from "../data/short-term-daily-momentum-regime.json";
@@ -18,7 +18,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十二輪 12/12 驗收攻擊拒收，但真實逐股數據仍為 1/20，第十輪策略 27/48 失敗。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十三輪 CIZ 映射控制包 20/20、十二項攻擊全拒收，但真實逐股數據仍為 1/20。",
 };
 
 const readerCapital = 1_000;
@@ -157,7 +157,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
-const crspAttackRows = crspAcceptance.attacks;
+const cizAttackRows = crspCizMapping.attacks;
 const providerCapabilityRows = [
   { key: "05_security_master", label: "永久證券／公司 ID" },
   { key: "06_identifier_history", label: "歷史代號及上市地" },
@@ -662,16 +662,16 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DATA ACCEPTANCE · ROUND 12</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CIZ MAPPING · ROUND 13</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真實數據</h1>
               <p className="hero-lead">
-                第十二輪把 CRSP／WRDS 樣本入口做成可攻擊的驗收器：合成控制包 20/20，事前固定的 manifest、時間、永久 ID、退市及幽靈價格攻擊 <strong>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} 全部拒收</strong>。上一輪供應商預審 {providerQualifiedCount}/{providerRows.length} 仍未改變；這只證明驗收器會關門，不代表供應商或策略通過。
+                第十三輪按 CRSP 現行 CIZ 欄位凍結轉換橋：合成 CIZ 包轉成八份 point-in-time 賬本後為 <strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong>，公布時間、生效日替代、歷史倒填、調整價及退市儲存日等 <strong>{crspCizMapping.attack_summary.rejected}/{crspCizMapping.attack_summary.total} 項攻擊全部拒收</strong>。這只證明轉換器會關門，不代表供應商或策略通過。
                 <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#crsp-sample-acceptance">查看 12/12 驗收攻擊</a>
+                <a className="primary-button aggressive-button" href="#crsp-ciz-mapping">查看 CIZ 映射與攻擊</a>
                 <a className="secondary-button" href="#provider-qualification">查看四條數據路徑</a>
                 <a className="secondary-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
                 <a className="secondary-button" href="#point-in-time-readiness">查看 1/20 數據閘門</a>
@@ -680,14 +680,14 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} · 驗收器通過，供應商未通過</b>
+                <b>CIZ {crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total} · 供應商未通過</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>驗收器攻擊</dt><dd>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>CIZ 映射攻擊</dt><dd>{crspCizMapping.attack_summary.rejected}/{crspCizMapping.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>供應商樣本</dt><dd>0 · 尚未取得合法數據</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
@@ -700,7 +700,7 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>驗收攻擊</span><strong>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total}</strong><small>合成測試，不是供應商通過</small></article>
+              <article><span>CIZ 映射控制</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><small>合成測試，不是供應商通過</small></article>
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>2006–2026 CAGR</span><strong>{pct(dailyRecent.candidate.cagr, 2)}</strong><small>QQQ {pct(dailyRecent.qqq.cagr, 2)}</small></article>
@@ -709,40 +709,51 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section wrap" id="crsp-sample-acceptance">
+          <section className="section wrap" id="crsp-ciz-mapping">
             <div className="section-heading">
-              <div><span>CRSP SAMPLE ACCEPTANCE · ROUND 12</span><h2>驗收器 12/12 拒收；真實數據仍是 1/20</h2></div>
-              <p>先把供應商樣本最容易出錯的時間、授權、永久 ID 及退市語義做成固定攻擊；通過合成測試只代表程式不會誤收，不能當成市場數據或策略證據。</p>
+              <div><span>CRSP CIZ MAPPING · ROUND 13</span><h2>映射 20/20、攻擊 12/12 拒收；真實數據仍是 1/20</h2></div>
+              <p>只接受現行 CIZ Flat File Format 2.0；公開欄位未能證明的公布時間、可用時間及缺失退出代價必須另有 evidence overlay，轉換器不會自行推算補洞。</p>
             </div>
             <div className="aggressive-overview-grid">
               <article className="aggressive-verdict point-in-time-verdict">
                 <span>最新研究判斷</span>
-                <h3>同日較遲才知的數據，現在會按時間而非日期拒收</h3>
-                <p>授權聲明必須符合巢狀 manifest schema；identifier、membership 與歷史分類以紐約生效日午夜作無前視邊界。缺失退市回報、未知換股 successor、矛盾 outcome 及幽靈價格全部失敗關閉。</p>
+                <h3>成分生效日不是公布時間；退市儲存日不是退出日</h3>
+                <p>CIZ 的 MbrStartDt／MbrEndDt 只作在籍區間；DelistingDt 保留為最後價格日，DelDlyDt 只核對退市回報在日檔的儲存日。缺少 announcement、security-info KnownAt 或退出經濟條款即停止。</p>
               </article>
               <div className="aggressive-risk-stack">
-                <article><span>合成控制包</span><strong>{crspAcceptance.synthetic_control.gates_passed}/{crspAcceptance.synthetic_control.gates_total}</strong><p>不含供應商原始列；只證明完整結構可以通過。</p></article>
-                <article><span>真實狀態</span><strong>{crspAcceptance.actual_point_in_time_readiness.passed}/{crspAcceptance.actual_point_in_time_readiness.total} · US$0</strong><p>供應商樣本 0、正式回測 0、Paper 0；沒有因合成測試升格。</p></article>
+                <article><span>合成 CIZ → 八份賬本</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><p>不含供應商原始列；只證明凍結映射可通過下游稽核。</p></article>
+                <article><span>真實狀態</span><strong>{crspCizMapping.actual_point_in_time_readiness.passed}/{crspCizMapping.actual_point_in_time_readiness.total} · US$0</strong><p>合法樣本 0、正式回測 0、Paper 0；沒有因合成測試升格。</p></article>
               </div>
             </div>
 
             <div className="subsection-heading stock-heading">
+              <div><span>FIELD POLICY</span><h3>直接、派生、外加、禁止推算四層分開</h3></div>
+              <p>永久 ID、raw OHLCV 及有效區間可按官方欄位轉換；公布／可用時間及缺失退市代價只能由可追溯外加證據補足。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="CIZ 欄位映射四層政策">
+              <article className="passed"><span>01</span><b>官方直接欄位</b><strong>可映射</strong><p>PERMNO／PERMCO、raw OHLCV、membership 起訖及 DelRet。</p></article>
+              <article className="passed"><span>02</span><b>決定性派生</b><strong>可重現</strong><p>inclusive end 轉 half-open；總回報因子固定為 1 + DlyRet。</p></article>
+              <article><span>03</span><b>外加證據</b><strong>必須提供</strong><p>成分 announced_at、security-info KnownAt、公司行動及缺失退出代價。</p></article>
+              <article><span>04</span><b>禁止推算</b><strong>拒收</strong><p>現時 ticker 倒填、adjusted 價當 raw、DelRet 補 0、DelDlyDt 當退出日。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
               <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十二種單一錯誤，全數在指定閘門被擋下</h3></div>
-              <p>每次攻擊都重新計算 CSV 列數與 SHA-256，避免只靠檔案被改動而掩蓋真正的語義驗證。</p>
+              <p>每次都重算列數與 SHA-256，再核對指定 error code；不是用「檔案被改」一個泛化錯誤掩蓋語義。</p>
             </div>
             <div className="test-matrix point-in-time-tests acceptance-tests">
-              {crspAttackRows.map((attack) => (
+              {cizAttackRows.map((attack) => (
                 <article className="test-card" key={attack.id}>
                   <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
-                  <p>{attack.expected_failed_gates.join("／")}</p>
+                  <p>{attack.expected_error_code}</p>
                 </article>
               ))}
             </div>
 
             <div className="data-source-decision provider-decision">
               <div><span>NEXT VALID ACTION</span><b>只向 CRSP／WRDS 索取合法 schema、細樣本及授權條款</b></div>
-              <p>固定核對成分 start/end 與 announcement timestamp、DelRetMissType 分布、缺失退出回報的現金／換股對數、20 年 raw OHLCV／停牌覆蓋及本地研究授權。小樣本不能縮短 2006–2026 正式主期。</p>
-              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_REPORT.md" target="_blank" rel="noreferrer">第十二輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md" target="_blank" rel="noreferrer">事前攻擊協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_crsp_sample_acceptance.json" target="_blank" rel="noreferrer">機器收據</a></div>
+              <p>小樣本必須同時提供 membership announcement、security-info availability、公司行動正規化及缺失退出代價四類 evidence overlay；任何一類缺失都不會用 effective date 或匯出日代替。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_CIZ_MAPPING_REPORT.md" target="_blank" rel="noreferrer">第十三輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md" target="_blank" rel="noreferrer">事前映射協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_crsp_ciz_mapping_validation.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 
@@ -899,7 +910,7 @@ export default function Home() {
 
             <div className="subsection-heading stock-heading">
               <div><span>FAIL-CLOSED TESTS</span><h3>十二種固定攻擊加一個完整控制包</h3></div>
-              <p>第十二輪已補齊巢狀 manifest、同日時間、successor 及 outcome 一致性；測試不會把合成 fixture 當成回測證據。</p>
+              <p>第十三輪再把 CIZ 生效／公布時間、raw／adjusted 價及退市事件／儲存日期分開；合成 fixture 仍不會當成回測證據。</p>
             </div>
             <div className="test-matrix point-in-time-tests">
               <article className="test-card"><div><span>完整合成賬本</span><b className="positive-number">20/20</b></div><p>永久 ID、成分、價格、分類及 outcome 一致時才放行。</p></article>

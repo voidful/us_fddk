@@ -1,5 +1,27 @@
 # 決策與負結果
 
+## 2026-08-04：CRSP CIZ 映射 20/20、攻擊 12/12，真實數據仍為 1/20
+
+- 在寫 adapter 前先凍結現行 CIZ Flat File Format 2.0、十份本地輸入、四類 evidence
+  overlay、十二項攻擊及停止規則；短線 v1、固定 20 年、公平 baseline、10／25／50
+  bps、統計及前瞻 Paper 門檻全部不變。本輪沒有登入 WRDS、下載付費列或取得供應商
+  樣本。
+- 官方公開 guide 證明 PERMNO／PERMCO、歷史 security info、raw 日線 OHLCV、
+  MbrStartDt／MbrEndDt、DelistingDt／DelDlyDt／DelRet／DelRetMissType 等欄位；但公開
+  membership 表格未列逐次 announcement timestamp。DelDlyDt 只是退市回報在日檔的
+  儲存日，慣例為退市後下一交易日，不能當成退出事件日期。
+- adapter 因此只容許直接欄位及固定派生；membership announced_at、security-info
+  KnownAt、公司行動公告／正規化條款、缺失 DelRet 的現金／換股代價必須另有可追溯
+  overlay。禁止用生效日冒充公布時間、用現時 ticker／分類倒填、把 adjusted 價當 raw、
+  把缺失 DelRet 補 0 或用 DelDlyDt 作退出日。
+- 合成 CIZ 包成功轉成八份既有賬本並通過 **20/20**；十二項 schema、時間、歷史倒填、
+  raw 價及退市語義攻擊 **12/12** 按指定 error code 拒收。合成包不含供應商列，結果
+  不計入策略回報、PSR／DSR／PBO 或 Paper 樣本。
+- 決定：映射橋通過，但真實 CRSP／WRDS 數據、正式回測及策略均未通過。真實入口維持
+  **1/20**，合法樣本 0、正式 20 年逐股回測 0、短線 Paper 全現金、0 成交、0 持倉、
+  實金動作 US$0。下一步只接受合法 CIZ 小樣本加完整 overlay；完整證據見
+  `docs/SHORT_TERM_CRSP_CIZ_MAPPING_REPORT.md`。
+
 ## 2026-08-04：CRSP 樣本驗收 12/12 拒收，真實數據仍為 1/20
 
 - 在修補驗收程式前先固定十二種攻擊、指定失敗閘門及停止規則；既有短線 v1、20 年
