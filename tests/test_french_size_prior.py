@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from scripts.build_short_term_french_size_prior_report import _canonicalize
 from usfddk.french_size_prior import (
     EQUAL_WEIGHTED_MONTHLY_MARKER,
     SIZE_PRIOR_COLUMNS,
@@ -22,6 +23,11 @@ from usfddk.french_size_prior_research import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_size_prior_canonicalization_absorbs_cross_platform_cdf_tail_noise() -> None:
+    assert _canonicalize(9.44739855224e-06) == _canonicalize(9.44739855230e-06)
+    assert _canonicalize(6.91401951691e-06) == _canonicalize(6.91401951697e-06)
 
 
 def _synthetic_text(marker: str = VALUE_WEIGHTED_MONTHLY_MARKER) -> str:

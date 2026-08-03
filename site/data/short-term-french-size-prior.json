@@ -296,7 +296,7 @@
           "skew": 0.17669810902,
           "pearson_kurtosis": 5.08430286602,
           "z_score": -4.27756597111,
-          "probability": 9.44739855224e-06,
+          "probability": 9.447398552e-06,
           "observations": 516.0
         },
         "active_global_deflated_sharpe": {
@@ -306,7 +306,7 @@
           "skew": 0.17669810902,
           "pearson_kurtosis": 5.08430286602,
           "z_score": -8.01869558919,
-          "probability": 5.55111512313e-16,
+          "probability": 5.551115123e-16,
           "observations": 516.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.591671643909
@@ -339,7 +339,7 @@
           "skew": 0.146505881682,
           "pearson_kurtosis": 5.90703423506,
           "z_score": -6.03146705048,
-          "probability": 8.12389266969e-10,
+          "probability": 8.12389267e-10,
           "observations": 516.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.578963473156
@@ -372,7 +372,7 @@
           "skew": -0.158214323169,
           "pearson_kurtosis": 4.9751111569,
           "z_score": -6.82103862425,
-          "probability": 4.51921833289e-12,
+          "probability": 4.519218333e-12,
           "observations": 516.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.57015839047
@@ -405,7 +405,7 @@
           "skew": -0.265761149197,
           "pearson_kurtosis": 5.74829925709,
           "z_score": -5.80726325022,
-          "probability": 3.17511256176e-09,
+          "probability": 3.175112562e-09,
           "observations": 516.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.566965977407
@@ -461,7 +461,7 @@
           "skew": 0.341270951226,
           "pearson_kurtosis": 6.2494306392,
           "z_score": -5.4380330393,
-          "probability": 2.69359932137e-08,
+          "probability": 2.693599321e-08,
           "observations": 516.0
         },
         "active_global_deflated_sharpe": {
@@ -735,7 +735,7 @@
           "skew": 0.0914499148858,
           "pearson_kurtosis": 4.22111791757,
           "z_score": -4.41546411716,
-          "probability": 5.03967496274e-06,
+          "probability": 5.039674963e-06,
           "observations": 245.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.831921804999
@@ -900,7 +900,7 @@
           "skew": -0.602358582159,
           "pearson_kurtosis": 7.86685941896,
           "z_score": -4.34657403619,
-          "probability": 6.91401951691e-06,
+          "probability": 6.914019517e-06,
           "observations": 245.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.821075337932
@@ -933,7 +933,7 @@
           "skew": -0.0197656818925,
           "pearson_kurtosis": 4.84244078617,
           "z_score": -6.29914843072,
-          "probability": 1.49642631619e-10,
+          "probability": 1.496426316e-10,
           "observations": 245.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.83917712319
@@ -966,7 +966,7 @@
           "skew": 0.157103679345,
           "pearson_kurtosis": 4.09258323166,
           "z_score": -4.31833553417,
-          "probability": 7.86051527418e-06,
+          "probability": 7.860515274e-06,
           "observations": 245.0,
           "trials": 6175.0,
           "expected_max_sharpe": 0.832509286441

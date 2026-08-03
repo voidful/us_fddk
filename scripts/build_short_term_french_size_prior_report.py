@@ -24,7 +24,11 @@ def _canonicalize(value: Any) -> Any:
     if isinstance(value, float):
         if not math.isfinite(value):
             raise ValueError("研究輸出包含非有限浮點數")
-        return float(f"{value:.12g}")
+        # SciPy's extreme normal-CDF tails can differ in the last few ulps
+        # across platforms. Narrow only those tiny probabilities so the rest
+        # of the committed research precision remains unchanged.
+        digits = 10 if 0 < abs(value) < 1e-5 else 12
+        return float(f"{value:.{digits}g}")
     if isinstance(value, dict):
         return {key: _canonicalize(item) for key, item in value.items()}
     if isinstance(value, list):
