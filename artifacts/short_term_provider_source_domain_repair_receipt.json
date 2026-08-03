@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "research_round": 11,
+  "status": "schema_informed_domain_repair_after_redirect_inspection",
+  "frozen_at": "2026-08-03T19:45:08Z",
+  "frozen_at_epoch": 1785786308,
+  "base_commit": "e940d624ad659df1f506d3e42fe18bbaed18b937",
+  "repair_protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_SOURCE_DOMAIN_REPAIR_PROTOCOL.md",
+    "sha256": "65ef305af5facc2733731ed028fd3bddfcfb50d3019a0ce2bccf0b3d053c06f1"
+  },
+  "document_receipt": {
+    "path": "artifacts/short_term_provider_document_receipt.json",
+    "sha256": "8d7ae75b37321b3ae1cdf7e9847d67317484d2a3af19ac117d1aeda78d6397e7",
+    "retrieved_before_repair_freeze": true
+  },
+  "allowed_redirect_aliases": [
+    {
+      "requested_domain": "crsp.org",
+      "final_domain": "indexes.morningstar.com"
+    },
+    {
+      "requested_domain": "polygon.io",
+      "final_domain": "massive.com"
+    }
+  ],
+  "independent_first_seen_evidence": false,
+  "source_domain_repair_only": true,
+  "provider_set_changed": false,
+  "twenty_gate_mapping_changed": false,
+  "strategy_rule_changed": false,
+  "paper_gate_changed": false,
+  "provider_credentials_used": false,
+  "paid_data_rows_downloaded": false,
+  "formal_stock_backtest_authorized": false,
+  "paper_authorized": false,
+  "real_money_action_usd": 0
+}
