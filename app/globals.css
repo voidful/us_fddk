@@ -170,6 +170,7 @@ h1 { margin: 0; max-width: 650px; font: 500 clamp(50px, 6vw, 82px)/.98 Georgia, 
 .progress-track i { display: block; height: 100%; min-width: 0; border-radius: inherit; background: var(--gold); }
 .forward-decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--line); }
 .forward-decision-grid article { display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: center; min-height: 86px; padding: 16px; background: var(--card); }
+.forward-decision-grid article:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .forward-decision-grid article > span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #e1ddd2; color: var(--muted); font-weight: 800; }
 .forward-decision-grid article.passed > span { background: #dcebe2; color: var(--forest); }.forward-decision-grid article.failed > span { background: #f8ded8; color: var(--red); }
 .forward-decision-grid b { display: block; font-size: 12px; }.forward-decision-grid p { margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }

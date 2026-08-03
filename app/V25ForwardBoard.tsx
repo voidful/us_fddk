@@ -33,15 +33,34 @@ type PendingOrder = {
   target_weights: Record<string, number>;
   status: string;
 } | null;
+type ForwardBenchmarkDiagnostic = {
+  annualized_return_difference: number;
+  persistence_available: boolean;
+  first_half_annualized_difference: number | null;
+  second_half_annualized_difference: number | null;
+  active_newey_west: { t_stat: number };
+};
 type ForwardEvidence = {
+  promotion_protocol: {
+    schema_version: number;
+    minimum_annualized_edge: number;
+    minimum_active_newey_west_t: number;
+  };
+  promotion_protocol_sha256: string;
   forward_sessions: number;
   minimum_sessions: number;
   remaining_sessions: number;
+  filled_orders_including_initial_allocation: number;
+  initial_allocations: number;
   filled_rebalances: number;
   minimum_filled_rebalances: number;
   remaining_filled_rebalances: number;
   return_difference_vs_SPY: number;
   return_difference_vs_matched: number;
+  forward_diagnostics: {
+    SPY: ForwardBenchmarkDiagnostic;
+    matched_80_VUG_20_SHY: ForwardBenchmarkDiagnostic;
+  };
   gates: Record<string, boolean>;
   live_confirmed: boolean;
 };
@@ -99,6 +118,15 @@ export default function V25ForwardBoard({
   const sampleReady =
     forward.gates.at_least_252_new_sessions === true &&
     forward.gates.at_least_6_filled_rebalances === true;
+  const materialEdgePassed =
+    forward.gates.candidate_annualized_edge_at_least_10bp_vs_SPY === true &&
+    forward.gates.candidate_annualized_edge_at_least_10bp_vs_matched === true;
+  const persistencePassed =
+    forward.gates.candidate_outperforms_SPY_in_both_halves === true &&
+    forward.gates.candidate_outperforms_matched_in_both_halves === true;
+  const statisticsPassed =
+    forward.gates.candidate_active_newey_west_t_at_least_1_96_vs_SPY === true &&
+    forward.gates.candidate_active_newey_west_t_at_least_1_96_vs_matched === true;
   const sessionProgress = Math.min(
     (forward.forward_sessions / forward.minimum_sessions) * 100,
     100,
@@ -154,7 +182,7 @@ export default function V25ForwardBoard({
         </div>
         <p>
           三者都從 {paper.started_at} 的 {money(paper.initial_cash)} 現金開始，使用相同
-          {paper.cost_bps.toFixed(0)} bps 成本、同一份快照與同一交易日序列。
+          {paper.cost_bps.toFixed(0)} bps 成本、同一份快照與同一交易日序列。升級合約 v{forward.promotion_protocol.schema_version} 已在第一筆成交前凍結。
         </p>
       </div>
 
@@ -213,7 +241,7 @@ export default function V25ForwardBoard({
         <article>
           <div><span>完成再平衡</span><strong>{forward.filled_rebalances} / {forward.minimum_filled_rebalances}</strong></div>
           <div className="progress-track" aria-label={`完成再平衡進度 ${rebalanceProgress.toFixed(1)}%`}><i style={{ width: `${rebalanceProgress}%` }} /></div>
-          <p>還缺 {forward.remaining_filled_rebalances} 次；待成交不算完成。</p>
+          <p>還缺 {forward.remaining_filled_rebalances} 次；待成交不算完成。首次建倉 {forward.initial_allocations ? "已完成" : "尚未完成"}，也不算六次月度再平衡。</p>
         </article>
       </div>
 
@@ -222,6 +250,9 @@ export default function V25ForwardBoard({
         <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_SPY ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_SPY ? "✓" : "!"}</span><div><b>扣成本報酬勝 SPY</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_SPY)} · 目前差 {pct(forward.return_difference_vs_SPY)}</p></div></article>
         <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_matched ? "✓" : "!"}</span><div><b>勝相同曝險控制</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_matched)} · 目前差 {pct(forward.return_difference_vs_matched)}</p></div></article>
         <article className={!sampleReady ? "waiting" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "✓" : "!"}</span><div><b>回撤不比兩基準深</b><p>{gateState(sampleReady, forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched)}</p></div></article>
+        <article className={!sampleReady ? "waiting" : materialEdgePassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : materialEdgePassed ? "✓" : "!"}</span><div><b>不是只贏一點點</b><p>{gateState(sampleReady, materialEdgePassed)} · 年化至少多 0.10%；目前對 SPY {pct(forward.forward_diagnostics.SPY.annualized_return_difference)}、公平基準 {pct(forward.forward_diagnostics.matched_80_VUG_20_SHY.annualized_return_difference)}</p></div></article>
+        <article className={!sampleReady ? "waiting" : persistencePassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : persistencePassed ? "✓" : "!"}</span><div><b>前後兩半都要贏</b><p>{gateState(sampleReady, persistencePassed)} · 避免只靠一年中的單一事件</p></div></article>
+        <article className={!sampleReady ? "waiting" : statisticsPassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : statisticsPassed ? "✓" : "!"}</span><div><b>不是隨機雜訊</b><p>{gateState(sampleReady, statisticsPassed)} · NW t 對 SPY {forward.forward_diagnostics.SPY.active_newey_west.t_stat.toFixed(2)}、公平基準 {forward.forward_diagnostics.matched_80_VUG_20_SHY.active_newey_west.t_stat.toFixed(2)}，門檻 1.96</p></div></article>
       </div>
 
       <div className="forward-log-grid">
@@ -242,7 +273,7 @@ export default function V25ForwardBoard({
           )}
         </article>
       </div>
-      <p className="forward-final-decision"><b>目前決定：</b>{forward.live_confirmed ? "前瞻門檻已全數通過，才進入參考配置模式。" : "繼續 Paper-only；樣本未滿前，即使暫時領先也不開放實金參考。"}</p>
+      <p className="forward-final-decision"><b>目前決定：</b>{forward.live_confirmed ? "前瞻門檻已全數通過，才進入參考配置模式。" : sampleReady ? "一年樣本已滿，但仍有穩健門檻未過；繼續 Paper-only。" : "繼續 Paper-only；樣本未滿前，即使暫時領先也不開放實金參考。"}</p>
     </section>
   );
 }

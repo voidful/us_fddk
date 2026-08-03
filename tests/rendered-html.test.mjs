@@ -43,9 +43,15 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /目前實金動作仍是 0/);
   assert.match(html, /LIVE PAPER · 同起點公平競賽/);
   assert.match(html, /不是看回測冠軍，是看三個真實等待中的帳戶/);
+  assert.match(html, /升級合約 v(?:<!-- -->)?2(?:<!-- -->)? 已在第一筆成交前凍結/);
   assert.match(html, /相同股票曝險控制/);
   assert.match(html, /等待足夠樣本/);
   assert.match(html, /待成交不算完成/);
+  assert.match(html, /首次建倉/);
+  assert.match(html, /不算六次月度再平衡/);
+  assert.match(html, /不是只贏一點點/);
+  assert.match(html, /前後兩半都要贏/);
+  assert.match(html, /不是隨機雜訊/);
   assert.match(html, /尚無成交/);
   assert.match(html, /沒有把待成交委託偽裝成已成交/);
   assert.match(html, /前瞻累積財富/);
@@ -776,8 +782,31 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.deepEqual(v25.paper.pending_order.target_weights, { GLD: 0.2, VUG: 0.8 });
   assert.equal(v25.paper.forward_evidence.forward_sessions, 0);
   assert.equal(v25.paper.forward_evidence.minimum_sessions, 252);
+  assert.equal(v25.paper.forward_evidence.promotion_protocol.schema_version, 2);
+  assert.equal(
+    v25.paper.forward_evidence.promotion_protocol.frozen_before_first_forward_fill,
+    true,
+  );
+  assert.equal(v25.paper.forward_evidence.promotion_protocol.minimum_annualized_edge, 0.001);
+  assert.equal(v25.paper.forward_evidence.promotion_protocol.minimum_active_newey_west_t, 1.96);
+  assert.equal(v25.paper.forward_evidence.promotion_protocol_sha256.length, 64);
+  assert.equal(v25.paper.forward_evidence.filled_orders_including_initial_allocation, 0);
+  assert.equal(v25.paper.forward_evidence.initial_allocations, 0);
   assert.equal(v25.paper.forward_evidence.filled_rebalances, 0);
   assert.equal(v25.paper.forward_evidence.live_confirmed, false);
+  assert.equal(
+    v25.paper.forward_evidence.gates.candidate_annualized_edge_at_least_10bp_vs_SPY,
+    false,
+  );
+  assert.equal(
+    v25.paper.forward_evidence.gates.candidate_outperforms_SPY_in_both_halves,
+    false,
+  );
+  assert.equal(
+    v25.paper.forward_evidence.gates.candidate_active_newey_west_t_at_least_1_96_vs_SPY,
+    false,
+  );
+  assert.equal(v25.paper.forward_evidence.forward_diagnostics.SPY.active_newey_west.t_stat, 0);
   assert.equal(typeof v25.paper.snapshot_sha256, "string");
   assert.equal(v25.paper.snapshot_sha256.length, 64);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_snapshot, true);
@@ -793,6 +822,7 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.match(css, /\.quick-values button \{ min-height: 44px;/);
   assert.match(css, /\.forward-score-grid \{ grid-template-columns: 1fr;/);
   assert.match(css, /\.forward-decision-grid \{ grid-template-columns: 1fr;/);
+  assert.match(css, /\.forward-decision-grid article:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1;/);
   assert.match(css, /\.faq-list details p \{[^}]*margin: 12px 0 24px;/);
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
 });
