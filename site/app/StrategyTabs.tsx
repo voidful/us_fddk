@@ -22,7 +22,7 @@ const tabs: Array<{
     key: "aggressive",
     eyebrow: "SHORT TERM",
     label: "短線高回報",
-    detail: "大型股動量 · 先驗證後 Paper",
+    detail: "個股與行業動量 · 先驗證後 Paper",
     status: "研究中",
   },
 ];

@@ -32,10 +32,10 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /大型股動量輪選/);
-  assert.match(html, /沙盒勝 QQQ · 仍不合資格/);
-  assert.match(html, /12–1 個月動量/);
+  assert.match(html, /外部驗證失敗 · 不追認參數/);
+  assert.match(html, /短期相對強勢/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
-  assert.match(html, /表面跑贏 QQQ，仍未證明輪選有價值/);
+  assert.match(html, /較早大型股沙盒：表面跑贏也未證明輪選/);
   assert.match(html, /現時完整股池漂移/);
   assert.match(html, /21\.52%/);
   assert.match(html, /23\.04%/);
@@ -46,8 +46,18 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /拆走止賺止蝕後，20 日排序有正差/);
   assert.match(html, /5(?:<!-- -->)?\/(?:<!-- -->)?5(?:<!-- -->)? 表面通過/);
   assert.match(html, /NW t .*3\.03/);
-  assert.match(html, /訊號協議/);
+  assert.match(html, /外部協議/);
   assert.match(html, /tst_wocker_filter_lab/);
+  assert.match(html, /首次 Vanguard 十行業驗證：沒有重現/);
+  assert.match(html, /外部驗證失敗 · 不追認參數/);
+  assert.match(html, /候選、三個市場 ETF 與三個行業控制/);
+  assert.match(html, /不是單一 baseline 造成的失敗/);
+  assert.match(html, /大型股的正面線索沒有跨產品重現/);
+  assert.match(html, /5\.28%/);
+  assert.match(html, /16\.73%/);
+  assert.match(html, /79\.4%/);
+  assert.match(html, /VGT/);
+  assert.match(html, /實金及 Paper 動作均為 US\$0/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });
 

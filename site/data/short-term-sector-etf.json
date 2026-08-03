@@ -1,0 +1,3221 @@
+{
+  "schema_version": 1,
+  "status": "external_sector_product_validation_failed",
+  "external_product_validation_passed": false,
+  "paper_eligible": false,
+  "trade_ready": false,
+  "paper_state_created": false,
+  "real_money_action_usd": 0,
+  "research_role": "first_seen_external_sector_product_mechanism_validation",
+  "protocol": {
+    "sha256": "3affdc24f39353a6eb606075f802ffe6252cac01be57b13b9d098114a502a80d",
+    "mapping_sha256": "c42743ed3d884c818dd3632d20db9f80d225ea1ccf361ea2a1ed1c1a76457a67",
+    "protocol_commit": "543259105c7c426aa15436b7f15a33dd2ffff620",
+    "snapshot_commit": "4378d24f703c6e1408af9f7b3e7dfd0fa6674a9e"
+  },
+  "period": {
+    "start": "2006-08-01",
+    "end": "2026-07-31",
+    "sessions": 5031,
+    "years": 19.99767277904406
+  },
+  "snapshot": {
+    "path": "snapshot_short_term_sector_vanguard_20040923_20260731_7a13b864.zip",
+    "archive_sha256": "5f9a020e33399705ac52b9bdd2f5cda1d569909cd3577f80de4bf3f92a935105",
+    "panel_sha256": "7a13b864f5e4aeaec08c1c78e2ed3f5fd64a7586acf7818e16c0ca945870d392",
+    "first_joint_vanguard_sector_download": true,
+    "formal_ohlcv_missing_cells": {
+      "Open": 0,
+      "High": 0,
+      "Low": 0,
+      "Close": 0,
+      "Volume": 0
+    },
+    "etf_survival_bias_reduced_not_eliminated": true
+  },
+  "frozen_candidate": {
+    "label": "Vanguard 十行業 20 日動量月度 Top-3",
+    "metrics": {
+      "total_return": 1.7986629464063641,
+      "cagr": 0.052810313182776625,
+      "volatility": 0.15210997560181377,
+      "sharpe": 0.4152082902594188,
+      "sortino": 0.5202355476613358,
+      "max_drawdown": -0.40130790861238763,
+      "calmar": 0.1315954957513301,
+      "turnover": 16.874663936112235
+    },
+    "cost_sensitivity": {
+      "10_bps": {
+        "total_return": 1.7986629464063641,
+        "cagr": 0.052810313182776625,
+        "volatility": 0.15210997560181377,
+        "sharpe": 0.4152082902594188,
+        "sortino": 0.5202355476613358,
+        "max_drawdown": -0.40130790861238763,
+        "calmar": 0.1315954957513301,
+        "turnover": 16.874663936112235
+      },
+      "25_bps": {
+        "total_return": 0.6884929439910301,
+        "cagr": 0.0265409681080937,
+        "volatility": 0.15223475375522877,
+        "sharpe": 0.24871596061152243,
+        "sortino": 0.3117910311613563,
+        "max_drawdown": -0.4241189588769857,
+        "calmar": 0.06257906550174244,
+        "turnover": 16.858775441693727
+      },
+      "50_bps": {
+        "total_return": -0.2730781257756244,
+        "cagr": -0.01582216273057191,
+        "volatility": 0.15328459137613956,
+        "sharpe": -0.027325651162214946,
+        "sortino": -0.03426475173240786,
+        "max_drawdown": -0.5796035832493203,
+        "calmar": -0.02729824864413563,
+        "turnover": 16.83246966975235
+      }
+    }
+  },
+  "baselines": {
+    "QQQ": {
+      "total_return": 21.056351471447556,
+      "cagr": 0.1673054181509217,
+      "volatility": 0.22090426144320785,
+      "sharpe": 0.8122058295564901,
+      "sortino": 1.0520829725225824,
+      "max_drawdown": -0.5340401186523842,
+      "calmar": 0.3132824900367151,
+      "turnover": 0.049955862866546755
+    },
+    "SPY": {
+      "total_return": 7.480012609579939,
+      "cagr": 0.11282078059831302,
+      "volatility": 0.19429117220851314,
+      "sharpe": 0.6484374739810035,
+      "sortino": 0.790263815421309,
+      "max_drawdown": -0.551894545339972,
+      "calmar": 0.2044245255745632,
+      "turnover": 0.049955862866546755
+    },
+    "VTI": {
+      "total_return": 7.408029141938645,
+      "cagr": 0.1123464956959106,
+      "volatility": 0.19618142097560518,
+      "sharpe": 0.6419996083363025,
+      "sortino": 0.7848948609750219,
+      "max_drawdown": -0.5545374271511054,
+      "calmar": 0.20259497410856886,
+      "turnover": 0.049955862866546755
+    },
+    "matched_equity_exposure_equal_sector": {
+      "total_return": 3.700395295056743,
+      "cagr": 0.08046481830169872,
+      "volatility": 0.14025009551590975,
+      "sharpe": 0.6231188863113335,
+      "sortino": 0.7651015232345195,
+      "max_drawdown": -0.3317422350827739,
+      "calmar": 0.2425522281828894,
+      "turnover": 3.9521084812830827
+    },
+    "sector_monthly_equal": {
+      "total_return": 6.380054820580847,
+      "cagr": 0.10511641648860515,
+      "volatility": 0.1885991507612606,
+      "sharpe": 0.6255412931970381,
+      "sortino": 0.7538420984867635,
+      "max_drawdown": -0.5379785250548617,
+      "calmar": 0.19539147306648652,
+      "turnover": 0.33922581569644056
+    },
+    "sector_start_equal_then_drift": {
+      "total_return": 6.77475984017793,
+      "cagr": 0.10799941680323877,
+      "volatility": 0.1875359575396806,
+      "sharpe": 0.641905725422561,
+      "sortino": 0.7795371009544537,
+      "max_drawdown": -0.5285129500428014,
+      "calmar": 0.20434582879093593,
+      "turnover": 0.04995586286654676
+    }
+  },
+  "comparison_vs_qqq": {
+    "cagr_difference": -0.11449510496814508,
+    "sharpe_difference": -0.3969975392970713,
+    "drawdown_difference": 0.13273221003999658,
+    "candidate_excess_sharpe_vs_shy": 0.28214468877123866,
+    "benchmark_excess_sharpe_vs_shy": 0.7132491994166019,
+    "active_newey_west": {
+      "mean_daily": -0.00046135875403576735,
+      "annualized": -0.11626240601701338,
+      "t_stat": -3.4784962743591707,
+      "lag": 9.0
+    },
+    "active_probabilistic_sharpe": {
+      "observed_sharpe": -0.68057232930364,
+      "benchmark_sharpe": 0.0,
+      "sharpe_standard_error": 0.22375257791111688,
+      "skew": -0.22991790027072997,
+      "pearson_kurtosis": 20.966486488053796,
+      "z_score": -3.041628997785176,
+      "probability": 0.0011765085855220403,
+      "observations": 5031.0
+    },
+    "active_global_deflated_sharpe": {
+      "observed_sharpe": -0.68057232930364,
+      "benchmark_sharpe": 0.0,
+      "sharpe_standard_error": 0.22375257791111688,
+      "skew": -0.22991790027072997,
+      "pearson_kurtosis": 20.966486488053796,
+      "z_score": -6.781369753220907,
+      "probability": 5.952127679620389e-12,
+      "observations": 5031.0,
+      "trials": 6141.0,
+      "expected_max_sharpe": 0.8367766347480123
+    }
+  },
+  "comparison_vs_matched_control": {
+    "cagr_difference": -0.02765450511892209,
+    "sharpe_difference": -0.2079105960519147,
+    "drawdown_difference": -0.06956567352961374,
+    "candidate_excess_sharpe_vs_shy": 0.28214468877123866,
+    "benchmark_excess_sharpe_vs_shy": 0.4733172297804232,
+    "active_newey_west": {
+      "mean_daily": -9.61712715154795e-05,
+      "annualized": -0.024235160421900836,
+      "t_stat": -1.6566771529171176,
+      "lag": 9.0
+    },
+    "active_probabilistic_sharpe": {
+      "observed_sharpe": -0.3511368422718709,
+      "benchmark_sharpe": 0.0,
+      "sharpe_standard_error": 0.22343277031988537,
+      "skew": -0.19044422599683672,
+      "pearson_kurtosis": 6.522926748082863,
+      "z_score": -1.5715547982024012,
+      "probability": 0.05802691821477812,
+      "observations": 5031.0
+    },
+    "active_global_deflated_sharpe": {
+      "observed_sharpe": -0.3511368422718709,
+      "benchmark_sharpe": 0.0,
+      "sharpe_standard_error": 0.22343277031988537,
+      "skew": -0.19044422599683672,
+      "pearson_kurtosis": 6.522926748082863,
+      "z_score": -5.311295553638131,
+      "probability": 5.442431783020396e-08,
+      "observations": 5031.0,
+      "trials": 6141.0,
+      "expected_max_sharpe": 0.8355806372651862
+    }
+  },
+  "fixed_halves_vs_qqq": {
+    "first": {
+      "start": "2006-08-01",
+      "end": "2016-07-29",
+      "strategy_metrics": {
+        "total_return": 0.42107655593787285,
+        "cagr": 0.035790413347081884,
+        "volatility": 0.15689437545085466,
+        "sharpe": 0.3028461079010092,
+        "sortino": 0.386013171334535,
+        "max_drawdown": -0.40130790861238763,
+        "calmar": 0.08918442068793334,
+        "turnover": 17.22377610175179
+      },
+      "benchmark_metrics": {
+        "total_return": 2.4471668598313836,
+        "cagr": 0.13183192241966846,
+        "volatility": 0.21680682057181927,
+        "sharpe": 0.6799612855332076,
+        "sortino": 0.890382018062592,
+        "max_drawdown": -0.5340401186523842,
+        "calmar": 0.2468577131477272,
+        "turnover": 0.09996647188418013
+      },
+      "cagr_difference": -0.09604150907258657
+    },
+    "second": {
+      "start": "2016-08-01",
+      "end": "2026-07-31",
+      "strategy_metrics": {
+        "total_return": 0.9709861215278643,
+        "cagr": 0.07023674620540832,
+        "volatility": 0.14718879133177246,
+        "sharpe": 0.5354922787690427,
+        "sortino": 0.6590229289045691,
+        "max_drawdown": -0.3037855473455059,
+        "calmar": 0.2312050287419553,
+        "turnover": 16.539513179394614
+      },
+      "benchmark_metrics": {
+        "total_return": 5.364706005718328,
+        "cagr": 0.20339778164439792,
+        "volatility": 0.22495689153348306,
+        "sharpe": 0.9399907578229658,
+        "sortino": 1.2050052355289242,
+        "max_drawdown": -0.35118737815583956,
+        "calmar": 0.5791716738582218,
+        "turnover": 0.0
+      },
+      "cagr_difference": -0.1331610354389896
+    }
+  },
+  "rolling_three_year_vs_qqq": {
+    "window_sessions": 756,
+    "windows": 204,
+    "cagr_win_fraction": 0.004901960784313725,
+    "median_cagr_difference": -0.13421098782968066,
+    "worst_cagr_difference": -0.22633084938579318,
+    "best_cagr_difference": 0.0008192958798325378,
+    "series": [
+      {
+        "end": "2009-08-31",
+        "candidate_cagr": 0.005058852422109128,
+        "benchmark_cagr": 0.014833548065462443,
+        "cagr_difference": -0.009774695643353315
+      },
+      {
+        "end": "2009-09-30",
+        "candidate_cagr": 0.016180971394638144,
+        "benchmark_cagr": 0.015361675514805606,
+        "cagr_difference": 0.0008192958798325378
+      },
+      {
+        "end": "2009-10-30",
+        "candidate_cagr": -0.010390685678388412,
+        "benchmark_cagr": -0.008228666715954902,
+        "cagr_difference": -0.0021620189624335096
+      },
+      {
+        "end": "2009-11-30",
+        "candidate_cagr": -0.0062495532422567335,
+        "benchmark_cagr": 0.0022756286442451312,
+        "cagr_difference": -0.008525181886501865
+      },
+      {
+        "end": "2009-12-31",
+        "candidate_cagr": -0.0018237198497742524,
+        "benchmark_cagr": 0.023684015471369335,
+        "cagr_difference": -0.025507735321143588
+      },
+      {
+        "end": "2010-01-29",
+        "candidate_cagr": -0.026020589526668192,
+        "benchmark_cagr": -0.002448089547408383,
+        "cagr_difference": -0.02357249997925981
+      },
+      {
+        "end": "2010-02-26",
+        "candidate_cagr": -0.022261181959037923,
+        "benchmark_cagr": 0.016070854000701074,
+        "cagr_difference": -0.038332035959739
+      },
+      {
+        "end": "2010-03-31",
+        "candidate_cagr": -0.0054243717319222284,
+        "benchmark_cagr": 0.0385498498985557,
+        "cagr_difference": -0.04397422163047793
+      },
+      {
+        "end": "2010-04-30",
+        "candidate_cagr": -0.0045680841279864826,
+        "benchmark_cagr": 0.02784366316564113,
+        "cagr_difference": -0.03241174729362761
+      },
+      {
+        "end": "2010-05-28",
+        "candidate_cagr": -0.049068366244476525,
+        "benchmark_cagr": -0.0072336792492757596,
+        "cagr_difference": -0.041834686995200765
+      },
+      {
+        "end": "2010-06-30",
+        "candidate_cagr": -0.05052769347080077,
+        "benchmark_cagr": -0.030423121201751724,
+        "cagr_difference": -0.020104572269049048
+      },
+      {
+        "end": "2010-07-30",
+        "candidate_cagr": -0.04874778999943574,
+        "benchmark_cagr": -0.007064026352783692,
+        "cagr_difference": -0.04168376364665205
+      },
+      {
+        "end": "2010-08-31",
+        "candidate_cagr": -0.06613450492418627,
+        "benchmark_cagr": -0.02971653356556303,
+        "cagr_difference": -0.036417971358623236
+      },
+      {
+        "end": "2010-09-30",
+        "candidate_cagr": -0.053493095672699886,
+        "benchmark_cagr": -0.013441400722216446,
+        "cagr_difference": -0.04005169495048344
+      },
+      {
+        "end": "2010-10-29",
+        "candidate_cagr": -0.03509512595928266,
+        "benchmark_cagr": -0.007199851375477517,
+        "cagr_difference": -0.02789527458380514
+      },
+      {
+        "end": "2010-11-30",
+        "candidate_cagr": -0.01986575891567144,
+        "benchmark_cagr": 0.00833823242419407,
+        "cagr_difference": -0.02820399133986551
+      },
+      {
+        "end": "2010-12-31",
+        "candidate_cagr": 0.007968391418503806,
+        "benchmark_cagr": 0.032445609268416664,
+        "cagr_difference": -0.024477217849912858
+      },
+      {
+        "end": "2011-01-31",
+        "candidate_cagr": 0.032771463887926844,
+        "benchmark_cagr": 0.0811620916227831,
+        "cagr_difference": -0.04839062773485625
+      },
+      {
+        "end": "2011-02-28",
+        "candidate_cagr": 0.04259453324621676,
+        "benchmark_cagr": 0.1007036217137911,
+        "cagr_difference": -0.058109088467574344
+      },
+      {
+        "end": "2011-03-31",
+        "candidate_cagr": 0.04416003186723305,
+        "benchmark_cagr": 0.08788098891733576,
+        "cagr_difference": -0.043720957050102704
+      },
+      {
+        "end": "2011-04-29",
+        "candidate_cagr": 0.05445612777827691,
+        "benchmark_cagr": 0.08461059749566568,
+        "cagr_difference": -0.030154469717388777
+      },
+      {
+        "end": "2011-05-31",
+        "candidate_cagr": 0.0409692888570421,
+        "benchmark_cagr": 0.059487931288606744,
+        "cagr_difference": -0.018518642431564647
+      },
+      {
+        "end": "2011-06-30",
+        "candidate_cagr": 0.050079661049935,
+        "benchmark_cagr": 0.08340968771800505,
+        "cagr_difference": -0.033330026668070056
+      },
+      {
+        "end": "2011-07-29",
+        "candidate_cagr": 0.0582856003123946,
+        "benchmark_cagr": 0.09131177775244348,
+        "cagr_difference": -0.033026177440048876
+      },
+      {
+        "end": "2011-08-31",
+        "candidate_cagr": 0.05254228916755399,
+        "benchmark_cagr": 0.072748570914964,
+        "cagr_difference": -0.020206281747410015
+      },
+      {
+        "end": "2011-09-30",
+        "candidate_cagr": 0.0931941574140922,
+        "benchmark_cagr": 0.11709774841326848,
+        "cagr_difference": -0.023903590999176272
+      },
+      {
+        "end": "2011-10-31",
+        "candidate_cagr": 0.09457091571806853,
+        "benchmark_cagr": 0.21713579793015803,
+        "cagr_difference": -0.1225648822120895
+      },
+      {
+        "end": "2011-11-30",
+        "candidate_cagr": 0.1016013304658574,
+        "benchmark_cagr": 0.28915743934932214,
+        "cagr_difference": -0.18755610888346474
+      },
+      {
+        "end": "2011-12-30",
+        "candidate_cagr": 0.1016666046474255,
+        "benchmark_cagr": 0.24397423000288154,
+        "cagr_difference": -0.14230762535545605
+      },
+      {
+        "end": "2012-01-31",
+        "candidate_cagr": 0.1393485001336907,
+        "benchmark_cagr": 0.28731285714398536,
+        "cagr_difference": -0.14796435701029464
+      },
+      {
+        "end": "2012-02-29",
+        "candidate_cagr": 0.19357465685872532,
+        "benchmark_cagr": 0.3536302556741664,
+        "cagr_difference": -0.16005559881544107
+      },
+      {
+        "end": "2012-03-30",
+        "candidate_cagr": 0.18546886956722375,
+        "benchmark_cagr": 0.3107220658564853,
+        "cagr_difference": -0.12525319628926157
+      },
+      {
+        "end": "2012-04-30",
+        "candidate_cagr": 0.13030972977008282,
+        "benchmark_cagr": 0.2588084755104749,
+        "cagr_difference": -0.1284987457403921
+      },
+      {
+        "end": "2012-05-31",
+        "candidate_cagr": 0.09721975612179734,
+        "benchmark_cagr": 0.20419749492147576,
+        "cagr_difference": -0.10697773879967842
+      },
+      {
+        "end": "2012-06-29",
+        "candidate_cagr": 0.11926430065391047,
+        "benchmark_cagr": 0.21853155187861528,
+        "cagr_difference": -0.09926725122470481
+      },
+      {
+        "end": "2012-07-31",
+        "candidate_cagr": 0.1024628736441775,
+        "benchmark_cagr": 0.18979155675888992,
+        "cagr_difference": -0.08732868311471242
+      },
+      {
+        "end": "2012-08-31",
+        "candidate_cagr": 0.09693121082059486,
+        "benchmark_cagr": 0.21248295553043217,
+        "cagr_difference": -0.11555174470983731
+      },
+      {
+        "end": "2012-09-28",
+        "candidate_cagr": 0.07493014812699639,
+        "benchmark_cagr": 0.18614744369252456,
+        "cagr_difference": -0.11121729556552817
+      },
+      {
+        "end": "2012-10-31",
+        "candidate_cagr": 0.0658723868039579,
+        "benchmark_cagr": 0.16568510129080605,
+        "cagr_difference": -0.09981271448684814
+      },
+      {
+        "end": "2012-11-30",
+        "candidate_cagr": 0.05924895027478572,
+        "benchmark_cagr": 0.15775383122634912,
+        "cagr_difference": -0.0985048809515634
+      },
+      {
+        "end": "2012-12-31",
+        "candidate_cagr": 0.047489803015376975,
+        "benchmark_cagr": 0.13400609138721165,
+        "cagr_difference": -0.08651628837183467
+      },
+      {
+        "end": "2013-01-31",
+        "candidate_cagr": 0.09147662865057682,
+        "benchmark_cagr": 0.1721108053632574,
+        "cagr_difference": -0.08063417671268058
+      },
+      {
+        "end": "2013-02-28",
+        "candidate_cagr": 0.0925607098492951,
+        "benchmark_cagr": 0.15601194258279372,
+        "cagr_difference": -0.06345123273349862
+      },
+      {
+        "end": "2013-03-28",
+        "candidate_cagr": 0.07892292454163963,
+        "benchmark_cagr": 0.14029433293313187,
+        "cagr_difference": -0.061371408391492244
+      },
+      {
+        "end": "2013-04-30",
+        "candidate_cagr": 0.07689175150641314,
+        "benchmark_cagr": 0.13912467461498657,
+        "cagr_difference": -0.062232923108573424
+      },
+      {
+        "end": "2013-05-31",
+        "candidate_cagr": 0.10075566484630838,
+        "benchmark_cagr": 0.1832004932524649,
+        "cagr_difference": -0.08244482840615652
+      },
+      {
+        "end": "2013-06-28",
+        "candidate_cagr": 0.09546834076875621,
+        "benchmark_cagr": 0.1769411537555874,
+        "cagr_difference": -0.08147281298683118
+      },
+      {
+        "end": "2013-07-31",
+        "candidate_cagr": 0.11283610128971788,
+        "benchmark_cagr": 0.19553463945140148,
+        "cagr_difference": -0.0826985381616836
+      },
+      {
+        "end": "2013-08-30",
+        "candidate_cagr": 0.11818873256945195,
+        "benchmark_cagr": 0.21321069799853176,
+        "cagr_difference": -0.09502196542907981
+      },
+      {
+        "end": "2013-09-30",
+        "candidate_cagr": 0.10061309096923154,
+        "benchmark_cagr": 0.1812478076418933,
+        "cagr_difference": -0.08063471667266175
+      },
+      {
+        "end": "2013-10-31",
+        "candidate_cagr": 0.10074062560277075,
+        "benchmark_cagr": 0.17850948683532208,
+        "cagr_difference": -0.07776886123255133
+      },
+      {
+        "end": "2013-11-29",
+        "candidate_cagr": 0.0985993967991794,
+        "benchmark_cagr": 0.18849186502594728,
+        "cagr_difference": -0.08989246822676789
+      },
+      {
+        "end": "2013-12-31",
+        "candidate_cagr": 0.08406071816178895,
+        "benchmark_cagr": 0.18360014077095643,
+        "cagr_difference": -0.09953942260916748
+      },
+      {
+        "end": "2014-01-31",
+        "candidate_cagr": 0.07493238725353679,
+        "benchmark_cagr": 0.16918418230239962,
+        "cagr_difference": -0.09425179504886283
+      },
+      {
+        "end": "2014-02-28",
+        "candidate_cagr": 0.07480376614050588,
+        "benchmark_cagr": 0.17556203078018062,
+        "cagr_difference": -0.10075826463967474
+      },
+      {
+        "end": "2014-03-31",
+        "candidate_cagr": 0.0713336466980572,
+        "benchmark_cagr": 0.17185347543666385,
+        "cagr_difference": -0.10051982873860665
+      },
+      {
+        "end": "2014-04-30",
+        "candidate_cagr": 0.05585948224815751,
+        "benchmark_cagr": 0.15266183483248774,
+        "cagr_difference": -0.09680235258433023
+      },
+      {
+        "end": "2014-05-30",
+        "candidate_cagr": 0.057405129270633015,
+        "benchmark_cagr": 0.18339365902622218,
+        "cagr_difference": -0.12598852975558916
+      },
+      {
+        "end": "2014-06-30",
+        "candidate_cagr": 0.0694471539665027,
+        "benchmark_cagr": 0.20827860867800174,
+        "cagr_difference": -0.13883145471149905
+      },
+      {
+        "end": "2014-07-31",
+        "candidate_cagr": 0.06268905445917894,
+        "benchmark_cagr": 0.19228501232089323,
+        "cagr_difference": -0.1295959578617143
+      },
+      {
+        "end": "2014-08-29",
+        "candidate_cagr": 0.08700663559288113,
+        "benchmark_cagr": 0.24900851057349493,
+        "cagr_difference": -0.1620018749806138
+      },
+      {
+        "end": "2014-09-30",
+        "candidate_cagr": 0.07919703232784525,
+        "benchmark_cagr": 0.22826888989202665,
+        "cagr_difference": -0.1490718575641814
+      },
+      {
+        "end": "2014-10-31",
+        "candidate_cagr": 0.0903381126052023,
+        "benchmark_cagr": 0.21335188496444202,
+        "cagr_difference": -0.12301377235923971
+      },
+      {
+        "end": "2014-11-28",
+        "candidate_cagr": 0.12224777591863889,
+        "benchmark_cagr": 0.27662505668310455,
+        "cagr_difference": -0.15437728076446566
+      },
+      {
+        "end": "2014-12-31",
+        "candidate_cagr": 0.08382747389558953,
+        "benchmark_cagr": 0.2445941510900782,
+        "cagr_difference": -0.16076667719448867
+      },
+      {
+        "end": "2015-01-30",
+        "candidate_cagr": 0.06643569057077126,
+        "benchmark_cagr": 0.2023001491404648,
+        "cagr_difference": -0.13586445856969354
+      },
+      {
+        "end": "2015-02-27",
+        "candidate_cagr": 0.05304205678957752,
+        "benchmark_cagr": 0.20728499069516282,
+        "cagr_difference": -0.1542429339055853
+      },
+      {
+        "end": "2015-03-31",
+        "candidate_cagr": 0.03799250383819275,
+        "benchmark_cagr": 0.17174708115060877,
+        "cagr_difference": -0.13375457731241602
+      },
+      {
+        "end": "2015-04-30",
+        "candidate_cagr": 0.040722301692418084,
+        "benchmark_cagr": 0.18716374261202096,
+        "cagr_difference": -0.14644144091960287
+      },
+      {
+        "end": "2015-05-29",
+        "candidate_cagr": 0.04816483541724992,
+        "benchmark_cagr": 0.2250113190700309,
+        "cagr_difference": -0.176846483652781
+      },
+      {
+        "end": "2015-06-30",
+        "candidate_cagr": 0.045832455097680525,
+        "benchmark_cagr": 0.2117180856364178,
+        "cagr_difference": -0.16588563053873728
+      },
+      {
+        "end": "2015-07-31",
+        "candidate_cagr": 0.04753934878173505,
+        "benchmark_cagr": 0.21481110720995433,
+        "cagr_difference": -0.16727175842821929
+      },
+      {
+        "end": "2015-08-31",
+        "candidate_cagr": 0.03004407591491698,
+        "benchmark_cagr": 0.16589274422091527,
+        "cagr_difference": -0.1358486683059983
+      },
+      {
+        "end": "2015-09-30",
+        "candidate_cagr": 0.02255198461350516,
+        "benchmark_cagr": 0.15730713734573576,
+        "cagr_difference": -0.1347551527322306
+      },
+      {
+        "end": "2015-10-30",
+        "candidate_cagr": 0.03131215540435228,
+        "benchmark_cagr": 0.21661360531326102,
+        "cagr_difference": -0.18530144990890873
+      },
+      {
+        "end": "2015-11-30",
+        "candidate_cagr": 0.03775990723455491,
+        "benchmark_cagr": 0.21845634624786037,
+        "cagr_difference": -0.18069643901330545
+      },
+      {
+        "end": "2015-12-31",
+        "candidate_cagr": 0.023432715305726992,
+        "benchmark_cagr": 0.2125457955884451,
+        "cagr_difference": -0.18911308028271812
+      },
+      {
+        "end": "2016-01-29",
+        "candidate_cagr": -0.004060919414547448,
+        "benchmark_cagr": 0.1718680700470263,
+        "cagr_difference": -0.17592898946157376
+      },
+      {
+        "end": "2016-02-29",
+        "candidate_cagr": 0.0034057583872439956,
+        "benchmark_cagr": 0.16492971721844163,
+        "cagr_difference": -0.16152395883119763
+      },
+      {
+        "end": "2016-03-31",
+        "candidate_cagr": 0.01256445733675271,
+        "benchmark_cagr": 0.18303590170987238,
+        "cagr_difference": -0.17047144437311967
+      },
+      {
+        "end": "2016-04-29",
+        "candidate_cagr": -0.0025128946230634774,
+        "benchmark_cagr": 0.15794000033725641,
+        "cagr_difference": -0.1604528949603199
+      },
+      {
+        "end": "2016-05-31",
+        "candidate_cagr": 0.0057093052161041324,
+        "benchmark_cagr": 0.1570069836394219,
+        "cagr_difference": -0.15129767842331776
+      },
+      {
+        "end": "2016-06-30",
+        "candidate_cagr": 0.009893500786949394,
+        "benchmark_cagr": 0.15897116888272245,
+        "cagr_difference": -0.14907766809577305
+      },
+      {
+        "end": "2016-07-29",
+        "candidate_cagr": -0.005835057345053962,
+        "benchmark_cagr": 0.16511232063027714,
+        "cagr_difference": -0.1709473779753311
+      },
+      {
+        "end": "2016-08-31",
+        "candidate_cagr": 0.006297192308772459,
+        "benchmark_cagr": 0.1696702971286861,
+        "cagr_difference": -0.16337310481991363
+      },
+      {
+        "end": "2016-09-30",
+        "candidate_cagr": -0.002409570000566408,
+        "benchmark_cagr": 0.1562760651581372,
+        "cagr_difference": -0.1586856351587036
+      },
+      {
+        "end": "2016-10-31",
+        "candidate_cagr": -0.02101364178471843,
+        "benchmark_cagr": 0.1348959445006972,
+        "cagr_difference": -0.15590958628541562
+      },
+      {
+        "end": "2016-11-30",
+        "candidate_cagr": -0.013967036895737972,
+        "benchmark_cagr": 0.12427025537048708,
+        "cagr_difference": -0.13823729226622505
+      },
+      {
+        "end": "2016-12-30",
+        "candidate_cagr": -0.016495707720345032,
+        "benchmark_cagr": 0.1179315826080809,
+        "cagr_difference": -0.13442729032842593
+      },
+      {
+        "end": "2017-01-31",
+        "candidate_cagr": -0.001095963802019595,
+        "benchmark_cagr": 0.1428648979934013,
+        "cagr_difference": -0.1439608617954209
+      },
+      {
+        "end": "2017-02-28",
+        "candidate_cagr": -0.008762454462102331,
+        "benchmark_cagr": 0.14063577406358396,
+        "cagr_difference": -0.1493982285256863
+      },
+      {
+        "end": "2017-03-31",
+        "candidate_cagr": -0.003365096614623586,
+        "benchmark_cagr": 0.15295117002499015,
+        "cagr_difference": -0.15631626663961373
+      },
+      {
+        "end": "2017-04-28",
+        "candidate_cagr": 0.0034272982690521925,
+        "benchmark_cagr": 0.1724007273595154,
+        "cagr_difference": -0.1689734290904632
+      },
+      {
+        "end": "2017-05-31",
+        "candidate_cagr": 0.0010624656048292547,
+        "benchmark_cagr": 0.1688335074345293,
+        "cagr_difference": -0.16777104182970004
+      },
+      {
+        "end": "2017-06-30",
+        "candidate_cagr": -0.011063988620808152,
+        "benchmark_cagr": 0.14404448211505438,
+        "cagr_difference": -0.15510847073586254
+      },
+      {
+        "end": "2017-07-31",
+        "candidate_cagr": -0.003275276676332761,
+        "benchmark_cagr": 0.15084980204632226,
+        "cagr_difference": -0.15412507872265502
+      },
+      {
+        "end": "2017-08-31",
+        "candidate_cagr": -0.0035937839725392884,
+        "benchmark_cagr": 0.147133890976354,
+        "cagr_difference": -0.15072767494889328
+      },
+      {
+        "end": "2017-09-29",
+        "candidate_cagr": -0.0003879943575880729,
+        "benchmark_cagr": 0.14987853554257913,
+        "cagr_difference": -0.1502665299001672
+      },
+      {
+        "end": "2017-10-31",
+        "candidate_cagr": -0.005491832031190191,
+        "benchmark_cagr": 0.16215500407243244,
+        "cagr_difference": -0.16764683610362263
+      },
+      {
+        "end": "2017-11-30",
+        "candidate_cagr": -0.0071218344189957206,
+        "benchmark_cagr": 0.1519544895828544,
+        "cagr_difference": -0.15907632400185012
+      },
+      {
+        "end": "2017-12-29",
+        "candidate_cagr": -0.003020244954649809,
+        "benchmark_cagr": 0.15463941834062123,
+        "cagr_difference": -0.15765966329527104
+      },
+      {
+        "end": "2018-01-31",
+        "candidate_cagr": 0.02327974471113259,
+        "benchmark_cagr": 0.19951191202419682,
+        "cagr_difference": -0.17623216731306424
+      },
+      {
+        "end": "2018-02-28",
+        "candidate_cagr": 0.017954967814189704,
+        "benchmark_cagr": 0.16692240074093667,
+        "cagr_difference": -0.14896743292674697
+      },
+      {
+        "end": "2018-03-29",
+        "candidate_cagr": 0.014002168544151594,
+        "benchmark_cagr": 0.1562408339866792,
+        "cagr_difference": -0.1422386654425276
+      },
+      {
+        "end": "2018-04-30",
+        "candidate_cagr": 0.01560448807914816,
+        "benchmark_cagr": 0.14856640555957967,
+        "cagr_difference": -0.1329619174804315
+      },
+      {
+        "end": "2018-05-31",
+        "candidate_cagr": 0.02950545807790239,
+        "benchmark_cagr": 0.16640304062467992,
+        "cagr_difference": -0.13689758254677753
+      },
+      {
+        "end": "2018-06-29",
+        "candidate_cagr": 0.03037222457318034,
+        "benchmark_cagr": 0.18202903064388454,
+        "cagr_difference": -0.1516568060707042
+      },
+      {
+        "end": "2018-07-31",
+        "candidate_cagr": 0.025481665475230342,
+        "benchmark_cagr": 0.1745493721853233,
+        "cagr_difference": -0.14906770671009295
+      },
+      {
+        "end": "2018-08-31",
+        "candidate_cagr": 0.053765412371838295,
+        "benchmark_cagr": 0.23921583174259053,
+        "cagr_difference": -0.18545041937075224
+      },
+      {
+        "end": "2018-09-28",
+        "candidate_cagr": 0.05514664335770658,
+        "benchmark_cagr": 0.24356751519499142,
+        "cagr_difference": -0.18842087183728484
+      },
+      {
+        "end": "2018-10-31",
+        "candidate_cagr": 0.01524743706202969,
+        "benchmark_cagr": 0.15514986415952858,
+        "cagr_difference": -0.1399024270974989
+      },
+      {
+        "end": "2018-11-30",
+        "candidate_cagr": 0.02164522568809657,
+        "benchmark_cagr": 0.14828012470398066,
+        "cagr_difference": -0.1266348990158841
+      },
+      {
+        "end": "2018-12-31",
+        "candidate_cagr": 0.0003685616786188728,
+        "benchmark_cagr": 0.11542175011187217,
+        "cagr_difference": -0.1150531884332533
+      },
+      {
+        "end": "2019-01-31",
+        "candidate_cagr": 0.011374384322853093,
+        "benchmark_cagr": 0.18403708278436426,
+        "cagr_difference": -0.17266269846151117
+      },
+      {
+        "end": "2019-02-28",
+        "candidate_cagr": 0.015903464064618067,
+        "benchmark_cagr": 0.19838844120392674,
+        "cagr_difference": -0.18248497713930867
+      },
+      {
+        "end": "2019-03-29",
+        "candidate_cagr": -0.0012177071850324461,
+        "benchmark_cagr": 0.1928561324365008,
+        "cagr_difference": -0.19407383962153324
+      },
+      {
+        "end": "2019-04-30",
+        "candidate_cagr": 0.008367531333613565,
+        "benchmark_cagr": 0.21837650543261988,
+        "cagr_difference": -0.21000897409900632
+      },
+      {
+        "end": "2019-05-31",
+        "candidate_cagr": -0.014734398044796038,
+        "benchmark_cagr": 0.1747183625409603,
+        "cagr_difference": -0.18945276058575633
+      },
+      {
+        "end": "2019-06-28",
+        "candidate_cagr": 0.012683431101476517,
+        "benchmark_cagr": 0.23343269653521537,
+        "cagr_difference": -0.22074926543373885
+      },
+      {
+        "end": "2019-07-31",
+        "candidate_cagr": -0.003251837317809092,
+        "benchmark_cagr": 0.1947860699761157,
+        "cagr_difference": -0.1980379072939248
+      },
+      {
+        "end": "2019-08-30",
+        "candidate_cagr": -0.01871941669650745,
+        "benchmark_cagr": 0.18088932742107167,
+        "cagr_difference": -0.19960874411757912
+      },
+      {
+        "end": "2019-09-30",
+        "candidate_cagr": -0.006374396808954352,
+        "benchmark_cagr": 0.17793595548956787,
+        "cagr_difference": -0.18431035229852222
+      },
+      {
+        "end": "2019-10-31",
+        "candidate_cagr": -0.0064341783271107955,
+        "benchmark_cagr": 0.19958687113392726,
+        "cagr_difference": -0.20602104946103805
+      },
+      {
+        "end": "2019-11-29",
+        "candidate_cagr": -0.0013584717917082267,
+        "benchmark_cagr": 0.2111336933140744,
+        "cagr_difference": -0.21249216510578262
+      },
+      {
+        "end": "2019-12-31",
+        "candidate_cagr": 0.005727632792321691,
+        "benchmark_cagr": 0.22035459124951307,
+        "cagr_difference": -0.21462695845719137
+      },
+      {
+        "end": "2020-01-31",
+        "candidate_cagr": 0.0025439165710017253,
+        "benchmark_cagr": 0.2165541362442449,
+        "cagr_difference": -0.21401021967324318
+      },
+      {
+        "end": "2020-02-28",
+        "candidate_cagr": -0.03671607879583483,
+        "benchmark_cagr": 0.1741838435699019,
+        "cagr_difference": -0.21089992236573674
+      },
+      {
+        "end": "2020-03-31",
+        "candidate_cagr": -0.03302304693948055,
+        "benchmark_cagr": 0.13858983096247757,
+        "cagr_difference": -0.17161287790195812
+      },
+      {
+        "end": "2020-04-30",
+        "candidate_cagr": -0.03645237817599156,
+        "benchmark_cagr": 0.1816700721108766,
+        "cagr_difference": -0.21812245028686816
+      },
+      {
+        "end": "2020-05-29",
+        "candidate_cagr": -0.007249415970204787,
+        "benchmark_cagr": 0.19181705959826,
+        "cagr_difference": -0.1990664755684648
+      },
+      {
+        "end": "2020-06-30",
+        "candidate_cagr": 0.011333800565715979,
+        "benchmark_cagr": 0.2187840437362032,
+        "cagr_difference": -0.20745024317048721
+      },
+      {
+        "end": "2020-07-31",
+        "candidate_cagr": 0.033306681518371795,
+        "benchmark_cagr": 0.2389770041950905,
+        "cagr_difference": -0.2056703226767187
+      },
+      {
+        "end": "2020-08-31",
+        "candidate_cagr": 0.06541966518965436,
+        "benchmark_cagr": 0.2828048039371751,
+        "cagr_difference": -0.21738513874752075
+      },
+      {
+        "end": "2020-09-30",
+        "candidate_cagr": 0.04725495332581908,
+        "benchmark_cagr": 0.25255824768456914,
+        "cagr_difference": -0.20530329435875005
+      },
+      {
+        "end": "2020-10-30",
+        "candidate_cagr": 0.04376200177020895,
+        "benchmark_cagr": 0.2203598311092274,
+        "cagr_difference": -0.17659782933901846
+      },
+      {
+        "end": "2020-11-30",
+        "candidate_cagr": 0.041675211548305,
+        "benchmark_cagr": 0.25026683998427335,
+        "cagr_difference": -0.20859162843596835
+      },
+      {
+        "end": "2020-12-31",
+        "candidate_cagr": 0.04536380165725684,
+        "benchmark_cagr": 0.27169465104305,
+        "cagr_difference": -0.22633084938579318
+      },
+      {
+        "end": "2021-01-29",
+        "candidate_cagr": 0.025751485011776598,
+        "benchmark_cagr": 0.23653036877646305,
+        "cagr_difference": -0.21077888376468645
+      },
+      {
+        "end": "2021-02-26",
+        "candidate_cagr": 0.05302487760500507,
+        "benchmark_cagr": 0.2352544445118303,
+        "cagr_difference": -0.18222956690682524
+      },
+      {
+        "end": "2021-03-31",
+        "candidate_cagr": 0.08230939243798985,
+        "benchmark_cagr": 0.2670519848821413,
+        "cagr_difference": -0.18474259244415148
+      },
+      {
+        "end": "2021-04-30",
+        "candidate_cagr": 0.09548599935814606,
+        "benchmark_cagr": 0.2899172530217491,
+        "cagr_difference": -0.19443125366360303
+      },
+      {
+        "end": "2021-05-28",
+        "candidate_cagr": 0.09308366094288467,
+        "benchmark_cagr": 0.2643256858970666,
+        "cagr_difference": -0.17124202495418195
+      },
+      {
+        "end": "2021-06-30",
+        "candidate_cagr": 0.0880437926699047,
+        "benchmark_cagr": 0.28280535897551506,
+        "cagr_difference": -0.19476156630561037
+      },
+      {
+        "end": "2021-07-30",
+        "candidate_cagr": 0.0983317449316623,
+        "benchmark_cagr": 0.2857716797682073,
+        "cagr_difference": -0.18743993483654497
+      },
+      {
+        "end": "2021-08-31",
+        "candidate_cagr": 0.09913989938965506,
+        "benchmark_cagr": 0.27539577372811075,
+        "cagr_difference": -0.1762558743384557
+      },
+      {
+        "end": "2021-09-30",
+        "candidate_cagr": 0.0817387128447642,
+        "benchmark_cagr": 0.2521872795200095,
+        "cagr_difference": -0.17044856667524533
+      },
+      {
+        "end": "2021-10-29",
+        "candidate_cagr": 0.1520505307073623,
+        "benchmark_cagr": 0.34134278524401407,
+        "cagr_difference": -0.18929225453665177
+      },
+      {
+        "end": "2021-11-30",
+        "candidate_cagr": 0.13453004884541353,
+        "benchmark_cagr": 0.33475636955595633,
+        "cagr_difference": -0.2002263207105428
+      },
+      {
+        "end": "2021-12-31",
+        "candidate_cagr": 0.17362364920868312,
+        "benchmark_cagr": 0.3787968178968799,
+        "cagr_difference": -0.2051731686881968
+      },
+      {
+        "end": "2022-01-31",
+        "candidate_cagr": 0.15669199880103002,
+        "benchmark_cagr": 0.30044471840147113,
+        "cagr_difference": -0.14375271960044111
+      },
+      {
+        "end": "2022-02-28",
+        "candidate_cagr": 0.15174726899134394,
+        "benchmark_cagr": 0.2682322043952772,
+        "cagr_difference": -0.11648493540393323
+      },
+      {
+        "end": "2022-03-31",
+        "candidate_cagr": 0.1523864557556769,
+        "benchmark_cagr": 0.26463183090951903,
+        "cagr_difference": -0.11224537515384214
+      },
+      {
+        "end": "2022-04-29",
+        "candidate_cagr": 0.12838687290736228,
+        "benchmark_cagr": 0.19107137036637822,
+        "cagr_difference": -0.06268449745901594
+      },
+      {
+        "end": "2022-05-31",
+        "candidate_cagr": 0.17282206451526316,
+        "benchmark_cagr": 0.2174197216499525,
+        "cagr_difference": -0.04459765713468933
+      },
+      {
+        "end": "2022-06-30",
+        "candidate_cagr": 0.12279287682818696,
+        "benchmark_cagr": 0.146736378378314,
+        "cagr_difference": -0.023943501550127033
+      },
+      {
+        "end": "2022-07-29",
+        "candidate_cagr": 0.11643908798585079,
+        "benchmark_cagr": 0.183513768918957,
+        "cagr_difference": -0.0670746809331062
+      },
+      {
+        "end": "2022-08-31",
+        "candidate_cagr": 0.12044763875148568,
+        "benchmark_cagr": 0.17546198869761742,
+        "cagr_difference": -0.055014349946131746
+      },
+      {
+        "end": "2022-09-30",
+        "candidate_cagr": 0.08176368072156959,
+        "benchmark_cagr": 0.1325892073872248,
+        "cagr_difference": -0.05082552666565521
+      },
+      {
+        "end": "2022-10-31",
+        "candidate_cagr": 0.0777824145657604,
+        "benchmark_cagr": 0.12804921322405272,
+        "cagr_difference": -0.05026679865829231
+      },
+      {
+        "end": "2022-11-30",
+        "candidate_cagr": 0.07405593066549376,
+        "benchmark_cagr": 0.13317395923212727,
+        "cagr_difference": -0.05911802856663351
+      },
+      {
+        "end": "2022-12-30",
+        "candidate_cagr": 0.05012133775136918,
+        "benchmark_cagr": 0.08439837673038153,
+        "cagr_difference": -0.03427703897901235
+      },
+      {
+        "end": "2023-01-31",
+        "candidate_cagr": 0.04265656646647842,
+        "benchmark_cagr": 0.10435704905884302,
+        "cagr_difference": -0.0617004825923646
+      },
+      {
+        "end": "2023-02-28",
+        "candidate_cagr": 0.06527788232022269,
+        "benchmark_cagr": 0.13252433181566792,
+        "cagr_difference": -0.06724644949544523
+      },
+      {
+        "end": "2023-03-31",
+        "candidate_cagr": 0.07857222621295756,
+        "benchmark_cagr": 0.19709705793451104,
+        "cagr_difference": -0.11852483172155348
+      },
+      {
+        "end": "2023-04-28",
+        "candidate_cagr": 0.08410950404358575,
+        "benchmark_cagr": 0.1578135620990826,
+        "cagr_difference": -0.07370405805549685
+      },
+      {
+        "end": "2023-05-31",
+        "candidate_cagr": 0.041950751609324266,
+        "benchmark_cagr": 0.1488758982436158,
+        "cagr_difference": -0.10692514663429153
+      },
+      {
+        "end": "2023-06-30",
+        "candidate_cagr": 0.05781739099297134,
+        "benchmark_cagr": 0.15654073991273942,
+        "cagr_difference": -0.09872334891976808
+      },
+      {
+        "end": "2023-07-31",
+        "candidate_cagr": 0.05003049817927563,
+        "benchmark_cagr": 0.14930949434701923,
+        "cagr_difference": -0.0992789961677436
+      },
+      {
+        "end": "2023-08-31",
+        "candidate_cagr": 0.007594963995212645,
+        "benchmark_cagr": 0.09512762682836429,
+        "cagr_difference": -0.08753266283315164
+      },
+      {
+        "end": "2023-09-29",
+        "candidate_cagr": 0.013824194148375213,
+        "benchmark_cagr": 0.09592748816083518,
+        "cagr_difference": -0.08210329401245997
+      },
+      {
+        "end": "2023-10-31",
+        "candidate_cagr": 0.0035765935979303887,
+        "benchmark_cagr": 0.09552252923599935,
+        "cagr_difference": -0.09194593563806897
+      },
+      {
+        "end": "2023-11-30",
+        "candidate_cagr": 0.004115978960673283,
+        "benchmark_cagr": 0.09797678753021555,
+        "cagr_difference": -0.09386080856954226
+      },
+      {
+        "end": "2023-12-29",
+        "candidate_cagr": 0.019337830623412655,
+        "benchmark_cagr": 0.101040770286843,
+        "cagr_difference": -0.08170293966343034
+      },
+      {
+        "end": "2024-01-31",
+        "candidate_cagr": 0.005151148269918471,
+        "benchmark_cagr": 0.0974733797949825,
+        "cagr_difference": -0.09232223152506402
+      },
+      {
+        "end": "2024-02-29",
+        "candidate_cagr": 0.004097468380874991,
+        "benchmark_cagr": 0.12485512511605368,
+        "cagr_difference": -0.12075765673517869
+      },
+      {
+        "end": "2024-03-28",
+        "candidate_cagr": 0.003245976022351993,
+        "benchmark_cagr": 0.12691627941907813,
+        "cagr_difference": -0.12367030339672613
+      },
+      {
+        "end": "2024-04-30",
+        "candidate_cagr": -0.009109527270968587,
+        "benchmark_cagr": 0.08462816986686339,
+        "cagr_difference": -0.09373769713783198
+      },
+      {
+        "end": "2024-05-31",
+        "candidate_cagr": 0.0012930233756618392,
+        "benchmark_cagr": 0.11183528129157527,
+        "cagr_difference": -0.11054225791591343
+      },
+      {
+        "end": "2024-06-28",
+        "candidate_cagr": 0.007199785202388176,
+        "benchmark_cagr": 0.11779186422965204,
+        "cagr_difference": -0.11059207902726387
+      },
+      {
+        "end": "2024-07-31",
+        "candidate_cagr": -0.00022450949173824508,
+        "benchmark_cagr": 0.0947394756378086,
+        "cagr_difference": -0.09496398512954685
+      },
+      {
+        "end": "2024-08-30",
+        "candidate_cagr": 0.0006124436375296582,
+        "benchmark_cagr": 0.08873511179563187,
+        "cagr_difference": -0.08812266815810221
+      },
+      {
+        "end": "2024-09-30",
+        "candidate_cagr": 0.00877681998311175,
+        "benchmark_cagr": 0.10331121036890112,
+        "cagr_difference": -0.09453439038578937
+      },
+      {
+        "end": "2024-10-31",
+        "candidate_cagr": -0.0022562937367803793,
+        "benchmark_cagr": 0.08677091039541263,
+        "cagr_difference": -0.089027204132193
+      },
+      {
+        "end": "2024-11-29",
+        "candidate_cagr": 0.026420743029730298,
+        "benchmark_cagr": 0.0991651653361183,
+        "cagr_difference": -0.072744422306388
+      },
+      {
+        "end": "2024-12-31",
+        "candidate_cagr": 0.0034508367114662875,
+        "benchmark_cagr": 0.09079222002706944,
+        "cagr_difference": -0.08734138331560315
+      },
+      {
+        "end": "2025-01-31",
+        "candidate_cagr": 0.039351778466350185,
+        "benchmark_cagr": 0.1556506440016734,
+        "cagr_difference": -0.1162988655353232
+      },
+      {
+        "end": "2025-02-28",
+        "candidate_cagr": 0.028389808956288842,
+        "benchmark_cagr": 0.16240096715474017,
+        "cagr_difference": -0.13401115819845133
+      },
+      {
+        "end": "2025-03-31",
+        "candidate_cagr": 0.0055250729948104205,
+        "benchmark_cagr": 0.09922819774981972,
+        "cagr_difference": -0.0937031247550093
+      },
+      {
+        "end": "2025-04-30",
+        "candidate_cagr": 0.0025361066570865898,
+        "benchmark_cagr": 0.13694692411799658,
+        "cagr_difference": -0.13441081746091
+      },
+      {
+        "end": "2025-05-30",
+        "candidate_cagr": 0.0008703194678427728,
+        "benchmark_cagr": 0.22495855681936616,
+        "cagr_difference": -0.2240882373515234
+      },
+      {
+        "end": "2025-06-30",
+        "candidate_cagr": 0.06069316029580851,
+        "benchmark_cagr": 0.2527633925791908,
+        "cagr_difference": -0.19207023228338227
+      },
+      {
+        "end": "2025-07-31",
+        "candidate_cagr": 0.0643015322902456,
+        "benchmark_cagr": 0.24957036755861162,
+        "cagr_difference": -0.18526883526836602
+      },
+      {
+        "end": "2025-08-29",
+        "candidate_cagr": 0.061441171287706986,
+        "benchmark_cagr": 0.22564672629606575,
+        "cagr_difference": -0.16420555500835876
+      },
+      {
+        "end": "2025-09-30",
+        "candidate_cagr": 0.10614021808313812,
+        "benchmark_cagr": 0.3024035621569059,
+        "cagr_difference": -0.19626334407376778
+      },
+      {
+        "end": "2025-10-31",
+        "candidate_cagr": 0.12007038893403821,
+        "benchmark_cagr": 0.3195373543325073,
+        "cagr_difference": -0.1994669653984691
+      },
+      {
+        "end": "2025-11-28",
+        "candidate_cagr": 0.10252778330793211,
+        "benchmark_cagr": 0.30002862428242705,
+        "cagr_difference": -0.19750084097449494
+      },
+      {
+        "end": "2025-12-31",
+        "candidate_cagr": 0.1089580252769673,
+        "benchmark_cagr": 0.324632590518541,
+        "cagr_difference": -0.2156745652415737
+      },
+      {
+        "end": "2026-01-30",
+        "candidate_cagr": 0.12665544913257598,
+        "benchmark_cagr": 0.2990074550192281,
+        "cagr_difference": -0.17235200588665212
+      },
+      {
+        "end": "2026-02-27",
+        "candidate_cagr": 0.16775002689289242,
+        "benchmark_cagr": 0.27927922004096173,
+        "cagr_difference": -0.1115291931480693
+      },
+      {
+        "end": "2026-03-31",
+        "candidate_cagr": 0.17026050913649504,
+        "benchmark_cagr": 0.23454272463425752,
+        "cagr_difference": -0.06428221549776247
+      },
+      {
+        "end": "2026-04-30",
+        "candidate_cagr": 0.1594271499492339,
+        "benchmark_cagr": 0.29744138017000354,
+        "cagr_difference": -0.13801423022076964
+      },
+      {
+        "end": "2026-05-29",
+        "candidate_cagr": 0.17381729978146687,
+        "benchmark_cagr": 0.30913397139640386,
+        "cagr_difference": -0.135316671614937
+      },
+      {
+        "end": "2026-06-30",
+        "candidate_cagr": 0.16468352516331786,
+        "benchmark_cagr": 0.27174175102469245,
+        "cagr_difference": -0.10705822586137459
+      },
+      {
+        "end": "2026-07-31",
+        "candidate_cagr": 0.13675621991527853,
+        "benchmark_cagr": 0.22732214043638233,
+        "cagr_difference": -0.0905659205211038
+      }
+    ]
+  },
+  "rolling_five_year_vs_qqq": {
+    "window_sessions": 1260,
+    "windows": 180,
+    "cagr_win_fraction": 0.0,
+    "median_cagr_difference": -0.1326057421921768,
+    "worst_cagr_difference": -0.20333650643075907,
+    "best_cagr_difference": -0.023216419934460886,
+    "series": [
+      {
+        "end": "2011-08-31",
+        "candidate_cagr": 0.04153698459636157,
+        "benchmark_cagr": 0.07762339135164642,
+        "cagr_difference": -0.03608640675528485
+      },
+      {
+        "end": "2011-09-30",
+        "candidate_cagr": 0.035134200642358726,
+        "benchmark_cagr": 0.05835062057681961,
+        "cagr_difference": -0.023216419934460886
+      },
+      {
+        "end": "2011-10-31",
+        "candidate_cagr": 0.028015985143602817,
+        "benchmark_cagr": 0.07003539571641282,
+        "cagr_difference": -0.04201941057281
+      },
+      {
+        "end": "2011-11-30",
+        "candidate_cagr": 0.02570954250060442,
+        "benchmark_cagr": 0.05642469307193232,
+        "cagr_difference": -0.0307151505713279
+      },
+      {
+        "end": "2011-12-30",
+        "candidate_cagr": 0.02787002601798405,
+        "benchmark_cagr": 0.05927675131265864,
+        "cagr_difference": -0.03140672529467459
+      },
+      {
+        "end": "2012-01-31",
+        "candidate_cagr": 0.02735125172880104,
+        "benchmark_cagr": 0.07209193616045373,
+        "cagr_difference": -0.04474068443165269
+      },
+      {
+        "end": "2012-02-29",
+        "candidate_cagr": 0.0365021732662667,
+        "benchmark_cagr": 0.0901898068091953,
+        "cagr_difference": -0.0536876335429286
+      },
+      {
+        "end": "2012-03-30",
+        "candidate_cagr": 0.03237957549381254,
+        "benchmark_cagr": 0.09863345702103454,
+        "cagr_difference": -0.066253881527222
+      },
+      {
+        "end": "2012-04-30",
+        "candidate_cagr": 0.02299125029200444,
+        "benchmark_cagr": 0.08458262183224452,
+        "cagr_difference": -0.06159137154024008
+      },
+      {
+        "end": "2012-05-31",
+        "candidate_cagr": 0.00854818137037694,
+        "benchmark_cagr": 0.06192069956256119,
+        "cagr_difference": -0.05337251819218425
+      },
+      {
+        "end": "2012-06-29",
+        "candidate_cagr": 0.008125898281075683,
+        "benchmark_cagr": 0.06677184724379681,
+        "cagr_difference": -0.05864594896272113
+      },
+      {
+        "end": "2012-07-31",
+        "candidate_cagr": 0.012816567449879468,
+        "benchmark_cagr": 0.06939578288632231,
+        "cagr_difference": -0.05657921543644284
+      },
+      {
+        "end": "2012-08-31",
+        "candidate_cagr": 0.010421436796596906,
+        "benchmark_cagr": 0.072531919197794,
+        "cagr_difference": -0.0621104824011971
+      },
+      {
+        "end": "2012-09-28",
+        "candidate_cagr": 0.010930530683587625,
+        "benchmark_cagr": 0.06450672111555034,
+        "cagr_difference": -0.05357619043196271
+      },
+      {
+        "end": "2012-10-31",
+        "candidate_cagr": 0.006515480996598599,
+        "benchmark_cagr": 0.04397698231647018,
+        "cagr_difference": -0.03746150131987158
+      },
+      {
+        "end": "2012-11-30",
+        "candidate_cagr": 0.011244359696266581,
+        "benchmark_cagr": 0.05684902179743867,
+        "cagr_difference": -0.04560466210117209
+      },
+      {
+        "end": "2012-12-31",
+        "candidate_cagr": 0.012560369011149541,
+        "benchmark_cagr": 0.055090456288012346,
+        "cagr_difference": -0.042530087276862805
+      },
+      {
+        "end": "2013-01-31",
+        "candidate_cagr": 0.04448666903023102,
+        "benchmark_cagr": 0.09413630595591682,
+        "cagr_difference": -0.0496496369256858
+      },
+      {
+        "end": "2013-02-28",
+        "candidate_cagr": 0.04077816896402031,
+        "benchmark_cagr": 0.09528200771727469,
+        "cagr_difference": -0.054503838753254374
+      },
+      {
+        "end": "2013-03-28",
+        "candidate_cagr": 0.050902558847078616,
+        "benchmark_cagr": 0.10461647196329249,
+        "cagr_difference": -0.053713913116213874
+      },
+      {
+        "end": "2013-04-30",
+        "candidate_cagr": 0.05181639630876966,
+        "benchmark_cagr": 0.09300681811190126,
+        "cagr_difference": -0.041190421803131594
+      },
+      {
+        "end": "2013-05-31",
+        "candidate_cagr": 0.038016038328231305,
+        "benchmark_cagr": 0.08964613025587442,
+        "cagr_difference": -0.05163009192764312
+      },
+      {
+        "end": "2013-06-28",
+        "candidate_cagr": 0.0403332673384067,
+        "benchmark_cagr": 0.10275646140863093,
+        "cagr_difference": -0.06242319407022423
+      },
+      {
+        "end": "2013-07-31",
+        "candidate_cagr": 0.06874335531462461,
+        "benchmark_cagr": 0.11785075267367207,
+        "cagr_difference": -0.049107397359047456
+      },
+      {
+        "end": "2013-08-30",
+        "candidate_cagr": 0.05592512304861841,
+        "benchmark_cagr": 0.10845095274605021,
+        "cagr_difference": -0.0525258296974318
+      },
+      {
+        "end": "2013-09-30",
+        "candidate_cagr": 0.0790701609745208,
+        "benchmark_cagr": 0.1496655680724659,
+        "cagr_difference": -0.0705954070979451
+      },
+      {
+        "end": "2013-10-31",
+        "candidate_cagr": 0.09937741177064208,
+        "benchmark_cagr": 0.22210753609700484,
+        "cagr_difference": -0.12273012432636277
+      },
+      {
+        "end": "2013-11-29",
+        "candidate_cagr": 0.09902895482720742,
+        "benchmark_cagr": 0.2502210584955531,
+        "cagr_difference": -0.15119210366834568
+      },
+      {
+        "end": "2013-12-31",
+        "candidate_cagr": 0.10241470115644713,
+        "benchmark_cagr": 0.26121241060239586,
+        "cagr_difference": -0.15879770944594873
+      },
+      {
+        "end": "2014-01-31",
+        "candidate_cagr": 0.10834618340126356,
+        "benchmark_cagr": 0.250422163639364,
+        "cagr_difference": -0.14207598023810042
+      },
+      {
+        "end": "2014-02-28",
+        "candidate_cagr": 0.14069153863058292,
+        "benchmark_cagr": 0.2788890560466559,
+        "cagr_difference": -0.138197517416073
+      },
+      {
+        "end": "2014-03-31",
+        "candidate_cagr": 0.1441527462143608,
+        "benchmark_cagr": 0.2450886086730215,
+        "cagr_difference": -0.10093586245866071
+      },
+      {
+        "end": "2014-04-30",
+        "candidate_cagr": 0.11712923680124665,
+        "benchmark_cagr": 0.22417447767837428,
+        "cagr_difference": -0.10704524087712763
+      },
+      {
+        "end": "2014-05-30",
+        "candidate_cagr": 0.1063262010841628,
+        "benchmark_cagr": 0.22439675779320845,
+        "cagr_difference": -0.11807055670904565
+      },
+      {
+        "end": "2014-06-30",
+        "candidate_cagr": 0.11616528461847397,
+        "benchmark_cagr": 0.22161348657023328,
+        "cagr_difference": -0.1054482019517593
+      },
+      {
+        "end": "2014-07-31",
+        "candidate_cagr": 0.09322432159829575,
+        "benchmark_cagr": 0.20569380508753543,
+        "cagr_difference": -0.11246948348923969
+      },
+      {
+        "end": "2014-08-29",
+        "candidate_cagr": 0.0856507172311547,
+        "benchmark_cagr": 0.21107589499267498,
+        "cagr_difference": -0.1254251777615203
+      },
+      {
+        "end": "2014-09-30",
+        "candidate_cagr": 0.07289017870821168,
+        "benchmark_cagr": 0.19733350998731347,
+        "cagr_difference": -0.12444333127910179
+      },
+      {
+        "end": "2014-10-31",
+        "candidate_cagr": 0.08338552776153141,
+        "benchmark_cagr": 0.20541087443663564,
+        "cagr_difference": -0.12202534667510423
+      },
+      {
+        "end": "2014-11-28",
+        "candidate_cagr": 0.08261615032338643,
+        "benchmark_cagr": 0.20432510069702348,
+        "cagr_difference": -0.12170895037363705
+      },
+      {
+        "end": "2014-12-31",
+        "candidate_cagr": 0.07558353721098676,
+        "benchmark_cagr": 0.18882312657099254,
+        "cagr_difference": -0.11323958936000578
+      },
+      {
+        "end": "2015-01-30",
+        "candidate_cagr": 0.08428854300077782,
+        "benchmark_cagr": 0.19700822254285866,
+        "cagr_difference": -0.11271967954208084
+      },
+      {
+        "end": "2015-02-27",
+        "candidate_cagr": 0.08503552972103479,
+        "benchmark_cagr": 0.20803504528760852,
+        "cagr_difference": -0.12299951556657374
+      },
+      {
+        "end": "2015-03-31",
+        "candidate_cagr": 0.062010683632665486,
+        "benchmark_cagr": 0.18338381424006767,
+        "cagr_difference": -0.12137313060740218
+      },
+      {
+        "end": "2015-04-30",
+        "candidate_cagr": 0.051383693589168944,
+        "benchmark_cagr": 0.18236265465146984,
+        "cagr_difference": -0.1309789610623009
+      },
+      {
+        "end": "2015-05-29",
+        "candidate_cagr": 0.07532730180124059,
+        "benchmark_cagr": 0.2140396967896252,
+        "cagr_difference": -0.1387123949883846
+      },
+      {
+        "end": "2015-06-30",
+        "candidate_cagr": 0.06936432399891168,
+        "benchmark_cagr": 0.20224512411654616,
+        "cagr_difference": -0.13288080011763448
+      },
+      {
+        "end": "2015-07-31",
+        "candidate_cagr": 0.07462263838655869,
+        "benchmark_cagr": 0.2098009108457055,
+        "cagr_difference": -0.13517827245914682
+      },
+      {
+        "end": "2015-08-31",
+        "candidate_cagr": 0.07114297463569863,
+        "benchmark_cagr": 0.20133366334444935,
+        "cagr_difference": -0.13019068870875072
+      },
+      {
+        "end": "2015-09-30",
+        "candidate_cagr": 0.0556958715428737,
+        "benchmark_cagr": 0.16884441586807952,
+        "cagr_difference": -0.11314854432520582
+      },
+      {
+        "end": "2015-10-30",
+        "candidate_cagr": 0.04825707546971203,
+        "benchmark_cagr": 0.18058775973643115,
+        "cagr_difference": -0.13233068426671912
+      },
+      {
+        "end": "2015-11-30",
+        "candidate_cagr": 0.0429164146422194,
+        "benchmark_cagr": 0.17969624920708727,
+        "cagr_difference": -0.13677983456486786
+      },
+      {
+        "end": "2015-12-31",
+        "candidate_cagr": 0.02523033384689266,
+        "benchmark_cagr": 0.16686915623630183,
+        "cagr_difference": -0.14163882238940917
+      },
+      {
+        "end": "2016-01-29",
+        "candidate_cagr": 0.018402110727408383,
+        "benchmark_cagr": 0.14183872417773924,
+        "cagr_difference": -0.12343661345033086
+      },
+      {
+        "end": "2016-02-29",
+        "candidate_cagr": 0.020199110296514666,
+        "benchmark_cagr": 0.13796602761634302,
+        "cagr_difference": -0.11776691731982836
+      },
+      {
+        "end": "2016-03-31",
+        "candidate_cagr": 0.031773572012868234,
+        "benchmark_cagr": 0.15421676325704325,
+        "cagr_difference": -0.12244319124417502
+      },
+      {
+        "end": "2016-04-29",
+        "candidate_cagr": 0.020674280264353584,
+        "benchmark_cagr": 0.13626837207454034,
+        "cagr_difference": -0.11559409181018676
+      },
+      {
+        "end": "2016-05-31",
+        "candidate_cagr": 0.020103528104276736,
+        "benchmark_cagr": 0.15395623059112928,
+        "cagr_difference": -0.13385270248685255
+      },
+      {
+        "end": "2016-06-30",
+        "candidate_cagr": 0.01925891385184153,
+        "benchmark_cagr": 0.1527575549888771,
+        "cagr_difference": -0.13349864113703558
+      },
+      {
+        "end": "2016-07-29",
+        "candidate_cagr": 0.022916014624605907,
+        "benchmark_cagr": 0.1605355887337021,
+        "cagr_difference": -0.1376195741090962
+      },
+      {
+        "end": "2016-08-31",
+        "candidate_cagr": 0.029890234536527505,
+        "benchmark_cagr": 0.17739464458370313,
+        "cagr_difference": -0.14750441004717563
+      },
+      {
+        "end": "2016-09-30",
+        "candidate_cagr": 0.03495799562817514,
+        "benchmark_cagr": 0.18246243782303107,
+        "cagr_difference": -0.14750444219485592
+      },
+      {
+        "end": "2016-10-31",
+        "candidate_cagr": 0.02710277493238067,
+        "benchmark_cagr": 0.16099726408681625,
+        "cagr_difference": -0.13389448915443558
+      },
+      {
+        "end": "2016-11-30",
+        "candidate_cagr": 0.040793093424240645,
+        "benchmark_cagr": 0.17920631521725205,
+        "cagr_difference": -0.1384132217930114
+      },
+      {
+        "end": "2016-12-30",
+        "candidate_cagr": 0.031340492587248026,
+        "benchmark_cagr": 0.17724519894222657,
+        "cagr_difference": -0.14590470635497854
+      },
+      {
+        "end": "2017-01-31",
+        "candidate_cagr": 0.028918519763198258,
+        "benchmark_cagr": 0.1693449304400052,
+        "cagr_difference": -0.14042641067680695
+      },
+      {
+        "end": "2017-02-28",
+        "candidate_cagr": 0.025995767682049253,
+        "benchmark_cagr": 0.1659796557964639,
+        "cagr_difference": -0.13998388811441465
+      },
+      {
+        "end": "2017-03-31",
+        "candidate_cagr": 0.024929292178245355,
+        "benchmark_cagr": 0.15643604648439813,
+        "cagr_difference": -0.13150675430615277
+      },
+      {
+        "end": "2017-04-28",
+        "candidate_cagr": 0.03151954849788652,
+        "benchmark_cagr": 0.167826007977389,
+        "cagr_difference": -0.13630645947950248
+      },
+      {
+        "end": "2017-05-31",
+        "candidate_cagr": 0.03780975848461687,
+        "benchmark_cagr": 0.19256514062104801,
+        "cagr_difference": -0.15475538213643114
+      },
+      {
+        "end": "2017-06-30",
+        "candidate_cagr": 0.03413484523231336,
+        "benchmark_cagr": 0.18364787546347427,
+        "cagr_difference": -0.14951303023116091
+      },
+      {
+        "end": "2017-07-31",
+        "candidate_cagr": 0.03655133128682797,
+        "benchmark_cagr": 0.19109508876680925,
+        "cagr_difference": -0.15454375747998128
+      },
+      {
+        "end": "2017-08-31",
+        "candidate_cagr": 0.033296865321387425,
+        "benchmark_cagr": 0.17810798447656606,
+        "cagr_difference": -0.14481111915517864
+      },
+      {
+        "end": "2017-09-29",
+        "candidate_cagr": 0.0301238453547239,
+        "benchmark_cagr": 0.177431399835986,
+        "cagr_difference": -0.1473075544812621
+      },
+      {
+        "end": "2017-10-31",
+        "candidate_cagr": 0.03670441840354477,
+        "benchmark_cagr": 0.1980022572411022,
+        "cagr_difference": -0.16129783883755744
+      },
+      {
+        "end": "2017-11-30",
+        "candidate_cagr": 0.043117708872672855,
+        "benchmark_cagr": 0.20111291016354116,
+        "cagr_difference": -0.1579952012908683
+      },
+      {
+        "end": "2017-12-29",
+        "candidate_cagr": 0.04918085716091425,
+        "benchmark_cagr": 0.20913773961095328,
+        "cagr_difference": -0.15995688245003903
+      },
+      {
+        "end": "2018-01-31",
+        "candidate_cagr": 0.045013095562537186,
+        "benchmark_cagr": 0.2174805396556989,
+        "cagr_difference": -0.17246744409316173
+      },
+      {
+        "end": "2018-02-28",
+        "candidate_cagr": 0.03989824990093149,
+        "benchmark_cagr": 0.21352231099262697,
+        "cagr_difference": -0.17362406109169548
+      },
+      {
+        "end": "2018-03-29",
+        "candidate_cagr": 0.024822400875391892,
+        "benchmark_cagr": 0.19681210906868674,
+        "cagr_difference": -0.17198970819329484
+      },
+      {
+        "end": "2018-04-30",
+        "candidate_cagr": 0.01730786313974475,
+        "benchmark_cagr": 0.19375967781504633,
+        "cagr_difference": -0.17645181467530158
+      },
+      {
+        "end": "2018-05-31",
+        "candidate_cagr": 0.026346313655223108,
+        "benchmark_cagr": 0.19460731725602565,
+        "cagr_difference": -0.16826100360080254
+      },
+      {
+        "end": "2018-06-29",
+        "candidate_cagr": 0.030799075665067566,
+        "benchmark_cagr": 0.2053714115435874,
+        "cagr_difference": -0.17457233587851984
+      },
+      {
+        "end": "2018-07-31",
+        "candidate_cagr": 0.022212373027744592,
+        "benchmark_cagr": 0.19773337254936307,
+        "cagr_difference": -0.17552099952161848
+      },
+      {
+        "end": "2018-08-31",
+        "candidate_cagr": 0.034513786136481706,
+        "benchmark_cagr": 0.21177833812566949,
+        "cagr_difference": -0.17726455198918778
+      },
+      {
+        "end": "2018-09-28",
+        "candidate_cagr": 0.02809826642862312,
+        "benchmark_cagr": 0.1991465920506379,
+        "cagr_difference": -0.17104832562201477
+      },
+      {
+        "end": "2018-10-31",
+        "candidate_cagr": -0.0015633112565484053,
+        "benchmark_cagr": 0.1664830395601984,
+        "cagr_difference": -0.1680463508167468
+      },
+      {
+        "end": "2018-11-30",
+        "candidate_cagr": 0.0005695363012299115,
+        "benchmark_cagr": 0.15829019560043012,
+        "cagr_difference": -0.1577206592992002
+      },
+      {
+        "end": "2018-12-31",
+        "candidate_cagr": -0.019070039451185017,
+        "benchmark_cagr": 0.13186456872449215,
+        "cagr_difference": -0.15093460817567717
+      },
+      {
+        "end": "2019-01-31",
+        "candidate_cagr": -0.013006476141283696,
+        "benchmark_cagr": 0.1586349027457632,
+        "cagr_difference": -0.1716413788870469
+      },
+      {
+        "end": "2019-02-28",
+        "candidate_cagr": -0.016349151942659845,
+        "benchmark_cagr": 0.1514664181331815,
+        "cagr_difference": -0.16781557007584136
+      },
+      {
+        "end": "2019-03-29",
+        "candidate_cagr": -0.0077754987213991544,
+        "benchmark_cagr": 0.16766169707016942,
+        "cagr_difference": -0.17543719579156858
+      },
+      {
+        "end": "2019-04-30",
+        "candidate_cagr": -0.0032179961916548594,
+        "benchmark_cagr": 0.181334465871279,
+        "cagr_difference": -0.18455246206293385
+      },
+      {
+        "end": "2019-05-31",
+        "candidate_cagr": -0.02082321339269544,
+        "benchmark_cagr": 0.14870480754806215,
+        "cagr_difference": -0.16952802094075758
+      },
+      {
+        "end": "2019-06-28",
+        "candidate_cagr": -0.021560784680785927,
+        "benchmark_cagr": 0.15986160710070818,
+        "cagr_difference": -0.1814223917814941
+      },
+      {
+        "end": "2019-07-31",
+        "candidate_cagr": -0.021120969808117063,
+        "benchmark_cagr": 0.1572574038082022,
+        "cagr_difference": -0.17837837361631925
+      },
+      {
+        "end": "2019-08-30",
+        "candidate_cagr": -0.02742763744570309,
+        "benchmark_cagr": 0.1462455083151084,
+        "cagr_difference": -0.1736731457608115
+      },
+      {
+        "end": "2019-09-30",
+        "candidate_cagr": -0.022089075698834115,
+        "benchmark_cagr": 0.14907919311206808,
+        "cagr_difference": -0.1711682688109022
+      },
+      {
+        "end": "2019-10-31",
+        "candidate_cagr": -0.024025011028437127,
+        "benchmark_cagr": 0.15673998614297302,
+        "cagr_difference": -0.18076499717141015
+      },
+      {
+        "end": "2019-11-29",
+        "candidate_cagr": -0.021560876436212517,
+        "benchmark_cagr": 0.15301695103121382,
+        "cagr_difference": -0.17457782746742634
+      },
+      {
+        "end": "2019-12-31",
+        "candidate_cagr": -0.01582070136118463,
+        "benchmark_cagr": 0.16216406555624419,
+        "cagr_difference": -0.17798476691742882
+      },
+      {
+        "end": "2020-01-31",
+        "candidate_cagr": -0.013358112904505726,
+        "benchmark_cagr": 0.17622459539655044,
+        "cagr_difference": -0.18958270830105617
+      },
+      {
+        "end": "2020-02-28",
+        "candidate_cagr": -0.026854798662528045,
+        "benchmark_cagr": 0.14633192841971754,
+        "cagr_difference": -0.17318672708224558
+      },
+      {
+        "end": "2020-03-31",
+        "candidate_cagr": -0.019843225245586904,
+        "benchmark_cagr": 0.13312371356164054,
+        "cagr_difference": -0.15296693880722745
+      },
+      {
+        "end": "2020-04-30",
+        "candidate_cagr": -0.018552437099149555,
+        "benchmark_cagr": 0.15952674820987744,
+        "cagr_difference": -0.178079185309027
+      },
+      {
+        "end": "2020-05-29",
+        "candidate_cagr": 0.00301270268449505,
+        "benchmark_cagr": 0.17153420434419275,
+        "cagr_difference": -0.1685215016596977
+      },
+      {
+        "end": "2020-06-30",
+        "candidate_cagr": 0.017543216872115686,
+        "benchmark_cagr": 0.19414117734667968,
+        "cagr_difference": -0.176597960474564
+      },
+      {
+        "end": "2020-07-31",
+        "candidate_cagr": 0.024513019917530965,
+        "benchmark_cagr": 0.1993076975854413,
+        "cagr_difference": -0.17479467766791035
+      },
+      {
+        "end": "2020-08-31",
+        "candidate_cagr": 0.05091444226217634,
+        "benchmark_cagr": 0.23877564326597644,
+        "cagr_difference": -0.1878612010038001
+      },
+      {
+        "end": "2020-09-30",
+        "candidate_cagr": 0.04434020969663455,
+        "benchmark_cagr": 0.23858055566797587,
+        "cagr_difference": -0.19424034597134132
+      },
+      {
+        "end": "2020-10-30",
+        "candidate_cagr": 0.04447203486280804,
+        "benchmark_cagr": 0.19820712250314387,
+        "cagr_difference": -0.15373508764033583
+      },
+      {
+        "end": "2020-11-30",
+        "candidate_cagr": 0.04721764086416824,
+        "benchmark_cagr": 0.22267466868894892,
+        "cagr_difference": -0.17545702782478068
+      },
+      {
+        "end": "2020-12-31",
+        "candidate_cagr": 0.05718728271021156,
+        "benchmark_cagr": 0.236197802335405,
+        "cagr_difference": -0.17901051962519343
+      },
+      {
+        "end": "2021-01-29",
+        "candidate_cagr": 0.06931657276196646,
+        "benchmark_cagr": 0.2630149342273793,
+        "cagr_difference": -0.19369836146541286
+      },
+      {
+        "end": "2021-02-26",
+        "candidate_cagr": 0.07285744738450073,
+        "benchmark_cagr": 0.2588542838434955,
+        "cagr_difference": -0.18599683645899479
+      },
+      {
+        "end": "2021-03-31",
+        "candidate_cagr": 0.06632515999810362,
+        "benchmark_cagr": 0.2488769429664197,
+        "cagr_difference": -0.1825517829683161
+      },
+      {
+        "end": "2021-04-30",
+        "candidate_cagr": 0.07568147231918143,
+        "benchmark_cagr": 0.2703640572355861,
+        "cagr_difference": -0.19468258491640467
+      },
+      {
+        "end": "2021-05-28",
+        "candidate_cagr": 0.07617539554907449,
+        "benchmark_cagr": 0.25962716435215705,
+        "cagr_difference": -0.18345176880308256
+      },
+      {
+        "end": "2021-06-30",
+        "candidate_cagr": 0.08318820714280628,
+        "benchmark_cagr": 0.28652471357356535,
+        "cagr_difference": -0.20333650643075907
+      },
+      {
+        "end": "2021-07-30",
+        "candidate_cagr": 0.08539815583596755,
+        "benchmark_cagr": 0.26922754870349275,
+        "cagr_difference": -0.1838293928675252
+      },
+      {
+        "end": "2021-08-31",
+        "candidate_cagr": 0.09029419042538267,
+        "benchmark_cagr": 0.2754350545868427,
+        "cagr_difference": -0.18514086416146003
+      },
+      {
+        "end": "2021-09-30",
+        "candidate_cagr": 0.08018338032709105,
+        "benchmark_cagr": 0.25622601402325307,
+        "cagr_difference": -0.17604263369616202
+      },
+      {
+        "end": "2021-10-29",
+        "candidate_cagr": 0.09491908355424195,
+        "benchmark_cagr": 0.2772257010376473,
+        "cagr_difference": -0.18230661748340538
+      },
+      {
+        "end": "2021-11-30",
+        "candidate_cagr": 0.08547611171939251,
+        "benchmark_cagr": 0.28078643319275254,
+        "cagr_difference": -0.19531032147336003
+      },
+      {
+        "end": "2021-12-31",
+        "candidate_cagr": 0.08704833159951719,
+        "benchmark_cagr": 0.28042778428940274,
+        "cagr_difference": -0.19337945268988554
+      },
+      {
+        "end": "2022-01-31",
+        "candidate_cagr": 0.07727220259254519,
+        "benchmark_cagr": 0.24691686495635334,
+        "cagr_difference": -0.16964466236380815
+      },
+      {
+        "end": "2022-02-28",
+        "candidate_cagr": 0.07457439276022337,
+        "benchmark_cagr": 0.22476118238382736,
+        "cagr_difference": -0.150186789623604
+      },
+      {
+        "end": "2022-03-31",
+        "candidate_cagr": 0.07862626432527531,
+        "benchmark_cagr": 0.23162325314596433,
+        "cagr_difference": -0.15299698882068902
+      },
+      {
+        "end": "2022-04-29",
+        "candidate_cagr": 0.0667985127126316,
+        "benchmark_cagr": 0.18990827576956026,
+        "cagr_difference": -0.12310976305692867
+      },
+      {
+        "end": "2022-05-31",
+        "candidate_cagr": 0.0758206788113609,
+        "benchmark_cagr": 0.17699538269445525,
+        "cagr_difference": -0.10117470388309435
+      },
+      {
+        "end": "2022-06-30",
+        "candidate_cagr": 0.0506187559714919,
+        "benchmark_cagr": 0.15669342713656476,
+        "cagr_difference": -0.10607467116507285
+      },
+      {
+        "end": "2022-07-29",
+        "candidate_cagr": 0.05151723729596047,
+        "benchmark_cagr": 0.17779759898992076,
+        "cagr_difference": -0.12628036169396029
+      },
+      {
+        "end": "2022-08-31",
+        "candidate_cagr": 0.04452146272645385,
+        "benchmark_cagr": 0.16707224887819994,
+        "cagr_difference": -0.12255078615174608
+      },
+      {
+        "end": "2022-09-30",
+        "candidate_cagr": 0.023074097034873287,
+        "benchmark_cagr": 0.1386176967224726,
+        "cagr_difference": -0.11554359968759931
+      },
+      {
+        "end": "2022-10-31",
+        "candidate_cagr": 0.02265039952353365,
+        "benchmark_cagr": 0.13686862212333506,
+        "cagr_difference": -0.11421822259980141
+      },
+      {
+        "end": "2022-11-30",
+        "candidate_cagr": 0.02728511038668424,
+        "benchmark_cagr": 0.14139752572730724,
+        "cagr_difference": -0.114112415340623
+      },
+      {
+        "end": "2022-12-30",
+        "candidate_cagr": 0.015551141070965224,
+        "benchmark_cagr": 0.1193898492676837,
+        "cagr_difference": -0.10383870819671848
+      },
+      {
+        "end": "2023-01-31",
+        "candidate_cagr": 0.002493301391790048,
+        "benchmark_cagr": 0.1237093946671659,
+        "cagr_difference": -0.12121609327537586
+      },
+      {
+        "end": "2023-02-28",
+        "candidate_cagr": -0.0009247143510854317,
+        "benchmark_cagr": 0.12250524360895265,
+        "cagr_difference": -0.12342995796003808
+      },
+      {
+        "end": "2023-03-31",
+        "candidate_cagr": 0.01708056537134639,
+        "benchmark_cagr": 0.1569407406537604,
+        "cagr_difference": -0.139860175282414
+      },
+      {
+        "end": "2023-04-28",
+        "candidate_cagr": 0.020631199452552762,
+        "benchmark_cagr": 0.15544328129519114,
+        "cagr_difference": -0.13481208184263838
+      },
+      {
+        "end": "2023-05-31",
+        "candidate_cagr": 0.013864136874076838,
+        "benchmark_cagr": 0.16324913303985444,
+        "cagr_difference": -0.1493849961657776
+      },
+      {
+        "end": "2023-06-30",
+        "candidate_cagr": 0.030791129771594594,
+        "benchmark_cagr": 0.17588237619155977,
+        "cagr_difference": -0.14509124641996518
+      },
+      {
+        "end": "2023-07-31",
+        "candidate_cagr": 0.034236789993909555,
+        "benchmark_cagr": 0.1707244134773087,
+        "cagr_difference": -0.13648762348339916
+      },
+      {
+        "end": "2023-08-31",
+        "candidate_cagr": 0.027550857660949113,
+        "benchmark_cagr": 0.16162157680856382,
+        "cagr_difference": -0.1340707191476147
+      },
+      {
+        "end": "2023-09-29",
+        "candidate_cagr": 0.020354537490004043,
+        "benchmark_cagr": 0.14960112699626915,
+        "cagr_difference": -0.1292465895062651
+      },
+      {
+        "end": "2023-10-31",
+        "candidate_cagr": 0.040590110314756345,
+        "benchmark_cagr": 0.1678169011302555,
+        "cagr_difference": -0.12722679081549915
+      },
+      {
+        "end": "2023-11-30",
+        "candidate_cagr": 0.03830418055183471,
+        "benchmark_cagr": 0.19687716939275424,
+        "cagr_difference": -0.15857298884091953
+      },
+      {
+        "end": "2023-12-29",
+        "candidate_cagr": 0.06796478678288631,
+        "benchmark_cagr": 0.22535303033729037,
+        "cagr_difference": -0.15738824355440406
+      },
+      {
+        "end": "2024-01-31",
+        "candidate_cagr": 0.06570606652102229,
+        "benchmark_cagr": 0.21653537052043514,
+        "cagr_difference": -0.15082930399941286
+      },
+      {
+        "end": "2024-02-29",
+        "candidate_cagr": 0.06668054909613308,
+        "benchmark_cagr": 0.21161773764829483,
+        "cagr_difference": -0.14493718855216176
+      },
+      {
+        "end": "2024-03-28",
+        "candidate_cagr": 0.07368276421161823,
+        "benchmark_cagr": 0.20831183526763897,
+        "cagr_difference": -0.13462907105602073
+      },
+      {
+        "end": "2024-04-30",
+        "candidate_cagr": 0.0633608338470375,
+        "benchmark_cagr": 0.1806567400341137,
+        "cagr_difference": -0.1172959061870762
+      },
+      {
+        "end": "2024-05-31",
+        "candidate_cagr": 0.08241441476637745,
+        "benchmark_cagr": 0.21347698764766232,
+        "cagr_difference": -0.13106257288128487
+      },
+      {
+        "end": "2024-06-28",
+        "candidate_cagr": 0.08755593942552742,
+        "benchmark_cagr": 0.2159485632404854,
+        "cagr_difference": -0.12839262381495797
+      },
+      {
+        "end": "2024-07-31",
+        "candidate_cagr": 0.08524115424739342,
+        "benchmark_cagr": 0.20066149484818974,
+        "cagr_difference": -0.11542034060079631
+      },
+      {
+        "end": "2024-08-30",
+        "candidate_cagr": 0.10568772470416543,
+        "benchmark_cagr": 0.21542156217655228,
+        "cagr_difference": -0.10973383747238685
+      },
+      {
+        "end": "2024-09-30",
+        "candidate_cagr": 0.1009777480809737,
+        "benchmark_cagr": 0.21539292991175252,
+        "cagr_difference": -0.11441518183077881
+      },
+      {
+        "end": "2024-10-31",
+        "candidate_cagr": 0.09778136363126189,
+        "benchmark_cagr": 0.20519881266608464,
+        "cagr_difference": -0.10741744903482275
+      },
+      {
+        "end": "2024-11-29",
+        "candidate_cagr": 0.10458172795471499,
+        "benchmark_cagr": 0.20732411071787826,
+        "cagr_difference": -0.10274238276316328
+      },
+      {
+        "end": "2024-12-31",
+        "candidate_cagr": 0.08507100731844863,
+        "benchmark_cagr": 0.19744302549386217,
+        "cagr_difference": -0.11237201817541353
+      },
+      {
+        "end": "2025-01-31",
+        "candidate_cagr": 0.0911498130598909,
+        "benchmark_cagr": 0.19406639617350052,
+        "cagr_difference": -0.10291658311360963
+      },
+      {
+        "end": "2025-02-28",
+        "candidate_cagr": 0.09523142695374864,
+        "benchmark_cagr": 0.19416946371345611,
+        "cagr_difference": -0.09893803675970747
+      },
+      {
+        "end": "2025-03-31",
+        "candidate_cagr": 0.10446442912677756,
+        "benchmark_cagr": 0.21450839840714364,
+        "cagr_difference": -0.11004396928036608
+      },
+      {
+        "end": "2025-04-30",
+        "candidate_cagr": 0.09435572644013601,
+        "benchmark_cagr": 0.17973617805556774,
+        "cagr_difference": -0.08538045161543173
+      },
+      {
+        "end": "2025-05-30",
+        "candidate_cagr": 0.08011273925494145,
+        "benchmark_cagr": 0.18446630685388965,
+        "cagr_difference": -0.1043535675989482
+      },
+      {
+        "end": "2025-06-30",
+        "candidate_cagr": 0.07690422599601265,
+        "benchmark_cagr": 0.17878269161872762,
+        "cagr_difference": -0.10187846562271496
+      },
+      {
+        "end": "2025-07-31",
+        "candidate_cagr": 0.07444614689232476,
+        "benchmark_cagr": 0.17814884994157598,
+        "cagr_difference": -0.10370270304925122
+      },
+      {
+        "end": "2025-08-29",
+        "candidate_cagr": 0.05762069385360746,
+        "benchmark_cagr": 0.1563046553146461,
+        "cagr_difference": -0.09868396146103864
+      },
+      {
+        "end": "2025-09-30",
+        "candidate_cagr": 0.0722808029516957,
+        "benchmark_cagr": 0.18492078368222553,
+        "cagr_difference": -0.11263998073052983
+      },
+      {
+        "end": "2025-10-31",
+        "candidate_cagr": 0.05960121755122638,
+        "benchmark_cagr": 0.18202025850560322,
+        "cagr_difference": -0.12241904095437683
+      },
+      {
+        "end": "2025-11-28",
+        "candidate_cagr": 0.06200133958570975,
+        "benchmark_cagr": 0.16988204686259478,
+        "cagr_difference": -0.10788070727688504
+      },
+      {
+        "end": "2025-12-31",
+        "candidate_cagr": 0.054837242724741664,
+        "benchmark_cagr": 0.15412503397612953,
+        "cagr_difference": -0.09928779125138787
+      },
+      {
+        "end": "2026-01-30",
+        "candidate_cagr": 0.05138818138410017,
+        "benchmark_cagr": 0.14285558230641482,
+        "cagr_difference": -0.09146740092231465
+      },
+      {
+        "end": "2026-02-27",
+        "candidate_cagr": 0.06193558506042418,
+        "benchmark_cagr": 0.14142183824839383,
+        "cagr_difference": -0.07948625318796965
+      },
+      {
+        "end": "2026-03-31",
+        "candidate_cagr": 0.05903118955444664,
+        "benchmark_cagr": 0.13727901082827954,
+        "cagr_difference": -0.0782478212738329
+      },
+      {
+        "end": "2026-04-30",
+        "candidate_cagr": 0.04915789396822556,
+        "benchmark_cagr": 0.15120813473517503,
+        "cagr_difference": -0.10205024076694946
+      },
+      {
+        "end": "2026-05-29",
+        "candidate_cagr": 0.06459494672340305,
+        "benchmark_cagr": 0.18312666557619472,
+        "cagr_difference": -0.11853171885279168
+      },
+      {
+        "end": "2026-06-30",
+        "candidate_cagr": 0.06809299270415403,
+        "benchmark_cagr": 0.16822956796577349,
+        "cagr_difference": -0.10013657526161945
+      },
+      {
+        "end": "2026-07-31",
+        "candidate_cagr": 0.0549050935494646,
+        "benchmark_cagr": 0.13935723782649823,
+        "cagr_difference": -0.08445214427703363
+      }
+    ]
+  },
+  "stress_periods": {
+    "global_financial_crisis": {
+      "start": "2007-10-09",
+      "end": "2009-03-09",
+      "results": {
+        "candidate": {
+          "return": -0.38692659437311705,
+          "max_drawdown": -0.38789239271947806,
+          "worst_day": -0.05369523726684522
+        },
+        "QQQ": {
+          "return": -0.5155517828050913,
+          "max_drawdown": -0.5340401186523842,
+          "worst_day": -0.08955643558513782
+        },
+        "matched_control": {
+          "return": -0.3203973645019216,
+          "max_drawdown": -0.3203973645019216,
+          "worst_day": -0.06393687906938106
+        },
+        "sector_drift": {
+          "return": -0.5285129500428014,
+          "max_drawdown": -0.5285129500428014,
+          "worst_day": -0.09302753964391641
+        }
+      }
+    },
+    "covid_crash": {
+      "start": "2020-02-19",
+      "end": "2020-03-23",
+      "results": {
+        "candidate": {
+          "return": -0.10628459397385659,
+          "max_drawdown": -0.11928910493708533,
+          "worst_day": -0.04586089480177458
+        },
+        "QQQ": {
+          "return": -0.2791660176640295,
+          "max_drawdown": -0.2855936232106385,
+          "worst_day": -0.11978779869778933
+        },
+        "matched_control": {
+          "return": -0.11540219411603081,
+          "max_drawdown": -0.12819893159352513,
+          "worst_day": -0.043091633582812094
+        },
+        "sector_drift": {
+          "return": -0.34499164403964533,
+          "max_drawdown": -0.34499164403964533,
+          "worst_day": -0.11505452293773766
+        }
+      }
+    },
+    "rate_hike_2022": {
+      "start": "2022-01-03",
+      "end": "2022-12-30",
+      "results": {
+        "candidate": {
+          "return": -0.22210028015901062,
+          "max_drawdown": -0.27086617741910124,
+          "worst_day": -0.04794653607413624
+        },
+        "QQQ": {
+          "return": -0.3321988462033566,
+          "max_drawdown": -0.34827990458330493,
+          "worst_day": -0.05483669147078751
+        },
+        "matched_control": {
+          "return": -0.278147910545959,
+          "max_drawdown": -0.30361478225805694,
+          "worst_day": -0.04086871949655024
+        },
+        "sector_drift": {
+          "return": -0.17004317593791374,
+          "max_drawdown": -0.23187891605303146,
+          "worst_day": -0.04094025699396453
+        }
+      }
+    }
+  },
+  "top_k_sensitivity": {
+    "2": {
+      "total_return": 2.4368189033610976,
+      "cagr": 0.06367989894399328,
+      "volatility": 0.16758592195336447,
+      "sharpe": 0.45307460309803593,
+      "sortino": 0.5721933273676518,
+      "max_drawdown": -0.4472134533876573,
+      "calmar": 0.14239262808758515,
+      "turnover": 18.740115322079646
+    },
+    "3": {
+      "total_return": 1.7986629464063641,
+      "cagr": 0.052810313182776625,
+      "volatility": 0.15210997560181377,
+      "sharpe": 0.4152082902594188,
+      "sortino": 0.5202355476613358,
+      "max_drawdown": -0.40130790861238763,
+      "calmar": 0.1315954957513301,
+      "turnover": 16.874663936112235
+    },
+    "4": {
+      "total_return": 2.291708832881693,
+      "cagr": 0.061387775569646585,
+      "volatility": 0.14183860209911578,
+      "sharpe": 0.49188108079687326,
+      "sortino": 0.6165451183307429,
+      "max_drawdown": -0.32056882589646607,
+      "calmar": 0.19149639831002457,
+      "turnover": 15.01729727675594
+    }
+  },
+  "pbo_across_top_k_2_3_4": {
+    "pbo": 0.7936507936507936,
+    "combinations": 252,
+    "median_selected_oos_sharpe": 0.43160897485955113,
+    "logits": [
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      1.6094379124341007,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      1.6094379124341007,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      1.6094379124341007,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      0.0,
+      -1.6094379124341005,
+      0.0,
+      0.0,
+      1.6094379124341007,
+      0.0,
+      1.6094379124341007,
+      -1.6094379124341005,
+      1.6094379124341007,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      1.6094379124341007,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      1.6094379124341007,
+      -1.6094379124341005,
+      0.0,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005,
+      -1.6094379124341005
+    ],
+    "selections": {
+      "top_2": 99,
+      "top_3": 1,
+      "top_4": 152
+    }
+  },
+  "fixed_20_day_signal_external_diagnostic": {
+    "valid_for_paper": false,
+    "holding_sessions": 20,
+    "round_trip_cost_bps": 20.0,
+    "events": 874,
+    "first_signal_date": "2006-08-04",
+    "last_signal_date": "2026-07-02",
+    "mean_eligible_count": 7.762013729977117,
+    "net_return_summary": {
+      "top3_mean": 0.002577249336484552,
+      "top3_median": 0.007316339649241149,
+      "eligible_equal_mean": 0.0031175688039514074,
+      "all_sectors_equal_mean": 0.003320681835110421,
+      "QQQ_mean": 0.00806560932315514
+    },
+    "comparisons": {
+      "eligible_equal": {
+        "mean_difference": -0.000540319467466856,
+        "median_difference": 0.0,
+        "win_fraction": 0.4416475972540046,
+        "newey_west": {
+          "mean_daily": -0.000540319467466856,
+          "annualized": -0.02809661230827651,
+          "t_stat": -0.7705341885047159,
+          "lag": 4.0
+        }
+      },
+      "all_sectors_equal": {
+        "mean_difference": -0.0007434324986258695,
+        "median_difference": -0.0002760769509163076,
+        "win_fraction": 0.4897025171624714,
+        "newey_west": {
+          "mean_daily": -0.0007434324986258695,
+          "annualized": -0.03865848992854521,
+          "t_stat": -0.8170191919612486,
+          "lag": 4.0
+        }
+      },
+      "QQQ": {
+        "mean_difference": -0.005488359986670589,
+        "median_difference": -0.004410048584928623,
+        "win_fraction": 0.4244851258581236,
+        "newey_west": {
+          "mean_daily": -0.005488359986670589,
+          "annualized": -0.2853947193068706,
+          "t_stat": -3.042258620633421,
+          "lag": 4.0
+        }
+      }
+    },
+    "fixed_halves_vs_eligible_equal": {
+      "first": {
+        "events": 427,
+        "mean_difference": -0.0002422070829917519,
+        "median_difference": 0.0,
+        "win_fraction": 0.4566744730679157
+      },
+      "second": {
+        "events": 447,
+        "mean_difference": -0.0008250934902204784,
+        "median_difference": -0.00016634331998793134,
+        "win_fraction": 0.4272930648769575
+      }
+    },
+    "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+      "low": -0.0020026946362437883,
+      "median": -0.000636322241363286,
+      "high": 0.0009087144404219338,
+      "p_below_or_equal_zero": 0.804
+    },
+    "gates": {
+      "mean_difference_positive": false,
+      "newey_west_t_at_least_1_96": false,
+      "bootstrap_95pct_low_positive": false,
+      "both_fixed_halves_positive": false,
+      "paired_win_fraction_above_50pct": false
+    },
+    "passed_gate_count": 0,
+    "required_gate_count": 5,
+    "all_signal_gates_pass": false
+  },
+  "individual_sector_buy_and_hold_diagnostics": {
+    "VAW": {
+      "label": "基礎材料",
+      "metrics": {
+        "total_return": 4.265658755841293,
+        "cagr": 0.08661784630561398,
+        "volatility": 0.24210629459759364,
+        "sharpe": 0.4653184584464351,
+        "sortino": 0.594737719155156,
+        "max_drawdown": -0.6217293003548112,
+        "calmar": 0.13931761983259036,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VCR": {
+      "label": "非必需消費",
+      "metrics": {
+        "total_return": 8.784462044683782,
+        "cagr": 0.12081158507616241,
+        "volatility": 0.22632982943272506,
+        "sharpe": 0.6183447763611863,
+        "sortino": 0.795647207592594,
+        "max_drawdown": -0.6153833459827651,
+        "calmar": 0.1963192307117553,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VDC": {
+      "label": "必需消費",
+      "metrics": {
+        "total_return": 5.288457382242328,
+        "cagr": 0.09630615558915645,
+        "volatility": 0.14568986760423142,
+        "sharpe": 0.7051765486313131,
+        "sortino": 0.9167085609627362,
+        "max_drawdown": -0.34240754312345023,
+        "calmar": 0.2812617815327585,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VDE": {
+      "label": "能源",
+      "metrics": {
+        "total_return": 2.2869608455667865,
+        "cagr": 0.06131116644671342,
+        "volatility": 0.3014105415774989,
+        "sharpe": 0.3493564443458095,
+        "sortino": 0.4531568977424215,
+        "max_drawdown": -0.747212373923368,
+        "calmar": 0.08205320011603731,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VFH": {
+      "label": "金融",
+      "metrics": {
+        "total_return": 2.63844356213209,
+        "cagr": 0.06671658137750813,
+        "volatility": 0.2783540892685894,
+        "sharpe": 0.37169923378842257,
+        "sortino": 0.4659613335583979,
+        "max_drawdown": -0.7861471221973303,
+        "calmar": 0.08486526184950105,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VGT": {
+      "label": "資訊科技",
+      "metrics": {
+        "total_return": 23.515750271253733,
+        "cagr": 0.17349257013118224,
+        "volatility": 0.23428589767378621,
+        "sharpe": 0.801443654742248,
+        "sortino": 1.0493271664147863,
+        "max_drawdown": -0.5463022174645166,
+        "calmar": 0.31757617777279284,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VHT": {
+      "label": "醫療保健",
+      "metrics": {
+        "total_return": 6.55114094473563,
+        "cagr": 0.10638362082826025,
+        "volatility": 0.17413451641925412,
+        "sharpe": 0.6688399681969659,
+        "sortino": 0.8732528984510136,
+        "max_drawdown": -0.3912138495357689,
+        "calmar": 0.2719321439016017,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VIS": {
+      "label": "工業",
+      "metrics": {
+        "total_return": 6.998288602170807,
+        "cagr": 0.10957102666694007,
+        "volatility": 0.21957833980853633,
+        "sharpe": 0.5845160886211312,
+        "sortino": 0.7417301122191131,
+        "max_drawdown": -0.6350708041741957,
+        "calmar": 0.1725335599538685,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VOX": {
+      "label": "通訊服務",
+      "metrics": {
+        "total_return": 3.4742602418992945,
+        "cagr": 0.077804142395683,
+        "volatility": 0.21141755404977042,
+        "sharpe": 0.4608360141030594,
+        "sortino": 0.6029951664264431,
+        "max_drawdown": -0.5718182592939998,
+        "calmar": 0.1360644595220596,
+        "turnover": 0.049955862866546755
+      }
+    },
+    "VPU": {
+      "label": "公用事業",
+      "metrics": {
+        "total_return": 4.156046938559907,
+        "cagr": 0.08547540589456348,
+        "volatility": 0.1882475500863184,
+        "sharpe": 0.5305229038620394,
+        "sortino": 0.6912665816698103,
+        "max_drawdown": -0.4631163648874247,
+        "calmar": 0.1845657212207153,
+        "turnover": 0.049955862866546755
+      }
+    }
+  },
+  "best_individual_sector_ex_post_not_a_candidate": {
+    "ticker": "VGT",
+    "label": "資訊科技",
+    "metrics": {
+      "total_return": 23.515750271253733,
+      "cagr": 0.17349257013118224,
+      "volatility": 0.23428589767378621,
+      "sharpe": 0.801443654742248,
+      "sortino": 1.0493271664147863,
+      "max_drawdown": -0.5463022174645166,
+      "calmar": 0.31757617777279284,
+      "turnover": 0.049955862866546755
+    }
+  },
+  "data_gates": {
+    "protocol_hash_pass": true,
+    "product_mapping_hash_pass": true,
+    "first_download_after_freeze_pass": true,
+    "snapshot_hash_pass": true,
+    "formal_ohlcv_complete_pass": true,
+    "next_open_execution_pass": true
+  },
+  "economic_and_statistical_gates": {
+    "cagr_beats_qqq_by_2pp": false,
+    "excess_sharpe_beats_qqq": false,
+    "max_drawdown_not_more_than_5pp_deeper_than_qqq": true,
+    "cost_50bps_beats_qqq_by_50bp": false,
+    "both_fixed_halves_beat_qqq_by_50bp": false,
+    "rolling_three_year_win_fraction_at_least_60pct": false,
+    "rolling_three_year_median_edge_positive": false,
+    "beats_matched_control_cagr": false,
+    "beats_sector_monthly_equal_cagr": false,
+    "beats_sector_drift_cagr": false,
+    "active_newey_west_t_at_least_1_96": false,
+    "active_psr_at_least_95pct": false,
+    "active_global_dsr_at_least_95pct": false,
+    "top_k_pbo_not_above_20pct": false,
+    "all_signal_layer_gates_pass": false
+  },
+  "passed_gate_count": 7,
+  "required_gate_count": 21,
+  "global_search_trials": 6141,
+  "decision": "只保留首次外部產品結果；不依結果改規則。短線 Paper 仍須等待合格 point-in-time 個股成分及退市資料，而且必須由全現金開始累積前瞻成交。"
+}

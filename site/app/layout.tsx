@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線大型股動量研究，以兩個分頁呈列回報、風險、baseline、驗證門檻及 Paper 狀態。",
+  description: "長線 ETF 分散策略與短線個股／行業動量研究，以兩個分頁呈列回報、風險、baseline、驗證門檻及 Paper 狀態。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
     description: "長線穩定與短線高回報兩條研究線，分開展示目標、風險、比較基準及 Paper 狀態。",
