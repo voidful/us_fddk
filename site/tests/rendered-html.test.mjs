@@ -32,6 +32,9 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /短窗贏家壓力測試/);
+  assert.match(html, /大型股短窗贏家：數據 10\/10，經濟只過 14\/44/);
+  assert.match(html, /大型股隔離後仍跑輸市場；近期更大幅落後 QQQ/);
+  assert.match(html, /first-seen 14\/44、schema-informed 11\/38/);
   assert.match(html, /短窗贏家策略：工程 8\/8，經濟只過 11\/38/);
   assert.match(html, /短窗贏家延續被市場、同池基準與長窗動量擊敗/);
   assert.match(html, /早期完整期：零成本也未能追上四個基準/);
@@ -39,12 +42,11 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /成本容忍度很低，統計沒有確認/);
   assert.match(html, /六條路徑全部保留，不事後換冠軍/);
   assert.match(html, /2020 勝出，不能掩蓋五段較差尾部表現/);
-  assert.match(html, /4\.14%/);
-  assert.match(html, /9\.41%/);
-  assert.match(html, /-0\.63%/);
-  assert.match(html, /市場 .*2\.56.* · 12–2 贏家 .*4\.44.* bps/);
-  assert.match(html, /最新短窗贏家診斷只過/);
-  assert.match(html, /原 6\/8、schema-informed 11\/38、49 行業失敗與 French 30 的 17\/33 同時保留/);
+  assert.match(html, /4\.61%/);
+  assert.match(html, /9\.71%/);
+  assert.match(html, /-0\.36%/);
+  assert.match(html, /市場 .*3\.71.* · 大型股等權 .*15\.32.* bps/);
+  assert.match(html, /最新大型股短窗贏家驗證只過/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
   assert.match(html, /美股一個月贏家延續測試：6\/8，計算前停止/);
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);

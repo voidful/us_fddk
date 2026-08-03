@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import sizePriorResearch from "../data/short-term-french-size-prior.json";
 
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
@@ -183,6 +184,27 @@ const priorRepairStressRows = [
   { label: "2008–2009 金融海嘯", result: priorReturnRepair.stress_periods.gfc },
   { label: "2020 新冠衝擊", result: priorReturnRepair.stress_periods.covid_2020 },
   { label: "2022 加息衝擊", result: priorReturnRepair.stress_periods.rate_shock_2022 },
+];
+const sizePriorPrimary = sizePriorResearch.primary_external_period;
+const sizePriorRecent = sizePriorResearch.recent_confirmation_period;
+const sizePriorRecentMarket = sizePriorRecent.comparisons.market;
+const sizePriorRecentBigEqual = sizePriorRecent.comparisons.big_row_equal;
+const sizePriorPrimaryRows = [
+  { label: "Big Hi PRIOR 1–1", detail: "唯一凍結候選 · 大型股短窗贏家 · 10 bps", metrics: sizePriorPrimary.candidate_metrics, featured: true },
+  { label: "French 美國市場", detail: "Mkt-RF + RF · 買入持有", metrics: sizePriorPrimary.baseline_metrics.market },
+  { label: "大型股 prior 等權", detail: "同一 Size 5 母體 · 五組每月等權", metrics: sizePriorPrimary.baseline_metrics.big_row_equal },
+  { label: "全 25 cells 等權", detail: "五個 size × 五個 prior", metrics: sizePriorPrimary.baseline_metrics.all_25_equal },
+  { label: "Big Lo PRIOR", detail: "大型股短窗輸家 · 反方向控制", metrics: sizePriorPrimary.baseline_metrics.big_lo_prior },
+  { label: "Hi PRIOR 12–2", detail: "長窗動量控制", metrics: sizePriorPrimary.baseline_metrics.long_momentum_hi_12_2 },
+];
+const sizePriorRecentRows = [
+  { label: "Big Hi PRIOR 1–1", detail: "唯一凍結候選 · 大型股短窗贏家 · 10 bps", metrics: sizePriorRecent.candidate_metrics, featured: true },
+  { label: "QQQ", detail: "實際產品機會成本 · 買入持有", metrics: sizePriorRecent.baseline_metrics.QQQ },
+  { label: "French 美國市場", detail: "Mkt-RF + RF · 買入持有", metrics: sizePriorRecent.baseline_metrics.market },
+  { label: "大型股 prior 等權", detail: "同一 Size 5 母體 · 五組每月等權", metrics: sizePriorRecent.baseline_metrics.big_row_equal },
+  { label: "全 25 cells 等權", detail: "五個 size × 五個 prior", metrics: sizePriorRecent.baseline_metrics.all_25_equal },
+  { label: "Big Lo PRIOR", detail: "大型股短窗輸家 · 反方向控制", metrics: sizePriorRecent.baseline_metrics.big_lo_prior },
+  { label: "Hi PRIOR 12–2", detail: "長窗動量控制", metrics: sizePriorRecent.baseline_metrics.long_momentum_hi_12_2 },
 ];
 
 export default function Home() {
@@ -531,19 +553,19 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · PRIOR-RETURN DIAGNOSTIC</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · SIZE-CONDITIONED FIRST-SEEN VALIDATION</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />短窗贏家壓力測試</h1>
               <p className="hero-lead">
-                最新一輪沿用下載前已凍結的 `VW Hi PRIOR 1–1`，只修正已知的兩個精確 CSV marker，並以原五份雜湊快照重跑。
-                工程解析通過 <strong>{priorReturnRepair.gate_breakdown.data}</strong>，但經濟診斷只有 <strong>{priorReturnRepair.passed_gate_count}/{priorReturnRepair.required_gate_count}</strong>：
-                1963–2005 的年率化回報 {pct(priorRepairPrimary.candidate_metrics.cagr, 2)}，2006–2026 為 {pct(priorRepairRecent.candidate_metrics.cagr, 2)}，均低於市場。
-                這是看過 schema 後的工程診斷，不是獨立首次驗證。<strong>學術組合不可直接落盤；Paper、持倉及實金動作均為 US$0</strong>。
+                最新一輪在首次下載前凍結 `Big Hi PRIOR 1–1`，用 CRSP／Kenneth French 的 25 個 Size × Prior cells 檢查短窗贏家是否只是假象。
+                數據合約通過 <strong>{sizePriorResearch.gate_breakdown.data}</strong>，但整體只有 <strong>{sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count}</strong>：
+                1963–2005 年率化回報 {pct(sizePriorPrimary.candidate_metrics.cagr, 2)}，2006–2026 為 {pct(sizePriorRecent.candidate_metrics.cagr, 2)}，近期更遠低於 QQQ 的 {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}。
+                <strong>這是首次未見機制驗證，但學術 cells 仍不可落盤；Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#prior-return-diagnostic">查看最新診斷</a>
-                <a className="secondary-button" href="#prior-return-contract">查看原 6/8 收據</a>
+                <a className="primary-button aggressive-button" href="#size-prior-diagnostic">查看最新 14/44 驗證</a>
+                <a className="secondary-button" href="#prior-return-diagnostic">查看上一輪 11/38</a>
                 <a className="secondary-button" href="#aggressive-evidence">查看 French 30 獨立結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
@@ -551,16 +573,16 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>短線策略摘要</span>
-                <b>{priorReturnRepair.passed_gate_count}/{priorReturnRepair.required_gate_count} · 經濟診斷失敗</b>
+                <b>{sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count} · 經濟驗證失敗</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>{priorReturnRepair.gate_breakdown.primary} · {priorReturnRepair.gate_breakdown.recent}；Paper 保持關閉</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>{sizePriorResearch.gate_breakdown.primary} · {sizePriorResearch.gate_breakdown.recent}；Paper 保持關閉</small>
               </div>
               <dl className="decision-list">
-                <div><dt>主要期 CAGR</dt><dd>{pct(priorRepairPrimary.candidate_metrics.cagr, 2)}／市場 {pct(priorRepairPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
-                <div><dt>近期 CAGR</dt><dd>{pct(priorRepairRecent.candidate_metrics.cagr, 2)}／市場 {pct(priorRepairRecent.baseline_metrics.market.cagr, 2)}</dd></div>
-                <div><dt>硬傷</dt><dd>近期 50 bps {pct(priorRepairRecent.candidate_50bps_metrics.cagr, 2)}／PBO {pct(priorReturnRepair.pbo.recent.pbo, 1)}</dd></div>
+                <div><dt>主要期 CAGR</dt><dd>{pct(sizePriorPrimary.candidate_metrics.cagr, 2)}／市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
+                <div><dt>近期 CAGR</dt><dd>{pct(sizePriorRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
+                <div><dt>硬傷</dt><dd>近期 50 bps {pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}／PBO {pct(sizePriorResearch.pbo.recent.pbo, 1)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
               <p>US$1,000 複利數字只解釋歷史尺度，不包括通脹、稅項及真實買賣差價，亦不是預測。</p>
@@ -569,12 +591,94 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>1963–2005 CAGR</span><strong>{pct(priorRepairPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(priorRepairPrimary.baseline_metrics.market.cagr, 2)}</small></article>
-              <article><span>2006–2026 CAGR</span><strong>{pct(priorRepairRecent.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(priorRepairRecent.baseline_metrics.market.cagr, 2)}</small></article>
-              <article><span>近期 50 bps CAGR</span><strong>{pct(priorRepairRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>成本壓力下轉負</small></article>
-              <article><span>近期勝市場 60 月窗</span><strong>{pct(priorRepairRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}</strong><small>合格線 60%</small></article>
-              <article><span>工程／經濟門檻</span><strong>{priorReturnRepair.gate_breakdown.data} · {priorReturnRepair.passed_gate_count}/{priorReturnRepair.required_gate_count}</strong><small>非獨立首次證據</small></article>
+              <article><span>1963–2005 CAGR</span><strong>{pct(sizePriorPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}</small></article>
+              <article><span>2006–2026 CAGR</span><strong>{pct(sizePriorRecent.candidate_metrics.cagr, 2)}</strong><small>QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}</small></article>
+              <article><span>近期 50 bps CAGR</span><strong>{pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>完整換倉成本後轉負</small></article>
+              <article><span>近期勝市場 60 月窗</span><strong>{pct(sizePriorRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}</strong><small>合格線 60%</small></article>
+              <article><span>數據／經濟門檻</span><strong>{sizePriorResearch.gate_breakdown.data} · {sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count}</strong><small>首次未見、仍判定失敗</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="size-prior-diagnostic">
+            <div className="section-heading">
+              <div><span>FIRST-SEEN SIZE-CONDITIONED VALIDATION · ROUND 7</span><h2>大型股短窗贏家：數據 10/10，經濟只過 14/44</h2></div>
+              <p>唯一候選、25 cells、成本、時期、QQQ／SPY 與同母體基準、17＋17 道門檻及 6,175 次搜尋校正在首次官方下載前已凍結。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict">
+                <span>最新研究判斷</span>
+                <h3>大型股隔離後仍跑輸市場；近期更大幅落後 QQQ</h3>
+                <p>主要期候選較市場低 {pp(sizePriorPrimary.candidate_metrics.cagr - sizePriorPrimary.baseline_metrics.market.cagr)}；近期較市場低 {pp(sizePriorRecent.candidate_metrics.cagr - sizePriorRecent.baseline_metrics.market.cagr)}，較 QQQ 低 {pp(sizePriorRecent.candidate_metrics.cagr - sizePriorRecent.baseline_metrics.QQQ.cagr)}。不是由小型股污染就能解釋或救援。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>門檻分解</span><strong>{sizePriorResearch.gate_breakdown.data} · {sizePriorResearch.gate_breakdown.primary} · {sizePriorResearch.gate_breakdown.recent}</strong><p>主要期只過 PBO；近期只過全池等權、Big Lo 及最大跌幅限制。</p></article>
+                <article><span>證據與資金界線</span><strong>首次未見 · US$0</strong><p>數據合約有效，但 French cells 不是證券；Paper、選股名單及實金均維持關閉。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRIMARY EXTERNAL PERIOD · 1963–2005</span><h3>長歷史：短窗贏家落後所有主要回報基準</h3></div>
+              <p>所有每月重組路徑以相同 10 bps 單邊成本處理；French 市場只扣首次買入成本。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{sizePriorPrimaryRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>兩半一致失敗：</b><p>1963–1984 較市場低 {pp(sizePriorPrimary.fixed_splits["1963_to_1984"].edge_vs_market)}，1985–2005 低 {pp(sizePriorPrimary.fixed_splits["1985_to_2005"].edge_vs_market)}；60 月窗勝市場只有 {pct(sizePriorPrimary.rolling_60m_vs_market.cagr_win_fraction, 1)}。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>RECENT CONFIRMATION · 2006–2026</span><h3>近期：只勝弱基準，QQQ 明顯較好</h3></div>
+              <p>QQQ／SPY 使用既有經調整產品價格快照，只作 2006 後機會成本；沒有用現時成份股回推歷史。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{sizePriorRecentRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>Regime 不穩定：</b><p>2006–2015 候選只得 {pct(sizePriorRecent.fixed_splits["2006_to_2015"].candidate_cagr, 2)}，較市場低 {pp(sizePriorRecent.fixed_splits["2006_to_2015"].edge_vs_market)}；2016 後才較市場高 {pp(sizePriorRecent.fixed_splits["2016_to_end"].edge_vs_market)}。後段反彈不能覆蓋固定前段。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SIZE × DIRECTION</span><h3>早期五個 size 全部是反轉；近期才轉為部分延續</h3></div>
+              <p>Hi−Lo 為同一 size 贏家 CAGR 減輸家 CAGR。這是機制拆解，不是事後改買最好的 size。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>Size 五分位</th><th>1963–2005 Hi−Lo</th><th>2006–2026 Hi−Lo</th><th>近期 Hi CAGR</th><th>近期 Hi 最大跌幅</th></tr></thead>
+                <tbody>{sizePriorResearch.size_direction_diagnostic.recent.map((row, index) => (
+                  <tr key={row.size_quintile}><th><b>Size {row.size_quintile}</b><span>{row.size_quintile === 5 ? "大型股" : "由小至大"}</span></th><td>{pp(sizePriorResearch.size_direction_diagnostic.primary[index].high_minus_low_cagr)}</td><td>{pp(row.high_minus_low_cagr)}</td><td>{pct(row.high_prior_cagr, 2)}</td><td>{pct(row.high_prior_max_drawdown, 1)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, WINDOWS &amp; STATISTICS</span><h3>成本容忍度不足，統計沒有確認</h3></div>
+              <p>Newey–West 固定月度 lag 3；PSR／DSR 以每年 12 期計算；PBO family 包括全部 25 cells 及事前大型股傾斜。</p>
+            </div>
+            <div className="short-evidence-grid">
+              <article><span>全歷史成本</span><dl><div><dt>10 bps</dt><dd>{pct(sizePriorResearch.frozen_candidate.cost_sensitivity_full_history["10_bps"].cagr, 2)}</dd></div><div><dt>25 bps</dt><dd>{pct(sizePriorResearch.frozen_candidate.cost_sensitivity_full_history["25_bps"].cagr, 2)}</dd></div><div><dt>50 bps</dt><dd>{pct(sizePriorResearch.frozen_candidate.cost_sensitivity_full_history["50_bps"].cagr, 2)}</dd></div></dl><p>年換手約 {multiple(sizePriorResearch.frozen_candidate.full_history_metrics_10bps.annual_turnover)}x；完整換倉成本是重要反證。</p></article>
+              <article><span>近期成本 break-even</span><strong>市場 {sizePriorRecent.cost_break_even_vs_baselines.market.one_way_bps.toFixed(2)} · 大型股等權 {sizePriorRecent.cost_break_even_vs_baselines.big_row_equal.one_way_bps.toFixed(2)} bps</strong><p>凍結門檻為 50 bps；兩者都遠低於要求。</p></article>
+              <article><span>近期 60 月勝率</span><strong>市場 {pct(sizePriorRecent.rolling_60m_vs_market.cagr_win_fraction, 1)} · 大型股等權 {pct(sizePriorRecent.rolling_60m_vs_big_row_equal.cagr_win_fraction, 1)}</strong><p>相對市場中位 CAGR 差 {pp(sizePriorRecent.rolling_60m_vs_market.median_cagr_difference)}。</p></article>
+              <article><span>近期主動統計</span><strong>NW t {sizePriorRecentMarket.newey_west.t_stat.toFixed(2)}／{sizePriorRecentBigEqual.newey_west.t_stat.toFixed(2)}</strong><p>對市場／大型股等權；PSR {pct(sizePriorRecentMarket.active_probabilistic_sharpe.probability, 2)}／{pct(sizePriorRecentBigEqual.active_probabilistic_sharpe.probability, 2)}。</p></article>
+              <article><span>DSR 與 PBO</span><strong>DSR {pct(sizePriorRecentMarket.active_global_deflated_sharpe.probability, 4)} · PBO {pct(sizePriorResearch.pbo.recent.pbo, 1)}</strong><p>6,175 次搜尋校正後不足；近期 PBO 高於 20% 上限。</p></article>
+              <article><span>五因子解釋</span><strong>Alpha {pct(sizePriorResearch.factor_regression_full_history.annualized_alpha, 2)}</strong><p>市場 beta {multiple(sizePriorResearch.factor_regression_full_history.market_beta)}、ST_Rev beta {multiple(sizePriorResearch.factor_regression_full_history.short_term_reversal_beta)}、R² {pct(sizePriorResearch.factor_regression_full_history.r_squared, 1)}。</p></article>
+            </div>
+
+            <div className="data-source-decision">
+              <div><span>DECISION BOUNDARY</span><b>首次數據 10/10，但經濟只有 14/44</b></div>
+              <p>這輪比現時成份股倒推更可靠，仍只到機制層。沒有逐股 point-in-time 成分、退市／收購回報、公司行動、流動性及精確成交成本，所以不建立短線 Paper，不輸出股票名單。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_prior_validation.json" target="_blank" rel="noreferrer">完整 JSON</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_25_port_form_sz_pr_1_0.html" target="_blank" rel="noreferrer">官方方法</a></div>
             </div>
           </section>
 
@@ -910,31 +1014,31 @@ export default function Home() {
           <section className="section aggressive-method" id="aggressive-gates">
             <div className="wrap">
               <div className="section-heading">
-                <div><span>GATE-BY-GATE DECISION</span><h2>最新短窗贏家診斷只過 {priorReturnRepair.passed_gate_count} / {priorReturnRepair.required_gate_count} 道</h2></div>
-                <p>工程數據 8/8，主要外部期 1/15，近期確認期 2/15；而且不是獨立首次證據。French 30 較早結果 17/33 亦完整保留。</p>
+                <div><span>GATE-BY-GATE DECISION</span><h2>最新大型股短窗贏家驗證只過 {sizePriorResearch.passed_gate_count} / {sizePriorResearch.required_gate_count} 道</h2></div>
+                <p>首次數據 10/10，主要外部期 1/17，近期確認期 3/17。上一輪 schema-informed 11/38及 French 30 的 17/33 仍完整保留。</p>
               </div>
               <div className="signal-formula" aria-label="最新外部驗證凍結規格">
-                <article><span>1–1</span><b>上一個月贏家</b><p>月 t-1 形成十分位，直接使用月 t 官方組合回報。</p></article>
-                <article><span>HI PRIOR</span><b>唯一主要候選</b><p>Top-2／3 及傾斜池只作敏感度，不事後改選冠軍。</p></article>
+                <article><span>5 × 5</span><b>Size 與 prior 交叉</b><p>隔離大型股，避免只看未分 size 的贏家組。</p></article>
+                <article><span>BIG HI</span><b>唯一主要候選</b><p>25 cells 及傾斜只作敏感度，不事後改選冠軍。</p></article>
                 <article><span>MONTHLY</span><b>完整重新平衡</b><p>缺乏逐股換手，保守假設每月完整沽出再買入。</p></article>
                 <article><span>10 bps</span><b>主要單邊成本</b><p>另測 25／50 bps；成本不能在看到負結果後刪除。</p></article>
               </div>
 
               <div className="short-gate-grid">
-                <article className="waiting"><span>01</span><div><b>精確 schema repair</b><strong>{priorReturnRepair.gate_breakdown.data} 通過</strong><p>五份原 ZIP、SHA-256、CSV member、精確十欄、連續月份及因素均可重現。</p></div></article>
-                <article className="failed"><span>02</span><div><b>主要外部期</b><strong>{priorReturnRepair.gate_breakdown.primary}</strong><p>候選 CAGR {pct(priorRepairPrimary.candidate_metrics.cagr, 2)}，四個基準最低亦有 {pct(priorRepairPrimary.baseline_metrics.decile_equal.cagr, 2)}；只過 PBO。</p></div></article>
-                <article className="failed"><span>03</span><div><b>近期確認期</b><strong>{priorReturnRepair.gate_breakdown.recent}</strong><p>候選 {pct(priorRepairRecent.candidate_metrics.cagr, 2)}，市場 {pct(priorRepairRecent.baseline_metrics.market.cagr, 2)}；只勝短窗輸家並守住最大跌幅限制。</p></div></article>
-                <article className="failed"><span>04</span><div><b>成本與固定分段</b><strong>失敗</strong><p>近期 50 bps CAGR {pct(priorRepairRecent.candidate_50bps_metrics.cagr, 2)}；2006–2015 較市場低 {pp(Math.abs(priorRepairRecent.fixed_splits["2006_to_2015"].edge_vs_market))}。</p></div></article>
-                <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>近期市場 NW t {priorRepairRecentMarket.newey_west.t_stat.toFixed(2)}；DSR {pct(priorRepairRecentMarket.active_global_deflated_sharpe.probability, 3)}；PBO {pct(priorReturnRepair.pbo.recent.pbo, 1)}。</p></div></article>
-                <article className="failed"><span>06</span><div><b>獨立證據與前瞻 Paper</b><strong>未啟動</strong><p>Schema 已見，且沒有合格逐股 point-in-time／退市賬本；即使 38/38 亦不可建立 Paper。</p></div></article>
+                <article className="waiting"><span>01</span><div><b>首次數據契約</b><strong>{sizePriorResearch.gate_breakdown.data} 通過</strong><p>官方 ZIP、SHA-256、兩個 25 欄月表、1963–2026 完整月份及形成時序全部通過。</p></div></article>
+                <article className="failed"><span>02</span><div><b>主要外部期</b><strong>{sizePriorResearch.gate_breakdown.primary}</strong><p>候選 CAGR {pct(sizePriorPrimary.candidate_metrics.cagr, 2)}，市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}；只過 PBO。</p></div></article>
+                <article className="failed"><span>03</span><div><b>近期確認期</b><strong>{sizePriorResearch.gate_breakdown.recent}</strong><p>候選 {pct(sizePriorRecent.candidate_metrics.cagr, 2)}，QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}；只勝兩個弱基準並守住跌幅限制。</p></div></article>
+                <article className="failed"><span>04</span><div><b>成本與固定分段</b><strong>失敗</strong><p>近期 50 bps CAGR {pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}；2006–2015 較市場低 {pp(Math.abs(sizePriorRecent.fixed_splits["2006_to_2015"].edge_vs_market))}。</p></div></article>
+                <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>近期市場 NW t {sizePriorRecentMarket.newey_west.t_stat.toFixed(2)}；DSR {pct(sizePriorRecentMarket.active_global_deflated_sharpe.probability, 4)}；PBO {pct(sizePriorResearch.pbo.recent.pbo, 1)}。</p></div></article>
+                <article className="failed"><span>06</span><div><b>逐股數據與前瞻 Paper</b><strong>未啟動</strong><p>French cells 不是證券，亦沒有逐股 point-in-time／退市賬本；即使 44/44 亦不能直接落盤。</p></div></article>
               </div>
               <div className="data-source-decision">
-                <div><span>EVIDENCE LADDER</span><b>原 6/8、schema-informed 11/38、49 行業失敗與 French 30 的 17/33 同時保留</b></div>
-                <p>原 prior-return 首次下載在計算前停止；其後只用精確 marker 做工程診斷，不能冒充首次證據。49 行業因 1971-03-11 一格官方缺值停止；French 30 則另立協議後才首次下載及計算。四條都不能取代逐股 point-in-time 賬本。</p>
-                <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新 11/38 報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_FAILURE.md" target="_blank" rel="noreferrer">原 6/8 失敗</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">French 30 的 17/33</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗</a></div>
+                <div><span>EVIDENCE LADDER</span><b>first-seen 14/44、schema-informed 11/38、French 30 的 17/33 及原始失敗同時保留</b></div>
+                <p>最新 25 cells 是首次未見，仍未通過；上一輪 repair 不是獨立證據；French 30 只有早期優勢；49 行業則在 1971-03-11 的數據缺值停止。沒有一條可取代逐股 point-in-time 賬本。</p>
+                <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新 14/44 報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">上一輪 11/38</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">French 30 的 17/33</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗</a></div>
               </div>
-              <p className="aggressive-final-decision"><b>目前決策：</b>短窗贏家在早期、近期、成本、滾動窗口及統計上都沒有通過；French 30 亦只有較早期優勢。兩者都不開短線 Paper。下一步只接受真正未見、已授權的逐股 point-in-time 成分、退市／收購及公司行動賬本，另立協議後由全現金開始。實金及 Paper 動作均為 US$0。</p>
-              <div className="protocol-link"><span>最新證據完整保留 · 11/38 負結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_PROTOCOL.md" target="_blank" rel="noreferrer">repair 協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_MAPPING.md" target="_blank" rel="noreferrer">repair 映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_prior_return_schema_repair_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
+              <p className="aggressive-final-decision"><b>目前決策：</b>短窗贏家在 size 隔離、早期、近期、成本、滾動窗口及統計上仍未通過，QQQ 亦明顯較好。不開短線 Paper。下一步只接受已授權逐股 point-in-time 成分、退市／收購、公司行動、流動性及精確成本，另立協議後由全現金開始。實金及 Paper 動作均為 US$0。</p>
+              <div className="protocol-link"><span>最新證據完整保留 · 14/44 負結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_prior_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
             </div>
           </section>
         </div>

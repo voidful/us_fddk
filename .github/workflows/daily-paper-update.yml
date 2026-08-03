@@ -42,11 +42,16 @@ jobs:
       - name: Verify research code
         run: |
           python scripts/build_short_term_french_prior_return_schema_repair_report.py
+          python scripts/build_short_term_french_size_prior_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
-            site/data/short-term-french-prior-return-schema-repair.json
+            site/data/short-term-french-prior-return-schema-repair.json \
+            artifacts/short_term_french_size_prior_validation.json \
+            site/data/short-term-french-size-prior.json \
+            docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md
           ruff check usfddk tests
           pytest tests/test_french_prior_return_research.py
+          pytest tests/test_french_size_prior.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit
       - uses: actions/setup-node@v7

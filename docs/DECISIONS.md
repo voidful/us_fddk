@@ -1,5 +1,32 @@
 # 決策與負結果
 
+## 2026-08-04：大型股 Size × Prior 首次驗證只過 14/44
+
+- 在任何新 ZIP、schema 或數值列前，固定唯一候選為 French value-weighted
+  `Big Hi PRIOR 1–1`；25 cells、Big row 等權、全池等權、Big Lo、未分 size
+  的短窗贏家、12–2 長窗贏家、QQQ／SPY、10／25／50 bps、固定分段及 44 道
+  門檻全部預先提交。全域搜尋次數由 6,150 增至 6,175。
+- 官方 `25_Portfolios_ME_Prior_1_0_CSV.zip` 只下載一次；兩個月表各 1,204 月、
+  25 欄、零缺值，正式 1963-01–2026-05 共 761 月完整。URL、member、SHA-256、
+  欄序、日期、既有因素及 QQQ／SPY 快照合計 10/10 通過。
+- 1963–2005 候選 CAGR 4.61%，低於市場 10.82%、大型股同 size 等權 8.01%、
+  全 25 cells 等權 10.12%、Big Lo 9.36%及 12–2 贏家 16.45%；最大跌幅
+  −68.70%，17 道只過 PBO。兩個固定分段分別落後市場 5.87／6.59 個百分點，
+  60 月窗勝市場只有 7.22%。
+- 2006–2026 候選 CAGR 9.71%，仍低於市場 11.38%、SPY 11.26%及 QQQ
+  16.18%；只勝全 25 cells 等權與 Big Lo，並通過跌幅限制，合計 3/17。
+  近期 50 bps 後 CAGR −0.36%，對市場／大型股等權成本 break-even 只有
+  3.71／15.32 bps；60 月窗勝市場 16.13%，NW t −0.66，DSR 0.0005%，PBO
+  23.81%。
+- Size 拆解沒有支持事後換組：1963–2005 五個 size 的 Hi−Lo CAGR 全為負；
+  2006 後才在部分 size 轉正，Big Hi−Lo +6.23 個百分點主要反映 Big Lo 很弱，
+  候選本身仍落後市場及 QQQ。五因子 alpha −1.57%，ST_Rev beta −0.59。
+- 決定：數據 10/10、主要 1/17、近期 3/17，總計 **14/44，失敗**。
+  `independent_first_seen_evidence=true` 只代表凍結順序有效，不代表可交易；French
+  cells 不是證券，也沒有逐股 point-in-time／退市、公司行動、流動性及精確成本。
+  `paper_eligible=false`、`trade_ready=false`、實金動作 US$0。完整證據見
+  `docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md`。
+
 ## 2026-08-04：短窗贏家 schema repair 可計算，但經濟診斷只過 11/38
 
 - 2026-08-03 的 French prior-return 首次下載已按凍結契約在 6/8 停止；兩個
