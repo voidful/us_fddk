@@ -56,8 +56,12 @@ def test_site_payload_preserves_timestamp_only_when_content_is_idempotent(
 
 
 def test_daily_v25_export_preserves_research_and_passes_live_audit(tmp_path) -> None:
-    template = ROOT / "site/data/trading-data.json"
-    before = json.loads(template.read_text(encoding="utf-8"))
+    source_template = ROOT / "site/data/trading-data.json"
+    before = json.loads(source_template.read_text(encoding="utf-8"))
+    # Simulate a site whose LIVE date has advanced beyond the frozen research snapshot.
+    before["data_through"] = "2026-08-03"
+    template = tmp_path / "advanced-template.json"
+    template.write_text(json.dumps(before), encoding="utf-8")
     destination = tmp_path / "site.json"
     candidate = load_paper_state(ROOT / "artifacts/paper_v25_state.json")
     spy = load_paper_state(ROOT / "artifacts/paper_v25_spy_state.json")
@@ -72,8 +76,14 @@ def test_daily_v25_export_preserves_research_and_passes_live_audit(tmp_path) -> 
     )
     after = json.loads(destination.read_text(encoding="utf-8"))
 
-    assert after["research_snapshot_data_through"] == before["data_through"]
-    assert after["research_snapshot_sha256"] == before["snapshot_sha256"]
+    expected_research_date = before.get(
+        "research_snapshot_data_through", before["data_through"]
+    )
+    expected_research_sha = before.get(
+        "research_snapshot_sha256", before["snapshot_sha256"]
+    )
+    assert after["research_snapshot_data_through"] == expected_research_date
+    assert after["research_snapshot_sha256"] == expected_research_sha
     assert after["research_pipeline"]["growth_gold_diversification"]["pooled"] == (
         before["research_pipeline"]["growth_gold_diversification"]["pooled"]
     )
