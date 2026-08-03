@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "research_round": 15,
+  "status": "frozen_before_execution_extension_bridge_implementation",
+  "frozen_at": "2026-08-03T22:21:13Z",
+  "git_head_at_freeze": "2b8834f6e89d8072aef8b49f1154131ba59659f6",
+  "protocol": {
+    "path": "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md",
+    "sha256": "49582d2e7fae7e25897b59adb5322b17424865f5f6b34040d8f6392446fe9883"
+  },
+  "round14_protocol": {
+    "path": "docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md",
+    "sha256": "db3b7e95c1a47d5284e1a699e19a0032bf86fb332089b267559add6b8bf5acff"
+  },
+  "round14_protocol_receipt": {
+    "path": "artifacts/short_term_ciz_execution_accounting_protocol_receipt.json",
+    "sha256": "8056e11ab1283d6d216a458504068691df9bcb90716f6fc61a80e265c3bc3c6b"
+  },
+  "round14_auditor_at_freeze": {
+    "path": "usfddk/ciz_execution_accounting.py",
+    "sha256": "d8dcc3f7727836f133f0f36365bdc6f8bb174fd1323b296c76d50b32e0371f40"
+  },
+  "round13_adapter_at_freeze": {
+    "path": "usfddk/crsp_ciz_adapter.py",
+    "sha256": "2ce8c8c6d760153d094c9511c9a1d2aa9a510328c729e289abdb523618d6cbab"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
+  },
+  "frozen_control_gate_count": 16,
+  "frozen_attack_count": 16,
+  "frozen_extension_output_file_count": 5,
+  "execution_extension_bridge_implemented_at_freeze": false,
+  "authorized_provider_sample_present_at_freeze": false,
+  "wrds_credentials_present_at_freeze": false,
+  "true_readiness_at_freeze": {
+    "passed": 1,
+    "total": 20
+  },
+  "formal_stock_backtests_at_freeze": 0,
+  "short_paper_authorized_at_freeze": false,
+  "real_money_action_usd": 0,
+  "strategy_rule_changed": false
+}
