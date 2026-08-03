@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "french_size_momentum_tilt_frozen_before_first_download_and_numeric_rows",
+  "frozen_at": "2026-08-04",
+  "git_parent_before_protocol_freeze": "fbd1a2ee9005bd6fc9b362b42f363d461dcabe6a",
+  "new_archive_download_started": false,
+  "new_archive_schema_seen": false,
+  "new_archive_numeric_rows_seen": false,
+  "strategy_calculation_started": false,
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_DATA_MAPPING.md",
+    "sha256": "31a2f05a425a7e5bfe997155a5b23a6550070da9b885e7cdd227a0db8b716442"
+  },
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_PROTOCOL.md",
+    "sha256": "f5609529ae89d52cde68774a25aec312634955acf3e7e89a374fe4f5450103cb"
+  },
+  "new_archive": {
+    "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/25_Portfolios_ME_Prior_12_2_CSV.zip",
+    "expected_member": "25_Portfolios_ME_Prior_12_2.csv",
+    "expected_first_month": "1927-01",
+    "expected_last_month": "2026-05",
+    "sha256": null
+  },
+  "frozen_candidate": {
+    "name": "All-25 linear momentum tilt",
+    "source_table": "value_weighted_monthly",
+    "size_row_weights": [0.2, 0.2, 0.2, 0.2, 0.2],
+    "prior_rank_weights_within_each_size": [
+      0.06666666666666667,
+      0.13333333333333333,
+      0.2,
+      0.26666666666666666,
+      0.3333333333333333
+    ],
+    "cell_weight_formula": "prior_rank / 75",
+    "primary_one_way_cost_bps": 10,
+    "stress_one_way_cost_bps": [25, 50],
+    "formal_start": "1963-01",
+    "primary_end": "2005-12",
+    "recent_start": "2006-01",
+    "global_search_trials": 6204,
+    "required_gate_count": 48
+  },
+  "decision_boundary": {
+    "aggregate_cells_are_tradeable_securities": false,
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
