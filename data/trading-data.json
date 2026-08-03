@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-03T00:05:56.403221Z",
+  "generated_at_utc": "2026-08-03T00:19:13.334730Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -8147,6 +8147,23 @@
           "remaining_sessions": 252,
           "filled_orders_including_initial_allocation": 0,
           "initial_allocations": 0,
+          "account_fill_counts": {
+            "candidate": {
+              "filled_orders": 0,
+              "initial_allocations": 0,
+              "completed_rebalances": 0
+            },
+            "SPY": {
+              "filled_orders": 0,
+              "initial_allocations": 0,
+              "completed_rebalances": 0
+            },
+            "matched_80_VUG_20_SHY": {
+              "filled_orders": 0,
+              "initial_allocations": 0,
+              "completed_rebalances": 0
+            }
+          },
           "filled_rebalances": 0,
           "minimum_filled_rebalances": 6,
           "remaining_filled_rebalances": 6,
@@ -8200,9 +8217,13 @@
             "all_accounts_same_snapshot": true,
             "all_accounts_same_cost_and_cash": true,
             "all_accounts_same_session_path": true,
+            "all_accounts_same_execution_clock": true,
+            "all_accounts_same_order_path": true,
+            "all_accounts_same_fill_counts": true,
             "at_least_252_new_sessions": false,
             "at_least_6_filled_rebalances": false,
             "zero_integrity_violations": true,
+            "all_accounts_exactly_one_initial_allocation": false,
             "candidate_return_above_SPY": false,
             "candidate_return_above_matched": false,
             "candidate_drawdown_not_worse_than_SPY": false,

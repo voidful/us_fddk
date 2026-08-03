@@ -793,6 +793,20 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.equal(v25.paper.forward_evidence.filled_orders_including_initial_allocation, 0);
   assert.equal(v25.paper.forward_evidence.initial_allocations, 0);
   assert.equal(v25.paper.forward_evidence.filled_rebalances, 0);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_execution_clock, true);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_order_path, true);
+  assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_fill_counts, true);
+  assert.equal(
+    v25.paper.forward_evidence.gates.all_accounts_exactly_one_initial_allocation,
+    false,
+  );
+  for (const counts of Object.values(v25.paper.forward_evidence.account_fill_counts)) {
+    assert.deepEqual(counts, {
+      filled_orders: 0,
+      initial_allocations: 0,
+      completed_rebalances: 0,
+    });
+  }
   assert.equal(v25.paper.forward_evidence.live_confirmed, false);
   assert.equal(
     v25.paper.forward_evidence.gates.candidate_annualized_edge_at_least_10bp_vs_SPY,

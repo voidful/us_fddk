@@ -154,6 +154,9 @@ export default function Home() {
     "all_accounts_same_snapshot",
     "all_accounts_same_cost_and_cash",
     "all_accounts_same_session_path",
+    "all_accounts_same_execution_clock",
+    "all_accounts_same_order_path",
+    "all_accounts_same_fill_counts",
     "zero_integrity_violations",
   ].every((gate) => growthGoldForward.gates[gate as keyof typeof growthGoldForward.gates] === true);
   return (
