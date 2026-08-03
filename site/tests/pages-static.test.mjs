@@ -16,6 +16,16 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /US\$200/);
   assert.match(html, /目前市場與策略狀況/);
   assert.match(html, /三家實際 ETF 產品路徑/);
+  assert.match(html, /更多 baseline，不迴避輸贏/);
+  assert.match(html, /九組同口徑配置矩陣/);
+  assert.match(html, /12 隻現時大型股的完整 20 年比較/);
+  assert.match(html, /倖存者偏差診斷/);
+  assert.match(html, /超額 Sharpe/);
+  assert.match(html, /60% SPY／40% IEF/);
+  assert.match(html, /80% VUG／20% GLD 漂移/);
+  assert.match(html, /VUG／GLD 相關性/);
+  assert.match(html, /NVDA/);
+  assert.match(html, /AMD/);
   assert.match(html, /181 個滾動五年窗/);
   assert.match(html, /對 SPY 未確認/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);

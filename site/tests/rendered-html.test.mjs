@@ -13,6 +13,24 @@ async function render() {
   );
 }
 
+test("latest report exposes expanded baselines and stock diagnostics", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /更多 baseline，不迴避輸贏/);
+  assert.match(html, /九組同口徑配置矩陣/);
+  assert.match(html, /12 隻現時大型股的完整 20 年比較/);
+  assert.match(html, /倖存者偏差診斷/);
+  assert.match(html, /60% SPY／40% IEF/);
+  assert.match(html, /80% SPY／20% GLD/);
+  assert.match(html, /80% VUG／20% GLD 漂移/);
+  assert.match(html, /VUG／GLD 相關性/);
+  assert.match(html, /NVDA/);
+  assert.match(html, /AMD/);
+  assert.match(html, /Paper-only/);
+  assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
+});
+
 test.skip("legacy public report assertions are retained as an archive", async () => {
   const response = await render();
   assert.equal(response.status, 200);
@@ -940,7 +958,7 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.match(css, /\.brand \{ min-height: 48px;/);
   assert.match(css, /\.primary-button, \.secondary-button \{[^}]*min-height: 48px;/);
   assert.match(css, /\.quick-values button \{ min-height: 44px;/);
-  assert.match(css, /\.market-status-list, \.test-matrix, \.robust-grid, \.tradeoff-grid, \.forward-score-grid,[^}]*grid-template-columns: 1fr;/);
+  assert.match(css, /\.market-status-list, \.context-grid, \.baseline-findings, \.test-matrix, \.robust-grid, \.tradeoff-grid, \.forward-score-grid,[^}]*grid-template-columns: 1fr;/);
   assert.match(css, /\.forward-decision-grid \{ grid-template-columns: 1fr;/);
   assert.match(css, /\.forward-decision-grid article:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1;/);
   assert.match(css, /\.faq-list details p \{[^}]*margin: 0 0 24px;/);

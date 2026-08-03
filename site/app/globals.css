@@ -145,6 +145,32 @@ button, input { font: inherit; }
 .tradeoff-grid strong { display: block; margin: 6px 0 7px; color: var(--green); font-family: Georgia, serif; font-size: 1.55rem; font-weight: 560; }
 .tradeoff-grid p { margin: 0; color: var(--muted); font-size: 0.75rem; }
 
+.comparison-section { background: rgba(255, 253, 250, 0.42); }
+.context-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.context-grid article { min-height: 164px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.context-grid span { display: block; color: var(--muted); font-size: 0.69rem; font-weight: 800; }
+.context-grid strong { display: block; margin: 9px 0 7px; color: var(--green); font-family: Georgia, serif; font-size: 2rem; font-weight: 560; line-height: 1; }
+.context-grid strong.negative-number { color: var(--red); font-size: 1.55rem; }
+.context-grid p { margin: 0; color: var(--muted); font-size: 0.72rem; }
+.baseline-heading { margin-top: 64px; }
+.expanded-table { min-width: 1080px; }
+.expanded-table th, .expanded-table td { padding-inline: 13px; }
+.baseline-findings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.baseline-findings article { padding: 20px; border-left: 3px solid var(--green); background: var(--surface); }
+.baseline-findings article:first-child { border-color: var(--red); }
+.baseline-findings article:last-child { border-color: var(--gold); }
+.baseline-findings span { color: var(--muted); font-size: 0.68rem; font-weight: 800; }
+.baseline-findings strong { display: block; margin: 7px 0 6px; font-family: Georgia, serif; font-size: 1.5rem; font-weight: 560; }
+.baseline-findings p { margin: 0; color: var(--muted); font-size: 0.73rem; }
+.stock-heading { margin-top: 68px; }
+.stock-table { min-width: 1050px; }
+.comparison-caveat { display: grid; grid-template-columns: 190px 1fr; gap: 22px; margin-top: 12px; padding: 19px 21px; border: 1px solid #d9c590; border-radius: 10px; background: var(--gold-soft); }
+.comparison-caveat b { color: #6c5015; font-size: 0.78rem; }
+.comparison-caveat p { margin: 0; color: #6d624a; font-size: 0.74rem; }
+.baseline-source-links { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 0.69rem; }
+.baseline-source-links span { margin-right: 3px; font-weight: 800; }
+.baseline-source-links a { padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--green-2); background: var(--surface); font-weight: 850; }
+
 .test-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .test-card { padding: 22px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
 .test-card > div { display: flex; justify-content: space-between; gap: 12px; }
@@ -280,6 +306,7 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
   .truth-grid article:nth-child(4) { border-top: 1px solid var(--line); }
   .truth-grid article:nth-child(5) { border-top: 1px solid var(--line); }
   .market-grid, .risk-panel { grid-template-columns: 1fr; }
+  .context-grid { grid-template-columns: repeat(2, 1fr); }
   .test-matrix { grid-template-columns: repeat(2, 1fr); }
   .note-grid { grid-template-columns: repeat(2, 1fr); }
   .risk-panel dl { padding-top: 6px; }
@@ -306,9 +333,11 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
   .section { padding-block: 61px; }
   .section-heading, .subsection-heading, .paper-lab-heading { display: block; }
   .section-heading > p, .subsection-heading > p, .paper-lab-heading > p { margin-top: 13px; }
-  .market-status-list, .test-matrix, .robust-grid, .tradeoff-grid, .forward-score-grid, .forward-progress-grid, .forward-log-grid, .calculator-shell, .note-grid { grid-template-columns: 1fr; }
+  .market-status-list, .context-grid, .baseline-findings, .test-matrix, .robust-grid, .tradeoff-grid, .forward-score-grid, .forward-progress-grid, .forward-log-grid, .calculator-shell, .note-grid { grid-template-columns: 1fr; }
   .market-verdict { min-height: 390px; padding: 25px; }
   .metric-table-wrap { margin-inline: -12px; border-radius: 0; }
+  .context-grid article { min-height: auto; }
+  .comparison-caveat { grid-template-columns: 1fr; gap: 7px; }
   .risk-panel { padding: 23px; }
   .risk-panel dl { grid-template-columns: 1fr 1fr; gap: 15px 0; }
   .risk-panel dl div { min-height: 44px; }

@@ -7,13 +7,15 @@ import data from "../data/trading-data.json";
 export const metadata: Metadata = {
   title: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
   description:
-    "最新 v25 80% VUG／20% GLD 的 20 年回測、三產品路徑、成本與分段測試、統計診斷、市場狀況及 Paper Trading 進度。",
+    "最新 v25 80% VUG／20% GLD 的 20 年回測、九組 baseline、12 隻大型股、風險與市場指標、統計診斷及 Paper Trading 進度。",
 };
 
 const readerCapital = 1_000;
 const latest = data.research_pipeline.growth_gold_diversification;
 const pooled = latest.pooled;
 const diagnostics = pooled.post_entry_diagnostics_not_used_for_frozen_gate;
+const expanded = latest.expanded_comparison_not_used_for_frozen_gate;
+const marketContext = expanded.market_context;
 const paper = latest.paper;
 const forward = paper.forward_evidence;
 
@@ -33,6 +35,8 @@ const money = (value: number) =>
 
 const pp = (value: number, digits = 2) =>
   `${value >= 0 ? "+" : ""}${(value * 100).toFixed(digits)} 個百分點`;
+
+const multiple = (value: number, digits = 2) => value.toFixed(digits);
 
 const shortDate = (value: string) => value.replaceAll("-", "/");
 
@@ -57,6 +61,17 @@ const productPaths = Object.entries(latest.paths).map(([key, value]) => ({
 }));
 
 const bootstrap = diagnostics.paired_moving_block_bootstrap.benchmarks;
+const expandedBaselines = expanded.formal_baselines;
+const stockComparisons = expanded.individual_stock_diagnostics.stocks;
+const baselineByKey = Object.fromEntries(expandedBaselines.map((row) => [row.key, row]));
+const sectorLabels: Record<string, string> = {
+  "Information Technology": "資訊科技",
+  "Consumer Discretionary": "非必需消費",
+  Communication: "通訊服務",
+  Financials: "金融",
+  "Health Care": "醫療保健",
+  Energy: "能源",
+};
 const identityGateNames = [
   "all_accounts_live_and_same_start",
   "all_accounts_same_as_of",
@@ -83,6 +98,7 @@ export default function Home() {
           <nav aria-label="報告導覽">
             <a href="#market">市場狀況</a>
             <a href="#backtest">20 年回測</a>
+            <a href="#comparisons">比較矩陣</a>
             <a href="#tests">穩健測試</a>
             <a href="#paper">Paper</a>
           </nav>
@@ -217,6 +233,111 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section className="section comparison-section" id="comparisons">
+          <div className="wrap">
+            <div className="section-heading">
+              <div><span>EXPANDED COMPARISON LAB</span><h2>更多 baseline，不迴避輸贏</h2></div>
+              <p>同一 20 年、同一經調整價格及 10 bps 成本。這一層只作通過後診斷，不更改凍結策略或 Paper 門檻。</p>
+            </div>
+
+            <div className="context-grid" aria-label="研究快照市場狀況指標">
+              <article>
+                <span>大型股市場廣度</span>
+                <strong>{pct(marketContext.current_watchlist_above_200d_fraction, 1)}</strong>
+                <p>{marketContext.current_watchlist_count} 隻現時大型股高於 200 天平均線；高於 50 天為 {pct(marketContext.current_watchlist_above_50d_fraction, 1)}。</p>
+              </article>
+              <article>
+                <span>SPY 12 個月</span>
+                <strong>{pct(marketContext.spy_return_12m, 1)}</strong>
+                <p>高於 200 天平均線 {pct(marketContext.spy_distance_from_200d_average, 1)}；只描述 {marketContext.as_of} 快照。</p>
+              </article>
+              <article>
+                <span>21 天實現波幅</span>
+                <strong>{pct(marketContext.spy_realized_volatility_21d, 1)}</strong>
+                <p>位於近五年 {pct(marketContext.spy_realized_volatility_21d_five_year_percentile, 0)} 分位，並非波幅預測。</p>
+              </article>
+              <article>
+                <span>VIX 收市</span>
+                <strong>{marketContext.vix_close.toFixed(2)}</strong>
+                <p>近五年 {pct(marketContext.vix_five_year_percentile, 0)} 分位；不參與 80/20 買賣規則。</p>
+              </article>
+              <article>
+                <span>成長股相對 SPY</span>
+                <strong className={marketContext.vug_relative_return_vs_spy_12m < 0 ? "negative-number" : ""}>{pp(marketContext.vug_relative_return_vs_spy_12m)}</strong>
+                <p>12 個月 VUG {pct(marketContext.vug_return_12m, 1)}，SPY {pct(marketContext.spy_return_12m, 1)}。</p>
+              </article>
+              <article>
+                <span>VUG／GLD 相關性</span>
+                <strong>{marketContext.vug_gold_correlation_252d.toFixed(2)}</strong>
+                <p>252 日相關性；近 63 日升至 {marketContext.vug_gold_correlation_63d.toFixed(2)}，短期分散效用有所減弱。</p>
+              </article>
+            </div>
+
+            <div className="subsection-heading baseline-heading">
+              <div><span>FORMAL BASELINES</span><h3>九組同口徑配置矩陣</h3></div>
+              <p>超額 Sharpe 以 SHY 月回報作現金代理；「策略五年窗勝率」是最新策略在 181 個滾動窗口勝過該列的比例。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table expanded-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>Sortino</th><th>最大跌幅</th><th>Beta</th><th>策略五年窗勝率</th><th>NW t</th></tr></thead>
+                <tbody>
+                  {expandedBaselines.map((row) => (
+                    <tr className={row.key === "candidate" ? "featured-row" : ""} key={row.key}>
+                      <th><b>{row.label}</b><span>{row.detail}</span></th>
+                      <td>{pct(row.metrics.cagr, 2)}</td>
+                      <td>{multiple(row.excess_sharpe_vs_shy)}</td>
+                      <td>{multiple(row.metrics.sortino)}</td>
+                      <td>{pct(row.metrics.max_drawdown, 1)}</td>
+                      <td>{multiple(row.beta_to_spy)}</td>
+                      <td>{row.candidate_rolling_five_year_win_fraction === null ? "—" : pct(row.candidate_rolling_five_year_win_fraction, 1)}</td>
+                      <td>{row.candidate_active_newey_west_t === null ? "—" : row.candidate_active_newey_west_t.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="baseline-findings">
+              <article><span>最難增長 baseline</span><strong>{pp(baselineByKey.candidate.metrics.cagr - baselineByKey.QQQ.metrics.cagr)}</strong><p>最新策略的 CAGR 低於 QQQ，五年窗只有 {pct(baselineByKey.QQQ.candidate_rolling_five_year_win_fraction, 1)} 勝出。</p></article>
+              <article><span>同黃金比重控制</span><strong>{pp(baselineByKey["80_SPY_20_GLD"].candidate_cagr_difference)}</strong><p>成長股選擇相對 80% SPY／20% GLD 的 NW t 只有 {baselineByKey["80_SPY_20_GLD"].candidate_active_newey_west_t.toFixed(2)}。</p></article>
+              <article><span>重新平衡測試</span><strong>{pp(baselineByKey["80_VUG_20_GLD_DRIFT"].candidate_cagr_difference)}</strong><p>每月重新平衡 CAGR 略高，但最大跌幅反而深 {pp(Math.abs(baselineByKey.candidate.metrics.max_drawdown - baselineByKey["80_VUG_20_GLD_DRIFT"].metrics.max_drawdown))}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>INDIVIDUAL STOCK DIAGNOSTICS</span><h3>12 隻現時大型股的完整 20 年比較</h3></div>
+              <p>按現時觀察名單權重選取且要求 240 個月完整歷史。這是倖存者偏差診斷，不是 2006 年可知的選股結果。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table stock-table">
+                <thead><tr><th>個股</th><th>行業</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Beta</th><th>策略五年窗勝率</th></tr></thead>
+                <tbody>
+                  {stockComparisons.map((row) => (
+                    <tr key={row.symbol}>
+                      <th><b>{row.symbol}</b><span>{row.name}</span></th>
+                      <td>{sectorLabels[row.sector] ?? row.sector}</td>
+                      <td>{pct(row.metrics.cagr, 2)}</td>
+                      <td>{multiple(row.excess_sharpe_vs_shy)}</td>
+                      <td>{pct(row.metrics.volatility, 1)}</td>
+                      <td>{pct(row.metrics.max_drawdown, 1)}</td>
+                      <td>{multiple(row.beta_to_spy)}</td>
+                      <td>{pct(row.candidate_rolling_five_year_win_fraction, 1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat">
+              <b>怎樣閱讀個股表：</b>
+              <p>高 CAGR 不代表較適合作為策略 baseline。例如 NVDA 的完整期回報很高，但最大跌幅達 {pct(stockComparisons.find((row) => row.symbol === "NVDA")!.metrics.max_drawdown, 1)}；AMD 更曾達 {pct(stockComparisons.find((row) => row.symbol === "AMD")!.metrics.max_drawdown, 1)}。未有 point-in-time 基本面歷史前，報告不會把今日估值或盈利預測倒灌進 20 年回測。</p>
+            </div>
+            <div className="baseline-source-links" aria-label="ETF 官方產品定義">
+              <span>官方產品定義</span>
+              {Object.entries(expanded.official_product_sources).map(([ticker, href]) => (
+                <a href={href} target="_blank" rel="noreferrer" key={ticker}>{ticker}</a>
+              ))}
+            </div>
           </div>
         </section>
 

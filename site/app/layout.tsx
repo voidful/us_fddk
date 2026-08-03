@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
     template: "%s｜US FDDK",
   },
-  description: "最新 v25 80% VUG／20% GLD 的 20 年回測、三產品路徑、成本與統計測試、市場狀況及 Paper Trading 進度。",
+  description: "最新 v25 80% VUG／20% GLD 的 20 年回測、九組 baseline、12 隻大型股、風險與市場指標、統計診斷及 Paper Trading 進度。",
   openGraph: {
     title: "美股成長＋黃金策略｜20 年完整研究報告",
-    description: "最新策略的回測、產品敏感度、成本壓力、滾動窗口、統計診斷與前瞻 Paper 狀態，一頁完整呈列。",
+    description: "最新策略的九組 baseline、12 隻大型股、產品敏感度、成本壓力、統計診斷與前瞻 Paper 狀態，一頁完整呈列。",
     locale: "zh_HK",
     type: "website",
     images: [{ url: `${publicSiteRoot}/og.png`, width: 1730, height: 909, alt: "US FDDK 美股成長加黃金最新研究報告" }],

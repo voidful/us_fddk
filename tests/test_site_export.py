@@ -77,6 +77,11 @@ def test_daily_v25_export_preserves_research_and_passes_live_audit(tmp_path) -> 
     assert after["research_pipeline"]["growth_gold_diversification"]["pooled"] == (
         before["research_pipeline"]["growth_gold_diversification"]["pooled"]
     )
+    assert after["research_pipeline"]["growth_gold_diversification"][
+        "expanded_comparison_not_used_for_frozen_gate"
+    ] == before["research_pipeline"]["growth_gold_diversification"][
+        "expanded_comparison_not_used_for_frozen_gate"
+    ]
     assert after["data_through"] == candidate["as_of"]
     assert after["live_snapshot_sha256"] == candidate["snapshot_sha256"]
 

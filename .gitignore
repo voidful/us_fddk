@@ -17,6 +17,7 @@ artifacts/*
 !artifacts/v25_forward_paper_evidence.json
 !artifacts/v25_forward_promotion_contract.json
 !artifacts/v25_growth_gold_diversification_validation.json
+!artifacts/v25_expanded_comparison.json
 !artifacts/v25_live_evidence_ledger.jsonl
 !artifacts/v25_live_refresh_status.json
 !artifacts/v25_live_update_status.json
