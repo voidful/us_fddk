@@ -1,5 +1,33 @@
 # 決策與負結果
 
+## 2026-08-04：全池 Size × Momentum 傾斜只過 23/48
+
+- 參考 `tst_wocker_filter_lab`「Top 7 路徑噪音可能高於全池傾斜」的未解問題，
+  在任何新 ZIP 或數值列前固定唯一候選：French value-weighted 25 Size × Prior
+  12–2 cells，五個 size 各佔 20%，每個 size 內按 prior 五分位使用 1:2:3:4:5
+  權重。等權、平方、Top 2、Top 1、短窗 Prior 1–1、French 市場、QQQ／SPY、
+  10／25／50 bps、固定分段、30 路 PBO 及 48 道門檻同時凍結；全域搜尋懲罰
+  增至 6,204 次。
+- 官方 `25_Portfolios_ME_Prior_12_2_CSV.zip` 首次下載只進行一次；兩個月表各
+  1,193 月、25 欄，正式 1963-01–2026-05 共 761 月零缺值。URL、member、
+  SHA-256、欄序、固定權重、日期、形成時序及重用快照合計 10/10 通過。
+- 1963–2005 候選 CAGR 12.36%，高於市場 10.82%、全池等權 10.01%及短窗傾斜
+  8.43%；但低於 Top 2 的 14.80%及 Top 1 的 16.82%，只保留 Top 1 CAGR 的
+  73.5%，Sharpe 及最大跌幅亦未勝集中組合。主要期通過 9/19。
+- 2006–2026 候選 CAGR 8.31%，只略高於全池等權 7.66%及短窗傾斜 7.34%，
+  低於市場 11.38%、SPY 11.26%及 QQQ 16.18%。兩個固定分段都落後市場；60 月窗
+  勝市場 11.29%，NW t −1.71，DSR 接近零，PBO 23.81%。50 bps 成本後 CAGR
+  −1.63%，US$1,000 只餘約 US$715。近期通過 4/19。
+- 集中度前沿是關鍵反證：主要期由等權 10.01%至 Top 1 16.82%單調上升；近期
+  線性／平方／Top 2 只在 8.31%–8.50%，Top 1 反降至 8.18%。Prior 五分位近期
+  亦由第三分位開始轉平，不能把早期集中紅利推論為現代高回報策略。全歷史五因子
+  alpha −1.87%、市場 beta 1.01、SMB beta 0.51、R² 98.29%，大部分風險不是
+  獨立 alpha。
+- 決定：數據 10/10、主要 9/19、近期 4/19，總計 **23/48，失敗**。French cells
+  不是證券，沒有逐股 point-in-time／退市、公司行動、流動性及精確買賣差價；
+  `paper_eligible=false`、`trade_ready=false`、實金動作 US$0。完整證據見
+  `docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md`。
+
 ## 2026-08-04：大型股 Size × Prior 首次驗證只過 14/44
 
 - 在任何新 ZIP、schema 或數值列前，固定唯一候選為 French value-weighted

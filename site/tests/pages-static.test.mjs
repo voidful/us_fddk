@@ -31,7 +31,13 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
-  assert.match(html, /短窗贏家壓力測試/);
+  assert.match(html, /全池動量傾斜壓力測試/);
+  assert.match(html, /全池動量傾斜：數據 10\/10，經濟只過 23\/48/);
+  assert.match(html, /排名傾斜早期有效；近期仍輸市場、SPY 及 QQQ/);
+  assert.match(html, /早期集中度有回報，近期則幾乎攤平/);
+  assert.match(html, /12\.36%/);
+  assert.match(html, /8\.31%/);
+  assert.match(html, /-1\.63%/);
   assert.match(html, /大型股短窗贏家：數據 10\/10，經濟只過 14\/44/);
   assert.match(html, /大型股隔離後仍跑輸市場；近期更大幅落後 QQQ/);
   assert.match(html, /first-seen 14\/44、schema-informed 11\/38/);
@@ -46,7 +52,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /9\.71%/);
   assert.match(html, /-0\.36%/);
   assert.match(html, /市場 .*3\.71.* · 大型股等權 .*15\.32.* bps/);
-  assert.match(html, /最新大型股短窗贏家驗證只過/);
+  assert.match(html, /最新全池動量傾斜驗證只過/);
   assert.match(html, /現時完整股池漂移/);
   assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
   assert.match(html, /拆走止賺止蝕後，20 日排序有正差/);
@@ -68,7 +74,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /對 SPY 未確認/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.doesNotMatch(html, /property="og:image"/);
+  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 
   const script = html.match(/(?:src|href)="\/us_fddk\/(assets\/[^"]+\.js)"/);

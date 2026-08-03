@@ -31,14 +31,19 @@ jobs:
           python -m pip install -e '.[dev]'
           python scripts/build_short_term_french_prior_return_schema_repair_report.py
           python scripts/build_short_term_french_size_prior_report.py
+          python scripts/build_short_term_french_size_momentum_tilt_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
             artifacts/short_term_french_size_prior_validation.json \
             site/data/short-term-french-size-prior.json \
-            docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md
+            docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md \
+            artifacts/short_term_french_size_momentum_tilt_validation.json \
+            site/data/short-term-french-size-momentum-tilt.json \
+            docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md
           pytest tests/test_french_prior_return_research.py
           pytest tests/test_french_size_prior.py
+          pytest tests/test_french_size_momentum_tilt.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"

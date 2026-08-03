@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import sizeMomentumTiltResearch from "../data/short-term-french-size-momentum-tilt.json";
 import sizePriorResearch from "../data/short-term-french-size-prior.json";
 
 export const metadata: Metadata = {
@@ -205,6 +206,35 @@ const sizePriorRecentRows = [
   { label: "全 25 cells 等權", detail: "五個 size × 五個 prior", metrics: sizePriorRecent.baseline_metrics.all_25_equal },
   { label: "Big Lo PRIOR", detail: "大型股短窗輸家 · 反方向控制", metrics: sizePriorRecent.baseline_metrics.big_lo_prior },
   { label: "Hi PRIOR 12–2", detail: "長窗動量控制", metrics: sizePriorRecent.baseline_metrics.long_momentum_hi_12_2 },
+];
+const sizeMomentumPrimary = sizeMomentumTiltResearch.primary_external_period;
+const sizeMomentumRecent = sizeMomentumTiltResearch.recent_confirmation_period;
+const sizeMomentumRecentMarket = sizeMomentumRecent.comparisons.market;
+const sizeMomentumRecentEqual = sizeMomentumRecent.comparisons.all_25_equal;
+const sizeMomentumPrimaryRows = [
+  { label: "全池線性動量傾斜", detail: "五個 size 各 20% · prior 權重 1:2:3:4:5 · 10 bps", metrics: sizeMomentumPrimary.candidate_metrics, featured: true },
+  { label: "French 美國市場", detail: "Mkt-RF + RF · 買入持有", metrics: sizeMomentumPrimary.baseline_metrics.market },
+  { label: "全 25 cells 等權", detail: "同一母體 · 每月回復等權", metrics: sizeMomentumPrimary.baseline_metrics.all_25_equal },
+  { label: "每個 size 的 Prior 4–5", detail: "較集中 Top 2 對照", metrics: sizeMomentumPrimary.baseline_metrics.top2 },
+  { label: "每個 size 的 Prior 5", detail: "最集中 Top 1 對照", metrics: sizeMomentumPrimary.baseline_metrics.top1 },
+  { label: "Prior 1–1 短窗線性傾斜", detail: "同一權重規則的負控制", metrics: sizeMomentumPrimary.baseline_metrics.short_window_linear_tilt },
+];
+const sizeMomentumRecentRows = [
+  { label: "全池線性動量傾斜", detail: "五個 size 各 20% · prior 權重 1:2:3:4:5 · 10 bps", metrics: sizeMomentumRecent.candidate_metrics, featured: true },
+  { label: "QQQ", detail: "實際產品機會成本 · 買入持有", metrics: sizeMomentumRecent.baseline_metrics.QQQ },
+  { label: "SPY", detail: "實際廣泛市場 ETF · 買入持有", metrics: sizeMomentumRecent.baseline_metrics.SPY },
+  { label: "French 美國市場", detail: "Mkt-RF + RF · 買入持有", metrics: sizeMomentumRecent.baseline_metrics.market },
+  { label: "全 25 cells 等權", detail: "同一母體 · 每月回復等權", metrics: sizeMomentumRecent.baseline_metrics.all_25_equal },
+  { label: "每個 size 的 Prior 4–5", detail: "較集中 Top 2 對照", metrics: sizeMomentumRecent.baseline_metrics.top2 },
+  { label: "每個 size 的 Prior 5", detail: "最集中 Top 1 對照", metrics: sizeMomentumRecent.baseline_metrics.top1 },
+  { label: "Prior 1–1 短窗線性傾斜", detail: "同一權重規則的負控制", metrics: sizeMomentumRecent.baseline_metrics.short_window_linear_tilt },
+];
+const sizeMomentumFrontierRows = [
+  { label: "等權", result: sizeMomentumTiltResearch.concentration_frontier.equal },
+  { label: "線性 1:2:3:4:5", result: sizeMomentumTiltResearch.concentration_frontier.linear },
+  { label: "平方 1:4:9:16:25", result: sizeMomentumTiltResearch.concentration_frontier.squared },
+  { label: "只持 Prior 4–5", result: sizeMomentumTiltResearch.concentration_frontier.top2 },
+  { label: "只持 Prior 5", result: sizeMomentumTiltResearch.concentration_frontier.top1 },
 ];
 
 export default function Home() {
@@ -553,19 +583,19 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · SIZE-CONDITIONED FIRST-SEEN VALIDATION</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FULL-POOL MOMENTUM TILT · ROUND 8</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />短窗贏家壓力測試</h1>
+              <h1>短線高回報<br />全池動量傾斜壓力測試</h1>
               <p className="hero-lead">
-                最新一輪在首次下載前凍結 `Big Hi PRIOR 1–1`，用 CRSP／Kenneth French 的 25 個 Size × Prior cells 檢查短窗贏家是否只是假象。
-                數據合約通過 <strong>{sizePriorResearch.gate_breakdown.data}</strong>，但整體只有 <strong>{sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count}</strong>：
-                1963–2005 年率化回報 {pct(sizePriorPrimary.candidate_metrics.cagr, 2)}，2006–2026 為 {pct(sizePriorRecent.candidate_metrics.cagr, 2)}，近期更遠低於 QQQ 的 {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}。
+                最新一輪把台股 filter lab 的「全池分散、按排名傾斜」問題轉成首次未見的 French 25 Size × Prior 12–2 驗證：五個 size 各佔 20%，池內按 prior 排名 1:2:3:4:5 配重。
+                數據合約通過 <strong>{sizeMomentumTiltResearch.gate_breakdown.data}</strong>，但整體只有 <strong>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong>：
+                1963–2005 年率化回報 {pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}，2006–2026 降至 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}，遠低於 QQQ 的 {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}。
                 <strong>這是首次未見機制驗證，但學術 cells 仍不可落盤；Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#size-prior-diagnostic">查看最新 14/44 驗證</a>
-                <a className="secondary-button" href="#prior-return-diagnostic">查看上一輪 11/38</a>
+                <a className="primary-button aggressive-button" href="#size-momentum-tilt-diagnostic">查看最新 23/48 驗證</a>
+                <a className="secondary-button" href="#size-prior-diagnostic">查看上一輪 14/44</a>
                 <a className="secondary-button" href="#aggressive-evidence">查看 French 30 獨立結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
@@ -573,16 +603,16 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>短線策略摘要</span>
-                <b>{sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count} · 經濟驗證失敗</b>
+                <b>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count} · 經濟驗證失敗</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>{sizePriorResearch.gate_breakdown.primary} · {sizePriorResearch.gate_breakdown.recent}；Paper 保持關閉</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>{sizeMomentumTiltResearch.gate_breakdown.primary} · {sizeMomentumTiltResearch.gate_breakdown.recent}；Paper 保持關閉</small>
               </div>
               <dl className="decision-list">
-                <div><dt>主要期 CAGR</dt><dd>{pct(sizePriorPrimary.candidate_metrics.cagr, 2)}／市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
-                <div><dt>近期 CAGR</dt><dd>{pct(sizePriorRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
-                <div><dt>硬傷</dt><dd>近期 50 bps {pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}／PBO {pct(sizePriorResearch.pbo.recent.pbo, 1)}</dd></div>
+                <div><dt>主要期 CAGR</dt><dd>{pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}／市場 {pct(sizeMomentumPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
+                <div><dt>近期 CAGR</dt><dd>{pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
+                <div><dt>硬傷</dt><dd>近期 50 bps {pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}／PBO {pct(sizeMomentumTiltResearch.pbo.recent.pbo, 1)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
               <p>US$1,000 複利數字只解釋歷史尺度，不包括通脹、稅項及真實買賣差價，亦不是預測。</p>
@@ -591,12 +621,106 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>1963–2005 CAGR</span><strong>{pct(sizePriorPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}</small></article>
-              <article><span>2006–2026 CAGR</span><strong>{pct(sizePriorRecent.candidate_metrics.cagr, 2)}</strong><small>QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}</small></article>
-              <article><span>近期 50 bps CAGR</span><strong>{pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>完整換倉成本後轉負</small></article>
-              <article><span>近期勝市場 60 月窗</span><strong>{pct(sizePriorRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}</strong><small>合格線 60%</small></article>
-              <article><span>數據／經濟門檻</span><strong>{sizePriorResearch.gate_breakdown.data} · {sizePriorResearch.passed_gate_count}/{sizePriorResearch.required_gate_count}</strong><small>首次未見、仍判定失敗</small></article>
+              <article><span>1963–2005 CAGR</span><strong>{pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(sizeMomentumPrimary.baseline_metrics.market.cagr, 2)}</small></article>
+              <article><span>2006–2026 CAGR</span><strong>{pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}</strong><small>QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</small></article>
+              <article><span>近期 50 bps CAGR</span><strong>{pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>完整換倉成本後轉負</small></article>
+              <article><span>近期勝市場 60 月窗</span><strong>{pct(sizeMomentumRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}</strong><small>合格線 60%</small></article>
+              <article><span>數據／經濟門檻</span><strong>{sizeMomentumTiltResearch.gate_breakdown.data} · {sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong><small>首次未見、仍判定失敗</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="size-momentum-tilt-diagnostic">
+            <div className="section-heading">
+              <div><span>FIRST-SEEN FULL-POOL VALIDATION · ROUND 8</span><h2>全池動量傾斜：數據 10/10，經濟只過 23/48</h2></div>
+              <p>25 cells、1:2:3:4:5 權重、等權／集中度／短窗負控制、QQQ／SPY、10／25／50 bps、30 路 PBO 及 48 道門檻都在首次下載前凍結。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict">
+                <span>最新研究判斷</span>
+                <h3>排名傾斜早期有效；近期仍輸市場、SPY 及 QQQ</h3>
+                <p>主要期候選較市場高 {pp(sizeMomentumPrimary.candidate_metrics.cagr - sizeMomentumPrimary.baseline_metrics.market.cagr)}，較全池等權高 {pp(sizeMomentumPrimary.candidate_metrics.cagr - sizeMomentumPrimary.baseline_metrics.all_25_equal.cagr)}；近期只較等權高 {pp(sizeMomentumRecent.candidate_metrics.cagr - sizeMomentumRecent.baseline_metrics.all_25_equal.cagr)}，卻較市場低 {pp(sizeMomentumRecent.candidate_metrics.cagr - sizeMomentumRecent.baseline_metrics.market.cagr)}、較 QQQ 低 {pp(sizeMomentumRecent.candidate_metrics.cagr - sizeMomentumRecent.baseline_metrics.QQQ.cagr)}。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>門檻分解</span><strong>{sizeMomentumTiltResearch.gate_breakdown.data} · {sizeMomentumTiltResearch.gate_breakdown.primary} · {sizeMomentumTiltResearch.gate_breakdown.recent}</strong><p>近期只有四項通過；所有市場、成本、統計及 PBO 門檻均失敗。</p></article>
+                <article><span>資金界線</span><strong>首次未見 · US$0</strong><p>French cells 只驗證機制，不是可買證券；不輸出股票名單、不建立 Paper。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRIMARY EXTERNAL PERIOD · 1963–2005</span><h3>早期：分散傾斜勝市場與等權，仍輸集中組合</h3></div>
+              <p>候選固定保留全部 25 cells；Top 2／Top 1 只作集中度 baseline，不可在看到結果後取代候選。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{sizeMomentumPrimaryRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>分散與回報取捨：</b><p>線性傾斜只保留 Top 1 CAGR 的 {pct(sizeMomentumPrimary.candidate_metrics.cagr / sizeMomentumPrimary.baseline_metrics.top1.cagr, 1)}，未達 80% 門檻；但最大跌幅亦由 Top 1 的 {pct(sizeMomentumPrimary.baseline_metrics.top1.max_drawdown, 1)} 加深至 {pct(sizeMomentumPrimary.candidate_metrics.max_drawdown, 1)}，沒有換來更佳風險調整回報。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>RECENT CONFIRMATION · 2006–2026</span><h3>近期：只輕微勝等權，市場及 QQQ 機會成本更高</h3></div>
+              <p>所有路徑沿用相同凍結規則；QQQ／SPY 只在共同可用的近期產品史比較。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{sizeMomentumRecentRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.calmar)}</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>兩段都輸市場：</b><p>2006–2015 較市場 {pp(sizeMomentumRecent.fixed_splits["2006_to_2015"].edge_vs_market)}；2016–2026 更落後 {pp(sizeMomentumRecent.fixed_splits["2016_to_end"].edge_vs_market)}。近期 60 月窗口勝市場只有 {pct(sizeMomentumRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CONCENTRATION FRONTIER</span><h3>早期集中度有回報，近期則幾乎攤平</h3></div>
+              <p>逐級比較等權、線性、平方、Top 2及 Top 1；不只展示候選與最弱 baseline。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>集中度</th><th>主要期 CAGR</th><th>主要期 Sharpe</th><th>主要期最大跌幅</th><th>近期 CAGR</th><th>近期 Sharpe</th><th>近期最大跌幅</th></tr></thead>
+                <tbody>{sizeMomentumFrontierRows.map((row) => <tr key={row.label}><th><b>{row.label}</b><span>相同 25 cells 與 10 bps</span></th><td>{pct(row.result.primary.cagr, 2)}</td><td>{multiple(row.result.primary.excess_sharpe)}</td><td>{pct(row.result.primary.max_drawdown, 1)}</td><td>{pct(row.result.recent.cagr, 2)}</td><td>{multiple(row.result.recent.excess_sharpe)}</td><td>{pct(row.result.recent.max_drawdown, 1)}</td></tr>)}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRIOR-RANK MONOTONICITY</span><h3>排名訊號仍有殘餘，最高五分位已不再領先</h3></div>
+              <p>每個 prior 五分位跨五個 size 等權；主要期單調上升，近期由第三五分位開始轉平。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>Prior 12–2 五分位</th><th>主要期 CAGR</th><th>主要期最大跌幅</th><th>近期 CAGR</th><th>近期最大跌幅</th></tr></thead>
+                <tbody>{sizeMomentumTiltResearch.prior_rank_diagnostic.primary.map((row, index) => {
+                  const recent = sizeMomentumTiltResearch.prior_rank_diagnostic.recent[index];
+                  return <tr key={row.prior_rank}><th><b>Prior {row.prior_rank}</b><span>由輸家至贏家</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{pct(recent.metrics.cagr, 2)}</td><td>{pct(recent.metrics.max_drawdown, 1)}</td></tr>;
+                })}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, WINDOWS &amp; STATISTICS</span><h3>高換手成本與現代樣本推翻升格</h3></div>
+              <p>每月完整重組是保守共同口徑；真實逐股成本未知，所以不能把 10 bps 當保證。</p>
+            </div>
+            <div className="short-evidence-grid">
+              <article><span>全歷史成本</span><dl><div><dt>10 bps</dt><dd>{pct(sizeMomentumTiltResearch.frozen_candidate.cost_sensitivity_full_history["10_bps"].cagr, 2)}</dd></div><div><dt>25 bps</dt><dd>{pct(sizeMomentumTiltResearch.frozen_candidate.cost_sensitivity_full_history["25_bps"].cagr, 2)}</dd></div><div><dt>50 bps</dt><dd>{pct(sizeMomentumTiltResearch.frozen_candidate.cost_sensitivity_full_history["50_bps"].cagr, 2)}</dd></div></dl><p>近期 50 bps CAGR 更跌至 {pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}。</p></article>
+              <article><span>近期成本 break-even</span><strong>市場 {sizeMomentumRecent.cost_break_even_vs_baselines.market.one_way_bps.toFixed(2)} · 全池等權 {sizeMomentumRecent.cost_break_even_vs_baselines.all_25_equal.one_way_bps.toFixed(2)} bps</strong><p>對市場已是 0；對等權亦遠低於 50 bps 門檻。</p></article>
+              <article><span>近期 60 月勝率</span><strong>市場 {pct(sizeMomentumRecent.rolling_60m_vs_market.cagr_win_fraction, 1)} · 等權 {pct(sizeMomentumRecent.rolling_60m_vs_all_25_equal.cagr_win_fraction, 1)}</strong><p>能穩定勝較弱的等權，不能勝正式市場 baseline。</p></article>
+              <article><span>近期主動統計</span><strong>NW t {sizeMomentumRecentMarket.newey_west.t_stat.toFixed(2)}／{sizeMomentumRecentEqual.newey_west.t_stat.toFixed(2)}</strong><p>對市場／全池等權；PSR {pct(sizeMomentumRecentMarket.active_probabilistic_sharpe.probability, 2)}／{pct(sizeMomentumRecentEqual.active_probabilistic_sharpe.probability, 2)}。</p></article>
+              <article><span>DSR 與 PBO</span><strong>DSR {pct(sizeMomentumRecentMarket.active_global_deflated_sharpe.probability, 6)} · PBO {pct(sizeMomentumTiltResearch.pbo.recent.pbo, 1)}</strong><p>6,204 次搜尋校正後接近零；30 路近期 PBO 超過 20% 上限。</p></article>
+              <article><span>因子解釋</span><strong>Alpha {pct(sizeMomentumTiltResearch.factor_regression_full_history.annualized_alpha, 2)}</strong><p>市場 beta {multiple(sizeMomentumTiltResearch.factor_regression_full_history.market_beta)}、SMB beta {multiple(sizeMomentumTiltResearch.factor_regression_full_history.smb_beta)}、MOM beta {multiple(sizeMomentumTiltResearch.factor_regression_full_history.mom_beta)}、R² {pct(sizeMomentumTiltResearch.factor_regression_full_history.r_squared, 1)}。</p></article>
+            </div>
+
+            <div className="data-source-decision">
+              <div><span>DECISION BOUNDARY</span><b>排名機制有殘餘，不等於可交易高回報策略</b></div>
+              <p>數據 10/10，但經濟只有 13/38。近二十年落後市場、SPY及 QQQ；50 bps 後轉負；French cells 亦沒有逐股名單、退市／收購、公司行動、流動性及 bid-ask spread。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_momentum_tilt_validation.json" target="_blank" rel="noreferrer">完整 JSON</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_25_port_form_sz_pr_12_2.html" target="_blank" rel="noreferrer">官方方法</a></div>
             </div>
           </section>
 
@@ -677,7 +801,7 @@ export default function Home() {
 
             <div className="data-source-decision">
               <div><span>DECISION BOUNDARY</span><b>首次數據 10/10，但經濟只有 14/44</b></div>
-              <p>這輪比現時成份股倒推更可靠，仍只到機制層。沒有逐股 point-in-time 成分、退市／收購回報、公司行動、流動性及精確成交成本，所以不建立短線 Paper，不輸出股票名單。</p>
+              <p>這輪比現時成份股倒推更可靠，仍只到機制層；近期 50 bps 後 CAGR 為 {pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}。沒有逐股 point-in-time 成分、退市／收購回報、公司行動、流動性及精確成交成本，所以不建立短線 Paper，不輸出股票名單。</p>
               <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_prior_validation.json" target="_blank" rel="noreferrer">完整 JSON</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_25_port_form_sz_pr_1_0.html" target="_blank" rel="noreferrer">官方方法</a></div>
             </div>
           </section>
@@ -1014,31 +1138,31 @@ export default function Home() {
           <section className="section aggressive-method" id="aggressive-gates">
             <div className="wrap">
               <div className="section-heading">
-                <div><span>GATE-BY-GATE DECISION</span><h2>最新大型股短窗贏家驗證只過 {sizePriorResearch.passed_gate_count} / {sizePriorResearch.required_gate_count} 道</h2></div>
-                <p>首次數據 10/10，主要外部期 1/17，近期確認期 3/17。上一輪 schema-informed 11/38及 French 30 的 17/33 仍完整保留。</p>
+                <div><span>GATE-BY-GATE DECISION</span><h2>最新全池動量傾斜驗證只過 {sizeMomentumTiltResearch.passed_gate_count} / {sizeMomentumTiltResearch.required_gate_count} 道</h2></div>
+                <p>首次數據 10/10，主要外部期 9/19，近期確認期 4/19。上一輪 first-seen 14/44、schema-informed 11/38及 French 30 的 17/33 仍完整保留。</p>
               </div>
               <div className="signal-formula" aria-label="最新外部驗證凍結規格">
-                <article><span>5 × 5</span><b>Size 與 prior 交叉</b><p>隔離大型股，避免只看未分 size 的贏家組。</p></article>
-                <article><span>BIG HI</span><b>唯一主要候選</b><p>25 cells 及傾斜只作敏感度，不事後改選冠軍。</p></article>
+                <article><span>5 × 5</span><b>Size 與 12–2 prior</b><p>五個 size 各 20%，避免回報只由某一 size 主導。</p></article>
+                <article><span>1:2:3:4:5</span><b>全池固定傾斜</b><p>保留全部 25 cells；集中路徑只作 baseline。</p></article>
                 <article><span>MONTHLY</span><b>完整重新平衡</b><p>缺乏逐股換手，保守假設每月完整沽出再買入。</p></article>
                 <article><span>10 bps</span><b>主要單邊成本</b><p>另測 25／50 bps；成本不能在看到負結果後刪除。</p></article>
               </div>
 
               <div className="short-gate-grid">
-                <article className="waiting"><span>01</span><div><b>首次數據契約</b><strong>{sizePriorResearch.gate_breakdown.data} 通過</strong><p>官方 ZIP、SHA-256、兩個 25 欄月表、1963–2026 完整月份及形成時序全部通過。</p></div></article>
-                <article className="failed"><span>02</span><div><b>主要外部期</b><strong>{sizePriorResearch.gate_breakdown.primary}</strong><p>候選 CAGR {pct(sizePriorPrimary.candidate_metrics.cagr, 2)}，市場 {pct(sizePriorPrimary.baseline_metrics.market.cagr, 2)}；只過 PBO。</p></div></article>
-                <article className="failed"><span>03</span><div><b>近期確認期</b><strong>{sizePriorResearch.gate_breakdown.recent}</strong><p>候選 {pct(sizePriorRecent.candidate_metrics.cagr, 2)}，QQQ {pct(sizePriorRecent.baseline_metrics.QQQ.cagr, 2)}；只勝兩個弱基準並守住跌幅限制。</p></div></article>
-                <article className="failed"><span>04</span><div><b>成本與固定分段</b><strong>失敗</strong><p>近期 50 bps CAGR {pct(sizePriorRecent.candidate_50bps_metrics.cagr, 2)}；2006–2015 較市場低 {pp(Math.abs(sizePriorRecent.fixed_splits["2006_to_2015"].edge_vs_market))}。</p></div></article>
-                <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>近期市場 NW t {sizePriorRecentMarket.newey_west.t_stat.toFixed(2)}；DSR {pct(sizePriorRecentMarket.active_global_deflated_sharpe.probability, 4)}；PBO {pct(sizePriorResearch.pbo.recent.pbo, 1)}。</p></div></article>
-                <article className="failed"><span>06</span><div><b>逐股數據與前瞻 Paper</b><strong>未啟動</strong><p>French cells 不是證券，亦沒有逐股 point-in-time／退市賬本；即使 44/44 亦不能直接落盤。</p></div></article>
+                <article className="waiting"><span>01</span><div><b>首次數據契約</b><strong>{sizeMomentumTiltResearch.gate_breakdown.data} 通過</strong><p>官方 ZIP、SHA-256、兩個 25 欄月表、1963–2026 完整月份及形成時序全部通過。</p></div></article>
+                <article className="failed"><span>02</span><div><b>主要外部期</b><strong>{sizeMomentumTiltResearch.gate_breakdown.primary}</strong><p>候選 CAGR {pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)} 勝市場，但未保留集中組合 80% 回報，成本及 DSR 失敗。</p></div></article>
+                <article className="failed"><span>03</span><div><b>近期確認期</b><strong>{sizeMomentumTiltResearch.gate_breakdown.recent}</strong><p>候選 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}，QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}；只穩定勝全池等權。</p></div></article>
+                <article className="failed"><span>04</span><div><b>成本與固定分段</b><strong>失敗</strong><p>近期 50 bps CAGR {pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}；兩個固定近期分段都落後市場。</p></div></article>
+                <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>近期市場 NW t {sizeMomentumRecentMarket.newey_west.t_stat.toFixed(2)}；DSR {pct(sizeMomentumRecentMarket.active_global_deflated_sharpe.probability, 6)}；PBO {pct(sizeMomentumTiltResearch.pbo.recent.pbo, 1)}。</p></div></article>
+                <article className="failed"><span>06</span><div><b>逐股數據與前瞻 Paper</b><strong>未啟動</strong><p>French cells 不是證券，亦沒有逐股 point-in-time／退市賬本；即使 48/48 亦不能直接落盤。</p></div></article>
               </div>
               <div className="data-source-decision">
-                <div><span>EVIDENCE LADDER</span><b>first-seen 14/44、schema-informed 11/38、French 30 的 17/33 及原始失敗同時保留</b></div>
-                <p>最新 25 cells 是首次未見，仍未通過；上一輪 repair 不是獨立證據；French 30 只有早期優勢；49 行業則在 1971-03-11 的數據缺值停止。沒有一條可取代逐股 point-in-time 賬本。</p>
-                <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新 14/44 報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">上一輪 11/38</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">French 30 的 17/33</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗</a></div>
+                <div><span>EVIDENCE LADDER</span><b>full-pool 23/48、first-seen 14/44、schema-informed 11/38、French 30 的 17/33 及原始失敗同時保留</b></div>
+                <p>最新 25 cells 顯示長窗排名較短窗可靠，但近期仍輸市場及 QQQ；上一輪大型股隔離與 repair 亦未通過；French 30 只有早期優勢；49 行業在 1971-03-11 缺值停止。沒有一條可取代逐股 point-in-time 賬本。</p>
+                <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新 23/48 報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">上一輪 14/44</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">schema-informed 11/38</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">French 30 的 17/33</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗</a></div>
               </div>
-              <p className="aggressive-final-decision"><b>目前決策：</b>短窗贏家在 size 隔離、早期、近期、成本、滾動窗口及統計上仍未通過，QQQ 亦明顯較好。不開短線 Paper。下一步只接受已授權逐股 point-in-time 成分、退市／收購、公司行動、流動性及精確成本，另立協議後由全現金開始。實金及 Paper 動作均為 US$0。</p>
-              <div className="protocol-link"><span>最新證據完整保留 · 14/44 負結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_PRIOR_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_prior_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
+              <p className="aggressive-final-decision"><b>目前決策：</b>12–2 全池排名傾斜比短窗版本可靠，但近期、成本、相對市場、統計及可交易性仍未通過，QQQ 亦明顯較好。不開短線 Paper。下一步只接受已授權逐股 point-in-time 成分、退市／收購、公司行動、流動性及精確成本，另立協議後由全現金開始。實金及 Paper 動作均為 US$0。</p>
+              <div className="protocol-link"><span>最新證據完整保留 · 23/48 負結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">最新報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_PROTOCOL.md" target="_blank" rel="noreferrer">凍結協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_size_momentum_tilt_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
             </div>
           </section>
         </div>

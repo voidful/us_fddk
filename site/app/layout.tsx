@@ -18,8 +18,19 @@ export const metadata: Metadata = {
     description: "長線穩定與短線高回報兩條研究線，分開展示目標、風險、比較基準及 Paper 狀態。",
     locale: "zh_HK",
     type: "website",
+    images: [
+      {
+        url: `${publicSiteRoot}/og.png`,
+        width: 1730,
+        height: 909,
+        alt: "US FDDK 美股雙策略研究：長線穩定與短線高回報",
+      },
+    ],
   },
-  twitter: { card: "summary" },
+  twitter: {
+    card: "summary_large_image",
+    images: [`${publicSiteRoot}/og.png`],
+  },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };
 

@@ -31,7 +31,17 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /兩條策略，兩套目標與門檻/);
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
-  assert.match(html, /短窗贏家壓力測試/);
+  assert.match(html, /全池動量傾斜壓力測試/);
+  assert.match(html, /全池動量傾斜：數據 10\/10，經濟只過 23\/48/);
+  assert.match(html, /排名傾斜早期有效；近期仍輸市場、SPY 及 QQQ/);
+  assert.match(html, /早期：分散傾斜勝市場與等權，仍輸集中組合/);
+  assert.match(html, /近期：只輕微勝等權，市場及 QQQ 機會成本更高/);
+  assert.match(html, /早期集中度有回報，近期則幾乎攤平/);
+  assert.match(html, /排名訊號仍有殘餘，最高五分位已不再領先/);
+  assert.match(html, /12\.36%/);
+  assert.match(html, /8\.31%/);
+  assert.match(html, /-1\.63%/);
+  assert.match(html, /23\/48 負結果優先/);
   assert.match(html, /大型股短窗贏家：數據 10\/10，經濟只過 14\/44/);
   assert.match(html, /大型股隔離後仍跑輸市場；近期更大幅落後 QQQ/);
   assert.match(html, /first-seen 14\/44、schema-informed 11\/38/);
@@ -46,7 +56,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /9\.71%/);
   assert.match(html, /-0\.36%/);
   assert.match(html, /市場 .*3\.71.* · 大型股等權 .*15\.32.* bps/);
-  assert.match(html, /最新大型股短窗贏家驗證只過/);
+  assert.match(html, /最新全池動量傾斜驗證只過/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
   assert.match(html, /美股一個月贏家延續測試：6\/8，計算前停止/);
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
@@ -75,6 +85,8 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /NW t .*3\.03/);
   assert.match(html, /tst_wocker_filter_lab/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
+  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });
 
@@ -85,7 +97,7 @@ test.skip("legacy public report assertions are retained as an archive", async ()
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
   assert.match(html, /成長守門員 v2｜收窄最大跌幅有效，不等於穩健超額/);
-  assert.doesNotMatch(html, /property="og:image"/);
+  assert.match(html, /property="og:image"/);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不落盤/);
   assert.match(html, /Paper Trading（模擬交易）/);
@@ -290,7 +302,7 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
-  assert.doesNotMatch(html, /property="og:image"/);
+  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /LONG-TERM STABILITY · v25/);
   assert.match(html, /SHORT-TERM RETURN RESEARCH/);
