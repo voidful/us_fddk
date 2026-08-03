@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "round": 10,
+  "diagnostic_stage": "schema_informed_repair",
+  "frozen_at_utc": "2026-08-03T18:53:48Z",
+  "repair_protocol_path": "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_SCHEMA_REPAIR_PROTOCOL.md",
+  "repair_protocol_sha256": "57987c7b49e03bbcb2bf9e159398bc05e37032d5285d74667a41164b7687ffe6",
+  "only_allowed_change": {
+    "from_marker": "Value Weight Returns -- Daily",
+    "to_marker": "Average Value Weighted Returns -- Daily"
+  },
+  "source_archive_path": "artifacts/french_10_prior_12_2_daily_a19daa6c.zip",
+  "source_archive_sha256": "a19daa6c84ef6232f3f867159e2752c2a437d5990d6f3bf673fd91317eab6093",
+  "source_archive_redownloaded": false,
+  "schema_seen_before_repair_freeze": true,
+  "initial_numeric_rows_visible_during_schema_inspection": true,
+  "numeric_rows_parsed_before_repair_freeze": false,
+  "strategy_results_computed_before_repair_freeze": false,
+  "independent_first_seen_evidence": false,
+  "candidate_or_gate_changed": false,
+  "global_search_trials": 6208,
+  "required_gate_count": 48,
+  "paper_eligible": false,
+  "trade_ready": false,
+  "paper_state_created": false,
+  "paper_position_count": 0,
+  "real_money_action_usd": 0,
+  "status": "schema_repair_frozen_before_first_aggregate_or_strategy_result"
+}
