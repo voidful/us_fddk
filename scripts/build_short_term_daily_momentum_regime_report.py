@@ -23,7 +23,7 @@ def _canonicalize(value: Any) -> Any:
     if isinstance(value, float):
         if not math.isfinite(value):
             raise ValueError("研究輸出包含非有限浮點數")
-        digits = 10 if 0 < abs(value) < 1e-5 else 12
+        digits = 6 if 0 < abs(value) < 1e-4 else 12
         return float(f"{value:.{digits}g}")
     if isinstance(value, dict):
         return {key: _canonicalize(item) for key, item in value.items()}

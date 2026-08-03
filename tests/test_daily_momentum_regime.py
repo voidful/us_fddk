@@ -148,4 +148,4 @@ def test_published_summary_matches_the_frozen_full_result(result: dict[str, obje
 
 def test_canonicalizer_removes_cross_platform_float_noise() -> None:
     assert _canonicalize(0.123456789012345) == 0.123456789012
-    assert _canonicalize(0.0000000312078618503) == 3.120786185e-08
+    assert _canonicalize(0.0000000312078618503) == 3.12079e-08

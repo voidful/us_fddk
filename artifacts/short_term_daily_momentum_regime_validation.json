@@ -269,7 +269,7 @@
         "sessions": 10803,
         "annualized_arithmetic": 0.00370627068332,
         "newey_west": {
-          "mean_daily": 1.47074233465e-05,
+          "mean_daily": 1.47074e-05,
           "annualized": 0.00370627068332,
           "t_stat": 0.177471854903,
           "lag": 20.0
@@ -365,7 +365,7 @@
         "sessions": 10803,
         "annualized_arithmetic": -0.00298569970902,
         "newey_west": {
-          "mean_daily": -1.18480147183e-05,
+          "mean_daily": -1.1848e-05,
           "annualized": -0.00298569970902,
           "t_stat": -0.453425098424,
           "lag": 20.0
@@ -387,7 +387,7 @@
           "skew": 0.659048416081,
           "pearson_kurtosis": 76.9186688734,
           "z_score": -4.21075059131,
-          "probability": 1.27261810273e-05,
+          "probability": 1.27262e-05,
           "observations": 10803.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.572578594013
@@ -397,7 +397,7 @@
         "sessions": 10803,
         "annualized_arithmetic": 0.0118330390571,
         "newey_west": {
-          "mean_daily": 4.6956504195e-05,
+          "mean_daily": 4.69565e-05,
           "annualized": 0.0118330390571,
           "t_stat": 1.96922777035,
           "lag": 20.0
@@ -3009,7 +3009,7 @@
         {
           "end": "2001-12-31",
           "candidate_cagr": -0.00508358913518,
-          "benchmark_cagr": -7.1985366015e-05,
+          "benchmark_cagr": -7.19854e-05,
           "cagr_difference": -0.00501160376916
         },
         {
@@ -3756,7 +3756,7 @@
           "skew": -0.0569561898004,
           "pearson_kurtosis": 16.6561534333,
           "z_score": -6.29501350743,
-          "probability": 1.53686508e-10,
+          "probability": 1.53687e-10,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.839025981239
@@ -3788,7 +3788,7 @@
           "skew": -0.191377806438,
           "pearson_kurtosis": 14.9995623119,
           "z_score": -6.02358031848,
-          "probability": 8.530019469e-10,
+          "probability": 8.53002e-10,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.836693460283
@@ -3820,7 +3820,7 @@
           "skew": 0.326599538211,
           "pearson_kurtosis": 20.6062017931,
           "z_score": -5.91072464869,
-          "probability": 1.703029939e-09,
+          "probability": 1.70303e-09,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.843895050553
@@ -3852,7 +3852,7 @@
           "skew": -0.86316556516,
           "pearson_kurtosis": 16.0376975658,
           "z_score": -4.94502931809,
-          "probability": 3.806620285e-07,
+          "probability": 3.80662e-07,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.83209423779
@@ -3884,7 +3884,7 @@
           "skew": 0.259894654065,
           "pearson_kurtosis": 17.3960681818,
           "z_score": -5.79469236619,
-          "probability": 3.422326422e-09,
+          "probability": 3.42233e-09,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.842365288878
@@ -3894,7 +3894,7 @@
         "sessions": 5030,
         "annualized_arithmetic": -0.0179334354827,
         "newey_west": {
-          "mean_daily": -7.11644265187e-05,
+          "mean_daily": -7.11644e-05,
           "annualized": -0.0179334354827,
           "t_stat": -1.61313596104,
           "lag": 20.0
@@ -3916,7 +3916,7 @@
           "skew": -1.5366681933,
           "pearson_kurtosis": 63.8575367732,
           "z_score": -5.29632932962,
-          "probability": 5.907683276e-08,
+          "probability": 5.90768e-08,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.826843679368
@@ -3926,7 +3926,7 @@
         "sessions": 5030,
         "annualized_arithmetic": 0.00574472471099,
         "newey_west": {
-          "mean_daily": 2.27965266309e-05,
+          "mean_daily": 2.27965e-05,
           "annualized": 0.00574472471099,
           "t_stat": 0.533822850209,
           "lag": 20.0
@@ -3980,7 +3980,7 @@
           "skew": -0.239921792027,
           "pearson_kurtosis": 15.652154503,
           "z_score": -7.3813165146,
-          "probability": 7.838174554e-14,
+          "probability": 7.83817e-14,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.836634911928
@@ -4012,7 +4012,7 @@
           "skew": -0.340639389584,
           "pearson_kurtosis": 19.0802778094,
           "z_score": -6.23061486865,
-          "probability": 2.323040094e-10,
+          "probability": 2.32304e-10,
           "observations": 5030.0,
           "trials": 6208.0,
           "expected_max_sharpe": 0.835077751326
