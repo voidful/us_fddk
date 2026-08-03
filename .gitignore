@@ -7,6 +7,7 @@ __pycache__/
 .env*
 *.pem
 /dist/
+/tmp/
 artifacts/*
 !artifacts/.gitkeep
 !artifacts/paper_v25_state.json
