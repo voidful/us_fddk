@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "french_prior_return_protocol_frozen_before_first_download",
+  "frozen_at": "2026-08-03",
+  "download_started": false,
+  "strategy_calculation_started": false,
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_PROTOCOL.md",
+    "sha256": "f6ff259ee2ad020d618f891097eb3dbf7b76ee3d382b9a31c373ba76641f62da"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_MAPPING.md",
+    "sha256": "8b7606385e4234dfeb7de878466543c92a8085f2c7f76240415e353b342b7931"
+  },
+  "reference_commits": {
+    "appr1ciat1/tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "appr1ciat1/tw-block-warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "appr1ciat1/tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "frozen_downloads": [
+    "10_Portfolios_Prior_1_0_CSV.zip",
+    "10_Portfolios_Prior_12_2_CSV.zip",
+    "F-F_Research_Data_Factors_CSV.zip",
+    "F-F_Momentum_Factor_CSV.zip",
+    "F-F_ST_Reversal_Factor_CSV.zip"
+  ],
+  "formal_start": "1963-01",
+  "primary_end": "2005-12",
+  "recent_start": "2006-01",
+  "primary_candidate": "value_weighted_hi_prior_1_0",
+  "primary_one_way_cost_bps": 10,
+  "stress_one_way_cost_bps": [25, 50],
+  "global_search_trials": 6150,
+  "paper_eligible": false,
+  "real_money_action_usd": 0,
+  "authorized_point_in_time_stock_provider_available": false,
+  "provider_audit": {
+    "credential_values_inspected": false,
+    "matching_environment_variable_names_found": [],
+    "installed_provider_packages_found": [],
+    "known_local_provider_directories_found": []
+  }
+}
