@@ -1017,9 +1017,13 @@ test("v25 passes three frozen product paths but remains gated by forward Paper e
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_execution_clock, true);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_order_path, true);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_fill_counts, true);
+  const forwardSampleReady =
+    v25.paper.forward_evidence.forward_sessions >= v25.paper.forward_evidence.minimum_sessions
+    && v25.paper.forward_evidence.filled_rebalances
+      >= v25.paper.forward_evidence.minimum_filled_rebalances;
   assert.equal(
     v25.paper.forward_evidence.gates.all_accounts_exactly_one_initial_allocation,
-    v25.paper.forward_evidence.initial_allocations === 1,
+    forwardSampleReady && v25.paper.forward_evidence.initial_allocations === 1,
   );
   for (const counts of Object.values(v25.paper.forward_evidence.account_fill_counts)) {
     assert.equal(
