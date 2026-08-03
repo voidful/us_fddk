@@ -914,7 +914,7 @@ test("v24 separates academic factor success from failed investable ETF bridges",
   assert.ok(payload.limitations.some((item) => /v24 學術品質＋動能.*不建 Paper/.test(item)));
 });
 
-test("v25 passes three frozen product paths but exposes only an unfilled Paper signal", async () => {
+test("v25 passes three frozen product paths but remains gated by forward Paper evidence", async () => {
   const payload = JSON.parse(
     await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
   );
@@ -964,31 +964,44 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.ok(matched12.probability_cagr_above_and_drawdown_not_worse < 0.62);
   assert.ok(v25.pooled.statistics_vs_spy.newey_west_t < 1.96);
   assert.equal(v25.paper.mode, "live");
-  assert.equal(v25.paper.as_of, "2026-07-31");
-  assert.equal(v25.paper.transactions, 0);
-  assert.equal(v25.paper.status, "awaiting_fill");
+  assert.equal(payload.research_snapshot_data_through, "2026-07-31");
+  assert.equal(v25.paper.as_of, payload.data_through);
+  assert.ok(["awaiting_fill", "invested", "cash"].includes(v25.paper.status));
+  assert.ok(Number.isInteger(v25.paper.transactions));
+  assert.ok(v25.paper.transactions >= 0);
   assert.equal(v25.paper.initial_cash, 100000);
   assert.equal(v25.paper.cost_bps, 10);
-  assert.equal(v25.paper.total_costs, 0);
-  assert.equal(v25.paper.recent_transactions.length, 0);
-  assert.equal(v25.paper.recent_filled_orders.length, 0);
+  assert.ok(v25.paper.total_costs >= 0);
+  assert.ok(v25.paper.recent_transactions.length <= v25.paper.transactions);
+  assert.ok(v25.paper.recent_filled_orders.length <= 12);
   assert.deepEqual(Object.keys(v25.paper.accounts).sort(), [
     "SPY",
     "candidate",
     "matched_80_VUG_20_SHY",
   ]);
   for (const account of Object.values(v25.paper.accounts)) {
-    assert.equal(account.as_of, "2026-07-31");
-    assert.equal(account.equity, 100000);
-    assert.equal(account.return, 0);
-    assert.equal(account.max_drawdown, 0);
-    assert.equal(account.transactions, 0);
-    assert.equal(account.filled_rebalances, 0);
-    assert.equal(account.equity_curve.length, 1);
-    assert.equal(account.equity_curve[0].date, "2026-07-31");
+    assert.equal(account.as_of, v25.paper.as_of);
+    assert.ok(Number.isFinite(account.equity));
+    assert.ok(account.equity > 0);
+    assert.ok(Number.isFinite(account.return));
+    assert.ok(account.max_drawdown <= 0);
+    assert.ok(Number.isInteger(account.transactions));
+    assert.ok(account.transactions >= 0);
+    assert.ok(Number.isInteger(account.filled_rebalances));
+    assert.ok(account.filled_rebalances >= 0);
+    assert.equal(
+      account.equity_curve.length,
+      v25.paper.forward_evidence.forward_sessions + 1,
+    );
+    assert.equal(account.equity_curve[0].date, v25.paper.started_at);
   }
-  assert.deepEqual(v25.paper.pending_order.target_weights, { GLD: 0.2, VUG: 0.8 });
-  assert.equal(v25.paper.forward_evidence.forward_sessions, 0);
+  if (v25.paper.status === "awaiting_fill") {
+    assert.deepEqual(v25.paper.pending_order.target_weights, { GLD: 0.2, VUG: 0.8 });
+  } else if (v25.paper.status === "invested") {
+    assert.equal(v25.paper.pending_order, null);
+    assert.ok(Object.keys(v25.paper.holdings).length > 0);
+  }
+  assert.ok(v25.paper.forward_evidence.forward_sessions >= 0);
   assert.equal(v25.paper.forward_evidence.minimum_sessions, 252);
   assert.equal(v25.paper.forward_evidence.promotion_protocol.schema_version, 2);
   assert.equal(
@@ -998,22 +1011,23 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
   assert.equal(v25.paper.forward_evidence.promotion_protocol.minimum_annualized_edge, 0.001);
   assert.equal(v25.paper.forward_evidence.promotion_protocol.minimum_active_newey_west_t, 1.96);
   assert.equal(v25.paper.forward_evidence.promotion_protocol_sha256.length, 64);
-  assert.equal(v25.paper.forward_evidence.filled_orders_including_initial_allocation, 0);
-  assert.equal(v25.paper.forward_evidence.initial_allocations, 0);
-  assert.equal(v25.paper.forward_evidence.filled_rebalances, 0);
+  assert.ok(v25.paper.forward_evidence.filled_orders_including_initial_allocation >= 0);
+  assert.ok([0, 1].includes(v25.paper.forward_evidence.initial_allocations));
+  assert.ok(v25.paper.forward_evidence.filled_rebalances >= 0);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_execution_clock, true);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_order_path, true);
   assert.equal(v25.paper.forward_evidence.gates.all_accounts_same_fill_counts, true);
   assert.equal(
     v25.paper.forward_evidence.gates.all_accounts_exactly_one_initial_allocation,
-    false,
+    v25.paper.forward_evidence.initial_allocations === 1,
   );
   for (const counts of Object.values(v25.paper.forward_evidence.account_fill_counts)) {
-    assert.deepEqual(counts, {
-      filled_orders: 0,
-      initial_allocations: 0,
-      completed_rebalances: 0,
-    });
+    assert.equal(
+      counts.filled_orders,
+      v25.paper.forward_evidence.filled_orders_including_initial_allocation,
+    );
+    assert.equal(counts.initial_allocations, v25.paper.forward_evidence.initial_allocations);
+    assert.equal(counts.completed_rebalances, v25.paper.forward_evidence.filled_rebalances);
   }
   assert.equal(v25.paper.forward_evidence.live_confirmed, false);
   assert.equal(
