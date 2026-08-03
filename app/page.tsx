@@ -199,8 +199,8 @@ export default function Home() {
                 : <>目前沒有可執行的月末訊號，Paper 帳戶維持現金；不要為了交易而交易。</>}
             </p>
             <p className="hero-lead stale-only">
-              資料應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
-              但目前仍只到 {data.data_through}。請先更新行情、paper 狀態與部署版本。
+              LIVE Paper 應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
+              但目前仍只到 {data.data_through}。請先更新行情、Paper 狀態與部署版本。
             </p>
             <div className="hero-actions">
               <a className="button primary fresh-only" href="#v25-paper">看 v25 Paper 訊號</a>
@@ -300,7 +300,7 @@ export default function Home() {
             </div>
           </div>
           <div className="v25-live-health" aria-label="v25 每日更新健康狀態">
-            <article><span>行情資料截止</span><strong>{data.data_through}</strong><small>下一個應有交易日 {data.freshness.next_expected_session}</small></article>
+            <article><span>v25 Paper 行情截止</span><strong>{data.data_through}</strong><small>下一個應有交易日 {data.freshness.next_expected_session}</small></article>
             <article><span>三帳戶一致性</span><strong>{growthGoldIntegrity ? "同步通過" : "停止發布"}</strong><small>日期、快照、成本與交易日序列全部核對</small></article>
             <article><span>目前狀態</span><strong>{growthGoldPending ? "等待模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "維持現金"}</strong><small>{growthGoldPaper.transactions} 筆成交 · {money(growthGoldPaper.equity)}</small></article>
             <article><span>更新期限</span><strong>{data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</strong><small>超過期限，頁面會自動隱藏舊訊號</small></article>
@@ -1389,7 +1389,7 @@ export default function Home() {
       <footer>
         <div className="wrap footer-grid">
           <div><span className="brand-mark">G</span><p><b>成長守門員 v2</b><br />規則比預測重要，證據比故事重要。</p></div>
-          <div><p>{data.disclaimer}</p><code>快照 {data.snapshot_sha256.slice(0, 12)}…</code></div>
+          <div><p>{data.disclaimer}</p><code>研究快照 {data.research_snapshot_data_through} · {data.research_snapshot_sha256.slice(0, 12)}…<br />LIVE 快照 {data.data_through} · {data.live_snapshot_sha256.slice(0, 12)}…</code></div>
         </div>
       </footer>
     </>

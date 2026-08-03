@@ -28,6 +28,9 @@ This starter does not use `wrangler.jsonc`.
 - 網站讀取 `data/trading-data.json`。
 - 該檔由上層 Python 專案的 `us-fddk build` 產生。
 - 每次更新必須保留行情快照 SHA-256，並先推進 LIVE paper 狀態再部署。
+- GitHub Action 以 `us-fddk v25-live-update` 與 `v25-site-export` 只推進凍結候選的
+  三個 LIVE Paper 帳戶；不會用新資料重選 20 年研究結果。
+- `npm run pages:test` 會產生並驗證可在 `/us_fddk/` 子路徑運作的靜態 Pages 產物。
 
 ## Workspace Auth Headers
 

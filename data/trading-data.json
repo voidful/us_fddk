@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-03T00:19:13.334730Z",
+  "generated_at_utc": "2026-08-03T00:32:54.091787Z",
   "data_through": "2026-07-31",
   "freshness": {
     "last_session": "2026-07-31",
@@ -8299,5 +8299,8 @@
         "label": "前瞻最大回撤不深於被動 90/10"
       }
     ]
-  }
+  },
+  "research_snapshot_data_through": "2026-07-31",
+  "research_snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "live_snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334"
 }

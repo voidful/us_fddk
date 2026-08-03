@@ -2,8 +2,12 @@ import type { Metadata, Viewport } from "next";
 import data from "../data/trading-data.json";
 import "./globals.css";
 
+const publicSiteUrl =
+  process.env.PUBLIC_SITE_URL ?? "https://growth-guard-tw.voidful819957.chatgpt.site";
+const publicSiteRoot = publicSiteUrl.replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://growth-guard-tw.voidful819957.chatgpt.site"),
+  metadataBase: new URL(publicSiteUrl),
   title: {
     default: "成長守門員 v2｜Paper-only 美股 ETF 研究",
     template: "%s｜成長守門員",
@@ -14,10 +18,10 @@ export const metadata: Metadata = {
     description: "長期回測不等於可下單證據；v20 動態分散器輪替也未勝固定股債金，目前只做既有 LIVE paper。",
     locale: "zh_TW",
     type: "website",
-    images: [{ url: "/og.png", width: 1731, height: 909, alt: "成長守門員 v2 Paper-only 風險管理研究" }],
+    images: [{ url: `${publicSiteRoot}/og.png`, width: 1731, height: 909, alt: "成長守門員 v2 Paper-only 風險管理研究" }],
   },
-  twitter: { card: "summary_large_image", images: ["/og.png"] },
-  icons: { icon: "/favicon.svg" },
+  twitter: { card: "summary_large_image", images: [`${publicSiteRoot}/og.png`] },
+  icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };
 
 export const viewport: Viewport = {
