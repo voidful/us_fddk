@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -30,9 +31,21 @@ def _site_payload(result: dict) -> dict:
 
 
 def _write_json(path: Path, payload: dict) -> None:
+    def canonicalize(value):
+        if isinstance(value, float):
+            if not math.isfinite(value):
+                raise ValueError("研究輸出不可包含非有限浮點數")
+            return float(f"{value:.12g}")
+        if isinstance(value, dict):
+            return {key: canonicalize(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [canonicalize(item) for item in value]
+        return value
+
     temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
+        json.dumps(canonicalize(payload), ensure_ascii=False, indent=2, allow_nan=False)
+        + "\n",
         encoding="utf-8",
     )
     temporary.replace(path)
