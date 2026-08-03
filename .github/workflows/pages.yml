@@ -22,6 +22,18 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/configure-pages@v6
         id: pages
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Verify frozen short-term research output
+        run: |
+          python -m pip install -e '.[dev]'
+          python scripts/build_short_term_french_prior_return_schema_repair_report.py
+          git diff --exit-code -- \
+            artifacts/short_term_french_prior_return_schema_repair_validation.json \
+            site/data/short-term-french-prior-return-schema-repair.json
+          pytest tests/test_french_prior_return_research.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"

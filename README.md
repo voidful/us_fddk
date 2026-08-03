@@ -51,6 +51,7 @@
 - 短線第四輪先凍結 French 49 Industry 日線資料契約，再取得官方首份快照；`Softw` 在 1971-03-11 缺值，違反完整共同面板要求。整輪在策略計算前停止，不補值、不移動起點，也不換一份資料重試。
 - 短線第五輪另行凍結[French 30 Industry 協議](docs/SHORT_TERM_FRENCH_30_INDUSTRY_MOMENTUM_PROTOCOL.md)後，才首次取得無缺值官方日線。月度 6–1 Top-3 在 1963–2005 的 CAGR 14.11%，但 2006–2026 只錄得 12.55%，50 bps 成本壓力下跌至 7.85%；近期 Newey–West t 值僅 0.67／0.90、DSR 只有 0.10%／0.21%、PBO 88.10%，資料／主期／近期合計只過 17/33。完整[研究報告](docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md)保留，短線 Paper 與實金維持關閉。
 - 短線第六輪重新核對三個台股參考專案後，先凍結[美股 prior-return 十分位協議](docs/SHORT_TERM_FRENCH_PRIOR_RETURN_PROTOCOL.md)，原定直接比較一個月贏家延續、短期反轉、同母體等權、12–2 動量及市場。五個 French 月檔只下載一次，但兩個 value-weighted 月表標記均與凍結映射不符；數據只過 6/8，策略計算未開始。完整[失敗紀錄](docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_FAILURE.md)及原始雜湊保留，不用寬鬆 parser 救援。
+- 第六輪之後另立明示看過格式的 [schema repair 協議](docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_PROTOCOL.md)，只修正兩個精確 marker，沿用原候選、四個 baseline、10／25／50 bps、固定分段、6,150 次搜尋校正及五份原雜湊快照。工程 8/8 通過，但 1963–2005／2006–2026 的候選 CAGR 只有 4.14%／9.41%，對市場為 10.82%／11.38%；50 bps 後兩期 CAGR -5.41%／-0.63%，整體只過 11/38。完整[工程診斷報告](docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md)保留；結果不是獨立首次證據，Paper、持倉及實金仍為 US$0。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -217,6 +218,9 @@ python scripts/build_short_term_french_30_industry_report.py
 # 稽核第六輪首次 French prior-return 月檔；退出碼 2 代表格式契約按設計失敗關閉
 # 不解析數值回報、不計算策略、亦不允許重下載或建立 Paper
 python scripts/audit_short_term_french_prior_return_data.py
+
+# 只用原五份雜湊快照重建 schema-informed 11/38 工程診斷；不重新下載
+python scripts/build_short_term_french_prior_return_schema_repair_report.py
 
 # v25 三路徑 12/12、彙總 10/10、資料 8/8；同一快照同步推進候選、SPY
 # 與 80% VUG／20% SHY 公平基準，只做隔離 Paper，實金仍關閉

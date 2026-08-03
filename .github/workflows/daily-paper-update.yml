@@ -41,7 +41,12 @@ jobs:
           python -m usfddk v25-refresh-status
       - name: Verify research code
         run: |
+          python scripts/build_short_term_french_prior_return_schema_repair_report.py
+          git diff --exit-code -- \
+            artifacts/short_term_french_prior_return_schema_repair_validation.json \
+            site/data/short-term-french-prior-return-schema-repair.json
           ruff check usfddk tests
+          pytest tests/test_french_prior_return_research.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit
       - uses: actions/setup-node@v7

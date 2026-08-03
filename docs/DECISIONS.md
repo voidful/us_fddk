@@ -1,5 +1,32 @@
 # 決策與負結果
 
+## 2026-08-04：短窗贏家 schema repair 可計算，但經濟診斷只過 11/38
+
+- 2026-08-03 的 French prior-return 首次下載已按凍結契約在 6/8 停止；兩個
+  value-weighted 月表 marker 與事前映射不符，當時沒有解析數值或計算策略。
+  原收據、協議及五份 ZIP 雜湊永久保持原樣。
+- 看過 schema 後另立 `schema-informed engineering diagnostic`：只准把 parser
+  改為原檔兩個精確 marker，不重新下載、不模糊搜尋，也不更改 `VW Hi PRIOR
+  1–1` 候選、六路敏感度、四個 baseline、10／25／50 bps 成本、固定時期、
+  15+15 道門檻或 6,150 次搜尋校正。Repair 協議在任何策略數字前提交為
+  `66779aa3800a0abadaed0387a12f70f07d2bd978`，但結果固定不是獨立首次證據。
+- 1963–2005、10 bps 的候選 CAGR 4.14%，低於市場 10.82%、同母體十分位等權
+  8.64%、短窗輸家 9.24%及 12–2 長窗贏家 16.45%；最大跌幅 −68.83%，15 道
+  只過 PBO 一項。兩個固定分段都落後市場及等權，零候選成本亦無法追上四個
+  baseline。
+- 2006–2026 候選 CAGR 9.41%，仍低於市場 11.38%及 12–2 長窗贏家 10.88%；
+  只勝短窗輸家並通過最大跌幅限制，合計 2/15。2006–2015 CAGR 只有 1.53%，
+  2016 後才反彈；60 月窗勝市場只有 15.59%，NW t −0.41，近期 PBO 27.78%。
+- 完整月度換倉令假設年換手接近 24 倍。近期相對市場及 12–2 贏家的每月單邊
+  成本 break-even 只有 2.56／4.44 bps；50 bps 下近期 CAGR −0.63%，全歷史
+  CAGR −3.90%。五因子年率化 alpha −1.90%，ST_Rev beta −0.67，R² 86.66%。
+- 決定：數據工程 8/8、主要 1/15、近期 2/15，總計 **11/38，失敗**；
+  `independent_first_seen_evidence=false`、`paper_eligible=false`、
+  `trade_ready=false`、實金動作 US$0。不把線性傾斜的事後較高值升格；下一關
+  只接受已授權逐股 point-in-time 成分、退市／收購、公司行動及精確成交成本，
+  另立首次未見協議後才可由全現金開始 Paper。完整報告見
+  `docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_RESEARCH_REPORT.md`。
+
 ## 2026-08-03：v25 三條實際 20 年產品路徑通過，啟動隔離 Paper
 
 - v25 在第一次下載 VUG／IWF／SPYG 與黃金產品聯合日線前，固定唯一候選為
