@@ -1,0 +1,93 @@
+{
+  "status": "short_term_sector_etf_first_external_download_contract_passed",
+  "created_at_utc": "2026-08-03T14:41:34.606933Z",
+  "pre_registration_order_proved": true,
+  "protocol": {
+    "sha256": "3affdc24f39353a6eb606075f802ffe6252cac01be57b13b9d098114a502a80d",
+    "commit": "543259105c7c426aa15436b7f15a33dd2ffff620",
+    "mtime_epoch": 1785767979
+  },
+  "product_mapping": {
+    "sha256": "c42743ed3d884c818dd3632d20db9f80d225ea1ccf361ea2a1ed1c1a76457a67",
+    "mtime_epoch": 1785767979
+  },
+  "snapshot": {
+    "path": "artifacts/snapshot_short_term_sector_vanguard_20040923_20260731_7a13b864.zip",
+    "mtime_epoch": 1785768094,
+    "archive_sha256": "5f9a020e33399705ac52b9bdd2f5cda1d569909cd3577f80de4bf3f92a935105",
+    "panel_sha256": "7a13b864f5e4aeaec08c1c78e2ed3f5fd64a7586acf7818e16c0ca945870d392",
+    "start": "2004-09-23",
+    "end": "2026-07-31",
+    "rows": 5498,
+    "tickers": [
+      "QQQ",
+      "SHY",
+      "SPY",
+      "VAW",
+      "VCR",
+      "VDC",
+      "VDE",
+      "VFH",
+      "VGT",
+      "VHT",
+      "VIS",
+      "VOX",
+      "VPU",
+      "VTI"
+    ],
+    "contract": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "last_session": "2026-07-31",
+        "expected_session": "2026-07-31",
+        "last_close_coverage": 1.0,
+        "thin_tickers": {},
+        "positive_price_fraction": 0.9998440991529387,
+        "suspicious_last_moves": {},
+        "ohlc_violations": 0,
+        "latest_positive_volume": 1.0
+      }
+    }
+  },
+  "formal_period": {
+    "start": "2006-08-01",
+    "end": "2026-07-31",
+    "sessions": 5031,
+    "missing_cells_by_field": {
+      "Open": 0,
+      "High": 0,
+      "Low": 0,
+      "Close": 0,
+      "Volume": 0
+    }
+  },
+  "maximum_absolute_adjusted_daily_move": {
+    "QQQ": 0.12164684298556727,
+    "SHY": 0.00997473023100759,
+    "SPY": 0.14519768006838074,
+    "VAW": 0.12304129151049392,
+    "VCR": 0.13031748815395872,
+    "VDC": 0.09344116253146695,
+    "VDE": 0.19825482818883478,
+    "VFH": 0.16181616679276623,
+    "VGT": 0.13486318152268328,
+    "VHT": 0.1178391449994407,
+    "VIS": 0.11905545044179622,
+    "VOX": 0.13972411155148579,
+    "VPU": 0.13005093361616993,
+    "VTI": 0.12829782746605378
+  },
+  "checks": {
+    "contract_ok": true,
+    "snapshot_created_after_freeze": true,
+    "formal_period_all_ohlcv_complete": true,
+    "formal_period_has_at_least_5000_sessions": true,
+    "latest_all_positive_volume": true,
+    "maximum_adjusted_daily_move_not_above_65pct": true,
+    "first_joint_download_only": true
+  },
+  "download_performed_once": true,
+  "calculation_started": false
+}
