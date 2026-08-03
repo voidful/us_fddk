@@ -51,7 +51,10 @@ def test_v25_live_audit_accepts_synchronized_site_and_states() -> None:
     assert audit["status"] == "fresh"
     assert audit["decision"] == "paper_only"
     assert audit["reference_trade_allowed"] is False
-    assert audit["forward_sessions"] == 0
+    expected_forward_sessions = site["research_pipeline"][
+        "growth_gold_diversification"
+    ]["paper"]["forward_evidence"]["forward_sessions"]
+    assert audit["forward_sessions"] == expected_forward_sessions
     assert audit["errors"] == []
 
 
@@ -73,7 +76,17 @@ def test_v25_live_audit_fails_closed_on_account_or_site_drift() -> None:
 
     changed_site = deepcopy(site)
     paper = changed_site["research_pipeline"]["growth_gold_diversification"]["paper"]
-    paper["pending_order"]["target_weights"] = {"GLD": 0.3, "VUG": 0.7}
+    if paper.get("pending_order"):
+        paper["pending_order"]["target_weights"] = {"GLD": 0.3, "VUG": 0.7}
+        expected_pending_error = "網站 v25 待成交權重與候選帳戶不同"
+    else:
+        paper["pending_order"] = {
+            "signal_date": candidate["as_of"],
+            "execute_after": candidate["as_of"],
+            "status": "pending",
+            "target_weights": {"GLD": 0.2, "VUG": 0.8},
+        }
+        expected_pending_error = "網站 v25 待成交狀態與候選帳戶不同"
     audit = audit_v25_live_reference(
         changed_site,
         candidate,
@@ -82,7 +95,7 @@ def test_v25_live_audit_fails_closed_on_account_or_site_drift() -> None:
         now=datetime(2026, 8, 3, tzinfo=UTC),
     )
     assert audit["integrity_ok"] is False
-    assert "網站 v25 待成交權重與候選帳戶不同" in audit["errors"]
+    assert expected_pending_error in audit["errors"]
 
     changed_site = deepcopy(site)
     accounts = changed_site["research_pipeline"]["growth_gold_diversification"]["paper"]["accounts"]
