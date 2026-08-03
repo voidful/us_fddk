@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: daily-v25-paper-update
@@ -86,7 +87,9 @@ jobs:
           npm test
           npm audit --omit=dev --audit-level=high
       - name: Commit a genuinely advanced session
+        id: commit_update
         run: |
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
           if [ "$(jq -r '.public_paper_status_deploy_allowed' artifacts/v25_live_refresh_status.json)" != "true" ]; then
             echo "No verified new U.S. session; leaving the published evidence unchanged."
             exit 0
@@ -112,3 +115,9 @@ jobs:
           data_through="$(jq -r '.data_through' artifacts/v25_live_refresh_status.json)"
           git commit -m "Update v25 Paper through ${data_through}"
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      - name: Deploy a genuinely advanced session
+        if: steps.commit_update.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
