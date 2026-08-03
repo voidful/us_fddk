@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
+const publicSiteRoot = (
+  process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
+).replace(/\/$/, "");
+const escapedPublicSiteRoot = publicSiteRoot.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const ogImagePattern = new RegExp(
+  `property="og:image" content="${escapedPublicSiteRoot}/og\\.png"`,
+);
+
 test("GitHub Pages output is self-contained under the repository base path", async () => {
   const html = await readFile(new URL("../pages-dist/index.html", import.meta.url), "utf8");
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
@@ -74,7 +82,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /對 SPY 未確認/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
+  assert.match(html, ogImagePattern);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 

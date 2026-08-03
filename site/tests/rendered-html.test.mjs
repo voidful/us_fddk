@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+const publicSiteRoot = (
+  process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
+).replace(/\/$/, "");
+const escapedPublicSiteRoot = publicSiteRoot.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const ogImagePattern = new RegExp(
+  `property="og:image" content="${escapedPublicSiteRoot}/og\\.png"`,
+);
+
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -85,7 +93,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /NW t .*3\.03/);
   assert.match(html, /tst_wocker_filter_lab/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
-  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
+  assert.match(html, ogImagePattern);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });
@@ -302,7 +310,7 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
-  assert.match(html, /property="og:image" content="https:\/\/voidful\.github\.io\/us_fddk\/og\.png"/);
+  assert.match(html, ogImagePattern);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /LONG-TERM STABILITY · v25/);
   assert.match(html, /SHORT-TERM RETURN RESEARCH/);
