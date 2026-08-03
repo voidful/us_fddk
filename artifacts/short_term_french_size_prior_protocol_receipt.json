@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "french_size_prior_frozen_before_first_download_and_numeric_rows",
+  "frozen_at": "2026-08-04",
+  "git_parent_before_protocol_freeze": "cf1cc7eca366142d606147d4331c6dfda86a0dec",
+  "new_archive_download_started": false,
+  "new_archive_schema_seen": false,
+  "new_archive_numeric_rows_seen": false,
+  "strategy_calculation_started": false,
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_SIZE_PRIOR_DATA_MAPPING.md",
+    "sha256": "ad859502f111731f1a92ad987386ed7d28eade4e579362f92bf804e0f5e07127"
+  },
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md",
+    "sha256": "f2c7907a3630437f9b3dc9df4c0d367ecd4909dbc1d4d5d621b9f8da90d782b4"
+  },
+  "new_archive": {
+    "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/25_Portfolios_ME_Prior_1_0_CSV.zip",
+    "expected_member": "25_Portfolios_ME_Prior_1_0.csv",
+    "expected_last_month": "2026-05",
+    "sha256": null
+  },
+  "frozen_candidate": {
+    "name": "Big Hi PRIOR 1-1",
+    "source_table": "value_weighted_monthly",
+    "size_quintile": 5,
+    "prior_1_1_quintile": 5,
+    "primary_one_way_cost_bps": 10,
+    "stress_one_way_cost_bps": [
+      25,
+      50
+    ],
+    "formal_start": "1963-01",
+    "primary_end": "2005-12",
+    "recent_start": "2006-01",
+    "global_search_trials": 6175,
+    "required_gate_count": 44
+  },
+  "decision_boundary": {
+    "aggregate_cells_are_tradeable_securities": false,
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
