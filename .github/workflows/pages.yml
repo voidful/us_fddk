@@ -38,6 +38,7 @@ jobs:
           python scripts/build_short_term_crsp_ciz_mapping_report.py
           python scripts/build_short_term_ciz_execution_accounting_report.py
           python scripts/build_short_term_ciz_execution_extension_report.py
+          python scripts/build_short_term_authorized_data_handoff_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -65,6 +66,9 @@ jobs:
             artifacts/short_term_ciz_execution_extension_validation.json \
             site/data/short-term-ciz-execution-extension.json \
             docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md \
+            artifacts/short_term_authorized_data_handoff.json \
+            site/data/short-term-authorized-data-handoff.json \
+            docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -77,6 +81,7 @@ jobs:
           pytest tests/test_crsp_ciz_mapping.py
           pytest tests/test_ciz_execution_accounting.py
           pytest tests/test_ciz_execution_extension.py
+          pytest tests/test_authorized_data_handoff.py
           pytest tests/test_daily_momentum_regime.py
       - uses: actions/setup-node@v7
         with:

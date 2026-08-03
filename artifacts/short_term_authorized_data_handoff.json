@@ -1,0 +1,529 @@
+{
+  "actual_document_handoff": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 12
+  },
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 12,
+    "total": 12
+  },
+  "attacks": [
+    {
+      "expected_error_code": "response_schema_mismatch",
+      "id": "01",
+      "label": "回覆多一個頂層 key",
+      "observed_error_code": "response_schema_mismatch",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "request_binding_mismatch",
+      "id": "02",
+      "label": "request ID 漂移",
+      "observed_error_code": "request_binding_mismatch",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "provider_identity_missing",
+      "id": "03",
+      "label": "供應商產品空白",
+      "observed_error_code": "provider_identity_missing",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "license_attestation_invalid",
+      "id": "04",
+      "label": "本地研究授權不是 true",
+      "observed_error_code": "license_attestation_invalid",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "license_timestamp_invalid",
+      "id": "05",
+      "label": "授權時間沒有 UTC offset",
+      "observed_error_code": "license_timestamp_invalid",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "source_format_unsupported",
+      "id": "06",
+      "label": "source format 退回 SIZ",
+      "observed_error_code": "source_format_unsupported",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "file_capability_set_mismatch",
+      "id": "07",
+      "label": "十份輸入少一份",
+      "observed_error_code": "file_capability_set_mismatch",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "membership_availability_unsupported",
+      "id": "08",
+      "label": "公布時間 unavailable 卻聲稱 point-in-time",
+      "observed_error_code": "membership_availability_unsupported",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "coverage_window_incomplete",
+      "id": "09",
+      "label": "訊號前緩衝縮短一天",
+      "observed_error_code": "coverage_window_incomplete",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "market_action_capability_missing",
+      "id": "10",
+      "label": "派息 pay-date 能力缺失",
+      "observed_error_code": "market_action_capability_missing",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "exit_economics_capability_missing",
+      "id": "11",
+      "label": "缺失 DelRet 沒有有效比例",
+      "observed_error_code": "exit_economics_capability_missing",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    },
+    {
+      "expected_error_code": "benchmark_delivery_invalid",
+      "id": "12",
+      "label": "基準價格標示 adjusted",
+      "observed_error_code": "benchmark_delivery_invalid",
+      "rejected": true,
+      "response_receipt_recomputed": true
+    }
+  ],
+  "disclaimer": "合成 12/12 及攻擊全拒收只證明交接驗證器會關門；不證明供應商、數據、策略、Paper 或盈利通過。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "next_action": "在使用者授權對外聯絡後，把固定請求交給 CRSP／WRDS；取得帶產品及授權的文件回覆並通過 12/12，才接受本地隔離細樣本。",
+  "official_verification": {
+    "authorized_provider_response_received": false,
+    "authorized_provider_sample_received": false,
+    "data_dictionary_login_required": true,
+    "findings": [
+      {
+        "detail": "WRDS 已公告 CIZ Flat File Format 2.0 取代 SIZ。",
+        "id": "ciz_current",
+        "status": "documented",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/data-announcements/changes-to-crsp-data/"
+      },
+      {
+        "detail": "WRDS 官方 CIZ macro 使用 crsp.dsf_v2／msf_v2 及 StkSecurityInfoHist。",
+        "id": "wrds_dataset_candidates",
+        "status": "documented_candidate",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/crsp-ciztosiz-macro/"
+      },
+      {
+        "detail": "WRDS 官方 size macro 使用 a_stock_v2／a_indexes_v2 library。",
+        "id": "wrds_library_candidates",
+        "status": "documented_candidate",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/macros-portfolios-size-ciz/"
+      },
+      {
+        "detail": "公開 catalog 列出 crsp_m_stock／crsp_m_indexes；完整 data dictionary 要登入。",
+        "id": "catalog_products",
+        "status": "public_catalog_login_confirmation_required",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/center-for-research-in-security-prices-crsp/"
+      }
+    ],
+    "new_provider_lookup_performed_after_freeze": true,
+    "provider_contacted": false,
+    "provider_set_changed": false,
+    "wrds_credentials_present": false
+  },
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "request": {
+    "coverage": {
+      "buffer_start": "2005-07-01",
+      "formal_end": "2026-07-31",
+      "formal_start": "2006-08-01",
+      "minimum_pre_signal_sessions": 252,
+      "next_execution_session": "2026-08-03"
+    },
+    "delivery_policy": {
+      "credentials_excluded": true,
+      "git_path_allowed": false,
+      "local_only": true,
+      "raw_rows_publication_forbidden": true,
+      "sha256_and_row_receipts_required": true
+    },
+    "execution_overlay": {
+      "assets": [
+        "QQQ",
+        "SPY"
+      ],
+      "columns": [
+        "asset_id",
+        "session",
+        "open_raw",
+        "high_raw",
+        "low_raw",
+        "close_raw",
+        "volume",
+        "total_return_factor",
+        "source_status",
+        "source_record_id"
+      ],
+      "file": "benchmark_daily.csv",
+      "price_basis": "raw_unadjusted_ohlc_plus_total_return_factor",
+      "same_calendar_required": true
+    },
+    "frozen_adapter": {
+      "path": "usfddk/crsp_ciz_adapter.py",
+      "sha256": "2ce8c8c6d760153d094c9511c9a1d2aa9a510328c729e289abdb523618d6cbab",
+      "version": "round13-crsp-ciz-v1"
+    },
+    "protocol_integrity": {
+      "frozen_at": "2026-08-03T23:00:59Z",
+      "git_head_at_freeze": "a8c8b832eb6c3ab162722d8d1969f3ba61b0df80",
+      "hash_checks": {
+        "artifacts/short_term_ciz_execution_extension_protocol_receipt.json": true,
+        "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json": true,
+        "artifacts/short_term_crsp_sample_acceptance_protocol_receipt.json": true,
+        "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md": true,
+        "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "schemas/short_term_point_in_time_manifest.schema.json": true,
+        "usfddk/ciz_execution_extension.py": true,
+        "usfddk/crsp_ciz_adapter.py": true
+      },
+      "passed": true
+    },
+    "protocol_sha256": "4cd6da3541243573ab3a0113eebd26b581831ad31765b4fdc0a82c998703e754",
+    "provider_products_to_confirm": [
+      {
+        "label": "CRSP Stock (Monthly update package)",
+        "product_code": "crsp_m_stock",
+        "status": "public_catalog_candidate_login_confirmation_required"
+      },
+      {
+        "label": "CRSP Indexes (Monthly update package)",
+        "product_code": "crsp_m_indexes",
+        "status": "public_catalog_candidate_login_confirmation_required"
+      }
+    ],
+    "provider_questions": [
+      "S&P 500 成分 start/end 及 announcement/availability timestamp 可否逐次提供？",
+      "2006–2026 DelRet 缺失數量、比例及 missing reason 是多少？",
+      "缺失 DelRet 能否以現金／換股代價及 successor PERMNO/PERMCO 重建？",
+      "raw OHLCV、停牌、DisExDt、DisPayDt 及下一開市覆蓋是否完整？",
+      "本地研究、衍生匯總、SHA-256 收據及禁止原始列再分發的授權邊界是甚麼？"
+    ],
+    "purpose": "文件能力確認及合法細樣本交接；不購買、不回測、不公開原始列",
+    "request_id": "usfddk-round16-crsp-wrds-ciz-v1",
+    "research_round": 16,
+    "response_schema": {
+      "path": "schemas/short_term_authorized_data_response.schema.json",
+      "sha256": "001e27e902f55a9a2a569420a5b01c780b05d1466924bc4372b49294017a5986"
+    },
+    "schema_version": 1,
+    "source_files": [
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "PERMCO",
+          "SecInfoStartDt",
+          "SecInfoEndDt",
+          "Ticker",
+          "PrimaryExch",
+          "CUSIP",
+          "ShareClass",
+          "USIncFlg",
+          "IssuerType",
+          "SecurityType",
+          "SecuritySubType",
+          "ShareType",
+          "SecurityActiveFlg",
+          "SICCD",
+          "NAICS",
+          "ICBIndustry",
+          "TradingStatusFlg"
+        ],
+        "name": "stk_security_info_hist.csv",
+        "source_role": "provider_ciz"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "INDNO",
+          "MbrStartDt",
+          "MbrEndDt",
+          "MbrFlg"
+        ],
+        "name": "stk_ind_membership.csv",
+        "source_role": "provider_ciz"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "DlyCalDt",
+          "DlyOpen",
+          "DlyHigh",
+          "DlyLow",
+          "DlyClose",
+          "DlyVol",
+          "DlyRet",
+          "DlyRetMissFlg",
+          "DlyOrdDivAmt",
+          "DlynonOrdDivAmt",
+          "DlyFacPrc",
+          "DlyDelFlg",
+          "TradingStatusFlg"
+        ],
+        "name": "stk_dly_security_data.csv",
+        "source_role": "provider_ciz"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "DisExDt",
+          "DisSeqnbr",
+          "DisType",
+          "DisOrdinaryFlg",
+          "DisDeclareDt",
+          "DisPayDt",
+          "DisDivAmt",
+          "DisFacPr",
+          "DisFacShr",
+          "DisPERMNO"
+        ],
+        "name": "stk_distributions.csv",
+        "source_role": "provider_ciz"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "DelistingDt",
+          "DelDlyDt",
+          "DelActionType",
+          "DelStatusType",
+          "DelReasonType",
+          "DelPaymentType",
+          "DelPERMNO",
+          "DelPERMCO",
+          "DelRet",
+          "DelRetMissType",
+          "DelDivAmt"
+        ],
+        "name": "stk_delists.csv",
+        "source_role": "provider_ciz"
+      },
+      {
+        "minimum_fields": [
+          "session",
+          "exchange",
+          "open_at",
+          "close_at"
+        ],
+        "name": "trading_calendar.csv",
+        "source_role": "provider_or_evidence_overlay"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "SecInfoStartDt",
+          "SecInfoEndDt",
+          "KnownAt",
+          "EvidenceReference"
+        ],
+        "name": "security_info_availability.csv",
+        "source_role": "provider_or_evidence_overlay"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "INDNO",
+          "MbrStartDt",
+          "MbrEndDt",
+          "AnnouncedAt",
+          "EvidenceReference"
+        ],
+        "name": "membership_announcements.csv",
+        "source_role": "provider_or_evidence_overlay"
+      },
+      {
+        "minimum_fields": [
+          "SourceTable",
+          "PERMNO",
+          "EventDate",
+          "Sequence",
+          "EventType",
+          "AnnouncedAt",
+          "CashAmount",
+          "ShareRatio",
+          "SuccessorPERMNO",
+          "EvidenceReference"
+        ],
+        "name": "corporate_action_overlay.csv",
+        "source_role": "provider_or_evidence_overlay"
+      },
+      {
+        "minimum_fields": [
+          "PERMNO",
+          "DelistingDt",
+          "OutcomeType",
+          "CashConsideration",
+          "ShareRatio",
+          "SuccessorPERMNO",
+          "KnownAt",
+          "EvidenceReference"
+        ],
+        "name": "exit_terms.csv",
+        "source_role": "provider_or_evidence_overlay"
+      }
+    ],
+    "source_format": "CIZ_FF2",
+    "status": "ready_to_send_not_yet_sent",
+    "wrds_dataset_candidates_to_confirm": [
+      "crsp.dsf_v2",
+      "crsp.msf_v2",
+      "crsp.StkSecurityInfoHist",
+      "/wrds/crsp/sasdata/a_stock_v2",
+      "/wrds/crsp/sasdata/a_indexes_v2"
+    ]
+  },
+  "research_round": 16,
+  "schema_version": 1,
+  "status": "handoff_contract_validated_provider_response_and_data_still_missing",
+  "strategy_rule_changed": false,
+  "synthetic_control": {
+    "contains_provider_rows": false,
+    "data_qualified": false,
+    "formal_stock_backtest_authorized": false,
+    "gate_summary": {
+      "all_passed": true,
+      "passed": 12,
+      "total": 12
+    },
+    "gates": [
+      {
+        "detail": "本協議及十二份前置雜湊完整",
+        "id": "01",
+        "label": "事前凍結完整性",
+        "passed": true
+      },
+      {
+        "detail": "版本、keys、request ID 及收據一致",
+        "id": "02",
+        "label": "回覆 schema 精確",
+        "passed": true
+      },
+      {
+        "detail": "供應商、產品及正式參考非空白",
+        "id": "03",
+        "label": "供應商與產品明確",
+        "passed": true
+      },
+      {
+        "detail": "本地研究授權、UTC 證明及再分發政策完整",
+        "id": "04",
+        "label": "授權邊界明確",
+        "passed": true
+      },
+      {
+        "detail": "CIZ_FF2；WRDS mapping 狀態明示",
+        "id": "05",
+        "label": "CIZ 格式明確",
+        "passed": true
+      },
+      {
+        "detail": "固定十份能力及證據參考完整",
+        "id": "06",
+        "label": "十份輸入逐份回答",
+        "passed": true
+      },
+      {
+        "detail": "S&P 500 生效及公布／可知時間可重建",
+        "id": "07",
+        "label": "成分時間語義",
+        "passed": true
+      },
+      {
+        "detail": "2005-07-01 至 2026-08-03；至少 252 sessions",
+        "id": "08",
+        "label": "固定期間與緩衝",
+        "passed": true
+      },
+      {
+        "detail": "PERMNO／PERMCO 及逐期證券歷史完整",
+        "id": "09",
+        "label": "永久 ID 與歷史",
+        "passed": true
+      },
+      {
+        "detail": "raw OHLCV、停牌、ex/pay-date 及因子完整",
+        "id": "10",
+        "label": "Raw 行情與派息",
+        "passed": true
+      },
+      {
+        "detail": "DelRet 缺失分布、退出代價及 successor 完整",
+        "id": "11",
+        "label": "退出經濟完整",
+        "passed": true
+      },
+      {
+        "detail": "QQQ／SPY 同步、本地隔離及收據完整",
+        "id": "12",
+        "label": "公平基準與交付",
+        "passed": true
+      }
+    ],
+    "paper_authorized": false,
+    "protocol_integrity": {
+      "frozen_at": "2026-08-03T23:00:59Z",
+      "git_head_at_freeze": "a8c8b832eb6c3ab162722d8d1969f3ba61b0df80",
+      "hash_checks": {
+        "artifacts/short_term_ciz_execution_extension_protocol_receipt.json": true,
+        "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json": true,
+        "artifacts/short_term_crsp_sample_acceptance_protocol_receipt.json": true,
+        "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md": true,
+        "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "schemas/short_term_point_in_time_manifest.schema.json": true,
+        "usfddk/ciz_execution_extension.py": true,
+        "usfddk/crsp_ciz_adapter.py": true
+      },
+      "passed": true
+    },
+    "real_money_action_usd": 0,
+    "response_sha256": "9d819bf070891cefce9ed78f530aa4c281298c23d47775d10215e35c9f1c9d72",
+    "sample_delivery_ready": false,
+    "status": "synthetic_document_response_control_passed",
+    "synthetic_control": true
+  }
+}

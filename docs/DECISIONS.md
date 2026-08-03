@@ -1,5 +1,21 @@
 # 決策與負結果
 
+## 2026-08-04：授權數據交接合成 12/12、攻擊 12/12；真實文件仍為 1/12
+
+- 在新公開文件核對及實作前，先固定 CRSP／WRDS 來源範圍、十份 CIZ／證據輸入、
+  QQQ／SPY execution overlay、十二道文件閘門、十二項攻擊及四份公開輸出；短線 v1、
+  20 年期、成本、基準、統計及 Paper 門檻全部不變。
+- WRDS 官方公告確認 CIZ Flat File Format 2.0 已取代 SIZ；官方 CIZ macro 公開列出
+  `crsp.dsf_v2`、`crsp.msf_v2`、`StkSecurityInfoHist`、`a_stock_v2` 及 `a_indexes_v2`
+  候選。公開產品目錄亦列出 `crsp_m_stock`、`crsp_m_indexes`，但完整 data dictionary
+  要登入，因此只記為候選，不推論為使用者已有訂閱或十份輸入可完整交付。
+- 合成文件能力回覆通過 **12/12**；多餘 key、request 漂移、授權／UTC、SIZ、少檔案、
+  成分時間、覆蓋期、pay-date、DelRet 及 QQQ／SPY 價格政策攻擊 **12/12** 按指定
+  error code 拒收。每項攻擊均重算 response SHA-256，沒有用 generic hash 錯誤掩蓋。
+- 決定：固定請求已準備好，但尚未對外發送；供應商聯絡 0、文件回覆 0、合法樣本 0。
+  真實文件只有事前凍結 1/12、逐股數據維持 1/20、正式回測 0、短線 Paper 全現金、
+  實金動作 US$0。取得使用者授權後才可發送；文件 12/12 亦只准進入本地隔離細樣本。
+
 ## 2026-08-04：execution extension 合成 16/16、攻擊 16/16；真實數據仍為 1/20
 
 - 在寫 bridge 前固定十六道控制、十六項單一錯誤攻擊及五份 extension 輸出；短線

@@ -39,7 +39,14 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
-  assert.match(html, /先補真實數據/);
+  assert.match(html, /先取得授權數據/);
+  assert.match(html, /AUTHORIZED DATA HANDOFF · ROUND 16/);
+  assert.match(html, /合成文件 12\/12、攻擊 12\/12；真實文件只有 1\/12/);
+  assert.match(html, /請求已準備好；供應商能力及授權仍未證實/);
+  assert.match(html, /同一產品、時段、欄位與成交時鐘/);
+  assert.match(html, /十二道文件控制逐項呈列/);
+  assert.match(html, /十二項文件錯誤，全數以指定代碼拒收/);
+  assert.match(html, /先取得使用者授權，再發送固定請求/);
   assert.match(html, /EXECUTION EXTENSION · ROUND 15/);
   assert.match(html, /合成 extension 16\/16、攻擊 16\/16；真實逐股數據仍是 1\/20/);
   assert.match(html, /四項 schema 缺口已封口；市場證據仍未到位/);

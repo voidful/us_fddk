@@ -239,6 +239,10 @@ python scripts/build_short_term_ciz_execution_accounting_report.py
 # 16/16 只證明 bridge fail closed；真實 1/20 不變
 python scripts/build_short_term_ciz_execution_extension_report.py
 
+# 重建第十六輪授權數據交接：固定 CRSP／WRDS 請求、十二道文件控制及十二項攻擊
+# 12/12 只證明文件驗證器 fail closed；現時未聯絡供應商、真實文件 1/12、數據 1/20
+python scripts/build_short_term_authorized_data_handoff_report.py
+
 # 只用凍結日檔重建第十輪每日環境共振 27/48 負結果；不重新下載或建立 Paper
 python scripts/build_short_term_daily_momentum_regime_report.py
 

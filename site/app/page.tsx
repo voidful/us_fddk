@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import authorizedDataHandoff from "../data/short-term-authorized-data-handoff.json";
 import cizExecutionExtension from "../data/short-term-ciz-execution-extension.json";
 import cizExecutionAccounting from "../data/short-term-ciz-execution-accounting.json";
 import crspCizMapping from "../data/short-term-crsp-ciz-mapping.json";
@@ -20,7 +21,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十五輪 execution extension 合成控制 16/16、十六項攻擊全拒收，真實逐股數據仍為 1/20。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十六輪授權數據交接合成控制 12/12、十二項攻擊全拒收，真實文件 1/12、逐股數據 1/20。",
 };
 
 const readerCapital = 1_000;
@@ -159,6 +160,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const handoffAttackRows = authorizedDataHandoff.attacks;
 const extensionAttackRows = cizExecutionExtension.attacks;
 const executionAttackRows = cizExecutionAccounting.attacks;
 const cizAttackRows = crspCizMapping.attacks;
@@ -666,15 +668,16 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · EXECUTION EXTENSION · ROUND 15</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · AUTHORIZED DATA HANDOFF · ROUND 16</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />先補真實數據</h1>
+              <h1>短線高回報<br />先取得授權數據</h1>
               <p className="hero-lead">
-                第十五輪把上輪四項缺口做成獨立 execution extension：派息 ex／pay-date、逐月候選歷史、移除後至下一重新平衡開市，以及同步 QQQ／SPY。合成 bridge 通過 <strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong>，事前固定的檔案、派息、歷史、成交、基準、成本及時鐘攻擊 <strong>{cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total} 全部拒收</strong>；但這只含三個合成 PERMNO 及 {cizExecutionExtension.synthetic_counts.benchmark_rows} 列合成基準，不是正式回測。
-                <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
+                第十六輪把 CRSP／WRDS 產品、授權、十份 CIZ／證據輸入、退市經濟及 QQQ／SPY 基準交付做成固定請求。合成文件控制通過 <strong>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total}</strong>，十二項 schema、授權、時間及能力攻擊 <strong>{authorizedDataHandoff.attack_summary.rejected}/{authorizedDataHandoff.attack_summary.total} 全部拒收</strong>；請求已準備好，但尚未對外發送、沒有供應商回覆或市場列。
+                <strong>真實文件只過 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}，逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#authorized-data-handoff">查看授權交接 1/12</a>
                 <a className="primary-button aggressive-button" href="#ciz-execution-extension">查看 extension 16/16</a>
                 <a className="secondary-button" href="#ciz-execution-accounting">查看退出會計 8/12</a>
                 <a className="secondary-button" href="#crsp-ciz-mapping">查看 CIZ 映射</a>
@@ -686,16 +689,17 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>Extension {cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total} · 只限合成控制</b>
+                <b>文件交接 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total} · 尚未對外發送</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>合成文件控制</dt><dd>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total} · 只驗證格式</dd></div>
+                <div><dt>文件攻擊</dt><dd>{authorizedDataHandoff.attack_summary.rejected}/{authorizedDataHandoff.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>供應商聯絡</dt><dd>0 · 回覆 0 · 樣本 0</dd></div>
                 <div><dt>Extension 攻擊</dt><dd>{cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total} · 全部拒收</dd></div>
-                <div><dt>合成證據</dt><dd>{cizExecutionExtension.synthetic_counts.signal_eligibility_rows} 個候選資格 · {cizExecutionExtension.synthetic_counts.removal_execution_windows} 個移除窗口</dd></div>
-                <div><dt>供應商樣本</dt><dd>0 · 尚未取得合法數據</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
                 <div><dt>近期機會成本</dt><dd>候選 {pct(dailyRecent.candidate.cagr, 2)}／QQQ {pct(dailyRecent.qqq.cagr, 2)}</dd></div>
@@ -707,6 +711,7 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>真實文件交接</span><strong>{authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}</strong><small>只通過事前凍結</small></article>
               <article><span>Extension 合成控制</span><strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>執行會計閘門</span><strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong><small>舊八份賬本仍缺四項</small></article>
               <article><span>CIZ 映射控制</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><small>必要但不足以執行</small></article>
@@ -714,6 +719,81 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="authorized-data-handoff">
+            <div className="section-heading">
+              <div><span>AUTHORIZED DATA HANDOFF · ROUND 16</span><h2>合成文件 12/12、攻擊 12/12；真實文件只有 1/12</h2></div>
+              <p>把「需要甚麼數據」收窄成可直接交付的固定請求。這一輪只核對公開官方文件及本地驗證器，沒有登入、購買、聯絡供應商或取得市場列。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>請求已準備好；供應商能力及授權仍未證實</h3>
+                <p>固定 Request ID、協議雜湊、20 年區間、十份輸入及 QQQ／SPY 同步基準。公開目錄名稱只作登入後確認候選，不當成訂閱、能力或數據通過。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>本地合成控制</span><strong>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total} · 攻擊 {authorizedDataHandoff.attack_summary.rejected}/{authorizedDataHandoff.attack_summary.total}</strong><p>證明文件驗證器會按指定錯誤關門。</p></article>
+                <article><span>真實狀態</span><strong>文件 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total} · 數據 {authorizedDataHandoff.actual_point_in_time_readiness.passed}/{authorizedDataHandoff.actual_point_in_time_readiness.total}</strong><p>供應商聯絡 0、文件回覆 0、合法樣本 0、正式回測 0。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED REQUEST</span><h3>同一產品、時段、欄位與成交時鐘</h3></div>
+              <p>避免看到供應商 export 後才刪難處理欄位、縮短時段或改基準。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第十六輪固定數據請求">
+              <article className="passed"><span>01</span><b>固定正式期</b><strong>{authorizedDataHandoff.coverage.formal_start} → {authorizedDataHandoff.coverage.formal_end}</strong><p>由 {authorizedDataHandoff.coverage.buffer_start} 起留至少 {authorizedDataHandoff.coverage.minimum_pre_signal_sessions} 個訊號前 session。</p></article>
+              <article className="passed"><span>02</span><b>十份輸入</b><strong>{authorizedDataHandoff.source_file_count} 份</strong><p>五份 CIZ，加成分公布、公司行動、退出條款及日曆證據層。</p></article>
+              <article className="passed"><span>03</span><b>產品候選</b><strong>{authorizedDataHandoff.provider_products_to_confirm.map((row) => row.product_code).join("／")}</strong><p>Monthly 是公開更新套裝標示；不推論只有月線。</p></article>
+              <article className="passed"><span>04</span><b>公平基準</b><strong>QQQ／SPY</strong><p>同一交易日、raw open、總回報因子及來源記錄 ID。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>DOCUMENT GATES</span><h3>十二道文件控制逐項呈列</h3></div>
+              <p>12/12 只准供應商文件進入細樣本交付；不提高真實 1/20，不啟動回測或 Paper。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {authorizedDataHandoff.synthetic_gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十二項文件錯誤，全數以指定代碼拒收</h3></div>
+              <p>每次攻擊重新計算 response SHA-256，只保留一項 schema、授權、時間或數據能力錯誤。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {handoffAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>OFFICIAL DOCUMENT CHECK</span><h3>公開名稱可核對；完整 data dictionary 仍要登入</h3></div>
+              <p>以下全是一手官方頁，只支持「候選名稱」及 CIZ 現行格式，不支持已訂閱或可完整交付的結論。</p>
+            </div>
+            <div className="data-source-grid">
+              {authorizedDataHandoff.official_findings.map((finding) => (
+                <article key={finding.id}>
+                  <span>{finding.status.replaceAll("_", " ")}</span>
+                  <h3>{finding.detail}</h3>
+                  <a href={finding.url} target="_blank" rel="noreferrer">查看官方文件</a>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>先取得使用者授權，再發送固定請求</b></div>
+              <p>供應商文件 12/12 後，只收本地隔離細樣本，再依次運行細樣本驗收、真實數據 20/20、extension 16/16 及一次固定策略回測。任何一層失敗都不改規則、不刪退出樣本、不開短線 Paper。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF.md" target="_blank" rel="noreferrer">第十六輪完整交接文件</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md" target="_blank" rel="noreferrer">事前交接協議</a><a href="https://github.com/voidful/us_fddk/blob/main/schemas/short_term_authorized_data_response.schema.json" target="_blank" rel="noreferrer">回覆 JSON Schema</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_authorized_data_handoff.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 

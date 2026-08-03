@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eric-lam.com/us_fddk/schemas/short-term-authorized-data-response-v1.json",
+  "title": "US FDDK Round 16 authorized data document response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "request_id",
+    "request_protocol_sha256",
+    "provider",
+    "provider_product",
+    "product_reference",
+    "responded_at",
+    "source_format",
+    "wrds_mapping",
+    "license_attestation",
+    "coverage",
+    "file_capabilities",
+    "membership_semantics",
+    "security_history",
+    "market_actions",
+    "exit_economics",
+    "benchmark_delivery",
+    "delivery",
+    "declaration"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {
+      "enum": [
+        "provider_document_response",
+        "synthetic_document_response_control"
+      ]
+    },
+    "request_id": {"const": "usfddk-round16-crsp-wrds-ciz-v1"},
+    "request_protocol_sha256": {
+      "const": "4cd6da3541243573ab3a0113eebd26b581831ad31765b4fdc0a82c998703e754"
+    },
+    "provider": {"type": "string", "minLength": 1},
+    "provider_product": {"type": "string", "minLength": 1},
+    "product_reference": {"type": "string", "minLength": 1},
+    "responded_at": {"type": "string", "format": "date-time"},
+    "source_format": {"const": "CIZ_FF2"},
+    "wrds_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "schema_candidates", "reference"],
+      "properties": {
+        "status": {
+          "enum": ["provider_confirmed", "login_required", "not_applicable"]
+        },
+        "schema_candidates": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "license_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorized_for_local_research",
+        "raw_redistribution_allowed",
+        "attested_at",
+        "reference"
+      ],
+      "properties": {
+        "authorized_for_local_research": {"const": true},
+        "raw_redistribution_allowed": {"type": "boolean"},
+        "attested_at": {"type": "string", "format": "date-time"},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "buffer_start",
+        "formal_start",
+        "formal_end",
+        "next_execution_session",
+        "minimum_pre_signal_sessions"
+      ],
+      "properties": {
+        "buffer_start": {"type": "string", "format": "date"},
+        "formal_start": {"const": "2006-08-01"},
+        "formal_end": {"const": "2026-07-31"},
+        "next_execution_session": {"type": "string", "format": "date"},
+        "minimum_pre_signal_sessions": {"type": "integer", "minimum": 252}
+      }
+    },
+    "file_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stk_security_info_hist.csv",
+        "stk_ind_membership.csv",
+        "stk_dly_security_data.csv",
+        "stk_distributions.csv",
+        "stk_delists.csv",
+        "trading_calendar.csv",
+        "security_info_availability.csv",
+        "membership_announcements.csv",
+        "corporate_action_overlay.csv",
+        "exit_terms.csv"
+      ],
+      "properties": {
+        "stk_security_info_hist.csv": {"$ref": "#/$defs/fileCapability"},
+        "stk_ind_membership.csv": {"$ref": "#/$defs/fileCapability"},
+        "stk_dly_security_data.csv": {"$ref": "#/$defs/fileCapability"},
+        "stk_distributions.csv": {"$ref": "#/$defs/fileCapability"},
+        "stk_delists.csv": {"$ref": "#/$defs/fileCapability"},
+        "trading_calendar.csv": {"$ref": "#/$defs/fileCapability"},
+        "security_info_availability.csv": {"$ref": "#/$defs/fileCapability"},
+        "membership_announcements.csv": {"$ref": "#/$defs/fileCapability"},
+        "corporate_action_overlay.csv": {"$ref": "#/$defs/fileCapability"},
+        "exit_terms.csv": {"$ref": "#/$defs/fileCapability"}
+      }
+    },
+    "membership_semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sp500_index_identifier",
+        "effective_dates_available",
+        "announcement_status",
+        "point_in_time_supported",
+        "reference"
+      ],
+      "properties": {
+        "sp500_index_identifier": {"type": "string", "minLength": 1},
+        "effective_dates_available": {"const": true},
+        "announcement_status": {"enum": ["provider", "evidence", "unavailable"]},
+        "point_in_time_supported": {"type": "boolean"},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "security_history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "permno",
+        "permco",
+        "historical_ticker",
+        "share_class",
+        "primary_exchange",
+        "historical_classification",
+        "known_at_status",
+        "reference"
+      ],
+      "properties": {
+        "permno": {"const": true},
+        "permco": {"const": true},
+        "historical_ticker": {"const": true},
+        "share_class": {"const": true},
+        "primary_exchange": {"const": true},
+        "historical_classification": {"const": true},
+        "known_at_status": {"enum": ["provider", "evidence"]},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "market_actions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_ohlcv",
+        "daily_return",
+        "return_missing_flags",
+        "trading_status",
+        "distribution_ex_date",
+        "distribution_pay_date",
+        "price_share_factors",
+        "reference"
+      ],
+      "properties": {
+        "raw_ohlcv": {"const": true},
+        "daily_return": {"const": true},
+        "return_missing_flags": {"const": true},
+        "trading_status": {"const": true},
+        "distribution_ex_date": {"const": true},
+        "distribution_pay_date": {"const": true},
+        "price_share_factors": {"const": true},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "exit_economics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delisting_return",
+        "missing_reason",
+        "missing_delret_count",
+        "missing_delret_fraction",
+        "cash_consideration_status",
+        "stock_consideration_status",
+        "successor_identifiers",
+        "reference"
+      ],
+      "properties": {
+        "delisting_return": {"const": true},
+        "missing_reason": {"const": true},
+        "missing_delret_count": {"type": "integer", "minimum": 0},
+        "missing_delret_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "cash_consideration_status": {"enum": ["provider", "evidence"]},
+        "stock_consideration_status": {"enum": ["provider", "evidence"]},
+        "successor_identifiers": {"const": true},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "benchmark_delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assets",
+        "same_calendar",
+        "price_basis",
+        "raw_ohlcv",
+        "total_return_factor",
+        "source_record_ids",
+        "reference"
+      ],
+      "properties": {
+        "assets": {
+          "type": "array",
+          "prefixItems": [{"const": "QQQ"}, {"const": "SPY"}],
+          "items": false
+        },
+        "same_calendar": {"const": true},
+        "price_basis": {"const": "raw_unadjusted_ohlc_plus_total_return_factor"},
+        "raw_ohlcv": {"const": true},
+        "total_return_factor": {"const": true},
+        "source_record_ids": {"const": true},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_only",
+        "sha256_receipts",
+        "row_counts",
+        "credentials_excluded",
+        "raw_rows_publication_forbidden",
+        "reference"
+      ],
+      "properties": {
+        "local_only": {"const": true},
+        "sha256_receipts": {"const": true},
+        "row_counts": {"const": true},
+        "credentials_excluded": {"const": true},
+        "raw_rows_publication_forbidden": {"const": true},
+        "reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capabilities_only",
+        "contains_provider_rows",
+        "synthetic_control",
+        "does_not_qualify_data",
+        "does_not_authorize_backtest",
+        "does_not_authorize_paper"
+      ],
+      "properties": {
+        "capabilities_only": {"const": true},
+        "contains_provider_rows": {"const": false},
+        "synthetic_control": {"type": "boolean"},
+        "does_not_qualify_data": {"const": true},
+        "does_not_authorize_backtest": {"const": true},
+        "does_not_authorize_paper": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "fileCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "fields_covered", "reference"],
+      "properties": {
+        "status": {"enum": ["provider", "evidence", "unavailable"]},
+        "fields_covered": {"type": "boolean"},
+        "reference": {"type": "string"}
+      }
+    }
+  }
+}
