@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "round": 10,
+  "status": "daily_momentum_regime_first_download_contract_failed_before_strategy",
+  "downloaded_at_utc": "2026-08-03T18:52:45.001564Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_PROTOCOL.md",
+    "sha256": "aee1d081bcbfbd819d6c6a6a3362e241e0aab8585cb087e45fed2d1f30464cdc",
+    "commit": "1c1310fba545c1ac53d7d3419985755ffe8f0bf2"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_DATA_MAPPING.md",
+    "sha256": "7ee12c479383810cae133a39951a4b3b20ddee3dbeb7c1c38ec79e753578baa1"
+  },
+  "archive": {
+    "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/10_Portfolios_Prior_12_2_Daily_CSV.zip",
+    "path": "artifacts/french_10_prior_12_2_daily_a19daa6c.zip",
+    "sha256": "a19daa6c84ef6232f3f867159e2752c2a437d5990d6f3bf673fd91317eab6093",
+    "size_bytes": 898216,
+    "member": "10_Portfolios_Prior_12_2_Daily.csv",
+    "downloaded_in_this_run": true
+  },
+  "reused_archives": {
+    "french_daily_market_rf": {
+      "path": "artifacts/french_ff_factors_daily_af8aec07.zip",
+      "sha256": "af8aec07d55c98caa15045a77b87455be68cb8847b2ee5bd03bf5c2c8a3f96e2"
+    },
+    "qqq_spy_snapshot": {
+      "path": "artifacts/snapshot_20260731_6a7ca6b8.zip",
+      "sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b"
+    }
+  },
+  "table": {},
+  "schema_error": "ValueError: French 每日 Prior value-weighted marker 不是唯一精確命中",
+  "checks": {
+    "protocol_and_mapping_frozen_before_download": true,
+    "first_download_performed_once": true,
+    "url_and_single_member_exact": false,
+    "value_weighted_marker_and_columns_exact": false,
+    "dates_unique_monotonic_and_values_complete": false,
+    "raw_start_no_later_than_1926_11_03": false,
+    "raw_end_at_least_2026_05_29": false,
+    "reused_market_and_price_snapshots_match_hashes": true,
+    "strategy_calculation_not_started": true
+  },
+  "passed_check_count": 4,
+  "required_check_count": 9,
+  "numeric_return_rows_parsed": false,
+  "strategy_calculation_started": false,
+  "decision_boundary": {
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
