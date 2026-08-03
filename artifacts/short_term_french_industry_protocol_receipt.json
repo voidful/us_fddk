@@ -1,0 +1,42 @@
+{
+  "receipt_version": "1.0",
+  "frozen_at": "2026-08-03T23:12:31+08:00",
+  "git_parent_before_protocol_freeze": "1f2b271c6220c8cb85d38fab75a0fb6eca4f028d",
+  "mapping_path": "docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_MAPPING.md",
+  "mapping_sha256": "abad4423b0463a7f88174359ba868e6eea17a119e62cce5913502d1e535f73e8",
+  "protocol_path": "docs/SHORT_TERM_FRENCH_INDUSTRY_MOMENTUM_PROTOCOL.md",
+  "protocol_sha256": "538df4e867dd807db55a7076cdba5015191f1f60e3cc63a7b25de5a393175510",
+  "downloads_started": false,
+  "calculation_started": false,
+  "prior_data_audit": {
+    "french_49_industry_daily_present": false,
+    "french_daily_momentum_present": false,
+    "french_daily_ff_factors_present": false,
+    "previously_seen_french_10_industry_monthly_present": true,
+    "previously_seen_french_monthly_ff_factors_present": true,
+    "previously_seen_files": [
+      "artifacts/french_10_industry_245ac83a.zip",
+      "artifacts/french_ff_factors_80b88699.zip"
+    ]
+  },
+  "frozen_candidate": {
+    "family": "French 49 value-weighted industry portfolios",
+    "signal": "126-to-21-session compounded return",
+    "selection": "Top-5, alphabetical archived-name tie-break",
+    "holding": "monthly rebalance with natural drift",
+    "primary_one_way_cost_bps": 10,
+    "stress_one_way_cost_bps": [25, 50],
+    "event_holding_sessions": 20,
+    "primary_external_end": "2005-12-31",
+    "recent_confirmation_start": "2006-01-01",
+    "formal_start_rule": "first common session on or after 1963-01-01 with 126 consecutive valid returns in all 49 industries; must be no later than 1970-12-31",
+    "global_trial_penalty": 6144,
+    "required_gate_count": 33
+  },
+  "decision_boundary": {
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
