@@ -4,6 +4,7 @@ import PaperAllocationLab from "./PaperAllocationLab";
 import StrategyTabs from "./StrategyTabs";
 import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
+import shortResearch from "../data/short-term-research.json";
 
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
@@ -89,6 +90,22 @@ const identityGateNames = [
 ] as const;
 const paperIntegrity = identityGateNames.every((key) => forward.gates[key] === true);
 const realMoneyLocked = !latest.real_money_signal_display_allowed;
+const shortCandidate = shortResearch.frozen_candidate;
+const shortBaselines = shortResearch.baselines;
+const shortComparison = shortResearch.comparison_vs_qqq;
+const shortTranslation = shortResearch.taiwan_reference_translation_ablation.results;
+const shortCostRows = [
+  { label: "10 bps", metrics: shortCandidate.cost_sensitivity["10_bps"] },
+  { label: "25 bps", metrics: shortCandidate.cost_sensitivity["25_bps"] },
+  { label: "50 bps", metrics: shortCandidate.cost_sensitivity["50_bps"] },
+];
+const shortTranslationRows = [
+  { key: "tw_v85_weekly", label: "20 日動量＋60 日趨勢", metrics: shortTranslation.tw_v85_weekly },
+  { key: "tw_v85_weekly_spy_regime", label: "再加 SPY 市場環境", metrics: shortTranslation.tw_v85_weekly_spy_regime },
+  { key: "tw_v85_weekly_spy_regime_corr", label: "再加相關性濾網", metrics: shortTranslation.tw_v85_weekly_spy_regime_corr },
+];
+const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical_gates).filter(Boolean).length;
+const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
 
 export default function Home() {
   return (
@@ -441,93 +458,146 @@ export default function Home() {
               </div>
               <h1>短線高回報<br />大型股動量輪選</h1>
               <p className="hero-lead">
-                研究目標是以一至六個月持有期捕捉大型股相對強勢，並在扣除較高成本後跑贏 QQQ。
-                現有個股表仍有倖存者偏差，故目前只有研究規格，<strong>沒有可執行持倉、沒有 Paper 成交、實金動作為 US$0</strong>。
+                第一輪 20 年沙盒及台股規則轉移測試已完成。綜合動量輪選表面跑贏 QQQ，
+                但輸給同一現時股池的簡單等權漂移，統計及無偏差數據門檻亦未通過。
+                <strong> 沒有可執行持倉、沒有 Paper 成交、實金動作為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看高回報證據</a>
+                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看第一輪結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>短線策略摘要</span>
-                <b>尚未取得 Paper 資格</b>
+                <b>沙盒勝 QQQ · 仍不合資格</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前策略配置</span><strong>US$0</strong><small>等待無偏差回測及樣本外驗證</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>12 / 20 道門檻；Paper 保持關閉</small>
               </div>
               <dl className="decision-list">
-                <div><dt>回報目標</dt><dd>扣成本後跑贏 QQQ</dd></div>
-                <div><dt>預定頻率</dt><dd>月末評分／下一開市執行</dd></div>
+                <div><dt>沙盒 CAGR</dt><dd>{pct(shortCandidate.metrics.cagr, 2)}／QQQ {pct(shortBaselines.QQQ.cagr, 2)}</dd></div>
+                <div><dt>硬傷</dt><dd>輸股池漂移／PBO {pct(shortResearch.pbo_across_four_current_cohort_variants.pbo, 1)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
-              <p>短線不是即市買賣；目前定義為一至六個月的中短線動量研究，避免以高換手掩蓋成本。</p>
+              <p>現時股池倒推歷史含未來資訊；任何最新 Top-10 均不展示為買入名單。</p>
             </aside>
           </section>
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>QQQ 20 年年率化回報</span><strong>{pct(qqqBaseline.metrics.cagr, 2)}</strong><small>正式高回報 baseline</small></article>
-              <article><span>QQQ 最大跌幅</span><strong>{pct(qqqBaseline.metrics.max_drawdown, 1)}</strong><small>風險容忍要求較高</small></article>
-              <article><span>NVDA 歷史診斷</span><strong>{pct(nvdaDiagnostic.metrics.cagr, 1)}</strong><small>倖存者偏差，不是訊號</small></article>
-              <article><span>NVDA 最大跌幅</span><strong>{pct(nvdaDiagnostic.metrics.max_drawdown, 1)}</strong><small>高回報伴隨極端風險</small></article>
+              <article><span>輪選沙盒 CAGR</span><strong>{pct(shortCandidate.metrics.cagr, 2)}</strong><small>有倖存者偏差</small></article>
+              <article><span>QQQ 20 年年率化回報</span><strong>{pct(shortBaselines.QQQ.cagr, 2)}</strong><small>正式高回報 baseline</small></article>
+              <article><span>同股池漂移 CAGR</span><strong>{pct(shortBaselines.current_cohort_start_equal_then_drift.cagr, 2)}</strong><small>簡單控制反而較高</small></article>
+              <article><span>主動回報 NW t</span><strong>{shortComparison.active_newey_west.t_stat.toFixed(2)}</strong><small>門檻 1.96 · 未通過</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
             </div>
           </section>
 
           <section className="section wrap" id="aggressive-evidence">
             <div className="section-heading">
-              <div><span>RETURN FIRST, EVIDENCE FIRST</span><h2>高回報值得研究，不等於已找到策略</h2></div>
-              <p>QQQ 是正式機會成本；個股數字只用來量化上行與崩跌風險，不用今日贏家倒推可交易歷史。</p>
+              <div><span>20-YEAR SANDBOX AUDIT</span><h2>表面跑贏 QQQ，仍未證明輪選有價值</h2></div>
+              <p>{shortResearch.period.start} 至 {shortResearch.period.end}；月末訊號、下一開市執行、主要單邊成本 10 bps。</p>
             </div>
             <div className="aggressive-overview-grid">
               <article className="aggressive-verdict">
                 <span>目前研究判斷</span>
-                <h3>ETF 可作高回報基準；個股需要 point-in-time 證據才可成為策略</h3>
-                <p>長線 v25 每年較 QQQ 少 {pp(Math.abs(qqqBaseline.metrics.cagr - pooled.strategy_metrics.cagr))}，所以高回報分頁以 QQQ 為最低比較標準。任何個股輪選若只勝 SPY、但未勝 QQQ，都不算完成目標。</p>
+                <h3>較 QQQ 高 {pp(shortComparison.cagr_difference)}，但較同股池漂移低 {pp(shortCandidate.metrics.cagr - shortBaselines.current_cohort_start_equal_then_drift.cagr)}</h3>
+                <p>候選只比「現時完整股池每月等權」高 {pp(shortCandidate.metrics.cagr - shortBaselines.current_cohort_monthly_equal_weight.cagr)}，卻輸給起點等權後不再選股。這表示漂亮回報很可能主要來自今日仍然成功的公司，而非輪選規則。</p>
               </article>
               <div className="aggressive-risk-stack">
-                <article><span>極端個股跌幅</span><strong>{pct(amdDiagnostic.metrics.max_drawdown, 1)}</strong><p>AMD 的完整期最大跌幅；說明止蝕與集中風險必須另外驗證。</p></article>
-                <article><span>現時名單限制</span><strong>{expanded.individual_stock_diagnostics.displayed_count} / {expanded.individual_stock_diagnostics.watchlist_size}</strong><p>只展示具完整 240 個月歷史的現時大型股，並非歷史逐期成分股。</p></article>
+                <article><span>候選最大跌幅</span><strong>{pct(shortCandidate.metrics.max_drawdown, 1)}</strong><p>新冠急跌段達 {pct(shortResearch.stress_periods.covid_crash.results.frozen_candidate.return, 1)}，比 QQQ 的 {pct(shortResearch.stress_periods.covid_crash.results.QQQ.return, 1)} 更差。</p></article>
+                <article><span>數據／經濟門檻</span><strong>{shortDataPassed}/7 · {shortEconomicPassed}/13</strong><p>逐期成分、退市回報、歷史行業及公司行動賬本仍未完成。</p></article>
               </div>
             </div>
 
             <div className="subsection-heading stock-heading">
-              <div><span>INDIVIDUAL STOCK DIAGNOSTICS</span><h3>12 隻現時大型股的完整 20 年比較</h3></div>
-              <p>按現時觀察名單權重選取且要求 240 個月完整歷史。這是倖存者偏差診斷，不是 2006 年可知的選股結果。</p>
+              <div><span>HARD BASELINES</span><h3>候選、QQQ、SPY 與同股池控制</h3></div>
+              <p>同一凍結快照、同一起訖日及相同 10 bps 口徑；同股池兩列亦有偏差，但能檢查輪選是否勝過更簡單做法。</p>
             </div>
             <div className="metric-table-wrap">
-              <table className="metric-table stock-table">
-                <thead><tr><th>個股</th><th>行業</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Beta</th><th>長線策略五年窗勝率</th></tr></thead>
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Calmar</th><th>每年換手</th></tr></thead>
                 <tbody>
-                  {stockComparisons.map((row) => (
-                    <tr key={row.symbol}>
-                      <th><b>{row.symbol}</b><span>{row.name}</span></th>
-                      <td>{sectorLabels[row.sector] ?? row.sector}</td>
-                      <td>{pct(row.metrics.cagr, 2)}</td>
-                      <td>{multiple(row.excess_sharpe_vs_shy)}</td>
-                      <td>{pct(row.metrics.volatility, 1)}</td>
-                      <td>{pct(row.metrics.max_drawdown, 1)}</td>
-                      <td>{multiple(row.beta_to_spy)}</td>
-                      <td>{pct(row.candidate_rolling_five_year_win_fraction, 1)}</td>
-                    </tr>
-                  ))}
+                  <tr className="featured-row"><th><b>綜合動量輪選沙盒</b><span>現時 2026 股池倒推 · 不可投資</span></th><td>{pct(shortCandidate.metrics.cagr, 2)}</td><td>{multiple(shortCandidate.metrics.sharpe)}</td><td>{pct(shortCandidate.metrics.volatility, 1)}</td><td>{pct(shortCandidate.metrics.max_drawdown, 1)}</td><td>{multiple(shortCandidate.metrics.calmar)}</td><td>{multiple(shortCandidate.metrics.turnover)}x</td></tr>
+                  <tr><th><b>QQQ 買入持有</b><span>正式高回報機會成本</span></th><td>{pct(shortBaselines.QQQ.cagr, 2)}</td><td>{multiple(shortBaselines.QQQ.sharpe)}</td><td>{pct(shortBaselines.QQQ.volatility, 1)}</td><td>{pct(shortBaselines.QQQ.max_drawdown, 1)}</td><td>{multiple(shortBaselines.QQQ.calmar)}</td><td>{multiple(shortBaselines.QQQ.turnover)}x</td></tr>
+                  <tr><th><b>SPY 買入持有</b><span>廣泛大型股市場</span></th><td>{pct(shortBaselines.SPY.cagr, 2)}</td><td>{multiple(shortBaselines.SPY.sharpe)}</td><td>{pct(shortBaselines.SPY.volatility, 1)}</td><td>{pct(shortBaselines.SPY.max_drawdown, 1)}</td><td>{multiple(shortBaselines.SPY.calmar)}</td><td>{multiple(shortBaselines.SPY.turnover)}x</td></tr>
+                  <tr><th><b>現時完整股池等權</b><span>每月重新平衡 · 有偏差</span></th><td>{pct(shortBaselines.current_cohort_monthly_equal_weight.cagr, 2)}</td><td>{multiple(shortBaselines.current_cohort_monthly_equal_weight.sharpe)}</td><td>{pct(shortBaselines.current_cohort_monthly_equal_weight.volatility, 1)}</td><td>{pct(shortBaselines.current_cohort_monthly_equal_weight.max_drawdown, 1)}</td><td>{multiple(shortBaselines.current_cohort_monthly_equal_weight.calmar)}</td><td>{multiple(shortBaselines.current_cohort_monthly_equal_weight.turnover)}x</td></tr>
+                  <tr><th><b>現時完整股池漂移</b><span>起點等權後不再選股 · 有偏差</span></th><td>{pct(shortBaselines.current_cohort_start_equal_then_drift.cagr, 2)}</td><td>{multiple(shortBaselines.current_cohort_start_equal_then_drift.sharpe)}</td><td>{pct(shortBaselines.current_cohort_start_equal_then_drift.volatility, 1)}</td><td>{pct(shortBaselines.current_cohort_start_equal_then_drift.max_drawdown, 1)}</td><td>{multiple(shortBaselines.current_cohort_start_equal_then_drift.calmar)}</td><td>{multiple(shortBaselines.current_cohort_start_equal_then_drift.turnover)}x</td></tr>
                 </tbody>
               </table>
             </div>
             <div className="comparison-caveat">
-              <b>不能直接照表買入：</b>
-              <p>NVDA 的完整期年率化回報達 {pct(nvdaDiagnostic.metrics.cagr, 1)}，但最大跌幅亦達 {pct(nvdaDiagnostic.metrics.max_drawdown, 1)}；AMD 更曾達 {pct(amdDiagnostic.metrics.max_drawdown, 1)}。今日仍在大型股名單本身已包含未來資訊，這些數字不能當成策略回測。</p>
+              <b>為何 21.52% 仍不開 Paper：</b>
+              <p>現時名單不知道 2006 年當時可買什麼，也漏掉退市、被收購及失敗公司；同股池漂移更達 {pct(shortBaselines.current_cohort_start_equal_then_drift.cagr, 2)}。這個沙盒只說明假說值得以合格數據重測，不代表可賺取相同回報。</p>
             </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, WINDOWS &amp; CRISES</span><h3>高成本、固定分段與壓力期</h3></div>
+              <p>成本沒有立即消滅表面回報，但危機及統計檢驗顯示風險遠未解決。</p>
+            </div>
+            <div className="short-evidence-grid">
+              <article>
+                <span>成本敏感度</span>
+                <dl>{shortCostRows.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{pct(row.metrics.cagr, 2)} CAGR</dd></div>)}</dl>
+                <p>50 bps 後仍較 QQQ 高 {pp(shortCandidate.cost_sensitivity["50_bps"].cagr - shortBaselines.QQQ.cagr)}，但數據偏差沒有因成本測試而消失。</p>
+              </article>
+              <article>
+                <span>固定十年分段</span>
+                <strong>{pp(shortResearch.fixed_halves_vs_qqq.first.cagr_difference)}／{pp(shortResearch.fixed_halves_vs_qqq.second.cagr_difference)}</strong>
+                <p>前十年／後十年對 QQQ；滾動三年 {pct(shortResearch.rolling_three_year_vs_qqq.cagr_win_fraction, 1)} 勝出，最差仍落後 {pp(shortResearch.rolling_three_year_vs_qqq.worst_cagr_difference)}。</p>
+              </article>
+              <article>
+                <span>統計與搜尋校正</span>
+                <strong>t {shortComparison.active_newey_west.t_stat.toFixed(2)} · DSR {pct(shortComparison.active_global_deflated_sharpe.probability, 1)}</strong>
+                <p>未校正 PSR {pct(shortComparison.active_probabilistic_sharpe.probability, 1)}，但 {shortResearch.global_search_trials.toLocaleString("zh-HK")} 次搜尋後失效；四版本 PBO {pct(shortResearch.pbo_across_four_current_cohort_variants.pbo, 1)}。</p>
+              </article>
+              <article>
+                <span>三段壓力期</span>
+                <strong>{pct(shortResearch.stress_periods.global_financial_crisis.results.frozen_candidate.return, 1)} · {pct(shortResearch.stress_periods.covid_crash.results.frozen_candidate.return, 1)} · {pct(shortResearch.stress_periods.rate_hike_2022.results.frozen_candidate.return, 1)}</strong>
+                <p>金融海嘯／新冠急跌／2022。2022 防守較佳，不能掩蓋新冠段比 QQQ 多跌逾 11 個百分點。</p>
+              </article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>TAIWAN-TO-U.S. ABLATION</span><h3>台股短窗規則直譯：三版均未勝 QQQ</h3></div>
+              <p>只逐層測 20 日動量、60 日趨勢、SPY 環境與相關性濾網；不搬用台股槓桿、止蝕、止賺或 headline 回報。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>直譯版本</th><th>年率化回報</th><th>Sharpe</th><th>最大跌幅</th><th>每年換手</th><th>對 QQQ</th></tr></thead>
+                <tbody>{shortTranslationRows.map((row) => (
+                  <tr key={row.key}><th><b>{row.label}</b><span>每週 Top-7 · 現時股池沙盒</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.sharpe)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.turnover)}x</td><td className="negative-number">{pp(row.metrics.cagr - shortBaselines.QQQ.cagr)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="reference-projects">
+              <a href="https://github.com/appr1ciat1/tst_wocker" target="_blank" rel="noreferrer"><b>tst_wocker</b><span>橫斷面動量／市場環境</span></a>
+              <a href="https://github.com/appr1ciat1/tw-block-warrant" target="_blank" rel="noreferrer"><b>tw-block-warrant</b><span>研究與每日訊號分層</span></a>
+              <a href="https://github.com/appr1ciat1/tst_wocker_filter_lab" target="_blank" rel="noreferrer"><b>filter_lab</b><span>凍結快照／負結果／池 baseline</span></a>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>INDIVIDUAL STOCK RISK DIAGNOSTICS</span><h3>12 隻現時大型股的完整 20 年比較</h3></div>
+              <p>這是倖存者偏差診斷，只量化個股上行及崩跌範圍；這些公司不能反推成 2006 年選股名單。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table stock-table">
+                <thead><tr><th>個股</th><th>行業</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>Beta</th><th>長線策略五年窗勝率</th></tr></thead>
+                <tbody>{stockComparisons.map((row) => (
+                  <tr key={row.symbol}><th><b>{row.symbol}</b><span>{row.name}</span></th><td>{sectorLabels[row.sector] ?? row.sector}</td><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.excess_sharpe_vs_shy)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.beta_to_spy)}</td><td>{pct(row.candidate_rolling_five_year_win_fraction, 1)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="comparison-caveat"><b>不能直接照表買入：</b><p>NVDA 年率化回報達 {pct(nvdaDiagnostic.metrics.cagr, 1)}，但最大跌幅亦達 {pct(nvdaDiagnostic.metrics.max_drawdown, 1)}；AMD 更曾達 {pct(amdDiagnostic.metrics.max_drawdown, 1)}。今日仍在大型股名單本身已包含未來資訊。</p></div>
           </section>
 
           <section className="section aggressive-method" id="aggressive-gates">
             <div className="wrap">
               <div className="section-heading">
-                <div><span>FROZEN RESEARCH DESIGN</span><h2>短線策略先鎖定規則，再下載結果</h2></div>
-                <p>以下是研究定義與升級條件，不是今日選股名單；完成前不開 Paper、不顯示配置金額。</p>
+                <div><span>GATE-BY-GATE DECISION</span><h2>第一輪只過 {shortResearch.passed_gate_count} / {shortResearch.required_gate_count} 道</h2></div>
+                <p>以下把已完成與未完成分開；不以表面 CAGR 覆蓋任何失敗門檻。</p>
               </div>
               <div className="signal-formula" aria-label="短線策略評分規格">
                 <article><span>45%</span><b>12–1 個月動量</b><p>避開最近一個月，降低短期反轉干擾。</p></article>
@@ -537,15 +607,15 @@ export default function Home() {
               </div>
 
               <div className="short-gate-grid">
-                <article className="failed"><span>01</span><div><b>歷史逐期成分股</b><strong>未完成</strong><p>必須包含當時成分、退市及被收購公司的完整回報。</p></div></article>
-                <article className="failed"><span>02</span><div><b>可用日正確的公司數據</b><strong>未完成</strong><p>財報只可在當時公開後使用，禁止回填最新修訂值。</p></div></article>
-                <article className="waiting"><span>03</span><div><b>固定 Walk-forward</b><strong>待驗證</strong><p>前段建立、後段只測一次，並保留每次失敗結果。</p></div></article>
-                <article className="waiting"><span>04</span><div><b>QQQ 與等權基準</b><strong>待驗證</strong><p>扣 10／25／50 bps 成本後仍須勝過兩個基準。</p></div></article>
-                <article className="waiting"><span>05</span><div><b>統計與搜尋校正</b><strong>待驗證</strong><p>檢查 NW、PSR、DSR、PBO 及多重搜尋影響。</p></div></article>
-                <article className="waiting"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>入口全過後才由全現金累積 252 日及 12 次月度輪選，不回填漂亮成交。</p></div></article>
+                <article className="failed"><span>01</span><div><b>逐期成分及退市回報</b><strong>未完成</strong><p>現時 30 隻名單倒推歷史，包含倖存者及未來資訊。</p></div></article>
+                <article className="failed"><span>02</span><div><b>同股池漂移 baseline</b><strong>失敗</strong><p>候選 {pct(shortCandidate.metrics.cagr, 2)}，簡單漂移 {pct(shortBaselines.current_cohort_start_equal_then_drift.cagr, 2)}。</p></div></article>
+                <article className="waiting"><span>03</span><div><b>固定十年與滾動三年</b><strong>表面通過</strong><p>兩個固定十年均勝 QQQ；只在有偏差沙盒成立。</p></div></article>
+                <article className="waiting"><span>04</span><div><b>10／25／50 bps 成本</b><strong>表面通過</strong><p>50 bps CAGR {pct(shortCandidate.cost_sensitivity["50_bps"].cagr, 2)}，仍不可消除樣本偏差。</p></div></article>
+                <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>NW t {shortComparison.active_newey_west.t_stat.toFixed(2)}；DSR {pct(shortComparison.active_global_deflated_sharpe.probability, 1)}；PBO {pct(shortResearch.pbo_across_four_current_cohort_variants.pbo, 1)}。</p></div></article>
+                <article className="failed"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>入口全過後才由全現金累積 252 日及 12 次月度輪選，不回填成交。</p></div></article>
               </div>
-              <p className="aggressive-final-decision"><b>目前決策：</b>短線高回報研究線已獨立呈列，但尚未有合資格策略。QQQ 只作 baseline，個股只作觀察；實金及 Paper 動作均為 US$0。</p>
-              <div className="protocol-link"><span>研究定義 v1 · 2026-08-03 凍結</span><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">查看完整協議</a></div>
+              <p className="aggressive-final-decision"><b>目前決策：</b>繼續研究數據層，但不開短線 Paper。先補逐期 S&amp;P 500 成分、退市／收購回報、歷史行業及公司行動賬本，再按同一凍結規則只重跑一次；實金及 Paper 動作均為 US$0。</p>
+              <div className="protocol-link"><span>研究定義 v1.1 · 2026-08-03 執行</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">完整協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a></div></div>
             </div>
           </section>
         </div>

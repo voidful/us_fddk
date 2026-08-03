@@ -22,4 +22,5 @@ artifacts/*
 !artifacts/v25_live_refresh_status.json
 !artifacts/v25_live_update_status.json
 !artifacts/v25_reference_readiness.json
+!artifacts/short_term_high_return_validation.json
 .site-git-backup/

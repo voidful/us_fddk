@@ -32,9 +32,16 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /大型股動量輪選/);
-  assert.match(html, /尚未取得 Paper 資格/);
+  assert.match(html, /沙盒勝 QQQ · 仍不合資格/);
   assert.match(html, /12–1 個月動量/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
+  assert.match(html, /表面跑贏 QQQ，仍未證明輪選有價值/);
+  assert.match(html, /現時完整股池漂移/);
+  assert.match(html, /21\.52%/);
+  assert.match(html, /23\.04%/);
+  assert.match(html, /PBO .*69\.0%/);
+  assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
+  assert.match(html, /tst_wocker_filter_lab/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });
 

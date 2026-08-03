@@ -199,6 +199,21 @@ button, input { font: inherit; }
 .baseline-findings p { margin: 0; color: var(--muted); font-size: 0.73rem; }
 .stock-heading { margin-top: 68px; }
 .stock-table { min-width: 1050px; }
+.short-result-table { min-width: 900px; }
+.short-evidence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.short-evidence-grid article { min-height: 190px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.short-evidence-grid article > span { display: block; color: var(--muted); font-size: 0.69rem; font-weight: 800; }
+.short-evidence-grid article > strong { display: block; margin: 12px 0 9px; color: var(--red); font-family: Georgia, serif; font-size: 1.45rem; font-weight: 560; }
+.short-evidence-grid article > p { margin: 10px 0 0; color: var(--muted); font-size: 0.73rem; }
+.short-evidence-grid dl { margin: 10px 0 0; }
+.short-evidence-grid dl div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid #ece9e1; font-size: 0.74rem; }
+.short-evidence-grid dt { color: var(--muted); }
+.short-evidence-grid dd { margin: 0; font-weight: 850; }
+.reference-projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.reference-projects a { padding: 18px; border: 1px solid var(--line); border-radius: 10px; color: inherit; background: var(--surface); }
+.reference-projects b, .reference-projects span { display: block; }
+.reference-projects b { color: var(--red); font-size: 0.78rem; }
+.reference-projects span { margin-top: 6px; color: var(--muted); font-size: 0.7rem; }
 .comparison-caveat { display: grid; grid-template-columns: 190px 1fr; gap: 22px; margin-top: 12px; padding: 19px 21px; border: 1px solid #d9c590; border-radius: 10px; background: var(--gold-soft); }
 .comparison-caveat b { color: #6c5015; font-size: 0.78rem; }
 .comparison-caveat p { margin: 0; color: #6d624a; font-size: 0.74rem; }
@@ -224,6 +239,7 @@ button, input { font: inherit; }
 .protocol-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 10px; padding: 13px 15px; border: 1px solid var(--line); background: rgba(255, 253, 250, 0.64); font-size: 0.7rem; }
 .protocol-link span { color: var(--muted); font-weight: 750; }
 .protocol-link a { color: var(--red); font-weight: 850; }
+.protocol-link > div { display: flex; gap: 14px; }
 
 .test-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .test-card { padding: 22px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
@@ -391,7 +407,7 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
   .section { padding-block: 61px; }
   .section-heading, .subsection-heading, .paper-lab-heading { display: block; }
   .section-heading > p, .subsection-heading > p, .paper-lab-heading > p { margin-top: 13px; }
-  .strategy-tablist, .market-status-list, .context-grid, .baseline-findings, .test-matrix, .robust-grid, .tradeoff-grid, .forward-score-grid, .forward-progress-grid, .forward-log-grid, .calculator-shell, .note-grid, .aggressive-risk-stack, .signal-formula, .short-gate-grid { grid-template-columns: 1fr; }
+  .strategy-tablist, .market-status-list, .context-grid, .baseline-findings, .test-matrix, .robust-grid, .tradeoff-grid, .forward-score-grid, .forward-progress-grid, .forward-log-grid, .calculator-shell, .note-grid, .aggressive-risk-stack, .signal-formula, .short-gate-grid, .short-evidence-grid, .reference-projects { grid-template-columns: 1fr; }
   .strategy-switch-inner { padding-block: 15px; }
   .strategy-tablist button { min-height: 86px; }
   .protocol-link { align-items: start; flex-direction: column; }
