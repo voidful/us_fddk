@@ -20,7 +20,10 @@ test("server-renders the beginner trading reference", async () => {
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="zh-Hant"/);
   assert.match(html, /成長守門員 v2｜降回撤有效，不等於穩健超額/);
-  assert.match(html, /https:\/\/growth-guard-tw\.voidful819957\.chatgpt\.site\/og\.png/);
+  const publicSiteRoot = (
+    process.env.PUBLIC_SITE_URL ?? "https://growth-guard-tw.voidful819957.chatgpt.site"
+  ).replace(/\/$/, "");
+  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /今天不下單/);
   assert.match(html, /v25 先做 Paper/);

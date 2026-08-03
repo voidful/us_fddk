@@ -4,11 +4,15 @@ import test from "node:test";
 
 test("GitHub Pages output is self-contained under the repository base path", async () => {
   const html = await readFile(new URL("../pages-dist/index.html", import.meta.url), "utf8");
+  const publicSiteRoot = (process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk").replace(
+    /\/$/,
+    "",
+  );
   assert.match(html, /<html[^>]*lang="zh-Hant"/);
   assert.match(html, /今天不下單/);
   assert.match(html, /v25 Paper 行情截止/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.match(html, /https:\/\/voidful\.github\.io\/us_fddk\/og\.png/);
+  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 
   const script = html.match(/(?:src|href)="\/us_fddk\/(assets\/[^"]+\.js)"/);
