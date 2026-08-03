@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "research_round": 14,
+  "status": "frozen_before_execution_accounting_auditor_implementation",
+  "frozen_at": "2026-08-03T21:55:47Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md",
+    "sha256": "db3b7e95c1a47d5284e1a699e19a0032bf86fb332089b267559add6b8bf5acff"
+  },
+  "round13_mapping_protocol": {
+    "path": "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md",
+    "sha256": "0b0f9d97f18427a21df7def9002993464fcfde86856068e654e1e066ffdaac87"
+  },
+  "round13_mapping_receipt": {
+    "path": "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json",
+    "sha256": "41d79548f003f0b5a33c007b5ab620d72aa65680393ea1de246591011bc6fc53"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
+  },
+  "round13_adapter_at_freeze": {
+    "path": "usfddk/crsp_ciz_adapter.py",
+    "sha256": "2ce8c8c6d760153d094c9511c9a1d2aa9a510328c729e289abdb523618d6cbab"
+  },
+  "frozen_gate_count": 12,
+  "frozen_attack_count": 10,
+  "execution_accounting_auditor_implemented_at_freeze": false,
+  "authorized_provider_sample_present_at_freeze": false,
+  "wrds_credentials_present_at_freeze": false,
+  "true_readiness_at_freeze": {
+    "passed": 1,
+    "total": 20
+  },
+  "formal_stock_backtests_at_freeze": 0,
+  "short_paper_authorized_at_freeze": false,
+  "real_money_action_usd": 0,
+  "strategy_rule_changed": false
+}
