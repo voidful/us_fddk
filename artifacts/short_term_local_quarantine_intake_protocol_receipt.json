@@ -1,12 +1,14 @@
 {
   "schema_version": 1,
   "research_round": 17,
-  "status": "frozen_before_provider_mode_bridge_or_intake_implementation",
+  "status": "frozen_with_error_code_erratum_before_implementation",
   "frozen_at": "2026-08-03T23:27:33Z",
+  "erratum_at": "2026-08-03T23:29:30Z",
+  "erratum_scope": "existing_error_code_names_only_attacks_12_to_14",
   "git_head_at_freeze": "e5a4a1a160403f29aa267cecff13cf1f5b77f50a",
   "protocol": {
     "path": "docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md",
-    "sha256": "6fffcd35ce35792d418b8f0aaed3f089b303c7220701c6e6a50734fb94636913"
+    "sha256": "1167310d566c0208befc09f24d6391fe4dc3efd606a09f8b16e983c2abdf79a8"
   },
   "round16_protocol": {
     "path": "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md",

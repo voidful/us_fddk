@@ -4,6 +4,11 @@
 
 狀態：`frozen_before_provider_mode_bridge_or_intake_implementation`
 
+實作前勘誤：2026-08-03T23:29:30Z。首次凍結後、任何程式實作前，以現有凍結 bridge
+核對三個沿用錯誤代碼，將第 12–14 項改成程式實際固定的
+`source_receipt_invalid`、`membership_effective_date_substitution` 及
+`benchmark_session_missing`；攻擊內容、門檻與停止規則沒有改變。
+
 ## 研究問題
 
 第十六輪已把 CRSP／WRDS 文件回覆固定成機器可驗證格式，但仍未聯絡供應商、沒有
@@ -85,9 +90,9 @@ manifest status：
 | 09 | overlay provider／product 不同 | 拒收 `intake_overlay_binding_mismatch` |
 | 10 | 任一層本地研究授權不是 true | 拒收 `intake_license_binding_invalid` |
 | 11 | 文件時間遲於 export | 拒收 `intake_timestamp_order_invalid` |
-| 12 | CIZ CSV 改動但收據不改 | 拒收既有 `source_receipt_mismatch` |
-| 13 | 成分公布時間晚於生效 | 拒收既有 point-in-time 成分時間閘門 |
-| 14 | QQQ 缺一個必要 session | 拒收 `benchmark_calendar_mismatch` |
+| 12 | CIZ CSV 改動但收據不改 | 拒收既有 `source_receipt_invalid` |
+| 13 | 成分公布時間晚於生效 | 拒收既有 `membership_effective_date_substitution` |
+| 14 | QQQ 缺一個必要 session | 拒收 `benchmark_session_missing` |
 | 15 | provider package 改成舊 synthetic status | 拒收 `intake_source_mode_mismatch` |
 | 16 | 輸出檔案變成 group／world-readable | 拒收 `intake_private_permissions_invalid` |
 
