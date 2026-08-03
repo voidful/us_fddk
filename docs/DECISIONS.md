@@ -1,5 +1,23 @@
 # 決策與負結果
 
+## 2026-08-04：本地隔離匯入合成 16/16、攻擊 16/16；真實匯入仍為 1/16
+
+- 稽核發現第十五輪 execution manifest 把 status 固定為
+  `synthetic_execution_extension_built`，auditor 亦只接受該值。這是正確的合成測試
+  標示，但不能把未來授權供應商包誠實標成真實來源。本輪不改寫第十五輪 bridge、
+  manifest、報告或 16/16 收據，另立 provider-mode bridge。
+- 新 bridge 明確分開 `synthetic_local_quarantine_extension_built` 與
+  `authorized_provider_local_quarantine_extension_built`。正式 CLI 只接受使用者明確提供、
+  repository 外的 response、CIZ、QQQ／SPY overlay 及新輸出四個絕對路徑；不掃描、
+  不下載、不覆寫。輸出原子建立，目錄 0700、檔案 0600，原始列不進 Git 或 Action。
+- 合成匯入通過 **16/16**，同時保留 base ledger 20/20 及 extension 16/16。相對路徑、
+  repo 內路徑、symlink、輸出已存在、response hash、synthetic 冒充 provider、身份、
+  授權、時間、CIZ 收據、前視成分、QQQ 缺日、舊 status 冒充及 world-readable 權限攻擊
+  **16/16** 按事前固定代碼拒收。
+- 決定：合成 16/16 不提高真實狀態。現時四個外部路徑未提供、provider-mode run 0、
+  真實匯入 1/16、文件 1/12、逐股數據 1/20、正式回測 0、短線 Paper 全現金、實金
+  US$0。未來 provider 16/16 亦只准進入一次凍結正式回測，不自動建立或回填 Paper。
+
 ## 2026-08-04：授權數據交接合成 12/12、攻擊 12/12；真實文件仍為 1/12
 
 - 在新公開文件核對及實作前，先固定 CRSP／WRDS 來源範圍、十份 CIZ／證據輸入、

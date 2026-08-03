@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import localQuarantineIntake from "../data/short-term-local-quarantine-intake.json";
 import authorizedDataHandoff from "../data/short-term-authorized-data-handoff.json";
 import cizExecutionExtension from "../data/short-term-ciz-execution-extension.json";
 import cizExecutionAccounting from "../data/short-term-ciz-execution-accounting.json";
@@ -21,7 +22,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十六輪授權數據交接合成控制 12/12、十二項攻擊全拒收，真實文件 1/12、逐股數據 1/20。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十七輪本地隔離匯入合成控制 16/16、十六項攻擊全拒收，真實匯入 1/16、逐股數據 1/20。",
 };
 
 const readerCapital = 1_000;
@@ -160,6 +161,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const localIntakeAttackRows = localQuarantineIntake.attacks;
 const handoffAttackRows = authorizedDataHandoff.attacks;
 const extensionAttackRows = cizExecutionExtension.attacks;
 const executionAttackRows = cizExecutionAccounting.attacks;
@@ -668,15 +670,16 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · AUTHORIZED DATA HANDOFF · ROUND 16</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · LOCAL QUARANTINE INTAKE · ROUND 17</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />先取得授權數據</h1>
+              <h1>短線高回報<br />真實與合成分開</h1>
               <p className="hero-lead">
-                第十六輪把 CRSP／WRDS 產品、授權、十份 CIZ／證據輸入、退市經濟及 QQQ／SPY 基準交付做成固定請求。合成文件控制通過 <strong>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total}</strong>，十二項 schema、授權、時間及能力攻擊 <strong>{authorizedDataHandoff.attack_summary.rejected}/{authorizedDataHandoff.attack_summary.total} 全部拒收</strong>；請求已準備好，但尚未對外發送、沒有供應商回覆或市場列。
-                <strong>真實文件只過 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}，逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
+                第十七輪發現舊 execution extension 只接受 synthetic status，不能把未來授權供應商包誠實標成真實來源。本輪不改寫舊 16/16 證據，另立 provider-mode bridge 及 repository 外 owner-only 匯入流程。合成控制通過 <strong>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total}</strong>，十六項路徑、symlink、身份、授權、時間、前視成分、QQQ 缺日、status 冒充及權限攻擊 <strong>{localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total} 全部拒收</strong>。
+                <strong>真實匯入只過 {localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}，文件 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}、逐股數據 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#local-quarantine-intake">查看隔離匯入 1/16</a>
                 <a className="primary-button aggressive-button" href="#authorized-data-handoff">查看授權交接 1/12</a>
                 <a className="primary-button aggressive-button" href="#ciz-execution-extension">查看 extension 16/16</a>
                 <a className="secondary-button" href="#ciz-execution-accounting">查看退出會計 8/12</a>
@@ -689,15 +692,16 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>文件交接 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total} · 尚未對外發送</b>
+                <b>真實匯入 {localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total} · provider run 0</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>隔離匯入控制</dt><dd>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total} · 只限合成</dd></div>
+                <div><dt>匯入攻擊</dt><dd>{localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>合成文件控制</dt><dd>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total} · 只驗證格式</dd></div>
-                <div><dt>文件攻擊</dt><dd>{authorizedDataHandoff.attack_summary.rejected}/{authorizedDataHandoff.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>供應商聯絡</dt><dd>0 · 回覆 0 · 樣本 0</dd></div>
                 <div><dt>Extension 攻擊</dt><dd>{cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
@@ -711,6 +715,7 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>真實隔離匯入</span><strong>{localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}</strong><small>只通過事前凍結</small></article>
               <article><span>真實文件交接</span><strong>{authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}</strong><small>只通過事前凍結</small></article>
               <article><span>Extension 合成控制</span><strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>執行會計閘門</span><strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong><small>舊八份賬本仍缺四項</small></article>
@@ -719,6 +724,67 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="local-quarantine-intake">
+            <div className="section-heading">
+              <div><span>LOCAL QUARANTINE INTAKE · ROUND 17</span><h2>合成匯入 16/16、攻擊 16/16；真實匯入仍只有 1/16</h2></div>
+              <p>收到授權文件與細樣本後，必須先分辨真實／合成來源，再在 repository 外完成原子轉換、20/20 點時稽核及 16/16 execution 稽核；本輪仍沒有任何供應商輸入。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>舊 bridge 的 synthetic 標示不能直接承接真實供應商包</h3>
+                <p>{localQuarantineIntake.gap_closed.finding} 新 bridge 另立 provider status，沒有修改第十五輪程式、報告或 16/16 收據。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>合成匯入／攻擊</span><strong>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total} · {localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total}</strong><p>只證明模式、路徑、數據及權限錯誤會被拒收。</p></article>
+                <article><span>真實決策</span><strong>provider run {localQuarantineIntake.provider_mode_run_count} · 回測 0</strong><p>四個外部絕對路徑仍未提供；不掃描、不猜測、不建立 Paper。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EXPLICIT SOURCE MODES</span><h3>真實與合成 status 不可互換</h3></div>
+              <p>下游程式可由 manifest 直接辨認來源，不再把工程控制誤當市場證據。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第十七輪來源及隔離控制">
+              <article className="passed"><span>01</span><b>合成控制</b><strong>synthetic_local…</strong><p>只供固定 harness；不能授權正式回測。</p></article>
+              <article className="passed"><span>02</span><b>授權供應商</b><strong>authorized_provider…</strong><p>只有真實文件、數據 20/20 及 extension 16/16 才可產生。</p></article>
+              <article className="passed"><span>03</span><b>本地隔離</b><strong>0700／0600</strong><p>目錄及檔案 owner-only；原始列不進 Git 或 Action artifact。</p></article>
+              <article className="passed"><span>04</span><b>原子輸出</b><strong>staging → rename</strong><p>目的地必須全新；失敗時不留下半套 package。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>LOCAL INTAKE GATES</span><h3>十六道匯入控制逐項呈列</h3></div>
+              <p>合成 16/16 不提高真實匯入 1/16；provider 16/16 亦只准另一步運行一次凍結正式回測。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {localQuarantineIntake.synthetic_gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十六項路徑、來源、數據及權限錯誤全數拒收</h3></div>
+              <p>包括 repo 內路徑、symlink、synthetic 冒充 provider、身份不符、授權 false、前視成分、QQQ 缺日及 world-readable 輸出。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {localIntakeAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>只在使用者明確提供四個外部絕對路徑後運行 provider mode</b></div>
+              <p>即使真實匯入 16/16，程式亦不自動跑策略、不調參、不回填成交及不建立 Paper；只會產生可供一次固定正式回測的 owner-only package。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_REPORT.md" target="_blank" rel="noreferrer">第十七輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md" target="_blank" rel="noreferrer">事前匯入協議</a><a href="https://github.com/voidful/us_fddk/blob/main/scripts/validate_short_term_local_quarantine_intake.py" target="_blank" rel="noreferrer">本地 CLI</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_local_quarantine_intake_validation.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 

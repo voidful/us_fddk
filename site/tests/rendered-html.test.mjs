@@ -39,7 +39,14 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /兩條策略，兩套目標與門檻/);
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
-  assert.match(html, /先取得授權數據/);
+  assert.match(html, /真實與合成分開/);
+  assert.match(html, /LOCAL QUARANTINE INTAKE · ROUND 17/);
+  assert.match(html, /合成匯入 16\/16、攻擊 16\/16；真實匯入仍只有 1\/16/);
+  assert.match(html, /舊 bridge 的 synthetic 標示不能直接承接真實供應商包/);
+  assert.match(html, /真實與合成 status 不可互換/);
+  assert.match(html, /十六道匯入控制逐項呈列/);
+  assert.match(html, /十六項路徑、來源、數據及權限錯誤全數拒收/);
+  assert.match(html, /只在使用者明確提供四個外部絕對路徑後運行 provider mode/);
   assert.match(html, /AUTHORIZED DATA HANDOFF · ROUND 16/);
   assert.match(html, /合成文件 12\/12、攻擊 12\/12；真實文件只有 1\/12/);
   assert.match(html, /請求已準備好；供應商能力及授權仍未證實/);

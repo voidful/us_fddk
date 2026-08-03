@@ -1,0 +1,316 @@
+{
+  "actual_document_handoff": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 12
+  },
+  "actual_local_intake": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 16
+  },
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 16,
+    "total": 16
+  },
+  "attacks": [
+    {
+      "expected_error_code": "intake_path_not_absolute",
+      "id": "01",
+      "label": "response 使用相對路徑",
+      "observed_error_code": "intake_path_not_absolute",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_path_inside_repository",
+      "id": "02",
+      "label": "輸入位於 repository 內",
+      "observed_error_code": "intake_path_inside_repository",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_symlink_or_special_file",
+      "id": "03",
+      "label": "CIZ 樹加入 symlink",
+      "observed_error_code": "intake_symlink_or_special_file",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_output_exists",
+      "id": "04",
+      "label": "輸出目錄已存在",
+      "observed_error_code": "intake_output_exists",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "response_receipt_mismatch",
+      "id": "05",
+      "label": "response hash 不符",
+      "observed_error_code": "response_receipt_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_source_mode_mismatch",
+      "id": "06",
+      "label": "provider mode 使用 synthetic response",
+      "observed_error_code": "intake_source_mode_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_provider_binding_mismatch",
+      "id": "07",
+      "label": "response 與 CIZ provider 不同",
+      "observed_error_code": "intake_provider_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_product_binding_mismatch",
+      "id": "08",
+      "label": "response 與 CIZ product 不同",
+      "observed_error_code": "intake_product_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_overlay_binding_mismatch",
+      "id": "09",
+      "label": "overlay provider 不同",
+      "observed_error_code": "intake_overlay_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_license_binding_invalid",
+      "id": "10",
+      "label": "overlay 本地研究授權 false",
+      "observed_error_code": "intake_license_binding_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_timestamp_order_invalid",
+      "id": "11",
+      "label": "文件時間遲於 export",
+      "observed_error_code": "intake_timestamp_order_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "source_receipt_invalid",
+      "id": "12",
+      "label": "CIZ CSV 改動但收據不改",
+      "observed_error_code": "source_receipt_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "membership_effective_date_substitution",
+      "id": "13",
+      "label": "成分公布時間晚於生效",
+      "observed_error_code": "membership_effective_date_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "benchmark_session_missing",
+      "id": "14",
+      "label": "QQQ 缺一個必要 session",
+      "observed_error_code": "benchmark_session_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_source_mode_mismatch",
+      "id": "15",
+      "label": "輸出改成舊 synthetic status",
+      "observed_error_code": "intake_source_mode_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "intake_private_permissions_invalid",
+      "id": "16",
+      "label": "輸出檔案變成 world-readable",
+      "observed_error_code": "intake_private_permissions_invalid",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_response_received": false,
+  "authorized_provider_sample_received": false,
+  "disclaimer": "合成 16/16 只證明本地隔離匯入器及 provider-mode 標示會關門；不證明供應商、數據、策略、Paper 或盈利通過。",
+  "evidence_as_of": "2026-08-04",
+  "explicit_external_paths_provided": false,
+  "formal_stock_backtest_completed": false,
+  "formal_stock_backtest_input_ready": false,
+  "gap_closed": {
+    "finding": "Round 15 manifest status 只接受 synthetic，不能標示真實 provider mode。",
+    "new_provider_status": "authorized_provider_local_quarantine_extension_built",
+    "new_synthetic_status": "synthetic_local_quarantine_extension_built",
+    "old_status": "synthetic_execution_extension_built",
+    "round15_files_modified": false
+  },
+  "intake_version": "round17-local-quarantine-intake-v1",
+  "next_action": "使用者明確提供 repository 外四個絕對路徑後，才以 provider mode 運行；16/16 只准進入一次固定正式回測，不會自動建立 Paper。",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "protocol_integrity": {
+    "erratum_at": "2026-08-03T23:29:30Z",
+    "frozen_at": "2026-08-03T23:27:33Z",
+    "git_head_at_freeze": "e5a4a1a160403f29aa267cecff13cf1f5b77f50a",
+    "hash_checks": {
+      "artifacts/short_term_authorized_data_handoff_protocol_receipt.json": true,
+      "artifacts/short_term_ciz_execution_extension_protocol_receipt.json": true,
+      "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json": true,
+      "artifacts/short_term_crsp_sample_acceptance_protocol_receipt.json": true,
+      "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md": true,
+      "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+      "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md": true,
+      "docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md": true,
+      "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+      "docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md": true,
+      "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+      "schemas/short_term_authorized_data_response.schema.json": true,
+      "schemas/short_term_point_in_time_manifest.schema.json": true,
+      "usfddk/authorized_data_handoff.py": true,
+      "usfddk/ciz_execution_extension.py": true,
+      "usfddk/crsp_ciz_adapter.py": true,
+      "usfddk/point_in_time_ledger.py": true
+    },
+    "passed": true
+  },
+  "provider_mode_run_count": 0,
+  "real_money_action_usd": 0,
+  "research_round": 17,
+  "schema_version": 1,
+  "status": "synthetic_local_intake_passed_provider_inputs_still_missing",
+  "strategy_rule_changed": false,
+  "synthetic_control": {
+    "contains_provider_rows": false,
+    "counts": {
+      "benchmark_rows": 46,
+      "cash_entitlements": 1,
+      "removal_execution_windows": 1,
+      "signal_eligibility_rows": 2,
+      "signals": 1
+    },
+    "extension_gate_summary": {
+      "all_passed": true,
+      "passed": 16,
+      "total": 16
+    },
+    "formal_stock_backtest_input_ready": false,
+    "gate_summary": {
+      "all_passed": true,
+      "passed": 16,
+      "total": 16
+    },
+    "gates": [
+      {
+        "detail": "Round 17 協議及十六份前置雜湊完整",
+        "id": "01",
+        "label": "事前凍結完整性",
+        "passed": true
+      },
+      {
+        "detail": "source_mode=synthetic_control；status 一致",
+        "id": "02",
+        "label": "模式明確",
+        "passed": true
+      },
+      {
+        "detail": "輸入及輸出均在 repository 外",
+        "id": "03",
+        "label": "絕對外部路徑",
+        "passed": true
+      },
+      {
+        "detail": "輸入樹只含正常檔案及目錄",
+        "id": "04",
+        "label": "無連結或特殊檔",
+        "passed": true
+      },
+      {
+        "detail": "新 staging 完成後才 rename",
+        "id": "05",
+        "label": "新輸出及原子寫入",
+        "passed": true
+      },
+      {
+        "detail": "Round 16 request、schema 及 response hash 通過",
+        "id": "06",
+        "label": "文件 envelope 對數",
+        "passed": true
+      },
+      {
+        "detail": "provider 與 synthetic status 不可互換",
+        "id": "07",
+        "label": "正式／合成隔離",
+        "passed": true
+      },
+      {
+        "detail": "response、CIZ 及 overlay 身份一致",
+        "id": "08",
+        "label": "供應商及產品綁定",
+        "passed": true
+      },
+      {
+        "detail": "三層本地研究授權及 reference 完整",
+        "id": "09",
+        "label": "授權邊界綁定",
+        "passed": true
+      },
+      {
+        "detail": "文件／授權 ≤ export ≤ first import",
+        "id": "10",
+        "label": "時間次序",
+        "passed": true
+      },
+      {
+        "detail": "十份輸入、欄位、列數及 SHA-256 對數",
+        "id": "11",
+        "label": "CIZ 精確輸入",
+        "passed": true
+      },
+      {
+        "detail": "原 point-in-time auditor 全數通過",
+        "id": "12",
+        "label": "Base ledger 20/20",
+        "passed": true
+      },
+      {
+        "detail": "新 manifest 沒有沿用 synthetic 冒充",
+        "id": "13",
+        "label": "Provider-mode 語義",
+        "passed": true
+      },
+      {
+        "detail": "QQQ／SPY 同步 raw 行情及來源 ID",
+        "id": "14",
+        "label": "公平 execution overlay",
+        "passed": true
+      },
+      {
+        "detail": "派息、歷史、移除、D+1 及成本通過",
+        "id": "15",
+        "label": "Execution extension 16/16",
+        "passed": true
+      },
+      {
+        "detail": "owner-only；不運行策略、Paper 或實金",
+        "id": "16",
+        "label": "隔離及決策邊界",
+        "passed": true
+      }
+    ],
+    "point_in_time_gate_summary": {
+      "all_passed": true,
+      "passed": 20,
+      "total": 20
+    },
+    "private_permissions": true
+  }
+}

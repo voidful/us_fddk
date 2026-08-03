@@ -243,6 +243,18 @@ python scripts/build_short_term_ciz_execution_extension_report.py
 # 12/12 只證明文件驗證器 fail closed；現時未聯絡供應商、真實文件 1/12、數據 1/20
 python scripts/build_short_term_authorized_data_handoff_report.py
 
+# 重建第十七輪本地隔離匯入：provider／synthetic status 分離、十六道控制及十六項攻擊
+# 16/16 只證明 owner-only 匯入器 fail closed；provider run 仍為 0
+python scripts/build_short_term_local_quarantine_intake_report.py
+
+# 只有使用者明確提供 repository 外四個絕對路徑時，才可運行正式 provider mode
+# 成功只表示輸入可供一次固定正式回測；不會自動跑策略、建立 Paper 或作實金動作
+python scripts/validate_short_term_local_quarantine_intake.py \
+  --response /private/input/provider-response-envelope.json \
+  --ciz-bundle /private/input/crsp-ciz-bundle \
+  --execution-overlay /private/input/qqq-spy-overlay \
+  --output /private/output/validated-local-package
+
 # 只用凍結日檔重建第十輪每日環境共振 27/48 負結果；不重新下載或建立 Paper
 python scripts/build_short_term_daily_momentum_regime_report.py
 
