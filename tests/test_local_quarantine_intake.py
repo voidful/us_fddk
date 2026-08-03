@@ -1,5 +1,6 @@
 import json
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -137,7 +138,7 @@ def test_derived_intake_receipt_tampering_is_rejected() -> None:
 def test_cli_exposes_only_provider_mode_and_requires_all_four_paths() -> None:
     completed = subprocess.run(
         [
-            str(ROOT / ".venv/bin/python"),
+            sys.executable,
             str(ROOT / "scripts/validate_short_term_local_quarantine_intake.py"),
             "--help",
         ],
