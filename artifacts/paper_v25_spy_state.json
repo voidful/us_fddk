@@ -4,23 +4,45 @@
   "strategy": "v25 SPY 基準（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-08-02T22:37:29.379761+00:00",
-  "updated_at": "2026-08-02T23:05:20.931596+00:00",
+  "updated_at": "2026-08-03T20:25:03.843211+00:00",
   "initial_cash": 100000.0,
-  "cash": 100000.0,
+  "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-07-31",
-  "holdings": {},
-  "pending_order": {
-    "signal_date": "2026-07-31",
-    "queued_at": "2026-07-31",
-    "execute_after": "2026-07-31",
-    "target_weights": {
-      "SPY": 1.0
-    },
-    "status": "pending"
+  "as_of": "2026-08-03",
+  "holdings": {
+    "SPY": {
+      "shares": 133.29966318139046,
+      "last_price": 757.6699829101562,
+      "market_value": 100997.15352457369
+    }
   },
-  "order_history": [],
-  "transactions": [],
+  "pending_order": null,
+  "order_history": [
+    {
+      "signal_date": "2026-07-31",
+      "queued_at": "2026-07-31",
+      "execute_after": "2026-07-31",
+      "target_weights": {
+        "SPY": 1.0
+      },
+      "status": "filled",
+      "filled_at": "2026-08-03",
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-08-03",
+      "signal_date": "2026-07-31",
+      "ticker": "SPY",
+      "side": "BUY",
+      "shares": 133.29966318139046,
+      "price": 749.4400024414062,
+      "notional": 99900.0999000999,
+      "cost": 99.9000999000999
+    }
+  ],
   "equity_curve": [
     {
       "date": "2026-07-31",
@@ -29,10 +51,18 @@
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": 0.0
+    },
+    {
+      "date": "2026-08-03",
+      "equity": 100997.15352457369,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999,
+      "drawdown": 0.0
     }
   ],
   "adjustment_rebases": [],
-  "total_costs": 0.0,
-  "snapshot_sha256": "8fe11b82ea21bf0f6ebcaef86a46e58b62182a593adba287d675443ac68d2334",
+  "total_costs": 99.9000999000999,
+  "snapshot_sha256": "1a70758e03c728081c97ea0ec7838d13c47cab872e0f8d47f686c57dc5300da5",
   "started_at": "2026-07-31"
 }
