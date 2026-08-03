@@ -32,7 +32,12 @@ jobs:
         run: python -m usfddk v25-site-export
       - name: Audit website and append the evidence chain
         run: |
-          python -m usfddk v25-reference-check
+          python -m usfddk v25-reference-check --receipt-ledger ""
+          if [ "$(jq -r '.data_advanced' artifacts/v25_live_update_status.json)" = "true" ]; then
+            python -m usfddk v25-reference-check
+          else
+            echo "No new U.S. session; the formal append-only ledger remains untouched."
+          fi
           python -m usfddk v25-refresh-status
       - name: Verify research code
         run: |

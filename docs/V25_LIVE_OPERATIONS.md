@@ -33,6 +33,8 @@ scripts/refresh_live_reference.sh
 GitHub Actions 每天 04:30 UTC（台北 12:30）執行；週末與休市日由 XNYS 日曆判定
 為沒有新 session，成功結束但不改寫網站。歷史研究結果保持凍結，日更只推進 v25
 候選、SPY 與 80% VUG／20% SHY 三個同起點 Paper 帳戶。
+沒有新 session 時只執行唯讀的網站／帳戶稽核，不觸碰正式 append-only 證據鏈；
+只有 `data_advanced=true` 才可追加收據。這不放寬同日證據改寫的拒絕規則。
 
 ## Fail-closed 情況
 
