@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
 test("GitHub Pages output is self-contained under the repository base path", async () => {
@@ -19,4 +19,25 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.ok(script, "expected a repository-prefixed client bundle");
   await access(new URL(`../pages-dist/${script[1]}`, import.meta.url));
   await access(new URL("../pages-dist/.nojekyll", import.meta.url));
+
+  const assetsUrl = new URL("../pages-dist/assets/", import.meta.url);
+  const assetNames = await readdir(assetsUrl);
+  const javascript = (
+    await Promise.all(
+      assetNames
+        .filter((name) => name.endsWith(".js"))
+        .map((name) => readFile(new URL(name, assetsUrl), "utf8")),
+    )
+  ).join("\n");
+  const styles = (
+    await Promise.all(
+      assetNames
+        .filter((name) => name.endsWith(".css"))
+        .map((name) => readFile(new URL(name, assetsUrl), "utf8")),
+    )
+  ).join("\n");
+  assert.match(javascript, /IntersectionObserver/);
+  assert.match(javascript, /motion-reveal/);
+  assert.match(styles, /status-pulse/);
+  assert.match(styles, /data-motion=ready/);
 });

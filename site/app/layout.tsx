@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import data from "../data/trading-data.json";
 import "./globals.css";
+import MotionEffects from "./MotionEffects";
 
 const publicSiteUrl =
   process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk";
@@ -38,7 +39,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       data-refresh-due={data.freshness.refresh_due_at_utc}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <MotionEffects />
+        {children}
+      </body>
     </html>
   );
 }
