@@ -23,6 +23,61 @@ def _clean_metric_set(metrics: dict[str, Any]) -> dict[str, float]:
     }
 
 
+_HK_FINANCE_REPLACEMENTS = (
+    ("買進並持有", "買入並持有"),
+    ("買進持有", "買入並持有"),
+    ("總報酬", "總回報"),
+    ("超額報酬", "超額回報"),
+    ("主動報酬", "主動回報"),
+    ("最大回撤", "最大跌幅"),
+    ("波動率", "波幅"),
+    ("行情快照", "市場快照"),
+    ("極端行情", "極端市況"),
+    ("總權益曝險", "總股票持倉比率"),
+    ("三帳戶", "三個模擬組合"),
+    ("Paper 帳戶", "Paper 模擬組合"),
+    ("報酬", "回報"),
+    ("績效", "表現"),
+    ("回撤", "最大跌幅"),
+    ("年化", "年率化"),
+    ("波動", "波幅"),
+    ("買進", "買入"),
+    ("賣出", "沽出"),
+    ("下單", "落盤"),
+    ("資料", "數據"),
+    ("新手", "初學投資者"),
+    ("部位", "持倉"),
+    ("曝險", "持倉比率"),
+    ("再平衡", "重新平衡"),
+    ("帳戶", "模擬組合"),
+    ("標的", "相關資產"),
+    ("收盤", "收市"),
+    ("開盤", "開市"),
+    ("盤中", "即市"),
+    ("停損", "止蝕"),
+    ("損益", "盈虧"),
+    ("獲利", "盈利"),
+    ("券商", "證券商"),
+    ("行情", "市場數據"),
+    ("調整後", "經調整"),
+    ("滿倉", "全數持股"),
+)
+
+
+def _localize_hk_finance_copy(value: Any) -> Any:
+    """Localize display strings without renaming machine-contract keys."""
+    if isinstance(value, dict):
+        return {key: _localize_hk_finance_copy(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_localize_hk_finance_copy(item) for item in value]
+    if not isinstance(value, str):
+        return value
+    localized = value.replace("證券商", "\u0000BROKER\u0000")
+    for source, target in _HK_FINANCE_REPLACEMENTS:
+        localized = localized.replace(source, target)
+    return localized.replace("\u0000BROKER\u0000", "證券商")
+
+
 def _preserve_idempotent_generation_time(
     payload: dict[str, Any], paths: Iterable[str | Path]
 ) -> dict[str, Any]:
@@ -130,7 +185,7 @@ def refresh_v25_site_data(
     except (KeyError, TypeError) as exc:
         raise ValueError("網站範本缺少凍結的 v25 研究結果") from exc
     if not bool(v25.get("paper_eligible")) or not bool(v25.get("all_paths_passed")):
-        raise ValueError("凍結的 v25 歷史入口未通過，不得建立 LIVE Paper 網站資料")
+        raise ValueError("凍結的 v25 歷史入口未通過，不得建立 LIVE Paper 網站數據")
 
     paper_bundle = build_v25_paper_bundle(candidate_state, spy_state, matched_state)
     forward_trade_ready = bool(paper_bundle["forward_evidence"]["live_confirmed"])
@@ -145,6 +200,7 @@ def refresh_v25_site_data(
     payload["live_snapshot_sha256"] = str(candidate_state.get("snapshot_sha256", ""))
     payload["freshness"] = market_data_freshness_schedule(candidate_state["as_of"])
     payload["generated_at_utc"] = datetime.now(UTC).isoformat().replace("+00:00", "Z")
+    payload = _localize_hk_finance_copy(payload)
     payload = _preserve_idempotent_generation_time(payload, [template_path, *paths])
 
     written: list[Path] = []
@@ -228,7 +284,7 @@ def write_site_data(
             "name": reference_audit["strategy_name"],
             "version": int(reference_audit.get("strategy_version", 1)),
             "status": reference_audit["status"],
-            "execution_clock": "月末收盤產生訊號；下一個新增交易日用調整後開盤價模擬成交",
+            "execution_clock": "月末收市產生訊號；下一個新增交易日用經調整開市價模擬成交",
             "parameters": reference_audit["frozen_parameters"],
             "current_target": target,
             "metrics": _clean_metric_set(reference_audit["strategy_metrics"]),
@@ -317,31 +373,31 @@ def write_site_data(
         },
         "beginner": {
             "action": (
-                "只做 Paper：等待下一個新增交易日開盤模擬成交"
+                "只做 Paper：等待下一個新增交易日開市模擬成交"
                 if pending
                 else "照規則持有，等待下一次月末訊號"
                 if holdings
                 else "目前維持現金，等待有效訊號"
             ),
             "why": (
-                "月末訊號已排隊；為避免偷看同一天開盤價，只會在未來新增的交易日執行。"
+                "月末訊號已排隊；為避免偷看同一天開市價，只會在未來新增的交易日執行。"
                 if pending
                 else "目前沒有待成交委託；系統會在下一個完整月末重新計算配置。"
             ),
-            "next_check": "行情快照新增交易日後，再執行 paper update 並核對成交明細。",
+            "next_check": "市場快照新增交易日後，再執行 paper update 並核對成交明細。",
             "allocation_hint": (
                 f"目前 QQQ 約 {float(target.get('QQQ', 0.0)):.0%}；"
                 f"SHY 防守準備金約 {float(target.get('SHY', 0.0)):.0%}。"
             ),
         },
         "limitations": [
-            "這是依凍結歷史資料選出的研究候選，不是獨立於搜尋之外的全新樣本。",
-            "超額報酬尚未達統計確認，LIVE paper 也還沒有足夠前瞻交易紀錄。",
-            "相對被動 90% QQQ／10% SHY，後十年、5 年滾動一致性與 25 bps 成本檢查未通過；目前只能視為降回撤研究，不是已證實 alpha。",
-            "QQQ 仍是主要風險來源；回測最深回撤約三成六，未來可能更深。",
+            "這是依凍結歷史數據選出的研究候選，不是獨立於搜尋之外的全新樣本。",
+            "超額回報尚未達統計確認，LIVE Paper 也還沒有足夠前瞻交易紀錄。",
+            "相對被動 90% QQQ／10% SHY，後十年、5 年滾動一致性與 25 bps 成本檢查未通過；目前只能視為收窄最大跌幅研究，不是已證實 alpha。",
+            "QQQ 仍是主要風險來源；回測最深跌幅約三成六，未來可能更深。",
             "回測含設定的換手成本，但不含稅、買賣價差變動、市場衝擊與匯率。",
-            "免費調整後行情可能被供應商回溯修訂；每次更新都要留下快照雜湊。",
-            "Paper 持倉採總報酬調整單位，不是券商股數；除息、拆股或價格修訂時只重基準單位，不回寫既有損益。",
+            "免費經調整市場數據可能被供應商回溯修訂；每次更新都要留下快照雜湊。",
+            "Paper 持倉採總回報調整單位，不是證券商股數；除息、拆股或價格修訂時只重基準單位，不回寫既有盈虧。",
         ],
         "disclaimer": "研究與教育用途，不構成投資建議；不保證未來跑贏 SPY 或任何 ETF。",
     }
@@ -540,7 +596,7 @@ def write_site_data(
         if not style_rotation_audit["historical_gate_passed"]:
             payload["limitations"].insert(
                 0,
-                "v4 股權風格輪動雖改善 SPY 回撤，但 14 道事前門檻只通過 2 道；CAGR、成本、後十年、滾動與統計均不足，且舊代理資料門檻失敗，因此不建立 Paper。",
+                "v4 股權風格輪動雖改善 SPY 最大跌幅，但 14 道事前門檻只通過 2 道；CAGR、成本、後十年、滾動與統計均不足，且舊代理數據門檻失敗，因此不建立 Paper。",
             )
     if three_clock_audit is not None:
         main = three_clock_audit["main"]
@@ -625,7 +681,7 @@ def write_site_data(
         if not three_clock_audit["historical_gate_passed"]:
             payload["limitations"].insert(
                 0,
-                "v5 三時鐘集成在近期 20 年幾乎追平 QQQ 且回撤較淺，但舊年代 5 年滾動勝率僅約 37%、五市場完整期僅 1/5 同勝兩基準，22 道門檻只過 10 道；研究配置不是交易訊號，不建立 Paper。",
+                "v5 三時鐘集成在近期 20 年幾乎追平 QQQ 且最大跌幅較小，但舊年代 5 年滾動勝率僅約 37%、五市場完整期僅 1/5 同勝兩基準，22 道門檻只過 10 道；研究配置不是交易訊號，不建立 Paper。",
             )
     if industry_tilt_audit is not None:
         main = industry_tilt_audit["main"]
@@ -702,7 +758,7 @@ def write_site_data(
         if not industry_tilt_audit["historical_gate_passed"]:
             payload["limitations"].insert(
                 0,
-                "v6 產業動能在 1927–2005 代理期有效，但 2006–2026 可交易 ETF 主期 CAGR 10.00%，低於 SPY 11.27% 與同曝險對照 10.20%；22 道只過 11 道，研究配置不可照單、不建立 Paper。",
+                "v6 產業動能在 1927–2005 代理期有效，但 2006–2026 可交易 ETF 主期 CAGR 10.00%，低於 SPY 11.27% 與相同持倉比率對照 10.20%；22 道只過 11 道，研究配置不可照單、不建立 Paper。",
             )
     if relative_growth_audit is not None:
         main = relative_growth_audit["main"]
@@ -782,7 +838,7 @@ def write_site_data(
         if not relative_growth_audit["historical_gate_passed"]:
             payload["limitations"].insert(
                 0,
-                "v7 永久 50% SPY 核心加相對成長開關，在 2006–2026 的 CAGR 10.59% 低於 SPY 11.27%，最大回撤雖較 SPY 淺，卻比相同月度股票曝險對照更深；19 道只過 6 道，不建立 Paper。",
+                "v7 永久 50% SPY 核心加相對成長開關，在 2006–2026 的 CAGR 10.59% 低於 SPY 11.27%，最大跌幅雖較 SPY 小，卻比相同月度股票持倉比率對照更深；19 道只過 6 道，不建立 Paper。",
             )
     if always_invested_audit is not None:
         main = always_invested_audit["main"]
@@ -879,7 +935,7 @@ def write_site_data(
         if not always_invested_audit["paper_eligible"]:
             payload["limitations"].insert(
                 0,
-                "v8 永遠維持 100% 股票曝險，2006–2026 CAGR 12.32% 勝 SPY 11.27%，但 50 bps 成本後略輸 SPY；1989–2006 代理最大回撤又比 S&P 500 深 6.97pp。Paper 入口 14/16，依凍結規格不建帳戶。",
+                "v8 永遠維持 100% 股票持倉比率，2006–2026 CAGR 12.32% 勝 SPY 11.27%，但 50 bps 成本後略輸 SPY；1989–2006 代理最大跌幅又比 S&P 500 深 6.97pp。Paper 入口 14/16，依凍結規格不建立 Paper 模擬組合。",
             )
     if low_turnover_audit is not None:
         datasets = {
@@ -961,10 +1017,10 @@ def write_site_data(
                 "v9 改為只在狀態切換時交易、成長槽位降至 40%；2006–2026 CAGR "
                 f"{main['strategy_metrics']['cagr']:.2%} 勝 SPY "
                 f"{main['benchmark_metrics']['market']['cagr']:.2%}，但 50 bps 後僅領先 "
-                f"{main['cost_50bps']['cagr_difference']:.3%}；舊代理回撤多深 "
+                f"{main['cost_50bps']['cagr_difference']:.3%}；舊代理最大跌幅惡化 "
                 f"{abs(old['comparison']['drawdown_difference']):.2%}，1973–1988 外部期後半也落後。"
                 f"Paper 入口 {low_turnover_audit['paper_entry_passed_gate_count']}/"
-                f"{low_turnover_audit['paper_entry_required_gate_count']}，不建帳戶。",
+                f"{low_turnover_audit['paper_entry_required_gate_count']}，不建立 Paper 模擬組合。",
             )
     if hierarchical_defense_audit is not None:
         datasets = {
@@ -1071,11 +1127,11 @@ def write_site_data(
                 0,
                 "v12 保留 60% 核心，剩餘 40% 依序切到成長、核心或防守；"
                 f"2006–2026 CAGR {main['strategy_metrics']['cagr']:.2%} 低於 SPY "
-                f"{main['benchmark_metrics']['market']['cagr']:.2%}，雖把最大回撤改善 "
-                f"{main['comparison']['drawdown_improvement']:.2%}，50 bps 後年化落後 "
+                f"{main['benchmark_metrics']['market']['cagr']:.2%}，雖把最大跌幅改善 "
+                f"{main['comparison']['drawdown_improvement']:.2%}，50 bps 後年率化落後 "
                 f"{abs(main['cost_50bps']['cagr_difference']):.2%}。1973–1988 後半也落後，"
                 f"Paper 入口 {hierarchical_defense_audit['paper_entry_passed_gate_count']}/"
-                f"{hierarchical_defense_audit['paper_entry_required_gate_count']}，不建帳戶。",
+                f"{hierarchical_defense_audit['paper_entry_required_gate_count']}，不建立 Paper 模擬組合。",
             )
     if confirmed_relative_growth_audit is not None:
 
@@ -1179,7 +1235,7 @@ def write_site_data(
                 f"{r1000['benchmark_metrics']['market']['cagr']:.2%}，Russell 2000 CAGR "
                 f"{r2000['strategy_metrics']['cagr']:.2%} 低於 IWM "
                 f"{r2000['benchmark_metrics']['market']['cagr']:.2%}，EAFE 固定起點前只有 "
-                f"{eafe['warmup_common_sessions']}/252 個暖機日。新資料經濟門檻 "
+                f"{eafe['warmup_common_sessions']}/252 個暖機日。新數據經濟門檻 "
                 f"{confirmed_relative_growth_audit['economic_passed_gate_count']}/"
                 f"{confirmed_relative_growth_audit['economic_required_gate_count']}，不建 Paper。",
             )
@@ -1406,14 +1462,14 @@ def write_site_data(
             dow = modest_leverage_overlay_audit["datasets"]["dow30"]
             payload["limitations"].insert(
                 0,
-                "v15 先凍結約 120%／100% 股票曝險與兩月趨勢規則，再首次查看 UPRO、"
+                "v15 先凍結約 120%／100% 股票持倉比率與兩月趨勢規則，再首次查看 UPRO、"
                 "TQQQ、UDOW。三市場 CAGR 都高於原始 ETF：S&P 500 "
                 f"{sp500['strategy_metrics']['cagr']:.2%} / SPY "
                 f"{sp500['benchmark_metrics']['core']['cagr']:.2%}，Nasdaq-100 "
                 f"{nasdaq['strategy_metrics']['cagr']:.2%} / QQQ "
                 f"{nasdaq['benchmark_metrics']['core']['cagr']:.2%}，Dow 30 "
                 f"{dow['strategy_metrics']['cagr']:.2%} / DIA "
-                f"{dow['benchmark_metrics']['core']['cagr']:.2%}；但三組回撤都更深、"
+                f"{dow['benchmark_metrics']['core']['cagr']:.2%}；但三組最大跌幅都更深、"
                 f"Sharpe 都未嚴格勝過原始 ETF。經濟門檻 "
                 f"{modest_leverage_overlay_audit['economic_passed_gate_count']}/"
                 f"{modest_leverage_overlay_audit['economic_required_gate_count']}，不建 Paper。",
@@ -1499,7 +1555,7 @@ def write_site_data(
             small = trend_volatility_brake_audit["datasets"]["smallcap600"]
             payload["limitations"].insert(
                 0,
-                "v16 先凍結 200 日趨勢、21 日波動與每週 100%–150% 股票曝險，"
+                "v16 先凍結 200 日趨勢、21 日波幅與每週 100%–150% 股票持倉比率，"
                 "再首次查看 MVV、UWM、SAA。三組策略 CAGR 分別為 "
                 f"{mid['strategy_metrics']['cagr']:.2%}、"
                 f"{r2000['strategy_metrics']['cagr']:.2%}、"
@@ -1591,7 +1647,7 @@ def write_site_data(
                 f"{sp500['strategy_metrics']['cagr']:.2%} / SPY "
                 f"{sp500['benchmark_metrics']['core']['cagr']:.2%}，Nasdaq-100 "
                 f"{nasdaq['strategy_metrics']['cagr']:.2%} / QQQ "
-                f"{nasdaq['benchmark_metrics']['core']['cagr']:.2%}；但六組最大回撤都更深。"
+                f"{nasdaq['benchmark_metrics']['core']['cagr']:.2%}；但六組最大跌幅都更深。"
                 f"經濟門檻 {capital_efficient_audit['economic_passed_gate_count']}/"
                 f"{capital_efficient_audit['economic_required_gate_count']}，不建 Paper。",
             )
@@ -1694,7 +1750,7 @@ def write_site_data(
                 f"{developed['strategy_metrics']['cagr']:.2%} / EFA "
                 f"{developed['benchmark_metrics']['core']['cagr']:.2%}，新興市場 "
                 f"{emerging['strategy_metrics']['cagr']:.2%} / EEM "
-                f"{emerging['benchmark_metrics']['core']['cagr']:.2%}；兩組回撤都更深，"
+                f"{emerging['benchmark_metrics']['core']['cagr']:.2%}；兩組最大跌幅都更深，"
                 f"外部經濟門檻 {equal_diversifier_audit['economic_passed_gate_count']}/"
                 f"{equal_diversifier_audit['economic_required_gate_count']}，不建 Paper。",
             )
@@ -1799,7 +1855,7 @@ def write_site_data(
             payload["limitations"].insert(
                 0,
                 "v20 固定 50% 實際 2 倍股票 ETF，再從 IEF／GLD／SHY 依 12–1 月"
-                "相對強度選兩檔。資料與時序完整，但 11 市場經濟門檻 "
+                "相對強度選兩檔。數據與時序完整，但 11 市場經濟門檻 "
                 f"{diversifier_strength_audit['economic_passed_gate_count']}/"
                 f"{diversifier_strength_audit['economic_required_gate_count']}，新外部 "
                 f"{diversifier_strength_audit['external_economic_passed_gate_count']}/"
@@ -1912,7 +1968,7 @@ def write_site_data(
             russell = hybrid_leverage_core_audit["datasets"]["russell2000_3x"]
             payload["limitations"].insert(
                 0,
-                "v21 永久保留 60% 核心，確認上升時約 120% 股票名目曝險、"
+                "v21 永久保留 60% 核心，確認上升時約 120% 股票名目持倉比率、"
                 "確認轉弱時約 60%。三組大型股 2 倍實作有 20 年已見診斷，"
                 "新中小型股 3 倍外部期為 15 年；完整經濟門檻 "
                 f"{hybrid_leverage_core_audit['economic_passed_gate_count']}/"
@@ -2097,7 +2153,7 @@ def write_site_data(
         if not audit["paper_eligible"]:
             payload["limitations"].insert(
                 0,
-                "v23 50% SSO／50% KMLM 的 20 年代理把最大回撤由 "
+                "v23 50% SSO／50% KMLM 的 20 年代理把最大跌幅由 "
                 f"{long_data['benchmark_metrics']['SPY']['max_drawdown']:.1%} 改善到 "
                 f"{long_data['strategy_metrics']['max_drawdown']:.1%}，但 CAGR 只領先 "
                 f"{long_data['strategy_metrics']['cagr'] - long_data['benchmark_metrics']['SPY']['cagr']:.2%}；"
@@ -2369,11 +2425,12 @@ def write_site_data(
             0,
             "v25 三條實際 20 年大型成長＋黃金路徑與彙總入口已通過，但相對 SPY 的 NW t 只有 "
             f"{pooled['comparison_vs_SPY']['active_return_newey_west']['t_stat']:.2f}；"
-            f"年化仍比三路徑純成長 ETF 彙總少 {abs(pooled['comparison_vs_growth']['cagr_difference']) * 100:.2f} 個百分點；"
+            f"年率化仍比三路徑純成長 ETF 彙總少 {abs(pooled['comparison_vs_growth']['cagr_difference']) * 100:.2f} 個百分點；"
             f"LIVE Paper 只有 {paper_bundle['forward_evidence']['forward_sessions'] if paper_bundle else 0} 個新增交易日。"
             "現在只顯示 Paper 80/20，不是實金指令。",
         )
     payload["readiness"] = evaluate_trade_readiness(payload, integrity_ok=True)
+    payload = _localize_hk_finance_copy(payload)
     payload = _preserve_idempotent_generation_time(payload, paths)
     written: list[Path] = []
     for raw in paths:

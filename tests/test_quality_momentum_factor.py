@@ -125,7 +125,7 @@ def test_v24_report_and_paper_guard(tmp_path: Path) -> None:
     report = build_quality_momentum_factor_report(tmp_path / "v24.html", audit)
     text = report.read_text(encoding="utf-8")
     assert "教科書因子成立，但可買 ETF 沒有穩健複製" in text
-    assert "不要照 QUAL／MTUM 50/50 下單" in text
+    assert "不要照 QUAL／MTUM 50/50 落盤" in text
     assert "20 年學術代理" in text
 
     state = tmp_path / "paper_v24_state.json"

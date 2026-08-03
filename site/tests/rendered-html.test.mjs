@@ -18,21 +18,22 @@ test("server-renders the beginner trading reference", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<html[^>]*lang="zh-Hant"/);
-  assert.match(html, /成長守門員 v2｜降回撤有效，不等於穩健超額/);
+  assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
+  assert.match(html, /成長守門員 v2｜收窄最大跌幅有效，不等於穩健超額/);
   const publicSiteRoot = (
-    process.env.PUBLIC_SITE_URL ?? "https://growth-guard-tw.voidful819957.chatgpt.site"
+    process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
   ).replace(/\/$/, "");
   assert.ok(html.includes(`${publicSiteRoot}/og.png`));
   assert.match(html, /data-signal-freshness="checking"/);
-  assert.match(html, /今天不下單/);
+  assert.match(html, /今天不落盤/);
+  assert.match(html, /Paper Trading（模擬交易）/);
   assert.match(html, /v25 先做 Paper/);
   assert.match(html, /第一個跨三家產品通過的候選/);
   assert.match(html, /v25 PAPER 目標，不是實金指令/);
   assert.match(html, /VUG 大型成長股/);
   assert.match(html, /GLD 實物黃金/);
   assert.match(html, /真實資金動作仍是 0/);
-  assert.match(html, /三帳戶一致性/);
+  assert.match(html, /三個模擬組合一致性/);
   assert.match(html, /同步通過/);
   assert.match(html, /更新期限/);
   assert.match(html, /跑贏 SPY，不等於跑贏每一種 ETF/);
@@ -41,17 +42,17 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /179(?:<!-- -->)? 個月/);
   assert.match(html, /12 月區塊重抽樣/);
   assert.match(html, /這不是未來勝率/);
-  assert.match(html, /PAPER 教學試算 · 不會送單/);
+  assert.match(html, /PAPER 模擬交易試算 · 不會落盤/);
   assert.match(html, /假設的 Paper 本金/);
   assert.match(html, /目前實金動作仍是 0/);
   assert.match(html, /LIVE PAPER · 同起點公平競賽/);
-  assert.match(html, /不是看回測冠軍，是看三個真實等待中的帳戶/);
+  assert.match(html, /不是看回測冠軍，是看三個真實等待中的組合/);
   assert.match(html, /升級合約 v(?:<!-- -->)?2(?:<!-- -->)? 已在第一筆成交前凍結/);
-  assert.match(html, /相同股票曝險控制/);
+  assert.match(html, /相同股票持倉比率控制/);
   assert.match(html, /等待足夠樣本/);
   assert.match(html, /待成交不算完成/);
   assert.match(html, /首次建倉/);
-  assert.match(html, /不算六次月度再平衡/);
+  assert.match(html, /不算六次月度重新平衡/);
   assert.match(html, /不是只贏一點點/);
   assert.match(html, /前後兩半都要贏/);
   assert.match(html, /不是隨機雜訊/);
@@ -60,22 +61,22 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /前瞻累積財富/);
   assert.match(html, /尚無可畫的前瞻走勢/);
   assert.match(html, /不把 20 年回測接到 LIVE 圖上/);
-  assert.match(html, /不建立實金部位/);
+  assert.match(html, /不建立實金持倉/);
   assert.match(html, /今日實金動作：0/);
-  assert.match(html, /不顯示可照抄的實金下單金額/);
+  assert.match(html, /不顯示可照抄的實金落盤金額/);
   assert.match(html, /目前沒有實金配置/);
   assert.match(html, /實金配置鎖定中/);
   assert.doesNotMatch(html, /我的試算資金/);
-  assert.match(html, /固定 18% 目標波動政策/);
+  assert.match(html, /固定 18% 目標波幅政策/);
   assert.match(html, /統計尚未確認/);
-  assert.match(html, /曝險控制未通過/);
-  assert.match(html, /資料可安全發布/);
+  assert.match(html, /持倉比率控制未通過/);
+  assert.match(html, /數據可安全發布/);
   assert.match(html, /實金參考未開放/);
   assert.match(html, /Paper 與實金都停止參考/);
   assert.match(html, /更新與完整性檢查完成前維持關閉/);
   assert.match(html, /不可回填的等待期/);
   assert.match(html, /維持 Paper-only/);
-  assert.match(html, /為什麼資料檢查通過，還是不能下單/);
+  assert.match(html, /為什麼數據檢查通過，還是不能落盤/);
   assert.match(html, /真正難的基準：不用預測的 90\/10/);
   assert.match(html, /5 年滾動勝率至少 75%/);
   assert.match(html, /保留 Paper 追蹤，不升級成實金參考策略/);
@@ -91,9 +92,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /2006–2026 · v4 股權風格輪動/);
   assert.match(html, /14 道門檻只過/);
   assert.match(html, /不建立 Paper/);
-  assert.match(html, /舊代理資料門檻失敗/);
+  assert.match(html, /舊代理數據門檻失敗/);
   assert.match(html, /2002-09-30/);
-  assert.match(html, /v4 回撤較淺，為什麼連 Paper 都不開/);
+  assert.match(html, /v4 最大跌幅較小，為什麼連 Paper 都不開/);
   assert.match(html, /1986–2026 · v5 三時鐘等權集成/);
   assert.match(html, /近期幾乎追平 QQQ，為何仍不開 Paper/);
   assert.match(html, /研究配置，不是主訊號/);
@@ -105,45 +106,45 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /1927–2026 · v6 產業動能核心傾斜/);
   assert.match(html, /長期代理支持，為何可交易主期仍淘汰/);
   assert.match(html, /道 · 不建立 Paper/);
-  assert.match(html, /ETF 主期 · 策略 \/ SPY 年化/);
+  assert.match(html, /ETF 主期 · 策略 \/ SPY 年率化/);
   assert.match(html, /10\.00%/);
   assert.match(html, /11\.27%/);
-  assert.match(html, /同總權益曝險下，選產業沒有增加淨報酬/);
+  assert.match(html, /相同總股票持倉比率下，選產業沒有增加淨回報/);
   assert.match(html, /負結果已封存/);
   assert.match(html, /不可照單、不提供金額試算/);
   assert.match(html, /v6 長期代理有效，為什麼還是淘汰/);
   assert.match(html, /1989–2026 · v7 相對成長衛星/);
   assert.match(html, /政策值得理解，不代表可以照單/);
-  assert.match(html, /v7 回撤比 SPY 淺，為什麼仍不建立 Paper/);
+  assert.match(html, /v7 最大跌幅比 SPY 淺，為什麼仍不建立 Paper/);
   assert.match(html, /1989–2026 · v8 永遠持股相對成長/);
   assert.match(html, /最接近目標，不等於通過/);
   assert.match(html, /v8 已經連續兩段都跑贏市場/);
   assert.match(html, /1973–2026 · v9 低換手＋下載前未見外部期/);
-  assert.match(html, /政策狀態不等於今天的下單建議/);
+  assert.match(html, /政策狀態不等於今天的落盤建議/);
   assert.match(html, /v9 已減少交易，為什麼成本門檻還是失敗/);
   assert.match(html, /1973–2026 · v10–v12 階層式三態/);
-  assert.match(html, /回撤改善了，為什麼仍不能當成跑贏 ETF 策略/);
+  assert.match(html, /最大跌幅改善了，為什麼仍不能當成跑贏 ETF 策略/);
   assert.match(html, /Paper 指令鎖定/);
-  assert.match(html, /v12 已把回撤壓低，為什麼仍不值得 Paper/);
+  assert.match(html, /v12 已把最大跌幅壓低，為什麼仍不值得 Paper/);
   assert.match(html, /2006–2026 · v13 規則先鎖定、再下載新 ETF/);
-  assert.match(html, /已知年代看起來進步，真正的新資料答應了嗎/);
-  assert.match(html, /道新資料經濟門檻/);
+  assert.match(html, /已知年代看起來進步，真正的新數據答應了嗎/);
+  assert.match(html, /道新數據經濟門檻/);
   assert.match(html, /少跌不等於有能力跑贏/);
   assert.match(html, /v13 交易更少、舊年代更好，為什麼還是淘汰/);
   assert.match(html, /2006–2026 · v14 先凍結、再下載實際槓桿 ETF/);
-  assert.match(html, /小幅槓桿加趨勢，真的能兼顧報酬與風險嗎/);
-  assert.match(html, /槓桿不是免費報酬，少跌也不能抵銷少賺/);
+  assert.match(html, /小幅槓桿加趨勢，真的能兼顧回報與風險嗎/);
+  assert.match(html, /槓桿不是免費回報，少跌也不能抵銷少賺/);
   assert.match(html, /v14 的 Nasdaq 結果贏 QQQ，為什麼仍不開 Paper/);
   assert.match(html, /2011–2026 · v15 先凍結、再首次查看實際 3 倍 ETF/);
   assert.match(html, /三市場都賺比較多，就能稱為穩健跑贏嗎/);
-  assert.match(html, /報酬放大了，虧損也放大了/);
+  assert.match(html, /回報放大了，虧損也放大了/);
   assert.match(html, /不能拼成「獨立 20 年」/);
-  assert.match(html, /v15 三市場年化都贏 ETF，為什麼還是不能 Paper/);
-  assert.match(html, /2008–2026 · v16 中小型股週度趨勢／波動煞車/);
-  assert.match(html, /少跌一些，是否值得犧牲一半以上報酬/);
-  assert.match(html, /v16 已降低回撤，為什麼連 Paper 都不開/);
+  assert.match(html, /v15 三市場年率化都贏 ETF，為什麼還是不能 Paper/);
+  assert.match(html, /2008–2026 · v16 中小型股週度趨勢／波幅煞車/);
+  assert.match(html, /少跌一些，是否值得犧牲一半以上回報/);
+  assert.match(html, /v16 已降低最大跌幅，為什麼連 Paper 都不開/);
   assert.match(html, /2006–2026 \/ 2008–2026 · v17 六市場股債資本效率/);
-  assert.match(html, /年化比較高，為什麼仍不是穩健策略/);
+  assert.match(html, /年率化比較高，為什麼仍不是穩健策略/);
   assert.match(html, /更高 CAGR 不是免費午餐/);
   assert.match(html, /v17 六市場 CAGR 多數較高，為什麼仍不算跑贏/);
   assert.match(html, /2010–2026 · v18 規則先凍結、再下載 EFO／EET 日線/);
@@ -158,9 +159,9 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /v20 會挑較強的分散器，為什麼仍輸固定配置/);
   assert.match(html, /2006–2026.+2011–2026 · v21 常駐核心＋受控槓桿/);
   assert.match(html, /id="v21-research"/);
-  assert.match(html, /不完全退場、也不永遠滿倉/);
-  assert.match(html, /折衷曝險仍不是穩健超額/);
-  assert.match(html, /v21 已在退場與滿倉之間折衷，為什麼還是失敗/);
+  assert.match(html, /不完全退場、也不永遠全數持股/);
+  assert.match(html, /折衷持倉比率仍不是穩健超額/);
+  assert.match(html, /v21 已在退場與全數持股之間折衷，為什麼還是失敗/);
   assert.match(html, /id="v22-research"/);
   assert.match(html, /九個產業完整期都贏，為什麼仍不能拿來交易/);
   assert.match(html, /單一起訖點跑贏，不等於可以穩健跑贏 ETF/);
@@ -175,14 +176,37 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /QQQ 同期/);
   assert.match(html, /被動 90\/10 同期/);
   assert.match(html, /同一天現金起跑/);
-  assert.match(html, /資料已過期/);
+  assert.match(html, /數據已過期/);
   assert.match(html, /停止參考舊配置/);
   assert.match(html, /Paper trade 不回填漂亮歷史/);
   assert.match(html, /價格重基準/);
-  assert.match(html, /不回寫既有損益/);
+  assert.match(html, /不回寫既有盈虧/);
   assert.match(html, /為什麼除息後 Paper 單位數可能改變/);
-  assert.match(html, /不是券商實際股數/);
+  assert.match(html, /不是證券商實際股數/);
   assert.match(html, /研究與教育用途，不構成投資建議/);
+  assert.match(html, /報告架構參考/);
+  assert.match(html, /tst_wocker_filter_lab/);
+  assert.match(html, /中文採香港金融市場慣用詞/);
+  for (const discouragedTerm of [
+    "報酬",
+    "績效",
+    "回撤",
+    "買進",
+    "賣出",
+    "下單",
+    "資料",
+    "新手",
+    "部位",
+    "曝險",
+    "再平衡",
+    "年化",
+    "波動率",
+    "收盤",
+    "開盤",
+    "停損",
+  ]) {
+    assert.doesNotMatch(html, new RegExp(discouragedTerm));
+  }
   assert.doesNotMatch(html, /固定 80\/20 政策/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
 });
@@ -439,7 +463,7 @@ test("v13 freezes the rule before new ETF pairs and rejects cross-universe claim
   assert.equal(v13.datasets.eafe.warmup_common_sessions, 247);
   assert.equal(v13.datasets.eafe.required_warmup_sessions, 252);
   assert.equal(v13.paper_entry_decision, "do_not_create");
-  assert.ok(payload.limitations.some((item) => /v13 先凍結兩月確認.*新資料經濟門檻 9\/30/.test(item)));
+  assert.ok(payload.limitations.some((item) => /v13 先凍結兩月確認.*新數據經濟門檻 9\/30/.test(item)));
 });
 
 test("v14 uses real leveraged ETFs but rejects cherry-picking Nasdaq", async () => {

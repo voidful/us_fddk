@@ -6,12 +6,27 @@ from pathlib import Path
 
 from usfddk.paper import load_paper_state
 from usfddk.site_export import (
+    _localize_hk_finance_copy,
     _preserve_idempotent_generation_time,
     refresh_v25_site_data,
 )
 from usfddk.v25_live import audit_v25_live_reference
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_hong_kong_finance_copy_is_recursive_idempotent_and_keeps_keys() -> None:
+    payload = {
+        "max_drawdown_no_worse_than_spy": "前瞻最大回撤不深於 SPY",
+        "broker": "券商帳戶採調整後收盤價",
+        "nested": ["年化報酬與波動率", "重新平衡", "證券商"],
+    }
+    localized = _localize_hk_finance_copy(payload)
+    assert set(localized) == set(payload)
+    assert localized["max_drawdown_no_worse_than_spy"] == "前瞻最大跌幅不深於 SPY"
+    assert localized["broker"] == "證券商模擬組合採經調整收市價"
+    assert localized["nested"] == ["年率化回報與波幅", "重新平衡", "證券商"]
+    assert _localize_hk_finance_copy(localized) == localized
 
 
 def test_site_payload_preserves_timestamp_only_when_content_is_idempotent(

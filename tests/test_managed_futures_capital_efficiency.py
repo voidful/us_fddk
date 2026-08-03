@@ -139,7 +139,7 @@ def test_v23_report_and_paper_guard(tmp_path: Path) -> None:
     report = build_managed_futures_capital_efficiency_report(tmp_path / "v23.html", audit)
     text = report.read_text(encoding="utf-8")
     assert "風險路徑改善，但沒有穩健跑贏 SPY" in text
-    assert "不要照 50／50 下單" in text
+    assert "不要照 50／50 落盤" in text
     assert "20 年長期入口" in text
 
     state = tmp_path / "paper_v23_state.json"

@@ -25,12 +25,12 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
     <div className="paper-allocation-lab">
       <div className="paper-lab-heading">
         <div>
-          <span>{paperOnly ? "PAPER 教學試算 · 不會送單" : "前瞻門檻通過 · 參考試算"}</span>
+          <span>{paperOnly ? "PAPER 模擬交易試算 · 不會落盤" : "前瞻門檻通過 · 參考試算"}</span>
           <h3>把 80/20 換成看得懂的金額</h3>
         </div>
         <p>
           {paperOnly
-            ? "只用來理解固定權重怎麼運作；不連券商、不計股數，也不代表現在應投入這筆錢。"
+            ? "只用來理解固定權重怎麼運作；不連證券商、不計股數，也不代表現在應投入這筆錢。"
             : "只換算目標權重；實際股數、稅務、匯率與成交價格仍需自行核對。"}
         </p>
       </div>
@@ -85,8 +85,8 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
           ))}
           <p className="paper-calculator-warning">
             {paperOnly
-              ? "目前實金動作仍是 0；這兩個金額只存在於瀏覽器試算，不會寫入 Paper 帳戶。"
-              : "此處只是配置參考，不會自動下單或保證成交。"}
+              ? "目前實金動作仍是 0；這兩個金額只存在於瀏覽器試算，不會寫入 Paper 模擬組合。"
+              : "此處只是配置參考，不會自動落盤或保證成交。"}
           </p>
         </div>
       </div>

@@ -165,8 +165,8 @@ def test_v15_cli_writes_audit_and_beginner_report(tmp_path: Path) -> None:
     html = report.read_text(encoding="utf-8")
     assert audit["economic_passed_gate_count"] == 17
     assert audit["paper_eligible"] is False
-    assert "報酬確實較高" in html
-    assert "較高報酬不等於穩健跑贏" in html
+    assert "回報確實較高" in html
+    assert "較高回報不等於穩健跑贏" in html
     assert "17 / 36" in html
 
 

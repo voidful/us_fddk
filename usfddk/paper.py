@@ -18,6 +18,14 @@ PASSIVE_BENCHMARK_KEY = "QQQ90_SHY10"
 
 PAPER_SCHEMA_VERSION = 1
 
+PAPER_REPORT_REFERENCE_HTML = """
+<p class="footer report-reference"><b>報告架構參考：</b>
+<a href="https://github.com/appr1ciat1/tst_wocker">tst_wocker</a>、
+<a href="https://github.com/appr1ciat1/tw-block-warrant">tw-block-warrant</a>、
+<a href="https://github.com/appr1ciat1/tst_wocker_filter_lab">tst_wocker_filter_lab</a>。
+只參考報告分層、每日狀態及前瞻稽核方式；美股數據、規則與結果由本專案獨立計算。中文採香港金融市場慣用詞。</p>
+"""
+
 
 def _now() -> str:
     return datetime.now(UTC).isoformat()
@@ -97,9 +105,9 @@ def _rebase_adjusted_holdings(
         old_price = float(position.get("last_price", float("nan")))
         new_price = float(revised_close[ticker])
         if not np.isfinite(old_price) or old_price <= 0:
-            raise ValueError(f"{ticker} paper 缺少有效的既有調整後收盤價")
+            raise ValueError(f"{ticker} paper 缺少有效的既有經調整收市價")
         if not np.isfinite(new_price) or new_price <= 0:
-            raise ValueError(f"{ticker} 在 {as_of.date()} 缺少修訂後調整收盤價")
+            raise ValueError(f"{ticker} 在 {as_of.date()} 缺少修訂後調整收市價")
         if math.isclose(old_price, new_price, rel_tol=1e-10, abs_tol=1e-10):
             continue
         factor = old_price / new_price
@@ -107,7 +115,7 @@ def _rebase_adjusted_holdings(
         before_value = old_units * old_price
         after_value = new_units * new_price
         if not np.isfinite(new_units) or new_units <= 0:
-            raise ValueError(f"{ticker} 調整後單位重基準無效：{new_units}")
+            raise ValueError(f"{ticker} 經調整單位重基準無效：{new_units}")
         if not math.isclose(before_value, after_value, rel_tol=1e-12, abs_tol=1e-8):
             raise RuntimeError(f"{ticker} 單位重基準未保持市值")
         shares[ticker] = new_units
@@ -196,7 +204,7 @@ def _append_mark(
 ) -> None:
     equity = float(state["cash"] + (shares * close_prices.reindex(shares.index).fillna(0.0)).sum())
     if not np.isfinite(equity) or equity <= 0:
-        raise RuntimeError(f"{day.date()} paper 權益無效：{equity}")
+        raise RuntimeError(f"{day.date()} paper 組合市值無效：{equity}")
     previous_peak = max(
         [float(row["equity"]) for row in state["equity_curve"]] + [equity]
     )
@@ -232,7 +240,7 @@ def update_paper_state(
     """
     symbols = [str(x) for x in target_signals.columns if x in panel.close.columns]
     if not symbols:
-        raise ValueError("paper strategy 與行情沒有共同代號")
+        raise ValueError("paper strategy 與市場數據沒有共同代號")
     signals = target_signals.reindex(index=panel.close.index, columns=symbols)
     created = state is None
     if created:
@@ -248,9 +256,9 @@ def update_paper_state(
     if int(state.get("schema_version", -1)) != PAPER_SCHEMA_VERSION:
         raise ValueError("不支援的 paper state schema")
     if float(state["cost_bps"]) != float(cost_bps):
-        raise ValueError("成交成本與既有 paper 帳戶不一致")
+        raise ValueError("成交成本與既有 paper 組合不一致")
     if str(state.get("strategy")) != str(strategy_name):
-        raise ValueError("策略與既有 paper 帳戶不一致；請使用新的 state 路徑")
+        raise ValueError("策略與既有 paper 組合不一致；請使用新的 state 路徑")
 
     index = panel.close.index
     if created and state["mode"] == "live":
@@ -278,7 +286,7 @@ def update_paper_state(
             start = pd.Timestamp(replay_from).normalize() if replay_from else pd.Timestamp(index[0])
             days = index[index >= start]
             if not len(days):
-                raise ValueError("replay 起點晚於資料截止日")
+                raise ValueError("replay 起點晚於數據截止日")
             state["started_at"] = pd.Timestamp(days[0]).strftime("%Y-%m-%d")
             prior = signals.loc[signals.index < days[0]].dropna(how="all")
             if len(prior):
@@ -286,7 +294,7 @@ def update_paper_state(
         else:
             as_of = pd.Timestamp(state["as_of"])
             if panel.end < as_of:
-                raise ValueError("行情截止日早於 paper 帳戶進度，拒絕時間倒退")
+                raise ValueError("市場數據截止日早於 paper 模擬組合進度，拒絕時間倒退")
             days = index[index > as_of]
 
         shares = _series_from_holdings(state, symbols)
@@ -518,7 +526,7 @@ def _pct(value: float) -> str:
 def _paper_equity_svg(state: dict[str, Any], width: int = 980, height: int = 260) -> str:
     rows = state.get("equity_curve", [])
     if len(rows) < 2:
-        return '<div class="empty">前瞻帳戶剛建立；有新交易日後開始繪製權益曲線。</div>'
+        return '<div class="empty">前瞻模擬組合剛建立；有新交易日後開始繪製組合市值曲線。</div>'
     dates = pd.to_datetime([row["date"] for row in rows])
     values = np.asarray([float(row["equity"]) for row in rows])
     pad_l, pad_r, pad_t, pad_b = 70, 20, 18, 34
@@ -556,11 +564,11 @@ def build_paper_report(
     path.parent.mkdir(parents=True, exist_ok=True)
     metrics = paper_metrics(state)
     mode = str(state["mode"])
-    mode_label = "LIVE 前瞻帳戶" if mode == "live" else "REPLAY 歷史回放"
+    mode_label = "LIVE 前瞻模擬組合" if mode == "live" else "REPLAY 歷史回放"
     mode_note = (
-        "只會用帳戶建立後新增的行情推進；這是前瞻紀錄，但仍不是券商成交。"
+        "只會用模擬組合建立後新增的市場數據推進；這是前瞻紀錄，但仍不是證券商成交。"
         if mode == "live"
-        else "使用已知歷史資料驗證流程；不得當成樣本外或真實前瞻績效。"
+        else "使用已知歷史數據驗證流程；不得當成樣本外或真實前瞻表現。"
     )
     as_of = str(state["as_of"])
     equity = float(metrics["equity"])
@@ -607,7 +615,7 @@ def build_paper_report(
         )
     if not rebase_rows:
         rebase_rows.append(
-            '<tr><td colspan="8">尚無調整後價格回溯修訂；持倉單位未重基準。</td></tr>'
+            '<tr><td colspan="8">尚無經調整價格回溯修訂；持倉單位未重基準。</td></tr>'
         )
     pending_rows = []
     if pending:
@@ -622,17 +630,18 @@ def build_paper_report(
     :root{--bg:#08131f;--panel:#122132;--line:#294057;--text:#edf4fa;--muted:#9eb0c1;--green:#61d3a5;--gold:#ffbd69;--red:#ff7f7f}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#17334b,#08131f 55%);color:var(--text);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"PingFang TC","Noto Sans TC",sans-serif}main{max-width:1120px;margin:auto;padding:34px 22px 72px}header{display:flex;justify-content:space-between;gap:24px;align-items:end}h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:8px 0 12px}h2{margin:0 0 12px}a{color:var(--green)}.eyebrow{color:var(--green);font-weight:800;letter-spacing:.12em}.lead,.fine{color:var(--muted)}.badge{padding:10px 14px;border:1px solid var(--green);color:var(--green);border-radius:999px;font-weight:800;white-space:nowrap}.replay{border-color:var(--gold);color:var(--gold)}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}.kpi,.panel{background:rgba(18,33,50,.94);border:1px solid var(--line);border-radius:16px}.kpi{padding:16px}.kpi span{display:block;color:var(--muted);font-size:12px}.kpi strong{font-size:25px}.panel{padding:20px;margin-top:14px;overflow:hidden}.notice{border-left:4px solid var(--gold);background:#292214;padding:13px 15px;border-radius:8px}.good{color:var(--green)}.bad{color:var(--red)}.warntext{color:var(--gold)}table{width:100%;border-collapse:collapse;min-width:690px}.table-wrap{overflow:auto}th,td{text-align:right;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}th:first-child,td:first-child{text-align:left}thead th{color:var(--muted);font-size:12px}.grid{stroke:#294057}.axis{fill:#9eb0c1;font-size:11px}svg{width:100%;height:auto}.empty{padding:50px 16px;text-align:center;color:var(--muted)}.hash{font:12px ui-monospace,SFMono-Regular,monospace;word-break:break-all}.footer{color:var(--muted);font-size:12px;margin-top:22px}@media(max-width:760px){header{display:block}.badge{display:inline-block;margin-top:10px}.grid4{grid-template-columns:1fr 1fr}main{padding:24px 13px 56px}.panel{padding:15px}}@media(max-width:430px){.grid4{grid-template-columns:1fr}}
     """
     strategy_name = html.escape(str(state.get("strategy", "—")))
-    content = f"""<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>US FDDK Paper Trade</title><style>{css}</style></head><body><main>
-    <header><div><div class="eyebrow">PERSISTENT PAPER ACCOUNT</div><h1>模擬交易帳戶</h1><p class="lead"><b>{strategy_name}</b>｜同一套月末訊號、下一交易日開盤時鐘與成交成本；帳戶保存現金、總報酬單位、委託、成交與逐日權益，不把回測偷偷當成實盤。</p><p><a href="report.html">← 回到 20 年研究報表</a></p></div><div class="badge {'replay' if mode == 'replay' else ''}">{mode_label}</div></header>
+    content = f"""<!doctype html><html lang="zh-Hant-HK"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>US FDDK Paper Trade</title><style>{css}</style></head><body><main>
+    <header><div><div class="eyebrow">PERSISTENT PAPER ACCOUNT</div><h1>Paper 模擬交易組合</h1><p class="lead"><b>{strategy_name}</b>｜同一套月末訊號、下一交易日開市時鐘與成交成本；組合保存現金、總回報單位、委託、成交與逐日組合市值，不把回測偷偷當成實金交易。</p><p><a href="report.html">← 回到 20 年研究報告</a></p></div><div class="badge {'replay' if mode == 'replay' else ''}">{mode_label}</div></header>
     <p class="notice">{html.escape(mode_note)}</p>
-    <section class="grid4"><div class="kpi"><span>帳戶權益</span><strong>{_money(equity)}</strong></div><div class="kpi"><span>累積損益</span><strong class="{'good' if metrics['pnl'] >= 0 else 'bad'}">{_money(float(metrics['pnl']))}</strong></div><div class="kpi"><span>累積報酬</span><strong>{_pct(float(metrics['return']))}</strong></div><div class="kpi"><span>最大回撤</span><strong>{_pct(float(metrics['max_drawdown']))}</strong></div></section>
-    <section class="panel"><h2>帳戶權益</h2>{_paper_equity_svg(state)}<p class="fine">起始 {html.escape(str(state.get('started_at', '—')))}｜截至 {html.escape(as_of)}｜現金 {_money(float(state['cash']))}｜累積成本 {_money(float(state['total_costs']))}｜成交 {len(state.get('transactions', []))} 筆｜單位重基準 {len(state.get('adjustment_rebases', []))} 筆</p></section>
-    <section class="panel"><h2>持倉與目標漂移</h2><p class="fine">單位數與價格採總報酬調整口徑，不是券商實際股數；遇到除息、拆股或供應商修訂時會重基準單位並保持既有市值不變。</p><div class="table-wrap"><table><thead><tr><th>代號</th><th>總報酬單位</th><th>調整後收盤</th><th>市值</th><th>目前權重</th><th>待成交目標</th><th>偏差</th></tr></thead><tbody>{''.join(position_rows)}</tbody></table></div></section>
-    <section class="panel"><h2>待成交委託</h2><p class="fine">{'訊號日 '+html.escape(pending['signal_date'])+'；只會在 '+html.escape(pending['execute_after'])+' 之後第一個新增交易日開盤成交。' if pending else '月末收盤後才會產生下一張委託。'}</p><div class="table-wrap"><table><thead><tr><th>代號</th><th>目標權重</th><th>依目前權益估算</th></tr></thead><tbody>{''.join(pending_rows)}</tbody></table></div></section>
-    <section class="panel"><h2>成交明細</h2><div class="table-wrap"><table><thead><tr><th>日期</th><th>代號</th><th>方向</th><th>成交單位</th><th>調整後開盤</th><th>名目金額</th><th>成本</th></tr></thead><tbody>{''.join(transactions)}</tbody></table></div></section>
-    <section class="panel"><h2>調整後價格重基準收據</h2><p class="fine">供應商若回溯改寫既有日期的調整後收盤，系統只縮放總報酬單位以保持該日已記錄市值；既有權益曲線與成交不會被回寫。</p><div class="table-wrap"><table><thead><tr><th>偵測時間</th><th>帳戶日期</th><th>代號</th><th>舊調整收盤</th><th>新調整收盤</th><th>單位倍數</th><th>重基準前市值</th><th>重基準後市值</th></tr></thead><tbody>{''.join(rebase_rows)}</tbody></table></div></section>
-    <section class="panel"><h2>稽核收據</h2><p>策略：{strategy_name}<br>模式：{mode.upper()}<br>成本：{float(state['cost_bps']):g} bps／雙邊換手<br>價格口徑：調整後 OHLC 總報酬單位；歷史修訂只重基準單位、不回寫既有 P&amp;L<br>資料截止：{panel.end.date()}<br>快照 SHA-256：<span class="hash">{html.escape(str(state.get('snapshot_sha256', '')))}</span></p></section>
-    <p class="footer">模擬交易不會送單到券商；總報酬單位也不是可直接下單的券商股數。未含稅務、點差、滑價、市場衝擊與資金限制；僅供研究與教育。</p>
+    <section class="grid4"><div class="kpi"><span>組合市值</span><strong>{_money(equity)}</strong></div><div class="kpi"><span>累積盈虧</span><strong class="{'good' if metrics['pnl'] >= 0 else 'bad'}">{_money(float(metrics['pnl']))}</strong></div><div class="kpi"><span>累積回報</span><strong>{_pct(float(metrics['return']))}</strong></div><div class="kpi"><span>最大跌幅</span><strong>{_pct(float(metrics['max_drawdown']))}</strong></div></section>
+    <section class="panel"><h2>組合市值</h2>{_paper_equity_svg(state)}<p class="fine">起始 {html.escape(str(state.get('started_at', '—')))}｜截至 {html.escape(as_of)}｜現金 {_money(float(state['cash']))}｜累積成本 {_money(float(state['total_costs']))}｜成交 {len(state.get('transactions', []))} 筆｜單位重基準 {len(state.get('adjustment_rebases', []))} 筆</p></section>
+    <section class="panel"><h2>持倉與目標漂移</h2><p class="fine">單位數與價格採總回報調整口徑，不是證券商實際股數；遇到除息、拆股或供應商修訂時會重基準單位並保持既有市值不變。</p><div class="table-wrap"><table><thead><tr><th>代號</th><th>總回報單位</th><th>經調整收市價</th><th>市值</th><th>目前權重</th><th>待成交目標</th><th>偏差</th></tr></thead><tbody>{''.join(position_rows)}</tbody></table></div></section>
+    <section class="panel"><h2>待成交委託</h2><p class="fine">{'訊號日 '+html.escape(pending['signal_date'])+'；只會在 '+html.escape(pending['execute_after'])+' 之後第一個新增交易日開市成交。' if pending else '月末收市後才會產生下一張委託。'}</p><div class="table-wrap"><table><thead><tr><th>代號</th><th>目標權重</th><th>依目前組合市值估算</th></tr></thead><tbody>{''.join(pending_rows)}</tbody></table></div></section>
+    <section class="panel"><h2>成交明細</h2><div class="table-wrap"><table><thead><tr><th>日期</th><th>代號</th><th>方向</th><th>成交單位</th><th>經調整開市價</th><th>名目金額</th><th>成本</th></tr></thead><tbody>{''.join(transactions)}</tbody></table></div></section>
+    <section class="panel"><h2>經調整價格重基準收據</h2><p class="fine">供應商若回溯改寫既有日期的經調整收市價，系統只縮放總回報單位以保持該日已記錄市值；既有組合市值曲線與成交不會被回寫。</p><div class="table-wrap"><table><thead><tr><th>偵測時間</th><th>組合日期</th><th>代號</th><th>舊經調整收市價</th><th>新經調整收市價</th><th>單位倍數</th><th>重基準前市值</th><th>重基準後市值</th></tr></thead><tbody>{''.join(rebase_rows)}</tbody></table></div></section>
+    <section class="panel"><h2>稽核收據</h2><p>策略：{strategy_name}<br>模式：{mode.upper()}<br>成本：{float(state['cost_bps']):g} bps／雙邊換手<br>價格口徑：經調整 OHLC 總回報單位；歷史修訂只重基準單位、不回寫既有 P&amp;L<br>數據截止：{panel.end.date()}<br>快照 SHA-256：<span class="hash">{html.escape(str(state.get('snapshot_sha256', '')))}</span></p></section>
+    <p class="footer">模擬交易不會向證券商傳送買賣盤；總回報單位也不是可直接落盤的證券商股數。未含稅務、點差、滑價、市場衝擊與資金限制；僅供研究與教育。</p>
+    {PAPER_REPORT_REFERENCE_HTML}
     </main></body></html>"""
     path.write_text(content, encoding="utf-8")
     return path

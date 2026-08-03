@@ -65,9 +65,12 @@ def test_live_paper_never_backfills_first_trade(synthetic_panel, tmp_path):
     assert load_paper_state(path)["holdings"] == advanced["holdings"]
     report = build_paper_report(tmp_path / "paper.html", state=advanced, panel=extended)
     report_html = report.read_text(encoding="utf-8")
-    assert "LIVE 前瞻帳戶" in report_html
-    assert "總報酬單位" in report_html
-    assert "調整後價格重基準收據" in report_html
+    assert "LIVE 前瞻模擬組合" in report_html
+    assert "總回報單位" in report_html
+    assert "經調整價格重基準收據" in report_html
+    assert 'lang="zh-Hant-HK"' in report_html
+    assert "報告架構參考" in report_html
+    assert "中文採香港金融市場慣用詞" in report_html
 
 
 def test_replay_is_labeled_and_executes_next_open(synthetic_panel):

@@ -30,5 +30,5 @@ export default function FreshnessGuard({
   if (status === "fresh") {
     return <span className="data-date">LIVE Paper 截至 {dataThrough}</span>;
   }
-  return <span className="data-date">正在核對資料鮮度…</span>;
+  return <span className="data-date">正在核對數據鮮度…</span>;
 }

@@ -12,6 +12,8 @@
 
 專案參考了：
 
+對外網站及研究報告的繁體中文遵守[香港金融用語準則](docs/HK_FINANCE_TERMINOLOGY.md)；策略代號、統計公式及機器數據欄位維持不變。
+
 - [appr1ciat1/tst_wocker](https://github.com/appr1ciat1/tst_wocker) 的資料／策略／成交分層與 regime 思路。
 - [appr1ciat1/tw-block-warrant](https://github.com/appr1ciat1/tw-block-warrant) 的「原始訊號不被研究層覆寫」、年度資料與證據分級。
 - [appr1ciat1/tst_wocker_filter_lab](https://github.com/appr1ciat1/tst_wocker_filter_lab) 後期稽核得到的負面教訓：資料修訂、同日時序穿越、零成本、今天的成分股回填歷史、只看單點績效，以及少數持股造成的路徑雜訊。

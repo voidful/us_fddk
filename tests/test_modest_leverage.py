@@ -164,7 +164,7 @@ def test_v14_cli_writes_audit_and_beginner_report(tmp_path: Path) -> None:
     html = report.read_text(encoding="utf-8")
     assert audit["economic_passed_gate_count"] == 13
     assert audit["paper_eligible"] is False
-    assert "槓桿不是免費報酬" in html
+    assert "槓桿不是免費回報" in html
     assert "不能進 Paper" in html
     assert "13 / 36" in html
 

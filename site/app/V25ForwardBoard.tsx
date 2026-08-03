@@ -145,7 +145,7 @@ export default function V25ForwardBoard({
     {
       key: "matched_80_VUG_20_SHY",
       name: "80% VUG／20% SHY",
-      note: "相同股票曝險控制",
+      note: "相同股票持倉比率控制",
     },
   ];
   const curves = accounts.map((account) => ({
@@ -178,7 +178,7 @@ export default function V25ForwardBoard({
       <div className="paper-lab-heading">
         <div>
           <span>LIVE PAPER · 同起點公平競賽</span>
-          <h3 id="v25-forward-title">不是看回測冠軍，是看三個真實等待中的帳戶</h3>
+          <h3 id="v25-forward-title">不是看回測冠軍，是看三個真實等待中的組合</h3>
         </div>
         <p>
           三者都從 {paper.started_at} 的 {money(paper.initial_cash)} 現金開始，使用相同
@@ -194,8 +194,8 @@ export default function V25ForwardBoard({
               <div><span>{note}</span><b>{name}</b></div>
               <strong>{money(account.equity)}</strong>
               <dl>
-                <div><dt>扣成本報酬</dt><dd>{pct(account.return)}</dd></div>
-                <div><dt>最大回撤</dt><dd>{pct(account.max_drawdown, 1)}</dd></div>
+                <div><dt>扣成本回報</dt><dd>{pct(account.return)}</dd></div>
+                <div><dt>最大跌幅</dt><dd>{pct(account.max_drawdown, 1)}</dd></div>
                 <div><dt>累積成本</dt><dd>{money(account.total_costs)}</dd></div>
                 <div><dt>成交筆數</dt><dd>{account.transactions}</dd></div>
               </dl>
@@ -205,14 +205,14 @@ export default function V25ForwardBoard({
         })}
       </div>
 
-      <div className="forward-chart" aria-label="v25 三帳戶同期權益走勢">
+      <div className="forward-chart" aria-label="v25 三個模擬組合同期市值走勢">
         <div className="forward-chart-head">
           <div><span>同一百美元起跑</span><strong>前瞻累積財富</strong></div>
           <div className="forward-chart-legend">{curves.map((curve) => <span key={curve.key}><i style={{ background: colors[curve.key] }} />{curve.name}</span>)}</div>
         </div>
         {hasForwardCurve ? (
           <>
-            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img" aria-label="候選、SPY 與相同曝險控制的前瞻累積財富折線圖">
+            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img" aria-label="候選、SPY 與相同持倉比率控制的前瞻累積財富折線圖">
               <line x1="24" x2={chartWidth - 24} y1={chartY(100)} y2={chartY(100)} className="chart-baseline" />
               {curves.map((curve) => (
                 <polyline
@@ -236,21 +236,21 @@ export default function V25ForwardBoard({
         <article>
           <div><span>新增交易日</span><strong>{forward.forward_sessions} / {forward.minimum_sessions}</strong></div>
           <div className="progress-track" aria-label={`新增交易日進度 ${sessionProgress.toFixed(1)}%`}><i style={{ width: `${sessionProgress}%` }} /></div>
-          <p>還缺 {forward.remaining_sessions} 日；不能用回填行情縮短等待。</p>
+          <p>還缺 {forward.remaining_sessions} 日；不能用回填市場數據縮短等待。</p>
         </article>
         <article>
-          <div><span>完成再平衡</span><strong>{forward.filled_rebalances} / {forward.minimum_filled_rebalances}</strong></div>
-          <div className="progress-track" aria-label={`完成再平衡進度 ${rebalanceProgress.toFixed(1)}%`}><i style={{ width: `${rebalanceProgress}%` }} /></div>
-          <p>還缺 {forward.remaining_filled_rebalances} 次；待成交不算完成。首次建倉 {forward.initial_allocations ? "已完成" : "尚未完成"}，也不算六次月度再平衡。</p>
+          <div><span>完成重新平衡</span><strong>{forward.filled_rebalances} / {forward.minimum_filled_rebalances}</strong></div>
+          <div className="progress-track" aria-label={`完成重新平衡進度 ${rebalanceProgress.toFixed(1)}%`}><i style={{ width: `${rebalanceProgress}%` }} /></div>
+          <p>還缺 {forward.remaining_filled_rebalances} 次；待成交不算完成。首次建倉 {forward.initial_allocations ? "已完成" : "尚未完成"}，也不算六次月度重新平衡。</p>
         </article>
       </div>
 
       <div className="forward-decision-grid">
-        <article className={integrity ? "passed" : "failed"}><span>{integrity ? "✓" : "!"}</span><div><b>三帳戶完整性</b><p>{integrity ? "日期、快照、成本與交易日序列同步" : "任一漂移就停止發布"}</p></div></article>
-        <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_SPY ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_SPY ? "✓" : "!"}</span><div><b>扣成本報酬勝 SPY</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_SPY)} · 目前差 {pct(forward.return_difference_vs_SPY)}</p></div></article>
-        <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_matched ? "✓" : "!"}</span><div><b>勝相同曝險控制</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_matched)} · 目前差 {pct(forward.return_difference_vs_matched)}</p></div></article>
-        <article className={!sampleReady ? "waiting" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "✓" : "!"}</span><div><b>回撤不比兩基準深</b><p>{gateState(sampleReady, forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched)}</p></div></article>
-        <article className={!sampleReady ? "waiting" : materialEdgePassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : materialEdgePassed ? "✓" : "!"}</span><div><b>不是只贏一點點</b><p>{gateState(sampleReady, materialEdgePassed)} · 年化至少多 0.10%；目前對 SPY {pct(forward.forward_diagnostics.SPY.annualized_return_difference)}、公平基準 {pct(forward.forward_diagnostics.matched_80_VUG_20_SHY.annualized_return_difference)}</p></div></article>
+        <article className={integrity ? "passed" : "failed"}><span>{integrity ? "✓" : "!"}</span><div><b>三個模擬組合完整性</b><p>{integrity ? "日期、快照、成本與交易日序列同步" : "任一漂移就停止發布"}</p></div></article>
+        <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_SPY ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_SPY ? "✓" : "!"}</span><div><b>扣成本回報勝 SPY</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_SPY)} · 目前差 {pct(forward.return_difference_vs_SPY)}</p></div></article>
+        <article className={!sampleReady ? "waiting" : forward.gates.candidate_return_above_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_return_above_matched ? "✓" : "!"}</span><div><b>勝相同持倉比率控制</b><p>{gateState(sampleReady, forward.gates.candidate_return_above_matched)} · 目前差 {pct(forward.return_difference_vs_matched)}</p></div></article>
+        <article className={!sampleReady ? "waiting" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "passed" : "failed"}><span>{!sampleReady ? "…" : forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched ? "✓" : "!"}</span><div><b>最大跌幅不比兩基準深</b><p>{gateState(sampleReady, forward.gates.candidate_drawdown_not_worse_than_SPY && forward.gates.candidate_drawdown_not_worse_than_matched)}</p></div></article>
+        <article className={!sampleReady ? "waiting" : materialEdgePassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : materialEdgePassed ? "✓" : "!"}</span><div><b>不是只贏一點點</b><p>{gateState(sampleReady, materialEdgePassed)} · 年率化至少多 0.10%；目前對 SPY {pct(forward.forward_diagnostics.SPY.annualized_return_difference)}、公平基準 {pct(forward.forward_diagnostics.matched_80_VUG_20_SHY.annualized_return_difference)}</p></div></article>
         <article className={!sampleReady ? "waiting" : persistencePassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : persistencePassed ? "✓" : "!"}</span><div><b>前後兩半都要贏</b><p>{gateState(sampleReady, persistencePassed)} · 避免只靠一年中的單一事件</p></div></article>
         <article className={!sampleReady ? "waiting" : statisticsPassed ? "passed" : "failed"}><span>{!sampleReady ? "…" : statisticsPassed ? "✓" : "!"}</span><div><b>不是隨機雜訊</b><p>{gateState(sampleReady, statisticsPassed)} · NW t 對 SPY {forward.forward_diagnostics.SPY.active_newey_west.t_stat.toFixed(2)}、公平基準 {forward.forward_diagnostics.matched_80_VUG_20_SHY.active_newey_west.t_stat.toFixed(2)}，門檻 1.96</p></div></article>
       </div>
@@ -259,9 +259,9 @@ export default function V25ForwardBoard({
         <article>
           <span>下一筆 Paper 動作</span>
           {paper.pending_order ? (
-            <><strong>等待下一個新增交易日開盤</strong><p>訊號日 {paper.pending_order.signal_date}；目標 {Object.entries(paper.pending_order.target_weights).map(([ticker, weight]) => `${ticker} ${pct(weight, 0)}`).join("、")}。現在不算成交。</p></>
+            <><strong>等待下一個新增交易日開市</strong><p>訊號日 {paper.pending_order.signal_date}；目標 {Object.entries(paper.pending_order.target_weights).map(([ticker, weight]) => `${ticker} ${pct(weight, 0)}`).join("、")}。現在不算成交。</p></>
           ) : (
-            <><strong>目前沒有待成交委託</strong><p>已持有的部位會等到下一個完整月末再檢查。</p></>
+            <><strong>目前沒有待成交委託</strong><p>已持有的持倉會等到下一個完整月末再檢查。</p></>
           )}
         </article>
         <article>

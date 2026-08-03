@@ -180,10 +180,32 @@ def test_v25_report_and_isolated_paper_initialization(tmp_path: Path) -> None:
     assert "只建立 Paper，不用實金照抄" in text
     assert "統計確認仍不足" in text
     assert "沒有跑贏 100% 大型成長" in text
-    assert "回撤多久才回來" in text
+    assert "最大跌幅多久才回來" in text
     assert "不參與通過數" in text
     assert "區塊重抽樣" in text
     assert "不是未來勝率" in text
+    assert 'lang="zh-Hant-HK"' in text
+    assert "報告架構參考" in text
+    assert "中文採香港金融市場慣用詞" in text
+    for discouraged_term in (
+        "報酬",
+        "績效",
+        "回撤",
+        "買進",
+        "賣出",
+        "下單",
+        "資料",
+        "新手",
+        "部位",
+        "曝險",
+        "再平衡",
+        "年化",
+        "波動率",
+        "收盤",
+        "開盤",
+        "停損",
+    ):
+        assert discouraged_term not in text
 
     state_path = tmp_path / "paper_v25_state.json"
     paper_report = tmp_path / "paper_v25.html"
