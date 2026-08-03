@@ -39,7 +39,11 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /兩條策略，兩套目標與門檻/);
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
-  assert.match(html, /全池動量傾斜壓力測試/);
+  assert.match(html, /逐股數據硬閘門/);
+  assert.match(html, /逐股數據就緒度：1\/20，先堵住存活者偏差/);
+  assert.match(html, /展開全部 20 道數據閘門/);
+  assert.match(html, /驗證器已能拒絕壞數據；真實供應商數據仍未到位/);
+  assert.match(html, /幽靈價格/);
   assert.match(html, /全池動量傾斜：數據 10\/10，經濟只過 23\/48/);
   assert.match(html, /排名傾斜早期有效；近期仍輸市場、SPY 及 QQQ/);
   assert.match(html, /早期：分散傾斜勝市場與等權，仍輸集中組合/);

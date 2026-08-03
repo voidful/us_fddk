@@ -181,6 +181,31 @@ button, input { font: inherit; }
 .aggressive-risk-stack span { color: var(--muted); font-size: 0.69rem; font-weight: 800; }
 .aggressive-risk-stack strong { display: block; margin-top: 7px; color: var(--red); font-family: Georgia, serif; font-size: 1.8rem; font-weight: 560; }
 .aggressive-risk-stack p { margin: 7px 0 0; color: var(--muted); font-size: 0.72rem; }
+.point-in-time-verdict { background: #273f49; }
+.point-in-time-verdict > span { color: #afcdd8; }
+.point-in-time-verdict p { color: #d9e8ed; }
+.point-in-time-groups { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.point-in-time-groups article { min-height: 190px; padding: 21px; border-top: 3px solid var(--red); background: var(--surface); }
+.point-in-time-groups article.passed { border-color: var(--green-2); }
+.point-in-time-groups span, .point-in-time-groups b { display: block; }
+.point-in-time-groups span { color: var(--muted); font-size: 0.66rem; font-weight: 850; }
+.point-in-time-groups b { margin-top: 12px; font-size: 0.79rem; }
+.point-in-time-groups strong { display: block; margin-top: 7px; color: var(--red); font-family: Georgia, serif; font-size: 1.75rem; font-weight: 560; }
+.point-in-time-groups article.passed strong { color: var(--green-2); }
+.point-in-time-groups p { margin: 8px 0 0; color: var(--muted); font-size: 0.71rem; }
+.point-in-time-details { margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 253, 250, 0.72); }
+.point-in-time-details summary { min-height: 58px; padding: 19px 22px; cursor: pointer; color: var(--red); font-size: 0.76rem; font-weight: 850; }
+.point-in-time-gate-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.point-in-time-gate-list article { display: grid; grid-template-columns: 35px 1fr auto; gap: 11px; align-items: start; min-height: 93px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.point-in-time-gate-list article:nth-child(odd) { border-right: 1px solid var(--line); }
+.point-in-time-gate-list article > span { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: white; background: var(--red); font-size: 0.64rem; font-weight: 850; }
+.point-in-time-gate-list article.passed > span { background: var(--green-2); }
+.point-in-time-gate-list b { display: block; font-size: 0.74rem; }
+.point-in-time-gate-list p { margin: 5px 0 0; color: var(--muted); font-size: 0.67rem; }
+.point-in-time-gate-list strong { color: var(--red); font-size: 0.66rem; }
+.point-in-time-gate-list article.passed strong { color: var(--green-2); }
+.point-in-time-tests .test-card { min-height: 134px; }
+.point-in-time-tests .test-card > div b { font-size: 0.72rem; }
 .context-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .context-grid article { min-height: 164px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .context-grid span { display: block; color: var(--muted); font-size: 0.69rem; font-weight: 800; }
@@ -395,6 +420,7 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
   .strategy-switch-inner { grid-template-columns: 1fr; gap: 14px; }
   .aggressive-overview-grid { grid-template-columns: 1fr; }
   .aggressive-risk-stack { grid-template-columns: 1fr 1fr; }
+  .point-in-time-groups { grid-template-columns: 1fr 1fr; }
   .signal-formula { grid-template-columns: 1fr 1fr; }
   .risk-panel dl { padding-top: 6px; }
   .source-line a { margin-left: 0; }
@@ -421,6 +447,8 @@ footer { margin-top: 20px; color: #dbe5e1; background: #122d27; }
   .section-heading, .subsection-heading, .paper-lab-heading { display: block; }
   .section-heading > p, .subsection-heading > p, .paper-lab-heading > p { margin-top: 13px; }
   .strategy-tablist, .market-status-list, .context-grid, .baseline-findings, .test-matrix, .robust-grid, .tradeoff-grid, .forward-score-grid, .forward-progress-grid, .forward-log-grid, .calculator-shell, .note-grid, .aggressive-risk-stack, .signal-formula, .short-gate-grid, .short-evidence-grid, .reference-projects { grid-template-columns: 1fr; }
+  .point-in-time-groups, .point-in-time-gate-list { grid-template-columns: 1fr; }
+  .point-in-time-gate-list article:nth-child(odd) { border-right: 0; }
   .strategy-switch-inner { padding-block: 15px; }
   .strategy-tablist button { min-height: 86px; }
   .protocol-link { align-items: start; flex-direction: column; }

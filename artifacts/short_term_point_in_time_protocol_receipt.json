@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "status": "frozen_before_first_authorized_provider_import",
+  "frozen_at": "2026-08-03T18:31:16Z",
+  "frozen_at_epoch": 1785781876,
+  "base_commit": "b85848d4991c9ea8ffed175dbcafc7c499563bdc",
+  "protocol": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "manifest_schema": {
+    "path": "schemas/short_term_point_in_time_manifest.schema.json",
+    "sha256": "f6fba2f7117381c4bea3bde3db4f730bd282d6cc991d0e7b1df0e4ac1a24f160"
+  },
+  "existing_strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139",
+    "rule_status": "unchanged"
+  },
+  "provider_bundle_present_at_freeze": false,
+  "provider_credentials_detected_at_freeze": false,
+  "historical_parameter_search_authorized": false,
+  "paper_authorized": false,
+  "paper_starting_state": "all_cash",
+  "real_money_action_usd": 0
+}

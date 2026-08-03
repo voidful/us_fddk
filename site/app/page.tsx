@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
 import sizeMomentumTiltResearch from "../data/short-term-french-size-momentum-tilt.json";
 import sizePriorResearch from "../data/short-term-french-size-prior.json";
 
@@ -118,6 +119,39 @@ const shortSignalRows = [
 ];
 const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical_gates).filter(Boolean).length;
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
+const pointInTimeGateLabels: Record<string, string> = {
+  "01_authorized_provider": "合法授權及供應商產品",
+  "02_manifest_and_file_set": "Manifest 與精確檔案集合",
+  "03_hash_and_row_receipts": "原始檔 SHA-256 及列數",
+  "04_preregistration_order": "協議早於首次數據匯入",
+  "05_security_master": "永久證券主檔",
+  "06_identifier_history": "歷史代號無重疊或歧義",
+  "07_membership_availability": "成分公布時間無前視",
+  "08_membership_intervals": "成分區間完整且不重疊",
+  "09_fixed_20_year_calendar": "固定 20 年正式交易日",
+  "10_daily_member_count": "每日成分數 495–510",
+  "11_member_price_coverage": "在籍價格／停牌覆蓋",
+  "12_market_data_validity": "OHLCV 及總回報因子",
+  "13_raw_price_policy": "原始價與調整用途分離",
+  "14_corporate_actions": "公司行動唯一且可對數",
+  "15_outcome_coverage": "每段成分資格有 outcome",
+  "16_permanent_exit_economics": "永久退出經濟回報完整",
+  "17_no_post_exit_prices": "退出後沒有幽靈價格",
+  "18_point_in_time_classifications": "歷史行業分類當時可知",
+  "19_share_class_dedup_capability": "同公司股份類別可去重",
+  "20_execution_clock": "t 收市訊號／t+1 開市成交",
+};
+const pointInTimeGateRows = Object.entries(pointInTimeReadiness.gates).map(([key, gate]) => ({
+  key,
+  number: key.slice(0, 2),
+  label: pointInTimeGateLabels[key] ?? key,
+  passed: gate.passed,
+  detail: gate.detail,
+}));
+const pointInTimeGroupCount = (first: number, last: number) => {
+  const rows = pointInTimeGateRows.slice(first - 1, last);
+  return `${rows.filter((row) => row.passed).length}/${rows.length}`;
+};
 const frenchCandidate = frenchResearch.frozen_candidate;
 const frenchPrimary = frenchResearch.primary_external_period;
 const frenchRecent = frenchResearch.recent_confirmation_period;
@@ -583,36 +617,36 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FULL-POOL MOMENTUM TILT · ROUND 8</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · POINT-IN-TIME LEDGER · ROUND 9</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />全池動量傾斜壓力測試</h1>
+              <h1>短線高回報<br />逐股數據硬閘門</h1>
               <p className="hero-lead">
-                最新一輪把台股 filter lab 的「全池分散、按排名傾斜」問題轉成首次未見的 French 25 Size × Prior 12–2 驗證：五個 size 各佔 20%，池內按 prior 排名 1:2:3:4:5 配重。
-                數據合約通過 <strong>{sizeMomentumTiltResearch.gate_breakdown.data}</strong>，但整體只有 <strong>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong>：
-                1963–2005 年率化回報 {pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}，2006–2026 降至 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}，遠低於 QQQ 的 {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}。
-                <strong>這是首次未見機制驗證，但學術 cells 仍不可落盤；Paper、持倉及實金動作均為 US$0</strong>。
+                第八輪全池動量傾斜近期只有 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}，遠低於 QQQ 的 {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}；再在已見 French cells 上調權重，只會增加事後選擇偏誤。
+                第九輪因此鎖死正式逐股入口：永久證券 ID、當時成分、退市／收購回報、公司行動、歷史行業、原始價及 D+1 成交全部要通過。
+                現時只完成事前凍結，真實數據就緒度為 <strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong>。
+                <strong>沒有授權 point-in-time 數據就不運行正式回測；短線 Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#size-momentum-tilt-diagnostic">查看最新 23/48 驗證</a>
+                <a className="primary-button aggressive-button" href="#point-in-time-readiness">查看最新 1/20 數據閘門</a>
+                <a className="secondary-button" href="#size-momentum-tilt-diagnostic">查看第八輪 23/48</a>
                 <a className="secondary-button" href="#size-prior-diagnostic">查看上一輪 14/44</a>
-                <a className="secondary-button" href="#aggressive-evidence">查看 French 30 獨立結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
-                <span>短線策略摘要</span>
-                <b>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count} · 經濟驗證失敗</b>
+                <span>最新研究決策</span>
+                <b>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 正式逐股回測未獲准</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>{sizeMomentumTiltResearch.gate_breakdown.primary} · {sizeMomentumTiltResearch.gate_breakdown.recent}；Paper 保持關閉</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>數據 1/20 · 正式回測 0 次 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>主要期 CAGR</dt><dd>{pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}／市場 {pct(sizeMomentumPrimary.baseline_metrics.market.cagr, 2)}</dd></div>
-                <div><dt>近期 CAGR</dt><dd>{pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
-                <div><dt>硬傷</dt><dd>近期 50 bps {pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}／PBO {pct(sizeMomentumTiltResearch.pbo.recent.pbo, 1)}</dd></div>
+                <div><dt>數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 等待授權數據</dd></div>
+                <div><dt>最新機制結果</dt><dd>第八輪 {sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count} · 失敗</dd></div>
+                <div><dt>近期機會成本</dt><dd>候選 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
               <p>US$1,000 複利數字只解釋歷史尺度，不包括通脹、稅項及真實買賣差價，亦不是預測。</p>
@@ -621,12 +655,66 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>1963–2005 CAGR</span><strong>{pct(sizeMomentumPrimary.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(sizeMomentumPrimary.baseline_metrics.market.cagr, 2)}</small></article>
+              <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第八輪經濟門檻</span><strong>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong><small>判定失敗</small></article>
               <article><span>2006–2026 CAGR</span><strong>{pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}</strong><small>QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</small></article>
               <article><span>近期 50 bps CAGR</span><strong>{pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>完整換倉成本後轉負</small></article>
-              <article><span>近期勝市場 60 月窗</span><strong>{pct(sizeMomentumRecent.rolling_60m_vs_market.cagr_win_fraction, 1)}</strong><small>合格線 60%</small></article>
-              <article><span>數據／經濟門檻</span><strong>{sizeMomentumTiltResearch.gate_breakdown.data} · {sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong><small>首次未見、仍判定失敗</small></article>
+              <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="point-in-time-readiness">
+            <div className="section-heading">
+              <div><span>DATA INTEGRITY GATE · ROUND 9</span><h2>逐股數據就緒度：1/20，先堵住存活者偏差</h2></div>
+              <p>選股規則完全不變；本輪只回答數據是否足以進行可信的 20 年逐股回測。沒有供應商數據時失敗關閉，不拼接現時名單與殘缺價格。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>驗證器已能拒絕壞數據；真實供應商數據仍未到位</h3>
+                <p>合格合成賬本可通過 20/20；檔案被改、成分事後才知、ticker 重疊、永久退出缺回報或退出後仍有價格時都會拒收。這只證明硬閘門有效，不是市場數據或策略成功。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>唯一已通過</span><strong>事前凍結 1/1</strong><p>數據合約、manifest schema 及既有個股 v1 規則 SHA-256 全部吻合。</p></article>
+                <article><span>資金界線</span><strong>全現金 · US$0</strong><p>正式回測 0 次、Paper 0 成交、持倉 0；不回填歷史交易。</p></article>
+              </div>
+            </div>
+
+            <div className="point-in-time-groups" aria-label="逐股數據四組閘門摘要">
+              <article><span>01</span><b>供應商與數據包</b><strong>{pointInTimeGroupCount(1, 3)}</strong><p>授權、manifest、八份檔案雜湊仍待真實數據。</p></article>
+              <article className="passed"><span>02</span><b>事前凍結順序</b><strong>{pointInTimeGroupCount(4, 4)}</strong><p>先鎖規則及 schema，後來的數據不能改門檻。</p></article>
+              <article><span>03</span><b>逐股歷史賬本</b><strong>{pointInTimeGroupCount(5, 19)}</strong><p>永久 ID、成分、價格、退出、公司行動及行業全數待驗。</p></article>
+              <article><span>04</span><b>D+1 成交時鐘</b><strong>{pointInTimeGroupCount(20, 20)}</strong><p>schema 已固定；真實交易日與開收市價仍待接入。</p></article>
+            </div>
+
+            <details className="point-in-time-details">
+              <summary>展開全部 20 道數據閘門</summary>
+              <div className="point-in-time-gate-list">
+                {pointInTimeGateRows.map((row) => (
+                  <article className={row.passed ? "passed" : "blocked"} key={row.key}>
+                    <span>{row.number}</span><div><b>{row.label}</b><p>{row.detail}</p></div><strong>{row.passed ? "通過" : "未驗證"}</strong>
+                  </article>
+                ))}
+              </div>
+            </details>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FAIL-CLOSED TESTS</span><h3>六種關鍵情況都有正反測試</h3></div>
+              <p>測試只驗證程式會在正確位置關門，不會把合成 fixture 當成回測證據。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests">
+              <article className="test-card"><div><span>完整合成賬本</span><b className="positive-number">20/20</b></div><p>永久 ID、成分、價格、分類及 outcome 一致時才放行。</p></article>
+              <article className="test-card"><div><span>CSV 被改動</span><b className="negative-number">拒收</b></div><p>SHA-256 或列數與 manifest 不符即停止。</p></article>
+              <article className="test-card"><div><span>事後成分</span><b className="negative-number">拒收</b></div><p>公布時間晚於生效日，視為前視數據。</p></article>
+              <article className="test-card"><div><span>Ticker 重疊</span><b className="negative-number">拒收</b></div><p>同日代號／交易所指向兩個永久 ID 即停止。</p></article>
+              <article className="test-card"><div><span>退出缺回報</span><b className="negative-number">拒收</b></div><p>退市、破產或收購沒有完整經濟代價即停止。</p></article>
+              <article className="test-card"><div><span>幽靈價格</span><b className="negative-number">拒收</b></div><p>最後交易日後仍有價格，視為前向填補或 ID 錯配。</p></article>
+            </div>
+            <div className="data-source-decision">
+              <div><span>NEXT VALID ACTION</span><b>只接受數據擁有人合法提供的本地 point-in-time／退市轉換包</b></div>
+              <p>數據包須固定覆蓋 2006-08-01–2026-07-31、每日 495–510 隻成分及至少 99.5% 在籍價格／停牌記錄。20/20 只准按既有 v1 規則重跑一次，並不自動開 Paper。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_POINT_IN_TIME_READINESS_REPORT.md" target="_blank" rel="noreferrer">第九輪就緒度報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md" target="_blank" rel="noreferrer">凍結數據合約</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_point_in_time_readiness.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 

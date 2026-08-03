@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eric-lam.com/us_fddk/schemas/short-term-point-in-time-manifest-v1.json",
+  "title": "US FDDK short-term point-in-time ledger manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider",
+    "provider_product",
+    "license_attestation",
+    "exported_at",
+    "first_imported_at",
+    "as_of_date",
+    "currency",
+    "timezone",
+    "adjustment_policy",
+    "membership_timestamp_policy",
+    "delisting_policy",
+    "execution_clock",
+    "transform_version",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "provider_product": {"type": "string", "minLength": 1},
+    "license_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized_for_local_research", "raw_redistribution_allowed", "attested_at"],
+      "properties": {
+        "authorized_for_local_research": {"const": true},
+        "raw_redistribution_allowed": {"type": "boolean"},
+        "attested_at": {"type": "string", "format": "date-time"},
+        "reference": {"type": "string"}
+      }
+    },
+    "exported_at": {"type": "string", "format": "date-time"},
+    "first_imported_at": {"type": "string", "format": "date-time"},
+    "as_of_date": {"type": "string", "format": "date"},
+    "currency": {"const": "USD"},
+    "timezone": {"const": "America/New_York"},
+    "adjustment_policy": {
+      "const": "raw_ohlc_plus_event_ledger_no_future_adjusted_filters"
+    },
+    "membership_timestamp_policy": {
+      "const": "announced_and_effective_timestamps_no_current_constituent_backfill"
+    },
+    "delisting_policy": {
+      "const": "include_delisting_return_or_cash_stock_consideration_no_silent_drop"
+    },
+    "execution_clock": {"const": "signal_close_t_trade_open_t_plus_1"},
+    "transform_version": {"type": "string", "minLength": 1},
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "security_master.csv",
+        "identifier_history.csv",
+        "membership_history.csv",
+        "trading_calendar.csv",
+        "daily_prices.csv",
+        "corporate_actions.csv",
+        "classification_history.csv",
+        "security_outcomes.csv"
+      ],
+      "properties": {
+        "security_master.csv": {"$ref": "#/$defs/fileReceipt"},
+        "identifier_history.csv": {"$ref": "#/$defs/fileReceipt"},
+        "membership_history.csv": {"$ref": "#/$defs/fileReceipt"},
+        "trading_calendar.csv": {"$ref": "#/$defs/fileReceipt"},
+        "daily_prices.csv": {"$ref": "#/$defs/fileReceipt"},
+        "corporate_actions.csv": {"$ref": "#/$defs/fileReceipt"},
+        "classification_history.csv": {"$ref": "#/$defs/fileReceipt"},
+        "security_outcomes.csv": {"$ref": "#/$defs/fileReceipt"}
+      }
+    }
+  },
+  "$defs": {
+    "fileReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "rows"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "rows": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

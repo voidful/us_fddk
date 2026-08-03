@@ -32,6 +32,7 @@ jobs:
           python scripts/build_short_term_french_prior_return_schema_repair_report.py
           python scripts/build_short_term_french_size_prior_report.py
           python scripts/build_short_term_french_size_momentum_tilt_report.py
+          python scripts/audit_short_term_point_in_time_data.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
@@ -40,10 +41,13 @@ jobs:
             docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md \
             artifacts/short_term_french_size_momentum_tilt_validation.json \
             site/data/short-term-french-size-momentum-tilt.json \
-            docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md
+            docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md \
+            artifacts/short_term_point_in_time_readiness.json \
+            site/data/short-term-point-in-time-readiness.json
           pytest tests/test_french_prior_return_research.py
           pytest tests/test_french_size_prior.py
           pytest tests/test_french_size_momentum_tilt.py
+          pytest tests/test_point_in_time_ledger.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"

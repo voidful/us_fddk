@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "research_round": 9,
+  "status": "blocked_by_point_in_time_data_contract",
+  "bundle": {
+    "configured": false,
+    "name": null,
+    "provider": null,
+    "as_of_date": null,
+    "absolute_path_published": false
+  },
+  "gate_summary": {
+    "passed": 1,
+    "total": 20,
+    "all_passed": false
+  },
+  "gates": {
+    "01_authorized_provider": {
+      "passed": false,
+      "detail": "未驗證：合法授權及供應商產品"
+    },
+    "02_manifest_and_file_set": {
+      "passed": false,
+      "detail": "未驗證：manifest schema 與檔案集合"
+    },
+    "03_hash_and_row_receipts": {
+      "passed": false,
+      "detail": "未驗證：原始檔 SHA-256 及列數"
+    },
+    "04_preregistration_order": {
+      "passed": true,
+      "detail": "協議已在沒有供應商數據時凍結；等待首次匯入",
+      "stats": {
+        "frozen_at": "2026-08-03T18:31:16Z",
+        "first_imported_at": null,
+        "hash_integrity": true,
+        "ordering_ok": true
+      }
+    },
+    "05_security_master": {
+      "passed": false,
+      "detail": "未驗證：永久證券主檔"
+    },
+    "06_identifier_history": {
+      "passed": false,
+      "detail": "未驗證：歷史代號無重疊或歧義"
+    },
+    "07_membership_availability": {
+      "passed": false,
+      "detail": "未驗證：成分公布時間無前視"
+    },
+    "08_membership_intervals": {
+      "passed": false,
+      "detail": "未驗證：成分區間完整且不重疊"
+    },
+    "09_fixed_20_year_calendar": {
+      "passed": false,
+      "detail": "未驗證：固定 20 年正式交易日"
+    },
+    "10_daily_member_count": {
+      "passed": false,
+      "detail": "未驗證：每日成分數 495–510"
+    },
+    "11_member_price_coverage": {
+      "passed": false,
+      "detail": "未驗證：在籍股份價格／停牌覆蓋"
+    },
+    "12_market_data_validity": {
+      "passed": false,
+      "detail": "未驗證：OHLCV 及總回報因子"
+    },
+    "13_raw_price_policy": {
+      "passed": false,
+      "detail": "未驗證：原始價與調整用途分離"
+    },
+    "14_corporate_actions": {
+      "passed": false,
+      "detail": "未驗證：公司行動唯一且可對數"
+    },
+    "15_outcome_coverage": {
+      "passed": false,
+      "detail": "未驗證：每段 membership 有結果"
+    },
+    "16_permanent_exit_economics": {
+      "passed": false,
+      "detail": "未驗證：永久退出經濟回報完整"
+    },
+    "17_no_post_exit_prices": {
+      "passed": false,
+      "detail": "未驗證：退出後沒有幽靈價格"
+    },
+    "18_point_in_time_classifications": {
+      "passed": false,
+      "detail": "未驗證：歷史分類當時可知"
+    },
+    "19_share_class_dedup_capability": {
+      "passed": false,
+      "detail": "未驗證：同公司股份類別可去重"
+    },
+    "20_execution_clock": {
+      "passed": false,
+      "detail": "未驗證：t 收市訊號／t+1 開市成交"
+    }
+  },
+  "strategy_rule_changed": false,
+  "formal_backtest_authorized": false,
+  "formal_backtest_completed": false,
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "next_action": "取得合法 point-in-time／退市數據包後重新執行同一稽核；不得用現時成分或刪除退出樣本繞過",
+  "disclaimer": "數據入口通過不代表策略通過，不構成投資建議或盈利保證。"
+}
