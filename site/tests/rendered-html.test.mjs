@@ -13,7 +13,7 @@ async function render() {
   );
 }
 
-test("server-renders the beginner trading reference", async () => {
+test.skip("legacy public report assertions are retained as an archive", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -220,6 +220,74 @@ test("server-renders the beginner trading reference", async () => {
   }
   assert.doesNotMatch(html, /固定 80\/20 政策/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
+});
+
+test("server-renders the latest-strategy investment report", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  const html = await response.text();
+  const publicSiteRoot = (
+    process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
+  ).replace(/\/$/, "");
+
+  assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
+  assert.ok(html.includes(`${publicSiteRoot}/og.png`));
+  assert.match(html, /data-signal-freshness="checking"/);
+  assert.match(html, /LATEST STRATEGY REPORT · v25/);
+  assert.match(html, /80% 美國大型成長股/);
+  assert.match(html, /今日實金動作維持/);
+  assert.match(html, /US\$0/);
+  assert.match(html, /US\$1,000/);
+  assert.match(html, /VUG.*US\$800/);
+  assert.match(html, /GLD.*US\$200/);
+  assert.match(html, /目前市場與策略狀況/);
+  assert.match(html, /近期五年仍領先 SPY/);
+  assert.match(html, /20 年年率化回報/);
+  assert.match(html, /同期間、同成本口徑的核心比較/);
+  assert.match(html, /12\.94%/);
+  assert.match(html, /三家實際 ETF 產品路徑/);
+  assert.match(html, /Vanguard/);
+  assert.match(html, /iShares/);
+  assert.match(html, /State Street/);
+  assert.match(html, /不是只看漂亮 CAGR/);
+  assert.match(html, /成本壓力/);
+  assert.match(html, /固定十年分段/);
+  assert.match(html, /181 個滾動五年窗/);
+  assert.match(html, /對 SPY 未確認/);
+  assert.match(html, /多重搜尋校正/);
+  assert.match(html, /配對移動區塊重抽樣/);
+  assert.match(html, /最差歷史壓力並不溫和/);
+  assert.match(html, /歷史通過，前瞻證據由零開始/);
+  assert.match(html, /LIVE PAPER · 同起點公平競賽/);
+  assert.match(html, /PAPER 模擬交易試算 · 不會落盤/);
+  assert.match(html, /專業判讀與限制/);
+  assert.match(html, /Yahoo Finance／yfinance/);
+  assert.doesNotMatch(html, /v3 在 20 年贏 QQQ/);
+  assert.doesNotMatch(html, /v24 學術測試/);
+  assert.doesNotMatch(html, /舊策略研究/);
+  assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
+
+  for (const discouragedTerm of [
+    "報酬",
+    "績效",
+    "回撤",
+    "買進",
+    "賣出",
+    "下單",
+    "資料",
+    "新手",
+    "部位",
+    "曝險",
+    "再平衡",
+    "年化",
+    "波動率",
+    "收盤",
+    "開盤",
+    "停損",
+  ]) {
+    assert.doesNotMatch(html, new RegExp(discouragedTerm));
+  }
 });
 
 test("data contract fails closed when the exposure-control benchmark is not robust", async () => {
@@ -870,11 +938,11 @@ test("v25 passes three frozen product paths but exposes only an unfilled Paper s
 test("mobile controls keep safe touch targets and readable FAQ spacing", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /\.brand \{ min-height: 48px;/);
-  assert.match(css, /\.signal-stop > a \{[^}]*min-height: 44px;/);
+  assert.match(css, /\.primary-button, \.secondary-button \{[^}]*min-height: 48px;/);
   assert.match(css, /\.quick-values button \{ min-height: 44px;/);
-  assert.match(css, /\.forward-score-grid \{ grid-template-columns: 1fr;/);
+  assert.match(css, /\.market-status-list, \.test-matrix, \.robust-grid, \.tradeoff-grid, \.forward-score-grid,[^}]*grid-template-columns: 1fr;/);
   assert.match(css, /\.forward-decision-grid \{ grid-template-columns: 1fr;/);
   assert.match(css, /\.forward-decision-grid article:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1;/);
-  assert.match(css, /\.faq-list details p \{[^}]*margin: 12px 0 24px;/);
+  assert.match(css, /\.faq-list details p \{[^}]*margin: 0 0 24px;/);
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
 });

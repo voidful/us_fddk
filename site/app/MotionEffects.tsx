@@ -3,17 +3,14 @@
 import { useEffect } from "react";
 
 const REVEAL_SELECTOR = [
-  "main > .truth-strip > div",
-  "main .capital-brief-head",
-  "main .capital-brief-note",
+  "main .hero-copy",
+  "main .decision-card",
+  "main .truth-grid > article",
   "main .section-heading",
+  "main .subsection-heading",
   "main article",
-  "main .gate-list > div",
-  "main .cross-market-head",
-  "main .proxy-data-failure",
-  "main .research-target-warning",
-  "main .plain-note",
-  "main .paper-log > *",
+  "main .metric-table-wrap",
+  "main .source-line",
   "main .faq-list details",
   "footer .footer-grid > div",
 ].join(",");

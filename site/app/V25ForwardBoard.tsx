@@ -83,14 +83,14 @@ type PaperBundle = {
 };
 
 const money = (value: number) =>
-  new Intl.NumberFormat("zh-TW", {
+  new Intl.NumberFormat("zh-HK", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
   }).format(value);
 
 const pct = (value: number, digits = 2) =>
-  new Intl.NumberFormat("zh-TW", {
+  new Intl.NumberFormat("zh-HK", {
     style: "percent",
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,

@@ -10,16 +10,16 @@ const publicSiteRoot = publicSiteUrl.replace(/\/$/, "");
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl),
   title: {
-    default: "成長守門員 v2｜Paper-only 美股 ETF 研究",
-    template: "%s｜成長守門員",
+    default: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
+    template: "%s｜US FDDK",
   },
-  description: "20／18／16／10 年凍結回測與跨市場比較；v20 分散器輪替只過 45/154 道經濟門檻，目前不提供實金訊號。",
+  description: "最新 v25 80% VUG／20% GLD 的 20 年回測、三產品路徑、成本與統計測試、市場狀況及 Paper Trading 進度。",
   openGraph: {
-    title: "成長守門員 v2｜收窄最大跌幅有效，不等於穩健超額",
-    description: "長期回測不等於可落盤證據；v20 動態分散器輪替也未勝固定股債金，目前只做既有 LIVE Paper。",
+    title: "美股成長＋黃金策略｜20 年完整研究報告",
+    description: "最新策略的回測、產品敏感度、成本壓力、滾動窗口、統計診斷與前瞻 Paper 狀態，一頁完整呈列。",
     locale: "zh_HK",
     type: "website",
-    images: [{ url: `${publicSiteRoot}/og.png`, width: 1731, height: 909, alt: "成長守門員 v2 Paper-only 風險管理研究" }],
+    images: [{ url: `${publicSiteRoot}/og.png`, width: 1730, height: 909, alt: "US FDDK 美股成長加黃金最新研究報告" }],
   },
   twitter: { card: "summary_large_image", images: [`${publicSiteRoot}/og.png`] },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },

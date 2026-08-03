@@ -9,11 +9,16 @@ test("GitHub Pages output is self-contained under the repository base path", asy
     "",
   );
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
-  assert.match(html, /今天不落盤/);
-  assert.match(html, /US\$1,000 REPORT SNAPSHOT/);
+  assert.match(html, /LATEST STRATEGY REPORT · v25/);
+  assert.match(html, /今日實金動作維持/);
+  assert.match(html, /US\$1,000/);
   assert.match(html, /US\$800/);
   assert.match(html, /US\$200/);
-  assert.match(html, /v25 Paper 市場數據截止/);
+  assert.match(html, /目前市場與策略狀況/);
+  assert.match(html, /三家實際 ETF 產品路徑/);
+  assert.match(html, /181 個滾動五年窗/);
+  assert.match(html, /對 SPY 未確認/);
+  assert.match(html, /歷史通過，前瞻證據由零開始/);
   assert.match(html, /\/us_fddk\/assets\//);
   assert.ok(html.includes(`${publicSiteRoot}/og.png`));
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);

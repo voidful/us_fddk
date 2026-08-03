@@ -1,29 +1,21 @@
 import type { Metadata } from "next";
-import AllocationCalculator from "./AllocationCalculator";
 import FreshnessGuard from "./FreshnessGuard";
 import PaperAllocationLab from "./PaperAllocationLab";
 import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
-  title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "以 US$1,000 一眼看懂 v25 美股成長＋黃金 Paper Trading（模擬交易）試算、20 年驗證、公平基準與風險判讀。",
+  title: "美股成長＋黃金策略｜最新研究及 Paper 儀表板",
+  description:
+    "最新 v25 80% VUG／20% GLD 的 20 年回測、三產品路徑、成本與分段測試、統計診斷、市場狀況及 Paper Trading 進度。",
 };
 
 const readerCapital = 1_000;
-
-const labels: Record<string, { name: string; role: string }> = {
-  QQQ: { name: "NASDAQ 100", role: "成長引擎" },
-  SHY: { name: "1–3 年美國公債", role: "防守現金替代" },
-  SPY: { name: "S&P 500", role: "大型股分散" },
-  VNQ: { name: "美國 REIT", role: "不動產分散" },
-  EFA: { name: "已開發市場", role: "區域分散" },
-  IWM: { name: "美國小型股", role: "規模分散" },
-  DBC: { name: "廣泛商品", role: "通膨分散" },
-  EEM: { name: "新興市場", role: "區域分散" },
-  VUG: { name: "美國大型成長股", role: "Paper 成長核心" },
-  GLD: { name: "實物黃金", role: "Paper 分散袖套" },
-};
+const latest = data.research_pipeline.growth_gold_diversification;
+const pooled = latest.pooled;
+const diagnostics = pooled.post_entry_diagnostics_not_used_for_frozen_gate;
+const paper = latest.paper;
+const forward = paper.forward_evidence;
 
 const pct = (value: number, digits = 1) =>
   new Intl.NumberFormat("zh-HK", {
@@ -39,1428 +31,315 @@ const money = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-const targets = Object.entries(data.strategy.current_target)
-  .map(([ticker, weight]) => ({
-    ticker,
-    weight,
-    name: labels[ticker]?.name ?? ticker,
-    role: labels[ticker]?.role ?? "分散持倉",
-  }))
-  .sort((a, b) => b.weight - a.weight);
+const pp = (value: number, digits = 2) =>
+  `${value >= 0 ? "+" : ""}${(value * 100).toFixed(digits)} 個百分點`;
 
-const benchmarks = [
-  { name: "成長守門員 v2", note: "Paper-only", ...data.strategy.metrics },
-  { name: "被動 90/10", note: "持倉比率控制", ...data.benchmarks.QQQ90_SHY10 },
-  { name: "SPY", note: "必須跨過的基準", ...data.benchmarks.SPY },
-  { name: "QQQ", note: "更積極的成長基準", ...data.benchmarks.QQQ },
+const shortDate = (value: string) => value.replaceAll("-", "/");
+
+const comparisonRows = [
+  { label: "最新策略", detail: "80% 大型成長股／20% 黃金", metrics: pooled.strategy_metrics },
+  { label: "SPY", detail: "美國大型股市場基準", metrics: pooled.spy_metrics },
+  { label: "純成長 ETF", detail: "三路徑大型成長股彙總", metrics: pooled.growth_metrics },
+  { label: "公平持倉比率基準", detail: "80% 成長股／20% SHY", metrics: pooled.matched_metrics },
 ];
 
-const gateLabels: Record<string, string> = {
-  full_cagr_at_least_spy_plus_3pp: "全期年率化至少領先 SPY 3%",
-  sharpe_above_spy: "風險調整回報高於 SPY",
-  drawdown_improvement_at_least_15pp: "最大跌幅至少改善 15%",
-  both_ten_year_halves_beat_spy: "前後兩個十年都領先",
-  rolling_five_year_win_rate_at_least_90pct: "5 年滾動勝率至少 90%",
-  latest_five_year_window_beats_spy: "最近 5 年仍領先",
-  still_beats_spy_at_100bps: "成本提高到 100 bps 仍領先",
-  fixed_policy_2012_beats_spy: "固定政策 2012 至今仍領先",
-  improves_incumbent_cagr_and_drawdown: "回報與最大跌幅都改善 v1",
-  average_qqq_weight_no_more_than_90pct: "歷史平均 QQQ 不超過 90%",
+const pathLabels: Record<string, string> = {
+  vanguard: "Vanguard",
+  ishares: "iShares",
+  state_street: "State Street",
 };
 
-const exposureGateLabels: Record<string, string> = {
-  full_cagr_above_passive_90_10: "20 年 CAGR 高於被動 90/10",
-  sharpe_above_passive_90_10: "Sharpe 高於被動 90/10",
-  drawdown_improvement_at_least_10pp_vs_passive_90_10: "最大跌幅至少改善 10%",
-  both_ten_year_halves_beat_passive_90_10: "前後兩個十年都領先",
-  rolling_five_year_win_rate_vs_passive_at_least_75pct: "5 年滾動勝率至少 75%",
-  still_beats_passive_90_10_at_25bps: "成本提高到 25 bps 仍領先",
-  positive_average_daily_active_return_vs_passive_90_10: "平均每日超額回報為正",
-};
+const productPaths = Object.entries(latest.paths).map(([key, value]) => ({
+  key,
+  provider: pathLabels[key] ?? key,
+  pair: `${value.implementation.growth}／${value.implementation.gold}`,
+  ...value,
+}));
+
+const bootstrap = diagnostics.paired_moving_block_bootstrap.benchmarks;
+const identityGateNames = [
+  "all_accounts_live_and_same_start",
+  "all_accounts_same_as_of",
+  "all_accounts_same_snapshot",
+  "all_accounts_same_cost_and_cash",
+  "all_accounts_same_session_path",
+  "all_accounts_same_execution_clock",
+  "all_accounts_same_order_path",
+  "all_accounts_same_fill_counts",
+  "zero_integrity_violations",
+] as const;
+const paperIntegrity = identityGateNames.every((key) => forward.gates[key] === true);
+const realMoneyLocked = !latest.real_money_signal_display_allowed;
 
 export default function Home() {
-  const pending = data.paper.pending_order !== null;
-  const invested = data.paper.status === "invested";
-  const forward = data.paper.forward_evidence;
-  const readiness = data.readiness;
-  const canShowReferenceAllocation = readiness.allocation_visible === true;
-  const qqqWeight = data.strategy.current_target.QQQ;
-  const shyWeight = data.strategy.current_target.SHY;
-  const challenger = data.research_pipeline.challengers.v3;
-  const challengerProxy = challenger.proxy_validation;
-  const challengerPaper = challenger.paper;
-  const crossMarket = data.research_pipeline.cross_market;
-  const styleRotation = data.research_pipeline.style_rotation;
-  const threeClock = data.research_pipeline.three_clock;
-  const industryTilt = data.research_pipeline.industry_tilt;
-  const relativeGrowth = data.research_pipeline.relative_growth;
-  const alwaysInvested = data.research_pipeline.always_invested;
-  const lowTurnover = data.research_pipeline.low_turnover;
-  const hierarchicalDefense = data.research_pipeline.hierarchical_defense;
-  const confirmedGrowth = data.research_pipeline.confirmed_relative_growth;
-  const confirmedR1000 = confirmedGrowth.datasets.russell_1000;
-  const confirmedR2000 = confirmedGrowth.datasets.russell_2000;
-  const confirmedEafe = confirmedGrowth.datasets.eafe;
-  const modestLeverage = data.research_pipeline.modest_leverage;
-  const leverageSp500 = modestLeverage.datasets.sp500;
-  const leverageNasdaq = modestLeverage.datasets.nasdaq100;
-  const leverageDow = modestLeverage.datasets.dow30;
-  const modestLeverageOverlay = data.research_pipeline.modest_leverage_overlay;
-  const overlaySp500 = modestLeverageOverlay.datasets.sp500;
-  const overlayNasdaq = modestLeverageOverlay.datasets.nasdaq100;
-  const overlayDow = modestLeverageOverlay.datasets.dow30;
-  const trendVolatilityBrake = data.research_pipeline.trend_volatility_brake;
-  const brakeMidcap = trendVolatilityBrake.datasets.midcap400;
-  const brakeRussell = trendVolatilityBrake.datasets.russell2000;
-  const brakeSmallcap = trendVolatilityBrake.datasets.smallcap600;
-  const capitalEfficient = data.research_pipeline.capital_efficient;
-  const capitalSp500 = capitalEfficient.datasets.sp500;
-  const capitalNasdaq = capitalEfficient.datasets.nasdaq100;
-  const capitalRussell = capitalEfficient.datasets.russell2000;
-  const equalDiversifier = data.research_pipeline.equal_diversifier;
-  const diversifierDeveloped = equalDiversifier.datasets.developed_ex_us;
-  const diversifierEmerging = equalDiversifier.datasets.emerging_markets;
-  const diversifierStrength = data.research_pipeline.diversifier_strength;
-  const strengthJapan = diversifierStrength.datasets.japan;
-  const strengthChina = diversifierStrength.datasets.china_large_cap;
-  const strengthBrazil = diversifierStrength.datasets.brazil;
-  const hybridLeverageCore = data.research_pipeline.hybrid_leverage_core;
-  const hybridNasdaq2x = hybridLeverageCore.datasets.nasdaq100_2x;
-  const hybridMidcap = hybridLeverageCore.datasets.midcap400_3x;
-  const hybridRussell = hybridLeverageCore.datasets.russell2000_3x;
-  const sectorCapitalEfficiency = data.research_pipeline.sector_capital_efficiency;
-  const sectorPooled = sectorCapitalEfficiency.pooled;
-  const managedFutures = data.research_pipeline.managed_futures_capital_efficiency;
-  const managedLong = managedFutures.long_horizon;
-  const managedKmlm = managedFutures.kmlm_actual_bridge;
-  const managedFmf = managedFutures.fmf_cross_manager;
-  const qualityMomentum = data.research_pipeline.quality_momentum_factor;
-  const qualityAcademic = qualityMomentum.academic_formal_20y;
-  const qualityIshares = qualityMomentum.ishares_actual;
-  const qualityInvesco = qualityMomentum.invesco_cross_manager;
-  const growthGold = data.research_pipeline.growth_gold_diversification;
-  const growthGoldPooled = growthGold.pooled;
-  const growthGoldPaper = growthGold.paper;
-  const growthGoldForward = growthGoldPaper.forward_evidence;
-  const growthGoldPending = growthGoldPaper.pending_order !== null;
-  const growthGoldReady = growthGold.real_money_signal_display_allowed === true;
-  const growthGoldDiagnostics = growthGoldPooled.post_entry_diagnostics_not_used_for_frozen_gate;
-  const growthGoldUnderwater = growthGoldDiagnostics.portfolio_underwater;
-  const growthGoldRelativeSpy = growthGoldDiagnostics.relative_wealth_underwater.SPY;
-  const growthGoldRelativeGrowth = growthGoldDiagnostics.relative_wealth_underwater.growth;
-  const growthGoldWorstSpyWindow = growthGoldDiagnostics.rolling_five_year_entry_timing_risk.SPY.worst_window;
-  const growthGoldBootstrapSpy = growthGoldDiagnostics.paired_moving_block_bootstrap.benchmarks.SPY["12"];
-  const growthGoldIntegrity = [
-    "all_accounts_live_and_same_start",
-    "all_accounts_same_as_of",
-    "all_accounts_same_snapshot",
-    "all_accounts_same_cost_and_cash",
-    "all_accounts_same_session_path",
-    "all_accounts_same_execution_clock",
-    "all_accounts_same_order_path",
-    "all_accounts_same_fill_counts",
-    "zero_integrity_violations",
-  ].every((gate) => growthGoldForward.gates[gate as keyof typeof growthGoldForward.gates] === true);
   return (
     <>
-      <header className="topbar">
-        <a className="brand" href="#top" aria-label="回到頁首">
-          <span className="brand-mark">G</span>
-          <span>成長守門員 v2</span>
-        </a>
-        <nav aria-label="主要導覽">
-          <a href="#capital-brief">US$1,000 摘要</a>
-          <a href="#v25-paper">v25 模擬交易</a>
-          <a href="#evidence">證據</a>
-          <a href="#challenger">完整研究</a>
-          <a href="#risks">風險</a>
-        </nav>
-        <FreshnessGuard
-          dataThrough={data.data_through}
-          refreshDueAtUtc={data.freshness.refresh_due_at_utc}
-        />
+      <header className="site-header">
+        <div className="wrap nav-shell">
+          <a className="brand" href="#top" aria-label="返回報告頂部">
+            <span>US FDDK</span>
+            <b>美股策略研究室</b>
+          </a>
+          <nav aria-label="報告導覽">
+            <a href="#market">市場狀況</a>
+            <a href="#backtest">20 年回測</a>
+            <a href="#tests">穩健測試</a>
+            <a href="#paper">Paper</a>
+          </nav>
+          <FreshnessGuard
+            dataThrough={data.data_through}
+            refreshDueAtUtc={data.freshness.refresh_due_at_utc}
+          />
+        </div>
       </header>
 
       <main id="top">
         <section className="hero wrap">
           <div className="hero-copy">
-            <p className="eyebrow">20 年凍結研究 · PAPER 嚴格守門</p>
-            <div className={`status-badge fresh-only ${growthGoldReady ? "active" : "pending"}`}><span />{growthGoldReady ? "v25 前瞻門檻通過 · 可顯示參考配置" : "v25 歷史入口通過 · 實金訊號關閉"}</div>
-            <div className="status-badge expired stale-only"><span />訊號已停用</div>
-            <h1 className="fresh-only">{growthGoldReady ? <>前瞻驗證通過。<br />按 80/20 規則參考。</> : <>今天不落盤。<br />v25 先做 Paper（模擬交易）。</>}</h1>
-            <h1 className="stale-only">數據已過期。<br />今天先不要照做。</h1>
-            <p className="hero-lead fresh-only">
-              {growthGoldReady
-                ? <>v25 已完成事前規定的 252 個新增交易日與 6 次重新平衡，並同時勝過 SPY 與相同股票持倉比率的 SHY 基準。這時才顯示 80% VUG／20% GLD 參考配置，仍需自行評估風險與稅務。</>
-                : !canShowReferenceAllocation
-                ? <>最新 v25 固定 80% 大型成長股／20% 黃金，在 Vanguard、iShares、State Street 三條實際 20 年路徑都通過 12/12，彙總 10/10；但 LIVE Paper 才剛建立、尚無成交。歷史資格通過不等於今天可以實金照買。</>
-                : pending
-                ? <>系統已用 {data.data_through} 的月末收市數據算出配置。最近波幅越高，就自動降低 QQQ、增加 SHY；這筆訊號只在下一個新增交易日開市模擬成交。</>
-                : invested
-                ? <>Paper 模擬組合已按規則持有。現在不需要追價或手動換倉；系統會在下一個完整月末重新計算配置。</>
-                : <>目前沒有可執行的月末訊號，Paper 模擬組合維持現金；不要為了交易而交易。</>}
-            </p>
-            <p className="hero-lead stale-only">
-              LIVE Paper（前瞻模擬交易）應在 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")} 前更新，
-              但目前仍只到 {data.data_through}。請先更新市場數據、Paper 狀態與部署版本。
+            <div className="eyebrow-row">
+              <span className="eyebrow">LATEST STRATEGY REPORT · v25</span>
+              <span className="status-chip warning"><i /> PAPER ONLY</span>
+            </div>
+            <h1>80% 美國大型成長股<br />＋20% 黃金</h1>
+            <p className="hero-lead">
+              20 年歷史入口及三家實際 ETF 產品路徑全部通過。最新前瞻樣本仍是
+              <strong> {forward.forward_sessions}/{forward.minimum_sessions} 個交易日</strong>，因此今日實金動作維持
+              <strong> US$0</strong>。
             </p>
             <div className="hero-actions">
-              <a className="button primary fresh-only" href="#capital-brief">看 US$1,000 摘要</a>
-              <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
-              <a className="button ghost" href="#evidence">查看完整證據</a>
+              <a className="primary-button" href="#backtest">查看完整回測</a>
+              <a className="secondary-button" href="#paper">查看 Paper 進度</a>
             </div>
           </div>
-
-          <article className="signal-card" aria-labelledby="today-title">
-            <div className="signal-card-head">
-              <div>
-                <p>今天該做什麼</p>
-                <h2 id="today-title" className="fresh-only">{canShowReferenceAllocation ? (pending ? "等待模擬成交" : invested ? "照規則持有" : "維持現金") : "不建立實金持倉"}</h2>
-                <h2 className="stale-only">數據過期，停止參考</h2>
-              </div>
-              <span className="clock" aria-hidden="true">↗</span>
+          <aside className="decision-card" aria-label="最新策略決策摘要">
+            <div className="decision-head">
+              <span>投資決策摘要</span>
+              <b>{realMoneyLocked ? "實金配置鎖定" : "參考配置開放"}</b>
             </div>
-            {canShowReferenceAllocation ? <div className="fresh-only">
-            <div className="donut-row">
-              <div
-                className="donut"
-                style={{ background: `conic-gradient(var(--forest) 0 ${qqqWeight * 100}%, var(--gold) ${qqqWeight * 100}% 100%)` }}
-                role="img"
-                aria-label={`目標配置：QQQ ${pct(qqqWeight)}，SHY ${pct(shyWeight)}`}
-              >
-                <div><strong>{pct(qqqWeight, 0)}</strong><span>QQQ</span></div>
-              </div>
-              <div className="donut-legend">
-                <div><i className="qqq" /><span>QQQ 成長持倉比率</span><b>{pct(qqqWeight)}</b></div>
-                <div><i className="shy" /><span>SHY 防守準備</span><b>{pct(shyWeight)}</b></div>
-              </div>
+            <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
+            <div className="allocation-split" aria-label="Paper 目標配置">
+              <div className="growth" style={{ width: "80%" }}><b>VUG</b><span>80% · {money(800)}</span></div>
+              <div className="gold" style={{ width: "20%" }}><b>GLD</b><span>20%</span></div>
             </div>
-            <div className="next-step">
-              <span>下一步</span>
-              <p>{pending ? "市場數據新增後，先核對成交明細；不是現在追價買入。" : invested ? "等待下一個月末訊號；期間不因新聞或情緒自行換倉。" : "等待完整月末訊號，沒有訊號就不建立持倉。"}</p>
-            </div>
-            </div> : <div className="fresh-only signal-stop">
-              <strong>今日實金動作：0</strong>
-              <p>系統仍會記錄 Paper 結果，但不顯示可照抄的實金落盤金額。</p>
-              <ul>
-                <li><span>未通過</span>相近持倉比率的被動 90/10 基準</li>
-                <li><span>未通過</span>多重搜尋後的統計確認</li>
-                <li><span>等待中</span>{forward.forward_sessions} / {forward.minimum_sessions} 個前瞻交易日</li>
-              </ul>
-              <a href="#paper">只查看 Paper 觀察紀錄 →</a>
-            </div>}
-            <div className="stale-only stale-signal">
-              <strong>停止參考舊配置</strong>
-              <p>舊權重已隱藏。請等數據契約、LIVE Paper 與網站三者更新到同一個交易日後再查看。</p>
-              <code>refresh due {data.freshness.refresh_due_at_utc}</code>
-            </div>
-          </article>
+            <dl className="decision-list">
+              <div><dt>Paper 目標</dt><dd>VUG {money(800)}／GLD {money(200)}</dd></div>
+              <div><dt>下一步</dt><dd>{paper.pending_order ? "等待下一交易日開市模擬成交" : "等待下次月末檢查"}</dd></div>
+              <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
+            </dl>
+            <p>US$1,000 只作比例示例；正式 Paper 三個模擬組合仍以 US$100,000 公平起跑。</p>
+          </aside>
         </section>
 
-        <section className="capital-brief wrap" id="capital-brief" aria-labelledby="capital-brief-title">
-          <div className="capital-brief-head">
-            <div>
-              <p className="eyebrow">US$1,000 REPORT SNAPSHOT · PAPER FIRST</p>
-              <h2 id="capital-brief-title">一眼看懂：<br />這筆本金今天怎樣處理。</h2>
-            </div>
-            <div className={`capital-verdict ${growthGoldReady ? "ready" : "blocked"}`}>
-              <span>今日實金動作</span>
-              <strong>{growthGoldReady ? "80 / 20" : "US$0"}</strong>
-              <small>{growthGoldReady ? "門檻通過後才可作配置參考" : "前瞻門檻未完成，維持 Paper-only"}</small>
-            </div>
-          </div>
-
-          <div className="capital-brief-grid">
-            <article className="capital-card" aria-label="US$1,000 Paper 配置試算">
-              <div className="capital-card-title">
-                <span>示例投資本金</span>
-                <strong>{money(readerCapital)}</strong>
-                <p>{growthGoldReady ? "通過完整前瞻門檻後的固定比例參考。" : "只作 Paper 試算，不代表現在應投入這筆本金。"}</p>
-              </div>
-              <div className="capital-split">
-                <div>
-                  <span>80% · 成長核心</span>
-                  <b>VUG</b>
-                  <strong>{money(readerCapital * 0.8)}</strong>
-                </div>
-                <div>
-                  <span>20% · 黃金分散</span>
-                  <b>GLD</b>
-                  <strong>{money(readerCapital * 0.2)}</strong>
-                </div>
-              </div>
-              <div className="capital-scale" aria-label="VUG 80%，GLD 20%"><i /><b /></div>
-            </article>
-
-            <div className="capital-metrics" aria-label="US$1,000 報告關鍵數字">
-              <article>
-                <span>20 年年率化回報</span>
-                <strong>{pct(growthGoldPooled.strategy_metrics.cagr, 2)}</strong>
-                <p>SPY 同期 {pct(growthGoldPooled.spy_metrics.cagr, 2)}</p>
-              </article>
-              <article>
-                <span>歷史最大跌幅</span>
-                <strong>{pct(growthGoldPooled.strategy_metrics.max_drawdown, 1)}</strong>
-                <p>US$1,000 曾可能跌至約 {money(readerCapital * (1 + growthGoldPooled.strategy_metrics.max_drawdown))}</p>
-              </article>
-              <article>
-                <span>跨產品驗證</span>
-                <strong>3 × 12/12</strong>
-                <p>Vanguard、iShares、State Street 同規則通過</p>
-              </article>
-              <article>
-                <span>前瞻進度</span>
-                <strong>{growthGoldForward.forward_sessions} / {growthGoldForward.minimum_sessions}</strong>
-                <p>{growthGoldForward.filled_rebalances} / {growthGoldForward.minimum_filled_rebalances} 次完成重新平衡</p>
-              </article>
-            </div>
-          </div>
-
-          <div className="capital-brief-note">
-            <p><b>專業判讀：</b>歷史資格通過，但前瞻樣本仍不足。US$800／US$200 是比例示範；未計碎股限制、佣金、買賣差價、匯率及稅項。</p>
-            <p><b>研究口徑：</b>標準化 Paper 比較帳戶仍以 US$100,000 同日起跑，沒有改寫凍結合約；此處只把讀者試算本金改為 US$1,000。</p>
-            <code>數據截至 {data.data_through} · 更新期限 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</code>
+        <section className="truth-strip">
+          <div className="wrap truth-grid">
+            <article><span>20 年年率化回報</span><strong>{pct(pooled.strategy_metrics.cagr, 2)}</strong><small>SPY {pct(pooled.spy_metrics.cagr, 2)}</small></article>
+            <article><span>Sharpe 比率</span><strong>{pooled.strategy_metrics.sharpe.toFixed(2)}</strong><small>SPY {pooled.spy_metrics.sharpe.toFixed(2)}</small></article>
+            <article><span>最大跌幅</span><strong>{pct(pooled.strategy_metrics.max_drawdown, 1)}</strong><small>SPY {pct(pooled.spy_metrics.max_drawdown, 1)}</small></article>
+            <article><span>產品路徑</span><strong>3 / 3</strong><small>每條 12 / 12 門檻</small></article>
+            <article><span>前瞻 Paper</span><strong>{forward.forward_sessions} / {forward.minimum_sessions}</strong><small>{paper.status === "awaiting_fill" ? "首筆仍待成交" : "已開始累積"}</small></article>
           </div>
         </section>
 
-        <section className="readiness-section wrap" id="v25-paper" aria-labelledby="v25-paper-title">
-          <div className="readiness-head">
-            <div>
-              <p className="eyebrow">FIRST HISTORICAL QUALIFIER · {growthGoldReady ? "FORWARD CONFIRMED" : "PAPER ONLY"}</p>
-              <h2 id="v25-paper-title">第一個跨三家產品通過的候選，<br />先從同一天現金起跑。</h2>
-            </div>
-            <div className={`readiness-verdict ${growthGoldReady ? "ready" : "blocked"}`}>
-              <span>{growthGoldPending ? "等待下一交易日模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "Paper 維持現金"}</span>
-              <strong>{growthGoldForward.forward_sessions} / {growthGoldForward.minimum_sessions}</strong>
-              <small>{growthGoldReady ? "前瞻門檻通過；開放參考配置" : "前瞻交易日；實金仍關閉"}</small>
-            </div>
+        <section className="section wrap" id="market">
+          <div className="section-heading">
+            <div><span>MARKET STATUS</span><h2>目前市場與策略狀況</h2></div>
+            <p>只用最新凍結快照和前瞻狀態判讀，不把歷史回測當成今日即時訊號。</p>
           </div>
-          <div className="gate-layout">
-            <article className="signal-card">
-              <div className="signal-card-head">
-                <div><p>{growthGoldReady ? "v25 參考配置" : "v25 PAPER 目標，不是實金指令"}</p><h3>{growthGoldPending ? "排隊等待模擬成交" : "按月末規則觀察"}</h3></div>
-                <span className="clock" aria-hidden="true">P</span>
-              </div>
-              <div className="donut-row">
-                <div
-                  className="donut"
-                  style={{ background: "conic-gradient(var(--forest) 0 80%, var(--gold) 80% 100%)" }}
-                  role="img"
-                  aria-label={`v25 ${growthGoldReady ? "參考" : "Paper"}目標：VUG 80%，GLD 20%`}
-                >
-                  <div><strong>80%</strong><span>VUG</span></div>
-                </div>
-                <div className="donut-legend">
-                  <div><i className="qqq" /><span>VUG 大型成長股</span><b>80%</b></div>
-                  <div><i className="shy" /><span>GLD 實物黃金</span><b>20%</b></div>
-                </div>
-              </div>
-              <div className="next-step">
-                <span>初學投資者現在該做什麼</span>
-                <p>{growthGoldReady ? "依固定月末規則檢查 80/20；不要因即市漲跌、新聞或情緒追價改權重。" : <>不要手動追價。這筆 Paper 委託只會在 {growthGoldPaper.started_at} 之後第一個新增交易日開市模擬成交；真實資金動作仍是 0。</>}</p>
+          <div className="market-grid">
+            <article className="market-verdict">
+              <span>截至 {shortDate(data.data_through)}</span>
+              <h3>近期五年仍領先 SPY，組合距歷史高位約 {pct(Math.abs(diagnostics.portfolio_underwater.current_drawdown), 1)}</h3>
+              <p>
+                最新五年窗的年率化回報較 SPY 高 {pp(diagnostics.rolling_five_year_entry_timing_risk.SPY.latest_window.cagr_difference)}，
+                較純成長高 {pp(diagnostics.rolling_five_year_entry_timing_risk.growth.latest_window.cagr_difference)}。
+                但全 20 年純成長 CAGR 仍高 {pp(Math.abs(pooled.tradeoff_vs_growth.cagr_difference))}；這套配置追求的是較高 Sharpe 及較淺最大跌幅，不是每段市況都要成為最高回報組合。
+              </p>
+              <div className="market-badges">
+                <span>固定 80/20</span><span>每月檢查</span><span>不預測升跌</span><span>不使用槓桿</span>
               </div>
             </article>
-            <div className="readiness-grid">
-              <article><span>01 · 三家實際產品</span><strong>12/12 · 12/12 · 12/12</strong><p>VUG／GLD、IWF／IAU、SPYG／GLD 全部使用相同 80/20 與 240 個月。</p></article>
-              <article><span>02 · 20 年彙總</span><strong>{pct(growthGoldPooled.strategy_metrics.cagr, 2)} vs {pct(growthGoldPooled.spy_metrics.cagr, 2)}</strong><p>最大跌幅 {pct(growthGoldPooled.strategy_metrics.max_drawdown, 1)}，SPY 為 {pct(growthGoldPooled.spy_metrics.max_drawdown, 1)}。</p></article>
-              <article><span>03 · 公平基準</span><strong>{pct(growthGoldPooled.strategy_metrics.cagr - growthGoldPooled.matched_metrics.cagr, 2)}</strong><p>相對 80% 成長股／20% SHY 的年率化差；NW t = {growthGoldPooled.statistics_vs_matched.newey_west_t.toFixed(2)}。</p></article>
-              <article><span>04 · 尚未證明</span><strong>NW t {growthGoldPooled.statistics_vs_spy.newey_west_t.toFixed(2)}</strong><p>相對 SPY 仍低於 1.96；最差五年曾落後 {pct(Math.abs(growthGoldPooled.rolling_five_year_vs_spy.worst_cagr_difference), 2)}。</p></article>
-            </div>
-          </div>
-          <div className="v25-live-health" aria-label="v25 每日更新健康狀態">
-            <article><span>v25 Paper 市場數據截止</span><strong>{data.data_through}</strong><small>下一個應有交易日 {data.freshness.next_expected_session}</small></article>
-            <article><span>三個模擬組合一致性</span><strong>{growthGoldIntegrity ? "同步通過" : "停止發布"}</strong><small>日期、快照、成本與交易日序列全部核對</small></article>
-            <article><span>目前狀態</span><strong>{growthGoldPending ? "等待模擬成交" : growthGoldPaper.status === "invested" ? "Paper 持有中" : "維持現金"}</strong><small>{growthGoldPaper.transactions} 筆成交 · {money(growthGoldPaper.equity)}</small></article>
-            <article><span>更新期限</span><strong>{data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</strong><small>超過期限，頁面會自動隱藏舊訊號</small></article>
-          </div>
-          <V25ForwardBoard paper={growthGoldPaper} integrity={growthGoldIntegrity} />
-          <div className="v25-risk-reality" aria-labelledby="v25-risk-reality-title">
-            <div className="paper-lab-heading">
-              <div><span>先看壞消息，再看回報</span><h3 id="v25-risk-reality-title">跑贏 SPY，不等於跑贏每一種 ETF</h3></div>
-              <p>這些是入口通過後補做的透明診斷，沒有回頭加入凍結門檻，也沒有替 10/10 加分。</p>
-            </div>
-            <div className="v25-risk-grid">
-              <article><span>相對 SPY 年率化</span><strong>+{pct(growthGoldPooled.strategy_metrics.cagr - growthGoldPooled.spy_metrics.cagr, 2)}</strong><p>20 年全期勝出，但最差五年 {growthGoldWorstSpyWindow.start.slice(0, 7)}–{growthGoldWorstSpyWindow.end.slice(0, 7)} 每年落後 {pct(Math.abs(growthGoldWorstSpyWindow.cagr_difference), 2)}。</p></article>
-              <article className="caution"><span>相對純成長 ETF</span><strong>{pct(growthGoldPooled.tradeoff_vs_growth.cagr_difference, 2)}</strong><p>純成長年率化 {pct(growthGoldPooled.growth_metrics.cagr, 2)}，高於 v25；v25 換到約 {pct(growthGoldPooled.tradeoff_vs_growth.drawdown_improvement, 1)} 的最大跌幅改善。</p></article>
-              <article><span>自己最久低於先前高點</span><strong>{growthGoldUnderwater.max_underwater_months} 個月</strong><p>{growthGoldUnderwater.longest_episode.peak.slice(0, 7)} 高點後下跌，至 {growthGoldUnderwater.longest_episode.recovery?.slice(0, 7) ?? "期末仍未復原"} 才回到先前高點。</p></article>
-              <article className="caution"><span>相對純成長的等待</span><strong>{growthGoldRelativeGrowth.max_underwater_months} 個月</strong><p>相對財富期末仍比先前高點低 {pct(Math.abs(growthGoldRelativeGrowth.current_drawdown), 1)}；這不代表每月都輸，而是可能多年懷疑策略。</p></article>
-              <article><span>相對 SPY 的等待</span><strong>{growthGoldRelativeSpy.max_underwater_months} 個月</strong><p>全期最後雖勝 SPY，累積相對財富仍曾長達約 14 年未回到先前相對高點。</p></article>
-              <article className="caution"><span>12 月區塊重抽樣</span><strong>{pct(growthGoldBootstrapSpy.probability_cagr_above_and_drawdown_not_worse, 1)}</strong><p>回報與最大跌幅同時不差於 SPY 的樣本比例；較差 5% 情境的年率化差為 {pct(growthGoldBootstrapSpy.cagr_difference_percentiles.p05, 2)}。這不是未來勝率。</p></article>
-            </div>
-          </div>
-          <PaperAllocationLab paperOnly={!growthGoldReady} />
-          <p className="readiness-note"><b>{growthGoldReady ? "通過後紀律：" : "升級規則："}</b>{growthGoldReady ? "每次日更仍須維持三個模擬組合同步、數據未過期且前瞻優勢沒有失效；任一完整性門檻失敗就立即停止顯示參考配置。" : <>還缺 {growthGoldForward.remaining_sessions} 個真正新增交易日與 {growthGoldForward.remaining_filled_rebalances} 次完成重新平衡；同起點 SPY 與 80% VUG／20% SHY Paper 會一起比較。任何一項失敗都繼續 Paper-only。</>}</p>
-        </section>
-
-        <section className="truth-strip" aria-label="證據狀態">
-          <div><span className="check">✓</span><p><b>回測門檻通過</b><small>凍結 20 年數據</small></p></div>
-          <div><span className={data.evidence.exposure_control_passed ? "check" : "wait"}>{data.evidence.exposure_control_passed ? "✓" : "!"}</span><p><b>{data.evidence.exposure_control_passed ? "持倉比率控制通過" : "持倉比率控制未通過"}</b><small>對照被動 90/10</small></p></div>
-          <div><span className="wait">!</span><p><b>統計尚未確認</b><small>NW t = {data.evidence.newey_west_t.toFixed(2)}，門檻 1.96</small></p></div>
-          <div><span className={data.evidence.live_confirmed ? "check" : "wait"}>{data.evidence.live_confirmed ? "✓" : "→"}</span><p><b>{data.evidence.live_confirmed ? "LIVE 門檻通過" : "LIVE 累積中"}</b><small>{forward.forward_sessions} / {forward.minimum_sessions} 日 · {forward.filled_rebalances} / {forward.minimum_filled_rebalances} 次換倉</small></p></div>
-        </section>
-
-        <section className="readiness-section wrap" id="readiness" aria-labelledby="readiness-title">
-          <div className="readiness-head">
-            <div>
-              <p className="eyebrow">REAL-MONEY READINESS</p>
-              <h2 id="readiness-title" className="fresh-only">數據可安全發布，<br />不等於可以實金參考。</h2>
-              <h2 className="stale-only">數據已過期，<br />Paper 與實金都停止參考。</h2>
-            </div>
-            <div className={readiness.trade_ready ? "readiness-verdict ready" : "readiness-verdict blocked"}>
-              <span className="fresh-only">{readiness.trade_ready ? "實金參考已開放" : "實金參考未開放"}</span>
-              <span className="stale-only">數據過期，停止參考</span>
-              <strong className="fresh-only">{readiness.passed_gate_count} / {readiness.required_gate_count}</strong>
-              <strong className="stale-only">STOP</strong>
-              <small className="fresh-only">所有門檻必須同時通過</small>
-              <small className="stale-only">更新與完整性檢查完成前維持關閉</small>
-            </div>
-          </div>
-          <div className="readiness-grid">
-            <article>
-              <span>01 · 歷史與公平基準</span>
-              <strong>{data.evidence.historical_gate_passed ? "SPY 歷史通過" : "歷史未通過"}</strong>
-              <p>公平 90/10：{data.evidence.exposure_control_passed ? "通過" : "失敗"}；搜尋懲罰後統計：{data.evidence.statistically_confirmed ? "通過" : "失敗"}。歷史回測只能決定是否值得前瞻觀察。</p>
-            </article>
-            <article>
-              <span>02 · 不可回填的等待期</span>
-              <strong>{forward.forward_sessions} / {forward.minimum_sessions} 日</strong>
-              <p>還缺 {forward.remaining_sessions} 個前瞻交易日、{forward.remaining_filled_rebalances} 次完成換倉。未滿樣本前，回報與最大跌幅門檻一律鎖定為未通過。</p>
-            </article>
-            <article>
-              <span>03 · 最終升級條件</span>
-              <strong>{readiness.trade_ready ? "全部通過" : "維持 Paper-only"}</strong>
-              <p>扣成本後必須為正、同時勝 SPY 與被動 90/10，且最大跌幅不比兩者深；數據過期或任何組合漂移都立即停止參考。</p>
-            </article>
-          </div>
-          <p className="readiness-note fresh-only"><b>今天的明確決定：</b>{readiness.trade_ready ? "已通過完整合約，才可顯示參考交易配置。" : "只允許查看研究與 Paper 進度；主配置不是實金落盤指令。"}</p>
-          <p className="readiness-note stale-only"><b>今天的明確決定：</b>停止使用所有舊配置；等待新快照、Paper 與網站重新通過一致性檢查。</p>
-        </section>
-
-        <section className="section wrap" id="allocation">
-          <div className="section-heading split-heading">
-            <div><p className="eyebrow">01 · TODAY’S DECISION</p><h2>{canShowReferenceAllocation ? "已開放的參考配置" : "目前沒有實金配置"}</h2></div>
-            <p>{canShowReferenceAllocation ? "只有完整門檻通過後，才會顯示可換算的參考權重。" : "Paper 仍在背景觀察；為避免初學投資者把研究結果誤認成指令，百分比與金額試算維持關閉。"}</p>
-          </div>
-          {canShowReferenceAllocation ? <div className="fresh-only"><AllocationCalculator allocations={targets} /></div> : <div className="fresh-only allocation-stale">
-            <b>實金配置鎖定中</b>
-            <p>目前只通過 {readiness.passed_gate_count} / {readiness.required_gate_count} 道上線門檻。今天的清楚做法是不依這套策略建立新持倉。</p>
-          </div>}
-          <div className="stale-only allocation-stale">
-            <b>配置試算已停用</b>
-            <p>過期數據不顯示目標金額，避免把舊訊號誤認成今天的行動建議。</p>
-          </div>
-          {canShowReferenceAllocation && <div className="plain-note fresh-only">
-            <b>一句話讀法</b>
-            <p>{data.beginner.allocation_hint} 規則是「18% 目標波幅 ÷ 最近 21 日 QQQ 波幅」，上限 100%、不使用槓桿。</p>
-          </div>}
-        </section>
-
-        <section className="section contrast" id="evidence">
-          <div className="wrap">
-            <div className="section-heading light">
-              <p className="eyebrow">02 · THE RECEIPT</p>
-              <h2>它跑贏 SPY，<br />但只略贏被動 90/10。</h2>
-              <p>加入相近 QQQ 持倉比率的簡單被動組合後，真正能歸因於波幅管理的回報優勢很小，而且跨期間不穩定。</p>
-            </div>
-            <div className="comparison-grid">
-              {benchmarks.map((row, index) => (
-                <article className={`comparison-card ${index === 0 ? "featured" : ""}`} key={row.name}>
-                  <div><h3>{row.name}</h3><span>{row.note}</span></div>
-                  <dl>
-                    <div><dt>20 年年率化</dt><dd>{pct(row.cagr, 2)}</dd></div>
-                    <div><dt>Sharpe</dt><dd>{row.sharpe.toFixed(2)}</dd></div>
-                    <div><dt>最大跌幅</dt><dd>{pct(row.max_drawdown, 2)}</dd></div>
-                  </dl>
-                </article>
-              ))}
-            </div>
-            <div className="evidence-numbers">
-              <article><span>相對被動 90/10 年率化</span><strong>+{pct(data.evidence.cagr_difference_vs_passive_90_10, 2)}</strong><p>只看 20 年單一起訖點</p></article>
-              <article><span>相對 90/10 最大跌幅改善</span><strong>+{pct(data.evidence.drawdown_improvement_vs_passive_90_10, 2)}</strong><p>降風險效果明顯</p></article>
-              <article><span>5 年滾動勝率</span><strong>{pct(data.evidence.rolling_five_year_vs_passive_90_10.win_fraction, 1)}</strong><p>門檻 75%，實際接近擲硬幣</p></article>
-              <article className="caution"><span>後十年相對 90/10</span><strong>{pct(data.evidence.second_ten_year_cagr_difference_vs_passive_90_10, 2)}</strong><p>未能跨時期維持領先</p></article>
+            <div className="market-status-list">
+              <article><span>數據狀態</span><strong>{paperIntegrity ? "完整性通過" : "暫停參考"}</strong><p>最新交易日 {data.freshness.last_session}；下一預期交易日 {data.freshness.next_expected_session}。</p></article>
+              <article><span>當前風險</span><strong>{pct(diagnostics.portfolio_underwater.current_drawdown, 1)}</strong><p>這是回測組合相對自身歷史高位的距離，不是未來跌幅預測。</p></article>
+              <article><span>最長復原期</span><strong>{diagnostics.portfolio_underwater.max_underwater_months} 個月</strong><p>最深一段由 {diagnostics.portfolio_underwater.deepest_episode.peak} 高位開始，至 {diagnostics.portfolio_underwater.deepest_episode.recovery} 才復原。</p></article>
+              <article><span>今日可執行狀態</span><strong className="danger-text">Paper-only</strong><p>待成交指令不等於成交；實金配置仍鎖定。</p></article>
             </div>
           </div>
         </section>
 
-        <section className="section wrap" id="exposure-control">
-          <div className="section-heading split-heading">
-            <div><p className="eyebrow">03 · EXPOSURE CONTROL</p><h2>真正難的基準：不用預測的 90/10</h2></div>
-            <p>被動 90% QQQ／10% SHY 每月末重新平衡。這項稽核是在 v2 選定後補上，因此只算反證，不冒充預先註冊。</p>
+        <section className="section wrap" id="backtest">
+          <div className="section-heading">
+            <div><span>20-YEAR BACKTEST</span><h2>同期間、同成本口徑的核心比較</h2></div>
+            <p>{pooled.period.start_equity_date} 至 {pooled.period.end}，共 {pooled.period.months} 個月；回報包含經調整價格，換手成本在策略中扣除。</p>
           </div>
-          <div className="gate-layout">
-            <div className="gate-list">
-              {Object.entries(data.evidence.exposure_control_gates).map(([key, passed]) => (
-                <div key={key}><span className={passed ? "gate-pass" : "gate-fail"}>{passed ? "通過" : "失敗"}</span><p>{exposureGateLabels[key] ?? key}</p></div>
-              ))}
-            </div>
-            <article className="stat-card">
-              <span>最重要的新反證</span>
-              <h3>收窄最大跌幅，不等於穩健超額</h3>
-              <p>全期 CAGR 仍略高 {pct(data.evidence.cagr_difference_vs_passive_90_10, 2)}，但每日超額回報年率化平均為 {pct(data.evidence.active_return_vs_passive_90_10.annualized_mean, 2)}，NW t 只有 {data.evidence.active_return_vs_passive_90_10.newey_west_t.toFixed(2)}。</p>
-              <p>成本提高到 25 bps 後，年率化差轉為 {pct(data.evidence.cost_25bps_cagr_difference_vs_passive_90_10, 2)}；所以不能只看最好看的單一起訖 CAGR。</p>
-              <div className="verdict">目前結論：保留 Paper 追蹤，不升級成實金參考策略。</div>
-            </article>
-          </div>
-        </section>
-
-        <section className="section challenger-section" id="challenger">
-          <div className="wrap">
-            <div className="section-heading light split-heading">
-              <div><p className="eyebrow">04 · CHALLENGER AUDIT</p><h2>v3 在 20 年贏 QQQ，<br />為什麼還不能上線？</h2></div>
-              <p>因為單一起訖點可以很好看，真正的考題是：換成相近持倉比率、更早年代和全新前瞻交易後，優勢還在不在。</p>
-            </div>
-
-            <div className="challenger-scorecards">
-              <article>
-                <span>2006–2026 · 近期 20 年</span>
-                <strong>{pct(challenger.metrics.cagr, 2)}</strong>
-                <p>QQQ 為 {pct(challenger.qqq_metrics.cagr, 2)}；v3 年率化領先 {pct(challenger.cagr_difference_vs_qqq, 2)}，最大跌幅改善 {pct(challenger.drawdown_improvement_vs_qqq, 2)}。</p>
-              </article>
-              <article>
-                <span>96% QQQ／4% SHY · 公平基準</span>
-                <strong>{challenger.matched_control_passed ? "通過" : "未通過"}</strong>
-                <p>v3 年率化 {pct(challenger.metrics.cagr, 2)}，固定持倉比率組合 {pct(challenger.matched_96_4_metrics.cagr, 2)}；這一層不是失敗原因。</p>
-              </article>
-              <article className="failed">
-                <span>1986–2006 · 更早期代理</span>
-                <strong>{pct(challengerProxy.rolling_five_year_win_fraction, 1)}</strong>
-                <p>有效 5 年滾動勝率，門檻 60%。雖然全期領先 {pct(challengerProxy.cagr_difference_vs_ndx, 2)}，前十年卻落後 {pct(Math.abs(challengerProxy.ten_year_cagr_differences.first), 2)}。</p>
-              </article>
-              <article className="failed">
-                <span>搜尋運氣懲罰 · 6,100 次</span>
-                <strong>{pct(challenger.deflated_sharpe_probability, 3)}</strong>
-                <p>Deflated Sharpe 機率；每日超額回報的 Newey–West t 值只有 {challenger.active_return_newey_west.t_stat.toFixed(2)}，尚未達統計確認。</p>
-              </article>
-            </div>
-
-            <div className="cross-market-audit">
-              <div className="cross-market-head">
-                <div><span>1989–2006 · 五市場事前凍結</span><h3>只有 {crossMarket.counts.full_cagr} / 5 完整期勝出，機制未能泛化</h3></div>
-                <strong>{crossMarket.passed ? "通過" : "未通過"}</strong>
-              </div>
-              <p>在看結果前固定美、英、德、日、港與七道門檻。只有德國 DAX 的完整期 CAGR 勝出；不能拿單一成功掩蓋四個失敗市場。</p>
-              <div className="cross-market-grid">
-                {Object.entries(crossMarket.markets).map(([ticker, item]) => (
-                  <article className={item.cagr_difference > 0 ? "passed" : "failed"} key={ticker}>
-                    <span>{item.market} · {item.index}</span>
-                    <strong>{pct(item.cagr_difference, 2)}</strong>
-                    <p>相對買入並持有 CAGR；5 年滾動勝率 {pct(item.rolling_five_year_win_fraction, 1)}</p>
-                  </article>
+          <div className="metric-table-wrap">
+            <table className="metric-table">
+              <thead><tr><th>組合</th><th>年率化回報</th><th>Sharpe</th><th>波幅</th><th>最大跌幅</th><th>平均月度換手</th></tr></thead>
+              <tbody>
+                {comparisonRows.map((row, index) => (
+                  <tr className={index === 0 ? "featured-row" : ""} key={row.label}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th>
+                    <td>{pct(row.metrics.cagr, 2)}</td>
+                    <td>{row.metrics.sharpe.toFixed(2)}</td>
+                    <td>{pct(row.metrics.volatility, 1)}</td>
+                    <td>{pct(row.metrics.max_drawdown, 1)}</td>
+                    <td>{pct(row.metrics.turnover, 1)}</td>
+                  </tr>
                 ))}
-              </div>
-              <div className="cross-market-stats">
-                <span>50 bps 仍勝出 <b>{crossMarket.counts.cost_50bps} / 5</b></span>
-                <span>滾動達標 <b>{crossMarket.counts.rolling_60pct} / 5</b></span>
-                <span>等權主動回報 <b>{pct(crossMarket.pooled_active_return.annualized, 2)}</b></span>
-                <span>Newey–West t <b>{crossMarket.pooled_active_return.newey_west_t.toFixed(2)}</b></span>
-              </div>
-            </div>
+              </tbody>
+            </table>
+          </div>
+          <div className="tradeoff-grid">
+            <article><span>對 SPY</span><strong>{pp(pooled.strategy_metrics.cagr - pooled.spy_metrics.cagr)}</strong><p>年率化回報優勢；最大跌幅改善 {pp(Math.abs(pooled.spy_metrics.max_drawdown) - Math.abs(pooled.strategy_metrics.max_drawdown))}。</p></article>
+            <article><span>對純成長</span><strong>{pp(pooled.tradeoff_vs_growth.cagr_difference)}</strong><p>放棄少量年率化回報，換取 Sharpe +{pooled.tradeoff_vs_growth.sharpe_difference.toFixed(2)}、最大跌幅改善 {pp(pooled.tradeoff_vs_growth.drawdown_improvement)}。</p></article>
+            <article><span>對公平基準</span><strong>{pp(pooled.strategy_metrics.cagr - pooled.matched_metrics.cagr)}</strong><p>同樣 80% 股票持倉比率，以黃金取代 SHY 後的年率化差異。</p></article>
+          </div>
 
-            <div className="style-rotation-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 · v4 股權風格輪動</span><h3>最大跌幅較小，但 14 道門檻只過 {styleRotation.passed_gate_count} 道</h3></div>
-                <strong>{styleRotation.historical_gate_passed ? "通過" : "不建立 Paper"}</strong>
-              </div>
-              <p>這次在下載數據前固定 IWF、IWD、IJR 的 12–1 月動量與兩個 50% 槽位。結果不能只看較淺最大跌幅：長期回報、成本、後十年、五年滾動和統計證據都沒有一起過關。</p>
-              <div className="style-rotation-grid">
-                <article>
-                  <span>策略 / SPY 年率化</span>
-                  <strong>{pct(styleRotation.strategy_metrics.cagr, 2)} / {pct(styleRotation.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>策略落後 {pct(Math.abs(styleRotation.comparisons.market.cagr_difference), 2)}</p>
-                </article>
-                <article className="passed">
-                  <span>策略 / SPY 最大跌幅</span>
-                  <strong>{pct(styleRotation.strategy_metrics.max_drawdown, 1)} / {pct(styleRotation.benchmark_metrics.market.max_drawdown, 1)}</strong>
-                  <p>最大跌幅改善 {pct(styleRotation.comparisons.market.drawdown_improvement, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>相對 SPY · 五年滾動勝率</span>
-                  <strong>{pct(styleRotation.rolling_five_year.market.win_fraction, 1)}</strong>
-                  <p>事前門檻 70%；NW t = {styleRotation.comparisons.market.newey_west_t.toFixed(2)}</p>
-                </article>
-                <article className="failed">
-                  <span>50 bps · 相對 SPY 年率化</span>
-                  <strong>{pct(styleRotation.cost_50bps.market.cagr_difference, 2)}</strong>
-                  <p>較高成本下明顯落後</p>
-                </article>
-              </div>
-              <div className="proxy-data-failure">
-                <b>舊代理數據門檻失敗</b>
-                <p>`^RLG`、`^RLV` 在凍結來源只從 2002-09-30 開始，1996 起算前暖機都是 0；協議禁止事後換代號，所以六道舊代理門檻全部關閉。</p>
-              </div>
-            </div>
-
-            <div className="three-clock-audit">
-              <div className="cross-market-head">
-                <div><span>1986–2026 · v5 三時鐘等權集成</span><h3>近期幾乎追平 QQQ，為何仍不開 Paper？</h3></div>
-                <strong>{threeClock.passed_gate_count} / {threeClock.required_gate_count} 道 · 不建立 Paper</strong>
-              </div>
-              <p>固定持有、波幅管理、趨勢確認各占 1/3，不搜尋袖套比例。2006–2026 的單一起訖點很好看，但舊年代的滾動穩定性和五市場泛化直接失敗，因此不能把近期成功當成可上線訊號。</p>
-              <div className="three-clock-grid">
-                <article className="passed">
-                  <span>策略 / QQQ 年率化</span>
-                  <strong>{pct(threeClock.main.strategy_metrics.cagr, 2)} / {pct(threeClock.main.benchmark_metrics.opportunity.cagr, 2)}</strong>
-                  <p>近期只領先 {pct(threeClock.main.comparisons.opportunity.cagr_difference, 2)}</p>
-                </article>
-                <article className="passed">
-                  <span>策略 / QQQ 最大跌幅</span>
-                  <strong>{pct(threeClock.main.strategy_metrics.max_drawdown, 1)} / {pct(threeClock.main.benchmark_metrics.opportunity.max_drawdown, 1)}</strong>
-                  <p>最大跌幅改善 {pct(threeClock.main.comparisons.opportunity.drawdown_improvement, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>公平 95/5 · 統計證據</span>
-                  <strong>t {threeClock.main.comparisons.matched_95_5.newey_west_t.toFixed(2)}</strong>
-                  <p>搜尋懲罰後機率 {pct(threeClock.main.comparisons.matched_95_5.deflated_sharpe_probability, 3)}</p>
-                </article>
-                <article className="failed">
-                  <span>1986–2006 · 五年滾動</span>
-                  <strong>{pct(threeClock.proxy.rolling_five_year.market.win_fraction, 1)}</strong>
-                  <p>對舊 Nasdaq-100 的中位年率化差 {pct(threeClock.proxy.rolling_five_year.market.median_cagr_difference, 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>五市場完整期</span>
-                  <strong>{threeClock.cross_market.counts.full_cagr_beats_both} / 5</strong>
-                  <p>50 bps 後同勝兩基準：{threeClock.cross_market.counts.cost_50bps_beats_both} / 5</p>
-                </article>
-                <article className="failed">
-                  <span>22 道事前門檻</span>
-                  <strong>{threeClock.passed_gate_count} / {threeClock.required_gate_count}</strong>
-                  <p>需全數通過才可建立 Paper</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>研究配置，不是主訊號</b>
-                <p>最新研究權重為 QQQ {pct(threeClock.main.current_target.QQQ, 1)}、SHY {pct(threeClock.main.current_target.SHY, 1)}。這裡不提供金額試算，也不建立 Paper 模擬組合，避免把失敗研究誤當成今日落盤建議。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit">
-              <div className="cross-market-head">
-                <div><span>1927–2026 · v6 產業動能核心傾斜</span><h3>長期代理支持，為何可交易主期仍淘汰？</h3></div>
-                <strong>{industryTilt.passed_gate_count} / {industryTilt.required_gate_count} 道 · 不建立 Paper</strong>
-              </div>
-              <p>新數據下載前先固定 50% SPY 核心與三個產業動能槽位。1927–2005 的官方產業代理顯示機制曾有效，但真正可交易的 2006–2026 ETF 主期同時落後 SPY 與每月相同股票持倉比率的公平對照；實務結果優先。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>ETF 主期 · 策略 / SPY 年率化</span>
-                  <strong>{pct(industryTilt.main.strategy_metrics.cagr, 2)} / {pct(industryTilt.main.benchmark_metrics.spy.cagr, 2)}</strong>
-                  <p>策略落後 {pct(Math.abs(industryTilt.main.comparisons.spy.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>ETF 主期 · 策略 / matched 年率化</span>
-                  <strong>{pct(industryTilt.main.strategy_metrics.cagr, 2)} / {pct(industryTilt.main.benchmark_metrics.matched.cagr, 2)}</strong>
-                  <p>相同總股票持倉比率下，選產業沒有增加淨回報</p>
-                </article>
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / SPY 最大跌幅</span>
-                  <strong>{pct(industryTilt.main.strategy_metrics.max_drawdown, 1)} / {pct(industryTilt.main.benchmark_metrics.spy.max_drawdown, 1)}</strong>
-                  <p>最大跌幅較小，但不能補足回報失敗</p>
-                </article>
-                <article className="failed">
-                  <span>五年滾動 · 對 SPY / matched</span>
-                  <strong>{pct(industryTilt.main.rolling_five_year.spy.win_fraction, 1)} / {pct(industryTilt.main.rolling_five_year.matched.win_fraction, 1)}</strong>
-                  <p>兩者都必須至少 60%</p>
-                </article>
-                <article className="passed">
-                  <span>1927–2005 代理 · 策略 / 市場</span>
-                  <strong>{pct(industryTilt.proxy.strategy_metrics.cagr, 2)} / {pct(industryTilt.proxy.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>七個完整十年有 {industryTilt.proxy.decade_wins} 個同勝兩基準</p>
-                </article>
-                <article className="failed">
-                  <span>相同持倉比率主動回報 · 統計證據</span>
-                  <strong>t {industryTilt.main.comparisons.matched.newey_west_t.toFixed(2)}</strong>
-                  <p>搜尋懲罰後機率 {pct(industryTilt.main.comparisons.matched.deflated_sharpe_probability, 3)}</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>負結果已封存</b>
-                <p>歷史規則最後算出的配置是 {Object.entries(industryTilt.main.current_target).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；但 22 道只過 {industryTilt.passed_gate_count} 道，因此不可照單、不提供金額試算，也不建立 Paper 模擬組合。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit">
-              <div className="cross-market-head">
-                <div><span>1973–2026 · v10–v12 階層式三態</span><h3>最大跌幅改善了，為什麼仍不能當成跑贏 ETF 策略？</h3></div>
-                <strong>{hierarchicalDefense.paper_entry_passed_gate_count} / {hierarchicalDefense.paper_entry_required_gate_count} 道入口 · Paper 指令鎖定</strong>
-              </div>
-              <p>規則永久保留 60% 核心，剩下 40% 依序判斷：成長強且在 200 日線上就放 QQQ；否則 SPY 在 200 日線上就回到 SPY；兩者都不成立才放 SHY。v10 的 Yahoo DJIA 沒數據、v11 的 S&amp;P 官方檔唯一一次下載回覆 403，兩次都在計算前封存；v12 沒有偷換來源，只用三段既有凍結數據第一次計算同一規則。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>ETF 主期 · 策略 / SPY 年率化</span>
-                  <strong>{pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)} / {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>年率化落後 {pct(Math.abs(hierarchicalDefense.main.comparison.cagr_difference), 2)}，第一道門直接失敗</p>
-                </article>
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / SPY 最大跌幅</span>
-                  <strong>{pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)} / {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)}</strong>
-                  <p>最大跌幅改善 {pct(hierarchicalDefense.main.comparison.drawdown_improvement, 1)}，但降風險不等於有超額</p>
-                </article>
-                <article className="failed">
-                  <span>50 bps 成本 · 相對 SPY 年率化</span>
-                  <strong>{pct(hierarchicalDefense.main.cost_50bps_cagr_difference, 2)}</strong>
-                  <p>58 次完成切換後，成本壓力明顯落後</p>
-                </article>
-                <article className="failed">
-                  <span>ETF 主期 · 前十年 / 後十年年率化差</span>
-                  <strong>{pct(hierarchicalDefense.main.fixed_halves.first.cagr_difference, 2)} / {pct(hierarchicalDefense.main.fixed_halves.second.cagr_difference, 2)}</strong>
-                  <p>後十年落後，五年滾動勝率僅 {pct(hierarchicalDefense.main.rolling_five_year.win_fraction, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>外部期 · 前半 / 後半年率化差</span>
-                  <strong>{pct(hierarchicalDefense.external.fixed_halves.first.cagr_difference, 2)} / {pct(hierarchicalDefense.external.fixed_halves.second.cagr_difference, 2)}</strong>
-                  <p>1973–1980 有效，1981–1988 又轉為落後</p>
-                </article>
-                <article className="failed">
-                  <span>主期 / 舊代理 / 外部 · NW t</span>
-                  <strong>{hierarchicalDefense.main.comparison.newey_west_t.toFixed(2)} / {hierarchicalDefense.old_proxy.comparison.newey_west_t.toFixed(2)} / {hierarchicalDefense.external.comparison.newey_west_t.toFixed(2)}</strong>
-                  <p>三段都未達 1.96；6,109 次搜尋後 DSR 也全失敗</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>最新歷史狀態不是今天的落盤訊號</b>
-                <p>最後完整月末判斷為 {Object.entries(hierarchicalDefense.main.current_policy_allocation).filter(([, weight]) => weight > 0).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；241 個月末中 growth／core／defense 分別為 {hierarchicalDefense.main.signals.state_month_counts.growth}／{hierarchicalDefense.main.signals.state_month_counts.core}／{hierarchicalDefense.main.signals.state_month_counts.defense} 個月。因 Paper 入口只過 {hierarchicalDefense.paper_entry_passed_gate_count}/{hierarchicalDefense.paper_entry_required_gate_count}，網站不提供金額試算，`paper update --strategy v12` 也會讀收據後拒絕建組合。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2010–2026 · v18 規則先凍結、再下載 EFO／EET 日線</span><h3>六個美國市場都好看，海外還能重現嗎？</h3></div>
-                <strong>{equalDiversifier.economic_passed_gate_count} / {equalDiversifier.economic_required_gate_count} 道外部經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v18 把股票名目持倉比率降回約 100%，再各放 25% IEF 與 GLD，試圖同時處理偏通縮與偏通膨的風險。50/25/25 是在六個已見美國市場、七個固定候選中選定；之後先鎖死海外區間、成本、半期與五年門檻，才下載 EFO/EET 的每日路徑。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>已開發市場 · 策略 / EFA 年率化</span>
-                  <strong>{pct(diversifierDeveloped.strategy_metrics.cagr, 2)} / {pct(diversifierDeveloped.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>只略高，但 Sharpe {diversifierDeveloped.strategy_metrics.sharpe.toFixed(2)} 低於 {diversifierDeveloped.benchmark_metrics.core.sharpe.toFixed(2)}</p>
-                </article>
-                <article className="failed">
-                  <span>已開發市場 · 策略 / EFA 最大跌幅</span>
-                  <strong>{pct(diversifierDeveloped.strategy_metrics.max_drawdown, 1)} / {pct(diversifierDeveloped.benchmark_metrics.core.max_drawdown, 1)}</strong>
-                  <p>前半期年率化差 {pct(diversifierDeveloped.fixed_halves_vs_core.first.cagr_difference, 2)}；五年勝率 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>新興市場 · 策略 / EEM 年率化</span>
-                  <strong>{pct(diversifierEmerging.strategy_metrics.cagr, 2)} / {pct(diversifierEmerging.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>同資產不槓桿反而有 {pct(diversifierEmerging.benchmark_metrics.unlevered_same_assets.cagr, 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>新興市場 · 策略 / EEM 最大跌幅</span>
-                  <strong>{pct(diversifierEmerging.strategy_metrics.max_drawdown, 1)} / {pct(diversifierEmerging.benchmark_metrics.core.max_drawdown, 1)}</strong>
-                  <p>五年滾動勝率只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>正式期間 · 美國設計 / 海外驗證</span>
-                  <strong>20 年 / {equalDiversifier.external_years} 年</strong>
-                  <p>EFO/EET 2009 年才成立，不用合成數據補成海外 20 年</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{equalDiversifier.economic_passed_gate_count}/{equalDiversifier.economic_required_gate_count} · {equalDiversifier.data_passed_gate_count}/{equalDiversifier.data_required_gate_count} · {equalDiversifier.statistical_passed_gate_count}/{equalDiversifier.statistical_required_gate_count}</strong>
-                  <p>數據完整，但風險、跨時期與統計證據沒有通過</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：美國回測成功，不代表規則能泛化</b>
-                <p>官方成立日與摘要表現在凍結前已看過，所以這只能稱日線路徑與組合未見的半獨立驗證；即使如此，結果仍直接否決候選。系統沒有 v18 組合、沒有委託，也不顯示 SSO／IEF／GLD 的 50/25/25 當成今天配置。</p>
-              </div>
-            </div>
-
-            <div id="v20-research" className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2016–2026 · v20 三組新區域 ETF 日線</span><h3>每月挑較強的債券或黃金，真的比固定配置好嗎？</h3></div>
-                <strong>{diversifierStrength.economic_passed_gate_count} / {diversifierStrength.economic_required_gate_count} 道完整經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v20 不改 50% 每日 2 倍股票 ETF，而是每個完整月末比較 IEF、GLD、SHY 的 12–1 月相對強度，只保留前兩名各 25%。v19 先因 VGK／UPV 的歷史指數範圍有約十一個月不一致而停止；v20 修正數據契約後，才下載日本、中國大型股與巴西日線。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>日本 · 輪替 / EWJ 年率化</span>
-                  <strong>{pct(strengthJapan.strategy_metrics.cagr, 2)} / {pct(strengthJapan.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>最大跌幅 {pct(strengthJapan.strategy_metrics.max_drawdown, 1)}，比 EWJ 的 {pct(strengthJapan.benchmark_metrics.core.max_drawdown, 1)} 更深</p>
-                </article>
-                <article className="failed">
-                  <span>中國大型股 · 輪替 / FXI 年率化</span>
-                  <strong>{pct(strengthChina.strategy_metrics.cagr, 2)} / {pct(strengthChina.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>14 道經濟門檻通過 {strengthChina.passed_gate_count} 道</p>
-                </article>
-                <article className="failed">
-                  <span>巴西 · 輪替 / EWZ 年率化</span>
-                  <strong>{pct(strengthBrazil.strategy_metrics.cagr, 2)} / {pct(strengthBrazil.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>少跌一部分，但仍輸固定 v18 與同政策不槓桿版本</p>
-                </article>
-                <article className="failed">
-                  <span>已見設計 / 新外部</span>
-                  <strong>{diversifierStrength.design_economic_passed_gate_count}/{diversifierStrength.design_economic_required_gate_count} · {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}</strong>
-                  <p>不能只挑美國大型股較漂亮的完整期回報</p>
-                </article>
-                <article className="failed">
-                  <span>數據 / 外部統計</span>
-                  <strong>{diversifierStrength.data_passed_gate_count}/{diversifierStrength.data_required_gate_count} · {diversifierStrength.statistical_passed_gate_count}/{diversifierStrength.statistical_required_gate_count}</strong>
-                  <p>數據完整不等於策略成立；外部統計沒有一項通過</p>
-                </article>
-                <article className="failed">
-                  <span>20 年 / 新外部期間</span>
-                  <strong>美國大型股 20 年 / 外部 {diversifierStrength.external_years} 年</strong>
-                  <p>實際區域 2 倍 ETF 歷史不足，不用合成數據補成 20 年</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：動態輪替沒有勝過更簡單的固定配置</b>
-                <p>11 個市場的輪替 CAGR 全部低於固定 v18 50/25/25；完整經濟門檻只過 {diversifierStrength.economic_passed_gate_count}/{diversifierStrength.economic_required_gate_count}。系統保留負結果，但沒有 v20 組合、沒有委託，也不提供 SSO 與分散器的今天配置。</p>
-              </div>
-            </div>
-
-            <div id="v21-research" className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 / 2011–2026 · v21 常駐核心＋受控槓桿</span><h3>不完全退場、也不永遠全數持股，能同時補好回報與最大跌幅嗎？</h3></div>
-                <strong>{hybridLeverageCore.economic_passed_gate_count} / {hybridLeverageCore.economic_required_gate_count} 道完整經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>把普通 ETF 的完整股票風險想成 100 格：v21 永久保留 60 格；連續兩個完整月站上 200 日移動平均線才升到約 120 格，確認轉弱就回到約 60 格。它專門檢查能否修補 v14「退太多、錯過反彈」與 v15「留太多、最大跌幅過深」，不測其他移動平均線、比例或確認月數。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>MidCap 400 · v21 / IJH 年率化</span>
-                  <strong>{pct(hybridMidcap.strategy_metrics.cagr, 2)} / {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>外部 15 年落後 {pct(Math.abs(hybridMidcap.comparison_vs_core.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>MidCap 400 · v21 / IJH 最大跌幅</span>
-                  <strong>{pct(hybridMidcap.strategy_metrics.max_drawdown, 1)} / {pct(hybridMidcap.benchmark_metrics.core.max_drawdown, 1)}</strong>
-                  <p>降持倉比率仍沒有換到較淺的最大跌幅</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · v21 / IWM 年率化</span>
-                  <strong>{pct(hybridRussell.strategy_metrics.cagr, 2)} / {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>外部 15 年落後 {pct(Math.abs(hybridRussell.comparison_vs_core.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · v21 / IWM 最大跌幅</span>
-                  <strong>{pct(hybridRussell.strategy_metrics.max_drawdown, 1)} / {pct(hybridRussell.benchmark_metrics.core.max_drawdown, 1)}</strong>
-                  <p>兩組新外部市場都只通過 2/16 道</p>
-                </article>
-                <article className="passed">
-                  <span>Nasdaq-100 · 20 年 2 倍實作</span>
-                  <strong>{hybridNasdaq2x.passed_gate_count}/{hybridNasdaq2x.required_gate_count} · {pct(hybridNasdaq2x.strategy_metrics.cagr, 2)}</strong>
-                  <p>單一漂亮市場不能覆蓋 S&amp;P、Dow 與兩組新外部失敗</p>
-                </article>
-                <article className="failed">
-                  <span>設計 / 新外部 / 數據 / 統計</span>
-                  <strong>{hybridLeverageCore.design_economic_passed_gate_count}/{hybridLeverageCore.design_economic_required_gate_count} · {hybridLeverageCore.external_economic_passed_gate_count}/{hybridLeverageCore.external_economic_required_gate_count}</strong>
-                  <p>數據 {hybridLeverageCore.data_passed_gate_count}/{hybridLeverageCore.data_required_gate_count} 全過，統計仍是 {hybridLeverageCore.statistical_passed_gate_count}/{hybridLeverageCore.statistical_required_gate_count}</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：折衷持倉比率仍不是穩健超額</b>
-                <p>三組大型股 2 倍產品保留實際 20 年已見診斷；新 UMDD／URTY 只有 15 年實際產品史，不用合成數據冒充 20 年。外部日線在規則凍結後才下載，卻同時落後普通 ETF 且最大跌幅更深。系統沒有 v21 組合、沒有委託，也不顯示被淘汰規則的今天百分比。</p>
-              </div>
-            </div>
-
-            <div id="v24-research" className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>1964–2026 學術代理 / QUAL＋MTUM / SPHQ＋PDP · v24</span><h3>課本上的品質＋動能有效，為什麼實際 ETF 仍不能買？</h3></div>
-                <strong>學術 {qualityMomentum.academic_passed_gate_count}/{qualityMomentum.academic_required_gate_count} · iShares {qualityMomentum.ishares_passed_gate_count}/{qualityMomentum.ishares_required_gate_count} · 不建立 Paper</strong>
-              </div>
-              <p>唯一候選每月固定 50% 品質、50% 動能，不擇時、不止蝕、不槓桿，也沒有從多組權重中挑最好看的。先鎖定 20 年、成本、前後半、五年滾動與產品門檻，再計算學術因子與兩組可買 ETF 的完整路徑。</p>
-              <div className="industry-tilt-grid">
-                <article className="passed">
-                  <span>20 年學術 CAGR · 候選 / 市場</span>
-                  <strong>{pct(qualityAcademic.strategy_metrics.cagr, 2)} / {pct(qualityAcademic.market_metrics.cagr, 2)}</strong>
-                  <p>Sharpe {qualityAcademic.strategy_metrics.sharpe.toFixed(2)} / {qualityAcademic.market_metrics.sharpe.toFixed(2)}，十道經濟門檻全過</p>
-                </article>
-                <article className="passed">
-                  <span>20 年學術最大跌幅 · 候選 / 市場</span>
-                  <strong>{pct(qualityAcademic.strategy_metrics.max_drawdown, 1)} / {pct(qualityAcademic.market_metrics.max_drawdown, 1)}</strong>
-                  <p>181 個五年窗勝率 {pct(qualityAcademic.rolling_five_year_vs_market.cagr_win_fraction, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>QUAL＋MTUM 實際 CAGR · 候選 / SPY</span>
-                  <strong>{pct(qualityIshares.strategy_metrics.cagr, 2)} / {pct(qualityIshares.market_metrics.cagr, 2)}</strong>
-                  <p>完整期小贏，但 Sharpe 略低、最大跌幅更深</p>
-                </article>
-                <article className="failed">
-                  <span>QUAL＋MTUM · 後半 / 五年勝率</span>
-                  <strong>{pct(qualityIshares.fixed_halves_vs_market.second.cagr_difference, 2)} / {pct(qualityIshares.rolling_five_year_vs_market.cagr_win_fraction, 1)}</strong>
-                  <p>97 個五年窗不到一半勝出，產品入口只過 {qualityMomentum.ishares_passed_gate_count}/{qualityMomentum.ishares_required_gate_count}</p>
-                </article>
-                <article className="failed">
-                  <span>SPHQ＋PDP 跨管理人 · 候選 / SPY</span>
-                  <strong>{pct(qualityInvesco.strategy_metrics.cagr, 2)} / {pct(qualityInvesco.market_metrics.cagr, 2)}</strong>
-                  <p>前後半都落後，七道門檻 {qualityMomentum.invesco_passed_gate_count}/{qualityMomentum.invesco_required_gate_count}</p>
-                </article>
-                <article className="failed">
-                  <span>搜尋懲罰後統計 / 數據</span>
-                  <strong>DSR {pct(qualityMomentum.statistics.academic_global_deflated_sharpe_probability, 3)} · {qualityMomentum.data_passed_gate_count}/{qualityMomentum.data_required_gate_count}</strong>
-                  <p>數據可重現；{qualityMomentum.global_search_trials.toLocaleString("zh-TW")} 次研究後，仍不能把代理當成產品</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：好因子不等於好 ETF 組合</b>
-                <p>學術數據證明這個想法值得研究；真正能買的產品卻沒有在不同年代與不同管理人保留優勢。系統因此沒有 v24 組合、沒有委託，也不顯示 QUAL／MTUM 的 50/50 作為今天配置。</p>
-              </div>
-            </div>
-
-            <div id="v23-research" className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 / KMLM / FMF · v23 管理期貨</span><h3>最大跌幅收窄了，為什麼仍不是可參考交易策略？</h3></div>
-                <strong>20 年 {managedFutures.long_passed_gate_count}/{managedFutures.long_required_gate_count} · KMLM {managedFutures.kmlm_bridge_passed_gate_count}/{managedFutures.kmlm_bridge_required_gate_count} · 不建立 Paper</strong>
-              </div>
-              <p>唯一候選每月固定 50% SSO／50% KMLM。半數每日 2 倍 S&amp;P 500 約保留完整股票名目持倉比率，另一半使用商品、貨幣與全球公債的多空趨勢。權重、20 年期間、成本、前後半與五年門檻先寫死，才下載 KMLM／FMF 日線並計算聯合路徑。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>20 年 CAGR · 候選 / SPY</span>
-                  <strong>{pct(managedLong.strategy_metrics.cagr, 2)} / {pct(managedLong.spy_metrics.cagr, 2)}</strong>
-                  <p>只多 {pct(managedLong.strategy_metrics.cagr - managedLong.spy_metrics.cagr, 2)}，未達事前要求的 0.25%</p>
-                </article>
-                <article className="passed">
-                  <span>20 年最大跌幅 · 候選 / SPY</span>
-                  <strong>{pct(managedLong.strategy_metrics.max_drawdown, 1)} / {pct(managedLong.spy_metrics.max_drawdown, 1)}</strong>
-                  <p>風險路徑確實較平滑，但這一點不能取代超額回報證據</p>
-                </article>
-                <article className="failed">
-                  <span>50 bps 成本 / 後十年差距</span>
-                  <strong>{pct(managedLong.cost_50bps_cagr_difference, 2)} / {pct(managedLong.fixed_halves_vs_spy.second.cagr_difference, 2)}</strong>
-                  <p>成本與時間切半都反轉成落後 SPY</p>
-                </article>
-                <article className="failed">
-                  <span>KMLM 實際產品 · 五年勝率</span>
-                  <strong>{pct(managedKmlm.rolling_five_year_vs_spy.cagr_win_fraction, 1)}</strong>
-                  <p>八個五年窗沒有一個以 10 bps 門檻勝出；追蹤差年率化 {pct(managedKmlm.tracking.annualized_geometric_tracking_gap, 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>FMF 跨管理人 · 候選 / SPY 年率化</span>
-                  <strong>{pct(managedFmf.strategy_metrics.cagr, 2)} / {pct(managedFmf.spy_metrics.cagr, 2)}</strong>
-                  <p>只過 {managedFutures.fmf_passed_gate_count}/{managedFutures.fmf_required_gate_count}，未達事前至少 {managedFutures.fmf_required_pass_count} 道</p>
-                </article>
-                <article className="failed">
-                  <span>搜尋懲罰後統計 / 數據</span>
-                  <strong>DSR {pct(managedFutures.statistics.global_deflated_sharpe_probability, 3)} · {managedFutures.data_passed_gate_count}/{managedFutures.data_required_gate_count}</strong>
-                  <p>數據完整通過；{managedFutures.global_search_trials.toLocaleString("zh-TW")} 次研究後，超額回報仍未確認</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：降低最大跌幅是有價值的發現，但不是「穩健跑贏」</b>
-                <p>20 年完整期只小幅領先，後十年、成本、滾動視窗與另一位管理人都沒有保留優勢。系統因此沒有 v23 組合、沒有委託，也不顯示 SSO／KMLM 的 50/50 作為今天配置。</p>
-              </div>
-            </div>
-
-            <div id="v22-research" className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>20 年美國設計 / 2007–2019 九產業新日線 · v22</span><h3>九個產業完整期都贏，為什麼仍不能拿來交易？</h3></div>
-                <strong>{sectorCapitalEfficiency.economic_passed_gate_count} / {sectorCapitalEfficiency.economic_required_gate_count} 道經濟入口 · 不建立 Paper</strong>
-              </div>
-              <p>v22 沒有再挑權重：每月固定 50% 實際每日 2 倍產業 ETF、25% IEF、25% GLD。六個美國廣泛市場的 20／18 年結果只算已見設計；九組產業產品、共同指數截止日、成本、兩半期與五年門檻先寫死，才第一次下載本輪日線。</p>
-              <div className="industry-tilt-grid">
-                <article className="passed">
-                  <span>九產業 · 完整期 CAGR 勝普通 ETF</span>
-                  <strong>{sectorCapitalEfficiency.individual_pass_count_by_gate.cagr_beats_core_25bp} / 9</strong>
-                  <p>個別七道門檻合計 {sectorCapitalEfficiency.individual_passed_gate_count}/{sectorCapitalEfficiency.individual_required_gate_count}；不是沒有歷史優勢</p>
-                </article>
-                <article className="passed">
-                  <span>九產業等權 · v22 / 普通 ETF 年率化</span>
-                  <strong>{pct(sectorPooled.strategy_metrics.cagr, 2)} / {pct(sectorPooled.core_metrics.cagr, 2)}</strong>
-                  <p>Sharpe {sectorPooled.strategy_metrics.sharpe.toFixed(2)} / {sectorPooled.core_metrics.sharpe.toFixed(2)}，完整期平均較好</p>
-                </article>
-                <article className="failed">
-                  <span>五年滾動 · 等權有效勝率</span>
-                  <strong>{pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}</strong>
-                  <p>事前要求至少 60%；84 個月末視窗只接近一半</p>
-                </article>
-                <article className="failed">
-                  <span>五年滾動 · 個別產業通過</span>
-                  <strong>{sectorCapitalEfficiency.individual_pass_count_by_gate.rolling_wins_60pct_and_positive_median} / 9</strong>
-                  <p>完整期 9/9 勝出，換起訖點後卻沒有一組穩定達標</p>
-                </article>
-                <article className="failed">
-                  <span>最大跌幅 · v22 / 同資產不槓桿</span>
-                  <strong>{pct(sectorPooled.strategy_metrics.max_drawdown, 1)} / {pct(sectorPooled.unlevered_same_assets_metrics.max_drawdown, 1)}</strong>
-                  <p>多出的完整期 CAGR，代價是可能經歷約一半資產縮水</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{sectorCapitalEfficiency.economic_passed_gate_count}/{sectorCapitalEfficiency.economic_required_gate_count} · {sectorCapitalEfficiency.data_passed_gate_count}/{sectorCapitalEfficiency.data_required_gate_count} · {sectorCapitalEfficiency.statistical_passed_gate_count}/{sectorCapitalEfficiency.statistical_required_gate_count}</strong>
-                  <p>NW t {sectorCapitalEfficiency.statistics.newey_west_t.toFixed(2)}；6,124 次搜尋後 DSR {pct(sectorCapitalEfficiency.statistics.global_deflated_sharpe_probability, 2)}</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：單一起訖點跑贏，不等於可以穩健跑贏 ETF</b>
-                <p>v22 是目前最接近需求的固定結構之一，但它在不同五年起點沒有維持優勢，統計也未確認。系統因此沒有 v22 組合、沒有今日委託，且不顯示 SSO／IEF／GLD 的 50/25/25 作為配置。2019 後部分產業指數定義改變，也不硬拼成「獨立 20 年」。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 · v13 規則先鎖定、再下載新 ETF</span><h3>已知年代看起來進步，真正的新數據答應了嗎？</h3></div>
-                <strong>{confirmedGrowth.economic_passed_gate_count} / {confirmedGrowth.economic_required_gate_count} 道新數據經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v13 用連續兩個月確認降低假切換；成長成立時是 40% 核心／60% 成長，成長關閉且核心也轉弱時才放 30% 短債。這套規則先在既有年代探索，之後才把參數與淘汰條件寫死，再第一次下載大中型、小型與海外三組 ETF。這一段比「舊回測變漂亮」更重要。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>Russell 1000 · 策略 / IWB 年率化</span>
-                  <strong>{pct(confirmedR1000.strategy_metrics.cagr, 2)} / {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>最大跌幅較小，但 20 年長期回報仍少 {pct(Math.abs(confirmedR1000.comparison.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 1000 · 50 bps / 五年勝率</span>
-                  <strong>{pct(confirmedR1000.cost_50bps_cagr_difference, 2)} / {pct(confirmedR1000.rolling_five_year.win_fraction, 1)}</strong>
-                  <p>成本與跨起點一致性都未通過</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · 策略 / IWM 年率化</span>
-                  <strong>{pct(confirmedR2000.strategy_metrics.cagr, 2)} / {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>小型成長替代核心沒有產生穩健超額</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · 50 bps / 五年勝率</span>
-                  <strong>{pct(confirmedR2000.cost_50bps_cagr_difference, 2)} / {pct(confirmedR2000.rolling_five_year.win_fraction, 1)}</strong>
-                  <p>前後十年也都沒有領先</p>
-                </article>
-                <article className="failed">
-                  <span>EAFE · 固定起點前暖機</span>
-                  <strong>{confirmedEafe.warmup_common_sessions} / {confirmedEafe.required_warmup_sessions} 日</strong>
-                  <p>少 5 日；不事後延後起點或替換 ETF</p>
-                </article>
-                <article className="failed">
-                  <span>新數據 / 完整性 / 統計</span>
-                  <strong>{confirmedGrowth.economic_passed_gate_count}/{confirmedGrowth.economic_required_gate_count} · {confirmedGrowth.data_passed_gate_count}/{confirmedGrowth.data_required_gate_count} · {confirmedGrowth.statistical_passed_gate_count}/{confirmedGrowth.statistical_required_gate_count}</strong>
-                  <p>三層都沒有同時通過，研究在 Paper 前停止</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：少跌不等於有能力跑贏</b>
-                <p>Russell 1000 組的最大跌幅確實較 IWB 淺，但 CAGR 反而較低；如果只挑最大跌幅卡片，就會得出錯誤的「策略成功」。v13 沒有交易組合、沒有可照抄百分比，也不會因這次失敗再調 40/60、70/30 或確認月數。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 / 2008–2026 · v17 六市場股債資本效率</span><h3>年率化比較高，為什麼仍不是穩健策略？</h3></div>
-                <strong>{capitalEfficient.economic_passed_gate_count} / {capitalEfficient.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v17 在第一次組合計算前固定每月 60% 實際每日 2 倍股票 ETF／40% IEF，約為 120% 股票加 40% 7–10 年美國公債持倉比率。大型股保留完整 20 年，中小型股依實際產品史使用 18 年；同時比較原始 ETF、未槓桿 75/25 與相同股票持倉比率的 2x/SHY。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>S&amp;P 500 · 策略 / SPY 年率化</span>
-                  <strong>{pct(capitalSp500.strategy_metrics.cagr, 2)} / {pct(capitalSp500.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>年率化較高，但最大跌幅由 {pct(capitalSp500.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(capitalSp500.strategy_metrics.max_drawdown, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>Nasdaq-100 · 策略 / QQQ 年率化</span>
-                  <strong>{pct(capitalNasdaq.strategy_metrics.cagr, 2)} / {pct(capitalNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>回報增加，Sharpe 仍由 {capitalNasdaq.benchmark_metrics.core.sharpe.toFixed(2)} 降為 {capitalNasdaq.strategy_metrics.sharpe.toFixed(2)}</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · 策略 / IWM 年率化</span>
-                  <strong>{pct(capitalRussell.strategy_metrics.cagr, 2)} / {pct(capitalRussell.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>只多 {pct(capitalRussell.comparison_vs_core.cagr_difference, 2)}，最大跌幅卻多深 {pct(Math.abs(capitalRussell.comparison_vs_core.drawdown_improvement), 1)}</p>
-                </article>
-                <article className="passed">
-                  <span>資產分散 · IEF / SHY 對照</span>
-                  <strong>{pct(capitalSp500.strategy_metrics.cagr, 2)} / {pct(capitalSp500.benchmark_metrics.leveraged_60_40_shy.cagr, 2)}</strong>
-                  <p>中期公債比短債留存更有幫助，但不代表已勝原始 ETF 的風險效率</p>
-                </article>
-                <article className="failed">
-                  <span>正式期間 · 大型 / 中小型</span>
-                  <strong>{capitalEfficient.large_cap_years} 年 / {capitalEfficient.mid_small_cap_years} 年</strong>
-                  <p>不把產品上市前的合成回報冒充實際 ETF 紀錄</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{capitalEfficient.economic_passed_gate_count}/{capitalEfficient.economic_required_gate_count} · {capitalEfficient.data_passed_gate_count}/{capitalEfficient.data_required_gate_count} · {capitalEfficient.statistical_passed_gate_count}/{capitalEfficient.statistical_required_gate_count}</strong>
-                  <p>數據完整，仍有 36 道經濟與 45 道統計檢查未通過</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：更高 CAGR 不是免費午餐</b>
-                <p>六組策略的最大跌幅都落在約 −58% 至 −63%，而且全都比原始 ETF 更深。這代表 IEF 確實改善了 2x/SHY 對照，卻還不足以抵銷槓桿股票的尾部風險。系統沒有 v17 組合、沒有委託，也不顯示 60/40 當成今天配置。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2008–2026 · v16 中小型股週度趨勢／波幅煞車</span><h3>少跌一些，是否值得犧牲一半以上回報？</h3></div>
-                <strong>{trendVolatilityBrake.economic_passed_gate_count} / {trendVolatilityBrake.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v16 只在核心高於 200 日移動平均線時持股，並用 21 日實現波幅把股票名目持倉比率限制在約 100%–150%；轉弱時全部進 SHY。MVV、UWM、SAA 是規則凍結後才首次查看的實際每日 2 倍 ETF，正式期受產品史限制為 18 年。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>MidCap 400 · 策略 / IJH 年率化</span>
-                  <strong>{pct(brakeMidcap.strategy_metrics.cagr, 2)} / {pct(brakeMidcap.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>最大跌幅較小，但年率化少 {pct(Math.abs(brakeMidcap.comparison_vs_core.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>Russell 2000 · 策略 / IWM 年率化</span>
-                  <strong>{pct(brakeRussell.strategy_metrics.cagr, 2)} / {pct(brakeRussell.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>也低於不加槓桿的相同趨勢控制 {pct(brakeRussell.benchmark_metrics.unlevered_trend.cagr, 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>SmallCap 600 · 策略 / IJR 年率化</span>
-                  <strong>{pct(brakeSmallcap.strategy_metrics.cagr, 2)} / {pct(brakeSmallcap.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>三組中踏空最嚴重，長期回報只剩約四分之一</p>
-                </article>
-                <article className="passed">
-                  <span>MidCap 400 · 策略 / IJH 最大跌幅</span>
-                  <strong>{pct(brakeMidcap.strategy_metrics.max_drawdown, 1)} / {pct(brakeMidcap.benchmark_metrics.core.max_drawdown, 1)}</strong>
-                  <p>風險煞車有效降低部分最大跌幅，但不能單獨抵銷回報失敗</p>
-                </article>
-                <article className="failed">
-                  <span>週訊號 / 實際換倉</span>
-                  <strong>{brakeMidcap.signals.completed_weekly_signals_in_formal_period} / {brakeMidcap.signals.completed_rebalances_in_formal_period}</strong>
-                  <p>週週重新估計造成大量微調與踏空</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{trendVolatilityBrake.economic_passed_gate_count}/{trendVolatilityBrake.economic_required_gate_count} · {trendVolatilityBrake.data_passed_gate_count}/{trendVolatilityBrake.data_required_gate_count} · {trendVolatilityBrake.statistical_passed_gate_count}/{trendVolatilityBrake.statistical_required_gate_count}</strong>
-                  <p>三組都只有兩道最大跌幅檢查通過</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：風險控制不能只看「跌得比較少」</b>
-                <p>若策略把最大跌幅降低約 10 個百分點，卻讓年率化回報從約 10% 降到 3%–6%，長期複利代價太大。v16 因此是清楚的負結果；不建立 Paper，也不依結果改移動平均線、波幅目標或換倉頻率救援。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2011–2026 · v15 先凍結、再首次查看實際 3 倍 ETF</span><h3>三市場都賺比較多，就能稱為穩健跑贏嗎？</h3></div>
-                <strong>{modestLeverageOverlay.economic_passed_gate_count} / {modestLeverageOverlay.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v15 平時維持 100% 原始 ETF；只有連續兩個完整月站上 200 日移動平均線時，才改成 90% 原始 ETF／10% 實際每日 3 倍 ETF，約 120% 名目股票持倉比率。規則與淘汰門檻先鎖定，之後才首次下載 UPRO、TQQQ、UDOW。固定 90/10 對照用來拆開「趨勢有用」與「只是多加槓桿」。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>S&amp;P 500 · 策略 / SPY 年率化</span>
-                  <strong>{pct(overlaySp500.strategy_metrics.cagr, 2)} / {pct(overlaySp500.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>年率化多 {pct(overlaySp500.comparison_vs_core.cagr_difference, 2)}，但最大跌幅更深 {pct(Math.abs(overlaySp500.comparison_vs_core.drawdown_improvement), 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>S&amp;P 500 · Sharpe：策略 / SPY</span>
-                  <strong>{overlaySp500.strategy_metrics.sharpe.toFixed(2)} / {overlaySp500.benchmark_metrics.core.sharpe.toFixed(2)}</strong>
-                  <p>固定 90/10 年率化更高，趨勢開關沒有增加風險效率</p>
-                </article>
-                <article className="failed">
-                  <span>Nasdaq-100 · 策略 / QQQ 年率化</span>
-                  <strong>{pct(overlayNasdaq.strategy_metrics.cagr, 2)} / {pct(overlayNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>三組中最接近，但最大跌幅仍由 {pct(overlayNasdaq.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(overlayNasdaq.strategy_metrics.max_drawdown, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>Nasdaq-100 · Sharpe：策略 / QQQ</span>
-                  <strong>{overlayNasdaq.strategy_metrics.sharpe.toFixed(3)} / {overlayNasdaq.benchmark_metrics.core.sharpe.toFixed(3)}</strong>
-                  <p>只差一點仍是未通過；結果出來後不能放寬門檻</p>
-                </article>
-                <article className="failed">
-                  <span>Dow 30 · 策略 / DIA 年率化</span>
-                  <strong>{pct(overlayDow.strategy_metrics.cagr, 2)} / {pct(overlayDow.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>最大跌幅由 {pct(overlayDow.benchmark_metrics.core.max_drawdown, 1)} 加深到 {pct(overlayDow.strategy_metrics.max_drawdown, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{modestLeverageOverlay.economic_passed_gate_count}/{modestLeverageOverlay.economic_required_gate_count} · {modestLeverageOverlay.data_passed_gate_count}/{modestLeverageOverlay.data_required_gate_count} · {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}</strong>
-                  <p>數據全部合格，但風險與多重搜尋後證據不夠</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：回報放大了，虧損也放大了</b>
-                <p>v15 三市場 CAGR 都高於原始 ETF，卻不是穩健超額：三組最大跌幅全部更深，三組 Sharpe 全都沒有嚴格勝過原始 ETF。20 年 v14 是設計探索，v15 真正首次查看的 3 倍 ETF 產品史只有 {modestLeverageOverlay.independent_confirmation_years} 年，不能拼成「獨立 20 年」。系統沒有 v15 組合、沒有委託，也不顯示被淘汰的 90/10 比例作為今日配置。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit v13-audit">
-              <div className="cross-market-head">
-                <div><span>2006–2026 · v14 先凍結、再下載實際槓桿 ETF</span><h3>小幅槓桿加趨勢，真的能兼顧回報與風險嗎？</h3></div>
-                <strong>{modestLeverage.economic_passed_gate_count} / {modestLeverage.economic_required_gate_count} 道經濟門檻 · 不建立 Paper</strong>
-              </div>
-              <p>v14 在看 SSO、QLD、DDM 歷史前，先寫死兩月確認、200 日移動平均線，以及風險開啟時 60% 實際 2 倍每日目標 ETF／40% SHY。每組除了原始 1 倍 ETF，還要比較不擇時的固定 60/40；這能分辨結果來自趨勢規則，還是只是多承擔槓桿。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>S&amp;P 500 · 策略 / SPY 年率化</span>
-                  <strong>{pct(leverageSp500.strategy_metrics.cagr, 2)} / {pct(leverageSp500.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>最大跌幅較小，但長期回報少 {pct(Math.abs(leverageSp500.comparison_vs_core.cagr_difference), 2)}</p>
-                </article>
-                <article className="failed">
-                  <span>S&amp;P 500 · 策略 / 固定 60/40</span>
-                  <strong>{pct(leverageSp500.strategy_metrics.cagr, 2)} / {pct(leverageSp500.benchmark_metrics.fixed_60_40.cagr, 2)}</strong>
-                  <p>兩個公平問題都未跨過</p>
-                </article>
-                <article className="passed">
-                  <span>Nasdaq-100 · 策略 / QQQ 年率化</span>
-                  <strong>{pct(leverageNasdaq.strategy_metrics.cagr, 2)} / {pct(leverageNasdaq.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>樣本年率化略高，最大跌幅也較淺</p>
-                </article>
-                <article className="failed">
-                  <span>Nasdaq-100 · 策略 / 固定 60/40</span>
-                  <strong>{pct(leverageNasdaq.strategy_metrics.cagr, 2)} / {pct(leverageNasdaq.benchmark_metrics.fixed_60_40.cagr, 2)}</strong>
-                  <p>一加入同產品對照，趨勢開關的回報優勢消失</p>
-                </article>
-                <article className="failed">
-                  <span>Dow 30 · 策略 / DIA 年率化</span>
-                  <strong>{pct(leverageDow.strategy_metrics.cagr, 2)} / {pct(leverageDow.benchmark_metrics.core.cagr, 2)}</strong>
-                  <p>在不同大型股指數沒有泛化</p>
-                </article>
-                <article className="failed">
-                  <span>經濟 / 數據 / 統計</span>
-                  <strong>{modestLeverage.economic_passed_gate_count}/{modestLeverage.economic_required_gate_count} · {modestLeverage.data_passed_gate_count}/{modestLeverage.data_required_gate_count} · {modestLeverage.statistical_passed_gate_count}/{modestLeverage.statistical_required_gate_count}</strong>
-                  <p>數據完整不代表策略成立；統計證據仍是 0 道</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>初學投資者結論：槓桿不是免費回報，少跌也不能抵銷少賺</b>
-                <p>2 倍 ETF 追求的是每日兩倍，不是二十年一定兩倍；每日重設、費用、波幅與複利都會改變結果。v14 的 60/40 只是被淘汰的研究比例，不是今天的配置。系統沒有 v14 組合、沒有待成交委託，也不會把 Nasdaq 單一成功包裝成三市場都有效。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit">
-              <div className="cross-market-head">
-                <div><span>1989–2026 · v7 相對成長衛星</span><h3>降低 SPY 最大跌幅，為何仍不是已證實 alpha？</h3></div>
-                <strong>{relativeGrowth.passed_gate_count} / {relativeGrowth.required_gate_count} 道 · 不建立 Paper</strong>
-              </div>
-              <p>永久保留 50% SPY；只有 QQQ 的 12–1 動能領先 SPY、且仍在 200 日移動平均線上時，另一半才持有 QQQ，否則放 SHY。公平 matched 對照每月維持完全相同的股票比例，卻不選 QQQ，藉此把「少持股票」的政策效果和「選成長股」的 alpha 分開。</p>
-              <div className="industry-tilt-grid">
-                <article className="failed">
-                  <span>ETF 主期 · 策略 / SPY 年率化</span>
-                  <strong>{pct(relativeGrowth.main.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.main.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>20 年策略仍落後 SPY {pct(Math.abs(relativeGrowth.main.comparisons.market.cagr_difference), 2)}</p>
-                </article>
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / matched 年率化</span>
-                  <strong>{pct(relativeGrowth.main.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.main.benchmark_metrics.matched.cagr, 2)}</strong>
-                  <p>QQQ 選擇效果為正，但證據沒有同時跨過 SPY</p>
-                </article>
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / SPY 最大跌幅</span>
-                  <strong>{pct(relativeGrowth.main.strategy_metrics.max_drawdown, 1)} / {pct(relativeGrowth.main.benchmark_metrics.market.max_drawdown, 1)}</strong>
-                  <p>風險政策有緩衝，但策略最大跌幅比 matched 深</p>
-                </article>
-                <article className="failed">
-                  <span>五年滾動 · 對 SPY / matched</span>
-                  <strong>{pct(relativeGrowth.main.rolling_five_year.market.win_fraction, 1)} / {pct(relativeGrowth.main.rolling_five_year.matched.win_fraction, 1)}</strong>
-                  <p>對 SPY 未達事前 60% 門檻</p>
-                </article>
-                <article className="passed">
-                  <span>1989–2006 代理 · 策略 / 市場</span>
-                  <strong>{pct(relativeGrowth.proxy.strategy_metrics.cagr, 2)} / {pct(relativeGrowth.proxy.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>全期略勝，但前半期落後，且最大跌幅比 matched 深</p>
-                </article>
-                <article className="failed">
-                  <span>ETF 主期 · 對 SPY / matched NW t</span>
-                  <strong>{relativeGrowth.main.comparisons.market.newey_west_t.toFixed(2)} / {relativeGrowth.main.comparisons.matched.newey_west_t.toFixed(2)}</strong>
-                  <p>兩者都必須至少 1.96；不能只挑接近通過的一邊</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>政策值得理解，不代表可以照單</b>
-                <p>歷史規則最後算出的配置是 {Object.entries(relativeGrowth.main.current_target).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；這只是淘汰研究的最後狀態。19 道只過 {relativeGrowth.passed_gate_count} 道，因此不提供金額試算、不建立 Paper，也不把降低最大跌幅寫成保證跑贏。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit">
-              <div className="cross-market-head">
-                <div><span>1989–2026 · v8 永遠持股相對成長</span><h3>20 年真的勝 SPY，為何還是不能開 Paper？</h3></div>
-                <strong>{alwaysInvested.paper_entry_passed_gate_count} / {alwaysInvested.paper_entry_required_gate_count} 道入口 · 不建立 Paper</strong>
-              </div>
-              <p>v8 把 v7 的 SHY 防守完全拿掉：每一天都是 100% 股票，50% 固定 SPY，另一半只在 QQQ 相對強勢時換成 QQQ。這次主期確實跑贏 SPY，但事前規定成本壓力與舊期尾部風險也要通過，不能只挑漂亮的 CAGR。</p>
-              <div className="industry-tilt-grid">
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / SPY 年率化</span>
-                  <strong>{pct(alwaysInvested.main.strategy_metrics.cagr, 2)} / {pct(alwaysInvested.main.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>同樣 100% 股票持倉比率，年率化領先 {pct(alwaysInvested.main.comparison.cagr_difference, 2)}</p>
-                </article>
-                <article className="passed">
-                  <span>ETF 主期 · 五年滾動勝率</span>
-                  <strong>{pct(alwaysInvested.main.rolling_five_year.win_fraction, 1)}</strong>
-                  <p>前後十年也都勝 SPY</p>
-                </article>
-                <article className="failed">
-                  <span>50 bps 成本 · 相對 SPY 年率化</span>
-                  <strong>{pct(alwaysInvested.main.cost_50bps_cagr_difference, 2)}</strong>
-                  <p>月末重新平衡的換手成本把優勢完全吃掉</p>
-                </article>
-                <article className="failed">
-                  <span>舊代理 · 策略 / 市場最大跌幅</span>
-                  <strong>{pct(alwaysInvested.proxy.strategy_metrics.max_drawdown, 1)} / {pct(alwaysInvested.proxy.benchmark_metrics.market.max_drawdown, 1)}</strong>
-                  <p>策略深 {pct(Math.abs(alwaysInvested.proxy.comparison.drawdown_difference), 1)}，超過事前容許 5%</p>
-                </article>
-                <article className="failed">
-                  <span>主期 / 代理 · NW t</span>
-                  <strong>{alwaysInvested.main.comparison.newey_west_t.toFixed(2)} / {alwaysInvested.proxy.comparison.newey_west_t.toFixed(2)}</strong>
-                  <p>兩段都未達 1.96</p>
-                </article>
-                <article className="failed">
-                  <span>6,105 次搜尋懲罰 · 主期 / 代理</span>
-                  <strong>{pct(alwaysInvested.global_dsr_promotion_sensitivity.main_probability, 2)} / {pct(alwaysInvested.global_dsr_promotion_sensitivity.proxy_probability, 2)}</strong>
-                  <p>選擇偏誤尚未排除</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>最接近目標，不等於通過</b>
-                <p>最後歷史配置是 {Object.entries(alwaysInvested.main.current_target).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；但 Paper 入口仍有兩道失敗，因此不顯示金額試算、不建立組合。下一步應取得真正新增的數據，不是依這次結果改成本或放寬最大跌幅門檻。</p>
-              </div>
-            </div>
-
-            <div className="industry-tilt-audit">
-              <div className="cross-market-head">
-                <div><span>1973–2026 · v9 低換手＋下載前未見外部期</span><h3>少交易、三段全期都勝，為什麼仍被淘汰？</h3></div>
-                <strong>{lowTurnover.paper_entry_passed_gate_count} / {lowTurnover.paper_entry_required_gate_count} 道入口 · 不建立 Paper</strong>
-              </div>
-              <p>v9 把成長槽位從 50% 降到 40%，而且每月只判斷狀態；只有「開啟／關閉」真的改變時才交易。第三段 1973–1988 Nasdaq Composite／S&amp;P 500 是在代號、期間與數據契約鎖定後才首次下載，專門檢查規則是否只適合近代科技市況。</p>
-              <div className="industry-tilt-grid">
-                <article className="passed">
-                  <span>ETF 主期 · 策略 / SPY 年率化</span>
-                  <strong>{pct(lowTurnover.main.strategy_metrics.cagr, 2)} / {pct(lowTurnover.main.benchmark_metrics.market.cagr, 2)}</strong>
-                  <p>同樣 100% 股票，年率化領先 {pct(lowTurnover.main.comparison.cagr_difference, 2)}</p>
-                </article>
-                <article className="passed">
-                  <span>每月判斷 / 完成切換</span>
-                  <strong>{lowTurnover.main.signals.completed_month_ends_in_formal_period} / {lowTurnover.main.signals.completed_executions_in_formal_period}</strong>
-                  <p>狀態不變不交易；年換手仍為 {pct(lowTurnover.main.strategy_metrics.turnover, 1)}</p>
-                </article>
-                <article className="failed">
-                  <span>50 bps 成本 · 相對 SPY 年率化</span>
-                  <strong>{pct(lowTurnover.main.cost_50bps_cagr_difference, 3)}</strong>
-                  <p>只剩微幅正差，未達事前要求的 0.10%</p>
-                </article>
-                <article className="failed">
-                  <span>舊代理 · 策略 / 市場最大跌幅</span>
-                  <strong>{pct(lowTurnover.old_proxy.strategy_metrics.max_drawdown, 1)} / {pct(lowTurnover.old_proxy.benchmark_metrics.market.max_drawdown, 1)}</strong>
-                  <p>策略多跌 {pct(Math.abs(lowTurnover.old_proxy.comparison.drawdown_difference), 1)}，超過容許 5%</p>
-                </article>
-                <article className="failed">
-                  <span>全新外部期 · 前半 / 後半年率化差</span>
-                  <strong>{pct(lowTurnover.external.fixed_halves.first.cagr_difference, 2)} / {pct(lowTurnover.external.fixed_halves.second.cagr_difference, 2)}</strong>
-                  <p>全期雖勝，固定後半期仍落後市場</p>
-                </article>
-                <article className="failed">
-                  <span>主期 / 舊代理 / 外部 · NW t</span>
-                  <strong>{lowTurnover.main.comparison.newey_west_t.toFixed(2)} / {lowTurnover.old_proxy.comparison.newey_west_t.toFixed(2)} / {lowTurnover.external.comparison.newey_west_t.toFixed(2)}</strong>
-                  <p>三段都未達 1.96；6,106 次搜尋偏誤也未排除</p>
-                </article>
-              </div>
-              <div className="research-target-warning">
-                <b>政策狀態不等於今天的落盤建議</b>
-                <p>最後月末的研究狀態是 {Object.entries(lowTurnover.main.current_policy_allocation).filter(([, weight]) => weight > 0).map(([ticker, weight]) => `${ticker} ${pct(weight, 1)}`).join("、")}；但這是被三道入口淘汰的歷史政策狀態。網站不提供金額試算，Paper 指令也會讀取 20/23 守門收據並拒絕建組合。</p>
-              </div>
-            </div>
-
-            <div className="challenger-flow" aria-label="v3 升級關卡">
-              <article className={challenger.historical_gate_passed && challenger.matched_control_passed ? "passed" : "failed"}>
-                <span>1</span><div><b>近期歷史與公平基準</b><p>{challenger.historical_gate_passed && challenger.matched_control_passed ? "通過" : "失敗"}</p></div>
-              </article>
-              <i aria-hidden="true">→</i>
-              <article className={challengerProxy.passed ? "passed" : "failed"}>
-                <span>2</span><div><b>更早期不重疊代理</b><p>{challengerProxy.passed ? "通過" : "失敗：滾動穩定性不足"}</p></div>
-              </article>
-              <i aria-hidden="true">→</i>
-              <article className={crossMarket.passed ? "passed" : "failed"}>
-                <span>3</span><div><b>五市場機制驗證</b><p>{crossMarket.passed ? "通過" : `失敗：完整期僅 ${crossMarket.counts.full_cagr}/5 勝出`}</p></div>
-              </article>
-            </div>
-
-            <div className="challenger-verdict">
-              <div><span>研究決定</span><strong>不替換 v2；v3 留在隔離 Paper</strong></div>
-              <p>v3 已建立獨立的 10 萬美元 Paper 模擬組合，目前累積 {challengerPaper.forward_sessions} / 252 個前瞻交易日與 {challengerPaper.transactions} 筆成交；{challengerPaper.pending_order ? "現在只排隊等待第一筆模擬成交" : "目前尚無待成交委託"}。舊 Nasdaq-100 代理與下載前凍結的五市場測試都失敗，因此獨立 Paper 驗證只用來觀察實作，不會把策略救回實金候選。每次發布前也會核對日期、快照、組合市值與委託，任何漂移都拒絕更新網站。</p>
-            </div>
+          <div className="subsection-heading">
+            <div><span>PRODUCT SENSITIVITY</span><h3>三家實際 ETF 產品路徑</h3></div>
+            <p>不只測單一 VUG／GLD 組合；同一 80/20 定義跨 Vanguard、iShares、State Street 重跑。</p>
+          </div>
+          <div className="metric-table-wrap">
+            <table className="metric-table compact-table">
+              <thead><tr><th>產品路徑</th><th>實際 ETF</th><th>年率化回報</th><th>Sharpe</th><th>最大跌幅</th><th>50 bps 後對 SPY</th><th>5 年窗勝 SPY</th><th>入口</th></tr></thead>
+              <tbody>
+                {productPaths.map((path) => (
+                  <tr key={path.key}>
+                    <th><b>{path.provider}</b><span>{path.period.months} 個月</span></th>
+                    <td>{path.pair}</td>
+                    <td>{pct(path.strategy_metrics.cagr, 2)}</td>
+                    <td>{path.strategy_metrics.sharpe.toFixed(2)}</td>
+                    <td>{pct(path.strategy_metrics.max_drawdown, 1)}</td>
+                    <td>{pp(path.cost_50bps_cagr_difference_vs_spy)}</td>
+                    <td>{pct(path.rolling_five_year_vs_spy.cagr_win_fraction, 1)}</td>
+                    <td><span className="pass-pill">{path.passed_gate_count}/{path.required_gate_count}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
 
-        <section className="section wrap">
-          <div className="section-heading split-heading">
-            <div><p className="eyebrow">05 · PASS / NOT PROVEN</p><h2>通過 SPY，不代表通過公平基準</h2></div>
-            <p>策略搜尋會放大運氣。因此除了表現，我們也保留沒有通過的統計檢查。</p>
+        <section className="section wrap" id="tests">
+          <div className="section-heading">
+            <div><span>ROBUSTNESS &amp; STATISTICS</span><h2>不是只看漂亮 CAGR</h2></div>
+            <p>成本、固定十年分段、181 個滾動五年窗、統計檢定及 30,000 次配對區塊重抽樣都完整呈列。</p>
           </div>
-          <div className="gate-layout">
-            <div className="gate-list">
-              {Object.entries(data.evidence.historical_gates).map(([key, passed]) => (
-                <div key={key}><span className={passed ? "gate-pass" : "gate-fail"}>{passed ? "通過" : "失敗"}</span><p>{gateLabels[key] ?? key}</p></div>
-              ))}
-            </div>
-            <article className="stat-card">
-              <span>最重要的未通過項目</span>
-              <h3>超額回報還不夠確定</h3>
-              <div className="stat-meter"><i style={{ width: `${Math.min(data.evidence.newey_west_t / 1.96, 1) * 100}%` }} /></div>
-              <p>Newey–West t 值 {data.evidence.newey_west_t.toFixed(2)}，低於 95% 常用門檻 1.96。</p>
-              <p>考慮約 6,014 次研究搜尋後，Deflated Sharpe 機率只有 {pct(data.evidence.deflated_sharpe_probability, 2)}。</p>
-              <div className="verdict">所以：可 paper 追蹤，不可宣稱穩定盈利。</div>
+          <div className="test-matrix">
+            <article className="test-card passed">
+              <div><span>01 · 歷史入口</span><b>通過</b></div>
+              <strong>{pooled.passed_gate_count}/{pooled.required_gate_count}</strong>
+              <p>三條產品路徑各 12/12；數據契約 {latest.data_passed_gate_count}/{latest.data_required_gate_count}。</p>
+            </article>
+            <article className="test-card passed">
+              <div><span>02 · 成本壓力</span><b>通過</b></div>
+              <strong>{pp(pooled.cost_50bps_cagr_difference_vs_spy)}</strong>
+              <p>把單邊成本假設提高至 50 bps 後，年率化回報仍領先 SPY。</p>
+            </article>
+            <article className="test-card passed">
+              <div><span>03 · 固定十年分段</span><b>兩段皆正</b></div>
+              <strong>{pp(pooled.fixed_halves_vs_spy.first.cagr_difference)}</strong>
+              <p>前十年對 SPY；後十年仍有 {pp(pooled.fixed_halves_vs_spy.second.cagr_difference)}。</p>
+            </article>
+            <article className="test-card mixed">
+              <div><span>04 · 滾動五年</span><b>有時序風險</b></div>
+              <strong>{pct(pooled.rolling_five_year_vs_spy.cagr_win_fraction, 1)}</strong>
+              <p>{pooled.rolling_five_year_vs_spy.windows} 個窗口勝 SPY 的比例；最差年率化落後 {pp(pooled.rolling_five_year_vs_spy.worst_cagr_difference)}。</p>
+            </article>
+            <article className="test-card mixed">
+              <div><span>05 · 統計顯著</span><b>對 SPY 未確認</b></div>
+              <strong>t = {pooled.statistics_vs_spy.newey_west_t.toFixed(2)}</strong>
+              <p>對公平持倉比率基準 t = {pooled.statistics_vs_matched.newey_west_t.toFixed(2)}；不能把兩者混為一談。</p>
+            </article>
+            <article className="test-card failed">
+              <div><span>06 · 多重搜尋校正</span><b>警示</b></div>
+              <strong>{pct(pooled.statistics_vs_spy.global_deflated_sharpe_probability, 1)}</strong>
+              <p>全專案 {latest.global_search_trials.toLocaleString("zh-HK")} 次搜尋後的 Deflated Sharpe 機率很低，故只准 Paper。</p>
             </article>
           </div>
-          <article className="period-card">
-            <div><span>固定 18% 目標波幅政策 · 2012 至今</span><h3>{pct(data.evidence.fixed_post_2012.cagr, 2)} <small>vs SPY {pct(data.evidence.fixed_post_2012.spy_cagr, 2)}</small></h3></div>
-            <p>年率化領先 {pct(data.evidence.fixed_post_2012.cagr_difference_vs_spy, 2)}，但這個政策是在較廣泛探索後才凍結，仍不是純粹獨立樣本。</p>
-          </article>
-        </section>
 
-        <section className="section paper-section" id="paper">
-          <div className="wrap paper-grid">
-            <div className="section-heading light">
-              <p className="eyebrow">06 · FORWARD ONLY</p>
-              <h2>Paper trade 不回填漂亮歷史</h2>
-              <p>主策略、SPY、QQQ 與被動 90/10 都從同一天現金起跑、使用同一成本與下一開市成交。至少累積 252 個交易日、6 次換倉，且同時跑贏 SPY 與被動 90/10、最大跌幅不更深，才標成 LIVE 通過。除息或拆股造成調整價格回溯時，只重基準總回報單位，不回寫既有盈虧。</p>
-            </div>
-            <article className="account-card">
-              <div className="account-top"><span>LIVE PAPER</span><i /></div>
-              <strong>{money(data.paper.equity)}</strong>
-              <small>截至 {data.paper.as_of}</small>
+          <div className="robust-grid">
+            <article className="rolling-panel">
+              <div className="panel-title"><span>181 個滾動五年窗</span><h3>進場時間會改變體驗</h3></div>
+              <div className="rolling-rows">
+                <div><span>勝 SPY</span><div><i style={{ width: `${pooled.rolling_five_year_vs_spy.cagr_win_fraction * 100}%` }} /></div><b>{pct(pooled.rolling_five_year_vs_spy.cagr_win_fraction, 1)}</b></div>
+                <div><span>勝公平基準</span><div><i style={{ width: `${diagnostics.rolling_five_year_entry_timing_risk.matched.winning_window_fraction * 100}%` }} /></div><b>{pct(diagnostics.rolling_five_year_entry_timing_risk.matched.winning_window_fraction, 1)}</b></div>
+                <div><span>勝純成長</span><div><i className="gold-bar" style={{ width: `${pooled.rolling_five_year_vs_growth.cagr_win_fraction * 100}%` }} /></div><b>{pct(pooled.rolling_five_year_vs_growth.cagr_win_fraction, 1)}</b></div>
+              </div>
+              <p>結論：策略相對 SPY 及公平基準較有一致性，但大多數五年窗不會跑贏 100% 純成長；黃金的角色是分散風險。</p>
+            </article>
+            <article className="bootstrap-panel">
+              <div className="panel-title"><span>12 個月區塊 · 10,000 次</span><h3>配對移動區塊重抽樣</h3></div>
               <dl>
-                <div><dt>現金</dt><dd>{money(data.paper.cash)}</dd></div>
-                <div><dt>前瞻日數</dt><dd>{data.paper.forward_sessions}</dd></div>
-                <div><dt>成交筆數</dt><dd>{data.paper.transactions}</dd></div>
-                <div><dt>完成換倉</dt><dd>{data.paper.filled_rebalances}</dd></div>
-                <div><dt>價格重基準</dt><dd>{data.paper.adjustment_rebases}</dd></div>
-                <div><dt>v2 前瞻回報</dt><dd>{pct(data.paper.return, 2)}</dd></div>
-                <div><dt>SPY 同期</dt><dd>{pct(forward.benchmarks.SPY.return, 2)}</dd></div>
-                <div><dt>QQQ 同期</dt><dd>{pct(forward.benchmarks.QQQ.return, 2)}</dd></div>
-                <div><dt>被動 90/10 同期</dt><dd>{pct(forward.benchmarks.QQQ90_SHY10.return, 2)}</dd></div>
+                <div><dt>回報高於 SPY</dt><dd>{pct(bootstrap.SPY["12"].probability_cagr_above, 1)}</dd></div>
+                <div><dt>回報高於且最大跌幅不差於 SPY</dt><dd>{pct(bootstrap.SPY["12"].probability_cagr_above_and_drawdown_not_worse, 1)}</dd></div>
+                <div><dt>回報高於公平基準</dt><dd>{pct(bootstrap.matched["12"].probability_cagr_above, 1)}</dd></div>
+                <div><dt>回報高於純成長</dt><dd>{pct(bootstrap.growth["12"].probability_cagr_above, 1)}</dd></div>
               </dl>
-              <div className="queued"><span />{pending ? "訊號已排隊，等待下一個新增交易日" : invested ? "目前持有中，等待下一個月末重算" : "目前維持現金，等待有效月末訊號"}</div>
+              <p>這是對歷史月份順序的敏感度診斷，不是未來勝率，也沒有用來改寫凍結入口。</p>
             </article>
+          </div>
+
+          <div className="risk-panel">
+            <div><span>HISTORICAL STRESS</span><h3>最差歷史壓力並不溫和</h3></div>
+            <dl>
+              <div><dt>最深跌幅</dt><dd>{pct(diagnostics.portfolio_underwater.deepest_episode.drawdown, 1)}</dd></div>
+              <div><dt>高位</dt><dd>{diagnostics.portfolio_underwater.deepest_episode.peak}</dd></div>
+              <div><dt>谷底</dt><dd>{diagnostics.portfolio_underwater.deepest_episode.trough}</dd></div>
+              <div><dt>復原</dt><dd>{diagnostics.portfolio_underwater.deepest_episode.recovery}</dd></div>
+              <div><dt>水底期</dt><dd>{diagnostics.portfolio_underwater.deepest_episode.underwater_months} 個月</dd></div>
+            </dl>
+            <p>即使歷史最大跌幅比 SPY 淺，投資者仍可能面對超過三成跌幅和接近三年的復原期。黃金不是本金保障。</p>
           </div>
         </section>
 
-        <section className="section wrap" id="risks">
-          <div className="section-heading"><p className="eyebrow">07 · READ BEFORE USE</p><h2>先知道最壞的事，再看最好看的數字</h2></div>
-          <div className="risk-grid">
-            {data.limitations.map((item, index) => <article key={item}><span>0{index + 1}</span><p>{item}</p></article>)}
+        <section className="section wrap" id="paper">
+          <div className="section-heading">
+            <div><span>FORWARD PAPER TRADING</span><h2>歷史通過，前瞻證據由零開始</h2></div>
+            <p>候選、SPY 與公平持倉比率基準同日起跑；不把 20 年回測接到 LIVE 圖，也不回填成交。</p>
+          </div>
+          <V25ForwardBoard paper={paper} integrity={paperIntegrity} />
+          <PaperAllocationLab paperOnly={!latest.trade_ready} />
+        </section>
+
+        <section className="section wrap report-notes" id="notes">
+          <div className="section-heading">
+            <div><span>READING NOTES</span><h2>專業判讀與限制</h2></div>
+            <p>報告保留支持證據與反證，避免只挑勝出的欄位。</p>
+          </div>
+          <div className="note-grid">
+            <article><span>結論</span><h3>歷史上合格，前瞻仍未確認</h3><p>20 年三產品路徑及 pooled 入口通過，足以建立隔離 Paper；0/252 個新增交易日不足以顯示實金參考。</p></article>
+            <article><span>最重要反證</span><h3>對 SPY 的 NW t 只有 {pooled.statistics_vs_spy.newey_west_t.toFixed(2)}</h3><p>歷史年率化優勢存在，但統計證據未達常用 1.96 門檻；多重搜尋校正亦偏弱。</p></article>
+            <article><span>數據邊界</span><h3>Yahoo Finance／yfinance 研究快照</h3><p>使用經調整 OHLCV 並保存 SHA-256 快照；上游不是交易所官方行情，可能回溯修訂。</p></article>
+            <article><span>成本邊界</span><h3>回測不等於個人實際成交</h3><p>未涵蓋個人稅務、匯率、碎股限制、券商佣金差異、市場衝擊及即市買賣差價。</p></article>
+          </div>
+          <div className="source-line">
+            <span>研究快照</span><code>{data.research_snapshot_sha256}</code>
+            <span>v25 協議</span><code>{latest.protocol_sha256}</code>
+            <a href="https://github.com/appr1ciat1/tst_wocker" target="_blank" rel="noreferrer">報告層次參考</a>
+            <a href="https://github.com/voidful/us_fddk" target="_blank" rel="noreferrer">研究程式與完整證據</a>
           </div>
         </section>
 
         <section className="section wrap faq-section">
-          <div className="section-heading"><p className="eyebrow">08 · BEGINNER FAQ</p><h2>常見問題</h2></div>
+          <div className="section-heading">
+            <div><span>QUICK ANSWERS</span><h2>四個關鍵問題</h2></div>
+          </div>
           <div className="faq-list">
-            <details><summary>我現在可以照百分比買嗎？<span>＋</span></summary><p>頁面顯示的是等待 Paper 模擬成交的研究訊號，不是即時買入指令。若自行實作，仍要評估風險承受度、稅務、匯率和證券商成本。</p></details>
-            <details><summary>為什麼數據檢查通過，還是不能落盤？<span>＋</span></summary><p>數據檢查通過只代表日期、快照、Paper 模擬組合、基準和網站彼此一致，沒有表示策略已證實。實金參考另外要求 {readiness.required_gate_count} 道門檻全過；目前只有 {readiness.passed_gate_count} 道，決定仍是 Paper-only。</p></details>
-            <details><summary>既然 20 年贏 SPY，為什麼還說未確認？<span>＋</span></summary><p>同一批數據試過很多方法後，最好看的結果可能只是運氣。統計檢查與全新的前瞻交易紀錄仍不足，所以只稱「歷史候選」。</p></details>
-            <details><summary>為什麼要再比被動 90/10？<span>＋</span></summary><p>v2 平均持有接近九成 QQQ，只比 SPY 可能把科技股持倉比率誤認成策略能力。90/10 不預測波幅、只固定重新平衡，是更公平的持倉比率控制；目前 v2 沒有穩定跨過它。</p></details>
-            <details><summary>v3 回測贏 QQQ，為什麼不用？<span>＋</span></summary><p>近期 2006–2026 看起來漂亮，但不重疊的 1986–2006 Nasdaq-100 代理期，5 年滾動勝率只有 {pct(challengerProxy.rolling_five_year_win_fraction, 1)}；下載前固定的美、英、德、日、港測試也只有 {crossMarket.counts.full_cagr}/5 完整期勝出。這代表優勢依賴特定市場與年代，先留在獨立 Paper，不取代主訊號。</p></details>
-            <details><summary>v4 最大跌幅較小，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為事前規定 14 道門檻要全部通過，實際只有 {styleRotation.passed_gate_count} 道。策略 20 年 CAGR 落後 SPY、後十年與 50 bps 成本失敗，五年滾動勝率只有 {pct(styleRotation.rolling_five_year.market.win_fraction, 1)}；舊代理數據也不足。只改善最大跌幅不能補足回報與泛化證據。</p></details>
-            <details><summary>v5 幾乎追平 QQQ，為什麼還是不開 Paper？<span>＋</span></summary><p>近期 20 年只看 CAGR，v5 是 {pct(threeClock.main.strategy_metrics.cagr, 2)}、QQQ 是 {pct(threeClock.main.benchmark_metrics.opportunity.cagr, 2)}，而且最大跌幅較小；但更早 1986–2006 的 5 年滾動勝率只有 {pct(threeClock.proxy.rolling_five_year.market.win_fraction, 1)}，五市場完整期只有 {threeClock.cross_market.counts.full_cagr_beats_both}/5 同時勝過買入並持有與公平基準。事前 22 道門檻只過 {threeClock.passed_gate_count} 道，因此研究到此停止，不開 Paper。</p></details>
-            <details><summary>v6 長期代理有效，為什麼還是淘汰？<span>＋</span></summary><p>代理數據能說明產業動能在 1927–2005 曾有作用，卻不是可以直接落盤的 ETF。真正可交易的 2006–2026 主期，策略年率化 {pct(industryTilt.main.strategy_metrics.cagr, 2)}，低於 SPY {pct(industryTilt.main.benchmark_metrics.spy.cagr, 2)}，也低於同月相同股票持倉比率的 matched {pct(industryTilt.main.benchmark_metrics.matched.cagr, 2)}。22 道只過 {industryTilt.passed_gate_count} 道，所以依事前規則淘汰、不調參救援。</p></details>
-            <details><summary>v7 最大跌幅比 SPY 淺，為什麼仍不建立 Paper？<span>＋</span></summary><p>因為風險較低可能只是少持股票，不代表 QQQ 選擇有穩健 alpha。v7 主期年率化 {pct(relativeGrowth.main.strategy_metrics.cagr, 2)}，低於 SPY {pct(relativeGrowth.main.benchmark_metrics.market.cagr, 2)}；相對 SPY 的五年滾動勝率只有 {pct(relativeGrowth.main.rolling_five_year.market.win_fraction, 1)}，NW t 為 {relativeGrowth.main.comparisons.market.newey_west_t.toFixed(2)}。舊代理前半期也落後市場。19 道只過 {relativeGrowth.passed_gate_count} 道，所以封存負結果、不調參、不開 Paper。</p></details>
-            <details><summary>v8 已經連續兩段都跑贏市場，為什麼還是不開 Paper？<span>＋</span></summary><p>因為「全期勝出」不是唯一條件。v8 主期年率化 {pct(alwaysInvested.main.strategy_metrics.cagr, 2)}，確實高於 SPY {pct(alwaysInvested.main.benchmark_metrics.market.cagr, 2)}，舊代理也勝出；但 50 bps 成本後主期略輸 SPY，舊代理最大跌幅比市場深 {pct(Math.abs(alwaysInvested.proxy.comparison.drawdown_difference), 1)}，而兩段 NW t 都未達 1.96。事前 16 道 Paper 入口只過 {alwaysInvested.paper_entry_passed_gate_count} 道，所以不能用結果出來後再放寬規格。</p></details>
-            <details><summary>v9 已減少交易，為什麼成本門檻還是失敗？<span>＋</span></summary><p>因為一次從 100% SPY 切到 60% SPY／40% QQQ，再切回來，仍會買賣相當多持倉。主期 {lowTurnover.main.signals.completed_month_ends_in_formal_period} 個月末只完成 {lowTurnover.main.signals.completed_executions_in_formal_period} 次切換，但年換手仍約 {pct(lowTurnover.main.strategy_metrics.turnover, 1)}；50 bps 後只領先 SPY {pct(lowTurnover.main.cost_50bps_cagr_difference, 3)}，低於事前 0.10% 門檻。加上舊期最大跌幅與全新外部期後半失敗，23 道只過 {lowTurnover.paper_entry_passed_gate_count} 道，因此仍不開 Paper。</p></details>
-            <details><summary>v12 已把最大跌幅壓低，為什麼仍不值得 Paper？<span>＋</span></summary><p>主期最大跌幅從 SPY 的 {pct(hierarchicalDefense.main.benchmark_metrics.market.max_drawdown, 1)} 改善到 {pct(hierarchicalDefense.main.strategy_metrics.max_drawdown, 1)}，但 CAGR 也從 {pct(hierarchicalDefense.main.benchmark_metrics.market.cagr, 2)} 降到 {pct(hierarchicalDefense.main.strategy_metrics.cagr, 2)}；50 bps 成本後年率化再落後 {pct(Math.abs(hierarchicalDefense.main.cost_50bps_cagr_difference), 2)}，後十年與外部期後半都沒跑贏。它是有用的風險控制負結果，不是穩健 alpha，所以事前 23 道入口只過 {hierarchicalDefense.paper_entry_passed_gate_count} 道，Paper 指令必須拒絕。</p></details>
-            <details><summary>v13 交易更少、舊年代更好，為什麼還是淘汰？<span>＋</span></summary><p>因為降低換手是在已知數據上找到的改善，不是獨立證據。規則鎖定後才下載的 Russell 1000 組，策略年率化 {pct(confirmedR1000.strategy_metrics.cagr, 2)} 低於 IWB {pct(confirmedR1000.benchmark_metrics.market.cagr, 2)}；Russell 2000 組也以 {pct(confirmedR2000.strategy_metrics.cagr, 2)} 落後 IWM {pct(confirmedR2000.benchmark_metrics.market.cagr, 2)}。新數據 30 道只過 {confirmedGrowth.economic_passed_gate_count} 道，所以不能用既有年代的漂亮結果覆蓋真正的新反證。</p></details>
-            <details><summary>v14 的 Nasdaq 結果贏 QQQ，為什麼仍不開 Paper？<span>＋</span></summary><p>因為同一套規則在 S&amp;P 500 與 Dow 30 都明顯落後，而且 Nasdaq 版本年率化 {pct(leverageNasdaq.strategy_metrics.cagr, 2)} 雖高於 QQQ 的 {pct(leverageNasdaq.benchmark_metrics.core.cagr, 2)}，仍低於不預測趨勢的固定 60/40 的 {pct(leverageNasdaq.benchmark_metrics.fixed_60_40.cagr, 2)}。三市場 36 道只過 {modestLeverage.economic_passed_gate_count} 道、統計 0/{modestLeverage.statistical_required_gate_count}，不能只挑唯一漂亮的一格。</p></details>
-            <details><summary>v15 三市場年率化都贏 ETF，為什麼還是不能 Paper？<span>＋</span></summary><p>因為額外回報是用額外風險換來的：S&amp;P 500、Nasdaq-100、Dow 30 的最大跌幅全部比原始 ETF 深，Sharpe 也都沒有嚴格勝出。更公平的固定 90/10 對照顯示，S&amp;P 500 與 Dow 版本還犧牲了回報。事前 36 道只過 {modestLeverageOverlay.economic_passed_gate_count} 道、統計只過 {modestLeverageOverlay.statistical_passed_gate_count}/{modestLeverageOverlay.statistical_required_gate_count}；不能把「多加槓桿」包裝成穩健 alpha。</p></details>
-            <details><summary>v16 已降低最大跌幅，為什麼連 Paper 都不開？<span>＋</span></summary><p>因為它同時大幅犧牲長期複利。三個市場年率化只剩約 2.8%–5.6%，全都低於原始 ETF，也低於不槓桿的相同趨勢控制；48 道只過 {trendVolatilityBrake.economic_passed_gate_count} 道。降低最大跌幅是好現象，但不能掩蓋踏空與頻繁調整造成的回報損失。</p></details>
-            <details><summary>v17 六市場 CAGR 多數較高，為什麼仍不算跑贏？<span>＋</span></summary><p>因為六組最大跌幅全部比原始 ETF 更深，Sharpe 與 Calmar 多數也更差。總名目持倉比率約 160%，本來就可能在多頭市場放大 CAGR；只有同時跨過風險、成本、前後半、五年滾動與三個公平基準，才算穩健。84 道只過 {capitalEfficient.economic_passed_gate_count} 道，因此不建立 Paper。</p></details>
-            <details><summary>v18 在六個美國市場都改善，為什麼海外失敗更重要？<span>＋</span></summary><p>因為 50/25/25 正是在那六個美國市場中選出，漂亮結果可能含有選擇偏誤。規則鎖定後的海外日線顯示：已開發市場五年勝率只有 {pct(diversifierDeveloped.rolling_five_year_vs_core.cagr_win_fraction, 1)}，新興市場只有 {pct(diversifierEmerging.rolling_five_year_vs_core.cagr_win_fraction, 1)}，而且兩組最大跌幅都更深。外部 18 道只過 {equalDiversifier.economic_passed_gate_count} 道，所以不調比例、不開 Paper。</p></details>
-            <details><summary>v20 會挑較強的分散器，為什麼仍輸固定配置？<span>＋</span></summary><p>相對強弱是落後指標，快速反轉時可能在較晚的位置換進；而且股票持倉比率始終約 100%，沒有崩跌退場。結果 11 個市場的輪替 CAGR 全部低於固定 v18，三組新外部經濟門檻只過 {diversifierStrength.external_economic_passed_gate_count}/{diversifierStrength.external_economic_required_gate_count}，中國大型股更是 0/14，所以不能把「會輪替」直接等同於更穩健。</p></details>
-            <details><summary>v21 已在退場與全數持股之間折衷，為什麼還是失敗？<span>＋</span></summary><p>折衷只是合理假說，不是成功證據。中型股版本年率化 {pct(hybridMidcap.strategy_metrics.cagr, 2)}，低於 IJH 的 {pct(hybridMidcap.benchmark_metrics.core.cagr, 2)}；小型股版本年率化 {pct(hybridRussell.strategy_metrics.cagr, 2)}，低於 IWM 的 {pct(hybridRussell.benchmark_metrics.core.cagr, 2)}，兩組最大跌幅也更深。新外部 32 道只過 {hybridLeverageCore.external_economic_passed_gate_count} 道，因此不能只挑 Nasdaq 的 15/16 宣稱泛化。</p></details>
-            <details><summary>v22 九個產業完整期都跑贏，為什麼還不開 Paper？<span>＋</span></summary><p>因為「換一個起訖點還能不能贏」才是穩定性的核心。九個產業的完整期 CAGR 都高至少 0.25%，但 1,260 日滾動勝率沒有一組達到事前 60%，九產業等權也只有 {pct(sectorPooled.rolling_five_year_vs_core.cagr_win_fraction, 1)}。再加上約 {pct(sectorPooled.strategy_metrics.max_drawdown, 0)} 的歷史最大跌幅與 0/3 統計門檻，系統依凍結規則拒絕建立組合。</p></details>
-            <details><summary>v23 最大跌幅改善很多，為什麼仍不能照 50/50 買？<span>＋</span></summary><p>因為 20 年 CAGR 只由 SPY 的 {pct(managedLong.spy_metrics.cagr, 2)} 提高到 {pct(managedLong.strategy_metrics.cagr, 2)}，未達事前 0.25% 門檻；50 bps 成本與後十年又轉為落後。KMLM 上市後八個五年窗沒有一個通過，FMF 跨管理人也只過 {managedFutures.fmf_passed_gate_count}/{managedFutures.fmf_required_gate_count}。最大跌幅改善可作資產配置研究，但還不是經過多路徑確認的超額回報。</p></details>
-            <details><summary>v24 學術測試全過，為什麼實際 ETF 還是不能買？<span>＋</span></summary><p>因為學術代理用 French 大型股高盈利能力與高動能分組，不是 QUAL／MTUM 的精確可交易歷史。實際 iShares 組合後半 CAGR 落後 SPY {pct(Math.abs(qualityIshares.fixed_halves_vs_market.second.cagr_difference), 2)}，五年勝率只有 {pct(qualityIshares.rolling_five_year_vs_market.cagr_win_fraction, 1)}；SPHQ／PDP 跨管理人更是 0/7。產品驗證失敗時，系統不會把代理成功轉成今天的買入百分比。</p></details>
-            <details><summary>v25 已通過 20 年驗證，為什麼仍不能用實金？<span>＋</span></summary><p>因為這只證明它值得前瞻驗證，不代表未來一定延續。相對 SPY 的 Newey-West t 只有 {growthGoldPooled.statistics_vs_spy.newey_west_t.toFixed(2)}，而且最差五年窗仍曾落後。三個 Paper 模擬組合目前都從 {growthGoldPaper.started_at} 的 10 萬美元現金起跑，成交 {growthGoldPaper.transactions} 筆；至少累積 252 個新增交易日與 6 次初始建倉後的月度重新平衡，還要對兩基準都有至少 0.10% 年率化優勢、前後半都勝出、最大跌幅不更深且 NW t 均達 1.96，才可能開放參考配置。</p></details>
-            <details><summary>最大跌幅 -36% 是什麼意思？<span>＋</span></summary><p>在回測最糟的一段，帳面價值曾從高點跌約 36%。10 萬美元可能一度只剩約 6.4 萬美元，而且回復時間未知。</p></details>
-            <details><summary>為什麼除息後 Paper 單位數可能改變？<span>＋</span></summary><p>Paper 使用可連續計算總回報的調整單位，不是證券商實際股數。若除息、拆股或供應商修訂讓舊的調整價格改變，系統會等比例調整單位數、保持當時市值不變，既有成交和盈虧不會被重寫。</p></details>
-            <details><summary>訊號多久變一次？<span>＋</span></summary><p>每個月最後一個交易日收市後重新計算；有新訊號時，只在下一個交易日開市模擬調整。</p></details>
+            <details open><summary>最新策略現在可以用實金嗎？</summary><p>不可以。歷史回測通過只准建立 Paper。前瞻仍是 {forward.forward_sessions}/{forward.minimum_sessions} 個新增交易日、{forward.filled_rebalances}/{forward.minimum_filled_rebalances} 次完成重新平衡，實金動作為 US$0。</p></details>
+            <details><summary>為甚麼同時比較 SPY、純成長和公平持倉比率基準？</summary><p>SPY 回答是否勝過廣泛市場；純成長回答黃金是否犧牲上行；80% 成長／20% SHY 回答黃金是否只靠降低股票持倉比率製造較淺跌幅。三者缺一不可。</p></details>
+            <details><summary>目前市場判讀是買入還是避險？</summary><p>此策略沒有短線看好或看淡訊號，只在每個完整月末把比例拉回 80/20。最新五年窗仍領先 SPY，但組合距歷史高位約 {pct(Math.abs(diagnostics.portfolio_underwater.current_drawdown), 1)}，不能解讀為保證反彈。</p></details>
+            <details><summary>US$1,000 應該如何理解？</summary><p>US$800 VUG／US$200 GLD 是瀏覽器內的 Paper 比例示例，不是落盤指令。正式前瞻比較仍以 US$100,000 同起點、相同成本及相同交易日序列運作。</p></details>
           </div>
         </section>
       </main>
 
       <footer>
         <div className="wrap footer-grid">
-          <div><span className="brand-mark">G</span><p><b>成長守門員 v2</b><br />規則比預測重要，證據比故事重要。</p></div>
-          <div className="footer-meta"><p>{data.disclaimer}</p><code>研究快照 {data.research_snapshot_data_through} · {data.research_snapshot_sha256.slice(0, 12)}…<br />LIVE 快照 {data.data_through} · {data.live_snapshot_sha256.slice(0, 12)}…</code></div>
-          <div className="report-reference">
-            <p><b>報告架構參考：</b> <a href="https://github.com/appr1ciat1/tst_wocker">tst_wocker</a>、<a href="https://github.com/appr1ciat1/tw-block-warrant">tw-block-warrant</a>、<a href="https://github.com/appr1ciat1/tst_wocker_filter_lab">tst_wocker_filter_lab</a>。只參考報告分層、每日狀態及前瞻稽核方式；美股數據、規則與結果由本專案獨立計算。中文採香港金融市場慣用詞。</p>
-          </div>
+          <div><b>US FDDK</b><p>美股策略研究及前瞻 Paper 紀錄。</p></div>
+          <div><span>最新數據</span><b>{data.data_through}</b></div>
+          <div><span>公開狀態</span><b>Research + Paper-only</b></div>
+          <div><span>免責聲明</span><p>歷史表現不保證未來結果；本頁不構成投資建議或實金落盤指令。</p></div>
         </div>
       </footer>
     </>
