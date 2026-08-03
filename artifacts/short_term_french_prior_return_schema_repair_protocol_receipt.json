@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "french_prior_return_schema_repair_frozen_before_numeric_calculation",
+  "frozen_at": "2026-08-04",
+  "schema_was_seen_before_this_protocol": true,
+  "raw_numeric_rows_were_displayed_before_this_protocol": true,
+  "aggregate_strategy_metrics_were_calculated_before_this_protocol": false,
+  "new_download_allowed": false,
+  "numeric_calculation_started": false,
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_PROTOCOL.md",
+    "sha256": "93059919e4acf406dc9e46702cd37c477f688da5afb80bed67d86305bd474297"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_SCHEMA_REPAIR_MAPPING.md",
+    "sha256": "484d0385057ffe867645a8498c6f6071a264da2b94dbde5453e3f4e0321dc1b4"
+  },
+  "original_economic_protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_PROTOCOL.md",
+    "sha256": "f6ff259ee2ad020d618f891097eb3dbf7b76ee3d382b9a31c373ba76641f62da",
+    "commit": "b3240326cb4ba92e9e6585779a2b6249a9f5c78d"
+  },
+  "original_failed_data_receipt": {
+    "path": "artifacts/short_term_french_prior_return_data_receipt.json",
+    "status": "french_prior_return_first_download_contract_failed_before_strategy_calculation",
+    "passed_checks": "6/8"
+  },
+  "frozen_archives": {
+    "short_term_prior_1_0": "20b186f6f7c322098d6d2a6be6183d5944b12c7f6c9e888664ce44ba81064ace",
+    "long_term_prior_12_2": "ca0af27fa0829ed6ac38b7b13b20cc11fd12274a8d06dac226998dfc1d0f07f6",
+    "ff_factors": "80b88699a18ac408e2456d25b1004e340f3f7f8d41d5b476a0285bc53c6f0436",
+    "momentum": "37baf72ae4eace9715e8746413d0122334c63aa4083fd1c3cf2060fa04e4bd28",
+    "short_term_reversal": "e0fc1859c8b7e56ac17d06239de231fb33d28c8537b3f59fa378d4d704110e21"
+  },
+  "economic_design_changed": false,
+  "only_allowed_change": "two exact value-weighted monthly markers",
+  "global_search_trials": 6150,
+  "independent_first_seen_evidence": false,
+  "paper_eligible": false,
+  "paper_state_created": false,
+  "trade_ready": false,
+  "real_money_action_usd": 0
+}
