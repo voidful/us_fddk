@@ -6,6 +6,7 @@ import V25ForwardBoard from "./V25ForwardBoard";
 import data from "../data/trading-data.json";
 import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
+import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
@@ -494,18 +495,20 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FRENCH 30</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FRENCH 30 + PRIOR-RETURN AUDIT</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />行業動量外部研究</h1>
               <p className="hero-lead">
-                最新一輪在下載前凍結 6–1 行業動量 Top-3，再以 French 30 行業日回報做逾 63 年外部測試。
+                最新可計算結果在下載前凍結 6–1 行業動量 Top-3，再以 French 30 行業日回報做逾 63 年外部測試。
                 1963–2005 的年率化回報達 <strong>{pct(frenchPrimary.candidate_metrics.cagr, 2)}</strong>，但 2006–2026 只有 {pct(frenchRecent.candidate_metrics.cagr, 2)}，
                 統計、成本及過度配適門檻未通過。
+                第六輪 prior-return 月檔其後按新協議首次取得，但格式契約只過 {priorReturnContract.passed_check_count}/{priorReturnContract.required_check_count}，策略計算沒有開始。
                 <strong> 這是學術組合，不是可落盤 ETF；Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#aggressive-evidence">查看最新完整結果</a>
+                <a className="primary-button aggressive-button" href="#prior-return-contract">查看最新數據稽核</a>
+                <a className="secondary-button" href="#aggressive-evidence">查看最新可計算結果</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
@@ -534,13 +537,34 @@ export default function Home() {
               <article><span>2006–2026 CAGR</span><strong>{pct(frenchRecent.candidate_metrics.cagr, 2)}</strong><small>市場 {pct(frenchRecent.baseline_metrics.market.cagr, 2)}</small></article>
               <article><span>近期 50 bps CAGR</span><strong>{pct(frenchRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>成本壓力下落後市場</small></article>
               <article><span>近期 20 日事件 NW t</span><strong>{frenchRecentEvent.newey_west.t_stat.toFixed(2)}</strong><small>Bootstrap 下界 {pp(frenchRecentEvent.moving_block_bootstrap.low)}</small></article>
+              <article><span>第六輪數據契約</span><strong>{priorReturnContract.passed_check_count}/{priorReturnContract.required_check_count}</strong><small>策略計算未開始</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>17/33 · 實金為 0</small></article>
             </div>
           </section>
 
+          <section className="section wrap" id="prior-return-contract">
+            <div className="section-heading">
+              <div><span>LATEST DATA-CONTRACT ATTEMPT · ROUND 6</span><h2>美股一個月贏家延續測試：6/8，計算前停止</h2></div>
+              <p>主要候選、成本、短期反轉／同池等權／12–2 動量／市場 baseline，以及 38 道學術門檻已在五個新 ZIP 首次下載前凍結。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict">
+                <span>數據契約判斷</span>
+                <h3>原檔標題不符凍結映射，沒有計算任何回報</h3>
+                <p>short-term 原檔寫成 <code>{priorReturnContract.observed_monthly_markers.short_term_prior_1_0[0]}</code>；long-term 原檔則是 <code>{priorReturnContract.observed_monthly_markers.long_term_prior_12_2[0]}</code>。兩者都不等於事前固定的 <code>{priorReturnContract.expected_value_weighted_monthly_marker}</code>，所以沒有用寬鬆 parser 跨過。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>完整性檢查</span><strong>{priorReturnContract.passed_check_count}/{priorReturnContract.required_check_count}</strong><p>五個 SHA-256、CSV member、equal-weighted 表及因素 header 通過；兩個 value-weighted 表段標記失敗。</p></article>
+                <article><span>策略與資金狀態</span><strong>未計算 · US$0</strong><p>沒有 CAGR、Sharpe、PBO、選股名單、Paper 或實金落盤；亦不重下載同一發布版。</p></article>
+              </div>
+            </div>
+            <div className="comparison-caveat"><b>這不是策略負結果：</b><p>它只證明下載前映射與官方 CSV schema 不相容，不能據此說美股短窗動量有效或無效。修改 marker 後重用同一批已見原檔，也不能再聲稱獨立 first-seen 經濟驗證。</p></div>
+            <div className="protocol-link"><span>第六輪凍結與失敗證據</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">事前協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_FAILURE.md" target="_blank" rel="noreferrer">完整失敗紀錄</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_prior_return_data_receipt.json" target="_blank" rel="noreferrer">機器收據</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_10_port_form_pr_1_0.html" target="_blank" rel="noreferrer">官方方法</a></div></div>
+          </section>
+
           <section className="section wrap" id="aggressive-evidence">
             <div className="section-heading">
-              <div><span>LATEST EXTERNAL VALIDATION</span><h2>French 30 行業逾 63 年驗證：早期有效，近期不足</h2></div>
+              <div><span>LATEST CALCULATED EXTERNAL VALIDATION</span><h2>French 30 行業逾 63 年驗證：早期有效，近期不足</h2></div>
               <p>原始共同期 1926–2026；正式候選從 {shortDate(frenchPrimary.start)} 起計。規則、數據映射、成本及 33 道門檻在首次下載 30 行業 ZIP 前已凍結。</p>
             </div>
             <div className="aggressive-overview-grid">
@@ -776,11 +800,11 @@ export default function Home() {
                 <article className="failed"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>即使 33/33，French 組合仍不可直接交易；逐股數據另過門檻後才由全現金開始。</p></div></article>
               </div>
               <div className="data-source-decision">
-                <div><span>EVIDENCE LADDER</span><b>49 行業數據失敗與 30 行業結果同時保留</b></div>
-                <p>49 行業首次下載因 1971-03-11 一格官方缺值按協議停止，沒有延後日期救援；30 行業另立協議後才首次下載並計算。French 年度 SIC 行業組合降低現時存活公司倒推問題，但仍不是逐股 point-in-time 賬本。</p>
-                <div className="data-source-links"><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_30_ind_port.html" target="_blank" rel="noreferrer">French 30 官方說明</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗紀錄</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">機器可讀結果</a></div>
+                <div><span>EVIDENCE LADDER</span><b>第六輪 6/8、49 行業失敗與 30 行業結果同時保留</b></div>
+                <p>第六輪 prior-return 月檔因兩個表段標記不符在計算前停止；49 行業因 1971-03-11 一格官方缺值停止；30 行業另立協議後才首次下載並計算。三條都沒有延後日期、補值或換 parser 救援，亦都不能取代逐股 point-in-time 賬本。</p>
+                <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_FAILURE.md" target="_blank" rel="noreferrer">第六輪失敗紀錄</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_30_ind_port.html" target="_blank" rel="noreferrer">French 30 官方說明</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_INDUSTRY_DATA_FAILURE.md" target="_blank" rel="noreferrer">49 行業失敗紀錄</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">30 行業結果</a></div>
               </div>
-              <p className="aggressive-final-decision"><b>目前決策：</b>行業動量在早期有研究價值，但近期差額、成本及統計不足，不開短線 Paper。下一步只在新數據與新協議下研究，不修改本輪 6–1 Top-3；逐股 point-in-time 成分與退市回報仍是 Paper 的必要門檻。實金及 Paper 動作均為 US$0。</p>
+              <p className="aggressive-final-decision"><b>目前決策：</b>第六輪沒有跨過數據契約，French 30 則只有早期行業動量、近期差額與統計不足；兩者都不開短線 Paper。下一步只在真正新數據與新協議下研究；逐股 point-in-time 成分與退市回報仍是必要門檻。實金及 Paper 動作均為 US$0。</p>
               <div className="protocol-link"><span>最新證據完整保留 · French 30 結果優先</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_MOMENTUM_PROTOCOL.md" target="_blank" rel="noreferrer">30 行業協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FRENCH_30_INDUSTRY_DATA_MAPPING.md" target="_blank" rel="noreferrer">數據映射</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_french_30_industry_validation.json" target="_blank" rel="noreferrer">完整結果</a></div></div>
             </div>
           </section>

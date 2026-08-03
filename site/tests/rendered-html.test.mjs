@@ -35,6 +35,10 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /17(?:<!-- -->)?\/(?:<!-- -->)?33 · 機制驗證失敗/);
   assert.match(html, /較慢行業動量/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
+  assert.match(html, /美股一個月贏家延續測試：6\/8，計算前停止/);
+  assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
+  assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
+  assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /French 30 行業逾 63 年驗證：早期有效，近期不足/);
   assert.match(html, /完整早期樣本：候選勝出，但仍未過全部門檻/);
   assert.match(html, /近期樣本：回報略高，證據強度大幅下降/);
@@ -46,7 +50,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /7\.85%/);
   assert.match(html, /98\.4%/);
   assert.match(html, /88\.1%/);
-  assert.match(html, /49 行業數據失敗與 30 行業結果同時保留/);
+  assert.match(html, /第六輪 6\/8、49 行業失敗與 30 行業結果同時保留/);
   assert.match(html, /1971-03-11/);
   assert.match(html, /較早大型股沙盒：表面跑贏也未證明輪選/);
   assert.match(html, /現時完整股池漂移/);

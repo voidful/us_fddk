@@ -27,6 +27,10 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /NVDA/);
   assert.match(html, /AMD/);
   assert.match(html, /較早大型股沙盒：表面跑贏也未證明輪選/);
+  assert.match(html, /美股一個月贏家延續測試：6\/8，計算前停止/);
+  assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
+  assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
+  assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /現時完整股池漂移/);
   assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
   assert.match(html, /拆走止賺止蝕後，20 日排序有正差/);
@@ -41,7 +45,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /7\.85%/);
   assert.match(html, /98\.4%/);
   assert.match(html, /88\.1%/);
-  assert.match(html, /49 行業數據失敗與 30 行業結果同時保留/);
+  assert.match(html, /第六輪 6\/8、49 行業失敗與 30 行業結果同時保留/);
   assert.match(html, /5(?:<!-- -->)?\/(?:<!-- -->)?5(?:<!-- -->)? 表面通過/);
   assert.match(html, /21\.52%/);
   assert.match(html, /23\.04%/);

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "status": "french_prior_return_first_download_contract_failed_before_strategy_calculation",
+  "audit_timestamp_from_frozen_archive_mtime_utc": "2026-08-03T15:58:36.648842Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_PROTOCOL.md",
+    "sha256": "f6ff259ee2ad020d618f891097eb3dbf7b76ee3d382b9a31c373ba76641f62da",
+    "commit": "b3240326cb4ba92e9e6585779a2b6249a9f5c78d"
+  },
+  "mapping": {
+    "path": "docs/SHORT_TERM_FRENCH_PRIOR_RETURN_DATA_MAPPING.md",
+    "sha256": "8b7606385e4234dfeb7de878466543c92a8085f2c7f76240415e353b342b7931"
+  },
+  "archives": {
+    "short_term_prior_1_0": {
+      "path": "artifacts/french_10_prior_1_0_monthly_20b186f6.zip",
+      "sha256": "20b186f6f7c322098d6d2a6be6183d5944b12c7f6c9e888664ce44ba81064ace",
+      "size_bytes": 120519,
+      "member": "10_Portfolios_Prior_1_0.csv",
+      "hash_match": true,
+      "member_match": true
+    },
+    "long_term_prior_12_2": {
+      "path": "artifacts/french_10_prior_12_2_monthly_ca0af27f.zip",
+      "sha256": "ca0af27fa0829ed6ac38b7b13b20cc11fd12274a8d06dac226998dfc1d0f07f6",
+      "size_bytes": 118823,
+      "member": "10_Portfolios_Prior_12_2.csv",
+      "hash_match": true,
+      "member_match": true
+    },
+    "ff_factors": {
+      "path": "artifacts/french_ff_factors_80b88699.zip",
+      "sha256": "80b88699a18ac408e2456d25b1004e340f3f7f8d41d5b476a0285bc53c6f0436",
+      "size_bytes": 13045,
+      "member": "F-F_Research_Data_Factors.csv",
+      "hash_match": true,
+      "member_match": true
+    },
+    "momentum": {
+      "path": "artifacts/french_momentum_monthly_37baf72a.zip",
+      "sha256": "37baf72ae4eace9715e8746413d0122334c63aa4083fd1c3cf2060fa04e4bd28",
+      "size_bytes": 5605,
+      "member": "F-F_Momentum_Factor.csv",
+      "hash_match": true,
+      "member_match": true
+    },
+    "short_term_reversal": {
+      "path": "artifacts/french_st_reversal_monthly_e0fc1859.zip",
+      "sha256": "e0fc1859c8b7e56ac17d06239de231fb33d28c8537b3f59fa378d4d704110e21",
+      "size_bytes": 5575,
+      "member": "F-F_ST_Reversal_Factor.csv",
+      "hash_match": true,
+      "member_match": true
+    }
+  },
+  "observed_monthly_markers": {
+    "short_term_prior_1_0": [
+      "Aerage Value Weighted Returns -- Monthly",
+      "Average Equal Weighted Returns -- Monthly"
+    ],
+    "long_term_prior_12_2": [
+      "Value Weight Returns -- Monthly",
+      "Average Equal Weighted Returns -- Monthly"
+    ]
+  },
+  "expected_value_weighted_monthly_marker": "Average Value Weighted Returns -- Monthly",
+  "checks": {
+    "protocol_and_mapping_hashes_match_frozen_receipt": true,
+    "all_five_archive_hashes_match": true,
+    "all_five_zip_members_match": true,
+    "short_term_exact_value_weighted_monthly_marker": false,
+    "long_term_exact_value_weighted_monthly_marker": false,
+    "both_equal_weighted_monthly_markers_match": true,
+    "ff_factor_header_matches": true,
+    "momentum_and_reversal_headers_match": true
+  },
+  "passed_check_count": 6,
+  "required_check_count": 8,
+  "new_download_performed_once": true,
+  "numeric_return_rows_parsed": false,
+  "strategy_calculation_started": false,
+  "redownload_permitted": false,
+  "failure_reason": "兩個 prior-return ZIP 的 value-weighted 月表標記均與下載前凍結字串不符",
+  "decision_boundary": {
+    "academic_result_available": false,
+    "paper_eligible": false,
+    "paper_state_created": false,
+    "trade_ready": false,
+    "real_money_action_usd": 0
+  }
+}
