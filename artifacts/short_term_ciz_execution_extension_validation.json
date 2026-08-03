@@ -1,0 +1,360 @@
+{
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 16,
+    "total": 16
+  },
+  "attacks": [
+    {
+      "expected_error_code": "execution_source_file_set_mismatch",
+      "id": "01",
+      "label": "overlay 多／少檔案",
+      "observed_error_code": "execution_source_file_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "base_ledger_binding_mismatch",
+      "id": "02",
+      "label": "base manifest 雜湊與 extension 不符",
+      "observed_error_code": "base_ledger_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "dividend_pay_date_missing",
+      "id": "03",
+      "label": "dividend 缺 pay-date",
+      "observed_error_code": "dividend_pay_date_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "dividend_date_order_invalid",
+      "id": "04",
+      "label": "pay-date 早於 ex-date",
+      "observed_error_code": "dividend_date_order_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "dividend_entitlement_mismatch",
+      "id": "05",
+      "label": "entitlement 金額或 action ID 不對數",
+      "observed_error_code": "dividend_entitlement_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "pre_signal_return_history_missing",
+      "id": "06",
+      "label": "候選只有 251 個訊號前回報 session",
+      "observed_error_code": "pre_signal_return_history_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "pre_signal_liquidity_history_missing",
+      "id": "07",
+      "label": "候選只有 19 個正成交量 session",
+      "observed_error_code": "pre_signal_liquidity_history_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "post_removal_path_missing",
+      "id": "08",
+      "label": "移除後路徑中間缺一日",
+      "observed_error_code": "post_removal_path_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "post_removal_execution_open_missing",
+      "id": "09",
+      "label": "下一重新平衡開市價缺失",
+      "observed_error_code": "post_removal_execution_open_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "benchmark_session_missing",
+      "id": "10",
+      "label": "SPY 缺一個必要 session",
+      "observed_error_code": "benchmark_session_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "benchmark_duplicate",
+      "id": "11",
+      "label": "QQQ 同日重複",
+      "observed_error_code": "benchmark_duplicate",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "benchmark_price_policy_invalid",
+      "id": "12",
+      "label": "基準 open 非正或標示 adjusted",
+      "observed_error_code": "benchmark_price_policy_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "qqq_fallback_binding_invalid",
+      "id": "13",
+      "label": "QQQ 補位綁定另一 ticker／序列",
+      "observed_error_code": "qqq_fallback_binding_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "execution_clock_violation",
+      "id": "14",
+      "label": "月末訊號以同日 open 成交",
+      "observed_error_code": "execution_clock_violation",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "strategy_cost_policy_mismatch",
+      "id": "15",
+      "label": "primary 或壓力成本被改",
+      "observed_error_code": "strategy_cost_policy_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "signal_calendar_invalid",
+      "id": "16",
+      "label": "插入非月末訊號日",
+      "observed_error_code": "signal_calendar_invalid",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_sample_received": false,
+  "control": {
+    "base_ledger_gate_summary": {
+      "all_passed": true,
+      "passed": 20,
+      "total": 20
+    },
+    "benchmark_rows": 46,
+    "cash_entitlements": 1,
+    "control_examples": {
+      "benchmark_assets": [
+        "QQQ",
+        "SPY"
+      ],
+      "dividend": {
+        "announced_at": "2026-07-29T20:00:00Z",
+        "cash_available_date": "2026-08-03",
+        "cash_per_share": "0.5",
+        "event_id": "CIZ-DIST-10003-2026-07-30-1",
+        "ex_date": "2026-07-30",
+        "pay_date": "2026-08-03",
+        "security_id": "CRSP-PERMNO-10003",
+        "source_record_id": "CIZ-DIST-10003-2026-07-30-1"
+      },
+      "minimum_positive_volume_sessions": 272,
+      "minimum_return_sessions": 272,
+      "removal": {
+        "execution_open_raw": "213.65",
+        "execution_session": "2026-08-03",
+        "membership_effective_to": "2026-07-16",
+        "observed_sessions": "13",
+        "required_sessions": "13",
+        "security_id": "CRSP-PERMNO-10002",
+        "signal_session": "2026-07-31",
+        "source_record_id": "CIZ-MBR-10002-1000500-2026-07-01-2026-07-15"
+      }
+    },
+    "formal_stock_backtest_authorized": false,
+    "gate_summary": {
+      "all_passed": true,
+      "passed": 16,
+      "total": 16
+    },
+    "gates": [
+      {
+        "detail": "協議、收據及前置雜湊完整",
+        "id": "01",
+        "label": "事前凍結完整性",
+        "passed": true
+      },
+      {
+        "detail": "舊 adapter 及 Round 14 auditor 雜湊不變",
+        "id": "02",
+        "label": "第十三／十四輪不變",
+        "passed": true
+      },
+      {
+        "detail": "overlay 及 execution 檔案集合／收據一致",
+        "id": "03",
+        "label": "精確輸入檔案集合",
+        "passed": true
+      },
+      {
+        "detail": "原 point-in-time auditor 全數通過",
+        "id": "04",
+        "label": "Base ledger 仍為 20/20",
+        "passed": true
+      },
+      {
+        "detail": "base manifest SHA-256 對數",
+        "id": "05",
+        "label": "Base／extension 綁定",
+        "passed": true
+      },
+      {
+        "detail": "dividend action 與 entitlement 一對一",
+        "id": "06",
+        "label": "派息事件一對一",
+        "passed": true
+      },
+      {
+        "detail": "付款日存在且不早於除息日",
+        "id": "07",
+        "label": "Ex-date／pay-date 分離",
+        "passed": true
+      },
+      {
+        "detail": "cash_available_date 恰等於 pay-date",
+        "id": "08",
+        "label": "現金只在付款日可用",
+        "passed": true
+      },
+      {
+        "detail": "1 個完整月末訊號",
+        "id": "09",
+        "label": "月末訊號日曆固定",
+        "passed": true
+      },
+      {
+        "detail": "所有候選至少 252 個有效回報 session",
+        "id": "10",
+        "label": "訊號前回報歷史",
+        "passed": true
+      },
+      {
+        "detail": "所有候選至少 20 個正成交量 session",
+        "id": "11",
+        "label": "訊號前流動性歷史",
+        "passed": true
+      },
+      {
+        "detail": "移除日至下一重新平衡逐日可定價",
+        "id": "12",
+        "label": "移除後完整價格路徑",
+        "passed": true
+      },
+      {
+        "detail": "退出成交日有正 raw open",
+        "id": "13",
+        "label": "移除後真實開市價",
+        "passed": true
+      },
+      {
+        "detail": "QQQ／SPY 必要 session 完全一致",
+        "id": "14",
+        "label": "公平基準同步",
+        "passed": true
+      },
+      {
+        "detail": "同一 QQQ 序列及下一交易日 open",
+        "id": "15",
+        "label": "QQQ 補位與 D+1 時鐘",
+        "passed": true
+      },
+      {
+        "detail": "10／25／50 bps 及短線 v1 雜湊吻合",
+        "id": "16",
+        "label": "規則及成本不變",
+        "passed": true
+      }
+    ],
+    "paper_authorized": false,
+    "protocol_integrity": {
+      "frozen_at": "2026-08-03T22:21:13Z",
+      "hash_checks": {
+        "artifacts/short_term_ciz_execution_accounting_protocol_receipt.json": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "usfddk/ciz_execution_accounting.py": true,
+        "usfddk/crsp_ciz_adapter.py": true
+      },
+      "passed": true
+    },
+    "real_money_action_usd": 0,
+    "removal_execution_windows": 1,
+    "signal_eligibility_rows": 2,
+    "signals": 1,
+    "status": "synthetic_execution_extension_control_passed"
+  },
+  "disclaimer": "16/16 合成控制及攻擊只證明 execution extension 會 fail closed；不代表供應商數據、正式回測、Paper 或盈利通過。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "next_action": "只向合法數據擁有人索取同一 schema 的細樣本；真實 1/20 未提升前不得運行正式策略。",
+  "official_document_evidence": {
+    "ciz_daily_return_includes_delisting_return": true,
+    "distribution_ex_and_pay_dates_are_distinct_fields": true,
+    "sources": [
+      {
+        "label": "CRSP SIZ-to-CIZ cross-reference guide",
+        "url": "https://www.crsp.org/crsp_pdf/crsp-us-stock-indexes-databases-siz-to-ciz-cross-reference-guide/"
+      },
+      {
+        "label": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+        "url": "https://www.crsp.org/crsp_pdf/crsp-us-stock-indexes-databases-guide-flat-file-format-2-0/"
+      },
+      {
+        "label": "WRDS Run an Event Study (CIZ Format)",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/run-an-event-study-ciz-format-macro/"
+      }
+    ]
+  },
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "research_round": 15,
+  "round14_execution_accounting": {
+    "attacks": {
+      "all_rejected": true,
+      "rejected": 10,
+      "total": 10
+    },
+    "gates": {
+      "all_passed": false,
+      "passed": 8,
+      "total": 12
+    }
+  },
+  "schema_version": 1,
+  "status": "synthetic_execution_extension_passed_provider_data_still_blocked",
+  "strategy_rule_changed": false,
+  "synthetic_rows_only": true,
+  "transform_result": {
+    "base_adapter_version": "round13-crsp-ciz-v1",
+    "benchmark_rows": 46,
+    "cash_entitlements": 1,
+    "protocol_integrity": {
+      "frozen_at": "2026-08-03T22:21:13Z",
+      "hash_checks": {
+        "artifacts/short_term_ciz_execution_accounting_protocol_receipt.json": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md": true,
+        "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "usfddk/ciz_execution_accounting.py": true,
+        "usfddk/crsp_ciz_adapter.py": true
+      },
+      "passed": true
+    },
+    "provider_rows_published": false,
+    "removal_execution_windows": 1,
+    "signal_eligibility_rows": 2,
+    "signals": 1,
+    "status": "ciz_execution_extension_built_audit_required",
+    "strategy_rule_changed": false,
+    "transform_version": "round15-ciz-execution-extension-v1",
+    "wrds_queried": false
+  }
+}

@@ -40,6 +40,15 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /先補真實數據/);
+  assert.match(html, /EXECUTION EXTENSION · ROUND 15/);
+  assert.match(html, /合成 extension 16\/16、攻擊 16\/16；真實逐股數據仍是 1\/20/);
+  assert.match(html, /四項 schema 缺口已封口；市場證據仍未到位/);
+  assert.match(html, /每項都有可核對日期、計數或價格路徑/);
+  assert.match(html, /272(?:<!-- -->)?／(?:<!-- -->)?252/);
+  assert.match(html, /十六道 extension 閘門逐項呈列/);
+  assert.match(html, /十六項單一錯誤，全數以指定代碼停止/);
+  assert.match(html, /候選只有 251 個訊號前回報 session/);
+  assert.match(html, /只索取合法細樣本，不以合成 16\/16 先跑策略/);
   assert.match(html, /EXECUTION ACCOUNTING · ROUND 14/);
   assert.match(html, /退出會計 8\/12；十項攻擊全拒收，四項正式輸入仍缺/);
   assert.match(html, /退市沒有雙計，但正式引擎仍不可運行/);
@@ -47,7 +56,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /十二道閘門逐項呈列/);
   assert.match(html, /十項會計與成交攻擊，全數以指定代碼停止/);
   assert.match(html, /付款日前釋放派息現金/);
-  assert.match(html, /先補四項 execution extension，不得先跑策略/);
+  assert.match(html, /四項 extension 已在合成控制封口；真實數據仍未通過/);
   assert.match(html, /CRSP CIZ MAPPING · ROUND 13/);
   assert.match(html, /映射 20\/20、攻擊 12\/12 拒收/);
   assert.match(html, /成分生效日不是公布時間；退市儲存日不是退出日/);

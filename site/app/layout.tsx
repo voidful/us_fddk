@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第十四輪退出會計 8/12、十項攻擊全拒收，正式逐股回測仍未授權。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第十五輪 execution extension 合成控制 16/16、十六項攻擊全拒收，真實逐股數據仍為 1/20。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線第十四輪退出會計 8/12、十項攻擊全拒收，真實逐股數據 1/20，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線第十五輪 execution extension 合成控制 16/16、十六項攻擊全拒收，真實逐股數據 1/20，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [

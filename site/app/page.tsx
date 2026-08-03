@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import cizExecutionExtension from "../data/short-term-ciz-execution-extension.json";
 import cizExecutionAccounting from "../data/short-term-ciz-execution-accounting.json";
 import crspCizMapping from "../data/short-term-crsp-ciz-mapping.json";
 import providerQualification from "../data/short-term-provider-qualification.json";
@@ -19,7 +20,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十四輪退出會計 8/12、十項攻擊全拒收，正式逐股回測仍未授權。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十五輪 execution extension 合成控制 16/16、十六項攻擊全拒收，真實逐股數據仍為 1/20。",
 };
 
 const readerCapital = 1_000;
@@ -158,6 +159,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const extensionAttackRows = cizExecutionExtension.attacks;
 const executionAttackRows = cizExecutionAccounting.attacks;
 const cizAttackRows = crspCizMapping.attacks;
 const providerCapabilityRows = [
@@ -664,16 +666,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · EXECUTION ACCOUNTING · ROUND 14</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · EXECUTION EXTENSION · ROUND 15</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真實數據</h1>
               <p className="hero-lead">
-                第十四輪追查正式資產淨值會計：退市、現金收購、換股、拆細及分拆均只結算一次，十項雙計、提早入賬、缺價及時鐘攻擊 <strong>{cizExecutionAccounting.attack_summary.rejected}/{cizExecutionAccounting.attack_summary.total} 全部拒收</strong>；但十二道執行閘門只通過 <strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong>。Round 13 映射 20/20 是必要條件，不等於引擎可以落盤。
+                第十五輪把上輪四項缺口做成獨立 execution extension：派息 ex／pay-date、逐月候選歷史、移除後至下一重新平衡開市，以及同步 QQQ／SPY。合成 bridge 通過 <strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong>，事前固定的檔案、派息、歷史、成交、基準、成本及時鐘攻擊 <strong>{cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total} 全部拒收</strong>；但這只含三個合成 PERMNO 及 {cizExecutionExtension.synthetic_counts.benchmark_rows} 列合成基準，不是正式回測。
                 <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#ciz-execution-accounting">查看退出會計與四個缺口</a>
+                <a className="primary-button aggressive-button" href="#ciz-execution-extension">查看 extension 16/16</a>
+                <a className="secondary-button" href="#ciz-execution-accounting">查看退出會計 8/12</a>
                 <a className="secondary-button" href="#crsp-ciz-mapping">查看 CIZ 映射</a>
                 <a className="secondary-button" href="#provider-qualification">查看四條數據路徑</a>
                 <a className="secondary-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
@@ -683,15 +686,15 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>執行會計 {cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total} · 正式引擎未通過</b>
+                <b>Extension {cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total} · 只限合成控制</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>執行會計攻擊</dt><dd>{cizExecutionAccounting.attack_summary.rejected}/{cizExecutionAccounting.attack_summary.total} · 全部拒收</dd></div>
-                <div><dt>未解輸入</dt><dd>{cizExecutionAccounting.unresolved_execution_inputs.length} · 正式回測停止</dd></div>
+                <div><dt>Extension 攻擊</dt><dd>{cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>合成證據</dt><dd>{cizExecutionExtension.synthetic_counts.signal_eligibility_rows} 個候選資格 · {cizExecutionExtension.synthetic_counts.removal_execution_windows} 個移除窗口</dd></div>
                 <div><dt>供應商樣本</dt><dd>0 · 尚未取得合法數據</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
@@ -704,12 +707,84 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>執行會計閘門</span><strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong><small>四項輸入仍未完整</small></article>
+              <article><span>Extension 合成控制</span><strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong><small>不是供應商數據通過</small></article>
+              <article><span>執行會計閘門</span><strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong><small>舊八份賬本仍缺四項</small></article>
               <article><span>CIZ 映射控制</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><small>必要但不足以執行</small></article>
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="ciz-execution-extension">
+            <div className="section-heading">
+              <div><span>CIZ EXECUTION EXTENSION · ROUND 15</span><h2>合成 extension 16/16、攻擊 16/16；真實逐股數據仍是 1/20</h2></div>
+              <p>第十四輪找到四項不能靠舊賬本回答的問題。本輪沒有改寫舊 adapter，而是新增四份可雜湊、可重建的 execution 數據表，逐項證明 bridge 會拒絕缺日、雙重計算、不同步基準及同日成交。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>四項 schema 缺口已封口；市場證據仍未到位</h3>
+                <p>合成控制保留 dividend pay-date、至少 252 日訊號歷史、移除日至下一重新平衡 open 的完整價格，以及 QQQ／SPY 同步行情。這是工程可執行性，不是策略回報或供應商通過。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>合成控制／攻擊</span><strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total} · {cizExecutionExtension.attack_summary.rejected}/{cizExecutionExtension.attack_summary.total}</strong><p>十六道全過、十六項全拒收；每次攻擊均重算上游收據。</p></article>
+                <article><span>正式決策</span><strong>回測 0 · US$0</strong><p>合法樣本仍是 0；短線 Paper 保持全現金，不展示個股名單。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOUR CLOSED SCHEMA GAPS</span><h3>每項都有可核對日期、計數或價格路徑</h3></div>
+              <p>以下全部是合成控制，數字只描述測試 fixture；不會加入回測表現或變成買賣訊號。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第十五輪四項 execution extension 控制">
+              <article className="passed"><span>01</span><b>派息付款日</b><strong>{cizExecutionExtension.control_examples.dividend.ex_date} → {cizExecutionExtension.control_examples.dividend.pay_date}</strong><p>Ex-date 建立應收；pay-date 才成為可交易現金。</p></article>
+              <article className="passed"><span>02</span><b>訊號前歷史</b><strong>{cizExecutionExtension.control_examples.minimum_return_sessions}／252</strong><p>正成交量亦有 {cizExecutionExtension.control_examples.minimum_positive_volume_sessions} 個 session，門檻為 20。</p></article>
+              <article className="passed"><span>03</span><b>移除後成交路徑</b><strong>{cizExecutionExtension.control_examples.removal.observed_sessions}/{cizExecutionExtension.control_examples.removal.required_sessions} sessions</strong><p>{cizExecutionExtension.control_examples.removal.membership_effective_to} 移除，{cizExecutionExtension.control_examples.removal.execution_session} open 才退出。</p></article>
+              <article className="passed"><span>04</span><b>公平基準同步</b><strong>{cizExecutionExtension.synthetic_counts.benchmark_rows} 列</strong><p>QQQ／SPY 使用相同交易日、raw open、總回報及凍結成本。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIVE HASHED OUTPUTS</span><h3>原八份賬本不改；execution 層獨立對數</h3></div>
+              <p>Bridge 把每個關鍵判斷寫成可重建檔案，不把新欄位塞回舊 manifest 或事後改寫第十三輪證據。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第十五輪 execution extension 輸出">
+              <article className="passed"><span>01</span><b>cash_entitlements</b><strong>{cizExecutionExtension.synthetic_counts.cash_entitlements} 行</strong><p>公告、除息、付款及現金可用日分欄。</p></article>
+              <article className="passed"><span>02</span><b>signal_eligibility</b><strong>{cizExecutionExtension.synthetic_counts.signal_eligibility_rows} 行</strong><p>每個月末、每個永久 ID 的回報與流動性計數。</p></article>
+              <article className="passed"><span>03</span><b>removal_windows</b><strong>{cizExecutionExtension.synthetic_counts.removal_execution_windows} 行</strong><p>移除日至下一訊號後開市的完整路徑。</p></article>
+              <article className="passed"><span>04–05</span><b>benchmark＋manifest</b><strong>QQQ／SPY</strong><p>行情與 base／overlay／策略／輸出 SHA-256 一併鎖定。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN CONTROL CONTRACT</span><h3>十六道 extension 閘門逐項呈列</h3></div>
+              <p>16/16 只代表合成 bridge 可重現；真實供應商包仍須另行跑 20 道 point-in-time 閘門。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {cizExecutionExtension.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十六項單一錯誤，全數以指定代碼停止</h3></div>
+              <p>缺付款日、251 日歷史、19 日成交量、移除後缺價、QQQ／SPY 不同步、成本漂移及同日 open 全部直接拒收。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {extensionAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>只索取合法細樣本，不以合成 16/16 先跑策略</b></div>
+              <p>真實包須同時提供 CIZ point-in-time／退出列、DisPayDt、研究期前 252 日候選歷史及同步 QQQ／SPY raw open。真實 20/20 與 extension 16/16 都通過後，才可按凍結 v1 運行一次正式回測。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md" target="_blank" rel="noreferrer">第十五輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md" target="_blank" rel="noreferrer">事前 extension 協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_ciz_execution_extension_validation.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 
@@ -767,8 +842,8 @@ export default function Home() {
             </div>
 
             <div className="data-source-decision provider-decision">
-              <div><span>NEXT VALID ACTION</span><b>先補四項 execution extension，不得先跑策略</b></div>
-              <p>保留 dividend pay-date、每股訊號前 252 日、移除後至下一月度 open 的價格，以及同步 QQQ／SPY／QQQ 補位行情；四項齊備後仍須合法真實數據 20/20。</p>
+              <div><span>ROUND 15 FOLLOW-UP</span><b>四項 extension 已在合成控制封口；真實數據仍未通過</b></div>
+              <p>第十五輪已把 dividend pay-date、每股訊號前 252 日、移除後至下一重新平衡 open，以及同步 QQQ／SPY／QQQ 補位行情寫成獨立合約；本輪 8/12 歷史結果不被事後改寫。</p>
               <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_REPORT.md" target="_blank" rel="noreferrer">第十四輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md" target="_blank" rel="noreferrer">事前會計協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_ciz_execution_accounting_validation.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
