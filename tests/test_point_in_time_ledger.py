@@ -302,7 +302,7 @@ def test_distribution_without_corporate_action_is_rejected(tmp_path: Path) -> No
     bundle = _write_bundle(tmp_path)
     path = bundle / "daily_prices.csv"
     frame = pd.read_csv(path, dtype=str, keep_default_na=False)
-    frame.loc[0, "cash_distribution"] = 0.5
+    frame.loc[0, "cash_distribution"] = "0.5"
     frame.to_csv(path, index=False, lineterminator="\n")
     _refresh_receipt(bundle, path.name)
 
@@ -362,7 +362,7 @@ def test_price_after_permanent_exit_is_rejected_as_ghost_data(tmp_path: Path) ->
     frame.loc[0, "outcome_type"] = "delisted"
     frame.loc[0, "last_trade_date"] = "2026-07-30"
     frame.loc[0, "exit_effective_date"] = "2026-07-31"
-    frame.loc[0, "delisting_return"] = -0.5
+    frame.loc[0, "delisting_return"] = "-0.5"
     frame.loc[0, "reason_code"] = "DELIST"
     frame.to_csv(path, index=False, lineterminator="\n")
     _refresh_receipt(bundle, path.name)
