@@ -55,6 +55,7 @@
 - 短線第七輪在任何新數值前凍結[French 25 Size × Prior 協議](docs/SHORT_TERM_FRENCH_SIZE_PRIOR_PROTOCOL.md)，唯一候選為 value-weighted `Big Hi PRIOR 1–1`，並加入同 size 等權、全 25 cells、Big Lo、長窗動量、QQQ及 SPY。首次數據合約 10/10；1963–2005 候選 CAGR 4.61%，市場 10.82%，2006–2026 候選 9.71%，QQQ 16.18%；近期 50 bps 後 -0.36%，整體只過 14/44。完整[首次未見研究報告](docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md)保留；大型股隔離沒有救回短窗贏家，French cells 亦不是可落盤證券，Paper及實金仍為 US$0。
 - 短線第八輪把 filter lab 的全池傾斜未解問題轉為[French 25 Size × Prior 12–2 凍結協議](docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_PROTOCOL.md)：五個 size 各 20%，池內按排名 1:2:3:4:5 配重，並完整比較等權、平方、Top 2、Top 1、短窗負控制、French 市場、SPY及 QQQ。主要期候選 CAGR 12.36%勝市場 10.82%，近期卻只有 8.31%，低於市場 11.38%及 QQQ 16.18%；50 bps 後近期 -1.63%，總計只過 23/48。完整[首次未見研究報告](docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md)及集中度前沿保留；排名有殘餘不等於可落盤，Paper及實金仍為 US$0。
 - 短線第九輪不再在已見 French cells 上搜尋權重，而是事前凍結[逐股 point-in-time／退市賬本合約](docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md)。嚴格驗證永久證券 ID、歷史代號、成分公布／生效時間、固定 20 年交易日、在籍價格、公司行動、每段成分 outcome、退市／收購回報、歷史行業、股份類別及 D+1 成交共 20 道；合格合成 fixture 可 20/20，檔案被改、事後成分、ticker 重疊、退出缺回報及幽靈價格均會拒收。現時沒有合法供應商數據包，所以真實就緒度只有 **1/20**（只通過事前凍結），正式逐股回測未運行；完整[就緒度報告](docs/SHORT_TERM_POINT_IN_TIME_READINESS_REPORT.md)、Paper及實金仍為 US$0。
+- 短線第十輪另測試台股式每日環境共振：在下載任何新日檔前，固定 20／60 日市場趨勢、十組廣度、5／10／15／20 日至少兩窗共振、0／50／100% 持倉、5% 年度學術實作拖累、10／25／50 bps、早期／近期、QQQ／SPY／同池／相同持倉比率 baseline、6,208 次搜尋校正及 48 道門檻。首次官方日檔因精確 marker 多出 `Average ` 而在 4/9 停止；其後另立非獨立 schema repair，只修正該 marker。1963–2006 候選 CAGR 14.59%，2006–2026 卻只得 0.58%，遠低於 QQQ 16.81%；兩個固定十年均落後，204 個滾動三年窗只有 4.90% 勝 QQQ，NW t −4.21、DSR 幾乎為零。危機最大跌幅較淺，但總計只過 **27/48**。完整[研究報告](docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md)及原 4/9 收據均保留；French 組合不是可買證券，Paper、持倉及實金仍為 US$0。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -213,6 +214,9 @@ python scripts/build_short_term_high_return.py
 
 # 稽核短線逐股 point-in-time／退市數據入口；沒有合法數據包時產生 1/20 失敗關閉收據
 python scripts/audit_short_term_point_in_time_data.py
+
+# 只用凍結日檔重建第十輪每日環境共振 27/48 負結果；不重新下載或建立 Paper
+python scripts/build_short_term_daily_momentum_regime_report.py
 
 # 只用已凍結的首次 Vanguard 行業快照重建第三輪外部產品負結果
 python scripts/build_short_term_sector_etf.py

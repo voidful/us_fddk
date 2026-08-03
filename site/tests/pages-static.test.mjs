@@ -39,7 +39,12 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
-  assert.match(html, /逐股數據硬閘門/);
+  assert.match(html, /最新驗證失效/);
+  assert.match(html, /危機減倉有效，但近期回報幾乎消失/);
+  assert.match(html, /QQQ、SPY、原始動量與相同持倉比率全部列出/);
+  assert.match(html, /低成本假設亦救不到近期結果/);
+  assert.match(html, /跌幅較淺，不等於值得犧牲二十年升幅/);
+  assert.match(html, /非獨立 · (?:<!-- -->)?27(?:<!-- -->)?\/(?:<!-- -->)?48/);
   assert.match(html, /逐股數據就緒度：1\/20，先堵住存活者偏差/);
   assert.match(html, /展開全部 20 道數據閘門/);
   assert.match(html, /驗證器已能拒絕壞數據；真實供應商數據仍未到位/);

@@ -9,13 +9,14 @@ import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
+import dailyMomentumRegime from "../data/short-term-daily-momentum-regime.json";
 import sizeMomentumTiltResearch from "../data/short-term-french-size-momentum-tilt.json";
 import sizePriorResearch from "../data/short-term-french-size-prior.json";
 
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線個股／行業動量研究分頁呈列，完整比較回報、最大跌幅、baseline、驗證門檻及 Paper 狀態。",
+    "長線 ETF 分散策略與短線動量研究分頁呈列，完整比較 20 年回報、最大跌幅、QQQ／SPY baseline、成本、統計門檻及 Paper 狀態。",
 };
 
 const readerCapital = 1_000;
@@ -269,6 +270,26 @@ const sizeMomentumFrontierRows = [
   { label: "平方 1:4:9:16:25", result: sizeMomentumTiltResearch.concentration_frontier.squared },
   { label: "只持 Prior 4–5", result: sizeMomentumTiltResearch.concentration_frontier.top2 },
   { label: "只持 Prior 5", result: sizeMomentumTiltResearch.concentration_frontier.top1 },
+];
+const dailyRecent = dailyMomentumRegime.recent;
+const dailyEarly = dailyMomentumRegime.early;
+const dailyRepair = dailyMomentumRegime.repair_diagnostic;
+const dailyRecentRows = [
+  { label: "四證據環境共振", detail: "唯一凍結候選 · 5% 學術拖累 · 10 bps", metrics: dailyRecent.candidate, featured: true },
+  { label: "QQQ", detail: "實際 Nasdaq-100 ETF · 買入持有", metrics: dailyRecent.qqq },
+  { label: "SPY", detail: "實際美國大型股 ETF · 買入持有", metrics: dailyRecent.spy },
+  { label: "French 美國市場", detail: "Mkt-RF + RF · 買入持有", metrics: dailyRecent.market },
+  { label: "永久 Hi PRIOR", detail: "相同 5% 拖累 · 不做環境減倉", metrics: dailyRecent.raw_hi_prior },
+  { label: "相同持倉比率 French 市場", detail: "相同 0／50／100% 持倉時序", metrics: dailyRecent.matched_market_exposure },
+];
+const dailyCostRows = dailyRecent.cost_and_drag_grid.filter((row) =>
+  (row.annual_drag === 0.02 || row.annual_drag === 0.05 || row.annual_drag === 0.1)
+  && (row.overlay_cost_bps === 10 || row.overlay_cost_bps === 50)
+);
+const dailyStressRows = [
+  { label: "金融海嘯", result: dailyMomentumRegime.stress_periods_recent.global_financial_crisis },
+  { label: "新冠急跌", result: dailyMomentumRegime.stress_periods_recent.covid_crash },
+  { label: "2022 加息衝擊", result: dailyMomentumRegime.stress_periods_recent.rate_shock_2022 },
 ];
 
 export default function Home() {
@@ -617,27 +638,25 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · POINT-IN-TIME LEDGER · ROUND 9</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DAILY REGIME · ROUND 10</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />逐股數據硬閘門</h1>
+              <h1>短線高回報<br />最新驗證失效</h1>
               <p className="hero-lead">
-                第八輪全池動量傾斜近期只有 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}，遠低於 QQQ 的 {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}；再在已見 French cells 上調權重，只會增加事後選擇偏誤。
-                第九輪因此鎖死正式逐股入口：永久證券 ID、當時成分、退市／收購回報、公司行動、歷史行業、原始價及 D+1 成交全部要通過。
-                現時只完成事前凍結，真實數據就緒度為 <strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong>。
-                <strong>沒有授權 point-in-time 數據就不運行正式回測；短線 Paper、持倉及實金動作均為 US$0</strong>。
+                第十輪把台股方法的 20／60 日趨勢、廣度及多窗共振，事前翻譯成每日 0／50／100% Hi PRIOR 持倉。近期 20 年 CAGR 只有 <strong>{pct(dailyRecent.candidate.cagr, 2)}</strong>，QQQ 為 <strong>{pct(dailyRecent.qqq.cagr, 2)}</strong>；48 道數據、跨期、成本、統計及機制門檻只過 <strong>{dailyRepair.passed}/{dailyRepair.required}</strong>。
+                風控在三段危機減輕跌幅，但長期升幅損失過大，不能推薦。
+                <strong>逐股 point-in-time 數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}；短線 Paper、持倉及實金動作均為 US$0</strong>。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#point-in-time-readiness">查看最新 1/20 數據閘門</a>
-                <a className="secondary-button" href="#size-momentum-tilt-diagnostic">查看第八輪 23/48</a>
-                <a className="secondary-button" href="#size-prior-diagnostic">查看上一輪 14/44</a>
+                <a className="primary-button aggressive-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
+                <a className="secondary-button" href="#point-in-time-readiness">查看 1/20 數據閘門</a>
                 <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 正式逐股回測未獲准</b>
+                <b>{dailyRepair.passed}/{dailyRepair.required} · 近期經濟驗證失敗</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
@@ -645,8 +664,8 @@ export default function Home() {
               </div>
               <dl className="decision-list">
                 <div><dt>數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 等待授權數據</dd></div>
-                <div><dt>最新機制結果</dt><dd>第八輪 {sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count} · 失敗</dd></div>
-                <div><dt>近期機會成本</dt><dd>候選 {pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}／QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</dd></div>
+                <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
+                <div><dt>近期機會成本</dt><dd>候選 {pct(dailyRecent.candidate.cagr, 2)}／QQQ {pct(dailyRecent.qqq.cagr, 2)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
               </dl>
               <p>US$1,000 複利數字只解釋歷史尺度，不包括通脹、稅項及真實買賣差價，亦不是預測。</p>
@@ -656,12 +675,77 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
-              <article><span>第八輪經濟門檻</span><strong>{sizeMomentumTiltResearch.passed_gate_count}/{sizeMomentumTiltResearch.required_gate_count}</strong><small>判定失敗</small></article>
-              <article><span>2006–2026 CAGR</span><strong>{pct(sizeMomentumRecent.candidate_metrics.cagr, 2)}</strong><small>QQQ {pct(sizeMomentumRecent.baseline_metrics.QQQ.cagr, 2)}</small></article>
-              <article><span>近期 50 bps CAGR</span><strong>{pct(sizeMomentumRecent.candidate_50bps_metrics.cagr, 2)}</strong><small>完整換倉成本後轉負</small></article>
+              <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
+              <article><span>2006–2026 CAGR</span><strong>{pct(dailyRecent.candidate.cagr, 2)}</strong><small>QQQ {pct(dailyRecent.qqq.cagr, 2)}</small></article>
+              <article><span>近期最大跌幅</span><strong>{pct(dailyRecent.candidate.max_drawdown, 1)}</strong><small>仍接近五成</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
             </div>
+          </section>
+
+          <section className="section wrap" id="daily-momentum-regime">
+            <div className="section-heading">
+              <div><span>DAILY MOMENTUM REGIME · ROUND 10</span><h2>危機減倉有效，但近期回報幾乎消失</h2></div>
+              <p>唯一候選、訊號延遲一日、5% 學術實作拖累、10／25／50 bps、早期／近期、固定 baseline 及 48 道門檻均在結果前鎖定。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict">
+                <span>最新研究判斷</span>
+                <h3>早期 {pct(dailyEarly.candidate.cagr, 2)}，近期只餘 {pct(dailyRecent.candidate.cagr, 2)}</h3>
+                <p>候選早期勝 French 市場，但 1985–2006 已轉為落後；近期兩個固定十年都輸 QQQ，204 個滾動三年窗只有 {pct(dailyRecent.rolling_three_year.cagr_win_fraction, 1)} 勝出。這是跨世代失效，不是單一危機或起點問題。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>原始數據合約</span><strong>{dailyMomentumRegime.original_data_contract.passed}/{dailyMomentumRegime.original_data_contract.required}</strong><p>官方 marker 比映射多一個 Average；原輪在策略計算前停止，失敗收據保留。</p></article>
+                <article><span>Schema repair</span><strong>非獨立 · {dailyRepair.passed}/{dailyRepair.required}</strong><p>只精確修正 marker，不重下載或改門檻；因已看見原始 schema，不能冒充首次未見證據。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>RECENT 20 YEARS · FAIR BASELINES</span><h3>QQQ、SPY、原始動量與相同持倉比率全部列出</h3></div>
+              <p>French Hi PRIOR 是 CRSP-based 學術組合而非可買 ETF；US$1,000 只量度歷史複利尺度，不是預測。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table">
+                <thead><tr><th>策略／baseline</th><th>年率化回報</th><th>超額 Sharpe</th><th>波幅</th><th>最大跌幅</th><th>每年換手</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{dailyRecentRows.map((row) => (
+                  <tr key={row.label} className={row.featured ? "featured-row" : undefined}>
+                    <th><b>{row.label}</b><span>{row.detail}</span></th><td>{pct(row.metrics.cagr, 2)}</td><td>{multiple(row.metrics.excess_sharpe)}</td><td>{pct(row.metrics.volatility, 1)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{multiple(row.metrics.annual_turnover, 1)}×</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, STABILITY & STATISTICS</span><h3>低成本假設亦救不到近期結果</h3></div>
+              <p>成本表同時改變年度學術拖累與每日持倉轉換成本；所有組合仍沿用同一訊號。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>年度學術拖累</th><th>轉倉成本</th><th>近期 CAGR</th><th>最大跌幅</th><th>US$1,000 期末值</th></tr></thead>
+                <tbody>{dailyCostRows.map((row) => (
+                  <tr key={`${row.annual_drag}-${row.overlay_cost_bps}`}>
+                    <th><b>{pct(row.annual_drag, 0)}</b><span>事前固定敏感度</span></th><td>{row.overlay_cost_bps} bps</td><td>{pct(row.metrics.cagr, 2)}</td><td>{pct(row.metrics.max_drawdown, 1)}</td><td>{money(row.metrics.hypothetical_1000_usd_end)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="short-evidence-grid">
+              <article><span>兩個固定十年</span><strong>{pp(dailyRecent.first_half.cagr_difference)}／{pp(dailyRecent.second_half.cagr_difference)}</strong><p>均為候選相對 QQQ 的 CAGR 差，沒有用單一完整期掩蓋後半失效。</p></article>
+              <article><span>相對 QQQ 統計</span><strong>NW t {dailyRecent.newey_west_vs_qqq.t_stat.toFixed(2)}</strong><p>PSR {pct(dailyRecent.psr_vs_qqq, 2)}；經 6,208 次全專案搜尋校正後 DSR 幾乎為零。</p></article>
+              <article><span>平均持倉比率／每年換手</span><strong>{pct(dailyRecent.exposure.average, 1)}／{multiple(dailyRecent.candidate.annual_turnover, 1)}×</strong><p>只准 0／50／100%，不借款、不沽空；高換手令 25／50 bps 結果快速惡化。</p></article>
+              <article><span>近期三因子 alpha</span><strong>{pct(dailyRecent.factor_regression.annualized_alpha, 2)}</strong><p>市場 beta {multiple(dailyRecent.factor_regression.market_beta)}；負 alpha 反駁「純粹因低 beta 才落後」的解釋。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CRISIS CHECK</span><h3>跌幅較淺，不等於值得犧牲二十年升幅</h3></div>
+              <p>三段危機只作固定壓力測試；不以事後危機日期改變候選訊號。</p>
+            </div>
+            <div className="context-grid">
+              {dailyStressRows.map((row) => (
+                <article key={row.label}><span>{row.label}</span><strong>{pct(row.result.candidate.max_drawdown, 1)}</strong><p>候選最大跌幅；QQQ 為 {pct(row.result.qqq.max_drawdown, 1)}。風控有作用，但不能抵銷長期回報缺口。</p></article>
+              ))}
+            </div>
+            <div className="comparison-caveat"><b>最新決策：</b><p>第十輪 27/48 失敗，參數不救援；Paper、持倉及實金動作均為 US$0。下一個正式逐股研究仍須先把 point-in-time／退市賬本由 1/20 提升至 20/20，再按已凍結 v1 原樣運行。</p></div>
           </section>
 
           <section className="section wrap" id="point-in-time-readiness">
