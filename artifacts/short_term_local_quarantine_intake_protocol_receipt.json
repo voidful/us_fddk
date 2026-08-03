@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "research_round": 17,
+  "status": "frozen_before_provider_mode_bridge_or_intake_implementation",
+  "frozen_at": "2026-08-03T23:27:33Z",
+  "git_head_at_freeze": "e5a4a1a160403f29aa267cecff13cf1f5b77f50a",
+  "protocol": {
+    "path": "docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md",
+    "sha256": "6fffcd35ce35792d418b8f0aaed3f089b303c7220701c6e6a50734fb94636913"
+  },
+  "round16_protocol": {
+    "path": "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md",
+    "sha256": "4cd6da3541243573ab3a0113eebd26b581831ad31765b4fdc0a82c998703e754"
+  },
+  "round16_protocol_receipt": {
+    "path": "artifacts/short_term_authorized_data_handoff_protocol_receipt.json",
+    "sha256": "4870cbaceb154a777951102d641eeee9e33b6ae96744f9a3dbc7f15b6a6ab37a"
+  },
+  "round16_response_schema": {
+    "path": "schemas/short_term_authorized_data_response.schema.json",
+    "sha256": "001e27e902f55a9a2a569420a5b01c780b05d1466924bc4372b49294017a5986"
+  },
+  "round16_validator_at_freeze": {
+    "path": "usfddk/authorized_data_handoff.py",
+    "sha256": "5fce984e62f13b773d9b03de78bb1ca133db95678b43b39cd0c6e534a6476e27"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "point_in_time_manifest_schema": {
+    "path": "schemas/short_term_point_in_time_manifest.schema.json",
+    "sha256": "f6fba2f7117381c4bea3bde3db4f730bd282d6cc991d0e7b1df0e4ac1a24f160"
+  },
+  "point_in_time_auditor_at_freeze": {
+    "path": "usfddk/point_in_time_ledger.py",
+    "sha256": "a3ac7194b4858c2b754a3f7331755fd86678e68d2560c6d120b17ae07fa6272b"
+  },
+  "round12_protocol": {
+    "path": "docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md",
+    "sha256": "50d58265c36d126bcf4b315abbbc4bbf433b077d1e5a05b8d409e6a0e0c5f7a3"
+  },
+  "round12_protocol_receipt": {
+    "path": "artifacts/short_term_crsp_sample_acceptance_protocol_receipt.json",
+    "sha256": "52d408375ff3c00734000ca28a7222c4a87843f075cb292849fe092aaf443c28"
+  },
+  "round13_protocol": {
+    "path": "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md",
+    "sha256": "0b0f9d97f18427a21df7def9002993464fcfde86856068e654e1e066ffdaac87"
+  },
+  "round13_protocol_receipt": {
+    "path": "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json",
+    "sha256": "41d79548f003f0b5a33c007b5ab620d72aa65680393ea1de246591011bc6fc53"
+  },
+  "round13_adapter_at_freeze": {
+    "path": "usfddk/crsp_ciz_adapter.py",
+    "sha256": "2ce8c8c6d760153d094c9511c9a1d2aa9a510328c729e289abdb523618d6cbab"
+  },
+  "round15_protocol": {
+    "path": "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md",
+    "sha256": "49582d2e7fae7e25897b59adb5322b17424865f5f6b34040d8f6392446fe9883"
+  },
+  "round15_protocol_receipt": {
+    "path": "artifacts/short_term_ciz_execution_extension_protocol_receipt.json",
+    "sha256": "48283ea35b00c4a1a9ca75d45e075b13c66d4530972ccb96a2495ea9bcc6a993"
+  },
+  "round15_bridge_at_freeze": {
+    "path": "usfddk/ciz_execution_extension.py",
+    "sha256": "748cfbaebe987851cf71294bd4ed38c623180abf6de8c47d625c5420e4f3c7eb"
+  },
+  "strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
+  },
+  "frozen_prerequisite_hash_count": 16,
+  "frozen_control_gate_count": 16,
+  "frozen_attack_count": 16,
+  "provider_mode_bridge_implemented_at_freeze": false,
+  "local_intake_cli_implemented_at_freeze": false,
+  "authorized_provider_response_present_at_freeze": false,
+  "authorized_provider_sample_present_at_freeze": false,
+  "formal_stock_backtest_completed_at_freeze": false,
+  "short_term_paper_authorized_at_freeze": false,
+  "strategy_rule_changed": false,
+  "real_money_action_usd": 0
+}
