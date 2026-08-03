@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 const REVEAL_SELECTOR = [
   "main > .truth-strip > div",
+  "main .capital-brief-head",
+  "main .capital-brief-note",
   "main .section-heading",
   "main article",
   "main .gate-list > div",

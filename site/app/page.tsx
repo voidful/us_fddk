@@ -7,8 +7,10 @@ import data from "../data/trading-data.json";
 
 export const metadata: Metadata = {
   title: "成長守門員 v2｜美股 ETF 研究訊號",
-  description: "v25 三條實際 20 年美股成長＋黃金驗證、Paper Trading（模擬交易）、公平基準與初學投資者可讀的風險判讀。",
+  description: "以 US$1,000 一眼看懂 v25 美股成長＋黃金 Paper Trading（模擬交易）試算、20 年驗證、公平基準與風險判讀。",
 };
+
+const readerCapital = 1_000;
 
 const labels: Record<string, { name: string; role: string }> = {
   QQQ: { name: "NASDAQ 100", role: "成長引擎" },
@@ -167,10 +169,10 @@ export default function Home() {
           <span>成長守門員 v2</span>
         </a>
         <nav aria-label="主要導覽">
+          <a href="#capital-brief">US$1,000 摘要</a>
           <a href="#v25-paper">v25 模擬交易</a>
           <a href="#evidence">證據</a>
-          <a href="#challenger">v3 研究</a>
-          <a href="#paper">模擬交易</a>
+          <a href="#challenger">完整研究</a>
           <a href="#risks">風險</a>
         </nav>
         <FreshnessGuard
@@ -203,9 +205,9 @@ export default function Home() {
               但目前仍只到 {data.data_through}。請先更新市場數據、Paper 狀態與部署版本。
             </p>
             <div className="hero-actions">
-              <a className="button primary fresh-only" href="#v25-paper">看 v25 Paper 訊號</a>
+              <a className="button primary fresh-only" href="#capital-brief">看 US$1,000 摘要</a>
               <a className="button danger stale-only" href="#risks">查看為何停止參考</a>
-              <a className="button ghost" href="#evidence">先看證據</a>
+              <a className="button ghost" href="#evidence">查看完整證據</a>
             </div>
           </div>
 
@@ -253,6 +255,72 @@ export default function Home() {
               <code>refresh due {data.freshness.refresh_due_at_utc}</code>
             </div>
           </article>
+        </section>
+
+        <section className="capital-brief wrap" id="capital-brief" aria-labelledby="capital-brief-title">
+          <div className="capital-brief-head">
+            <div>
+              <p className="eyebrow">US$1,000 REPORT SNAPSHOT · PAPER FIRST</p>
+              <h2 id="capital-brief-title">一眼看懂：<br />這筆本金今天怎樣處理。</h2>
+            </div>
+            <div className={`capital-verdict ${growthGoldReady ? "ready" : "blocked"}`}>
+              <span>今日實金動作</span>
+              <strong>{growthGoldReady ? "80 / 20" : "US$0"}</strong>
+              <small>{growthGoldReady ? "門檻通過後才可作配置參考" : "前瞻門檻未完成，維持 Paper-only"}</small>
+            </div>
+          </div>
+
+          <div className="capital-brief-grid">
+            <article className="capital-card" aria-label="US$1,000 Paper 配置試算">
+              <div className="capital-card-title">
+                <span>示例投資本金</span>
+                <strong>{money(readerCapital)}</strong>
+                <p>{growthGoldReady ? "通過完整前瞻門檻後的固定比例參考。" : "只作 Paper 試算，不代表現在應投入這筆本金。"}</p>
+              </div>
+              <div className="capital-split">
+                <div>
+                  <span>80% · 成長核心</span>
+                  <b>VUG</b>
+                  <strong>{money(readerCapital * 0.8)}</strong>
+                </div>
+                <div>
+                  <span>20% · 黃金分散</span>
+                  <b>GLD</b>
+                  <strong>{money(readerCapital * 0.2)}</strong>
+                </div>
+              </div>
+              <div className="capital-scale" aria-label="VUG 80%，GLD 20%"><i /><b /></div>
+            </article>
+
+            <div className="capital-metrics" aria-label="US$1,000 報告關鍵數字">
+              <article>
+                <span>20 年年率化回報</span>
+                <strong>{pct(growthGoldPooled.strategy_metrics.cagr, 2)}</strong>
+                <p>SPY 同期 {pct(growthGoldPooled.spy_metrics.cagr, 2)}</p>
+              </article>
+              <article>
+                <span>歷史最大跌幅</span>
+                <strong>{pct(growthGoldPooled.strategy_metrics.max_drawdown, 1)}</strong>
+                <p>US$1,000 曾可能跌至約 {money(readerCapital * (1 + growthGoldPooled.strategy_metrics.max_drawdown))}</p>
+              </article>
+              <article>
+                <span>跨產品驗證</span>
+                <strong>3 × 12/12</strong>
+                <p>Vanguard、iShares、State Street 同規則通過</p>
+              </article>
+              <article>
+                <span>前瞻進度</span>
+                <strong>{growthGoldForward.forward_sessions} / {growthGoldForward.minimum_sessions}</strong>
+                <p>{growthGoldForward.filled_rebalances} / {growthGoldForward.minimum_filled_rebalances} 次完成重新平衡</p>
+              </article>
+            </div>
+          </div>
+
+          <div className="capital-brief-note">
+            <p><b>專業判讀：</b>歷史資格通過，但前瞻樣本仍不足。US$800／US$200 是比例示範；未計碎股限制、佣金、買賣差價、匯率及稅項。</p>
+            <p><b>研究口徑：</b>標準化 Paper 比較帳戶仍以 US$100,000 同日起跑，沒有改寫凍結合約；此處只把讀者試算本金改為 US$1,000。</p>
+            <code>數據截至 {data.data_through} · 更新期限 {data.freshness.refresh_due_at_utc.replace("T", " ").replace("Z", " UTC")}</code>
+          </div>
         </section>
 
         <section className="readiness-section wrap" id="v25-paper" aria-labelledby="v25-paper-title">

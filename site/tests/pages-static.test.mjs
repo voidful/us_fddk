@@ -10,6 +10,9 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   );
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
   assert.match(html, /今天不落盤/);
+  assert.match(html, /US\$1,000 REPORT SNAPSHOT/);
+  assert.match(html, /US\$800/);
+  assert.match(html, /US\$200/);
   assert.match(html, /v25 Paper 市場數據截止/);
   assert.match(html, /\/us_fddk\/assets\//);
   assert.ok(html.includes(`${publicSiteRoot}/og.png`));

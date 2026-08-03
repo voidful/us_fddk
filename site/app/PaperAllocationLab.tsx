@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 const money = (value: number) =>
-  new Intl.NumberFormat("zh-TW", {
+  new Intl.NumberFormat("zh-HK", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
@@ -15,7 +15,7 @@ const allocations = [
 ];
 
 export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }) {
-  const [capital, setCapital] = useState(100_000);
+  const [capital, setCapital] = useState(1_000);
   const safeCapital = useMemo(
     () => Math.max(0, Math.min(capital || 0, 100_000_000)),
     [capital],
@@ -26,7 +26,7 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
       <div className="paper-lab-heading">
         <div>
           <span>{paperOnly ? "PAPER 模擬交易試算 · 不會落盤" : "前瞻門檻通過 · 參考試算"}</span>
-          <h3>把 80/20 換成看得懂的金額</h3>
+          <h3>以 US$1,000 看懂固定 80/20</h3>
         </div>
         <p>
           {paperOnly
@@ -37,7 +37,7 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
       <div className="calculator-shell paper-calculator">
         <div className="capital-control">
           <label htmlFor="v25-paper-capital">
-            {paperOnly ? "假設的 Paper 本金（美元）" : "參考本金（美元）"}
+            {paperOnly ? "示例 Paper 本金（美元）" : "參考本金（美元）"}
           </label>
           <div className="money-input">
             <span>$</span>
@@ -47,13 +47,13 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
               type="number"
               min="0"
               max="100000000"
-              step="1000"
+              step="100"
               value={capital}
               onChange={(event) => setCapital(Number(event.target.value))}
             />
           </div>
           <div className="quick-values" aria-label="快速選擇 Paper 本金">
-            {[10_000, 50_000, 100_000, 500_000].map((amount) => (
+            {[1_000, 5_000, 10_000, 50_000].map((amount) => (
               <button
                 type="button"
                 className={capital === amount ? "active" : ""}
@@ -85,8 +85,8 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
           ))}
           <p className="paper-calculator-warning">
             {paperOnly
-              ? "目前實金動作仍是 0；這兩個金額只存在於瀏覽器試算，不會寫入 Paper 模擬組合。"
-              : "此處只是配置參考，不會自動落盤或保證成交。"}
+              ? "目前實金動作仍是 0；這兩個金額只存在於瀏覽器試算，不會寫入 Paper 模擬組合。未計碎股限制、佣金、買賣差價、匯率及稅項。"
+              : "此處只是配置參考，不會自動落盤或保證成交；未計碎股限制、佣金、買賣差價、匯率及稅項。"}
           </p>
         </div>
       </div>

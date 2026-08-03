@@ -28,6 +28,14 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /今天不落盤/);
   assert.match(html, /Paper Trading（模擬交易）/);
   assert.match(html, /v25 先做 Paper/);
+  assert.match(html, /US\$1,000 摘要/);
+  assert.match(html, /US\$1,000 REPORT SNAPSHOT/);
+  assert.match(html, /示例投資本金/);
+  assert.match(html, /US\$800/);
+  assert.match(html, /US\$200/);
+  assert.match(html, /20 年年率化回報/);
+  assert.match(html, /標準化 Paper 比較帳戶仍以 US\$100,000 同日起跑/);
+  assert.match(html, /只把讀者試算本金改為 US\$1,000/);
   assert.match(html, /第一個跨三家產品通過的候選/);
   assert.match(html, /v25 PAPER 目標，不是實金指令/);
   assert.match(html, /VUG 大型成長股/);
@@ -43,7 +51,10 @@ test("server-renders the beginner trading reference", async () => {
   assert.match(html, /12 月區塊重抽樣/);
   assert.match(html, /這不是未來勝率/);
   assert.match(html, /PAPER 模擬交易試算 · 不會落盤/);
-  assert.match(html, /假設的 Paper 本金/);
+  assert.match(html, /示例 Paper 本金/);
+  assert.match(html, /以 US\$1,000 看懂固定 80\/20/);
+  assert.match(html, /value="1000"/);
+  assert.match(html, /未計碎股限制、佣金、買賣差價、匯率及稅項/);
   assert.match(html, /目前實金動作仍是 0/);
   assert.match(html, /LIVE PAPER · 同起點公平競賽/);
   assert.match(html, /不是看回測冠軍，是看三個真實等待中的組合/);
