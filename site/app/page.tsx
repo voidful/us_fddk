@@ -614,6 +614,11 @@ export default function Home() {
                 <article className="failed"><span>05</span><div><b>NW、DSR 與 PBO</b><strong>失敗</strong><p>NW t {shortComparison.active_newey_west.t_stat.toFixed(2)}；DSR {pct(shortComparison.active_global_deflated_sharpe.probability, 1)}；PBO {pct(shortResearch.pbo_across_four_current_cohort_variants.pbo, 1)}。</p></div></article>
                 <article className="failed"><span>06</span><div><b>前瞻 Paper</b><strong>未啟動</strong><p>入口全過後才由全現金累積 252 日及 12 次月度輪選，不回填成交。</p></div></article>
               </div>
+              <div className="data-source-decision">
+                <div><span>DATA SOURCE AUDIT</span><b>免費歷史名單不等於無偏差價格</b></div>
+                <p>公開成分名單沒有退市總回報；Yahoo 亦不能完整覆蓋退出及改名股票。正式下一輪只接受 CRSP／WRDS 或 Norgate 等可同時提供逐日成分與退市回報的來源，未取得權限前不拼湊假 20 年結果。</p>
+                <div className="data-source-links"><a href="https://github.com/hanshof/sp500_constituents" target="_blank" rel="noreferrer">免費名單稽核</a><a href="https://norgatedata.com/data-content-tables.php" target="_blank" rel="noreferrer">Norgate 覆蓋</a><a href="https://www.crsp.org/crsp_pdf/crsp-historical-indexes-guide/" target="_blank" rel="noreferrer">CRSP 指南</a></div>
+              </div>
               <p className="aggressive-final-decision"><b>目前決策：</b>繼續研究數據層，但不開短線 Paper。先補逐期 S&amp;P 500 成分、退市／收購回報、歷史行業及公司行動賬本，再按同一凍結規則只重跑一次；實金及 Paper 動作均為 US$0。</p>
               <div className="protocol-link"><span>研究定義 v1.1 · 2026-08-03 執行</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">完整協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a></div></div>
             </div>

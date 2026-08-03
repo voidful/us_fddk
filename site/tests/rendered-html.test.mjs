@@ -41,6 +41,8 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /23\.04%/);
   assert.match(html, /PBO .*69\.0%/);
   assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
+  assert.match(html, /免費歷史名單不等於無偏差價格/);
+  assert.match(html, /CRSP／WRDS/);
   assert.match(html, /tst_wocker_filter_lab/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });

@@ -29,6 +29,7 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /表面跑贏 QQQ，仍未證明輪選有價值/);
   assert.match(html, /現時完整股池漂移/);
   assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
+  assert.match(html, /免費歷史名單不等於無偏差價格/);
   assert.match(html, /21\.52%/);
   assert.match(html, /23\.04%/);
   assert.match(html, /181 個滾動五年窗/);

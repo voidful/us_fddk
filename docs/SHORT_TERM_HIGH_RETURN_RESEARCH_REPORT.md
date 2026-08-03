@@ -102,6 +102,25 @@ Paper 入口維持關閉，短線配置及實金動作均為 US$0。下一輪只
 v1 規則只重跑一次。若無法取得合格數據，改用連續存在的 ETF／學術組合做機制研究，
 但不得把它包裝成個股策略成功。
 
+### 數據入口稽核
+
+- [`hanshof/sp500_constituents`](https://github.com/hanshof/sp500_constituents) 以 MIT 授權
+  提供 1996 年後歷史成分名單；本輪核對的提交為
+  `a91ef88fad5ace83bed1f3452f451247295bcd18`，數據終點 2025-08-23。它沒有退市價格、
+  退市回報或公司行動賬本，因此只足以改善 membership，不足以通過正式入口。
+- [`fja05680/sp500`](https://github.com/fja05680/sp500) 的維護說明明確指出，Yahoo 只保留
+  現時股票歷史，要取得退市及改名股票的時間序列仍需購買數據；其早期名單亦可能不滿
+  500 隻。故不把兩個免費來源拼成「完整無偏差數據」。
+- [Norgate 官方數據表](https://norgatedata.com/data-content-tables.php) 顯示美國歷史指數
+  成分只在 Platinum／Diamond 訂閱提供；[官方 FAQ](https://norgatedata.com/data-package-faq.php)
+  說明它不派發原始歷史名單，而是由插件逐日回答成分資格。
+- [CRSP 歷史指數指南](https://www.crsp.org/crsp_pdf/crsp-historical-indexes-guide/)
+  說明其 S&P 500 指數數據處理缺失月末價格及退市回報。這類 institutional source 才能
+  支持正式 20 年個股回測。
+
+目前沒有獲授權的 CRSP／WRDS 或 Norgate 數據路徑，也沒有購買訂閱的授權。這是下一輪
+唯一可接受的外部阻塞；在解除前，研究可以繼續做 ETF／學術代理，但不得升級個股 Paper。
+
 ## 可重現性
 
 輸入快照 SHA-256：`d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b`
