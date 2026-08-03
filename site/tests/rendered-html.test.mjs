@@ -43,6 +43,10 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /台股短窗規則直譯：三版均未勝 QQQ/);
   assert.match(html, /免費歷史名單不等於無偏差價格/);
   assert.match(html, /CRSP／WRDS/);
+  assert.match(html, /拆走止賺止蝕後，20 日排序有正差/);
+  assert.match(html, /5(?:<!-- -->)?\/(?:<!-- -->)?5(?:<!-- -->)? 表面通過/);
+  assert.match(html, /NW t .*3\.03/);
+  assert.match(html, /訊號協議/);
   assert.match(html, /tst_wocker_filter_lab/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
 });

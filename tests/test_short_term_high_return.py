@@ -60,3 +60,32 @@ def test_taiwan_rule_translation_is_an_ablation_not_a_promoted_strategy() -> Non
     assert translation["results"]["tw_v85_weekly_spy_regime"]["max_drawdown"] > data[
         "frozen_candidate"
     ]["metrics"]["max_drawdown"]
+
+
+def test_signal_layer_diagnostic_is_positive_but_cannot_open_paper() -> None:
+    data = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    diagnostic = data["taiwan_reference_signal_layer_diagnostic"]
+    primary = diagnostic["horizons"]["20"]
+    comparison = primary["comparisons"]["eligible_equal"]
+    bootstrap = primary[
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal"
+    ]
+
+    assert diagnostic["protocol_commit"].startswith("444328e")
+    assert diagnostic["valid_for_investment_decision"] is False
+    assert diagnostic["survivorship_bias_warning"] is True
+    assert diagnostic["paper_effect"] == "none_current_cohort_diagnostic_only"
+    assert diagnostic["has_follow_up_research_value"] is True
+    assert diagnostic["passed_primary_gate_count"] == 5
+    assert primary["events"] == 905
+    assert comparison["mean_difference"] > 0.0
+    assert comparison["newey_west"]["t_stat"] >= 1.96
+    assert bootstrap["low"] > 0.0
+    assert all(
+        row["mean_difference"] > 0.0
+        for row in primary["fixed_halves_vs_eligible_equal"].values()
+    )
+    assert not any(
+        "ticker" in key or "symbol" in key or "selected" in key
+        for key in primary["event_series"][0]
+    )

@@ -94,6 +94,8 @@ const shortCandidate = shortResearch.frozen_candidate;
 const shortBaselines = shortResearch.baselines;
 const shortComparison = shortResearch.comparison_vs_qqq;
 const shortTranslation = shortResearch.taiwan_reference_translation_ablation.results;
+const shortSignal = shortResearch.taiwan_reference_signal_layer_diagnostic;
+const shortSignalPrimary = shortSignal.horizons["20"];
 const shortCostRows = [
   { label: "10 bps", metrics: shortCandidate.cost_sensitivity["10_bps"] },
   { label: "25 bps", metrics: shortCandidate.cost_sensitivity["25_bps"] },
@@ -103,6 +105,11 @@ const shortTranslationRows = [
   { key: "tw_v85_weekly", label: "20 日動量＋60 日趨勢", metrics: shortTranslation.tw_v85_weekly },
   { key: "tw_v85_weekly_spy_regime", label: "再加 SPY 市場環境", metrics: shortTranslation.tw_v85_weekly_spy_regime },
   { key: "tw_v85_weekly_spy_regime_corr", label: "再加相關性濾網", metrics: shortTranslation.tw_v85_weekly_spy_regime_corr },
+];
+const shortSignalRows = [
+  { label: "5 日", result: shortSignal.horizons["5"] },
+  { label: "10 日", result: shortSignal.horizons["10"] },
+  { label: "20 日（主要）", result: shortSignal.horizons["20"] },
 ];
 const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical_gates).filter(Boolean).length;
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
@@ -572,6 +579,34 @@ export default function Home() {
                 ))}</tbody>
               </table>
             </div>
+            <div className="subsection-heading stock-heading">
+              <div><span>SIGNAL-LAYER DIAGNOSTIC</span><h3>拆走止賺止蝕後，20 日排序有正差</h3></div>
+              <p>協議在首次計算前提交；每週訊號於下一開市進場，固定持有，所有事件組合扣來回 20 bps。這只回答訊號層問題，不是可落盤策略。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table short-result-table signal-diagnostic-table">
+                <thead><tr><th>固定持有期</th><th>事件</th><th>Top-7 平均淨回報</th><th>合資格池等權</th><th>配對差</th><th>NW t</th><th>Bootstrap 95% 區間</th></tr></thead>
+                <tbody>{shortSignalRows.map((row) => {
+                  const comparison = row.result.comparisons.eligible_equal;
+                  const bootstrapRange = row.result.moving_block_bootstrap_mean_difference_vs_eligible_equal;
+                  return (
+                    <tr key={row.label} className={row.result.holding_sessions === 20 ? "featured-row" : undefined}>
+                      <th><b>{row.label}</b><span>每週 Top-7 · 固定離場</span></th>
+                      <td>{row.result.events}</td>
+                      <td>{pct(row.result.net_return_summary.top7_mean, 2)}</td>
+                      <td>{pct(row.result.net_return_summary.eligible_equal_mean, 2)}</td>
+                      <td>{pp(comparison.mean_difference)}</td>
+                      <td>{comparison.newey_west.t_stat.toFixed(2)}</td>
+                      <td>{pp(bootstrapRange.low)} 至 {pp(bootstrapRange.high)}</td>
+                    </tr>
+                  );
+                })}</tbody>
+              </table>
+            </div>
+            <div className="signal-diagnostic-verdict">
+              <div><span>20 日主要診斷</span><strong>{shortSignal.passed_primary_gate_count}/{shortSignal.required_primary_gate_count} 表面通過</strong></div>
+              <p>Top-7 每個 20 日事件平均較當日合資格池高 {pp(shortSignalPrimary.comparisons.eligible_equal.mean_difference)}，NW t {shortSignalPrimary.comparisons.eligible_equal.newey_west.t_stat.toFixed(2)}，配對勝率 {pct(shortSignalPrimary.comparisons.eligible_equal.win_fraction, 1)}；前後十年平均差為 {pp(shortSignalPrimary.fixed_halves_vs_eligible_equal.first.mean_difference)}／{pp(shortSignalPrimary.fixed_halves_vs_eligible_equal.second.mean_difference)}。但樣本仍用今日成功公司倒推，不能據此買入或開 Paper。</p>
+            </div>
             <div className="reference-projects">
               <a href="https://github.com/appr1ciat1/tst_wocker" target="_blank" rel="noreferrer"><b>tst_wocker</b><span>橫斷面動量／市場環境</span></a>
               <a href="https://github.com/appr1ciat1/tw-block-warrant" target="_blank" rel="noreferrer"><b>tw-block-warrant</b><span>研究與每日訊號分層</span></a>
@@ -620,7 +655,7 @@ export default function Home() {
                 <div className="data-source-links"><a href="https://github.com/hanshof/sp500_constituents" target="_blank" rel="noreferrer">免費名單稽核</a><a href="https://norgatedata.com/data-content-tables.php" target="_blank" rel="noreferrer">Norgate 覆蓋</a><a href="https://www.crsp.org/crsp_pdf/crsp-historical-indexes-guide/" target="_blank" rel="noreferrer">CRSP 指南</a></div>
               </div>
               <p className="aggressive-final-decision"><b>目前決策：</b>繼續研究數據層，但不開短線 Paper。先補逐期 S&amp;P 500 成分、退市／收購回報、歷史行業及公司行動賬本，再按同一凍結規則只重跑一次；實金及 Paper 動作均為 US$0。</p>
-              <div className="protocol-link"><span>研究定義 v1.1 · 2026-08-03 執行</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">完整協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a></div></div>
+              <div className="protocol-link"><span>研究定義 v1.1 · 訊號診斷已事前凍結</span><div><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md" target="_blank" rel="noreferrer">完整協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SIGNAL_DIAGNOSTIC_PROTOCOL.md" target="_blank" rel="noreferrer">訊號協議</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_HIGH_RETURN_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">研究報告</a></div></div>
             </div>
           </section>
         </div>

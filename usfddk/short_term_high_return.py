@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import math
 from pathlib import Path
 from typing import Any
 
@@ -19,12 +20,17 @@ from usfddk.validation import (
     probability_of_backtest_overfitting,
 )
 
-SHORT_TERM_SCHEMA_VERSION = 1
+SHORT_TERM_SCHEMA_VERSION = 2
 SHORT_TERM_START = "2006-08-01"
 SHORT_TERM_END = "2026-07-31"
 SHORT_TERM_PRIMARY_COST_BPS = 10.0
 SHORT_TERM_STRESS_COST_BPS = (25.0, 50.0)
 SHORT_TERM_GLOBAL_SEARCH_TRIALS = 6_137
+SHORT_TERM_SIGNAL_HORIZONS = (5, 10, 20)
+SHORT_TERM_SIGNAL_ROUND_TRIP_COST_BPS = 20.0
+SHORT_TERM_SIGNAL_BOOTSTRAP_SAMPLES = 2_000
+SHORT_TERM_SIGNAL_BOOTSTRAP_BLOCK = 8
+SHORT_TERM_SIGNAL_BOOTSTRAP_SEED = 20_260_803
 SHORT_TERM_STOCK_PANEL_SHA256 = (
     "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66"
 )
@@ -176,6 +182,244 @@ def taiwan_v85_translation_targets(
 
 def _clean_metrics(result: BacktestResult) -> dict[str, float]:
     return {key: float(value) for key, value in result.metrics.items()}
+
+
+def _moving_block_bootstrap_mean(
+    series: pd.Series,
+    *,
+    samples: int = SHORT_TERM_SIGNAL_BOOTSTRAP_SAMPLES,
+    block_size: int = SHORT_TERM_SIGNAL_BOOTSTRAP_BLOCK,
+    seed: int = SHORT_TERM_SIGNAL_BOOTSTRAP_SEED,
+) -> dict[str, float]:
+    values = series.dropna().to_numpy(dtype=float)
+    n = len(values)
+    if n < block_size * 2:
+        return {
+            "low": float("nan"),
+            "median": float("nan"),
+            "high": float("nan"),
+            "p_below_or_equal_zero": float("nan"),
+        }
+    rng = np.random.default_rng(seed)
+    possible_starts = n - block_size + 1
+    blocks_needed = int(math.ceil(n / block_size))
+    means = np.empty(samples, dtype=float)
+    for sample in range(samples):
+        starts = rng.integers(0, possible_starts, size=blocks_needed)
+        resampled = np.concatenate(
+            [values[start : start + block_size] for start in starts]
+        )[:n]
+        means[sample] = float(resampled.mean())
+    low, median, high = np.quantile(means, [0.025, 0.5, 0.975])
+    return {
+        "low": float(low),
+        "median": float(median),
+        "high": float(high),
+        "p_below_or_equal_zero": float((means <= 0.0).mean()),
+    }
+
+
+def _signal_horizon_summary(events: pd.DataFrame, horizon: int) -> dict[str, Any]:
+    selected = events["top7_return"]
+    eligible = events["eligible_equal_return"]
+    complete = events["complete_cohort_equal_return"]
+    qqq = events["qqq_return"]
+    excess_eligible = selected - eligible
+    lag = int(math.ceil(horizon / 5))
+
+    comparisons: dict[str, Any] = {}
+    for key, baseline in (
+        ("eligible_equal", eligible),
+        ("complete_cohort_equal", complete),
+        ("QQQ", qqq),
+    ):
+        difference = selected - baseline
+        comparisons[key] = {
+            "mean_difference": float(difference.mean()),
+            "median_difference": float(difference.median()),
+            "win_fraction": float((difference > 0.0).mean()),
+            "newey_west": newey_west_mean_test(
+                difference,
+                max_lag=lag,
+                periods_per_year=52,
+            ),
+        }
+
+    halves: dict[str, Any] = {}
+    signal_dates = pd.to_datetime(events["signal_date"])
+    for label, mask in (
+        ("first", signal_dates <= pd.Timestamp("2016-07-29")),
+        ("second", signal_dates >= pd.Timestamp("2016-08-01")),
+    ):
+        sample = excess_eligible.loc[mask.to_numpy()]
+        halves[label] = {
+            "events": int(len(sample)),
+            "mean_difference": float(sample.mean()),
+            "median_difference": float(sample.median()),
+            "win_fraction": float((sample > 0.0).mean()),
+        }
+
+    return {
+        "holding_sessions": horizon,
+        "events": int(len(events)),
+        "first_signal_date": str(events.iloc[0]["signal_date"]),
+        "last_signal_date": str(events.iloc[-1]["signal_date"]),
+        "mean_eligible_count": float(events["eligible_count"].mean()),
+        "net_return_summary": {
+            "top7_mean": float(selected.mean()),
+            "top7_median": float(selected.median()),
+            "eligible_equal_mean": float(eligible.mean()),
+            "complete_cohort_equal_mean": float(complete.mean()),
+            "QQQ_mean": float(qqq.mean()),
+        },
+        "comparisons": comparisons,
+        "fixed_halves_vs_eligible_equal": halves,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": (
+            _moving_block_bootstrap_mean(excess_eligible)
+        ),
+        "event_series": events.to_dict(orient="records"),
+    }
+
+
+def _fixed_horizon_basket_return(
+    panel: MarketPanel,
+    tickers: list[str],
+    *,
+    entry_date: pd.Timestamp,
+    exit_date: pd.Timestamp,
+    cost: float,
+) -> float:
+    gross = (
+        panel.close.loc[exit_date, tickers]
+        .div(panel.open.loc[entry_date, tickers])
+        .sub(1.0)
+    )
+    if gross.isna().any():
+        raise ValueError("固定持有期診斷遇到缺失的入場或離場價格")
+    return float(gross.mean() - cost)
+
+
+def short_term_signal_horizon_diagnostic(
+    panel: MarketPanel,
+    complete_symbols: list[str],
+) -> dict[str, Any]:
+    """Frozen signal-only diagnostic; current-cohort bias makes it non-investable."""
+    close = panel.close[complete_symbols]
+    momentum_20 = close.pct_change(20, fill_method=None)
+    trend_60 = close > close.rolling(60, min_periods=60).mean()
+    dollar_volume = (close * panel.volume[complete_symbols]).rolling(20).median()
+    weekly = _completed_period_mask(close.index, "weekly")
+    signal_dates = close.index[
+        weekly.to_numpy()
+        & (close.index >= pd.Timestamp(SHORT_TERM_START))
+        & (close.index <= pd.Timestamp(SHORT_TERM_END))
+    ]
+    cost = SHORT_TERM_SIGNAL_ROUND_TRIP_COST_BPS / 10_000.0
+    rows: dict[int, list[dict[str, Any]]] = {
+        horizon: [] for horizon in SHORT_TERM_SIGNAL_HORIZONS
+    }
+
+    for signal_date in signal_dates:
+        position = close.index.get_loc(signal_date)
+        if not isinstance(position, int) or position + 1 >= len(close.index):
+            continue
+        eligible_mask = (
+            momentum_20.loc[signal_date].notna()
+            & trend_60.loc[signal_date]
+            & (close.loc[signal_date] > 5.0)
+            & (dollar_volume.loc[signal_date] >= 20_000_000.0)
+        )
+        eligible = list(eligible_mask.index[eligible_mask])
+        if len(eligible) < 7:
+            continue
+        selected = sorted(
+            eligible,
+            key=lambda ticker: (-float(momentum_20.loc[signal_date, ticker]), ticker),
+        )[:7]
+        entry_position = position + 1
+        entry_date = close.index[entry_position]
+
+        for horizon in SHORT_TERM_SIGNAL_HORIZONS:
+            exit_position = entry_position + horizon - 1
+            if exit_position >= len(close.index):
+                continue
+            exit_date = close.index[exit_position]
+
+            qqq_return = float(
+                panel.close.loc[exit_date, "QQQ"]
+                / panel.open.loc[entry_date, "QQQ"]
+                - 1.0
+                - cost
+            )
+            rows[horizon].append(
+                {
+                    "signal_date": pd.Timestamp(signal_date).strftime("%Y-%m-%d"),
+                    "entry_date": pd.Timestamp(entry_date).strftime("%Y-%m-%d"),
+                    "exit_date": pd.Timestamp(exit_date).strftime("%Y-%m-%d"),
+                    "eligible_count": int(len(eligible)),
+                    "top7_return": _fixed_horizon_basket_return(
+                        panel,
+                        selected,
+                        entry_date=entry_date,
+                        exit_date=exit_date,
+                        cost=cost,
+                    ),
+                    "eligible_equal_return": _fixed_horizon_basket_return(
+                        panel,
+                        eligible,
+                        entry_date=entry_date,
+                        exit_date=exit_date,
+                        cost=cost,
+                    ),
+                    "complete_cohort_equal_return": _fixed_horizon_basket_return(
+                        panel,
+                        complete_symbols,
+                        entry_date=entry_date,
+                        exit_date=exit_date,
+                        cost=cost,
+                    ),
+                    "qqq_return": qqq_return,
+                }
+            )
+
+    horizons = {
+        str(horizon): _signal_horizon_summary(pd.DataFrame(rows[horizon]), horizon)
+        for horizon in SHORT_TERM_SIGNAL_HORIZONS
+    }
+    primary = horizons["20"]
+    comparison = primary["comparisons"]["eligible_equal"]
+    bootstrap = primary[
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal"
+    ]
+    halves = primary["fixed_halves_vs_eligible_equal"]
+    gates = {
+        "mean_difference_positive": comparison["mean_difference"] > 0.0,
+        "newey_west_t_at_least_1_96": comparison["newey_west"]["t_stat"] >= 1.96,
+        "bootstrap_95pct_low_positive": bootstrap["low"] > 0.0,
+        "both_fixed_halves_positive": all(
+            value["mean_difference"] > 0.0 for value in halves.values()
+        ),
+        "paired_win_fraction_above_50pct": comparison["win_fraction"] > 0.50,
+    }
+    return {
+        "protocol": "docs/SHORT_TERM_SIGNAL_DIAGNOSTIC_PROTOCOL.md",
+        "protocol_commit": "444328e455c771f752a18d89267a1f3b8a907a0c",
+        "valid_for_investment_decision": False,
+        "survivorship_bias_warning": True,
+        "primary_holding_sessions": 20,
+        "round_trip_cost_bps": SHORT_TERM_SIGNAL_ROUND_TRIP_COST_BPS,
+        "bootstrap": {
+            "samples": SHORT_TERM_SIGNAL_BOOTSTRAP_SAMPLES,
+            "block_events": SHORT_TERM_SIGNAL_BOOTSTRAP_BLOCK,
+            "seed": SHORT_TERM_SIGNAL_BOOTSTRAP_SEED,
+        },
+        "horizons": horizons,
+        "primary_gates": gates,
+        "passed_primary_gate_count": int(sum(bool(value) for value in gates.values())),
+        "required_primary_gate_count": len(gates),
+        "has_follow_up_research_value": all(gates.values()),
+        "paper_effect": "none_current_cohort_diagnostic_only",
+    }
 
 
 def _excess_sharpe(returns: pd.Series, risk_free: pd.Series) -> float:
@@ -395,6 +639,11 @@ def build_short_term_high_return_research(
             start=SHORT_TERM_START,
         )
 
+    signal_diagnostic = short_term_signal_horizon_diagnostic(
+        panel,
+        complete_symbols,
+    )
+
     pbo_frame = pd.concat(
         {
             "frozen_composite": candidate.returns,
@@ -528,6 +777,7 @@ def build_short_term_high_return_research(
             },
             "finding": "三個直譯版本均未勝 QQQ 或現時股池漂移基準；不移植加碼與止蝕參數",
         },
+        "taiwan_reference_signal_layer_diagnostic": signal_diagnostic,
         "pbo_across_four_current_cohort_variants": pbo,
         "data_gates": data_gates,
         "economic_and_statistical_gates": economic_gates,

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "research_blocked_by_point_in_time_data_and_baselines",
   "paper_eligible": false,
   "trade_ready": false,
@@ -2636,6 +2636,239 @@
       }
     },
     "finding": "三個直譯版本均未勝 QQQ 或現時股池漂移基準；不移植加碼與止蝕參數"
+  },
+  "taiwan_reference_signal_layer_diagnostic": {
+    "protocol": "docs/SHORT_TERM_SIGNAL_DIAGNOSTIC_PROTOCOL.md",
+    "protocol_commit": "444328e455c771f752a18d89267a1f3b8a907a0c",
+    "valid_for_investment_decision": false,
+    "survivorship_bias_warning": true,
+    "primary_holding_sessions": 20,
+    "round_trip_cost_bps": 20.0,
+    "bootstrap": {
+      "samples": 2000,
+      "block_events": 8,
+      "seed": 20260803
+    },
+    "horizons": {
+      "5": {
+        "holding_sessions": 5,
+        "events": 908,
+        "first_signal_date": "2006-08-04",
+        "last_signal_date": "2026-07-24",
+        "mean_eligible_count": 16.162995594713657,
+        "net_return_summary": {
+          "top7_mean": 0.0024814871212232373,
+          "top7_median": 0.002184848987920748,
+          "eligible_equal_mean": 0.0016196065766656757,
+          "complete_cohort_equal_mean": 0.0017614252465911408,
+          "QQQ_mean": 0.0009306152552634604
+        },
+        "comparisons": {
+          "eligible_equal": {
+            "mean_difference": 0.0008618805445575614,
+            "median_difference": 1.0922688664399827e-05,
+            "win_fraction": 0.5,
+            "newey_west": {
+              "mean_daily": 0.0008618805445575614,
+              "annualized": 0.04481778831699319,
+              "t_stat": 2.17328309781689,
+              "lag": 1.0
+            }
+          },
+          "complete_cohort_equal": {
+            "mean_difference": 0.0007200618746320957,
+            "median_difference": 5.1355407807811065e-05,
+            "win_fraction": 0.5033039647577092,
+            "newey_west": {
+              "mean_daily": 0.0007200618746320957,
+              "annualized": 0.03744321748086898,
+              "t_stat": 1.4102858499606483,
+              "lag": 1.0
+            }
+          },
+          "QQQ": {
+            "mean_difference": 0.001550871865959776,
+            "median_difference": 0.0004322661114323544,
+            "win_fraction": 0.512114537444934,
+            "newey_west": {
+              "mean_daily": 0.001550871865959776,
+              "annualized": 0.08064533702990835,
+              "t_stat": 2.4182088541087774,
+              "lag": 1.0
+            }
+          }
+        },
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.0010095887393134725,
+            "median_difference": 0.0,
+            "win_fraction": 0.4965034965034965
+          },
+          "second": {
+            "events": 479,
+            "mean_difference": 0.0007295907417385927,
+            "median_difference": 0.00023917810384814497,
+            "win_fraction": 0.5031315240083507
+          }
+        },
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "low": 4.37193168156341e-05,
+          "median": 0.000821450586586293,
+          "high": 0.0016952408079679107,
+          "p_below_or_equal_zero": 0.017
+        }
+      },
+      "10": {
+        "holding_sessions": 10,
+        "events": 907,
+        "first_signal_date": "2006-08-04",
+        "last_signal_date": "2026-07-17",
+        "mean_eligible_count": 16.16427783902977,
+        "net_return_summary": {
+          "top7_mean": 0.006204896397038445,
+          "top7_median": 0.009134296881651271,
+          "eligible_equal_mean": 0.004904175769163414,
+          "complete_cohort_equal_mean": 0.005284905169781898,
+          "QQQ_mean": 0.003743599902369735
+        },
+        "comparisons": {
+          "eligible_equal": {
+            "mean_difference": 0.0013007206278750315,
+            "median_difference": 0.0,
+            "win_fraction": 0.49503858875413453,
+            "newey_west": {
+              "mean_daily": 0.0013007206278750315,
+              "annualized": 0.06763747264950164,
+              "t_stat": 2.065792218131644,
+              "lag": 2.0
+            }
+          },
+          "complete_cohort_equal": {
+            "mean_difference": 0.0009199912272565469,
+            "median_difference": -3.4890646500369826e-05,
+            "win_fraction": 0.4994487320837927,
+            "newey_west": {
+              "mean_daily": 0.0009199912272565469,
+              "annualized": 0.04783954381734044,
+              "t_stat": 1.1141843552101394,
+              "lag": 2.0
+            }
+          },
+          "QQQ": {
+            "mean_difference": 0.00246129649466871,
+            "median_difference": 0.000843318116668032,
+            "win_fraction": 0.523704520396913,
+            "newey_west": {
+              "mean_daily": 0.00246129649466871,
+              "annualized": 0.12798741772277292,
+              "t_stat": 2.254363272156039,
+              "lag": 2.0
+            }
+          }
+        },
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.0015787247778442188,
+            "median_difference": 6.874461231810847e-05,
+            "win_fraction": 0.5011655011655012
+          },
+          "second": {
+            "events": 478,
+            "mean_difference": 0.001051214811270886,
+            "median_difference": 0.0,
+            "win_fraction": 0.4895397489539749
+          }
+        },
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "low": -3.499809348587281e-05,
+          "median": 0.0012603299804108113,
+          "high": 0.0026452698116546363,
+          "p_below_or_equal_zero": 0.0315
+        }
+      },
+      "20": {
+        "holding_sessions": 20,
+        "events": 905,
+        "first_signal_date": "2006-08-04",
+        "last_signal_date": "2026-07-02",
+        "mean_eligible_count": 16.165745856353592,
+        "net_return_summary": {
+          "top7_mean": 0.014541656716885789,
+          "top7_median": 0.020635294118921954,
+          "eligible_equal_mean": 0.011352299733142392,
+          "complete_cohort_equal_mean": 0.012160492153757781,
+          "QQQ_mean": 0.009217961114306455
+        },
+        "comparisons": {
+          "eligible_equal": {
+            "mean_difference": 0.0031893569837433975,
+            "median_difference": 0.0009813258616346715,
+            "win_fraction": 0.5259668508287293,
+            "newey_west": {
+              "mean_daily": 0.0031893569837433975,
+              "annualized": 0.16584656315465668,
+              "t_stat": 3.0258950833609455,
+              "lag": 4.0
+            }
+          },
+          "complete_cohort_equal": {
+            "mean_difference": 0.0023811645631280094,
+            "median_difference": 0.0016467152820922384,
+            "win_fraction": 0.5292817679558011,
+            "newey_west": {
+              "mean_daily": 0.0023811645631280094,
+              "annualized": 0.12382055728265648,
+              "t_stat": 1.6880813581069898,
+              "lag": 4.0
+            }
+          },
+          "QQQ": {
+            "mean_difference": 0.005323695602579335,
+            "median_difference": 0.003199199169882684,
+            "win_fraction": 0.5370165745856353,
+            "newey_west": {
+              "mean_daily": 0.005323695602579335,
+              "annualized": 0.2768321713341254,
+              "t_stat": 2.713216099649998,
+              "lag": 4.0
+            }
+          }
+        },
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.0034752033421179417,
+            "median_difference": 0.0009984615059067115,
+            "win_fraction": 0.5291375291375291
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002931734950670541,
+            "median_difference": 0.0008264715702515565,
+            "win_fraction": 0.523109243697479
+          }
+        },
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "low": 0.0011295354610348668,
+          "median": 0.0031883227311158896,
+          "high": 0.005367835181396627,
+          "p_below_or_equal_zero": 0.0015
+        }
+      }
+    },
+    "primary_gates": {
+      "mean_difference_positive": true,
+      "newey_west_t_at_least_1_96": true,
+      "bootstrap_95pct_low_positive": true,
+      "both_fixed_halves_positive": true,
+      "paired_win_fraction_above_50pct": true
+    },
+    "passed_primary_gate_count": 5,
+    "required_primary_gate_count": 5,
+    "has_follow_up_research_value": true,
+    "paper_effect": "none_current_cohort_diagnostic_only"
   },
   "pbo_across_four_current_cohort_variants": {
     "pbo": 0.6904761904761905,

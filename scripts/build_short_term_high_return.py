@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 from pathlib import Path
 
@@ -40,7 +41,12 @@ def main() -> int:
         snapshot_path=args.snapshot,
     )
     _write_json(args.receipt, payload)
-    _write_json(args.site_data, payload)
+    site_payload = copy.deepcopy(payload)
+    for row in site_payload["taiwan_reference_signal_layer_diagnostic"][
+        "horizons"
+    ].values():
+        row.pop("event_series", None)
+    _write_json(args.site_data, site_payload)
     return 0
 
 
