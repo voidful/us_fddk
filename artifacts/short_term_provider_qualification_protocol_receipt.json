@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "research_round": 11,
+  "status": "frozen_before_official_provider_document_review",
+  "frozen_at": "2026-08-03T19:34:39Z",
+  "frozen_at_epoch": 1785785679,
+  "base_commit": "dc44ad9a85641209396963c155737f654c14d1bc",
+  "protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_QUALIFICATION_PROTOCOL.md",
+    "sha256": "215f826a2488afe7931662c25c5ba407ebfc0a7813e3ddc749b46b98c98eb3db"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "pre_review_readiness": {
+    "path": "artifacts/short_term_point_in_time_readiness.json",
+    "sha256": "3afc1895ece130f644995bb2692911f37c9d9d6bc751a39a854f43e221fc1053",
+    "passed": 1,
+    "total": 20
+  },
+  "existing_strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139",
+    "rule_status": "unchanged"
+  },
+  "provider_paths_frozen": [
+    "crsp_wrds",
+    "norgate_data",
+    "nasdaq_data_link_sharadar",
+    "polygon_io_stocks"
+  ],
+  "provider_documents_opened_before_freeze": false,
+  "provider_credentials_detected_at_freeze": false,
+  "provider_purchase_authorized": false,
+  "formal_stock_backtest_authorized": false,
+  "paper_authorized": false,
+  "paper_starting_state": "all_cash",
+  "real_money_action_usd": 0
+}
