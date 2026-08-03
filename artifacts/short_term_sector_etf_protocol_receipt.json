@@ -1,0 +1,60 @@
+{
+  "strategy_version": "short_term_sector_etf_v1",
+  "status": "frozen_before_first_vanguard_sector_daily_download_or_calculation",
+  "frozen_at_utc": "2026-08-03T14:39:52Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_SECTOR_ETF_PROTOCOL.md",
+    "sha256": "3affdc24f39353a6eb606075f802ffe6252cac01be57b13b9d098114a502a80d",
+    "mtime_epoch": 1785767979
+  },
+  "product_mapping": {
+    "path": "docs/SHORT_TERM_SECTOR_ETF_PRODUCT_MAPPING.md",
+    "sha256": "c42743ed3d884c818dd3632d20db9f80d225ea1ccf361ea2a1ed1c1a76457a67",
+    "mtime_epoch": 1785767979,
+    "official_provider": "Vanguard",
+    "official_profiles_checked_before_freeze": true
+  },
+  "design_source": {
+    "commit": "973e8c1f56f80ae5150fec386a003b46a5e65740",
+    "artifact": "artifacts/short_term_high_return_validation.json",
+    "finding": "current-cohort weekly portfolio failed QQQ but preregistered fixed-20-session signal diagnostic passed 5 of 5 mechanism gates",
+    "paths_previously_seen": true
+  },
+  "external_confirmation": {
+    "provider_family": "Vanguard sector ETFs",
+    "tickers": [
+      "QQQ",
+      "SHY",
+      "SPY",
+      "VAW",
+      "VCR",
+      "VDC",
+      "VDE",
+      "VFH",
+      "VGT",
+      "VHT",
+      "VIS",
+      "VOX",
+      "VPU",
+      "VTI"
+    ],
+    "joint_daily_paths_previously_downloaded_or_calculated_in_repo": false,
+    "first_download_allowed_only_after_this_receipt_is_committed": true
+  },
+  "frozen_rules": {
+    "snapshot_start": "2004-09-23",
+    "snapshot_end": "2026-07-31",
+    "formal_start": "2006-08-01",
+    "formal_end": "2026-07-31",
+    "score": "20-session total return",
+    "trend": "close above 60-session simple moving average",
+    "weekly_signal_diagnostic_holding_sessions": 20,
+    "monthly_primary_top_k": 3,
+    "top_k_sensitivity": [2, 3, 4],
+    "primary_one_way_cost_bps": 10,
+    "stress_one_way_cost_bps": [25, 50],
+    "global_search_trials": 6141,
+    "paper_created": false,
+    "real_money_action_usd": 0
+  }
+}
