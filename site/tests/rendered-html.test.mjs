@@ -39,7 +39,12 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /兩條策略，兩套目標與門檻/);
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
-  assert.match(html, /最新驗證失效/);
+  assert.match(html, /先補真實數據/);
+  assert.match(html, /供應商預審 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?4/);
+  assert.match(html, /四條數據路徑：沒有一條可單獨通過/);
+  assert.match(html, /CRSP／WRDS 只適合先索取正式樣本/);
+  assert.match(html, /Norgate 不是現有合約的單一替代品|Norgate Data/);
+  assert.match(html, /明確不等於通過/);
   assert.match(html, /危機減倉有效，但近期回報幾乎消失/);
   assert.match(html, /早期 (?:<!-- -->)?14\.59%(?:<!-- -->)?，近期只餘 (?:<!-- -->)?0\.58%/);
   assert.match(html, /QQQ、SPY、原始動量與相同持倉比率全部列出/);

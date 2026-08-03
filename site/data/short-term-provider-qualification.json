@@ -1,0 +1,482 @@
+{
+  "schema_version": 1,
+  "round": 11,
+  "status": "no_single_provider_preflight_qualified",
+  "headline": "四條來源均未能單獨通過；CRSP／WRDS 只適合先索取正式樣本",
+  "evidence_as_of": "2026-08-03T19:51:29Z",
+  "independent_first_seen_evidence": false,
+  "actual_point_in_time_readiness": {
+    "passed": 1,
+    "total": 20,
+    "all_passed": false,
+    "status": "blocked_by_point_in_time_data_contract"
+  },
+  "provider_preflight_passed": 0,
+  "provider_preflight_total": 4,
+  "providers": [
+    {
+      "id": "crsp_wrds",
+      "name": "CRSP／WRDS",
+      "role": "最接近完整賬本的首個正式查詢對象",
+      "document_supported_count": 10,
+      "partial_count": 2,
+      "unresolved_count": 8,
+      "status_counts": {
+        "documented": 10,
+        "partial": 2,
+        "not_documented": 1,
+        "unresolved_login_required": 0,
+        "not_applicable_until_import": 7
+      },
+      "hard_blockers": [
+        "本地授權及實際 data cut 未提供",
+        "S&P 500 成分公布時間欄位未見官方文件",
+        "DelRetMissType 代表部分退市回報可能仍缺失",
+        "完整 20 年樣本尚未跑 20 道逐列稽核"
+      ],
+      "next_action": "先要求 data dictionary、20 年細樣本及授權條款；特別書面確認 announcement timestamp 與缺失 delisting return 處理。",
+      "first_enquiry": true,
+      "locally_verified": false,
+      "contract_passed": false,
+      "selected_gates": {
+        "05_security_master": {
+          "status": "documented",
+          "detail": "PERMNO／PERMCO 是證券及公司永久 ID；security/issuer history 另有日期區間。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607",
+            "crsp_permno_page"
+          ]
+        },
+        "06_identifier_history": {
+          "status": "documented",
+          "detail": "SecurityInfoHist 明列 ticker、trading symbol、CUSIP、primary exchange 及生效區間。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "07_membership_availability": {
+          "status": "not_documented",
+          "detail": "官方 guide 有 membership 起訖日，但本輪沒有找到 S&P 500 成分公布時間欄位。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607",
+            "crsp_historical_indexes_guide_202607"
+          ]
+        },
+        "08_membership_intervals": {
+          "status": "documented",
+          "detail": "StkIndMembership 提供 PERMNO、INDNO、MbrStartDt 及 MbrEndDt。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607",
+            "crsp_historical_indexes_guide_202607"
+          ]
+        },
+        "12_market_data_validity": {
+          "status": "documented",
+          "detail": "StkDlySecurityData 明列 raw open/high/low/close、volume、total return 及缺值旗號。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "14_corporate_actions": {
+          "status": "documented",
+          "detail": "StkDistributions 有除淨、公布、登記、派付、金額、價格／股份因子及接收證券 ID。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "16_permanent_exit_economics": {
+          "status": "partial",
+          "detail": "DelRet、delisting amount／dividend／successor ID 存在；DelRetMissType 亦明示部分退出可能無法估值。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "18_point_in_time_classifications": {
+          "status": "documented",
+          "detail": "歷史 security/issuer information 區間含 SIC、NAICS、ICB 及 UES industry。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "19_share_class_dedup_capability": {
+          "status": "documented",
+          "detail": "PERMCO 可聚合同公司證券，另有 ShareClass、ShareType、shares 及日成交量。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        },
+        "20_execution_clock": {
+          "status": "documented",
+          "detail": "DlyCalDt、DlyOpen 及日收市／回報欄位足以實作 t 收市訊號、t+1 開市成交。",
+          "evidence_ids": [
+            "crsp_stock_guide_202607"
+          ]
+        }
+      }
+    },
+    {
+      "id": "norgate_data",
+      "name": "Norgate Data",
+      "role": "歷史成分／日價補充來源，不能單獨通過",
+      "document_supported_count": 6,
+      "partial_count": 4,
+      "unresolved_count": 10,
+      "status_counts": {
+        "documented": 6,
+        "partial": 4,
+        "not_documented": 3,
+        "unresolved_login_required": 0,
+        "not_applicable_until_import": 7
+      },
+      "hard_blockers": [
+        "官方明示沒有成分公布日期",
+        "官方明示沒有舊 ticker 及精確歷史主上市地",
+        "公司行動只有調整／指示，沒有完整事件明細",
+        "官方明示沒有 delisting return 或收購代價"
+      ],
+      "next_action": "除非另有合法退出經濟賬本及公布時間來源，否則不作正式主入口。",
+      "first_enquiry": false,
+      "locally_verified": false,
+      "contract_passed": false,
+      "selected_gates": {
+        "05_security_master": {
+          "status": "documented",
+          "detail": "assetid 在證券整個生命週期保持不變，另有證券類型、所在地及貨幣 metadata。",
+          "evidence_ids": [
+            "norgate_data_faq",
+            "norgate_content_tables"
+          ]
+        },
+        "06_identifier_history": {
+          "status": "partial",
+          "detail": "assetid 可保持連續，但官方明示只提供現時／最後 ticker，亦沒有精確歷史主上市地。",
+          "evidence_ids": [
+            "norgate_data_faq"
+          ]
+        },
+        "07_membership_availability": {
+          "status": "not_documented",
+          "detail": "官方 FAQ 明示不提供歷史指數成分公布日期。",
+          "evidence_ids": [
+            "norgate_data_faq"
+          ]
+        },
+        "08_membership_intervals": {
+          "status": "documented",
+          "detail": "Platinum／Diamond 可逐證券逐日查 S&P 500 membership，歷史由 1957 年開始。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        },
+        "12_market_data_validity": {
+          "status": "documented",
+          "detail": "官方定義日線 open／close，Python 路徑提供 OHLC、volume、turnover 及無 padding 選項。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        },
+        "14_corporate_actions": {
+          "status": "partial",
+          "detail": "可取得股息及 capital-event 指示，但 FAQ 明示不直接提供拆股及公司行動事件明細。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        },
+        "16_permanent_exit_economics": {
+          "status": "not_documented",
+          "detail": "官方 FAQ 明示不提供 delisting return 或收購／合併代價，只建議最後交易 bar 近似。",
+          "evidence_ids": [
+            "norgate_data_faq"
+          ]
+        },
+        "18_point_in_time_classifications": {
+          "status": "not_documented",
+          "detail": "頁面列出 classification metadata，但沒有證明歷史逐期 classification 區間。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        },
+        "19_share_class_dedup_capability": {
+          "status": "partial",
+          "detail": "assetid 及 security subtype 可分辨證券，但未見永久 company ID／同公司股份類別關聯表。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        },
+        "20_execution_clock": {
+          "status": "documented",
+          "detail": "未填補日線 OHLC 及逐日 membership 足以實作 D+1 開市成交；仍須本地樣本驗證。",
+          "evidence_ids": [
+            "norgate_content_tables",
+            "norgate_data_faq"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nasdaq_data_link_sharadar",
+      "name": "Nasdaq Data Link Sharadar",
+      "role": "公開 schema 不足，需授權後再判斷",
+      "document_supported_count": 0,
+      "partial_count": 1,
+      "unresolved_count": 19,
+      "status_counts": {
+        "documented": 0,
+        "partial": 1,
+        "not_documented": 2,
+        "unresolved_login_required": 10,
+        "not_applicable_until_import": 7
+      },
+      "hard_blockers": [
+        "SEP／TICKERS／ACTIONS 完整欄位需有效 API key",
+        "歷史 S&P 500 membership 未在公開文件證實",
+        "成分公布時間、退出經濟回報及歷史分類未證實",
+        "本地授權樣本不存在"
+      ],
+      "next_action": "只有已持有合法訂閱時才取 schema／小樣本；不為提高分數而先購買。",
+      "first_enquiry": false,
+      "locally_verified": false,
+      "contract_passed": false,
+      "selected_gates": {
+        "05_security_master": {
+          "status": "partial",
+          "detail": "TICKERS metadata 顯示 permaticker 主鍵／filter，但公開 metadata 隱藏完整欄位及公司層 ID。",
+          "evidence_ids": [
+            "sharadar_tickers_metadata"
+          ]
+        },
+        "06_identifier_history": {
+          "status": "unresolved_login_required",
+          "detail": "TICKERS 原始列及完整欄位需有效 API key，未能核對 ticker 生效區間。",
+          "evidence_ids": [
+            "sharadar_tickers_metadata",
+            "sharadar_product_documentation"
+          ]
+        },
+        "07_membership_availability": {
+          "status": "not_documented",
+          "detail": "本輪官方公開文件未找到 S&P 500 成分公布時間。",
+          "evidence_ids": [
+            "sharadar_product_documentation"
+          ]
+        },
+        "08_membership_intervals": {
+          "status": "not_documented",
+          "detail": "SEP／TICKERS／ACTIONS 公開 metadata 未列歷史 S&P 500 membership 表。",
+          "evidence_ids": [
+            "sharadar_sep_metadata",
+            "sharadar_tickers_metadata",
+            "sharadar_actions_metadata"
+          ]
+        },
+        "12_market_data_validity": {
+          "status": "unresolved_login_required",
+          "detail": "SEP 只公開 ticker/date 主鍵；OHLCV、缺值及狀態欄位需登入後核對。",
+          "evidence_ids": [
+            "sharadar_sep_metadata"
+          ]
+        },
+        "14_corporate_actions": {
+          "status": "unresolved_login_required",
+          "detail": "ACTIONS table 名稱及 filters 可見，但事件欄位與金額／比率仍隱藏。",
+          "evidence_ids": [
+            "sharadar_actions_metadata"
+          ]
+        },
+        "16_permanent_exit_economics": {
+          "status": "unresolved_login_required",
+          "detail": "公開欄位未證明有 delisting return 或現金／換股代價。",
+          "evidence_ids": [
+            "sharadar_actions_metadata",
+            "sharadar_product_documentation"
+          ]
+        },
+        "18_point_in_time_classifications": {
+          "status": "unresolved_login_required",
+          "detail": "公開欄位未證明 classification 的生效及可知時間。",
+          "evidence_ids": [
+            "sharadar_tickers_metadata",
+            "sharadar_product_documentation"
+          ]
+        },
+        "19_share_class_dedup_capability": {
+          "status": "unresolved_login_required",
+          "detail": "permaticker 可見，但公司／股份類別關係需完整 TICKERS schema。",
+          "evidence_ids": [
+            "sharadar_tickers_metadata"
+          ]
+        },
+        "20_execution_clock": {
+          "status": "unresolved_login_required",
+          "detail": "SEP 的開市價及正式 trading calendar 欄位未由公開 metadata 證實。",
+          "evidence_ids": [
+            "sharadar_sep_metadata"
+          ]
+        }
+      }
+    },
+    {
+      "id": "polygon_io_stocks",
+      "name": "Polygon.io／Massive Stocks",
+      "role": "日價、reference 及成本補充來源，不能單獨通過",
+      "document_supported_count": 4,
+      "partial_count": 6,
+      "unresolved_count": 10,
+      "status_counts": {
+        "documented": 4,
+        "partial": 6,
+        "not_documented": 3,
+        "unresolved_login_required": 0,
+        "not_applicable_until_import": 7
+      },
+      "hard_blockers": [
+        "官方 Stocks 文件未見歷史 S&P 500 membership",
+        "未見成分公布時間",
+        "未見完整 merger／spinoff／security outcome 賬本",
+        "只有退市日期，未見退出經濟回報"
+      ],
+      "next_action": "可在將來用於 OHLCV／買賣差價核對，但不得取代歷史成分及退出賬本。",
+      "first_enquiry": false,
+      "locally_verified": false,
+      "contract_passed": false,
+      "selected_gates": {
+        "05_security_master": {
+          "status": "partial",
+          "detail": "Composite／Share Class FIGI、CIK、類型及 active 狀態存在，但未證明全期永久 company/security master。",
+          "evidence_ids": [
+            "polygon_tickers_redirect",
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "06_identifier_history": {
+          "status": "partial",
+          "detail": "實驗性 ticker-events 只支持 ticker_change；可用 FIGI 連接，但完整 exchange/CUSIP 區間未證實。",
+          "evidence_ids": [
+            "massive_ticker_events_after_repair",
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "07_membership_availability": {
+          "status": "not_documented",
+          "detail": "官方 Stocks 文件未找到 S&P 500 成分公布時間。",
+          "evidence_ids": [
+            "polygon_tickers_redirect",
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "08_membership_intervals": {
+          "status": "not_documented",
+          "detail": "官方 Stocks 文件未找到歷史 S&P 500 membership intervals。",
+          "evidence_ids": [
+            "polygon_tickers_redirect",
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "12_market_data_validity": {
+          "status": "documented",
+          "detail": "日檔提供全美股每日 OHLCV；完整性及停牌仍須匯入抽查。",
+          "evidence_ids": [
+            "polygon_day_aggregates_redirect"
+          ]
+        },
+        "14_corporate_actions": {
+          "status": "partial",
+          "detail": "股息及拆股有事件、日期、金額／比率；ticker-events 只含改名，未見完整 merger/spinoff ledger。",
+          "evidence_ids": [
+            "polygon_splits_redirect",
+            "massive_dividends_after_repair",
+            "massive_ticker_events_after_repair"
+          ]
+        },
+        "16_permanent_exit_economics": {
+          "status": "not_documented",
+          "detail": "官方文件只有退市日期，未找到 delisting return、現金收購或換股代價。",
+          "evidence_ids": [
+            "polygon_tickers_redirect",
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "18_point_in_time_classifications": {
+          "status": "partial",
+          "detail": "Ticker Overview 可帶 date 並返回 SIC，但申報期／提交時間語義仍須逐列驗證。",
+          "evidence_ids": [
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "19_share_class_dedup_capability": {
+          "status": "partial",
+          "detail": "Share Class FIGI、ticker root/suffix 及 weighted shares 可用，但公司層永久關聯未完整證實。",
+          "evidence_ids": [
+            "massive_ticker_overview_after_repair"
+          ]
+        },
+        "20_execution_clock": {
+          "status": "documented",
+          "detail": "每日 raw open 與日期面板可實作 t 收市／t+1 開市；仍須另建正式交易日表。",
+          "evidence_ids": [
+            "polygon_day_aggregates_redirect"
+          ]
+        }
+      }
+    }
+  ],
+  "first_enquiry": {
+    "provider_id": "crsp_wrds",
+    "qualified": false,
+    "purpose": "只要求 data dictionary、細樣本及授權條款，不購買、不回測",
+    "must_resolve": [
+      "S&P 500 成分 announcement timestamp",
+      "缺失 delisting return 的比例及可對數代價",
+      "2006–2026 raw open／OHLCV／停牌完整度",
+      "歷史分類及股份類別在當時可知時間",
+      "本地研究授權與禁止原始列公開再分發"
+    ]
+  },
+  "hard_findings": [
+    "CRSP／WRDS 文件覆蓋最完整，但公告時間未見欄位，退市回報亦可能缺失。",
+    "Norgate 官方明示沒有公布日、舊代號、公司行動明細及退市回報，不能單獨通過。",
+    "Sharadar 公開 metadata 隱藏完整欄位，亦未證明歷史 S&P 500 membership。",
+    "Polygon.io 已遷移至 Massive；日價及 reference 可補充，但沒有歷史成分或退出經濟賬本。"
+  ],
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "next_action": "向 CRSP／WRDS 索取不含敏感原始列的 schema、20 年細樣本及授權條款；五個缺口全部解決後才匯入 20 道稽核。",
+  "source_links": [
+    {
+      "label": "CRSP 股票數據 guide",
+      "url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true"
+    },
+    {
+      "label": "CRSP Historical Indexes",
+      "url": "https://indexes.morningstar.com/research-data-products/crsp-historical-indexes-database"
+    },
+    {
+      "label": "Norgate Data Content",
+      "url": "https://norgatedata.com/data-content-tables.php"
+    },
+    {
+      "label": "Norgate Data FAQ",
+      "url": "https://norgatedata.com/data-package-faq.php"
+    },
+    {
+      "label": "Sharadar SEP metadata",
+      "url": "https://data.nasdaq.com/api/v3/datatables/SHARADAR/SEP/metadata.json"
+    },
+    {
+      "label": "Massive Stocks 文件",
+      "url": "https://massive.com/docs/rest/stocks"
+    }
+  ]
+}

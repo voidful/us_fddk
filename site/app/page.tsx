@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import providerQualification from "../data/short-term-provider-qualification.json";
 import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
 import dailyMomentumRegime from "../data/short-term-daily-momentum-regime.json";
 import sizeMomentumTiltResearch from "../data/short-term-french-size-momentum-tilt.json";
@@ -16,7 +17,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線動量研究分頁呈列，完整比較 20 年回報、最大跌幅、QQQ／SPY baseline、成本、統計門檻及 Paper 狀態。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十一輪四條數據路徑 0/4，真實逐股數據仍為 1/20，第十輪策略 27/48 失敗。",
 };
 
 const readerCapital = 1_000;
@@ -152,6 +153,27 @@ const pointInTimeGateRows = Object.entries(pointInTimeReadiness.gates).map(([key
 const pointInTimeGroupCount = (first: number, last: number) => {
   const rows = pointInTimeGateRows.slice(first - 1, last);
   return `${rows.filter((row) => row.passed).length}/${rows.length}`;
+};
+const providerRows = providerQualification.providers;
+const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const providerCapabilityRows = [
+  { key: "05_security_master", label: "永久證券／公司 ID" },
+  { key: "06_identifier_history", label: "歷史代號及上市地" },
+  { key: "07_membership_availability", label: "成分公布時間" },
+  { key: "08_membership_intervals", label: "歷史 S&P 500 成分" },
+  { key: "12_market_data_validity", label: "Raw OHLCV／總回報" },
+  { key: "14_corporate_actions", label: "公司行動明細" },
+  { key: "16_permanent_exit_economics", label: "退市／收購經濟回報" },
+  { key: "18_point_in_time_classifications", label: "歷史行業分類" },
+  { key: "19_share_class_dedup_capability", label: "股份類別去重" },
+  { key: "20_execution_clock", label: "t 收市／t+1 開市" },
+] as const;
+const providerStatusLabels: Record<string, string> = {
+  documented: "明確",
+  partial: "部分",
+  not_documented: "未見",
+  unresolved_login_required: "需登入",
+  not_applicable_until_import: "待匯入",
 };
 const frenchCandidate = frenchResearch.frozen_candidate;
 const frenchPrimary = frenchResearch.primary_external_period;
@@ -638,32 +660,32 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DAILY REGIME · ROUND 10</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DATA ROUTE · ROUND 11</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />最新驗證失效</h1>
+              <h1>短線高回報<br />先補真實數據</h1>
               <p className="hero-lead">
-                第十輪把台股方法的 20／60 日趨勢、廣度及多窗共振，事前翻譯成每日 0／50／100% Hi PRIOR 持倉。近期 20 年 CAGR 只有 <strong>{pct(dailyRecent.candidate.cagr, 2)}</strong>，QQQ 為 <strong>{pct(dailyRecent.qqq.cagr, 2)}</strong>；48 道數據、跨期、成本、統計及機制門檻只過 <strong>{dailyRepair.passed}/{dailyRepair.required}</strong>。
-                風控在三段危機減輕跌幅，但長期升幅損失過大，不能推薦。
-                <strong>逐股 point-in-time 數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}；短線 Paper、持倉及實金動作均為 US$0</strong>。
+                第十一輪先審核四條合法數據路徑，結果是 <strong>供應商預審 {providerQualifiedCount}/{providerRows.length}</strong>：CRSP／WRDS 只適合先索取正式樣本，Norgate、Sharadar 及 Polygon.io／Massive 均不能單獨滿足 point-in-time、成分公布時間及退出經濟回報合約。
+                <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
+                <a className="primary-button aggressive-button" href="#provider-qualification">查看四條數據路徑</a>
+                <a className="secondary-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
                 <a className="secondary-button" href="#point-in-time-readiness">查看 1/20 數據閘門</a>
-                <a className="secondary-button" href="#aggressive-gates">查看啟動門檻</a>
               </div>
             </div>
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>{dailyRepair.passed}/{dailyRepair.required} · 近期經濟驗證失敗</b>
+                <b>{providerQualifiedCount}/{providerRows.length} · 沒有單一數據路徑通過</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>數據 1/20 · 正式回測 0 次 · Paper 保持全現金</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>供應商 0/4 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 等待授權數據</dd></div>
+                <div><dt>供應商預審</dt><dd>{providerQualifiedCount}/{providerRows.length} · CRSP 只作首輪查詢</dd></div>
+                <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
                 <div><dt>近期機會成本</dt><dd>候選 {pct(dailyRecent.candidate.cagr, 2)}／QQQ {pct(dailyRecent.qqq.cagr, 2)}</dd></div>
                 <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
@@ -674,12 +696,63 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>供應商預審</span><strong>{providerQualifiedCount}/{providerRows.length}</strong><small>文件不是本地驗證</small></article>
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>2006–2026 CAGR</span><strong>{pct(dailyRecent.candidate.cagr, 2)}</strong><small>QQQ {pct(dailyRecent.qqq.cagr, 2)}</small></article>
-              <article><span>近期最大跌幅</span><strong>{pct(dailyRecent.candidate.max_drawdown, 1)}</strong><small>仍接近五成</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="provider-qualification">
+            <div className="section-heading">
+              <div><span>PROVIDER QUALIFICATION · ROUND 11</span><h2>四條數據路徑：沒有一條可單獨通過</h2></div>
+              <p>先按同一套 20 道合約審查官方文件，再決定是否值得索取樣本。文件有欄位只代表可查詢，不代表真實數據已到手或閘門通過。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict provider-verdict">
+                <span>最新研究判斷</span>
+                <h3>CRSP／WRDS 只適合先索取正式樣本</h3>
+                <p>官方文件明確支持 10/20、部分支持 2/20，但未見 S&amp;P 500 成分公布時間，部分 delisting return 亦可能缺失。未取得授權、細樣本、雜湊及逐列稽核前，CRSP 仍不是 20/20。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>供應商預審</span><strong>{providerQualifiedCount}/{providerRows.length}</strong><p>四條路徑本地驗證全部為 false；不能將產品文件當成回測數據。</p></article>
+                <article><span>實際研究入口</span><strong>1/20 · US$0</strong><p>正式逐股回測 0 次、Paper 0 成交、持倉 0；全部保持關閉。</p></article>
+              </div>
+            </div>
+
+            <div className="provider-grid" aria-label="四條數據來源資格摘要">
+              {providerRows.map((row) => (
+                <article className={row.first_enquiry ? "first-enquiry" : undefined} key={row.id}>
+                  <div className="provider-card-head"><span>{row.first_enquiry ? "FIRST ENQUIRY" : "SUPPLEMENT ONLY"}</span><b>{row.name}</b></div>
+                  <strong>{row.status_counts.documented}/20 明確 · {row.status_counts.partial}/20 部分</strong>
+                  <p>{row.role}</p>
+                  <ul>{row.hard_blockers.slice(0, 2).map((blocker) => <li key={blocker}>{blocker}</li>)}</ul>
+                  <small>{row.first_enquiry ? "下一步：索取 data dictionary、細樣本及授權條款；仍未通過。" : row.next_action}</small>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CAPABILITY MATRIX</span><h3>十項核心能力：明確不等於通過</h3></div>
+              <p>「需登入」不假定訂閱後一定存在；「待匯入」只能靠真實列數、雜湊、覆蓋率及正反稽核回答。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table provider-table">
+                <thead><tr><th>核心能力</th>{providerRows.map((row) => <th key={row.id}>{row.name}</th>)}</tr></thead>
+                <tbody>{providerCapabilityRows.map((capability) => (
+                  <tr key={capability.key}><th><b>{capability.label}</b></th>{providerRows.map((row) => {
+                    const status = row.selected_gates[capability.key].status;
+                    return <td key={row.id}><span className={`provider-status ${status}`}>{providerStatusLabels[status]}</span></td>;
+                  })}</tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>先向 CRSP／WRDS 問五個可判定問題，不先買結論</b></div>
+              <p>確認成分公告時間、缺失 delisting return、20 年 OHLCV／停牌覆蓋、歷史分類可知時間及本地研究授權。只有合法數據包跑過 20/20，才按既有 v1 原樣正式回測一次。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_QUALIFICATION_REPORT.md" target="_blank" rel="noreferrer">第十一輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_QUALIFICATION_PROTOCOL.md" target="_blank" rel="noreferrer">事前協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_provider_qualification.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 

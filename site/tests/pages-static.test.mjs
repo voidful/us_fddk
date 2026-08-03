@@ -39,7 +39,12 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /原檔標題不符凍結映射，沒有計算任何回報/);
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
-  assert.match(html, /最新驗證失效/);
+  assert.match(html, /先補真實數據/);
+  assert.match(html, /供應商預審 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?4/);
+  assert.match(html, /四條數據路徑：沒有一條可單獨通過/);
+  assert.match(html, /CRSP／WRDS 只適合先索取正式樣本/);
+  assert.match(html, /Norgate Data/);
+  assert.match(html, /明確不等於通過/);
   assert.match(html, /危機減倉有效，但近期回報幾乎消失/);
   assert.match(html, /QQQ、SPY、原始動量與相同持倉比率全部列出/);
   assert.match(html, /低成本假設亦救不到近期結果/);

@@ -9,8 +9,9 @@
     "path": "docs/SHORT_TERM_PROVIDER_SOURCE_DOMAIN_REPAIR_PROTOCOL.md",
     "sha256": "65ef305af5facc2733731ed028fd3bddfcfb50d3019a0ce2bccf0b3d053c06f1"
   },
-  "document_receipt": {
+  "document_receipt_at_repair_freeze": {
     "path": "artifacts/short_term_provider_document_receipt.json",
+    "commit": "a6e246aac22ef9b83a05fa9fdd960dc09d122b0d",
     "sha256": "8d7ae75b37321b3ae1cdf7e9847d67317484d2a3af19ac117d1aeda78d6397e7",
     "retrieved_before_repair_freeze": true
   },
@@ -26,6 +27,7 @@
   ],
   "independent_first_seen_evidence": false,
   "source_domain_repair_only": true,
+  "additional_official_documents_after_repair_allowed": true,
   "provider_set_changed": false,
   "twenty_gate_mapping_changed": false,
   "strategy_rule_changed": false,

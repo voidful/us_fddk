@@ -1,5 +1,25 @@
 # 決策與負結果
 
+## 2026-08-04：四條數據來源預審 0/4，CRSP／WRDS 只作首輪查詢
+
+- 在閱讀任何新供應商文件前，固定 CRSP／WRDS、Norgate、Nasdaq Data Link Sharadar
+  及 Polygon.io Stocks 四條路徑、既有 20 道 point-in-time／退市閘門、五種狀態詞與
+  停止規則。首次檢查發現 CRSP 官方內容已遷移至 Morningstar Indexes、Polygon.io
+  已遷移至 Massive；原 domain scope 先按設計失敗，之後另立只容許兩個精確 alias 的
+  schema-informed repair，不增加來源、不改閘門或策略，故不是獨立 first-seen 證據。
+- CRSP 股票 guide 明確支持 PERMNO／PERMCO、歷史證券資料、membership 起訖、raw
+  OHLCV、總回報、公司行動、分類及 D+1 開市，合計 10/20 明確、2/20 部分；但沒有找到
+  S&P 500 成分公布時間，DelRetMissType 亦代表部分退出回報可能缺失。未取得合法授權、
+  20 年細樣本與逐列稽核前，只可作第一個正式查詢對象，不能宣稱通過。
+- Norgate 官方明示沒有歷史成分公布日期、舊 ticker、完整公司行動事件或 delisting
+  return，最後交易 bar 近似不能代替破產全損、現金收購或換股代價。Sharadar 公開
+  metadata 未證明歷史 S&P membership 與退出經濟回報；Massive 可補日價、reference、
+  股息及拆股，不能單獨修復成分與退出偏差。
+- 決定：四條路徑採購前通過 **0/4**，本地驗證全部 false，真實逐股數據仍為 **1/20**。
+  正式 20 年逐股回測 0 次、短線 Paper 全現金、0 成交、0 持倉，實金動作 US$0。
+  下一步只向 CRSP／WRDS 索取 data dictionary、細樣本及授權條款；完整證據見
+  `docs/SHORT_TERM_PROVIDER_QUALIFICATION_REPORT.md`。
+
 ## 2026-08-04：每日動量環境共振近期失效，schema repair 只過 27/48
 
 - 參考三個台股專案，但不照搬市場結構：在任何新日檔前固定唯一候選，以 French

@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線動量研究，以兩個分頁呈列 20 年回測、QQQ／SPY baseline、成本、風險、統計門檻及 Paper 狀態。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第十一輪四條數據路徑 0/4，真實逐股數據 1/20，第十輪策略 27/48 失敗。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線第十輪 27/48 失敗。完整呈列 QQQ 及 SPY 比較，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線第十一輪供應商預審 0/4、真實逐股數據 1/20，第十輪策略 27/48 失敗，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [
