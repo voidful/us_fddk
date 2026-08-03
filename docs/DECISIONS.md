@@ -1,5 +1,20 @@
 # 決策與負結果
 
+## 2026-08-04：退出會計 8/12、攻擊 10/10，Round 13 的 20/20 不足以執行
+
+- 在寫 auditor 前固定十二道執行閘門、十項單一攻擊及五個算術控制；短線 v1 的
+  45/25/20/10 權重、Top-10、行業上限、成本、baseline、統計及 Paper 門檻全部不變。
+- 官方 WRDS CIZ event-study 範例明示日回報已含退市回報。現行 adapter 正確隔離
+  `DlyDelFlg=Y` storage row，只從 outcome 結算 `DelRet` 一次：100 元、-50% 終端值為
+  50，而不是錯誤雙計後的 25。缺 `DelRet` 的現金及換股收購、拆細與分拆例子亦對數。
+- 十項雙計、填 0、提早釋放股息、缺 successor、缺歷史、移除後缺價、缺 benchmark、
+  同日成交／前向填補攻擊 **10/10** 按指定 error code 拒收。
+- 十二道只過 **8/12**。未通過：dividend ex/pay-date 分離、每股訊號前 252 日、
+  `removed_continues` 至下一月度 open 的價格、QQQ／SPY／QQQ 補位同步行情。
+- 決定：Round 13 的 20/20 只代表八份資料賬本通過既有完整性合約；正式回測另須本輪
+  12/12。現況仍是真實入口 1/20、合法樣本 0、正式回測 0、短線 Paper 全現金、
+  實金動作 US$0。下一步先凍結 adapter v2／execution extension，不得先跑策略。
+
 ## 2026-08-04：CRSP CIZ 映射 20/20、攻擊 12/12，真實數據仍為 1/20
 
 - 在寫 adapter 前先凍結現行 CIZ Flat File Format 2.0、十份本地輸入、四類 evidence

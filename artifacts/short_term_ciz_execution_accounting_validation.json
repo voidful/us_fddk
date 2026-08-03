@@ -1,0 +1,236 @@
+{
+  "accounting_controls": {
+    "cash_consideration_per_share": 50.0,
+    "cash_exit_shares": 2.0,
+    "cash_exit_terminal_value": 100.0,
+    "delisting_last_value": 100.0,
+    "delisting_return": -0.5,
+    "delisting_terminal_value_once": 50.0,
+    "spinoff_successor_shares": 1.0,
+    "split_after_value": 100.0,
+    "split_before_value": 100.0,
+    "stock_exit_old_shares": 4.0,
+    "stock_exit_ratio": 0.5,
+    "stock_exit_successor_shares": 2.0
+  },
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 10,
+    "total": 10
+  },
+  "attacks": [
+    {
+      "expected_error_code": "delisting_return_double_count",
+      "id": "01",
+      "label": "同時計 DelDlyDt DlyRet 及 outcome DelRet",
+      "observed_error_code": "delisting_return_double_count",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "missing_exit_economics",
+      "id": "02",
+      "label": "DelRet 缺失時填 0／沒有退出代價",
+      "observed_error_code": "missing_exit_economics",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "cash_exit_double_count",
+      "id": "03",
+      "label": "現金收購同時計現金代價及 DelRet",
+      "observed_error_code": "cash_exit_double_count",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stock_exit_terms_missing",
+      "id": "04",
+      "label": "換股退出缺 successor／share ratio",
+      "observed_error_code": "stock_exit_terms_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "dividend_cash_available_early",
+      "id": "05",
+      "label": "付款日前釋放派息現金",
+      "observed_error_code": "dividend_cash_available_early",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "split_double_count",
+      "id": "06",
+      "label": "拆細同時調股數及當額外回報",
+      "observed_error_code": "split_double_count",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "post_removal_execution_price_missing",
+      "id": "07",
+      "label": "成分移除後價格未覆蓋至下次重新平衡",
+      "observed_error_code": "post_removal_execution_price_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "pre_signal_history_missing",
+      "id": "08",
+      "label": "新成分沒有 252 日歷史仍計訊號",
+      "observed_error_code": "pre_signal_history_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "benchmark_execution_data_missing",
+      "id": "09",
+      "label": "缺 QQQ／SPY 仍跑正式比較",
+      "observed_error_code": "benchmark_execution_data_missing",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "execution_clock_violation",
+      "id": "10",
+      "label": "月末訊號使用同日 open／補值",
+      "observed_error_code": "execution_clock_violation",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_sample_received": false,
+  "disclaimer": "本輪證明會計攻擊可拒收並找出四項輸入缺口；不代表正式引擎、供應商數據或策略通過，不構成投資建議或盈利保證。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "gate_summary": {
+    "all_passed": false,
+    "passed": 8,
+    "total": 12
+  },
+  "gates": [
+    {
+      "detail": "協議、收據及前置雜湊對數",
+      "id": "01",
+      "label": "事前凍結完整性",
+      "passed": true
+    },
+    {
+      "detail": "Round 13 控制 20/20、攻擊 12/12",
+      "id": "02",
+      "label": "第十三輪不變",
+      "passed": true
+    },
+    {
+      "detail": "return-only 儲存列不進普通日線",
+      "id": "03",
+      "label": "退市儲存列隔離",
+      "passed": true
+    },
+    {
+      "detail": "100 × (1 − 50%) = 50",
+      "id": "04",
+      "label": "退市回報只計一次",
+      "passed": true
+    },
+    {
+      "detail": "2 股 × US$50 = US$100",
+      "id": "05",
+      "label": "缺失 DelRet 現金退出",
+      "passed": true
+    },
+    {
+      "detail": "4 股 × 0.5 = 2 股 successor",
+      "id": "06",
+      "label": "缺失 DelRet 換股退出",
+      "passed": true
+    },
+    {
+      "detail": "現行 adapter 把 effective_date 寫成 ex-date，DisPayDt 未保留",
+      "id": "07",
+      "label": "派息權利與付款分離",
+      "passed": false
+    },
+    {
+      "detail": "拆細及 successor 權利各只結算一次",
+      "id": "08",
+      "label": "拆細／分拆持股會計",
+      "passed": true
+    },
+    {
+      "detail": "現行 20 道 audit 未要求每股訊號前 252 日數據",
+      "id": "09",
+      "label": "訊號前歷史覆蓋",
+      "passed": false
+    },
+    {
+      "detail": "現行 audit 只要求移除日後至少一列，未覆蓋下次月度 open",
+      "id": "10",
+      "label": "移除後成交覆蓋",
+      "passed": false
+    },
+    {
+      "detail": "八份逐股賬本沒有 QQQ／SPY 及 QQQ 補位行情",
+      "id": "11",
+      "label": "公平基準同步",
+      "passed": false
+    },
+    {
+      "detail": "下一正式交易日真實 open；同日或補值拒收",
+      "id": "12",
+      "label": "D+1 執行失敗關閉",
+      "passed": true
+    }
+  ],
+  "next_action": "先凍結 CIZ adapter v2／ledger execution extension：保留 DisPayDt、要求每股訊號前 252 日、移除後至下次 open 的價格，以及同步 QQQ／SPY；不得先跑策略。",
+  "official_document_evidence": {
+    "ciz_daily_return_includes_delisting_return": true,
+    "delisting_storage_date_is_not_trade_date": true,
+    "distribution_ex_and_pay_dates_are_distinct_fields": true,
+    "sources": [
+      {
+        "label": "WRDS Run an Event Study (CIZ Format)",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/run-an-event-study-ciz-format-macro/"
+      },
+      {
+        "label": "WRDS CRSP CIZtoSIZ macro",
+        "url": "https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/crsp-ciztosiz-macro/"
+      },
+      {
+        "label": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+        "url": "https://www.crsp.org/crsp_pdf/crsp-us-stock-indexes-databases-guide-flat-file-format-2-0/"
+      }
+    ]
+  },
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "protocol_integrity": {
+    "frozen_at": "2026-08-03T21:55:47Z",
+    "hash_checks": {
+      "artifacts/short_term_crsp_ciz_mapping_protocol_receipt.json": true,
+      "docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md": true,
+      "docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md": true,
+      "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+      "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+      "usfddk/crsp_ciz_adapter.py": true
+    },
+    "passed": true
+  },
+  "real_money_action_usd": 0,
+  "research_round": 14,
+  "round13_control_ledger_gates": {
+    "all_passed": true,
+    "passed": 20,
+    "total": 20
+  },
+  "schema_version": 1,
+  "status": "execution_accounting_controls_passed_formal_inputs_incomplete",
+  "strategy_rule_changed": false,
+  "unresolved_execution_inputs": [
+    "派息權利與付款分離",
+    "訊號前歷史覆蓋",
+    "移除後成交覆蓋",
+    "公平基準同步"
+  ]
+}

@@ -40,7 +40,15 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /先補真實數據/);
-  assert.match(html, /CIZ MAPPING · ROUND 13/);
+  assert.match(html, /EXECUTION ACCOUNTING · ROUND 14/);
+  assert.match(html, /退出會計 8\/12；十項攻擊全拒收，四項正式輸入仍缺/);
+  assert.match(html, /退市沒有雙計，但正式引擎仍不可運行/);
+  assert.match(html, /100 → (?:<!-- -->)?50/);
+  assert.match(html, /十二道閘門逐項呈列/);
+  assert.match(html, /十項會計與成交攻擊，全數以指定代碼停止/);
+  assert.match(html, /付款日前釋放派息現金/);
+  assert.match(html, /先補四項 execution extension，不得先跑策略/);
+  assert.match(html, /CRSP CIZ MAPPING · ROUND 13/);
   assert.match(html, /映射 20\/20、攻擊 12\/12 拒收/);
   assert.match(html, /成分生效日不是公布時間；退市儲存日不是退出日/);
   assert.match(html, /十二種單一錯誤，全數在指定閘門被擋下/);

@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import cizExecutionAccounting from "../data/short-term-ciz-execution-accounting.json";
 import crspCizMapping from "../data/short-term-crsp-ciz-mapping.json";
 import providerQualification from "../data/short-term-provider-qualification.json";
 import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
@@ -18,7 +19,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十三輪 CIZ 映射控制包 20/20、十二項攻擊全拒收，但真實逐股數據仍為 1/20。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十四輪退出會計 8/12、十項攻擊全拒收，正式逐股回測仍未授權。",
 };
 
 const readerCapital = 1_000;
@@ -157,6 +158,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const executionAttackRows = cizExecutionAccounting.attacks;
 const cizAttackRows = crspCizMapping.attacks;
 const providerCapabilityRows = [
   { key: "05_security_master", label: "永久證券／公司 ID" },
@@ -662,16 +664,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CIZ MAPPING · ROUND 13</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · EXECUTION ACCOUNTING · ROUND 14</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真實數據</h1>
               <p className="hero-lead">
-                第十三輪按 CRSP 現行 CIZ 欄位凍結轉換橋：合成 CIZ 包轉成八份 point-in-time 賬本後為 <strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong>，公布時間、生效日替代、歷史倒填、調整價及退市儲存日等 <strong>{crspCizMapping.attack_summary.rejected}/{crspCizMapping.attack_summary.total} 項攻擊全部拒收</strong>。這只證明轉換器會關門，不代表供應商或策略通過。
+                第十四輪追查正式資產淨值會計：退市、現金收購、換股、拆細及分拆均只結算一次，十項雙計、提早入賬、缺價及時鐘攻擊 <strong>{cizExecutionAccounting.attack_summary.rejected}/{cizExecutionAccounting.attack_summary.total} 全部拒收</strong>；但十二道執行閘門只通過 <strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong>。Round 13 映射 20/20 是必要條件，不等於引擎可以落盤。
                 <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#crsp-ciz-mapping">查看 CIZ 映射與攻擊</a>
+                <a className="primary-button aggressive-button" href="#ciz-execution-accounting">查看退出會計與四個缺口</a>
+                <a className="secondary-button" href="#crsp-ciz-mapping">查看 CIZ 映射</a>
                 <a className="secondary-button" href="#provider-qualification">查看四條數據路徑</a>
                 <a className="secondary-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
                 <a className="secondary-button" href="#point-in-time-readiness">查看 1/20 數據閘門</a>
@@ -680,14 +683,15 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>CIZ {crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total} · 供應商未通過</b>
+                <b>執行會計 {cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total} · 正式引擎未通過</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>CIZ 映射攻擊</dt><dd>{crspCizMapping.attack_summary.rejected}/{crspCizMapping.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>執行會計攻擊</dt><dd>{cizExecutionAccounting.attack_summary.rejected}/{cizExecutionAccounting.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>未解輸入</dt><dd>{cizExecutionAccounting.unresolved_execution_inputs.length} · 正式回測停止</dd></div>
                 <div><dt>供應商樣本</dt><dd>0 · 尚未取得合法數據</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
@@ -700,12 +704,72 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>CIZ 映射控制</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><small>合成測試，不是供應商通過</small></article>
+              <article><span>執行會計閘門</span><strong>{cizExecutionAccounting.gate_summary.passed}/{cizExecutionAccounting.gate_summary.total}</strong><small>四項輸入仍未完整</small></article>
+              <article><span>CIZ 映射控制</span><strong>{crspCizMapping.synthetic_control.gates_passed}/{crspCizMapping.synthetic_control.gates_total}</strong><small>必要但不足以執行</small></article>
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
-              <article><span>2006–2026 CAGR</span><strong>{pct(dailyRecent.candidate.cagr, 2)}</strong><small>QQQ {pct(dailyRecent.qqq.cagr, 2)}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="ciz-execution-accounting">
+            <div className="section-heading">
+              <div><span>CIZ EXECUTION ACCOUNTING · ROUND 14</span><h2>退出會計 8/12；十項攻擊全拒收，四項正式輸入仍缺</h2></div>
+              <p>20/20 賬本只證明數據形狀完整。本輪再問一次：若真的持有股份，退市、收購、派息、拆細及成分移除能否按下一開市時鐘準確結算，而且不重複計回報？</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>退市沒有雙計，但正式引擎仍不可運行</h3>
+                <p>最後持倉值 100、DelRet −50% 時，正確終端值是 {cizExecutionAccounting.accounting_controls.delisting_terminal_value_once.toFixed(0)}；adapter 沒有把 DelDlyDt storage row 再計一次。現金收購、換股、拆細與分拆亦通過唯一結算控制。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>固定攻擊</span><strong>{cizExecutionAccounting.attack_summary.rejected}/{cizExecutionAccounting.attack_summary.total}</strong><p>雙計、早收股息、缺歷史、缺 benchmark 及同日成交全部拒收。</p></article>
+                <article><span>正式決策</span><strong>回測 0 · US$0</strong><p>四項缺口未補；Paper 維持全現金，不顯示選股名單。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>ONCE-ONLY ACCOUNTING</span><h3>五個固定例子，經濟價值沒有憑空增加或消失</h3></div>
+              <p>這些是合成算術控制，不是策略回報；用途是防止未來正式數據在退出或公司行動時重複入賬。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="退出與公司行動會計控制">
+              <article className="passed"><span>01</span><b>退市 −50%</b><strong>100 → {cizExecutionAccounting.accounting_controls.delisting_terminal_value_once.toFixed(0)}</strong><p>DelRet 只由 outcome 結算一次。</p></article>
+              <article className="passed"><span>02</span><b>現金收購</b><strong>2 × 50 = {cizExecutionAccounting.accounting_controls.cash_exit_terminal_value.toFixed(0)}</strong><p>缺 DelRet 時只用可追溯每股現金代價。</p></article>
+              <article className="passed"><span>03</span><b>換股收購</b><strong>4 × 0.5 = {cizExecutionAccounting.accounting_controls.stock_exit_successor_shares.toFixed(0)} 股</strong><p>舊股消失，successor 持股只建立一次。</p></article>
+              <article className="passed"><span>04</span><b>2-for-1 拆細</b><strong>100 → {cizExecutionAccounting.accounting_controls.split_after_value.toFixed(0)}</strong><p>股數倍增、價格減半，不當成額外 +100% 回報。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FORMAL ENGINE GATES</span><h3>十二道閘門逐項呈列，不用 20/20 headline 掩蓋缺口</h3></div>
+              <p>未通過項目會直接阻止正式 20 年回測；合成映射、程式綠燈或品牌文件都不能代替。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {cizExecutionAccounting.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十項會計與成交攻擊，全數以指定代碼停止</h3></div>
+              <p>攻擊通過只代表 auditor 能辨認錯誤；不會把 8/12 包裝成正式引擎完成。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {executionAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>先補四項 execution extension，不得先跑策略</b></div>
+              <p>保留 dividend pay-date、每股訊號前 252 日、移除後至下一月度 open 的價格，以及同步 QQQ／SPY／QQQ 補位行情；四項齊備後仍須合法真實數據 20/20。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_REPORT.md" target="_blank" rel="noreferrer">第十四輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md" target="_blank" rel="noreferrer">事前會計協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_ciz_execution_accounting_validation.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 
@@ -910,7 +974,7 @@ export default function Home() {
 
             <div className="subsection-heading stock-heading">
               <div><span>FAIL-CLOSED TESTS</span><h3>十二種固定攻擊加一個完整控制包</h3></div>
-              <p>第十三輪再把 CIZ 生效／公布時間、raw／adjusted 價及退市事件／儲存日期分開；合成 fixture 仍不會當成回測證據。</p>
+              <p>第十三輪把 CIZ 生效／公布時間、raw／adjusted 價及退市事件／儲存日期分開；第十四輪再證明 20/20 賬本不足以直接執行，仍須退出會計 12/12。</p>
             </div>
             <div className="test-matrix point-in-time-tests">
               <article className="test-card"><div><span>完整合成賬本</span><b className="positive-number">20/20</b></div><p>永久 ID、成分、價格、分類及 outcome 一致時才放行。</p></article>
@@ -922,7 +986,7 @@ export default function Home() {
             </div>
             <div className="data-source-decision">
               <div><span>NEXT VALID ACTION</span><b>只接受數據擁有人合法提供的本地 point-in-time／退市轉換包</b></div>
-              <p>數據包須固定覆蓋 2006-08-01–2026-07-31、每日 495–510 隻成分及至少 99.5% 在籍價格／停牌記錄。20/20 只准按既有 v1 規則重跑一次，並不自動開 Paper。</p>
+              <p>數據包須固定覆蓋 2006-08-01–2026-07-31、每日 495–510 隻成分及至少 99.5% 在籍價格／停牌記錄。數據 20/20 後仍要通過第十四輪執行會計 12/12，才可按既有 v1 規則重跑一次；兩者都不自動開 Paper。</p>
               <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_POINT_IN_TIME_READINESS_REPORT.md" target="_blank" rel="noreferrer">第九輪就緒度報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md" target="_blank" rel="noreferrer">凍結數據合約</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_point_in_time_readiness.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
