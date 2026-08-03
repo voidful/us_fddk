@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "research_round": 12,
+  "status": "acceptance_harness_passed_provider_data_still_blocked",
+  "evidence_as_of": "2026-08-04",
+  "protocol_integrity": {
+    "passed": true,
+    "hash_checks": {
+      "protocol": true,
+      "point_in_time_contract": true,
+      "manifest_schema": true,
+      "strategy_protocol": true
+    },
+    "frozen_at": "2026-08-03T20:38:24Z"
+  },
+  "control": {
+    "synthetic_only": true,
+    "contains_provider_rows": false,
+    "gate_summary": {
+      "passed": 20,
+      "total": 20,
+      "all_passed": true
+    },
+    "formal_backtest_authorized_for_control_only": true,
+    "paper_authorized": false
+  },
+  "attacks": [
+    {
+      "id": "01",
+      "label": "授權聲明缺必要欄位",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "designated_gate_pass_values": {
+        "02_manifest_and_file_set": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 18,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "02",
+      "label": "授權聲明含未授權欄位",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "designated_gate_pass_values": {
+        "02_manifest_and_file_set": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "03",
+      "label": "授權時間沒有 UTC offset",
+      "expected_failed_gates": [
+        "01_authorized_provider",
+        "02_manifest_and_file_set"
+      ],
+      "designated_gate_pass_values": {
+        "01_authorized_provider": false,
+        "02_manifest_and_file_set": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 18,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "04",
+      "label": "匯出時間晚於首次匯入",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "designated_gate_pass_values": {
+        "02_manifest_and_file_set": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "05",
+      "label": "數據截至日早於固定終點",
+      "expected_failed_gates": [
+        "09_fixed_20_year_calendar"
+      ],
+      "designated_gate_pass_values": {
+        "09_fixed_20_year_calendar": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "06",
+      "label": "歷史代號在生效後才可知",
+      "expected_failed_gates": [
+        "06_identifier_history"
+      ],
+      "designated_gate_pass_values": {
+        "06_identifier_history": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "07",
+      "label": "指數成分在生效後才公布",
+      "expected_failed_gates": [
+        "07_membership_availability"
+      ],
+      "designated_gate_pass_values": {
+        "07_membership_availability": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "08",
+      "label": "退市回報及代價全部缺失",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "designated_gate_pass_values": {
+        "16_permanent_exit_economics": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "09",
+      "label": "換股 successor 不在永久主檔",
+      "expected_failed_gates": [
+        "14_corporate_actions",
+        "16_permanent_exit_economics"
+      ],
+      "designated_gate_pass_values": {
+        "14_corporate_actions": false,
+        "16_permanent_exit_economics": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 18,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "10",
+      "label": "仍在籍結果混入退出欄位",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "designated_gate_pass_values": {
+        "16_permanent_exit_economics": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "11",
+      "label": "退出日與成分終止日不一致",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "designated_gate_pass_values": {
+        "16_permanent_exit_economics": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 18,
+        "total": 20,
+        "all_passed": false
+      }
+    },
+    {
+      "id": "12",
+      "label": "最後交易日後仍有行情",
+      "expected_failed_gates": [
+        "17_no_post_exit_prices"
+      ],
+      "designated_gate_pass_values": {
+        "17_no_post_exit_prices": false
+      },
+      "rejected": true,
+      "overall_gate_count": {
+        "passed": 19,
+        "total": 20,
+        "all_passed": false
+      }
+    }
+  ],
+  "attack_summary": {
+    "rejected": 12,
+    "total": 12,
+    "all_rejected": true
+  },
+  "sample_request": {
+    "purpose": "只驗證 schema、時間語義、缺值及授權；不購買、不回測、不公開原始列",
+    "official_product_path": "CRSP US Stock and Indexes plus Historical Indexes via an authorized WRDS or flat-file subscription",
+    "required_provider_answers": [
+      "S&P 500 membership 的 start/end 是生效日還是數據庫可用日",
+      "能否逐次提供 announcement timestamp；不能時須明示不可重建",
+      "2006-08-01 至 2026-07-31 的 DelRetMissType 數量、比例及原因分布",
+      "缺失 DelRet 能否由 DelAmt、DelDivAmt、successor PERMNO/PERMCO 或完整付款重建",
+      "本地研究、衍生匯總、SHA-256 收據及禁止原始列再分發的授權邊界"
+    ],
+    "requested_table_shapes": [
+      {
+        "official_area": "security and issuer history",
+        "minimum_fields": [
+          "PERMNO",
+          "PERMCO",
+          "historical ticker/trading symbol",
+          "CUSIP",
+          "primary exchange",
+          "share/security type",
+          "effective start/end",
+          "SIC/NAICS/ICB or equivalent historical industry"
+        ]
+      },
+      {
+        "official_area": "StkIndMembership and S&P 500 history",
+        "minimum_fields": [
+          "PERMNO",
+          "index identifier",
+          "MbrStartDt",
+          "MbrEndDt",
+          "announcement or availability timestamp"
+        ]
+      },
+      {
+        "official_area": "StkDlySecurityData",
+        "minimum_fields": [
+          "DlyCalDt",
+          "DlyOpen/DlyHigh/DlyLow/DlyClose",
+          "DlyVolume",
+          "daily total return and missing flag",
+          "daily delisting flag",
+          "ordinary/non-ordinary distribution amount"
+        ]
+      },
+      {
+        "official_area": "distributions and delists",
+        "minimum_fields": [
+          "announcement/ex/effective/payment dates",
+          "cash and share factors",
+          "DelRet",
+          "DelRetMissType",
+          "delisting amount/dividend",
+          "successor PERMNO/PERMCO",
+          "delisting reason/payment type"
+        ]
+      }
+    ],
+    "required_edge_cases": [
+      "代號或交易所變更",
+      "同公司多股份類別",
+      "S&P 500 加入及移除",
+      "有效退市回報",
+      "缺失退市回報",
+      "現金收購",
+      "換股收購",
+      "停牌",
+      "拆股及現金派息",
+      "歷史分類變更"
+    ],
+    "formal_coverage_unchanged": {
+      "start": "2006-08-01",
+      "end": "2026-07-31",
+      "minimum_member_price_coverage": 0.995,
+      "required_daily_member_range": [
+        495,
+        510
+      ],
+      "all_twenty_gates_required": true
+    }
+  },
+  "actual_point_in_time_readiness": {
+    "passed": 1,
+    "total": 20,
+    "all_passed": false
+  },
+  "actual_provider_bundle_present": false,
+  "wrds_catalog_queried": false,
+  "authorized_provider_sample_received": false,
+  "provider_qualified": false,
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "strategy_rule_changed": false,
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "next_action": "把凍結最小樣本要求交給 CRSP／WRDS；只有合法樣本通過同一驗收及正式 20/20 後，才可運行一次凍結 v1 回測。",
+  "disclaimer": "12/12 只證明合成攻擊被拒絕，不證明 CRSP／WRDS 已合格，不構成投資建議或盈利保證。"
+}

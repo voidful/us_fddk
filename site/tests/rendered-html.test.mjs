@@ -40,6 +40,13 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /先補真實數據/);
+  assert.match(html, /DATA ACCEPTANCE · ROUND 12/);
+  assert.match(html, /驗收器 12\/12 拒收；真實數據仍是 1\/20/);
+  assert.match(html, /同日較遲才知的數據，現在會按時間而非日期拒收/);
+  assert.match(html, /十二種單一錯誤，全數在指定閘門被擋下/);
+  assert.match(html, /授權聲明缺必要欄位/);
+  assert.match(html, /換股 successor 不在永久主檔/);
+  assert.match(html, /供應商樣本 0、正式回測 0、Paper 0/);
   assert.match(html, /供應商預審 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?4/);
   assert.match(html, /四條數據路徑：沒有一條可單獨通過/);
   assert.match(html, /CRSP／WRDS 只適合先索取正式樣本/);
@@ -58,6 +65,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /負 alpha 反駁/);
   assert.match(html, /逐股數據就緒度：1\/20，先堵住存活者偏差/);
   assert.match(html, /展開全部 20 道數據閘門/);
+  assert.match(html, /十二種固定攻擊加一個完整控制包/);
   assert.match(html, /驗證器已能拒絕壞數據；真實供應商數據仍未到位/);
   assert.match(html, /幽靈價格/);
   assert.match(html, /全池動量傾斜：數據 10\/10，經濟只過 23\/48/);

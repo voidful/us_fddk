@@ -1,5 +1,25 @@
 # 決策與負結果
 
+## 2026-08-04：CRSP 樣本驗收 12/12 拒收，真實數據仍為 1/20
+
+- 在修補驗收程式前先固定十二種攻擊、指定失敗閘門及停止規則；既有短線 v1、20 年
+  主期、公平 baseline、10／25／50 bps、統計與前瞻 Paper 門檻全部不變。本機沒有
+  WRDS／CRSP 憑證或套件，本輪沒有查 catalog、下載付費數據或取得供應商樣本。
+- 原入口只手動檢查 manifest top-level，未完整執行巢狀 schema；identifier、membership
+  及 classification 的 timestamp 又曾正規化成日期，同日較遲才知的數據可能被誤收。
+  本輪強制授權欄位／額外欄位、UTC offset、匯出先於匯入、manifest 截至日對齊交易日曆，
+  並以紐約生效日午夜作無前視比較。
+- 退出側新增 successor 必須存在於永久主檔、`still_member` 不得夾帶退出數據、永久退出
+  日須對齊 membership 終止日，以及缺失退市回報與最後交易日後行情的硬拒收。CRSP
+  官方文件明示 DelRetMissType，故不能假定品牌本身消除退出偏差。
+- 合成控制包通過 20/20；十二個 manifest、時間、永久 ID、退出經濟及幽靈價格攻擊
+  **12/12** 在指定閘門被拒收。此結果只驗證程式，不含供應商原始列，也不計入策略
+  PSR／DSR／PBO 或 Paper 樣本。
+- 決定：驗收器通過，但 CRSP／WRDS、正式數據及策略均未通過。真實入口維持 **1/20**，
+  合法樣本 0、正式 20 年逐股回測 0、短線 Paper 全現金、0 成交、0 持倉、實金動作
+  US$0。下一步只索取凍結的 schema、細樣本及授權條款；完整證據見
+  `docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_REPORT.md`。
+
 ## 2026-08-04：四條數據來源預審 0/4，CRSP／WRDS 只作首輪查詢
 
 - 在閱讀任何新供應商文件前，固定 CRSP／WRDS、Norgate、Nasdaq Data Link Sharadar

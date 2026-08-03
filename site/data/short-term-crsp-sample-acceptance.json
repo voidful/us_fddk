@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "round": 12,
+  "status": "acceptance_harness_passed_provider_data_still_blocked",
+  "headline": "12/12 個驗收攻擊全部拒收；真實逐股數據仍為 1/20",
+  "evidence_as_of": "2026-08-04",
+  "protocol_integrity": true,
+  "synthetic_control": {
+    "passed": true,
+    "gates_passed": 20,
+    "gates_total": 20,
+    "provider_rows": false,
+    "paper_authorized": false
+  },
+  "attack_summary": {
+    "rejected": 12,
+    "total": 12,
+    "all_rejected": true
+  },
+  "attacks": [
+    {
+      "id": "01",
+      "label": "授權聲明缺必要欄位",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "02",
+      "label": "授權聲明含未授權欄位",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "03",
+      "label": "授權時間沒有 UTC offset",
+      "expected_failed_gates": [
+        "01_authorized_provider",
+        "02_manifest_and_file_set"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "04",
+      "label": "匯出時間晚於首次匯入",
+      "expected_failed_gates": [
+        "02_manifest_and_file_set"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "05",
+      "label": "數據截至日早於固定終點",
+      "expected_failed_gates": [
+        "09_fixed_20_year_calendar"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "06",
+      "label": "歷史代號在生效後才可知",
+      "expected_failed_gates": [
+        "06_identifier_history"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "07",
+      "label": "指數成分在生效後才公布",
+      "expected_failed_gates": [
+        "07_membership_availability"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "08",
+      "label": "退市回報及代價全部缺失",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "09",
+      "label": "換股 successor 不在永久主檔",
+      "expected_failed_gates": [
+        "14_corporate_actions",
+        "16_permanent_exit_economics"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "10",
+      "label": "仍在籍結果混入退出欄位",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "11",
+      "label": "退出日與成分終止日不一致",
+      "expected_failed_gates": [
+        "16_permanent_exit_economics"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "12",
+      "label": "最後交易日後仍有行情",
+      "expected_failed_gates": [
+        "17_no_post_exit_prices"
+      ],
+      "rejected": true
+    }
+  ],
+  "sample_request": {
+    "provider_answers": [
+      "S&P 500 membership 的 start/end 是生效日還是數據庫可用日",
+      "能否逐次提供 announcement timestamp；不能時須明示不可重建",
+      "2006-08-01 至 2026-07-31 的 DelRetMissType 數量、比例及原因分布",
+      "缺失 DelRet 能否由 DelAmt、DelDivAmt、successor PERMNO/PERMCO 或完整付款重建",
+      "本地研究、衍生匯總、SHA-256 收據及禁止原始列再分發的授權邊界"
+    ],
+    "edge_cases": [
+      "代號或交易所變更",
+      "同公司多股份類別",
+      "S&P 500 加入及移除",
+      "有效退市回報",
+      "缺失退市回報",
+      "現金收購",
+      "換股收購",
+      "停牌",
+      "拆股及現金派息",
+      "歷史分類變更"
+    ],
+    "formal_coverage": {
+      "start": "2006-08-01",
+      "end": "2026-07-31",
+      "minimum_member_price_coverage": 0.995,
+      "required_daily_member_range": [
+        495,
+        510
+      ],
+      "all_twenty_gates_required": true
+    }
+  },
+  "actual_point_in_time_readiness": {
+    "passed": 1,
+    "total": 20,
+    "all_passed": false
+  },
+  "authorized_provider_sample_received": false,
+  "provider_qualified": false,
+  "formal_stock_backtest_authorized": false,
+  "formal_stock_backtest_completed": false,
+  "strategy_rule_changed": false,
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "next_action": "把凍結最小樣本要求交給 CRSP／WRDS；只有合法樣本通過同一驗收及正式 20/20 後，才可運行一次凍結 v1 回測。",
+  "source_links": [
+    {
+      "label": "CRSP US Stock Databases",
+      "url": "https://indexes.morningstar.com/research-data-products/crsp-us-stock-databases"
+    },
+    {
+      "label": "CRSP Flat File Format 2.0 Guide",
+      "url": "https://www.crsp.org/wp-content/uploads/guides/CRSP_US_Stock_%26_Indexes_Database_Guide_Flat_File_Format_2.0.pdf"
+    },
+    {
+      "label": "CRSP 計算及退市回報方法",
+      "url": "https://www.crsp.org/crsp_pdf/crsp-us-stock-indexes-databases-calculations-index-methodologies-guide-flat-file-format-2-0/"
+    },
+    {
+      "label": "WRDS CRSP 產品目錄",
+      "url": "https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/center-for-research-in-security-prices-crsp/"
+    }
+  ]
+}

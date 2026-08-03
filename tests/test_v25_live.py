@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import shutil
 from copy import deepcopy
 from datetime import UTC, datetime
 from pathlib import Path
@@ -9,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from usfddk.cli import main as cli_main
 from usfddk.data import load_snapshot, save_snapshot, validate_panel
 from usfddk.models import MarketPanel
 from usfddk.v25_live import (
@@ -36,6 +36,31 @@ def _fixtures() -> tuple[dict, dict, dict, dict]:
         key: json.loads(path.read_text(encoding="utf-8")) for key, path in STATE_PATHS.items()
     }
     return site, states["candidate"], states["SPY"], states["matched"]
+
+
+def _initialize_frozen_states(tmp_path: Path) -> dict[str, Path]:
+    paths = {
+        label: tmp_path / source.name for label, source in STATE_PATHS.items()
+    }
+    code = cli_main(
+        [
+            "v25-paper-bundle",
+            "--snapshot",
+            str(SNAPSHOT),
+            "--eligibility-receipt",
+            str(VALIDATION),
+            "--candidate-state",
+            str(paths["candidate"]),
+            "--spy-state",
+            str(paths["SPY"]),
+            "--matched-state",
+            str(paths["matched"]),
+            "--evidence",
+            str(tmp_path / "initial-evidence.json"),
+        ]
+    )
+    assert code == 0
+    return paths
 
 
 def test_v25_live_audit_accepts_synchronized_site_and_states() -> None:
@@ -116,11 +141,7 @@ def test_v25_live_audit_fails_closed_on_account_or_site_drift() -> None:
 
 
 def test_v25_live_update_is_idempotent_without_a_new_session(tmp_path: Path) -> None:
-    copied = {}
-    for label, source in STATE_PATHS.items():
-        destination = tmp_path / source.name
-        shutil.copy2(source, destination)
-        copied[label] = destination
+    copied = _initialize_frozen_states(tmp_path)
     before = {label: path.read_bytes() for label, path in copied.items()}
     status = run_v25_live_update(
         snapshot=SNAPSHOT,
@@ -189,11 +210,7 @@ def test_v25_live_update_executes_all_first_orders_on_same_new_open(
     snapshot = tmp_path / "next-session.zip"
     save_snapshot(panel, snapshot, contract=contract)
 
-    copied = {}
-    for label, source in STATE_PATHS.items():
-        destination = tmp_path / source.name
-        shutil.copy2(source, destination)
-        copied[label] = destination
+    copied = _initialize_frozen_states(tmp_path)
     status = run_v25_live_update(
         snapshot=snapshot,
         as_of="2026-08-03",
@@ -226,11 +243,7 @@ def test_v25_live_update_executes_all_first_orders_on_same_new_open(
 def test_v25_live_update_rejects_drift_before_writing_any_account(
     tmp_path: Path,
 ) -> None:
-    copied = {}
-    for label, source in STATE_PATHS.items():
-        destination = tmp_path / source.name
-        shutil.copy2(source, destination)
-        copied[label] = destination
+    copied = _initialize_frozen_states(tmp_path)
     matched = json.loads(copied["matched"].read_text(encoding="utf-8"))
     matched["initial_cash"] = 90_000.0
     copied["matched"].write_text(
@@ -257,11 +270,7 @@ def test_v25_live_update_rejects_drift_before_writing_any_account(
 def test_v25_live_update_rejects_order_path_drift_before_writing(
     tmp_path: Path,
 ) -> None:
-    copied = {}
-    for label, source in STATE_PATHS.items():
-        destination = tmp_path / source.name
-        shutil.copy2(source, destination)
-        copied[label] = destination
+    copied = _initialize_frozen_states(tmp_path)
     matched = json.loads(copied["matched"].read_text(encoding="utf-8"))
     matched["pending_order"]["execute_after"] = "2026-08-01"
     copied["matched"].write_text(

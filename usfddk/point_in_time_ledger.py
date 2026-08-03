@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
@@ -151,6 +152,9 @@ EVENT_TYPES = {
     "delisting",
     "rights",
 }
+EXPLICIT_OFFSET_PATTERN = re.compile(r"(?:Z|[+-]\d{2}:\d{2})$")
+ISO_DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
 @dataclass(frozen=True)
@@ -174,7 +178,66 @@ def _date_series(frame: pd.DataFrame, column: str) -> pd.Series:
 
 def _utc_series(frame: pd.DataFrame, column: str) -> pd.Series:
     raw = frame[column].replace("", pd.NA)
+    explicit = raw.astype("string").str.contains(EXPLICIT_OFFSET_PATTERN, na=False)
+    return pd.to_datetime(raw.where(explicit), errors="coerce", utc=True)
+
+
+def _utc_scalar(value: Any) -> pd.Timestamp:
+    raw = str(value)
+    if not EXPLICIT_OFFSET_PATTERN.search(raw):
+        return pd.NaT
     return pd.to_datetime(raw, errors="coerce", utc=True)
+
+
+def _new_york_midnight_utc(dates: pd.Series) -> pd.Series:
+    return dates.dt.tz_localize("America/New_York").dt.tz_convert("UTC")
+
+
+def _manifest_structure_ok(manifest: Mapping[str, Any]) -> tuple[bool, dict[str, bool]]:
+    license_data = manifest.get("license_attestation")
+    license_keys_ok = bool(
+        isinstance(license_data, dict)
+        and {"authorized_for_local_research", "raw_redistribution_allowed", "attested_at"}
+        <= set(license_data)
+        and set(license_data)
+        <= {
+            "authorized_for_local_research",
+            "raw_redistribution_allowed",
+            "attested_at",
+            "reference",
+        }
+    )
+    license_types_ok = bool(
+        license_keys_ok
+        and license_data["authorized_for_local_research"] is True
+        and isinstance(license_data["raw_redistribution_allowed"], bool)
+        and pd.notna(_utc_scalar(license_data["attested_at"]))
+        and (
+            "reference" not in license_data
+            or isinstance(license_data["reference"], str)
+        )
+    )
+    files = manifest.get("files")
+    file_set_ok = isinstance(files, dict) and set(files) == set(REQUIRED_FILES)
+    receipt_shapes_ok = bool(
+        file_set_ok
+        and all(
+            isinstance(receipt, dict)
+            and set(receipt) == {"sha256", "rows"}
+            and isinstance(receipt["sha256"], str)
+            and SHA256_PATTERN.fullmatch(receipt["sha256"]) is not None
+            and isinstance(receipt["rows"], int)
+            and not isinstance(receipt["rows"], bool)
+            and receipt["rows"] >= 0
+            for receipt in files.values()
+        )
+    )
+    checks = {
+        "top_level_keys_ok": set(manifest) == MANIFEST_REQUIRED_KEYS,
+        "license_shape_ok": license_keys_ok and license_types_ok,
+        "file_receipt_shapes_ok": receipt_shapes_ok,
+    }
+    return all(checks.values()), checks
 
 
 def _number_series(frame: pd.DataFrame, column: str) -> pd.Series:
@@ -403,10 +466,19 @@ def audit_point_in_time_bundle(
     as_of_date = str(manifest.get("as_of_date", "")).strip() or None
 
     license_data = manifest.get("license_attestation")
+    attested_at = (
+        _utc_scalar(license_data.get("attested_at"))
+        if isinstance(license_data, dict)
+        else pd.NaT
+    )
+    first_imported_at = _utc_scalar(manifest.get("first_imported_at"))
     license_ok = (
         isinstance(license_data, dict)
         and license_data.get("authorized_for_local_research") is True
-        and bool(str(license_data.get("attested_at", "")).strip())
+        and isinstance(license_data.get("raw_redistribution_allowed"), bool)
+        and pd.notna(attested_at)
+        and pd.notna(first_imported_at)
+        and attested_at <= first_imported_at
         and provider is not None
         and bool(str(manifest.get("provider_product", "")).strip())
     )
@@ -417,16 +489,21 @@ def audit_point_in_time_bundle(
         else "缺少本地研究授權聲明、供應商或產品",
     )
 
-    manifest_keys_ok = set(manifest) == MANIFEST_REQUIRED_KEYS
+    manifest_schema_ok, manifest_schema_checks = _manifest_structure_ok(manifest)
     policies_ok = all(manifest.get(key) == value for key, value in MANIFEST_POLICY_VALUES.items())
+    exported_at = _utc_scalar(manifest.get("exported_at"))
+    as_of_raw = str(manifest.get("as_of_date", ""))
+    as_of_parsed = pd.to_datetime(as_of_raw, errors="coerce")
     scalar_ok = (
         manifest.get("schema_version") == POINT_IN_TIME_SCHEMA_VERSION
         and manifest.get("currency") == "USD"
         and manifest.get("timezone") == "America/New_York"
         and bool(str(manifest.get("transform_version", "")).strip())
-        and pd.notna(pd.to_datetime(manifest.get("exported_at"), utc=True, errors="coerce"))
-        and pd.notna(pd.to_datetime(manifest.get("first_imported_at"), utc=True, errors="coerce"))
-        and pd.notna(pd.to_datetime(manifest.get("as_of_date"), errors="coerce"))
+        and pd.notna(exported_at)
+        and pd.notna(first_imported_at)
+        and exported_at <= first_imported_at
+        and ISO_DATE_PATTERN.fullmatch(as_of_raw) is not None
+        and pd.notna(as_of_parsed)
     )
     file_receipts = manifest.get("files")
     receipt_set_ok = isinstance(file_receipts, dict) and set(file_receipts) == set(REQUIRED_FILES)
@@ -434,17 +511,26 @@ def audit_point_in_time_bundle(
     columns_ok = all(
         set(table.columns) == set(REQUIRED_COLUMNS[name]) for name, table in tables.items()
     )
-    gate_02 = manifest_keys_ok and policies_ok and scalar_ok and receipt_set_ok and file_set_ok
+    gate_02 = bool(
+        manifest_schema_ok
+        and policies_ok
+        and scalar_ok
+        and receipt_set_ok
+        and file_set_ok
+        and columns_ok
+    )
     gates["02_manifest_and_file_set"] = _gate(
         gate_02,
         "manifest、固定政策及精確檔案集合吻合"
         if gate_02
         else "manifest 欄位、固定政策或精確檔案集合不符",
         {
-            "manifest_keys_ok": manifest_keys_ok,
+            **manifest_schema_checks,
             "policies_ok": policies_ok,
+            "scalar_and_timestamp_order_ok": scalar_ok,
             "file_set_ok": file_set_ok,
             "file_receipt_set_ok": receipt_set_ok,
+            "csv_columns_ok": columns_ok,
         },
     )
 
@@ -509,8 +595,10 @@ def audit_point_in_time_bundle(
 
     identifier_dates = pd.DataFrame(
         {
-            "start": _date_series(identifiers, "effective_from"),
-            "known": _utc_series(identifiers, "known_at").dt.tz_localize(None).dt.normalize(),
+            "start": _new_york_midnight_utc(
+                _date_series(identifiers, "effective_from")
+            ),
+            "known": _utc_series(identifiers, "known_at"),
         }
     )
     identifier_ok = bool(
@@ -533,7 +621,8 @@ def audit_point_in_time_bundle(
 
     membership_start = _date_series(memberships, "effective_from")
     membership_end = _end_dates(memberships, "effective_to")
-    announced = _utc_series(memberships, "announced_at").dt.tz_localize(None).dt.normalize()
+    announced = _utc_series(memberships, "announced_at")
+    membership_available_from = _new_york_midnight_utc(membership_start)
     membership_availability_ok = bool(
         len(memberships)
         and memberships["index_id"].eq(requirements.index_id).all()
@@ -542,7 +631,7 @@ def audit_point_in_time_bundle(
         and memberships["source_record_id"].is_unique
         and membership_start.notna().all()
         and announced.notna().all()
-        and (announced <= membership_start).all()
+        and (announced <= membership_available_from).all()
     )
     gates["07_membership_availability"] = _gate(
         membership_availability_ok,
@@ -590,12 +679,20 @@ def audit_point_in_time_bundle(
     exact_exchange_calendar = bool(actual_session_index.equals(expected_sessions))
     missing_exchange_sessions = expected_sessions.difference(actual_session_index)
     extra_exchange_sessions = actual_session_index.difference(expected_sessions)
+    manifest_as_of = pd.to_datetime(as_of_date, errors="coerce")
+    as_of_matches_calendar = bool(
+        pd.notna(manifest_as_of)
+        and len(sessions.dropna())
+        and manifest_as_of.normalize() == sessions.max()
+        and manifest_as_of.normalize() >= req_end
+    )
     calendar_coverage = bool(
         calendar_valid
         and len(fixed_sessions)
         and sessions.min() <= req_start
         and sessions.max() >= req_end
         and exact_exchange_calendar
+        and as_of_matches_calendar
     )
     gates["09_fixed_20_year_calendar"] = _gate(
         calendar_coverage,
@@ -609,6 +706,7 @@ def audit_point_in_time_bundle(
             "expected_xnys_sessions": len(expected_sessions),
             "missing_xnys_sessions": len(missing_exchange_sessions),
             "extra_non_xnys_sessions": len(extra_exchange_sessions),
+            "manifest_as_of_matches_calendar": as_of_matches_calendar,
         },
     )
 
@@ -755,11 +853,12 @@ def audit_point_in_time_bundle(
 
     action_dates = pd.DataFrame(
         {
-            "announced": _utc_series(actions, "announced_at").dt.tz_localize(None).dt.normalize(),
+            "announced": _utc_series(actions, "announced_at"),
             "effective": _date_series(actions, "effective_date"),
             "ex": _date_series(actions, "ex_date"),
         }
     )
+    action_available_from = _new_york_midnight_utc(action_dates["effective"])
     action_cash = _number_series(actions, "cash_amount")
     action_ratio = _number_series(actions, "share_ratio")
     action_terms_ok = pd.Series(True, index=actions.index)
@@ -768,6 +867,14 @@ def audit_point_in_time_bundle(
     action_terms_ok &= ~actions["event_type"].eq("merger_cash") | action_cash.gt(0)
     action_terms_ok &= ~actions["event_type"].eq("merger_stock") | (
         action_ratio.gt(0) & actions["successor_security_id"].ne("")
+    )
+    action_successor_ok = bool(
+        actions.loc[
+            actions["event_type"].isin({"merger_stock", "spinoff"}),
+            "successor_security_id",
+        ]
+        .isin(master_ids)
+        .all()
     )
     action_ex_keys = {
         (str(actions.loc[index, "security_id"]), str(actions.loc[index, "event_type"]), day)
@@ -816,8 +923,9 @@ def audit_point_in_time_bundle(
         and actions["event_type"].isin(EVENT_TYPES).all()
         and actions["source_record_id"].ne("").all()
         and action_dates.notna().all().all()
-        and (action_dates["announced"] <= action_dates["effective"]).all()
+        and (action_dates["announced"] <= action_available_from).all()
         and action_terms_ok.all()
+        and action_successor_ok
         and distribution_matches
         and split_matches
         and exit_action_matches
@@ -866,7 +974,7 @@ def audit_point_in_time_bundle(
     removed = outcome_type.eq("removed_continues")
     last_trade = _date_series(outcomes, "last_trade_date")
     exit_effective = _date_series(outcomes, "exit_effective_date")
-    outcome_known = _utc_series(outcomes, "known_at").dt.tz_localize(None).dt.normalize()
+    outcome_known = _utc_series(outcomes, "known_at")
     delisting_return = _number_series(outcomes, "delisting_return")
     cash_consideration = _number_series(outcomes, "cash_consideration")
     outcome_membership_to = _date_series(outcomes, "membership_effective_to")
@@ -888,17 +996,44 @@ def audit_point_in_time_bundle(
             & outcomes["successor_security_id"].ne("")
         )
     )
+    delisting_values_ok = bool(
+        np.isfinite(delisting_return.loc[delisting_return.notna()]).all()
+        and np.isfinite(cash_consideration.loc[cash_consideration.notna()]).all()
+    )
+    successor_outcomes_ok = bool(
+        outcomes.loc[outcome_type.eq("acquired_stock"), "successor_security_id"]
+        .isin(master_ids)
+        .all()
+    )
+    still_blank_columns = (
+        "last_trade_date",
+        "exit_effective_date",
+        "delisting_return",
+        "cash_consideration",
+        "successor_security_id",
+        "reason_code",
+    )
+    still_consistent = outcomes.loc[still, list(still_blank_columns)].eq("").all().all()
+    removed_consistent = outcomes.loc[removed, list(still_blank_columns)].eq("").all().all()
+    permanent_dates_align = bool(
+        (outcome_membership_to.loc[permanent] == exit_effective.loc[permanent]).all()
+    )
     permanent_economics_ok = bool(
         last_trade.loc[permanent].notna().all()
         and exit_effective.loc[permanent].notna().all()
-        and outcome_known.loc[permanent].notna().all()
+        and outcome_known.notna().all()
         and economic_terms.loc[permanent].all()
+        and delisting_values_ok
         and delisting_return.loc[delisting_return.notna()].ge(-1).all()
+        and successor_outcomes_ok
         and outcomes.loc[permanent, "reason_code"].ne("").all()
         and outcomes.loc[permanent, "membership_effective_to"].ne("").all()
         and (last_trade.loc[permanent] <= exit_effective.loc[permanent]).all()
+        and permanent_dates_align
         and outcomes.loc[still, "membership_effective_to"].eq("").all()
+        and still_consistent
         and outcomes.loc[removed, "membership_effective_to"].ne("").all()
+        and removed_consistent
         and removed_continuation_ok
     )
     gates["16_permanent_exit_economics"] = _gate(
@@ -925,7 +1060,8 @@ def audit_point_in_time_bundle(
 
     class_start = _date_series(classifications, "effective_from")
     class_end = _end_dates(classifications, "effective_to")
-    class_known = _utc_series(classifications, "known_at").dt.tz_localize(None).dt.normalize()
+    class_known = _utc_series(classifications, "known_at")
+    class_available_from = _new_york_midnight_utc(class_start)
     class_base_ok = bool(
         len(classifications)
         and classifications["security_id"].isin(master_ids).all()
@@ -936,7 +1072,7 @@ def audit_point_in_time_bundle(
         and classifications["source_record_id"].is_unique
         and class_start.notna().all()
         and class_known.notna().all()
-        and (class_known <= class_start).all()
+        and (class_known <= class_available_from).all()
         and (class_start < class_end).all()
         and _intervals_non_overlapping(classifications, groups=["security_id"])
     )

@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import crspAcceptance from "../data/short-term-crsp-sample-acceptance.json";
 import providerQualification from "../data/short-term-provider-qualification.json";
 import pointInTimeReadiness from "../data/short-term-point-in-time-readiness.json";
 import dailyMomentumRegime from "../data/short-term-daily-momentum-regime.json";
@@ -17,7 +18,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十一輪四條數據路徑 0/4，真實逐股數據仍為 1/20，第十輪策略 27/48 失敗。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十二輪 12/12 驗收攻擊拒收，但真實逐股數據仍為 1/20，第十輪策略 27/48 失敗。",
 };
 
 const readerCapital = 1_000;
@@ -156,6 +157,7 @@ const pointInTimeGroupCount = (first: number, last: number) => {
 };
 const providerRows = providerQualification.providers;
 const providerQualifiedCount = providerRows.filter((row) => row.contract_passed).length;
+const crspAttackRows = crspAcceptance.attacks;
 const providerCapabilityRows = [
   { key: "05_security_master", label: "永久證券／公司 ID" },
   { key: "06_identifier_history", label: "歷史代號及上市地" },
@@ -630,7 +632,7 @@ export default function Home() {
             <p>報告保留支持證據與反證，避免只挑勝出的欄位。</p>
           </div>
           <div className="note-grid">
-            <article><span>結論</span><h3>歷史上合格，前瞻仍未確認</h3><p>20 年三產品路徑及 pooled 入口通過，足以建立隔離 Paper；0/252 個新增交易日不足以顯示實金參考。</p></article>
+            <article><span>結論</span><h3>歷史上合格，前瞻仍未確認</h3><p>20 年三產品路徑及 pooled 入口通過，足以建立隔離 Paper；{forward.forward_sessions}/{forward.minimum_sessions} 個新增交易日不足以顯示實金參考。</p></article>
             <article><span>最重要反證</span><h3>對 SPY 的 NW t 只有 {pooled.statistics_vs_spy.newey_west_t.toFixed(2)}</h3><p>歷史年率化優勢存在，但統計證據未達常用 1.96 門檻；多重搜尋校正亦偏弱。</p></article>
             <article><span>數據邊界</span><h3>Yahoo Finance／yfinance 研究快照</h3><p>使用經調整 OHLCV 並保存 SHA-256 快照；上游不是交易所官方行情，可能回溯修訂。</p></article>
             <article><span>成本邊界</span><h3>回測不等於個人實際成交</h3><p>未涵蓋個人稅務、匯率、碎股限制、券商佣金差異、市場衝擊及即市買賣差價。</p></article>
@@ -660,16 +662,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DATA ROUTE · ROUND 11</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DATA ACCEPTANCE · ROUND 12</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真實數據</h1>
               <p className="hero-lead">
-                第十一輪先審核四條合法數據路徑，結果是 <strong>供應商預審 {providerQualifiedCount}/{providerRows.length}</strong>：CRSP／WRDS 只適合先索取正式樣本，Norgate、Sharadar 及 Polygon.io／Massive 均不能單獨滿足 point-in-time、成分公布時間及退出經濟回報合約。
+                第十二輪把 CRSP／WRDS 樣本入口做成可攻擊的驗收器：合成控制包 20/20，事前固定的 manifest、時間、永久 ID、退市及幽靈價格攻擊 <strong>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} 全部拒收</strong>。上一輪供應商預審 {providerQualifiedCount}/{providerRows.length} 仍未改變；這只證明驗收器會關門，不代表供應商或策略通過。
                 <strong>真實逐股數據仍只有 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#provider-qualification">查看四條數據路徑</a>
+                <a className="primary-button aggressive-button" href="#crsp-sample-acceptance">查看 12/12 驗收攻擊</a>
+                <a className="secondary-button" href="#provider-qualification">查看四條數據路徑</a>
                 <a className="secondary-button" href="#daily-momentum-regime">查看第十輪 27/48</a>
                 <a className="secondary-button" href="#point-in-time-readiness">查看 1/20 數據閘門</a>
               </div>
@@ -677,14 +680,15 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>{providerQualifiedCount}/{providerRows.length} · 沒有單一數據路徑通過</b>
+                <b>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} · 驗收器通過，供應商未通過</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>供應商 0/4 · 數據 1/20 · Paper 保持全現金</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
-                <div><dt>供應商預審</dt><dd>{providerQualifiedCount}/{providerRows.length} · CRSP 只作首輪查詢</dd></div>
+                <div><dt>驗收器攻擊</dt><dd>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>供應商樣本</dt><dd>0 · 尚未取得合法數據</dd></div>
                 <div><dt>真實數據入口</dt><dd>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total} · 尚未授權匯入</dd></div>
                 <div><dt>最新機制結果</dt><dd>第十輪 {dailyRepair.passed}/{dailyRepair.required} · 失敗</dd></div>
                 <div><dt>近期機會成本</dt><dd>候選 {pct(dailyRecent.candidate.cagr, 2)}／QQQ {pct(dailyRecent.qqq.cagr, 2)}</dd></div>
@@ -696,12 +700,49 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>供應商預審</span><strong>{providerQualifiedCount}/{providerRows.length}</strong><small>文件不是本地驗證</small></article>
+              <article><span>驗收攻擊</span><strong>{crspAcceptance.attack_summary.rejected}/{crspAcceptance.attack_summary.total}</strong><small>合成測試，不是供應商通過</small></article>
               <article><span>逐股數據閘門</span><strong>{pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>2006–2026 CAGR</span><strong>{pct(dailyRecent.candidate.cagr, 2)}</strong><small>QQQ {pct(dailyRecent.qqq.cagr, 2)}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="crsp-sample-acceptance">
+            <div className="section-heading">
+              <div><span>CRSP SAMPLE ACCEPTANCE · ROUND 12</span><h2>驗收器 12/12 拒收；真實數據仍是 1/20</h2></div>
+              <p>先把供應商樣本最容易出錯的時間、授權、永久 ID 及退市語義做成固定攻擊；通過合成測試只代表程式不會誤收，不能當成市場數據或策略證據。</p>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>同日較遲才知的數據，現在會按時間而非日期拒收</h3>
+                <p>授權聲明必須符合巢狀 manifest schema；identifier、membership 與歷史分類以紐約生效日午夜作無前視邊界。缺失退市回報、未知換股 successor、矛盾 outcome 及幽靈價格全部失敗關閉。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>合成控制包</span><strong>{crspAcceptance.synthetic_control.gates_passed}/{crspAcceptance.synthetic_control.gates_total}</strong><p>不含供應商原始列；只證明完整結構可以通過。</p></article>
+                <article><span>真實狀態</span><strong>{crspAcceptance.actual_point_in_time_readiness.passed}/{crspAcceptance.actual_point_in_time_readiness.total} · US$0</strong><p>供應商樣本 0、正式回測 0、Paper 0；沒有因合成測試升格。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十二種單一錯誤，全數在指定閘門被擋下</h3></div>
+              <p>每次攻擊都重新計算 CSV 列數與 SHA-256，避免只靠檔案被改動而掩蓋真正的語義驗證。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {crspAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_failed_gates.join("／")}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>只向 CRSP／WRDS 索取合法 schema、細樣本及授權條款</b></div>
+              <p>固定核對成分 start/end 與 announcement timestamp、DelRetMissType 分布、缺失退出回報的現金／換股對數、20 年 raw OHLCV／停牌覆蓋及本地研究授權。小樣本不能縮短 2006–2026 正式主期。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_REPORT.md" target="_blank" rel="noreferrer">第十二輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_PROTOCOL.md" target="_blank" rel="noreferrer">事前攻擊協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_crsp_sample_acceptance.json" target="_blank" rel="noreferrer">機器收據</a></div>
             </div>
           </section>
 
@@ -857,8 +898,8 @@ export default function Home() {
             </details>
 
             <div className="subsection-heading stock-heading">
-              <div><span>FAIL-CLOSED TESTS</span><h3>六種關鍵情況都有正反測試</h3></div>
-              <p>測試只驗證程式會在正確位置關門，不會把合成 fixture 當成回測證據。</p>
+              <div><span>FAIL-CLOSED TESTS</span><h3>十二種固定攻擊加一個完整控制包</h3></div>
+              <p>第十二輪已補齊巢狀 manifest、同日時間、successor 及 outcome 一致性；測試不會把合成 fixture 當成回測證據。</p>
             </div>
             <div className="test-matrix point-in-time-tests">
               <article className="test-card"><div><span>完整合成賬本</span><b className="positive-number">20/20</b></div><p>永久 ID、成分、價格、分類及 outcome 一致時才放行。</p></article>

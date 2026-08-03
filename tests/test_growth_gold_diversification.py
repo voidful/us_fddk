@@ -108,8 +108,9 @@ def test_v25_forward_promotion_contract_is_machine_frozen_before_first_fill() ->
     assert contract == V25_FORWARD_PROMOTION_PROTOCOL
     assert sha256 == V25_FORWARD_PROMOTION_PROTOCOL_SHA256
     candidate = json.loads((ROOT / "artifacts/paper_v25_state.json").read_text(encoding="utf-8"))
-    assert candidate["transactions"] == []
-    assert candidate["order_history"] == []
+    first_fill = min(order["filled_at"] for order in candidate["order_history"])
+    assert pd.Timestamp(contract["frozen_at_utc"]).date() <= pd.Timestamp(first_fill).date()
+    assert contract["frozen_before_first_forward_fill"] is True
 
 
 def test_v25_three_product_paths_and_pooled_gate_pass() -> None:
@@ -235,22 +236,24 @@ def test_v25_report_and_isolated_paper_initialization(tmp_path: Path) -> None:
     assert paper_report.exists()
 
 
-def test_v25_new_paper_bundle_does_not_claim_forward_confirmation() -> None:
+def test_v25_live_paper_bundle_does_not_claim_forward_confirmation_early() -> None:
     candidate = json.loads((ROOT / "artifacts/paper_v25_state.json").read_text(encoding="utf-8"))
     spy = json.loads((ROOT / "artifacts/paper_v25_spy_state.json").read_text(encoding="utf-8"))
     matched = json.loads(
         (ROOT / "artifacts/paper_v25_matched_state.json").read_text(encoding="utf-8")
     )
     evidence = v25_forward_paper_evidence(candidate, spy, matched)
-    assert evidence["forward_sessions"] == 0
-    assert evidence["filled_rebalances"] == 0
-    assert evidence["candidate"]["equity"] == 100_000.0
+    assert evidence["forward_sessions"] < evidence["minimum_sessions"]
+    assert evidence["filled_rebalances"] < evidence["minimum_filled_rebalances"]
+    assert evidence["candidate"]["equity"] > 0
     assert evidence["live_confirmed"] is False
     assert evidence["promotion_protocol"]["schema_version"] == 2
     assert evidence["promotion_protocol"]["frozen_before_first_forward_fill"] is True
     assert len(evidence["promotion_protocol_sha256"]) == 64
-    assert evidence["filled_orders_including_initial_allocation"] == 0
-    assert evidence["initial_allocations"] == 0
+    assert evidence["filled_orders_including_initial_allocation"] == (
+        evidence["initial_allocations"] + evidence["filled_rebalances"]
+    )
+    assert evidence["initial_allocations"] == 1
     assert evidence["gates"]["all_accounts_live_and_same_start"] is True
     assert evidence["gates"]["at_least_252_new_sessions"] is False
     assert evidence["gates"]["candidate_outperforms_SPY_in_both_halves"] is False
