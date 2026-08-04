@@ -1,0 +1,2037 @@
+{
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 19,
+    "total": 19
+  },
+  "attacks": [
+    {
+      "expected_error_code": "crowding_protocol_mismatch",
+      "id": "01",
+      "label": "協議 SHA 漂移",
+      "observed_error_code": "crowding_protocol_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_snapshot_hash_mismatch",
+      "id": "02",
+      "label": "行情 archive SHA 漂移",
+      "observed_error_code": "crowding_snapshot_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_panel_fingerprint_mismatch",
+      "id": "03",
+      "label": "panel fingerprint 漂移",
+      "observed_error_code": "crowding_panel_fingerprint_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_watchlist_hash_mismatch",
+      "id": "04",
+      "label": "watchlist SHA 漂移",
+      "observed_error_code": "crowding_watchlist_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_event_receipt_hash_mismatch",
+      "id": "05",
+      "label": "事件收據 SHA 漂移",
+      "observed_error_code": "crowding_event_receipt_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_reference_commits_mismatch",
+      "id": "06",
+      "label": "台股參考 commit 漂移",
+      "observed_error_code": "crowding_reference_commits_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_cohort_mismatch",
+      "id": "07",
+      "label": "cohort 改 30 隻",
+      "observed_error_code": "crowding_cohort_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_event_order_mismatch",
+      "id": "08",
+      "label": "事件改 907 列",
+      "observed_error_code": "crowding_event_order_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_signal_rule_mismatch",
+      "id": "09",
+      "label": "Top-K 改 10",
+      "observed_error_code": "crowding_signal_rule_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_execution_rule_mismatch",
+      "id": "10",
+      "label": "持有期改 25 日",
+      "observed_error_code": "crowding_execution_rule_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_correlation_window_mismatch",
+      "id": "11",
+      "label": "相關窗改 40 日",
+      "observed_error_code": "crowding_correlation_window_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_cap_rule_mismatch",
+      "id": "12",
+      "label": "cap 改 1",
+      "observed_error_code": "crowding_cap_rule_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_effective_bets_formula_mismatch",
+      "id": "13",
+      "label": "N_eff 公式改寫",
+      "observed_error_code": "crowding_effective_bets_formula_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_identifier_claim_breached",
+      "id": "14",
+      "label": "ticker 冒充永久 ID",
+      "observed_error_code": "crowding_identifier_claim_breached",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_contribution_identity_failed",
+      "id": "15",
+      "label": "取消貢獻恆等式",
+      "observed_error_code": "crowding_contribution_identity_failed",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_baseline_fairness_breached",
+      "id": "16",
+      "label": "刪除時不改 baseline",
+      "observed_error_code": "crowding_baseline_fairness_breached",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_bootstrap_contract_mismatch",
+      "id": "17",
+      "label": "bootstrap 各列獨立",
+      "observed_error_code": "crowding_bootstrap_contract_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_decision_boundary_breached",
+      "id": "18",
+      "label": "提前授權 Paper",
+      "observed_error_code": "crowding_decision_boundary_breached",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "crowding_repair_protocol_mismatch",
+      "id": "19",
+      "label": "matched-cash repair 漂移",
+      "observed_error_code": "crowding_repair_protocol_mismatch",
+      "rejected": true
+    }
+  ],
+  "control_summary": {
+    "all_passed": true,
+    "passed": 19,
+    "total": 19
+  },
+  "controls": [
+    {
+      "id": "01",
+      "label": "協議 SHA",
+      "passed": true
+    },
+    {
+      "id": "02",
+      "label": "行情 archive SHA",
+      "passed": true
+    },
+    {
+      "id": "03",
+      "label": "panel fingerprint",
+      "passed": true
+    },
+    {
+      "id": "04",
+      "label": "watchlist SHA",
+      "passed": true
+    },
+    {
+      "id": "05",
+      "label": "事件收據 SHA",
+      "passed": true
+    },
+    {
+      "id": "06",
+      "label": "三個台股參考 commit",
+      "passed": true
+    },
+    {
+      "id": "07",
+      "label": "25 隻完整現時 cohort",
+      "passed": true
+    },
+    {
+      "id": "08",
+      "label": "905 個固定訊號日",
+      "passed": true
+    },
+    {
+      "id": "09",
+      "label": "20 日動量／60 日趨勢／Top-7",
+      "passed": true
+    },
+    {
+      "id": "10",
+      "label": "D+1／20 日／來回 20 bps",
+      "passed": true
+    },
+    {
+      "id": "11",
+      "label": "60 個事前日回報相關",
+      "passed": true
+    },
+    {
+      "id": "12",
+      "label": "corr >0.70／cap 2／不回補",
+      "passed": true
+    },
+    {
+      "id": "13",
+      "label": "有效獨立注數固定公式",
+      "passed": true
+    },
+    {
+      "id": "14",
+      "label": "現時代號不冒充永久 ID",
+      "passed": true
+    },
+    {
+      "id": "15",
+      "label": "逐股淨貢獻恆等式",
+      "passed": true
+    },
+    {
+      "id": "16",
+      "label": "刪除同步修改合資格 baseline",
+      "passed": true
+    },
+    {
+      "id": "17",
+      "label": "四假說共同 52-event／20,000 路徑 bootstrap",
+      "passed": true
+    },
+    {
+      "id": "18",
+      "label": "Paper／實金決策邊界",
+      "passed": true
+    },
+    {
+      "id": "19",
+      "label": "小股池 matched-cash schema repair",
+      "passed": true
+    }
+  ],
+  "correlation_cap2_stress": {
+    "accepted_count": {
+      "full_top7_fraction": 0.802209944751,
+      "maximum": 7,
+      "mean": 6.646408839779,
+      "mean_equity_exposure": 0.949486977111,
+      "median": 7.0,
+      "minimum": 2,
+      "rejected_slots": 320
+    },
+    "candidate_return": {
+      "mean": 0.013743092499,
+      "median": 0.019029490737
+    },
+    "crowding_change": {
+      "mean_pairwise_correlation_after": 0.368807234517,
+      "mean_pairwise_correlation_before": 0.376997163806,
+      "mean_pairwise_correlation_reduction": 0.00818992929,
+      "median_effective_bets_after": 2.212379409438,
+      "median_effective_bets_before": 2.205090531115
+    },
+    "matched_eligible_return": {
+      "mean": 0.01063338466,
+      "median": 0.01811945935
+    },
+    "rule": {
+      "backfill": false,
+      "correlation_return_window": 60,
+      "correlation_threshold_strictly_above": 0.7,
+      "high_link_cap": 2,
+      "matched_baseline_exposure": true,
+      "per_accepted_stock_weight": 0.142857142857,
+      "rejected_weight_destination": "zero_return_cash",
+      "source_rank_scope": "original_top7_only"
+    },
+    "vs_matched_eligible": {
+      "events": 905,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003521757393,
+          "median_difference": 0.001094833979
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002738343848,
+          "median_difference": 0.000343304435
+        }
+      },
+      "mean_difference": 0.003109707838,
+      "median_difference": 0.000864374027,
+      "newey_west": {
+        "annualized_event_difference": 0.161704807578,
+        "lag": 4,
+        "mean_difference": 0.003109707838,
+        "standard_error": 0.001015786362,
+        "t_stat": 3.061379787207
+      },
+      "positive_fraction": 0.523756906077,
+      "raw_normal_p": 0.002203194418
+    },
+    "vs_matched_qqq": {
+      "events": 905,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003456838138,
+          "median_difference": 0.002653882855
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.007392990572,
+          "median_difference": 0.003414186462
+        }
+      },
+      "mean_difference": 0.005527123838,
+      "median_difference": 0.003153979729,
+      "newey_west": {
+        "annualized_event_difference": 0.287410439578,
+        "lag": 4,
+        "mean_difference": 0.005527123838,
+        "standard_error": 0.001880333175,
+        "t_stat": 2.939438558499
+      },
+      "positive_fraction": 0.537016574586,
+      "raw_normal_p": 0.003288074554
+    }
+  },
+  "current_symbol_contributors": [
+    {
+      "active_contribution_sum": 1.094140106863,
+      "active_contribution_to_mean": 0.001208994593,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 1,
+      "selection_count": 362,
+      "selection_slot_share": 0.057142857143,
+      "share_of_net_active_sum": 0.379071580692,
+      "symbol": "MU"
+    },
+    {
+      "active_contribution_sum": 0.879680905953,
+      "active_contribution_to_mean": 0.000972023101,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 2,
+      "selection_count": 283,
+      "selection_slot_share": 0.044672454617,
+      "share_of_net_active_sum": 0.304770869318,
+      "symbol": "AMD"
+    },
+    {
+      "active_contribution_sum": 0.632838426971,
+      "active_contribution_to_mean": 0.00069926898,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 3,
+      "selection_count": 299,
+      "selection_slot_share": 0.047198105762,
+      "share_of_net_active_sum": 0.219250771752,
+      "symbol": "MA"
+    },
+    {
+      "active_contribution_sum": 0.622818998209,
+      "active_contribution_to_mean": 0.000688197788,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 4,
+      "selection_count": 168,
+      "selection_slot_share": 0.026519337017,
+      "share_of_net_active_sum": 0.215779478931,
+      "symbol": "NVDA"
+    },
+    {
+      "active_contribution_sum": 0.384539194661,
+      "active_contribution_to_mean": 0.000424905187,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 5,
+      "selection_count": 261,
+      "selection_slot_share": 0.041199684294,
+      "share_of_net_active_sum": 0.133225973021,
+      "symbol": "AMZN"
+    },
+    {
+      "active_contribution_sum": 0.234907124227,
+      "active_contribution_to_mean": 0.000259565883,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 6,
+      "selection_count": 245,
+      "selection_slot_share": 0.038674033149,
+      "share_of_net_active_sum": 0.081385020381,
+      "symbol": "LRCX"
+    },
+    {
+      "active_contribution_sum": 0.206515561721,
+      "active_contribution_to_mean": 0.000228193991,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 7,
+      "selection_count": 281,
+      "selection_slot_share": 0.044356748224,
+      "share_of_net_active_sum": 0.071548588639,
+      "symbol": "AAPL"
+    },
+    {
+      "active_contribution_sum": 0.095496871635,
+      "active_contribution_to_mean": 0.000105521405,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 8,
+      "selection_count": 268,
+      "selection_slot_share": 0.042304656669,
+      "share_of_net_active_sum": 0.033085479505,
+      "symbol": "LLY"
+    },
+    {
+      "active_contribution_sum": 0.063456846385,
+      "active_contribution_to_mean": 7.0118062e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 9,
+      "selection_count": 269,
+      "selection_slot_share": 0.042462509866,
+      "share_of_net_active_sum": 0.021985015369,
+      "symbol": "GOOGL"
+    },
+    {
+      "active_contribution_sum": 0.06201014807,
+      "active_contribution_to_mean": 6.8519501e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 10,
+      "selection_count": 343,
+      "selection_slot_share": 0.054143646409,
+      "share_of_net_active_sum": 0.021483797825,
+      "symbol": "AMAT"
+    },
+    {
+      "active_contribution_sum": 0.042301142746,
+      "active_contribution_to_mean": 4.6741594e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 11,
+      "selection_count": 277,
+      "selection_slot_share": 0.043725335438,
+      "share_of_net_active_sum": 0.014655491509,
+      "symbol": "GOOG"
+    },
+    {
+      "active_contribution_sum": 0.012559053044,
+      "active_contribution_to_mean": 1.3877407e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 12,
+      "selection_count": 241,
+      "selection_slot_share": 0.038042620363,
+      "share_of_net_active_sum": 0.0043511613,
+      "symbol": "MSFT"
+    },
+    {
+      "active_contribution_sum": 0.002484861688,
+      "active_contribution_to_mean": 2.745704e-06,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 13,
+      "selection_count": 317,
+      "selection_slot_share": 0.050039463299,
+      "share_of_net_active_sum": 0.00086089564,
+      "symbol": "CAT"
+    },
+    {
+      "active_contribution_sum": -0.008602416128,
+      "active_contribution_to_mean": -9.505432e-06,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 14,
+      "selection_count": 225,
+      "selection_slot_share": 0.035516969219,
+      "share_of_net_active_sum": -0.002980360065,
+      "symbol": "CSCO"
+    },
+    {
+      "active_contribution_sum": -0.053024471392,
+      "active_contribution_to_mean": -5.8590576e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 15,
+      "selection_count": 186,
+      "selection_slot_share": 0.029360694554,
+      "share_of_net_active_sum": -0.018370654782,
+      "symbol": "WMT"
+    },
+    {
+      "active_contribution_sum": -0.058272849957,
+      "active_contribution_to_mean": -6.4389889e-05,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 16,
+      "selection_count": 190,
+      "selection_slot_share": 0.02999210734,
+      "share_of_net_active_sum": -0.020188987869,
+      "symbol": "XOM"
+    },
+    {
+      "active_contribution_sum": -0.092210356583,
+      "active_contribution_to_mean": -0.000101889897,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 17,
+      "selection_count": 280,
+      "selection_slot_share": 0.044198895028,
+      "share_of_net_active_sum": -0.031946846119,
+      "symbol": "UNH"
+    },
+    {
+      "active_contribution_sum": -0.102583284945,
+      "active_contribution_to_mean": -0.000113351696,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 18,
+      "selection_count": 272,
+      "selection_slot_share": 0.042936069455,
+      "share_of_net_active_sum": -0.035540611054,
+      "symbol": "BAC"
+    },
+    {
+      "active_contribution_sum": -0.10612344067,
+      "active_contribution_to_mean": -0.00011726347,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 19,
+      "selection_count": 252,
+      "selection_slot_share": 0.039779005525,
+      "share_of_net_active_sum": -0.036767119815,
+      "symbol": "JPM"
+    },
+    {
+      "active_contribution_sum": -0.117089616518,
+      "active_contribution_to_mean": -0.000129380792,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 20,
+      "selection_count": 173,
+      "selection_slot_share": 0.027308602999,
+      "share_of_net_active_sum": -0.040566418997,
+      "symbol": "JNJ"
+    },
+    {
+      "active_contribution_sum": -0.1302443247,
+      "active_contribution_to_mean": -0.000143916381,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 21,
+      "selection_count": 154,
+      "selection_slot_share": 0.024309392265,
+      "share_of_net_active_sum": -0.045123948689,
+      "symbol": "BRK-B"
+    },
+    {
+      "active_contribution_sum": -0.130714484049,
+      "active_contribution_to_mean": -0.000144435894,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 22,
+      "selection_count": 262,
+      "selection_slot_share": 0.04135753749,
+      "share_of_net_active_sum": -0.045286838291,
+      "symbol": "COST"
+    },
+    {
+      "active_contribution_sum": -0.16848250941,
+      "active_contribution_to_mean": -0.000186168519,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 23,
+      "selection_count": 252,
+      "selection_slot_share": 0.039779005525,
+      "share_of_net_active_sum": -0.058371803355,
+      "symbol": "GE"
+    },
+    {
+      "active_contribution_sum": -0.193900236563,
+      "active_contribution_to_mean": -0.000214254405,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 24,
+      "selection_count": 263,
+      "selection_slot_share": 0.041515390687,
+      "share_of_net_active_sum": -0.067177931518,
+      "symbol": "INTC"
+    },
+    {
+      "active_contribution_sum": -0.28613318097,
+      "active_contribution_to_mean": -0.000316169261,
+      "identifier_scope": "2026_current_symbol_not_permanent_id",
+      "investment_role": "ex_post_attribution_not_a_buy_list",
+      "net_contribution_rank": 25,
+      "selection_count": 212,
+      "selection_slot_share": 0.033464877664,
+      "share_of_net_active_sum": -0.099132603328,
+      "symbol": "CVX"
+    }
+  ],
+  "decision": {
+    "can_promote_from_this_round": false,
+    "complete_risk_free_packages": 0,
+    "formal_global_search_trials_unchanged": 6208,
+    "formal_readiness": "1/18",
+    "formal_strategy_runs": 0,
+    "new_strategy_created": false,
+    "not_rejected_by_round25": false,
+    "paper_positions": 0,
+    "paper_status": "all_cash_not_started",
+    "point_in_time_readiness": "1/20",
+    "qualified_provider_packages": 0,
+    "real_money_action_usd": 0,
+    "us1000_is_reader_example_only": true
+  },
+  "family": {
+    "alpha": 0.05,
+    "bootstrap": {
+      "block_length_events": 52,
+      "blocks_per_path": 18,
+      "centered_under_null": true,
+      "circular": true,
+      "common_indices": true,
+      "paths": 20000,
+      "seed": 25202608,
+      "single_step_max_t_p": [
+        0.008399580021,
+        0.042597870106,
+        0.237188140593,
+        0.007799610019
+      ],
+      "start_index_sha256": "92aba5ac9fbce14012e0470b2dda694047e1729387d558cabcc1b31c0d631a56"
+    },
+    "comparisons": [
+      {
+        "bootstrap_max_t_p": 0.008399580021,
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003475203342,
+            "median_difference": 0.000998461506
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002931734951,
+            "median_difference": 0.00082647157
+          }
+        },
+        "holm_adjusted_p": 0.008812777672,
+        "id": "original_top7",
+        "label": "原 Top-7",
+        "mean_difference": 0.003189356984,
+        "median_difference": 0.000981325862,
+        "newey_west": {
+          "annualized_event_difference": 0.165846563155,
+          "lag": 4,
+          "mean_difference": 0.003189356984,
+          "standard_error": 0.001054021007,
+          "t_stat": 3.025895083361
+        },
+        "positive_fraction": 0.525966850829,
+        "raw_normal_p": 0.002478983044
+      },
+      {
+        "bootstrap_max_t_p": 0.042597870106,
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002753084512,
+            "median_difference": 0.000881870477
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.001701443631,
+            "median_difference": 0.000823503689
+          }
+        },
+        "holm_adjusted_p": 0.034827148177,
+        "id": "remove_top1_contributor",
+        "label": "刪除最高一個淨貢獻代號",
+        "matched_cash_exposure": {
+          "cash_slots": 4,
+          "full_top7_fraction": 0.995580110497,
+          "matched_cash": true,
+          "mean_accepted_count": 6.995580110497,
+          "mean_equity_exposure": 0.999368587214,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002199956269,
+        "median_difference": 0.000835703021,
+        "newey_west": {
+          "annualized_event_difference": 0.11439772601,
+          "lag": 4,
+          "mean_difference": 0.002199956269,
+          "standard_error": 0.0009251844,
+          "t_stat": 2.377857072898
+        },
+        "positive_fraction": 0.524861878453,
+        "raw_normal_p": 0.017413574089
+      },
+      {
+        "bootstrap_max_t_p": 0.237188140593,
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002074163116,
+            "median_difference": 0.000731883572
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.000404061675,
+            "median_difference": 0.0
+          }
+        },
+        "holm_adjusted_p": 0.134117271224,
+        "id": "remove_top3_contributors",
+        "label": "刪除最高三個淨貢獻代號",
+        "matched_cash_exposure": {
+          "cash_slots": 24,
+          "full_top7_fraction": 0.977900552486,
+          "matched_cash": true,
+          "mean_accepted_count": 6.973480662983,
+          "mean_equity_exposure": 0.996211523283,
+          "minimum_accepted_count": 4,
+          "minimum_equity_exposure": 0.571428571429
+        },
+        "mean_difference": 0.00119574512,
+        "median_difference": 0.000192715156,
+        "newey_west": {
+          "annualized_event_difference": 0.062178746253,
+          "lag": 4,
+          "mean_difference": 0.00119574512,
+          "standard_error": 0.000798194944,
+          "t_stat": 1.498061505672
+        },
+        "positive_fraction": 0.510497237569,
+        "raw_normal_p": 0.134117271224
+      },
+      {
+        "bootstrap_max_t_p": 0.007799610019,
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003521757393,
+            "median_difference": 0.001094833979
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002738343848,
+            "median_difference": 0.000343304435
+          }
+        },
+        "holm_adjusted_p": 0.008812777672,
+        "id": "correlation_cap2_stress",
+        "label": "60 日相關 cap 2 不回補壓力",
+        "mean_difference": 0.003109707838,
+        "median_difference": 0.000864374027,
+        "newey_west": {
+          "annualized_event_difference": 0.161704807578,
+          "lag": 4,
+          "mean_difference": 0.003109707838,
+          "standard_error": 0.001015786362,
+          "t_stat": 3.061379787207
+        },
+        "positive_fraction": 0.523756906077,
+        "raw_normal_p": 0.002203194418
+      }
+    ],
+    "size": 4
+  },
+  "gate_summary": {
+    "all_passed": false,
+    "passed": 7,
+    "total": 12
+  },
+  "gates": [
+    {
+      "id": "exact_event_reconstruction",
+      "label": "四條原始事件回報逐列重建誤差不高於 1e-12",
+      "passed": true
+    },
+    {
+      "id": "median_effective_bets",
+      "label": "原 Top-7 中位有效獨立注數不低於 3.5",
+      "passed": false
+    },
+    {
+      "id": "low_effective_bet_fraction",
+      "label": "有效獨立注數低於 3 的事件不多於 25%",
+      "passed": false
+    },
+    {
+      "id": "single_symbol_slot_share",
+      "label": "單一現時代號選中 slot share 不高於 10%",
+      "passed": true
+    },
+    {
+      "id": "top3_symbol_slot_share",
+      "label": "slot share 最高三個現時代號合計不高於 25%",
+      "passed": true
+    },
+    {
+      "id": "remove_top1_contributor",
+      "label": "刪除最高一個淨貢獻代號後平均為正且 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "remove_top3_contributors",
+      "label": "刪除最高三個淨貢獻代號後平均為正且 NW t 不低於 1.96",
+      "passed": false
+    },
+    {
+      "id": "all_leave_one_symbol_out",
+      "label": "25 條 leave-one-symbol-out 全正且最低 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "correlation_reduction",
+      "label": "相關性上限令事件平均 pairwise correlation 至少降低 0.05",
+      "passed": false
+    },
+    {
+      "id": "correlation_cap_exposure",
+      "label": "平均股票持倉不少於 6/7 且最少一半事件保留完整 7 隻",
+      "passed": true
+    },
+    {
+      "id": "correlation_cap_active_effect",
+      "label": "相關性上限對 matched eligible 為正、NW t 過 1.96、兩半同正",
+      "passed": true
+    },
+    {
+      "id": "stress_family_correction",
+      "label": "刪除最高三個及相關 cap 壓力的 Holm／max-t p 均不高於 0.05",
+      "passed": false
+    }
+  ],
+  "generated_on": "2026-08-04",
+  "input": {
+    "current_cohort_count": 25,
+    "event_receipt_path": "artifacts/short_term_high_return_validation.json",
+    "event_receipt_sha256": "fa2463cc8273a316e4a98428767b695eb85c74e9ac75c47b5ca34592102979e8",
+    "event_selection_sha256": "0b2b2ca8f960c23c2b047990f6f325721f6d9d151a32fe48e25ea97b20ed219b",
+    "events": 905,
+    "first_signal_date": "2006-08-04",
+    "identifier_scope": "2026_current_symbols_not_permanent_ids",
+    "last_signal_date": "2026-07-02",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "snapshot_path": "artifacts/snapshot_20260731_6a7ca6b8.zip",
+    "snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "survivorship_bias_warning": true,
+    "watchlist_path": "usfddk/resources/us_large_cap_watchlist_v1.csv",
+    "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+  },
+  "leave_one_symbol_out": {
+    "all_mean_positive": true,
+    "minimum_newey_west_t": 2.377857072898,
+    "rows_sorted_weakest_first": [
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002753084512,
+            "median_difference": 0.000881870477
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.001701443631,
+            "median_difference": 0.000823503689
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 4,
+          "full_top7_fraction": 0.995580110497,
+          "matched_cash": true,
+          "mean_accepted_count": 6.995580110497,
+          "mean_equity_exposure": 0.999368587214,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002199956269,
+        "median_difference": 0.000835703021,
+        "newey_west": {
+          "annualized_event_difference": 0.11439772601,
+          "lag": 4,
+          "mean_difference": 0.002199956269,
+          "standard_error": 0.0009251844,
+          "t_stat": 2.377857072898
+        },
+        "positive_fraction": 0.524861878453,
+        "raw_normal_p": 0.017413574089,
+        "symbol": "MU"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002835390335,
+            "median_difference": 0.000998461506
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002619158656,
+            "median_difference": 0.000477543246
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 3,
+          "full_top7_fraction": 0.996685082873,
+          "matched_cash": true,
+          "mean_accepted_count": 6.996685082873,
+          "mean_equity_exposure": 0.99952644041,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.00272165964,
+        "median_difference": 0.000760236621,
+        "newey_west": {
+          "annualized_event_difference": 0.14152630127,
+          "lag": 4,
+          "mean_difference": 0.00272165964,
+          "standard_error": 0.001032194517,
+          "t_stat": 2.63677009874
+        },
+        "positive_fraction": 0.521546961326,
+        "raw_normal_p": 0.008369953659,
+        "symbol": "AMZN"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003130568977,
+            "median_difference": 0.000856910182
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002283883112,
+            "median_difference": 0.0
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 9,
+          "full_top7_fraction": 0.990055248619,
+          "matched_cash": true,
+          "mean_accepted_count": 6.990055248619,
+          "mean_equity_exposure": 0.998579321231,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002685240279,
+        "median_difference": 0.000479990017,
+        "newey_west": {
+          "annualized_event_difference": 0.139632494512,
+          "lag": 4,
+          "mean_difference": 0.002685240279,
+          "standard_error": 0.001012196711,
+          "t_stat": 2.652883820539
+        },
+        "positive_fraction": 0.513812154696,
+        "raw_normal_p": 0.007980733495,
+        "symbol": "UNH"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003119553486,
+            "median_difference": 0.00084460869
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002418945199,
+            "median_difference": 0.0
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 4,
+          "full_top7_fraction": 0.995580110497,
+          "matched_cash": true,
+          "mean_accepted_count": 6.995580110497,
+          "mean_equity_exposure": 0.999368587214,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002751056751,
+        "median_difference": 0.000332790464,
+        "newey_west": {
+          "annualized_event_difference": 0.143054951077,
+          "lag": 4,
+          "mean_difference": 0.002751056751,
+          "standard_error": 0.001019376502,
+          "t_stat": 2.698764142016
+        },
+        "positive_fraction": 0.507182320442,
+        "raw_normal_p": 0.006959748213,
+        "symbol": "XOM"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003203497977,
+            "median_difference": 0.001094833979
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002128584096,
+            "median_difference": 0.001666763165
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 2,
+          "full_top7_fraction": 0.997790055249,
+          "matched_cash": true,
+          "mean_accepted_count": 6.997790055249,
+          "mean_equity_exposure": 0.999684293607,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002638128908,
+        "median_difference": 0.001320164885,
+        "newey_west": {
+          "annualized_event_difference": 0.137182703212,
+          "lag": 4,
+          "mean_difference": 0.002638128908,
+          "standard_error": 0.000971721597,
+          "t_stat": 2.714902000379
+        },
+        "positive_fraction": 0.534806629834,
+        "raw_normal_p": 0.006629538513,
+        "symbol": "AMD"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003475203342,
+            "median_difference": 0.000998461506
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002279030433,
+            "median_difference": 0.000333013037
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 1,
+          "full_top7_fraction": 0.998895027624,
+          "matched_cash": true,
+          "mean_accepted_count": 6.998895027624,
+          "mean_equity_exposure": 0.999842146803,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002846056044,
+        "median_difference": 0.000750353427,
+        "newey_west": {
+          "annualized_event_difference": 0.147994914301,
+          "lag": 4,
+          "mean_difference": 0.002846056044,
+          "standard_error": 0.001040449863,
+          "t_stat": 2.735409119441
+        },
+        "positive_fraction": 0.519337016575,
+        "raw_normal_p": 0.006230278761,
+        "symbol": "NVDA"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002823833245,
+            "median_difference": 0.000979289499
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002751244073,
+            "median_difference": 0.000878447475
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 10,
+          "full_top7_fraction": 0.988950276243,
+          "matched_cash": true,
+          "mean_accepted_count": 6.988950276243,
+          "mean_equity_exposure": 0.998421468035,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002785653747,
+        "median_difference": 0.000913113052,
+        "newey_west": {
+          "annualized_event_difference": 0.144853994847,
+          "lag": 4,
+          "mean_difference": 0.002785653747,
+          "standard_error": 0.001017026685,
+          "t_stat": 2.739017360502
+        },
+        "positive_fraction": 0.532596685083,
+        "raw_normal_p": 0.006162311937,
+        "symbol": "MA"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003193328161,
+            "median_difference": 0.000890571581
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002549602896,
+            "median_difference": 0.000453994807
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002854750011,
+        "median_difference": 0.000722693647,
+        "newey_west": {
+          "annualized_event_difference": 0.148447000549,
+          "lag": 4,
+          "mean_difference": 0.002854750011,
+          "standard_error": 0.001026218334,
+          "t_stat": 2.781815444816
+        },
+        "positive_fraction": 0.517127071823,
+        "raw_normal_p": 0.005405577002,
+        "symbol": "CVX"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.00297379357,
+            "median_difference": 0.000895307018
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.00274593737,
+            "median_difference": 0.001240690456
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 4,
+          "full_top7_fraction": 0.995580110497,
+          "matched_cash": true,
+          "mean_accepted_count": 6.995580110497,
+          "mean_equity_exposure": 0.999368587214,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002853948762,
+        "median_difference": 0.001020575613,
+        "newey_west": {
+          "annualized_event_difference": 0.148405335638,
+          "lag": 4,
+          "mean_difference": 0.002853948762,
+          "standard_error": 0.001010281339,
+          "t_stat": 2.82490495623
+        },
+        "positive_fraction": 0.524861878453,
+        "raw_normal_p": 0.00472946426,
+        "symbol": "JPM"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003188868492,
+            "median_difference": 0.000998461506
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002692372888,
+            "median_difference": 0.000777688186
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002927728263,
+        "median_difference": 0.000927160986,
+        "newey_west": {
+          "annualized_event_difference": 0.152241869658,
+          "lag": 4,
+          "mean_difference": 0.002927728263,
+          "standard_error": 0.001025143133,
+          "t_stat": 2.855921450018
+        },
+        "positive_fraction": 0.527071823204,
+        "raw_normal_p": 0.004291212847,
+        "symbol": "AAPL"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.002999000179,
+            "median_difference": 0.000222107705
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002736618677,
+            "median_difference": 0.000627487142
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 7,
+          "full_top7_fraction": 0.99226519337,
+          "matched_cash": true,
+          "mean_accepted_count": 6.99226519337,
+          "mean_equity_exposure": 0.998895027624,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002860996206,
+        "median_difference": 0.000601246569,
+        "newey_west": {
+          "annualized_event_difference": 0.148771802723,
+          "lag": 4,
+          "mean_difference": 0.002860996206,
+          "standard_error": 0.000981949663,
+          "t_stat": 2.913587441707
+        },
+        "positive_fraction": 0.51270718232,
+        "raw_normal_p": 0.003573017558,
+        "symbol": "BAC"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003377237248,
+            "median_difference": 0.001002336153
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002669611563,
+            "median_difference": 0.000168821142
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 8,
+          "full_top7_fraction": 0.991160220994,
+          "matched_cash": true,
+          "mean_accepted_count": 6.991160220994,
+          "mean_equity_exposure": 0.998737174428,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003005049595,
+        "median_difference": 0.000696647201,
+        "newey_west": {
+          "annualized_event_difference": 0.156262578947,
+          "lag": 4,
+          "mean_difference": 0.003005049595,
+          "standard_error": 0.001023182086,
+          "t_stat": 2.936964628757
+        },
+        "positive_fraction": 0.52044198895,
+        "raw_normal_p": 0.003314419051,
+        "symbol": "BRK-B"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003111259309,
+            "median_difference": 0.000895307018
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002943928204,
+            "median_difference": 0.000514320211
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 4,
+          "full_top7_fraction": 0.995580110497,
+          "matched_cash": true,
+          "mean_accepted_count": 6.995580110497,
+          "mean_equity_exposure": 0.999368587214,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003023248694,
+        "median_difference": 0.00059285814,
+        "newey_west": {
+          "annualized_event_difference": 0.15720893211,
+          "lag": 4,
+          "mean_difference": 0.003023248694,
+          "standard_error": 0.001027732764,
+          "t_stat": 2.941668107612
+        },
+        "positive_fraction": 0.513812154696,
+        "raw_normal_p": 0.003264495991,
+        "symbol": "CAT"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003176455866,
+            "median_difference": 0.00058875181
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002973731818,
+            "median_difference": 0.000397710797
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003069829737,
+        "median_difference": 0.000402287738,
+        "newey_west": {
+          "annualized_event_difference": 0.159631146317,
+          "lag": 4,
+          "mean_difference": 0.003069829737,
+          "standard_error": 0.001042100049,
+          "t_stat": 2.945810952175
+        },
+        "positive_fraction": 0.516022099448,
+        "raw_normal_p": 0.003221092024,
+        "symbol": "CSCO"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003080173225,
+            "median_difference": 0.001201405744
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.00291315564,
+            "median_difference": 0.001532241017
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.002992327512,
+        "median_difference": 0.001255796403,
+        "newey_west": {
+          "annualized_event_difference": 0.155601030614,
+          "lag": 4,
+          "mean_difference": 0.002992327512,
+          "standard_error": 0.001013270955,
+          "t_stat": 2.953136569247
+        },
+        "positive_fraction": 0.533701657459,
+        "raw_normal_p": 0.003145627641,
+        "symbol": "AMAT"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.00346542256,
+            "median_difference": 0.000998461506
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002706299671,
+            "median_difference": 0.000183474053
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 6,
+          "full_top7_fraction": 0.993370165746,
+          "matched_cash": true,
+          "mean_accepted_count": 6.993370165746,
+          "mean_equity_exposure": 0.999052880821,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003066149085,
+        "median_difference": 0.000760236621,
+        "newey_west": {
+          "annualized_event_difference": 0.159439752414,
+          "lag": 4,
+          "mean_difference": 0.003066149085,
+          "standard_error": 0.001027345197,
+          "t_stat": 2.984536350122
+        },
+        "positive_fraction": 0.524861878453,
+        "raw_normal_p": 0.002840084541,
+        "symbol": "GOOG"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003156627602,
+            "median_difference": 0.001004319572
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.00310747881,
+            "median_difference": 0.000428788898
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003130776967,
+        "median_difference": 0.000755202855,
+        "newey_west": {
+          "annualized_event_difference": 0.162800402262,
+          "lag": 4,
+          "mean_difference": 0.003130776967,
+          "standard_error": 0.001036619153,
+          "t_stat": 3.020180513364
+        },
+        "positive_fraction": 0.517127071823,
+        "raw_normal_p": 0.002526240729,
+        "symbol": "GE"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003529824356,
+            "median_difference": 0.000864374027
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002774668434,
+            "median_difference": 0.000900700647
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 2,
+          "full_top7_fraction": 0.997790055249,
+          "matched_cash": true,
+          "mean_accepted_count": 6.997790055249,
+          "mean_equity_exposure": 0.999684293607,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003132637373,
+        "median_difference": 0.000864374027,
+        "newey_west": {
+          "annualized_event_difference": 0.162897143417,
+          "lag": 4,
+          "mean_difference": 0.003132637373,
+          "standard_error": 0.001032795014,
+          "t_stat": 3.033164693999
+        },
+        "positive_fraction": 0.522651933702,
+        "raw_normal_p": 0.00242003485,
+        "symbol": "LRCX"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003525864194,
+            "median_difference": 0.001157503743
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002759312131,
+            "median_difference": 0.000213663281
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 6,
+          "full_top7_fraction": 0.993370165746,
+          "matched_cash": true,
+          "mean_accepted_count": 6.993370165746,
+          "mean_equity_exposure": 0.999052880821,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003122683219,
+        "median_difference": 0.000895307018,
+        "newey_west": {
+          "annualized_event_difference": 0.162379527405,
+          "lag": 4,
+          "mean_difference": 0.003122683219,
+          "standard_error": 0.001029398794,
+          "t_stat": 3.033501920442
+        },
+        "positive_fraction": 0.527071823204,
+        "raw_normal_p": 0.002417331727,
+        "symbol": "GOOGL"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003369670237,
+            "median_difference": 0.001060748919
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002974512005,
+            "median_difference": 0.000690055818
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 9,
+          "full_top7_fraction": 0.990055248619,
+          "matched_cash": true,
+          "mean_accepted_count": 6.990055248619,
+          "mean_equity_exposure": 0.998579321231,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003161830106,
+        "median_difference": 0.000760236621,
+        "newey_west": {
+          "annualized_event_difference": 0.164415165516,
+          "lag": 4,
+          "mean_difference": 0.003161830106,
+          "standard_error": 0.001034620951,
+          "t_stat": 3.056027528247
+        },
+        "positive_fraction": 0.514917127072,
+        "raw_normal_p": 0.002242906623,
+        "symbol": "JNJ"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.00359860266,
+            "median_difference": 0.000801547636
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002868519664,
+            "median_difference": 0.00157456527
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 8,
+          "full_top7_fraction": 0.991160220994,
+          "matched_cash": true,
+          "mean_accepted_count": 6.991160220994,
+          "mean_equity_exposure": 0.998737174428,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003214603206,
+        "median_difference": 0.001040822371,
+        "newey_west": {
+          "annualized_event_difference": 0.16715936672,
+          "lag": 4,
+          "mean_difference": 0.003214603206,
+          "standard_error": 0.001025018135,
+          "t_stat": 3.136142762127
+        },
+        "positive_fraction": 0.532596685083,
+        "raw_normal_p": 0.001711858505,
+        "symbol": "LLY"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003414180665,
+            "median_difference": 0.000927160986
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.00310083746,
+            "median_difference": 0.000922400737
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 3,
+          "full_top7_fraction": 0.996685082873,
+          "matched_cash": true,
+          "mean_accepted_count": 6.996685082873,
+          "mean_equity_exposure": 0.99952644041,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003249372526,
+        "median_difference": 0.000927160986,
+        "newey_west": {
+          "annualized_event_difference": 0.168967371365,
+          "lag": 4,
+          "mean_difference": 0.003249372526,
+          "standard_error": 0.001030054735,
+          "t_stat": 3.154562970783
+        },
+        "positive_fraction": 0.527071823204,
+        "raw_normal_p": 0.001607386861,
+        "symbol": "MSFT"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003621075328,
+            "median_difference": 0.001535633528
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.00277656771,
+            "median_difference": 9.6416887e-05
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 6,
+          "full_top7_fraction": 0.993370165746,
+          "matched_cash": true,
+          "mean_accepted_count": 6.993370165746,
+          "mean_equity_exposure": 0.999052880821,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003176892316,
+        "median_difference": 0.000566806674,
+        "newey_west": {
+          "annualized_event_difference": 0.165198400418,
+          "lag": 4,
+          "mean_difference": 0.003176892316,
+          "standard_error": 0.000986653195,
+          "t_stat": 3.219867256854
+        },
+        "positive_fraction": 0.518232044199,
+        "raw_normal_p": 0.001282499679,
+        "symbol": "WMT"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003486853824,
+            "median_difference": 0.001049245297
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.003112224977,
+            "median_difference": 0.00049623792
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 5,
+          "full_top7_fraction": 0.994475138122,
+          "matched_cash": true,
+          "mean_accepted_count": 6.994475138122,
+          "mean_equity_exposure": 0.999210734017,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003289811469,
+        "median_difference": 0.000708205876,
+        "newey_west": {
+          "annualized_event_difference": 0.171070196398,
+          "lag": 4,
+          "mean_difference": 0.003289811469,
+          "standard_error": 0.00101030866,
+          "t_stat": 3.256243957837
+        },
+        "positive_fraction": 0.518232044199,
+        "raw_normal_p": 0.001128967032,
+        "symbol": "COST"
+      },
+      {
+        "events": 905,
+        "fixed_halves": {
+          "first": {
+            "events": 429,
+            "mean_difference": 0.003761605085,
+            "median_difference": 0.001004319572
+          },
+          "second": {
+            "events": 476,
+            "mean_difference": 0.002931102208,
+            "median_difference": 0.001575186525
+          }
+        },
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "matched_cash_exposure": {
+          "cash_slots": 7,
+          "full_top7_fraction": 0.99226519337,
+          "matched_cash": true,
+          "mean_accepted_count": 6.99226519337,
+          "mean_equity_exposure": 0.998895027624,
+          "minimum_accepted_count": 6,
+          "minimum_equity_exposure": 0.857142857143
+        },
+        "mean_difference": 0.003324788102,
+        "median_difference": 0.001304134714,
+        "newey_west": {
+          "annualized_event_difference": 0.172888981316,
+          "lag": 4,
+          "mean_difference": 0.003324788102,
+          "standard_error": 0.000958601768,
+          "t_stat": 3.468372593986
+        },
+        "positive_fraction": 0.530386740331,
+        "raw_normal_p": 0.000523620747,
+        "symbol": "INTC"
+      }
+    ]
+  },
+  "original_crowding": {
+    "effective_bets": {
+      "formula": "clip(n/(1+(n-1)*mean_pairwise_corr),1,n)",
+      "fraction_below_3": 0.859668508287,
+      "mean": 2.319713818237,
+      "median": 2.205090531115,
+      "p05": 1.423247519116,
+      "p25": 1.868032464126,
+      "p75": 2.678303140216
+    },
+    "high_correlation_pairs": {
+      "events_with_any_fraction": 0.719337016575,
+      "mean": 2.047513812155,
+      "median": 1.0
+    },
+    "maximum_pairwise_correlation": {
+      "median": 0.83467205891,
+      "p75": 0.986175200025,
+      "p95": 0.999999999957
+    },
+    "mean_pairwise_correlation": {
+      "mean": 0.376997163806,
+      "median": 0.362412139942,
+      "p25": 0.268932518933,
+      "p75": 0.457876369427,
+      "p95": 0.653055779237
+    },
+    "nominal_stocks": 7,
+    "pairs_per_event": 21
+  },
+  "protocol": {
+    "calculated_after_protocol_commit": true,
+    "commit": "00faaa5ed04bccb8b0d147fb47a9ef3c706f3d44",
+    "initial_parent_protocol_run": {
+      "error_code": "crowding_baseline_fairness_breached",
+      "status": "failed_closed_before_output"
+    },
+    "path": "docs/SHORT_TERM_CORRELATION_CROWDING_PROTOCOL.md",
+    "schema_repair": {
+      "calculated_after_repair_commit": true,
+      "commit": "c48de060cbc501f04e73fa9977d040eff8fc097d",
+      "independent_first_unseen_evidence": false,
+      "path": "docs/SHORT_TERM_CORRELATION_CROWDING_SCHEMA_REPAIR_PROTOCOL.md",
+      "sha256": "8f7c3428cb3fb9b7c4ba95bf579f82b712e7a5865474a8b7991c013d6f949590"
+    },
+    "sha256": "f4510c4a3166a8c7f742224a17785e505f2c9214a13977ea426b6c4fecb54db7"
+  },
+  "receipt_float_decimal_places": 12,
+  "reconstruction": {
+    "event_selection_sha256": "0b2b2ca8f960c23c2b047990f6f325721f6d9d151a32fe48e25ea97b20ed219b",
+    "maximum_contribution_identity_residual": 0.0,
+    "maximum_return_residual": 0.0,
+    "return_residuals": {
+      "complete_cohort_equal_return": 0.0,
+      "eligible_equal_return": 0.0,
+      "qqq_return": 0.0,
+      "top7_return": 0.0
+    }
+  },
+  "references": [
+    {
+      "commit": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+      "repository": "tst_wocker"
+    },
+    {
+      "commit": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+      "repository": "tw-block-warrant"
+    },
+    {
+      "commit": "06c87b7a1735877c9ccbab3a339c1742814a5058",
+      "repository": "tst_wocker_filter_lab"
+    }
+  ],
+  "research_role": "current_survivor_cohort_correlation_and_identifier_falsification_only",
+  "research_round": 25,
+  "schema_version": 1,
+  "symbol_selection_concentration": {
+    "maximum_single_symbol_slot_share": 0.057142857143,
+    "slot_share_ranked": [
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 362,
+        "selection_slot_share": 0.057142857143,
+        "symbol": "MU"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 343,
+        "selection_slot_share": 0.054143646409,
+        "symbol": "AMAT"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 317,
+        "selection_slot_share": 0.050039463299,
+        "symbol": "CAT"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 299,
+        "selection_slot_share": 0.047198105762,
+        "symbol": "MA"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 283,
+        "selection_slot_share": 0.044672454617,
+        "symbol": "AMD"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 281,
+        "selection_slot_share": 0.044356748224,
+        "symbol": "AAPL"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 280,
+        "selection_slot_share": 0.044198895028,
+        "symbol": "UNH"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 277,
+        "selection_slot_share": 0.043725335438,
+        "symbol": "GOOG"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 272,
+        "selection_slot_share": 0.042936069455,
+        "symbol": "BAC"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 269,
+        "selection_slot_share": 0.042462509866,
+        "symbol": "GOOGL"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 268,
+        "selection_slot_share": 0.042304656669,
+        "symbol": "LLY"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 263,
+        "selection_slot_share": 0.041515390687,
+        "symbol": "INTC"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 262,
+        "selection_slot_share": 0.04135753749,
+        "symbol": "COST"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 261,
+        "selection_slot_share": 0.041199684294,
+        "symbol": "AMZN"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 252,
+        "selection_slot_share": 0.039779005525,
+        "symbol": "GE"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 252,
+        "selection_slot_share": 0.039779005525,
+        "symbol": "JPM"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 245,
+        "selection_slot_share": 0.038674033149,
+        "symbol": "LRCX"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 241,
+        "selection_slot_share": 0.038042620363,
+        "symbol": "MSFT"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 225,
+        "selection_slot_share": 0.035516969219,
+        "symbol": "CSCO"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 212,
+        "selection_slot_share": 0.033464877664,
+        "symbol": "CVX"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 190,
+        "selection_slot_share": 0.02999210734,
+        "symbol": "XOM"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 186,
+        "selection_slot_share": 0.029360694554,
+        "symbol": "WMT"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 173,
+        "selection_slot_share": 0.027308602999,
+        "symbol": "JNJ"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 168,
+        "selection_slot_share": 0.026519337017,
+        "symbol": "NVDA"
+      },
+      {
+        "identifier_scope": "2026_current_symbol_not_permanent_id",
+        "selection_count": 154,
+        "selection_slot_share": 0.024309392265,
+        "symbol": "BRK-B"
+      }
+    ],
+    "top3_symbol_slot_share": 0.161325966851,
+    "total_slots": 6335
+  },
+  "top_contributor_symbols_ex_post_not_a_buy_list": [
+    "MU",
+    "AMD",
+    "MA"
+  ]
+}

@@ -12,6 +12,7 @@ import formalBacktestReadiness from "../data/short-term-formal-backtest-readines
 import survivorshipStress from "../data/short-term-survivorship-contamination.json";
 import temporalTailRobustness from "../data/short-term-temporal-tail-robustness.json";
 import baselineMultiplicity from "../data/short-term-baseline-multiplicity.json";
+import correlationCrowding from "../data/short-term-correlation-crowding.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -32,7 +33,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十四輪以三個公平基準及九假說多重檢驗反證現有訊號，只過 6/9，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十五輪檢驗相關性擠擁，十二項反證只過 7/12，名義 Top-7 的中位有效獨立注數只有 2.21，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -169,6 +170,19 @@ const multiplicityQqq = baselineMultiplicity.primary_baselines.qqq_return;
 const multiplicityBootstrap = baselineMultiplicity.common_bootstrap;
 const multiplicityControlRows = baselineMultiplicity.controls;
 const multiplicityAttackRows = baselineMultiplicity.attacks;
+const crowdingEffective = correlationCrowding.original_crowding.effective_bets;
+const crowdingHighPairs = correlationCrowding.original_crowding.high_correlation_pairs;
+const crowdingMaxPair = correlationCrowding.original_crowding.maximum_pairwise_correlation;
+const crowdingMeanPair = correlationCrowding.original_crowding.mean_pairwise_correlation;
+const crowdingFamilyRows = correlationCrowding.family.comparisons;
+const crowdingOriginal = crowdingFamilyRows.find((row) => row.id === "original_top7")!;
+const crowdingRemoveOne = crowdingFamilyRows.find((row) => row.id === "remove_top1_contributor")!;
+const crowdingRemoveThree = crowdingFamilyRows.find((row) => row.id === "remove_top3_contributors")!;
+const crowdingCap = correlationCrowding.correlation_cap2_stress;
+const crowdingContributors = correlationCrowding.current_symbol_contributors;
+const crowdingLeaveOne = correlationCrowding.leave_one_symbol_out.rows_sorted_weakest_first;
+const crowdingControlRows = correlationCrowding.controls;
+const crowdingAttackRows = correlationCrowding.attacks;
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -765,12 +779,14 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FAIR BASELINES &amp; MULTIPLICITY · ROUND 24</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CORRELATION CROWDING · ROUND 25</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />排名訊號未過公平分母</h1>
+              <h1>短線高回報<br />名義七注，實際中位只餘 2.21 注</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十四輪把 5／10／20 日與合資格池、完整現時股池及 QQQ 組成九個同成本配對假說。20 日相對合資格池仍有 <strong>{pp(multiplicityEligible.mean_difference, 3)}</strong>、NW t <strong>{multiplicityEligible.newey_west.t_stat.toFixed(2)}</strong>，Holm p <strong>{multiplicityEligible.holm_adjusted_p.toFixed(4)}</strong>、共同 max-t p <strong>{multiplicityEligible.bootstrap_max_t_p.toFixed(4)}</strong>；但相對完整現時股池只餘 <strong>{pp(multiplicityComplete.mean_difference, 3)}</strong>、NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong>，全專案 6,208 次 Bonferroni p 為 <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong>，九項事前門檻只過 <strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong>。正面排名效果不能改寫成對完整股池及搜尋偏誤都穩健。
+                真實與合成分開；第二十五輪不再調校收益，而是反證凍結的 905 個 20 日 Top-7 事件有沒有假分散。名義每期持有七股，但中位有效獨立注數只有 <strong>{crowdingEffective.median.toFixed(2)}</strong>，<strong>{pct(crowdingEffective.fraction_below_3, 1)}</strong> 的事件少於三注，<strong>{pct(crowdingHighPairs.events_with_any_fraction, 1)}</strong> 至少出現一對 60 日相關度高於 0.70。按參考方法施加 cap 2 後，平均相關度只由 <strong>{crowdingMeanPair.mean.toFixed(3)}</strong> 降至 <strong>{crowdingCap.crowding_change.mean_pairwise_correlation_after.toFixed(3)}</strong>，減幅只有 <strong>{crowdingCap.crowding_change.mean_pairwise_correlation_reduction.toFixed(3)}</strong>；十二項事前反證只過 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>。
+                剔除事後淨貢獻最高的 MU、AMD、MA 後，平均差只餘 <strong>{pp(crowdingRemoveThree.mean_difference, 3)}</strong>、NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong>、Holm p <strong>{crowdingRemoveThree.holm_adjusted_p.toFixed(3)}</strong>、max-t p <strong>{crowdingRemoveThree.bootstrap_max_t_p.toFixed(3)}</strong>；這三個現時代號只屬事後歸因，不是買入名單。
+                第二十四輪公平基準／多重檢驗 <strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong>、完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 繼續保留；第二十三輪刪除 {temporalRemoveThree.removed_years.join("、")} 後 NW t 亦只有 <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>。
                 第二十三輪時間／尾部反證 <strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong> 亦繼續保留：刪除 {temporalRemoveThree.removed_years.join("、")} 後 NW t 只有 <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>。
                 第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
                 第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
@@ -778,6 +794,7 @@ export default function Home() {
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#correlation-crowding">查看第 25 輪 7/12 反證</a>
                 <a className="primary-button aggressive-button" href="#baseline-multiplicity">查看第 24 輪 6/9 反證</a>
                 <a className="primary-button aggressive-button" href="#temporal-tail-robustness">查看第 23 輪 7/8 反證</a>
                 <a className="primary-button aggressive-button" href="#survivorship-contamination">查看 20 格退出壓力</a>
@@ -805,6 +822,10 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 25 輪相關性擠擁</dt><dd>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total} · 未通過</dd></div>
+                <div><dt>中位有效獨立注數</dt><dd>{crowdingEffective.median.toFixed(2)}／7 · 未通過</dd></div>
+                <div><dt>剔除 MU／AMD／MA</dt><dd>NW t {crowdingRemoveThree.newey_west.t_stat.toFixed(2)} · 低於 1.96</dd></div>
+                <div><dt>擠擁控制與攻擊</dt><dd>{correlationCrowding.control_summary.passed}/{correlationCrowding.control_summary.total} · {correlationCrowding.attack_summary.rejected}/{correlationCrowding.attack_summary.total}</dd></div>
                 <div><dt>第 24 輪公平基準／多重檢驗</dt><dd>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total} · 未通過</dd></div>
                 <div><dt>完整股池 NW t</dt><dd>{multiplicityComplete.newey_west.t_stat.toFixed(2)} · 低於 1.96</dd></div>
                 <div><dt>6,208 次搜尋校正</dt><dd>p {multiplicityEligible.global_bonferroni_p.toFixed(2)} · 未通過</dd></div>
@@ -840,6 +861,12 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 25 輪反證門檻</span><strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong><small>五項未通過</small></article>
+              <article><span>中位有效獨立注數</span><strong>{crowdingEffective.median.toFixed(2)}／7</strong><small>{pct(crowdingEffective.fraction_below_3, 1)} 少於三注</small></article>
+              <article><span>至少一對高相關</span><strong>{pct(crowdingHighPairs.events_with_any_fraction, 1)}</strong><small>中位最高相關 {crowdingMaxPair.median.toFixed(3)}</small></article>
+              <article><span>剔除前三貢獻股</span><strong>NW t {crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong><small>max-t p {crowdingRemoveThree.bootstrap_max_t_p.toFixed(3)}</small></article>
+              <article><span>相關 cap 2 減幅</span><strong>{crowdingCap.crowding_change.mean_pairwise_correlation_reduction.toFixed(3)}</strong><small>{crowdingMeanPair.mean.toFixed(3)} → {crowdingCap.crowding_change.mean_pairwise_correlation_after.toFixed(3)}</small></article>
+              <article><span>擠擁控制／攻擊</span><strong>{correlationCrowding.control_summary.passed}/{correlationCrowding.control_summary.total} · {correlationCrowding.attack_summary.rejected}/{correlationCrowding.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>第 24 輪反證門檻</span><strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong><small>三項未通過</small></article>
               <article><span>完整股池 NW t</span><strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong><small>低於固定 1.96</small></article>
               <article><span>主要 Holm／max-t p</span><strong>{multiplicityEligible.holm_adjusted_p.toFixed(3)}／{multiplicityEligible.bootstrap_max_t_p.toFixed(3)}</strong><small>family 內通過</small></article>
@@ -866,6 +893,145 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="correlation-crowding">
+            <div className="section-heading">
+              <div><span>CORRELATION CROWDING · ROUND 25</span><h2>十二項反證只過 7/12；名義 Top-7 的中位有效獨立注數只有 {crowdingEffective.median.toFixed(2)}</h2></div>
+              <p>固定第二十四輪的 905 個 20 日 Top-7 事件，只檢查 60 日相關性、有效獨立注數、現時代號歸因、剔除壓力及 cap 2；沒有調 Top-K、持有期、成本或入場規則。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>事前反證結果 · {correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</span>
+                <h3>{pct(crowdingEffective.fraction_below_3, 1)} 的事件少於三注獨立風險；{pct(crowdingHighPairs.events_with_any_fraction, 1)} 至少有一對高相關</h3>
+                <p>七股共有 21 對；中位最高 pairwise correlation 為 {crowdingMaxPair.median.toFixed(3)}，中位有效獨立注數只有 {crowdingEffective.median.toFixed(2)}。名義持有七個代號不等於有七個獨立風險來源。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>剔除事後前三貢獻股</span><strong>NW t {crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong><p>MU、AMD、MA 剔除後平均 {pp(crowdingRemoveThree.mean_difference, 3)}；Holm／max-t p {crowdingRemoveThree.holm_adjusted_p.toFixed(3)}／{crowdingRemoveThree.bootstrap_max_t_p.toFixed(3)}。</p></article>
+                <article><span>相關 cap 2</span><strong>{crowdingMeanPair.mean.toFixed(3)} → {crowdingCap.crowding_change.mean_pairwise_correlation_after.toFixed(3)}</strong><p>只減少 {crowdingCap.crowding_change.mean_pairwise_correlation_reduction.toFixed(3)}，遠低於固定 0.05 門檻；中位有效獨立注數仍約 {crowdingCap.crowding_change.median_effective_bets_after.toFixed(2)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>父協議先停止；matched-cash repair 不是獨立首次證據</b>
+              <p>父協議因刪除壓力後不足七隻合資格股份而以 crowding_baseline_fairness_breached 停止、沒有輸出。事前 repair 只容許不足七股的測試把空缺留作零回報現金，候選和 baseline 維持同一 K／7 持倉比率與成本；這是同一研究 family 的透明修復，不是新一輪獨立確認。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>名義／有效注數</span><strong>7／{crowdingEffective.median.toFixed(2)}</strong><p>平均 {crowdingEffective.mean.toFixed(2)}；第 5–95 百分位 {crowdingEffective.p05.toFixed(2)}–{crowdingEffective.p75.toFixed(2)}+。</p></article>
+              <article><span>任何高相關 pair</span><strong>{pct(crowdingHighPairs.events_with_any_fraction, 1)}</strong><p>門檻為 60 日相關度嚴格高於 0.70。</p></article>
+              <article><span>最高單一代號 slot share</span><strong>{pct(correlationCrowding.symbol_selection_concentration.maximum_single_symbol_slot_share, 2)}</strong><p>前三合計 {pct(correlationCrowding.symbol_selection_concentration.top3_symbol_slot_share, 2)}；選中次數並不集中。</p></article>
+              <article><span>cap 2 平均持倉</span><strong>{crowdingCap.accepted_count.mean.toFixed(2)}／7</strong><p>平均股票持倉比率 {pct(crowdingCap.accepted_count.mean_equity_exposure, 1)}；完整七股事件 {pct(crowdingCap.accepted_count.full_top7_fraction, 1)}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOUR-HYPOTHESIS FAMILY</span><h3>原始、剔除一股、剔除三股及相關 cap 2 同時校正</h3></div>
+              <p>四列共用 20,000 條 52-event circular block 路徑及同一 seed；前後半均固定，不可事後選最有利壓力。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>固定比較</th><th>平均差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半</th><th>後半</th></tr></thead>
+                <tbody>{crowdingFamilyRows.map((row) => (
+                  <tr className={row.id === "remove_top3_contributors" ? "featured-row" : ""} key={row.id}>
+                    <th><b>{row.label}</b><span>{row.events} 個共同事件</span></th>
+                    <td>{pp(row.mean_difference, 3)}</td>
+                    <td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td>
+                    <td className={row.holm_adjusted_p > 0.05 ? "negative-number" : ""}>{row.holm_adjusted_p.toFixed(4)}</td>
+                    <td className={row.bootstrap_max_t_p > 0.05 ? "negative-number" : ""}>{row.bootstrap_max_t_p.toFixed(4)}</td>
+                    <td>{pp(row.fixed_halves.first.mean_difference, 3)}</td>
+                    <td>{pp(row.fixed_halves.second.mean_difference, 3)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CORRELATION CAP 2</span><h3>回報比較仍正，但幾乎沒有降低擠擁</h3></div>
+              <p>只從原 Top-7 依排名逐隻接受，不回補；每隻仍佔 1/7，拒收部分留現金，matched eligible 與 QQQ 採同一實際股票持倉比率。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>cap 2 檢查</th><th>平均差／數值</th><th>NW t</th><th>持倉／前半</th><th>完整七股／後半</th></tr></thead>
+                <tbody>
+                  <tr><th><b>對 matched eligible</b><span>相同 K／7 持倉比率及成本</span></th><td>{pp(crowdingCap.vs_matched_eligible.mean_difference, 3)}</td><td>{crowdingCap.vs_matched_eligible.newey_west.t_stat.toFixed(2)}</td><td>{pp(crowdingCap.vs_matched_eligible.fixed_halves.first.mean_difference, 3)}</td><td>{pp(crowdingCap.vs_matched_eligible.fixed_halves.second.mean_difference, 3)}</td></tr>
+                  <tr><th><b>對 matched QQQ</b><span>相同 K／7 QQQ 機會成本</span></th><td>{pp(crowdingCap.vs_matched_qqq.mean_difference, 3)}</td><td>{crowdingCap.vs_matched_qqq.newey_west.t_stat.toFixed(2)}</td><td>{pp(crowdingCap.vs_matched_qqq.fixed_halves.first.mean_difference, 3)}</td><td>{pp(crowdingCap.vs_matched_qqq.fixed_halves.second.mean_difference, 3)}</td></tr>
+                  <tr className="featured-row"><th><b>擠擁改變</b><span>不是收益最佳化</span></th><td>{crowdingMeanPair.mean.toFixed(3)} → {crowdingCap.crowding_change.mean_pairwise_correlation_after.toFixed(3)}</td><td className="negative-number">只減 {crowdingCap.crowding_change.mean_pairwise_correlation_reduction.toFixed(3)}</td><td>平均 {crowdingCap.accepted_count.mean.toFixed(2)} 股／{pct(crowdingCap.accepted_count.mean_equity_exposure, 1)}</td><td>{pct(crowdingCap.accepted_count.full_top7_fraction, 1)}／最少 {crowdingCap.accepted_count.minimum} 股</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EX-POST SYMBOL ATTRIBUTION</span><h3>25 個現時代號全部呈列；MU、AMD、MA 不是買入名單</h3></div>
+              <p>代號只按 2026 現時 ticker 回填，沒有永久證券 ID，亦未修復退市／歷史成分偏差。貢獻排名和 leave-one 結果都是事後診斷，不可外推成下一期推薦。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>現時代號</th><th>選中次數</th><th>slot share</th><th>平均淨貢獻</th><th>淨貢獻佔比</th><th>剔除後平均差</th><th>剔除後 NW t</th></tr></thead>
+                <tbody>{crowdingContributors.map((row) => {
+                  const leaveOne = crowdingLeaveOne.find((item) => item.symbol === row.symbol)!;
+                  return (
+                    <tr className={row.net_contribution_rank <= 3 ? "featured-row" : ""} key={row.symbol}>
+                      <th><b>{row.symbol}</b><span>事後淨貢獻第 {row.net_contribution_rank}</span></th>
+                      <td>{row.selection_count}</td>
+                      <td>{pct(row.selection_slot_share, 2)}</td>
+                      <td>{pp(row.active_contribution_to_mean, 3)}</td>
+                      <td>{pct(row.share_of_net_active_sum, 1)}</td>
+                      <td>{pp(leaveOne.mean_difference, 3)}</td>
+                      <td>{leaveOne.newey_west.t_stat.toFixed(2)}</td>
+                    </tr>
+                  );
+                })}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRE-FROZEN FALSIFICATION GATES</span><h3>十二項門檻逐項呈列；7/12 不升格</h3></div>
+              <p>有效注數兩項、剔除前三貢獻股、相關度減幅及 family correction 五項失敗；不能以原始回報仍正掩蓋。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {correlationCrowding.gates.map((gate, index) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><div><b>{gate.label}</b><p>第 25 輪固定反證</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>十九道輸入、相關、代號、matched-cash、bootstrap 及決策控制</h3></div>
+              <p>19/19 只證明程式遵守事前協議及修復協議，並非策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {crowdingControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 25 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>十九項 hash、時鐘、相關、代號、baseline 及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中事前指定錯誤碼，包括 crowding_decision_boundary_breached。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {crowdingAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 25 DECISION</span><b>原始排名差仍正，但組合實際擠擁且前三事後貢獻股剔除壓力未通過；不建立新策略</b></div>
+              <p>原 Top-7 平均差 {pp(crowdingOriginal.mean_difference, 3)}、NW t {crowdingOriginal.newey_west.t_stat.toFixed(2)}；只剔除 MU 仍有 {pp(crowdingRemoveOne.mean_difference, 3)}、NW t {crowdingRemoveOne.newey_west.t_stat.toFixed(2)}，但同時剔除 MU、AMD、MA 後證據失效。正式就緒 1/18、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CORRELATION_CROWDING_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 25 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CORRELATION_CROWDING_PROTOCOL.md" target="_blank" rel="noreferrer">事前相關擠擁協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CORRELATION_CROWDING_SCHEMA_REPAIR_PROTOCOL.md" target="_blank" rel="noreferrer">matched-cash 修復協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_correlation_crowding_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 
