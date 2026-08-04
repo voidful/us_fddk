@@ -9,6 +9,7 @@ import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
+import survivorshipStress from "../data/short-term-survivorship-contamination.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -29,7 +30,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十一輪完成五條供應商、十四項正式能力的補缺矩陣，沒有路徑合格，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十二輪量化存活者偏差與缺失退市污染，主要合成格 5/5，但嚴重退出令統計證據跌穿門檻，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -135,6 +136,15 @@ const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
 const formalReadinessControl = formalBacktestReadiness.synthetic_control;
 const formalReadinessAttackRows = formalBacktestReadiness.attacks;
+const survivorshipPrimary = survivorshipStress.primary_cell;
+const survivorshipTwoPctRows = survivorshipStress.stress_grid.filter(
+  (row) => row.contamination_rate === 0.02,
+);
+const survivorshipBreakEvenRows = survivorshipStress.break_even_by_exit_return;
+const survivorshipControlRows = survivorshipStress.controls;
+const survivorshipAttackRows = survivorshipStress.attacks;
+const survivorshipSevere80 = survivorshipTwoPctRows.find((row) => row.exit_return === -0.8)!;
+const survivorshipSevere100 = survivorshipTwoPctRows.find((row) => row.exit_return === -1)!;
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -731,16 +741,18 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · PROVIDER GAP CLOSURE · ROUND 21</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · SURVIVORSHIP STRESS · ROUND 22</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />先補真數據才跑結果</h1>
+              <h1>短線高回報<br />正面訊號先過退出壓力</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十一輪把 CRSP＋S&amp;P DJI、S&amp;P Global Market Intelligence、LSEG、FactSet 及 Bloomberg 五條路徑放入同一個 14 項正式能力矩陣。<strong>沒有一條路徑合格</strong>；公開證據最多的 CRSP＋S&amp;P DJI 複合路線只有 <strong>{providerGapBest.explicit_count}/14 明確、{providerGapBest.partial_count}/14 部分</strong>，其餘 <strong>{providerGapBest.hard_gap_count}/14</strong> 仍不是明確能力。十五道證據控制 <strong>{providerGapClosure.control_summary.passed}/{providerGapClosure.control_summary.total}</strong> 通過，十五項替代攻擊 <strong>{providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total} 全部拒收</strong>；五個官方來源身份目前 <strong>{providerGapSourceProbe.all_match_frozen_identities ? "全部一致" : "需要人工覆核"}</strong>，但公開文件永不自動提高資格。
+                真實與合成分開；第二十二輪只壓測現時唯一正面線索：905 個 20 日 Top-7 事件。固定主要格假設每個事件有 <strong>2%</strong> 機會漏掉一隻本來會入選、退出回報 <strong>-50%</strong> 的股份；配對差由 <strong>{pp(survivorshipStress.observed_signal.mean_active_difference, 3)}</strong> 降至 <strong>{pp(survivorshipPrimary.expected.mean_difference, 3)}</strong>，NW t 由 <strong>{survivorshipStress.observed_signal.newey_west.t_stat.toFixed(2)}</strong> 降至 <strong>{survivorshipPrimary.expected.newey_west.t_stat.toFixed(2)}</strong>，事前門檻 <strong>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total}</strong>。但相同 2% 污染下，-80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>，均低於 1.96；平均值未歸零，不等於統計證據仍可靠。
+                第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
                 第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#survivorship-contamination">查看 20 格退出壓力</a>
                 <a className="primary-button aggressive-button" href="#provider-gap-closure">查看五路徑 14 項矩陣</a>
                 <a className="primary-button aggressive-button" href="#provider-convergence">查看 CRSP 直接 5/10</a>
                 <a className="primary-button aggressive-button" href="#risk-free-staging">查看官方 RF 5,009/5,031</a>
@@ -767,6 +779,9 @@ export default function Home() {
               <dl className="decision-list">
                 <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
                 <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>第 22 輪主要壓力</dt><dd>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total} · 只限合成</dd></div>
+                <div><dt>退出壓力控制／攻擊</dt><dd>{survivorshipStress.control_summary.passed}/{survivorshipStress.control_summary.total} · {survivorshipStress.attack_summary.rejected}/{survivorshipStress.attack_summary.total}</dd></div>
+                <div><dt>-50% 統計 break-even</dt><dd>{pct(survivorshipBreakEvenRows.find((row) => row.exit_return === -0.5)!.newey_west_below_1_96_contamination_rate, 2)} 污染率</dd></div>
                 <div><dt>第 21 輪路徑</dt><dd>{providerGapClosure.qualified_route_count}/5 合格 · {providerGapBest.explicit_count}/14 最多明確</dd></div>
                 <div><dt>補缺控制／攻擊</dt><dd>{providerGapClosure.control_summary.passed}/{providerGapClosure.control_summary.total} · {providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total}</dd></div>
                 <div><dt>供應商直接能力</dt><dd>{providerConvergence.capability_matrix.direct_documented_count}/10 · 尚欠 {providerConvergence.capability_matrix.overlay_required_count} 份證據層</dd></div>
@@ -790,6 +805,9 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 22 輪主要合成格</span><strong>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total}</strong><small>不能修復存活者偏差</small></article>
+              <article><span>-100%／2% NW t</span><strong>{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong><small>低於 1.96；統計證據失效</small></article>
+              <article><span>退出壓力攻擊</span><strong>{survivorshipStress.attack_summary.rejected}/{survivorshipStress.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>第 21 輪合格路徑</span><strong>{providerGapClosure.qualified_route_count}/5</strong><small>公開文件最高只屬採購候選</small></article>
               <article><span>多供應商補缺攻擊</span><strong>{providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>Stock CIZ 直接能力</span><strong>{providerConvergence.capability_matrix.direct_documented_count}/10</strong><small>另 {providerConvergence.capability_matrix.overlay_required_count} 份須 evidence overlay</small></article>
@@ -805,6 +823,117 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="survivorship-contamination">
+            <div className="section-heading">
+              <div><span>SURVIVORSHIP CONTAMINATION · ROUND 22</span><h2>主要合成格 5/5；嚴重退出令統計證據先於平均值消失</h2></div>
+              <p>只壓測已凍結的 20 日 Top-7 訊號，不搜尋新參數。候選與同日合資格池 baseline 同時加入同一缺失股份；合成結果只可否決，不能升格。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>固定主要格 · -50% 退出／2% 污染</span>
+                <h3>配對差仍為 {pp(survivorshipPrimary.expected.mean_difference, 3)}，NW t {survivorshipPrimary.expected.newey_west.t_stat.toFixed(2)}</h3>
+                <p>觀察配對差是 {pp(survivorshipStress.observed_signal.mean_active_difference, 3)}；2,000 條固定亂數路徑的平均差 95% 區間為 {pp(survivorshipPrimary.monte_carlo.mean_difference_quantiles.p025, 3)} 至 {pp(survivorshipPrimary.monte_carlo.mean_difference_quantiles.p975, 3)}。5/5 只表示這個特定合成格未推翻訊號。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>-80%／2%</span><strong>NW t {survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}</strong><p>平均差 {pp(survivorshipSevere80.expected.mean_difference, 3)}，但統計門檻已失敗。</p></article>
+                <article><span>-100%／2%</span><strong>NW t {survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong><p>平均差 {pp(survivorshipSevere100.expected.mean_difference, 3)}；不能只看平均仍為正。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>模型邊界</b>
+              <p>這不是對真實退市率的估計，亦沒有合成被漏股份的完整事前動量。每個受污染事件只加入一隻本來會入選的失敗股份；Top-7 以 1/7 承受，合資格池以 1/(N+1) 承受。正式 point-in-time／退市回測仍是 0 次。</p>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FULL FIXED GRID</span><h3>四種退出回報 × 五種污染率，20 格全部呈列</h3></div>
+              <p>重疊 20 日事件的配對差不是可複利 CAGR；MC 區間只反映污染位置，不是未來市場回報區間。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>退出回報</th><th>污染率</th><th>期望配對差</th><th>NW t</th><th>MC 95% 區間</th><th>正平均路徑</th><th>前後十年同正</th></tr></thead>
+                <tbody>{survivorshipStress.stress_grid.map((row) => (
+                  <tr className={row.exit_return === -0.5 && row.contamination_rate === 0.02 ? "featured-row" : ""} key={`${row.exit_return}-${row.contamination_rate}`}>
+                    <th><b>{pct(row.exit_return, 0)}</b><span>缺失入選股份</span></th>
+                    <td>{pct(row.contamination_rate, 1)}</td>
+                    <td>{pp(row.expected.mean_difference, 3)}</td>
+                    <td className={row.expected.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.expected.newey_west.t_stat.toFixed(2)}</td>
+                    <td>{pp(row.monte_carlo.mean_difference_quantiles.p025, 3)} 至 {pp(row.monte_carlo.mean_difference_quantiles.p975, 3)}</td>
+                    <td>{pct(row.monte_carlo.positive_mean_fraction, 1)}</td>
+                    <td>{pct(row.monte_carlo.both_halves_positive_fraction, 1)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>BREAK-EVEN BOUNDARY</span><h3>統計證據比平均差更早失效</h3></div>
+              <p>固定 0.01 個百分點污染率網格；不按結果做連續調校。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>退出回報</th><th>平均差降至零</th><th>NW t 跌穿 1.96</th><th>判讀</th></tr></thead>
+                <tbody>{survivorshipBreakEvenRows.map((row) => (
+                  <tr key={row.exit_return}>
+                    <th><b>{pct(row.exit_return, 0)}</b><span>每個受污染事件一隻</span></th>
+                    <td>{pct(row.mean_zero_contamination_rate, 2)}</td>
+                    <td>{pct(row.newey_west_below_1_96_contamination_rate, 2)}</td>
+                    <td>先失去統計確認，再失去正平均差</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRE-FROZEN SURVIVAL GATES</span><h3>主要格五項門檻逐項呈列</h3></div>
+              <p>通過不能提升正式就緒；失敗則必須保留為反證。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {survivorshipStress.primary_gates.map((gate, index) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><div><b>{gate.label}</b><p>固定 -50%／2% 主要合成格</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>十二道輸入、格網、亂數、公平基準及統計控制</h3></div>
+              <p>12/12 只證明程式遵守事前協議，並非策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {survivorshipControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 22 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>十二項期限、Top-K、壓力格、亂數及 baseline 偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中指定錯誤碼。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {survivorshipAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>SCHEMA REPAIR &amp; DECISION</span><b>最後訊號日手寫錯誤在計算前 fail closed；repair 先提交，結果後才產生</b></div>
+              <p>實際 905 個固定事件為 {survivorshipStress.observed_signal.first_signal_date} 至 {survivorshipStress.observed_signal.last_signal_date}。repair 只改為由已綁定 SHA 的事件列讀取日期；20 日、Top-7、20 格、統計及門檻全部不變。正式 1/18、Paper 全現金、持倉 0、實金 US$0。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 22 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_PROTOCOL.md" target="_blank" rel="noreferrer">事前壓力協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_SCHEMA_REPAIR_PROTOCOL.md" target="_blank" rel="noreferrer">日期 repair 附錄</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_survivorship_contamination_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 

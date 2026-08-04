@@ -40,6 +40,15 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /SURVIVORSHIP CONTAMINATION · ROUND 22/);
+  assert.match(html, /主要合成格 5\/5；嚴重退出令統計證據先於平均值消失/);
+  assert.match(html, /固定主要格 · -50% 退出／2% 污染/);
+  assert.match(html, /NW t (?:<!-- -->)?1\.80/);
+  assert.match(html, /NW t (?:<!-- -->)?1\.49/);
+  assert.match(html, /四種退出回報 × 五種污染率，20 格全部呈列/);
+  assert.match(html, /統計證據比平均差更早失效/);
+  assert.match(html, /stress_baseline_not_adjusted/);
+  assert.match(html, /最後訊號日手寫錯誤在計算前 fail closed/);
   assert.match(html, /PROVIDER GAP CLOSURE · ROUND 21/);
   assert.match(html, /五條路徑逐項對齊 14 項正式能力；0\/5 合格/);
   assert.match(html, /CRSP＋S&amp;P DJI 最接近完整；LSEG 是最完整的單一品牌候選/);

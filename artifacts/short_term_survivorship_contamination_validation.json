@@ -1,0 +1,915 @@
+{
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 12,
+    "total": 12
+  },
+  "attacks": [
+    {
+      "expected_error_code": "stress_input_hash_mismatch",
+      "id": "01",
+      "label": "輸入 SHA 漂移",
+      "observed_error_code": "stress_input_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_horizon_not_frozen",
+      "id": "02",
+      "label": "改用 10 日持有期",
+      "observed_error_code": "stress_horizon_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_event_count_mismatch",
+      "id": "03",
+      "label": "事件數漂移",
+      "observed_error_code": "stress_event_count_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_top_k_not_frozen",
+      "id": "04",
+      "label": "Top-K 改為 10",
+      "observed_error_code": "stress_top_k_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_exit_grid_not_frozen",
+      "id": "05",
+      "label": "刪除 -100% 退出格",
+      "observed_error_code": "stress_exit_grid_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_frequency_grid_not_frozen",
+      "id": "06",
+      "label": "刪除 10% 污染格",
+      "observed_error_code": "stress_frequency_grid_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_primary_cell_not_frozen",
+      "id": "07",
+      "label": "主要格改為較輕衝擊",
+      "observed_error_code": "stress_primary_cell_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_simulation_count_not_frozen",
+      "id": "08",
+      "label": "減少 Monte Carlo 路徑",
+      "observed_error_code": "stress_simulation_count_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_seed_not_frozen",
+      "id": "09",
+      "label": "隨機種子漂移",
+      "observed_error_code": "stress_seed_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_common_random_numbers_disabled",
+      "id": "10",
+      "label": "每格獨立重抽亂數",
+      "observed_error_code": "stress_common_random_numbers_disabled",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_baseline_not_adjusted",
+      "id": "11",
+      "label": "只打擊候選不修正 baseline",
+      "observed_error_code": "stress_baseline_not_adjusted",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stress_newey_west_lag_not_frozen",
+      "id": "12",
+      "label": "Newey-West lag 漂移",
+      "observed_error_code": "stress_newey_west_lag_not_frozen",
+      "rejected": true
+    }
+  ],
+  "break_even_by_exit_return": [
+    {
+      "exit_return": -0.25,
+      "mean_zero_contamination_rate": 0.14894468563201188,
+      "mean_zero_within_zero_to_one": true,
+      "newey_west_below_1_96_contamination_rate": 0.0539
+    },
+    {
+      "exit_return": -0.5,
+      "mean_zero_contamination_rate": 0.07698466588143499,
+      "mean_zero_within_zero_to_one": true,
+      "newey_west_below_1_96_contamination_rate": 0.0276
+    },
+    {
+      "exit_return": -0.8,
+      "mean_zero_contamination_rate": 0.04873190488177417,
+      "mean_zero_within_zero_to_one": true,
+      "newey_west_below_1_96_contamination_rate": 0.0174
+    },
+    {
+      "exit_return": -1.0,
+      "mean_zero_contamination_rate": 0.039152741433718254,
+      "mean_zero_within_zero_to_one": true,
+      "newey_west_below_1_96_contamination_rate": 0.014
+    }
+  ],
+  "control_summary": {
+    "all_passed": true,
+    "passed": 12,
+    "total": 12
+  },
+  "controls": [
+    {
+      "id": "01",
+      "label": "輸入 SHA",
+      "passed": true
+    },
+    {
+      "id": "02",
+      "label": "固定 20 日期限",
+      "passed": true
+    },
+    {
+      "id": "03",
+      "label": "905 個事件",
+      "passed": true
+    },
+    {
+      "id": "04",
+      "label": "固定 Top-7",
+      "passed": true
+    },
+    {
+      "id": "05",
+      "label": "四個退出回報",
+      "passed": true
+    },
+    {
+      "id": "06",
+      "label": "五個污染率",
+      "passed": true
+    },
+    {
+      "id": "07",
+      "label": "固定主要格",
+      "passed": true
+    },
+    {
+      "id": "08",
+      "label": "2,000 條路徑",
+      "passed": true
+    },
+    {
+      "id": "09",
+      "label": "固定隨機種子",
+      "passed": true
+    },
+    {
+      "id": "10",
+      "label": "共用亂數",
+      "passed": true
+    },
+    {
+      "id": "11",
+      "label": "候選與基準同步調整",
+      "passed": true
+    },
+    {
+      "id": "12",
+      "label": "固定 NW lag 4",
+      "passed": true
+    }
+  ],
+  "decision": "合成缺失退出壓力只量化現時正面訊號的脆弱度；無論通過或失敗，均不修復 point-in-time／退市數據缺口，不建立 Paper 或實金持倉。",
+  "formal_readiness": {
+    "passed": 1,
+    "total": 18
+  },
+  "formal_stock_backtest_completed": false,
+  "frozen_contract": {
+    "candidate_and_baseline_both_adjusted": true,
+    "common_random_numbers_sha256": "28950041e05ef84d70f25c79c178d24868c4823cbec4a114b5e9a5d07af35655",
+    "contamination_rate_grid": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ],
+    "exit_return_grid": [
+      -0.25,
+      -0.5,
+      -0.8,
+      -1.0
+    ],
+    "newey_west_lag": 4,
+    "primary_cell": {
+      "contamination_rate": 0.02,
+      "exit_return": -0.5
+    },
+    "simulation_count": 2000,
+    "simulation_seed": 20260804,
+    "top_k": 7
+  },
+  "input": {
+    "event_count": 905,
+    "event_series_sha256": "98cf4daa4b4509329e6c4a279774fd56b69ba901bd7f2fca0f7976a63c8eba3c",
+    "horizon": 20,
+    "input_sha256": "fa2463cc8273a316e4a98428767b695eb85c74e9ac75c47b5ca34592102979e8",
+    "path": "artifacts/short_term_high_return_validation.json",
+    "protocol_sha256": "3977eae15de0a46607d7358ddb25d5988dab58d25ceb9f225ae229d986ff3ddd",
+    "schema_repair_protocol_sha256": "68522a1f50d24f7d4234052bceb77b140e745dacfd29eb85ced17feaf540e4a5"
+  },
+  "observed_signal": {
+    "active_win_fraction": 0.5259668508287293,
+    "events": 905,
+    "first_signal_date": "2006-08-04",
+    "fixed_halves": {
+      "first_mean_difference": 0.0034752033421179417,
+      "second_mean_difference": 0.002931734950670541
+    },
+    "last_signal_date": "2026-07-02",
+    "mean_active_difference": 0.0031893569837433975,
+    "mean_eligible_equal_return": 0.011352299733142392,
+    "mean_selected_return": 0.014541656716885789,
+    "median_active_difference": 0.0009813258616346715,
+    "newey_west": {
+      "annualized_event_difference": 0.16584656315465668,
+      "lag": 4,
+      "mean_difference": 0.0031893569837433975,
+      "t_stat": 3.0258950833609455
+    }
+  },
+  "paper": {
+    "allocation_usd": 0,
+    "authorized": false,
+    "positions": 0,
+    "state": "all_cash"
+  },
+  "primary_cell": {
+    "contamination_rate": 0.02,
+    "exit_return": -0.5,
+    "expected": {
+      "fixed_halves": {
+        "first_mean_difference": 0.00269485868260781,
+        "second_mean_difference": 0.002059702465715616
+      },
+      "mean_difference": 0.0023607875674247335,
+      "median_difference": 0.0002499148954968637,
+      "newey_west": {
+        "annualized_event_difference": 0.12276095350608615,
+        "lag": 4,
+        "mean_difference": 0.0023607875674247335,
+        "t_stat": 2.2534616266278817
+      },
+      "win_fraction": 0.5060773480662983
+    },
+    "monte_carlo": {
+      "both_halves_positive_fraction": 1.0,
+      "mean_difference_quantiles": {
+        "p025": 0.0019562548315290172,
+        "p500": 0.0023790582621190885,
+        "p975": 0.0027288516347670033
+      },
+      "paths": 2000,
+      "positive_mean_fraction": 1.0
+    }
+  },
+  "primary_gate_summary": {
+    "all_passed": true,
+    "passed": 5,
+    "total": 5
+  },
+  "primary_gates": [
+    {
+      "id": "expected_mean_positive",
+      "label": "期望平均配對差為正",
+      "passed": true
+    },
+    {
+      "id": "expected_newey_west",
+      "label": "期望序列 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "monte_carlo_positive",
+      "label": "Monte Carlo 正平均路徑不少於 95%",
+      "passed": true
+    },
+    {
+      "id": "monte_carlo_halves",
+      "label": "Monte Carlo 前後十年同正不少於 90%",
+      "passed": true
+    },
+    {
+      "id": "expected_halves",
+      "label": "期望前後十年平均配對差均為正",
+      "passed": true
+    }
+  ],
+  "protocol": {
+    "commit": "6c0c17570cebe408d841f823a819019b11211ffb",
+    "frozen_before_first_stress_calculation": true,
+    "path": "docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_PROTOCOL.md",
+    "sha256": "3977eae15de0a46607d7358ddb25d5988dab58d25ceb9f225ae229d986ff3ddd"
+  },
+  "reader_capital_example_usd": 1000,
+  "real_money_action_usd": 0,
+  "research_role": "survivorship_bias_sensitivity_only",
+  "research_round": 22,
+  "schema_repair_protocol": {
+    "commit": "ebdd44bb3cec1de5c29e31b7cab626af4b84f5cb",
+    "path": "docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_SCHEMA_REPAIR_PROTOCOL.md",
+    "repair_scope": "derive_signal_date_boundaries_from_hash_bound_event_series",
+    "sha256": "68522a1f50d24f7d4234052bceb77b140e745dacfd29eb85ced17feaf540e4a5",
+    "stress_results_present_at_freeze": false
+  },
+  "schema_version": 1,
+  "status": "synthetic_primary_stress_survived_not_investable",
+  "strategy_run_count": 0,
+  "stress_grid": [
+    {
+      "contamination_rate": 0.005,
+      "exit_return": -0.25,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0033752716896201487,
+          "second_mean_difference": 0.0028182406635425695
+        },
+        "mean_difference": 0.0030822918350202283,
+        "median_difference": 0.000872501996017269,
+        "newey_west": {
+          "annualized_event_difference": 0.16027917542105188,
+          "lag": 4,
+          "mean_difference": 0.0030822918350202283,
+          "t_stat": 2.928320135912108
+        },
+        "win_fraction": 0.5248618784530387
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.002967217957770798,
+          "p500": 0.0030859724415519475,
+          "p975": 0.0031725623212062307
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.01,
+      "exit_return": -0.25,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0032753400371223567,
+          "second_mean_difference": 0.002704746376414596
+        },
+        "mean_difference": 0.002975226686297059,
+        "median_difference": 0.0008153839609398279,
+        "newey_west": {
+          "annualized_event_difference": 0.1547117876874471,
+          "lag": 4,
+          "mean_difference": 0.002975226686297059,
+          "t_stat": 2.830468458899731
+        },
+        "win_fraction": 0.523756906077348
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0028164095659259304,
+          "p500": 0.0029794123986912153,
+          "p975": 0.0031044928959498793
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.02,
+      "exit_return": -0.25,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0030754767321267695,
+          "second_mean_difference": 0.002477757802158654
+        },
+        "mean_difference": 0.002761096388850722,
+        "median_difference": 0.000621841561512896,
+        "newey_west": {
+          "annualized_event_difference": 0.14357701222023753,
+          "lag": 4,
+          "mean_difference": 0.002761096388850722,
+          "t_stat": 2.6339340695054774
+        },
+        "win_fraction": 0.5171270718232044
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.002541809117361674,
+          "p500": 0.002770193090762683,
+          "p975": 0.0029546130512636973
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.05,
+      "exit_return": -0.25,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.002475886817140011,
+          "second_mean_difference": 0.001796792079390822
+        },
+        "mean_difference": 0.0021187054965117087,
+        "median_difference": -8.004449429926258e-08,
+        "newey_west": {
+          "annualized_event_difference": 0.11017268581860885,
+          "lag": 4,
+          "mean_difference": 0.0021187054965117087,
+          "t_stat": 2.0376691117661467
+        },
+        "win_fraction": 0.4994475138121547
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0017995995507704098,
+          "p500": 0.002127840853383335,
+          "p975": 0.0024139790671233122
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.1,
+      "exit_return": -0.25,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0014765702921620799,
+          "second_mean_difference": 0.0006618492081111028
+        },
+        "mean_difference": 0.0010480540092800191,
+        "median_difference": -0.00045133581391451237,
+        "newey_west": {
+          "annualized_event_difference": 0.054498808482560994,
+          "lag": 4,
+          "mean_difference": 0.0010480540092800191,
+          "t_stat": 1.0216213372850844
+        },
+        "win_fraction": 0.48066298342541436
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.9735,
+        "mean_difference_quantiles": {
+          "p025": 0.0006020919886187904,
+          "p500": 0.001061745270771096,
+          "p975": 0.0014765870493918868
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.005,
+      "exit_return": -0.5,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0032801171772404093,
+          "second_mean_difference": 0.0027137268294318093
+        },
+        "mean_difference": 0.0029822146296637313,
+        "median_difference": 0.0008075669310822041,
+        "newey_west": {
+          "annualized_event_difference": 0.15507516074251404,
+          "lag": 4,
+          "mean_difference": 0.0029822146296637313,
+          "t_stat": 2.8337048088825627
+        },
+        "win_fraction": 0.523756906077348
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.00276538799616513,
+          "p500": 0.0029903196875639016,
+          "p975": 0.0031545493849644995
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.01,
+      "exit_return": -0.5,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0030850310123628766,
+          "second_mean_difference": 0.002495718708193078
+        },
+        "mean_difference": 0.0027750722755840655,
+        "median_difference": 0.0006242947431099337,
+        "newey_west": {
+          "annualized_event_difference": 0.1443037583303714,
+          "lag": 4,
+          "mean_difference": 0.0027750722755840655,
+          "t_stat": 2.640900939671967
+        },
+        "win_fraction": 0.5171270718232044
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0024783604391364006,
+          "p500": 0.002782519551455267,
+          "p975": 0.0030245325977845514
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.02,
+      "exit_return": -0.5,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.00269485868260781,
+          "second_mean_difference": 0.002059702465715616
+        },
+        "mean_difference": 0.0023607875674247335,
+        "median_difference": 0.0002499148954968637,
+        "newey_west": {
+          "annualized_event_difference": 0.12276095350608615,
+          "lag": 4,
+          "mean_difference": 0.0023607875674247335,
+          "t_stat": 2.2534616266278817
+        },
+        "win_fraction": 0.5060773480662983
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0019562548315290172,
+          "p500": 0.0023790582621190885,
+          "p975": 0.0027288516347670033
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.05,
+      "exit_return": -0.5,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0015243416933426125,
+          "second_mean_difference": 0.0007516537382832285
+        },
+        "mean_difference": 0.001117933442946737,
+        "median_difference": -0.0004575777336397101,
+        "newey_west": {
+          "annualized_event_difference": 0.058132539033230325,
+          "lag": 4,
+          "mean_difference": 0.001117933442946737,
+          "t_stat": 1.0766712318263882
+        },
+        "win_fraction": 0.481767955801105
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.942,
+        "mean_difference_quantiles": {
+          "p025": 0.0005079184395151349,
+          "p500": 0.0011372904363695494,
+          "p975": 0.0016855252840140354
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.9995
+      }
+    },
+    {
+      "contamination_rate": 0.1,
+      "exit_return": -0.5,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": -0.0004265199554327178,
+          "second_mean_difference": -0.0014284274741040851
+        },
+        "mean_difference": -0.0009534900978499229,
+        "median_difference": -0.0015762117435554426,
+        "newey_west": {
+          "annualized_event_difference": -0.049581485088195994,
+          "lag": 4,
+          "mean_difference": -0.0009534900978499229,
+          "t_stat": -0.9314991126808352
+        },
+        "win_fraction": 0.4453038674033149
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.0005,
+        "mean_difference_quantiles": {
+          "p025": -0.0017939181605709524,
+          "p500": -0.0009294784546175733,
+          "p975": -0.00015007941403249466
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.007
+      }
+    },
+    {
+      "contamination_rate": 0.005,
+      "exit_return": -0.8,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0031659317623847216,
+          "second_mean_difference": 0.0025883102284988985
+        },
+        "mean_difference": 0.002862121983235934,
+        "median_difference": 0.0006829218506959004,
+        "newey_west": {
+          "annualized_event_difference": 0.14883034312826857,
+          "lag": 4,
+          "mean_difference": 0.002862121983235934,
+          "t_stat": 2.720119721407133
+        },
+        "win_fraction": 0.518232044198895
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0025217700226558824,
+          "p500": 0.0028742078627418096,
+          "p975": 0.0031307880146044225
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.01,
+      "exit_return": -0.8,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0028566601826515007,
+          "second_mean_difference": 0.002244885506327256
+        },
+        "mean_difference": 0.002534886982728472,
+        "median_difference": 0.00039540381387182606,
+        "newey_west": {
+          "annualized_event_difference": 0.13181412310188054,
+          "lag": 4,
+          "mean_difference": 0.002534886982728472,
+          "t_stat": 2.413237999809441
+        },
+        "win_fraction": 0.5138121546961326
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.002078486952149405,
+          "p500": 0.002547665583334337,
+          "p975": 0.0029248723934035964
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.02,
+      "exit_return": -0.8,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.002238117023185059,
+          "second_mean_difference": 0.0015580360619839707
+        },
+        "mean_difference": 0.0018804169817135475,
+        "median_difference": -0.00023607177373330263,
+        "newey_west": {
+          "annualized_event_difference": 0.09778168304910446,
+          "lag": 4,
+          "mean_difference": 0.0018804169817135475,
+          "t_stat": 1.796206683713938
+        },
+        "win_fraction": 0.49392265193370166
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.9985,
+        "mean_difference_quantiles": {
+          "p025": 0.0012540067711897156,
+          "p500": 0.0019119031688522073,
+          "p975": 0.002468597006580089
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.05,
+      "exit_return": -0.8,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.00038248754478573344,
+          "second_mean_difference": -0.0005025122710458848
+        },
+        "mean_difference": -8.299302133122839e-05,
+        "median_difference": -0.0008802219749698436,
+        "newey_west": {
+          "annualized_event_difference": -0.004315637109223876,
+          "lag": 4,
+          "mean_difference": -8.299302133122839e-05,
+          "t_stat": -0.08004556766690807
+        },
+        "win_fraction": 0.4607734806629834
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.1775,
+        "mean_difference_quantiles": {
+          "p025": -0.0010451243584160093,
+          "p500": -5.042154497581397e-05,
+          "p975": 0.0008098382520586412
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.456
+      }
+    },
+    {
+      "contamination_rate": 0.1,
+      "exit_return": -0.8,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": -0.0027102282525464753,
+          "second_mean_difference": -0.003936759492762311
+        },
+        "mean_difference": -0.0033553430264058543,
+        "median_difference": -0.0035794860567870974,
+        "newey_west": {
+          "annualized_event_difference": -0.17447783737310443,
+          "lag": 4,
+          "mean_difference": -0.0033553430264058543,
+          "t_stat": -3.283632212569567
+        },
+        "win_fraction": 0.40552486187845305
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.0,
+        "mean_difference_quantiles": {
+          "p025": -0.004669908972519688,
+          "p500": -0.0033180675207248682,
+          "p975": -0.002109869627174159
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.0
+      }
+    },
+    {
+      "contamination_rate": 0.005,
+      "exit_return": -1.0,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0030898081524809292,
+          "second_mean_difference": 0.002504699161210291
+        },
+        "mean_difference": 0.002782060218950737,
+        "median_difference": 0.0006129006025090524,
+        "newey_west": {
+          "annualized_event_difference": 0.14466713138543832,
+          "lag": 4,
+          "mean_difference": 0.002782060218950737,
+          "t_stat": 2.6443683875374915
+        },
+        "win_fraction": 0.5171270718232044
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.002354270094792401,
+          "p500": 0.0027956614373889784,
+          "p975": 0.0031161472071425606
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.01,
+      "exit_return": -1.0,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.002704412962843916,
+          "second_mean_difference": 0.002077663371750041
+        },
+        "mean_difference": 0.0023747634541580764,
+        "median_difference": 0.0002590807590350957,
+        "newey_west": {
+          "annualized_event_difference": 0.12348769961621997,
+          "lag": 4,
+          "mean_difference": 0.0023747634541580764,
+          "t_stat": 2.2613553430314877
+        },
+        "win_fraction": 0.5082872928176796
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 1.0,
+        "mean_difference_quantiles": {
+          "p025": 0.0018046791122694542,
+          "p500": 0.002392090068218228,
+          "p975": 0.0028600064482123566
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.02,
+      "exit_return": -1.0,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": 0.0019336225835698913,
+          "second_mean_difference": 0.00122359179282954
+        },
+        "mean_difference": 0.0015601699245727562,
+        "median_difference": -0.00034259462877617923,
+        "newey_west": {
+          "annualized_event_difference": 0.08112883607778332,
+          "lag": 4,
+          "mean_difference": 0.0015601699245727562,
+          "t_stat": 1.4909766094180172
+        },
+        "win_fraction": 0.48839779005524864
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.9765,
+        "mean_difference_quantiles": {
+          "p025": 0.0007854821851031235,
+          "p500": 0.0015991491152787312,
+          "p975": 0.002294218406402568
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 1.0
+      }
+    },
+    {
+      "contamination_rate": 0.05,
+      "exit_return": -1.0,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": -0.00037874855425218537,
+          "second_mean_difference": -0.0013386229439319613
+        },
+        "mean_difference": -0.0008836106641832052,
+        "median_difference": -0.0015195440060486488,
+        "newey_west": {
+          "annualized_event_difference": -0.04594775453752667,
+          "lag": 4,
+          "mean_difference": -0.0008836106641832052,
+          "t_stat": -0.8529368339043543
+        },
+        "win_fraction": 0.44640883977900553
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.016,
+        "mean_difference_quantiles": {
+          "p025": -0.002072151154085333,
+          "p500": -0.0008428904322064718,
+          "p975": 0.00023159824229974842
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.0705
+      }
+    },
+    {
+      "contamination_rate": 0.1,
+      "exit_return": -1.0,
+      "expected": {
+        "fixed_halves": {
+          "first_mean_difference": -0.004232700450622313,
+          "second_mean_difference": -0.005608980838534462
+        },
+        "mean_difference": -0.004956578312109808,
+        "median_difference": -0.005196555368644577,
+        "newey_west": {
+          "annualized_event_difference": -0.25774207222971,
+          "lag": 4,
+          "mean_difference": -0.004956578312109808,
+          "t_stat": -4.853504779104745
+        },
+        "win_fraction": 0.3701657458563536
+      },
+      "monte_carlo": {
+        "both_halves_positive_fraction": 0.0,
+        "mean_difference_quantiles": {
+          "p025": -0.006584251543554794,
+          "p500": -0.004911581088455219,
+          "p975": -0.0033994420495633312
+        },
+        "paths": 2000,
+        "positive_mean_fraction": 0.0
+      }
+    }
+  ]
+}
