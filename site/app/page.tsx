@@ -9,6 +9,8 @@ import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
+import providerConvergence from "../data/short-term-provider-convergence.json";
+import providerGuideProbe from "../data/short-term-provider-guide-probe.json";
 import riskFreeStaging from "../data/short-term-risk-free-staging.json";
 import riskFreeSourceProbe from "../data/short-term-risk-free-source-probe.json";
 import localQuarantineIntake from "../data/short-term-local-quarantine-intake.json";
@@ -25,7 +27,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十九輪已核實官方日度 RF 覆蓋 5,009/5,031、仍欠 22 日，正式就緒 1/18、正式回測仍為 0。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十輪已把 CRSP Stock CIZ 收窄為直接能力 5/10、證據層 5/10，Treasury 不作年期替代，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -131,6 +133,10 @@ const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
 const formalReadinessControl = formalBacktestReadiness.synthetic_control;
 const formalReadinessAttackRows = formalBacktestReadiness.attacks;
+const providerConvergenceControlRows = providerConvergence.controls;
+const providerConvergenceAttackRows = providerConvergence.attacks;
+const providerDirectRows = Object.entries(providerConvergence.capability_matrix.direct);
+const providerOverlayRows = Object.entries(providerConvergence.capability_matrix.overlay_required);
 const riskFreeControlRows = riskFreeStaging.controls;
 const riskFreeAttackRows = riskFreeStaging.attacks;
 const riskFreeCoveragePct = riskFreeStaging.study.coverage_fraction * 100;
@@ -688,15 +694,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · OFFICIAL RISK-FREE STAGING · ROUND 19</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · PROVIDER CONVERGENCE · ROUND 20</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真數據才跑結果</h1>
               <p className="hero-lead">
-                真實與合成分開；第十九輪已把官方 Fama/French 日度 RF 轉成逐日可稽核暫存，固定研究期共有 {riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} 個 XNYS session，現時真實覆蓋 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，仍欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。八道來源／單位／session／owner-only 控制 <strong>{riskFreeStaging.control_summary.passed}/{riskFreeStaging.control_summary.total}</strong> 通過，八項攻擊 <strong>{riskFreeStaging.attack_summary.rejected}/{riskFreeStaging.attack_summary.total} 全部拒收</strong>；缺一日都不會生成正式 RF manifest。
+                真實與合成分開；第二十輪以最新官方 CRSP Stock CIZ／Treasury 指南，把固定十份供應商交接輸入收窄成 <strong>{providerConvergence.capability_matrix.direct_documented_count}/10 份直接數據字典能力</strong>及 <strong>{providerConvergence.capability_matrix.overlay_required_count}/10 份仍須 evidence overlay</strong>。同一供應商的 Treasury 日度 RF 是 4／13／26 週，不能冒充凍結的 1 個月日度簡單回報。十二道指南、欄位、年期、單位及決策控制 <strong>{providerConvergence.control_summary.passed}/{providerConvergence.control_summary.total}</strong> 通過，十二項攻擊 <strong>{providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total} 全部拒收</strong>；每日指南核對現為 <strong>{providerGuideProbe.all_match_frozen_guides ? "與凍結版本一致" : "發現未合資格新版"}</strong>。
+                第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#provider-convergence">查看供應商直接 5/10</a>
                 <a className="primary-button aggressive-button" href="#risk-free-staging">查看官方 RF 5,009/5,031</a>
                 <a className="primary-button aggressive-button" href="#formal-backtest-readiness">查看正式就緒 1/18</a>
                 <a className="primary-button aggressive-button" href="#local-quarantine-intake">查看隔離匯入 1/16</a>
@@ -721,6 +729,8 @@ export default function Home() {
               <dl className="decision-list">
                 <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
                 <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>供應商直接能力</dt><dd>{providerConvergence.capability_matrix.direct_documented_count}/10 · 尚欠 {providerConvergence.capability_matrix.overlay_required_count} 份證據層</dd></div>
+                <div><dt>收斂控制／攻擊</dt><dd>{providerConvergence.control_summary.passed}/{providerConvergence.control_summary.total} · {providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total}</dd></div>
                 <div><dt>官方 RF 覆蓋</dt><dd>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} · 尚欠 {riskFreeStaging.study.missing_session_count} 日</dd></div>
                 <div><dt>RF staging 攻擊</dt><dd>{riskFreeStaging.attack_summary.rejected}/{riskFreeStaging.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>隔離匯入控制</dt><dd>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total} · 只限合成</dd></div>
@@ -740,6 +750,8 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>Stock CIZ 直接能力</span><strong>{providerConvergence.capability_matrix.direct_documented_count}/10</strong><small>另 {providerConvergence.capability_matrix.overlay_required_count} 份須 evidence overlay</small></article>
+              <article><span>指南收斂攻擊</span><strong>{providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>官方 RF 覆蓋</span><strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}</strong><small>尚欠 2026 年 7 月 {riskFreeStaging.study.missing_session_count} 日</small></article>
               <article><span>正式合成控制</span><strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total}</strong><small>不是策略回報通過</small></article>
               <article><span>真實隔離匯入</span><strong>{localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}</strong><small>只通過事前凍結</small></article>
@@ -751,6 +763,78 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="provider-convergence">
+            <div className="section-heading">
+              <div><span>PROVIDER CONVERGENCE · ROUND 20</span><h2>Stock CIZ 直接支持 5/10；其餘 5/10 仍須逐列證據層</h2></div>
+              <p>最新一手指南把供應商請求收窄，但沒有把公開 data dictionary 寫成已訂閱、已交付或可回測。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口</h3>
+                <p>Stock CIZ 有永久 ID、成分生效區間、raw 日線、公司行動及退市數據字典；但 `MbrStartDt` 不是 `AnnouncedAt`、`SecInfoStartDt` 不是 `KnownAt`。Treasury 的 4 週日度 RF 亦不是凍結的 1 個月日度簡單回報。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>能力收斂</span><strong>{providerConvergence.capability_matrix.direct_documented_count} 份直接 · {providerConvergence.capability_matrix.overlay_required_count} 份 overlay</strong><p>只確認指南層能力；供應商 package、S&amp;P 500 INDNO 及逐列覆蓋仍未驗收。</p></article>
+                <article><span>正式決策</span><strong>provider 0 · RF 0 · strategy run 0</strong><p>正式就緒 {providerConvergence.actual_formal_readiness.passed}/{providerConvergence.actual_formal_readiness.total}；Paper 全現金，實金 US$0。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED INPUT MATRIX</span><h3>十份正式輸入，不用相近欄位補洞</h3></div>
+              <p>直接能力仍要真實授權及列級驗收；overlay 缺口則要另外提供來源 reference 及可知時間。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第二十輪供應商能力矩陣">
+              {providerDirectRows.map(([name, status], index) => (
+                <article className="passed" key={name}><span>{String(index + 1).padStart(2, "0")}</span><b>{name}</b><strong>指南直接支持</strong><p>{status.replaceAll("_", " ")}</p></article>
+              ))}
+              {providerOverlayRows.map(([name, status], index) => (
+                <article className="blocked" key={name}><span>{String(index + 6).padStart(2, "0")}</span><b>{name}</b><strong>仍須證據層</strong><p>{status.replaceAll("_", " ")}</p></article>
+              ))}
+            </div>
+
+            <div className="short-evidence-grid">
+              <article><span>Stock CIZ 指南</span><strong>{providerConvergence.guides.stock_ciz.effective_date} · {providerConvergence.guides.stock_ciz.page_count} 頁</strong><p>PDF SHA-256 已凍結；公開指南不等於帳戶內可交付數據。</p></article>
+              <article><span>Treasury 指南</span><strong>{providerConvergence.guides.treasury.effective_date} · {providerConvergence.guides.treasury.page_count} 頁</strong><p>個別票據有 TDRETNUA；日度 RF 只有 4／13／26 週。</p></article>
+              <article><span>每日指南核對</span><strong>{providerGuideProbe.all_match_frozen_guides ? "兩份均與凍結版本一致" : "有新版待人工審閱"}</strong><p>新版永不自動獲資格或改寫能力矩陣。</p></article>
+              <article><span>精確 1 個月系列</span><strong>月度 · 非正式日度 RF</strong><p>TREASNOX 2000001 不以年率除 252；4 週亦不冒充 1 個月。</p></article>
+              <article><span>成分時間</span><strong>有效區間 ≠ 公布時間</strong><p>需要逐列 `AnnouncedAt` 及證據 reference，避免成分前視。</p></article>
+              <article><span>退市缺值</span><strong>不填 0</strong><p>DelRet missing type 是原因標記，不是零損益證明。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>GUIDE EVIDENCE CONTROLS</span><h3>十二道指南、欄位、年期、單位及決策控制</h3></div>
+              <p>12/12 只表示 frozen interpretation 可重播；不是市場數據、策略回報或盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {providerConvergenceControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>REFUSAL-OF-SUBSTITUTION SUITE</span><h3>十二項協議、版本、時間、退市及 RF 替代攻擊全拒收</h3></div>
+              <p>每項只保留一個語義錯誤，避免普通 hash 失敗掩蓋前視、缺值補洞或年期偷換。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {providerConvergenceAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>只核對已授權 CRSP／WRDS 真實交付、五份 evidence overlay 及相同經濟定義 RF</b></div>
+              <p>{providerConvergence.next_action} 指南通過不產生選股名單；真實 18/18 前不運行正式 20 年回測、不啟動或回填短線 Paper。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md" target="_blank" rel="noreferrer">第二十輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_CONVERGENCE_PROTOCOL.md" target="_blank" rel="noreferrer">凍結收斂協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_provider_convergence_validation.json" target="_blank" rel="noreferrer">機器收據</a><a href={providerConvergence.guides.stock_ciz.landing_url} target="_blank" rel="noreferrer">CRSP Stock CIZ 指南</a><a href={providerConvergence.guides.treasury.landing_url} target="_blank" rel="noreferrer">CRSP Treasury 指南</a></div>
             </div>
           </section>
 

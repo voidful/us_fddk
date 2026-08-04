@@ -41,6 +41,12 @@ jobs:
             echo "Official RF source was temporarily unavailable; preserving the last verified probe without blocking the separate Paper refresh." \
               >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Probe the current official CRSP guide identities
+        run: |
+          if ! python scripts/probe_short_term_provider_guides.py; then
+            echo "Official CRSP guide probe was unavailable or changed unexpectedly; preserving the last verified probe without blocking the separate Paper refresh." \
+              >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Fetch the latest completed U.S. session
         run: python -m usfddk v25-live-update
       - name: Export only the frozen v25 LIVE contract
@@ -69,6 +75,7 @@ jobs:
           python scripts/build_short_term_local_quarantine_intake_report.py
           python scripts/build_short_term_formal_backtest_readiness_report.py
           python scripts/build_short_term_risk_free_staging_report.py
+          python scripts/build_short_term_provider_convergence_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -108,6 +115,9 @@ jobs:
             artifacts/short_term_risk_free_staging_validation.json \
             site/data/short-term-risk-free-staging.json \
             docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md \
+            artifacts/short_term_provider_convergence_validation.json \
+            site/data/short-term-provider-convergence.json \
+            docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -125,6 +135,7 @@ jobs:
           pytest tests/test_local_quarantine_intake.py
           pytest tests/test_formal_backtest_readiness.py
           pytest tests/test_risk_free_staging.py
+          pytest tests/test_provider_convergence.py
           pytest tests/test_daily_momentum_regime.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit
@@ -146,20 +157,28 @@ jobs:
           echo "pushed=false" >> "$GITHUB_OUTPUT"
           paper_advanced="$(jq -r '.public_paper_status_deploy_allowed' artifacts/v25_live_refresh_status.json)"
           rf_probe_changed="false"
+          guide_probe_changed="false"
           if ! git diff --quiet -- \
             artifacts/short_term_risk_free_source_probe.json \
             site/data/short-term-risk-free-source-probe.json; then
             rf_probe_changed="true"
           fi
-          if [ "$paper_advanced" != "true" ] && [ "$rf_probe_changed" != "true" ]; then
-            echo "No verified new U.S. session or official RF source change; leaving published evidence unchanged."
+          if ! git diff --quiet -- \
+            artifacts/short_term_provider_guide_probe.json \
+            site/data/short-term-provider-guide-probe.json; then
+            guide_probe_changed="true"
+          fi
+          if [ "$paper_advanced" != "true" ] && [ "$rf_probe_changed" != "true" ] && [ "$guide_probe_changed" != "true" ]; then
+            echo "No verified new U.S. session, official RF source change, or CRSP guide identity change; leaving published evidence unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f \
             artifacts/short_term_risk_free_source_probe.json \
-            site/data/short-term-risk-free-source-probe.json
+            site/data/short-term-risk-free-source-probe.json \
+            artifacts/short_term_provider_guide_probe.json \
+            site/data/short-term-provider-guide-probe.json
           if [ "$paper_advanced" = "true" ]; then
             git add \
               artifacts/paper_v25_state.json \
@@ -180,12 +199,23 @@ jobs:
           fi
           data_through="$(jq -r '.data_through' artifacts/v25_live_refresh_status.json)"
           rf_cut="$(jq -r '.data_cut' artifacts/short_term_risk_free_source_probe.json)"
-          if [ "$paper_advanced" = "true" ] && [ "$rf_probe_changed" = "true" ]; then
+          guide_status="$(jq -r '.status' artifacts/short_term_provider_guide_probe.json)"
+          if [ "$paper_advanced" = "true" ] && [ "$rf_probe_changed" = "true" ] && [ "$guide_probe_changed" = "true" ]; then
+            commit_message="Update daily evidence through ${data_through}, RF ${rf_cut}, and guides ${guide_status}"
+          elif [ "$paper_advanced" = "true" ] && [ "$rf_probe_changed" = "true" ]; then
             commit_message="Update daily evidence through ${data_through} and RF ${rf_cut}"
+          elif [ "$paper_advanced" = "true" ] && [ "$guide_probe_changed" = "true" ]; then
+            commit_message="Update daily evidence through ${data_through} and guides ${guide_status}"
           elif [ "$paper_advanced" = "true" ]; then
             commit_message="Update v25 Paper through ${data_through}"
+          elif [ "$rf_probe_changed" = "true" ] && [ "$guide_probe_changed" = "true" ]; then
+            commit_message="Update official RF ${rf_cut} and guides ${guide_status}"
           else
-            commit_message="Update official RF source probe to ${rf_cut}"
+            if [ "$rf_probe_changed" = "true" ]; then
+              commit_message="Update official RF source probe to ${rf_cut}"
+            else
+              commit_message="Update official CRSP guide probe to ${guide_status}"
+            fi
           fi
           git commit -m "$commit_message"
           git push

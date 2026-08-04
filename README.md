@@ -64,6 +64,7 @@
 - 短線第十五輪先凍結[CIZ 執行延伸資料協議](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md)，再以獨立 `ledger/`＋`execution/` package 封住第十四輪四項缺口，完全不修改舊 adapter。合成 control 保留 dividend ex／pay-date、逐月候選最少 252 個回報及 20 個正成交量 session、`removed_continues` 至下一重新平衡 open 的完整價格，以及同步 QQQ／SPY raw open／總回報；十六道控制 **16/16**，檔案、派息、251／19 日歷史、移除缺價、基準不同步、成本及時鐘攻擊 **16/16 拒收**。這只含三個合成 PERMNO 及 46 列合成基準；真實入口仍為 **1/20**、合法樣本 0、正式回測 0、Paper 全現金、實金動作 US$0；完整[extension 報告](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md)保留。
 - 短線第十八輪在正式結果出現前凍結[一次性正式回測事前登記](docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md)，補上既有 QQQ／SPY execution package 沒有的同步 US 1M T-bill 日回報，並把「同股漂移」明確改成首個正式訊號 Top-10 只買一次後漂移。四個 baseline、US$1,000、raw open、10／25／50 bps、公司行動單次入賬、6,208 trials DSR 及四路十段 PBO 全部事前固定；合成就緒控制 **18/18**，RF 缺日／單位、run ID、baseline、成本、統計及決策邊界攻擊 **18/18 拒收**。真實正式就緒仍為 **1/18**、provider package 0、RF 包 0、策略運行 0；完整[就緒報告](docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md)保留，Paper 全現金、實金 US$0。
 - 短線第十九輪把官方 Fama/French 202606 日度 RF 做成[owner-only 暫存入口](docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md)：固定 2006-08-01–2026-07-31 的 5,031 個 XNYS session，真實覆蓋 **5,009/5,031（99.56%）**，仍精確欠 2026 年 7 月最後 **22 日**。來源 ZIP／經濟定義／percent-to-decimal／日期／權限／決策控制 **8/8**，八項攻擊 **8/8 拒收**；partial 檔刻意不能生成或冒充正式 RF manifest。完整[暫存報告](docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md)保留；正式就緒仍為 **1/18**、逐股 provider package 0、策略運行 0、Paper 全現金、實金 US$0。
+- 短線第二十輪以最新官方 [CRSP Stock CIZ](docs/SHORT_TERM_PROVIDER_CONVERGENCE_PROTOCOL.md) 及 Treasury 指南收斂供應商請求：固定十份交接輸入中 **5/10** 有直接資料字典能力，另 **5/10** 仍須日曆、逐列 `KnownAt`、成分公布時間、公司行動及退出條款 evidence overlay。Treasury 同供應商有 `TDRETNUA` 與 4／13／26 週日度 RF，但精確 1 個月系列只有月度收益率，故不能冒充凍結的 1 個月日度簡單回報。指南／欄位／年期／單位／決策控制 **12/12**，十二項替代攻擊 **12/12 拒收**；完整[收斂報告](docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md)保留。真實正式就緒仍為 **1/18**、provider 0、完整 RF 0、策略運行 0、Paper 全現金、實金 US$0。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -257,6 +258,13 @@ python scripts/build_short_term_formal_backtest_readiness_report.py
 # 重建第十九輪官方 RF 暫存稽核：真實覆蓋 5,009/5,031、缺最後 22 個 XNYS session
 # 8/8 控制與 8/8 攻擊不等於完整 RF；不生成正式 manifest、不授權回測或 Paper
 python scripts/build_short_term_risk_free_staging_report.py
+
+# 重建第二十輪供應商收斂：Stock CIZ 直接 5/10、evidence overlay 5/10、Treasury 拒絕替代
+# 12/12 控制與 12/12 攻擊只驗證指南證據；provider、正式 RF、回測及 Paper 仍為 0
+python scripts/build_short_term_provider_convergence_report.py
+
+# 每日核對兩份官方指南身份；版本漂移只標記未合資格，不會自行改協議或 readiness
+python scripts/probe_short_term_provider_guides.py
 
 # 把凍結的官方 202606 snapshot 寫入一個全新、repository 外、owner-only 暫存目錄
 # 目錄只含 partial CSV、缺日清單、來源 snapshot 及收據，不能被正式入口誤收

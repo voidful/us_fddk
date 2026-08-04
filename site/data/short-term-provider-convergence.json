@@ -1,0 +1,250 @@
+{
+  "actual_formal_readiness": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 18
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 12,
+    "total": 12
+  },
+  "attacks": [
+    {
+      "expected_error_code": "convergence_protocol_mismatch",
+      "id": "01",
+      "label": "協議 SHA 漂移",
+      "observed_error_code": "convergence_protocol_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "reference_commit_mismatch",
+      "id": "02",
+      "label": "參考 commit 漂移",
+      "observed_error_code": "reference_commit_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "guide_version_mismatch",
+      "id": "03",
+      "label": "指南 effective date 漂移",
+      "observed_error_code": "guide_version_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "guide_hash_mismatch",
+      "id": "04",
+      "label": "PDF hash 漂移",
+      "observed_error_code": "guide_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "guide_identity_mismatch",
+      "id": "05",
+      "label": "PDF 頁數漂移",
+      "observed_error_code": "guide_identity_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "stock_capability_set_mismatch",
+      "id": "06",
+      "label": "少一個 CIZ 直接表",
+      "observed_error_code": "stock_capability_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "membership_announcement_substitution",
+      "id": "07",
+      "label": "MbrStartDt 冒充 AnnouncedAt",
+      "observed_error_code": "membership_announcement_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "security_known_at_substitution",
+      "id": "08",
+      "label": "SecInfoStartDt 冒充 KnownAt",
+      "observed_error_code": "security_known_at_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "delist_economics_imputation",
+      "id": "09",
+      "label": "缺失 DelRet 填 0",
+      "observed_error_code": "delist_economics_imputation",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_tenor_substitution",
+      "id": "10",
+      "label": "4 週日序列冒充 1 個月日序列",
+      "observed_error_code": "risk_free_tenor_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_unit_substitution",
+      "id": "11",
+      "label": "1 個月年率直接除以 252",
+      "observed_error_code": "risk_free_unit_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "convergence_decision_boundary_violation",
+      "id": "12",
+      "label": "文件通過後啟動 Paper",
+      "observed_error_code": "convergence_decision_boundary_violation",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_package_received": false,
+  "capability_matrix": {
+    "direct": {
+      "stk_delists.csv": "direct_documented",
+      "stk_distributions.csv": "direct_documented",
+      "stk_dly_security_data.csv": "direct_documented",
+      "stk_ind_membership.csv": "direct_effective_interval_only",
+      "stk_security_info_hist.csv": "direct_documented"
+    },
+    "direct_documented_count": 5,
+    "overlay_required": {
+      "corporate_action_overlay.csv": "provider_or_evidence_overlay_required",
+      "exit_terms.csv": "provider_or_evidence_overlay_required",
+      "membership_announcements.csv": "evidence_overlay_required",
+      "security_info_availability.csv": "evidence_overlay_required",
+      "trading_calendar.csv": "provider_or_evidence_overlay_required"
+    },
+    "overlay_required_count": 5,
+    "requested_input_count": 10
+  },
+  "complete_risk_free_package_received": false,
+  "control_summary": {
+    "all_passed": true,
+    "passed": 12,
+    "total": 12
+  },
+  "controls": [
+    {
+      "detail": "Round 20 協議、事前收據及第十八／十九輪契約 SHA-256 完整",
+      "id": "01",
+      "label": "協議及上游綁定",
+      "passed": true
+    },
+    {
+      "detail": "三個參考 repository 精確綁定，只轉移研究紀律而不搬參數",
+      "id": "02",
+      "label": "台股參考版本",
+      "passed": true
+    },
+    {
+      "detail": "兩個官方標題及 effective date 精確固定",
+      "id": "03",
+      "label": "指南版本身份",
+      "passed": true
+    },
+    {
+      "detail": "兩份官方 PDF URL、頁數及 SHA-256 與凍結收據一致",
+      "id": "04",
+      "label": "PDF 身份",
+      "passed": true
+    },
+    {
+      "detail": "永久 ID、歷史有效區間及歷史分類能力有官方欄位支持",
+      "id": "05",
+      "label": "證券身份歷史",
+      "passed": true
+    },
+    {
+      "detail": "MbrStartDt／EndDt 不被寫成成分公布時間",
+      "id": "06",
+      "label": "成分只限生效區間",
+      "passed": true
+    },
+    {
+      "detail": "日價、成交量、回報、停牌及交易狀態能力有指南支持",
+      "id": "07",
+      "label": "Raw 日線及交易狀態",
+      "passed": true
+    },
+    {
+      "detail": "除權息、宣派、記錄、派付日、現金／比率及 successor 齊備",
+      "id": "08",
+      "label": "公司行動日期與條款",
+      "passed": true
+    },
+    {
+      "detail": "DelRet、缺失類型、successor 及 storage date 齊備；缺值不填 0",
+      "id": "09",
+      "label": "退市經濟條款",
+      "passed": true
+    },
+    {
+      "detail": "日曆、KnownAt、公布時間、公司行動及退出條款缺口全數保留",
+      "id": "10",
+      "label": "五份 evidence overlay",
+      "passed": true
+    },
+    {
+      "detail": "4 週日序列與精確 1 個月月序列分開；不冒充正式 RF",
+      "id": "11",
+      "label": "Treasury 年期與單位",
+      "passed": true
+    },
+    {
+      "detail": "正式 1/18、provider 0、策略 run 0、Paper 全現金、實金 US$0",
+      "id": "12",
+      "label": "決策邊界",
+      "passed": true
+    }
+  ],
+  "disclaimer": "12/12 控制及 12/12 攻擊只證明指南證據驗證器 fail closed；不是供應商包、策略回報、Paper 或盈利通過。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_completed": false,
+  "guides": {
+    "stock_ciz": {
+      "effective_date": "2026-07-27",
+      "landing_url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true",
+      "page_count": 97,
+      "pdf_sha256": "e42f452207d4a30ef05de542a2dac9522f240100cec99a0309b1b3ab20699ec6",
+      "pdf_url": "https://indexes.morningstar.com/api/docs/6a70fc12f1246457e16fbfad",
+      "title": "CRSP US Stock Databases Guide for Flat File Format 2 0"
+    },
+    "treasury": {
+      "effective_date": "2026-06-30",
+      "landing_url": "https://indexes.morningstar.com/docs/guide/crsp-us-treasury-database-guide?isRdp=true",
+      "page_count": 46,
+      "pdf_sha256": "d256ae7633049eca9d4c9385913f599c7bece7c3c508c39bf3b8afa18c479781",
+      "pdf_url": "https://indexes.morningstar.com/api/docs/6a454eb24453862570c90c07",
+      "title": "CRSP US Treasury Database Guide"
+    }
+  },
+  "next_action": "向已授權 CRSP／WRDS 帳戶核對 Stock CIZ 五份直接表、S&P 500 INDNO、五份 evidence overlay，以及與凍結經濟定義完全相同的 1 個月日度簡單 RF；只在真實 18/18 後運行一次正式回測。",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "research_round": 20,
+  "schema_version": 1,
+  "status": "guide_evidence_converged_provider_and_rf_still_unqualified",
+  "strategy_run_count": 0,
+  "treasury": {
+    "annual_yield_divided_by_252": false,
+    "daily_4_week_treasnox": 2000061,
+    "daily_rf_tenors": [
+      "4_week",
+      "13_week",
+      "26_week"
+    ],
+    "exact_1_month_series": {
+      "frequency": "monthly",
+      "treasnox": 2000001,
+      "unit": "continuously_compounded_yield"
+    },
+    "formal_rf_manifest_generated": false,
+    "four_week_used_as_one_month_daily": false,
+    "individual_issue_daily_unadjusted_return_field": "TDRETNUA",
+    "same_provider_mapping_status": "same_provider_mapping_candidate_not_formal_rf"
+  }
+}

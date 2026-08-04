@@ -40,6 +40,14 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /PROVIDER CONVERGENCE · ROUND 20/);
+  assert.match(html, /Stock CIZ 直接支持 5\/10；其餘 5\/10 仍須逐列證據層/);
+  assert.match(html, /同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口/);
+  assert.match(html, /十份正式輸入，不用相近欄位補洞/);
+  assert.match(html, /兩份均與凍結版本一致/);
+  assert.match(html, /十二道指南、欄位、年期、單位及決策控制/);
+  assert.match(html, /十二項協議、版本、時間、退市及 RF 替代攻擊全拒收/);
+  assert.match(html, /risk_free_tenor_substitution/);
   assert.match(html, /OFFICIAL RISK-FREE STAGING · ROUND 19/);
   assert.match(html, /官方 RF 已覆蓋 5,009\/5,031；仍欠最後 22 個 XNYS session/);
   assert.match(html, /99\.56%/);

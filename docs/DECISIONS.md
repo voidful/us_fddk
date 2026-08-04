@@ -1,5 +1,24 @@
 # 決策與負結果
 
+## 2026-08-04：Stock CIZ 直接 5/10、overlay 5/10；Treasury 同供應商仍不可替代正式 RF
+
+- 在寫收斂驗證器前，先固定三個台股參考 commit、兩份最新官方指南 URL／effective
+  date／頁數／SHA-256、十二道控制及十二項單一替代攻擊。短線 v1、20 年期、US$1,000、
+  四個 baseline、10／25／50 bps、6,208 trials DSR、PBO 及 Paper 門檻全部不改。
+- CRSP Stock CIZ 指南可直接支持十份交接輸入中的五份資料字典能力：證券身份歷史、
+  成分生效區間、raw 日線與交易狀態、distributions、delists。其餘五份仍須日曆或
+  evidence overlay；`MbrStartDt` 不等於 `AnnouncedAt`，`SecInfoStartDt` 不等於
+  `KnownAt`，缺失 `DelRet` 亦不填 0。
+- CRSP Treasury 可提供個別票據 `TDRETNUA`，日度 RF 表有 4／13／26 週；但精確
+  1 個月系列只在月度表，且是收益率口徑。決定不以 4 週冒充 1 個月、不把年率除 252，
+  亦不以 DGS1MO、SHY、SOFR、零回報或事後選券拼接正式 RF。
+- 指南／欄位／年期／單位／決策控制 **12/12**，十二項協議、版本、hash、能力、時間、
+  退市、RF 及越權攻擊 **12/12** 按指定 error code 拒收。每日指南 probe 只偵測身份；
+  新版只標記未合資格，不會自動提高 readiness。
+- 決定：公開指南收斂不是數據交付。真實正式就緒仍為 1/18、provider package 0、完整
+  RF 0、正式策略運行 0；短線 Paper 全現金、0 持倉、實金 US$0。下一步只核對已授權
+  CRSP／WRDS 帳戶內的真實表、S&P 500 INDNO、五份 evidence overlay 及精確 RF 定義。
+
 ## 2026-08-04：官方 RF 真實覆蓋 5,009/5,031；缺最後 22 日仍不運行
 
 - 第十八輪已在結果前固定一個月美國國庫券的 simple daily return、完整 XNYS 日曆及
