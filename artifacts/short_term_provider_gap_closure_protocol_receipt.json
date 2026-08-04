@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "research_round": 21,
+  "status": "frozen_after_local_access_audit_before_new_provider_evidence_inspection_and_implementation",
+  "frozen_at": "2026-08-04T02:13:11Z",
+  "git_head_at_freeze": "907332c555a60464e5d399177311bbe2daa25da0",
+  "protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_PROTOCOL.md",
+    "sha256": "ec97b748d9abc8f3ef0d707dde923f27c3796e7c1f7bdceae68c3eaaa4339655"
+  },
+  "parent_provider_convergence_protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_CONVERGENCE_PROTOCOL.md",
+    "sha256": "7ef6c405c5aa9a7934e55511cb8962c9c47f007e9dc0a6dccd4be3fd0b836024"
+  },
+  "parent_provider_convergence_validation": {
+    "path": "artifacts/short_term_provider_convergence_validation.json",
+    "sha256": "2ddd8d6455cf7409d5ad95be634ea8fdfee8ba9c4e828a47c2d9524bbbb6d946"
+  },
+  "parent_formal_protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md",
+    "sha256": "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
+  },
+  "parent_authorized_handoff_protocol": {
+    "path": "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md",
+    "sha256": "4cd6da3541243573ab3a0113eebd26b581831ad31765b4fdc0a82c998703e754"
+  },
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "candidate_route_ids": [
+    "crsp_spdj_composite",
+    "sp_global_market_intelligence",
+    "lseg_data_analytics",
+    "factset",
+    "bloomberg_enterprise"
+  ],
+  "required_capability_ids": [
+    "authorized_research_license",
+    "point_in_time_sp500_membership",
+    "membership_announced_at",
+    "membership_effective_at",
+    "permanent_security_company_ids",
+    "security_metadata_known_at",
+    "raw_daily_ohlcv_status",
+    "distribution_event_clock_terms",
+    "delist_exit_economics",
+    "post_removal_price_path",
+    "xnys_session_open_close",
+    "synchronized_qqq_spy_execution",
+    "exact_one_month_daily_simple_rf",
+    "row_level_provenance_replay"
+  ],
+  "local_access_audit": {
+    "configured_provider_environment_variable_count": 0,
+    "installed_provider_client_count": 0,
+    "repository_provider_input_count": 0,
+    "authorized_provider_package_present": false,
+    "complete_risk_free_package_present": false
+  },
+  "new_candidate_provider_evidence_inspected_at_freeze": false,
+  "independent_first_seen_evidence": false,
+  "gap_closure_implementation_present_at_freeze": false,
+  "gap_closure_output_present_at_freeze": false,
+  "strategy_result_present_at_freeze": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 15,
+  "frozen_attack_count": 15
+}
