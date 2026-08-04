@@ -1,0 +1,73 @@
+{
+  "authorized_provider_package_present_at_freeze": false,
+  "formal_backtest_bridge_implemented_at_freeze": false,
+  "formal_backtest_completed_at_freeze": false,
+  "frozen_attack_count": 18,
+  "frozen_control_gate_count": 18,
+  "frozen_global_search_trials": 6208,
+  "frozen_pbo_path_count": 4,
+  "frozen_prerequisite_hash_count": 12,
+  "frozen_risk_free_output_file_count": 2,
+  "frozen_strategy_run_count": 0,
+  "frozen_at": "2026-08-04T00:23:43Z",
+  "local_intake_bridge_at_freeze": {
+    "path": "usfddk/local_quarantine_intake.py",
+    "sha256": "f87da7cf95ac0eee2ed2b5282b01ffabf385433cb679f5f1bd9214acf5026fb4"
+  },
+  "local_intake_protocol": {
+    "path": "docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md",
+    "sha256": "1167310d566c0208befc09f24d6391fe4dc3efd606a09f8b16e983c2abdf79a8"
+  },
+  "local_intake_protocol_receipt": {
+    "path": "artifacts/short_term_local_quarantine_intake_protocol_receipt.json",
+    "sha256": "d73b57272a2000762d493c43bec86b9962b23c100508328f40aa3a2940109bdd"
+  },
+  "local_intake_validation_at_freeze": {
+    "path": "artifacts/short_term_local_quarantine_intake_validation.json",
+    "sha256": "f70999efa4bcd49b9726ff6517a7aec84694d269f45438823bae6412ef1d3558"
+  },
+  "metrics_at_freeze": {
+    "path": "usfddk/metrics.py",
+    "sha256": "dce359a39a14278efad793d3c7e0f92e49b13df8b06c37817499223bb81a3d0a"
+  },
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "preregistered_protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md",
+    "sha256": "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
+  },
+  "real_money_action_usd": 0,
+  "round15_execution_extension_protocol": {
+    "path": "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md",
+    "sha256": "49582d2e7fae7e25897b59adb5322b17424865f5f6b34040d8f6392446fe9883"
+  },
+  "round17_validation_harness_at_freeze": {
+    "path": "usfddk/local_quarantine_intake_validation.py",
+    "sha256": "2f59923068f3e62c5aa22c9a0ab4428469905b2a51516cf639e1a7a9cd8c3e7a"
+  },
+  "short_term_research_at_freeze": {
+    "path": "usfddk/short_term_high_return.py",
+    "sha256": "4ca804625afe7e1cbd5553480b7a8f5e6ce0363bf830d62b733e327872db7071"
+  },
+  "statistics_validation_at_freeze": {
+    "path": "usfddk/validation.py",
+    "sha256": "39a0391c6570eeaff3159b128f4e61e790a3d40f545aac243ef860d6ce9b6b2e"
+  },
+  "status": "frozen_before_formal_backtest_bridge_implementation_and_before_provider_result",
+  "strategy_protocol": {
+    "path": "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md",
+    "sha256": "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
+  },
+  "trial_count_source_protocol": {
+    "path": "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_PROTOCOL.md",
+    "sha256": "aee1d081bcbfbd819d6c6a6a3362e241e0aab8585cb087e45fed2d1f30464cdc"
+  }
+}
