@@ -187,6 +187,7 @@ family、QQQ known-at 市況及 46-event 尾部。這是同一已見樣本，不
 | raw = predicted + residual 最大誤差 | {result["attribution_integrity"]["maximum_identity_residual"]:.3e} |
 | residual universe mean 最大絕對值 | {result["attribution_integrity"]["maximum_residual_mean"]:.3e} |
 | OLS 最大 condition number／最低 rank | {result["attribution_integrity"]["maximum_condition_number"]:.2f} / {result["attribution_integrity"]["minimum_design_rank"]} |
+| feature hash 跨平台量化 | {result["attribution_integrity"]["feature_receipt_decimal_places"]} 位小數 |
 | feature receipt SHA-256 | `{result["attribution_integrity"]["feature_receipt_sha256"]}` |
 | 控制／攻擊 | {result["control_summary"]["passed"]}/{result["control_summary"]["total"]} / {result["attack_summary"]["rejected"]}/{result["attack_summary"]["total"]} 拒收 |
 

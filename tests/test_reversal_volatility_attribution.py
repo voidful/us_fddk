@@ -12,6 +12,7 @@ from usfddk.reversal_volatility_attribution import (
     FROZEN_CONTRACT,
     PROTOCOL_PATH,
     PROTOCOL_SHA256,
+    _event_feature_hash,
     run_contract_attacks,
     run_reversal_volatility_attribution,
     validate_reversal_volatility_contract,
@@ -48,7 +49,7 @@ def test_replays_all_same_seen_events_without_claiming_independence(result: dict
 def test_feature_regressions_and_attribution_identities_are_exact(result: dict) -> None:
     integrity = result["attribution_integrity"]
     assert integrity["feature_receipt_sha256"] == (
-        "0cf0edd8e562d64edfa9f50a49f48c266f19909faaf0f4fe75f5222710a4e9a8"
+        "417e67b07bed7676c5cbbcf03d16ec78951d79f874cbfdd6beedd814212fe048"
     )
     assert integrity["maximum_raw_round27_residual"] <= 1e-12
     assert integrity["maximum_identity_residual"] <= 1e-12
@@ -59,7 +60,7 @@ def test_feature_regressions_and_attribution_identities_are_exact(result: dict) 
     first = result["event_rows"][0]
     assert first["qqq_trailing_20d"] == pytest.approx(-0.019633167228)
     assert first["universes"]["eligible"]["feature_receipt_sha256"] == (
-        "e294daea7a76a9e61df087ee74107ef2795f2d743edafc233fe9cb5bdf74d3df"
+        "fe0f04864fd8fa7ad09e0b84f1d39669b482f747cc06a8d219c3e1365bfe73ed"
     )
     for event in result["event_rows"]:
         for universe in event["universes"].values():
@@ -164,3 +165,7 @@ def test_generated_receipts_are_identical_and_platform_stable(result: dict) -> N
     assert stored["research_round"] == result["research_round"] == 28
     assert stored["gate_summary"] == result["gate_summary"]
     assert stored["decision"]["formal_global_search_trials_unchanged"] == 6208
+    assert stored["attribution_integrity"]["feature_receipt_decimal_places"] == 8
+    first = [{"ticker": "A", "predicted": 0.1234567890123, "residual": -0.0}]
+    second = [{"ticker": "A", "predicted": 0.1234567890124, "residual": 0.0}]
+    assert _event_feature_hash(first) == _event_feature_hash(second)

@@ -1023,7 +1023,7 @@ export default function Home() {
               <article><span>研究事件</span><strong>{reversalVolatilityAttribution.input.events}</strong><p>{shortDate(reversalVolatilityAttribution.input.first_signal_date)} 至 {shortDate(reversalVolatilityAttribution.input.last_signal_date)}。</p></article>
               <article><span>eligible 原始→殘差 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><p>保留 {pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}。</p></article>
               <article><span>complete 原始→殘差 t</span><strong>{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</strong><p>保留 {pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}。</p></article>
-              <article><span>OLS 完整性</span><strong>rank 3 · condition ≤ {reversalVolatilityAttribution.attribution_integrity.maximum_condition_number.toFixed(0)}</strong><p>raw = predicted + residual，收據以 12 位小數固定。</p></article>
+              <article><span>OLS 完整性</span><strong>rank 3 · condition ≤ {reversalVolatilityAttribution.attribution_integrity.maximum_condition_number.toFixed(0)}</strong><p>raw = predicted + residual；數值 12 位、feature hash {reversalVolatilityAttribution.attribution_integrity.feature_receipt_decimal_places} 位跨平台量化。</p></article>
             </div>
 
             <div className="subsection-heading stock-heading">

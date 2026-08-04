@@ -71,6 +71,7 @@ REGRESSION_METHOD = "numpy_lstsq_rcond_none"
 MAX_CONDITION_NUMBER = 1e8
 RECONSTRUCTION_TOLERANCE = 1e-12
 SIGN_CLASSIFICATION_TOLERANCE = 1e-12
+FEATURE_RECEIPT_DECIMAL_PLACES = 8
 HAC_LAG = 4
 FAMILY_IDS = (
     "eligible_raw_top_middle",
@@ -635,8 +636,9 @@ def _event_feature_hash(rows: list[dict[str, Any]]) -> str:
         {
             key: (
                 0.0
-                if isinstance(value, float) and round(value, 12) == 0.0
-                else round(value, 12)
+                if isinstance(value, float)
+                and round(value, FEATURE_RECEIPT_DECIMAL_PLACES) == 0.0
+                else round(value, FEATURE_RECEIPT_DECIMAL_PLACES)
                 if isinstance(value, float)
                 else value
             )
@@ -1170,9 +1172,11 @@ def run_reversal_volatility_attribution(
             "bucket_ids": list(BUCKET_IDS),
             "holding_sessions": HOLDING_SESSIONS,
             "round_trip_cost_bps": ROUND_TRIP_COST_BPS,
+            "feature_receipt_decimal_places": FEATURE_RECEIPT_DECIMAL_PLACES,
         },
         "attribution_integrity": {
             "feature_receipt_sha256": attribution["feature_receipt_sha256"],
+            "feature_receipt_decimal_places": FEATURE_RECEIPT_DECIMAL_PLACES,
             "maximum_raw_round27_residual": attribution["maximum_raw_round27_residual"],
             "maximum_identity_residual": attribution["maximum_identity_residual"],
             "maximum_residual_mean": attribution["maximum_residual_mean"],

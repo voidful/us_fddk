@@ -41,7 +41,8 @@ family、QQQ known-at 市況及 46-event 尾部。這是同一已見樣本，不
 | raw = predicted + residual 最大誤差 | 0.000e+00 |
 | residual universe mean 最大絕對值 | 0.000e+00 |
 | OLS 最大 condition number／最低 rank | 14.00 / 3 |
-| feature receipt SHA-256 | `0cf0edd8e562d64edfa9f50a49f48c266f19909faaf0f4fe75f5222710a4e9a8` |
+| feature hash 跨平台量化 | 8 位小數 |
+| feature receipt SHA-256 | `417e67b07bed7676c5cbbcf03d16ec78951d79f874cbfdd6beedd814212fe048` |
 | 控制／攻擊 | 23/23 / 23/23 拒收 |
 
 ## 八假說共同 family
