@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十三輪用年度聚類、區塊重抽及極端贏家反證現有訊號，只過 7/8，正式就緒仍為 1/18。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十四輪用三個公平基準與九假說多重檢驗反證現有訊號，只過 6/9，正式就緒仍為 1/18。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線時間及尾部反證只過 7/8，正式策略運行 0，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線公平基準及多重檢驗只過 6/9，正式策略運行 0，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [

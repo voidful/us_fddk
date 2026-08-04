@@ -1,0 +1,861 @@
+{
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 16,
+    "total": 16
+  },
+  "attacks": [
+    {
+      "expected_error_code": "multiplicity_input_hash_mismatch",
+      "id": "01",
+      "label": "輸入 SHA 漂移",
+      "observed_error_code": "multiplicity_input_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_path_not_frozen",
+      "id": "02",
+      "label": "事件路徑漂移",
+      "observed_error_code": "multiplicity_path_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_horizons_not_frozen",
+      "id": "03",
+      "label": "刪除 5 日期限",
+      "observed_error_code": "multiplicity_horizons_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_primary_horizon_not_frozen",
+      "id": "04",
+      "label": "主要期改 10 日",
+      "observed_error_code": "multiplicity_primary_horizon_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_baselines_not_frozen",
+      "id": "05",
+      "label": "刪除完整股池 baseline",
+      "observed_error_code": "multiplicity_baselines_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_common_sample_mismatch",
+      "id": "06",
+      "label": "共同樣本改 907",
+      "observed_error_code": "multiplicity_common_sample_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_event_order_invalid",
+      "id": "07",
+      "label": "容許日期重排",
+      "observed_error_code": "multiplicity_event_order_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_pairing_or_cost_mismatch",
+      "id": "08",
+      "label": "取消同成本配對",
+      "observed_error_code": "multiplicity_pairing_or_cost_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_hac_lags_not_frozen",
+      "id": "09",
+      "label": "20 日 lag 改 1",
+      "observed_error_code": "multiplicity_hac_lags_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_family_not_frozen",
+      "id": "10",
+      "label": "family 改三列",
+      "observed_error_code": "multiplicity_family_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_alpha_not_frozen",
+      "id": "11",
+      "label": "alpha 改 10%",
+      "observed_error_code": "multiplicity_alpha_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_global_trials_not_frozen",
+      "id": "12",
+      "label": "全專案 trials 改 9",
+      "observed_error_code": "multiplicity_global_trials_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_block_length_not_frozen",
+      "id": "13",
+      "label": "block 改 8",
+      "observed_error_code": "multiplicity_block_length_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_bootstrap_paths_not_frozen",
+      "id": "14",
+      "label": "bootstrap 減至 2,000",
+      "observed_error_code": "multiplicity_bootstrap_paths_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_bootstrap_contract_not_frozen",
+      "id": "15",
+      "label": "每列獨立重抽",
+      "observed_error_code": "multiplicity_bootstrap_contract_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "multiplicity_decision_boundary_breached",
+      "id": "16",
+      "label": "提前授權 Paper",
+      "observed_error_code": "multiplicity_decision_boundary_breached",
+      "rejected": true
+    }
+  ],
+  "common_bootstrap": {
+    "block_length_events": 52,
+    "blocks_per_path": 18,
+    "centered_under_null": true,
+    "circular": true,
+    "common_indices": true,
+    "observed_max_positive_t": 3.025895083361,
+    "paths": 20000,
+    "reality_check_p_value": 0.018699065047,
+    "romano_wolf_stepdown_p": [
+      0.095245237738,
+      0.162741862907,
+      0.070996450177,
+      0.098745062747,
+      0.258437078146,
+      0.095245237738,
+      0.020848957552,
+      0.118444077796,
+      0.0398980051
+    ],
+    "seed": 20260804,
+    "single_step_max_t_p": [
+      0.127243637818,
+      0.436978151092,
+      0.084395780211,
+      0.158292085396,
+      0.664616769162,
+      0.121043947803,
+      0.020848957552,
+      0.303734813259,
+      0.041047947603
+    ],
+    "start_index_sha256": "05e46dacfca9fd1326c6f2d1d4f8784b7fef2646ac25b0016e45cb606c9bc98e",
+    "unadjusted_two_sided_p": [
+      0.016749162542,
+      0.088845557722,
+      0.023298835058,
+      0.075496225189,
+      0.258437078146,
+      0.056647167642,
+      0.00394980251,
+      0.050147492625,
+      0.02009899505
+    ]
+  },
+  "comparisons": [
+    {
+      "baseline_key": "eligible_equal_return",
+      "baseline_label": "合資格池等權",
+      "bootstrap_max_t_p": 0.127243637818,
+      "bootstrap_unadjusted_p": 0.016749162542,
+      "events": 905,
+      "family_bonferroni_p": 0.266665073638,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.001009588739,
+          "median_difference": 0.0
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.000732437718,
+          "median_difference": 0.000244316819
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.167376655864,
+      "horizon": 5,
+      "id": "h5_eligible_equal_return",
+      "mean_difference": 0.00086381649,
+      "median_difference": 2.1845377e-05,
+      "newey_west": {
+        "annualized_event_difference": 0.044918457464,
+        "lag": 1,
+        "mean_difference": 0.00086381649,
+        "standard_error": 0.000397155389,
+        "t_stat": 2.17500885761
+      },
+      "positive_fraction": 0.500552486188,
+      "raw_normal_p": 0.029629452626,
+      "romano_wolf_stepdown_p": 0.095245237738
+    },
+    {
+      "baseline_key": "complete_cohort_equal_return",
+      "baseline_label": "完整現時股池等權",
+      "bootstrap_max_t_p": 0.436978151092,
+      "bootstrap_unadjusted_p": 0.088845557722,
+      "events": 905,
+      "family_bonferroni_p": 1.0,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.001051989276,
+          "median_difference": 0.000368013364
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.000455248576,
+          "median_difference": -4.367755e-05
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.297538013087,
+      "horizon": 5,
+      "id": "h5_complete_cohort_equal_return",
+      "mean_difference": 0.000738123449,
+      "median_difference": 6.4268227e-05,
+      "newey_west": {
+        "annualized_event_difference": 0.038382419344,
+        "lag": 1,
+        "mean_difference": 0.000738123449,
+        "standard_error": 0.000511203616,
+        "t_stat": 1.443893246844
+      },
+      "positive_fraction": 0.503867403315,
+      "raw_normal_p": 0.148769006543,
+      "romano_wolf_stepdown_p": 0.162741862907
+    },
+    {
+      "baseline_key": "qqq_return",
+      "baseline_label": "QQQ",
+      "bootstrap_max_t_p": 0.084395780211,
+      "bootstrap_unadjusted_p": 0.023298835058,
+      "events": 905,
+      "family_bonferroni_p": 0.15741979945,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.001573761182,
+          "median_difference": -0.000141038277
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.001482507493,
+          "median_difference": 0.000955577976
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.122437621794,
+      "horizon": 5,
+      "id": "h5_qqq_return",
+      "mean_difference": 0.001525764766,
+      "median_difference": 0.000450851353,
+      "newey_west": {
+        "annualized_event_difference": 0.079339767856,
+        "lag": 1,
+        "mean_difference": 0.001525764766,
+        "standard_error": 0.000642097766,
+        "t_stat": 2.376218774244
+      },
+      "positive_fraction": 0.51270718232,
+      "raw_normal_p": 0.017491088828,
+      "romano_wolf_stepdown_p": 0.070996450177
+    },
+    {
+      "baseline_key": "eligible_equal_return",
+      "baseline_label": "合資格池等權",
+      "bootstrap_max_t_p": 0.158292085396,
+      "bootstrap_unadjusted_p": 0.075496225189,
+      "events": 905,
+      "family_bonferroni_p": 0.352492887428,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.001578724778,
+          "median_difference": 6.8744612e-05
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.001051704255,
+          "median_difference": 0.0
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.167376655864,
+      "horizon": 10,
+      "id": "h10_eligible_equal_return",
+      "mean_difference": 0.001301529453,
+      "median_difference": 0.0,
+      "newey_west": {
+        "annualized_event_difference": 0.067679531568,
+        "lag": 2,
+        "mean_difference": 0.001301529453,
+        "standard_error": 0.00063106298,
+        "t_stat": 2.0624398738
+      },
+      "positive_fraction": 0.495027624309,
+      "raw_normal_p": 0.039165876381,
+      "romano_wolf_stepdown_p": 0.098745062747
+    },
+    {
+      "baseline_key": "complete_cohort_equal_return",
+      "baseline_label": "完整現時股池等權",
+      "bootstrap_max_t_p": 0.664616769162,
+      "bootstrap_unadjusted_p": 0.258437078146,
+      "events": 905,
+      "family_bonferroni_p": 1.0,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.001602985313,
+          "median_difference": 0.000218463864
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.000301045955,
+          "median_difference": -0.000565961002
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.297538013087,
+      "horizon": 10,
+      "id": "h10_complete_cohort_equal_return",
+      "mean_difference": 0.000918208369,
+      "median_difference": -0.000111434448,
+      "newey_west": {
+        "annualized_event_difference": 0.047746835175,
+        "lag": 2,
+        "mean_difference": 0.000918208369,
+        "standard_error": 0.000827566959,
+        "t_stat": 1.109527584602
+      },
+      "positive_fraction": 0.498342541436,
+      "raw_normal_p": 0.267202651368,
+      "romano_wolf_stepdown_p": 0.258437078146
+    },
+    {
+      "baseline_key": "qqq_return",
+      "baseline_label": "QQQ",
+      "bootstrap_max_t_p": 0.121043947803,
+      "bootstrap_unadjusted_p": 0.056647167642,
+      "events": 905,
+      "family_bonferroni_p": 0.251064983796,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.002098185895,
+          "median_difference": 0.00037952895
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002681527982,
+          "median_difference": 0.001830391245
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.167376655864,
+      "horizon": 10,
+      "id": "h10_qqq_return",
+      "mean_difference": 0.002405004496,
+      "median_difference": 0.000789330079,
+      "newey_west": {
+        "annualized_event_difference": 0.125060233769,
+        "lag": 2,
+        "mean_difference": 0.002405004496,
+        "standard_error": 0.001093808179,
+        "t_stat": 2.19874429659
+      },
+      "positive_fraction": 0.522651933702,
+      "raw_normal_p": 0.027896109311,
+      "romano_wolf_stepdown_p": 0.095245237738
+    },
+    {
+      "baseline_key": "eligible_equal_return",
+      "baseline_label": "合資格池等權",
+      "bootstrap_max_t_p": 0.020848957552,
+      "bootstrap_unadjusted_p": 0.00394980251,
+      "events": 905,
+      "family_bonferroni_p": 0.022310847397,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003475203342,
+          "median_difference": 0.000998461506
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002931734951,
+          "median_difference": 0.00082647157
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.022310847397,
+      "horizon": 20,
+      "id": "h20_eligible_equal_return",
+      "mean_difference": 0.003189356984,
+      "median_difference": 0.000981325862,
+      "newey_west": {
+        "annualized_event_difference": 0.165846563155,
+        "lag": 4,
+        "mean_difference": 0.003189356984,
+        "standard_error": 0.001054021007,
+        "t_stat": 3.025895083361
+      },
+      "positive_fraction": 0.525966850829,
+      "raw_normal_p": 0.002478983044,
+      "romano_wolf_stepdown_p": 0.020848957552
+    },
+    {
+      "baseline_key": "complete_cohort_equal_return",
+      "baseline_label": "完整現時股池等權",
+      "bootstrap_max_t_p": 0.303734813259,
+      "bootstrap_unadjusted_p": 0.050147492625,
+      "events": 905,
+      "family_bonferroni_p": 0.822560511911,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.002746414509,
+          "median_difference": 0.002538681424
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002051979213,
+          "median_difference": 0.001011093661
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.274186837304,
+      "horizon": 20,
+      "id": "h20_complete_cohort_equal_return",
+      "mean_difference": 0.002381164563,
+      "median_difference": 0.001646715282,
+      "newey_west": {
+        "annualized_event_difference": 0.123820557283,
+        "lag": 4,
+        "mean_difference": 0.002381164563,
+        "standard_error": 0.001410574527,
+        "t_stat": 1.688081358107
+      },
+      "positive_fraction": 0.529281767956,
+      "raw_normal_p": 0.091395612435,
+      "romano_wolf_stepdown_p": 0.118444077796
+    },
+    {
+      "baseline_key": "qqq_return",
+      "baseline_label": "QQQ",
+      "bootstrap_max_t_p": 0.041047947603,
+      "bootstrap_unadjusted_p": 0.02009899505,
+      "events": 905,
+      "family_bonferroni_p": 0.059970273513,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003261001838,
+          "median_difference": 0.002210529827
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.007182720024,
+          "median_difference": 0.003616452212
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.053306909789,
+      "horizon": 20,
+      "id": "h20_qqq_return",
+      "mean_difference": 0.005323695603,
+      "median_difference": 0.00319919917,
+      "newey_west": {
+        "annualized_event_difference": 0.276832171334,
+        "lag": 4,
+        "mean_difference": 0.005323695603,
+        "standard_error": 0.001962134753,
+        "t_stat": 2.71321609965
+      },
+      "positive_fraction": 0.537016574586,
+      "raw_normal_p": 0.006663363724,
+      "romano_wolf_stepdown_p": 0.0398980051
+    }
+  ],
+  "control_summary": {
+    "all_passed": true,
+    "passed": 16,
+    "total": 16
+  },
+  "controls": [
+    {
+      "id": "01",
+      "label": "輸入 SHA",
+      "passed": true
+    },
+    {
+      "id": "02",
+      "label": "固定事件根路徑",
+      "passed": true
+    },
+    {
+      "id": "03",
+      "label": "5／10／20 日期限",
+      "passed": true
+    },
+    {
+      "id": "04",
+      "label": "20 日主要期",
+      "passed": true
+    },
+    {
+      "id": "05",
+      "label": "三個公平 baseline",
+      "passed": true
+    },
+    {
+      "id": "06",
+      "label": "905 個共同事件",
+      "passed": true
+    },
+    {
+      "id": "07",
+      "label": "共同日期嚴格一對一",
+      "passed": true
+    },
+    {
+      "id": "08",
+      "label": "逐事件同成本配對",
+      "passed": true
+    },
+    {
+      "id": "09",
+      "label": "NW lag 1／2／4",
+      "passed": true
+    },
+    {
+      "id": "10",
+      "label": "九假說 family",
+      "passed": true
+    },
+    {
+      "id": "11",
+      "label": "alpha 0.05",
+      "passed": true
+    },
+    {
+      "id": "12",
+      "label": "全專案 6,208 trials",
+      "passed": true
+    },
+    {
+      "id": "13",
+      "label": "52-event block",
+      "passed": true
+    },
+    {
+      "id": "14",
+      "label": "20,000 路徑",
+      "passed": true
+    },
+    {
+      "id": "15",
+      "label": "固定 seed／共同 circular indices／去中心化",
+      "passed": true
+    },
+    {
+      "id": "16",
+      "label": "決策邊界",
+      "passed": true
+    }
+  ],
+  "decision": {
+    "can_promote_from_this_round": false,
+    "complete_risk_free_packages": 0,
+    "formal_readiness": "1/18",
+    "formal_strategy_runs": 0,
+    "not_rejected_by_round24": false,
+    "paper_positions": 0,
+    "paper_status": "all_cash_not_started",
+    "point_in_time_readiness": "1/20",
+    "qualified_provider_packages": 0,
+    "real_money_action_usd": 0,
+    "us1000_is_reader_example_only": true
+  },
+  "family_alpha": 0.05,
+  "gate_summary": {
+    "all_passed": false,
+    "passed": 6,
+    "total": 9
+  },
+  "gates": [
+    {
+      "id": "primary_vs_eligible",
+      "label": "20 日對合資格池平均為正且 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "primary_vs_complete",
+      "label": "20 日對完整現時股池平均為正且 NW t 不低於 1.96",
+      "passed": false
+    },
+    {
+      "id": "primary_vs_qqq",
+      "label": "20 日對 QQQ 平均為正且 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "primary_all_halves",
+      "label": "20 日對三 baseline 的前後兩半平均全部為正",
+      "passed": true
+    },
+    {
+      "id": "primary_holm",
+      "label": "20 日合資格池九假說 Holm p 不高於 0.05",
+      "passed": true
+    },
+    {
+      "id": "primary_bootstrap_max_t",
+      "label": "20 日合資格池共同 max-t p 不高於 0.05",
+      "passed": true
+    },
+    {
+      "id": "family_reality_check",
+      "label": "九假說 Reality Check p 不高於 0.05",
+      "passed": true
+    },
+    {
+      "id": "primary_global_bonferroni",
+      "label": "20 日合資格池 6,208 次 Bonferroni p 不高於 0.05",
+      "passed": false
+    },
+    {
+      "id": "all_horizons_max_t",
+      "label": "5／10／20 日合資格池共同 max-t p 全不高於 0.05",
+      "passed": false
+    }
+  ],
+  "generated_on": "2026-08-04",
+  "global_search_trials": 6208,
+  "global_unadjusted_p_threshold": 8.054124e-06,
+  "input": {
+    "baselines": [
+      "eligible_equal_return",
+      "complete_cohort_equal_return",
+      "qqq_return"
+    ],
+    "common_event_series_sha256": "8a43c0b9b112b2d899d7b8065f75d1d1bd9a4b3d29ce4e917e9bbf98de2aff6b",
+    "common_events": 905,
+    "embedded_round_trip_cost_bps": 20,
+    "first_signal_date": "2006-08-04",
+    "horizons": [
+      5,
+      10,
+      20
+    ],
+    "last_signal_date": "2026-07-02",
+    "path": "artifacts/short_term_high_return_validation.json",
+    "root_path": "taiwan_reference_signal_layer_diagnostic.horizons",
+    "sha256": "fa2463cc8273a316e4a98428767b695eb85c74e9ac75c47b5ca34592102979e8"
+  },
+  "primary_attribution": {
+    "combined_effect": {
+      "definition": "top7 - complete_cohort_equal",
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.002746414509,
+          "median_difference": 0.002538681424
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002051979213,
+          "median_difference": 0.001011093661
+        }
+      },
+      "mean_difference": 0.002381164563,
+      "newey_west": {
+        "annualized_event_difference": 0.123820557283,
+        "lag": 4,
+        "mean_difference": 0.002381164563,
+        "standard_error": 0.001410574527,
+        "t_stat": 1.688081358107
+      }
+    },
+    "eligibility_effect": {
+      "definition": "eligible_equal - complete_cohort_equal",
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": -0.000728788833,
+          "median_difference": -9.2207564e-05
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": -0.000879755738,
+          "median_difference": 0.000787068982
+        }
+      },
+      "mean_difference": -0.000808192421,
+      "newey_west": {
+        "annualized_event_difference": -0.042026005872,
+        "lag": 4,
+        "mean_difference": -0.000808192421,
+        "standard_error": 0.000773637427,
+        "t_stat": -1.044665617318
+      }
+    },
+    "max_abs_identity_residual": 0.0,
+    "ranking_effect": {
+      "definition": "top7 - eligible_equal",
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003475203342,
+          "median_difference": 0.000998461506
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002931734951,
+          "median_difference": 0.00082647157
+        }
+      },
+      "mean_difference": 0.003189356984,
+      "newey_west": {
+        "annualized_event_difference": 0.165846563155,
+        "lag": 4,
+        "mean_difference": 0.003189356984,
+        "standard_error": 0.001054021007,
+        "t_stat": 3.025895083361
+      }
+    }
+  },
+  "primary_baselines": {
+    "complete_cohort_equal_return": {
+      "baseline_key": "complete_cohort_equal_return",
+      "baseline_label": "完整現時股池等權",
+      "bootstrap_max_t_p": 0.303734813259,
+      "bootstrap_unadjusted_p": 0.050147492625,
+      "events": 905,
+      "family_bonferroni_p": 0.822560511911,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.002746414509,
+          "median_difference": 0.002538681424
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002051979213,
+          "median_difference": 0.001011093661
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.274186837304,
+      "horizon": 20,
+      "id": "h20_complete_cohort_equal_return",
+      "mean_difference": 0.002381164563,
+      "median_difference": 0.001646715282,
+      "newey_west": {
+        "annualized_event_difference": 0.123820557283,
+        "lag": 4,
+        "mean_difference": 0.002381164563,
+        "standard_error": 0.001410574527,
+        "t_stat": 1.688081358107
+      },
+      "positive_fraction": 0.529281767956,
+      "raw_normal_p": 0.091395612435,
+      "romano_wolf_stepdown_p": 0.118444077796
+    },
+    "eligible_equal_return": {
+      "baseline_key": "eligible_equal_return",
+      "baseline_label": "合資格池等權",
+      "bootstrap_max_t_p": 0.020848957552,
+      "bootstrap_unadjusted_p": 0.00394980251,
+      "events": 905,
+      "family_bonferroni_p": 0.022310847397,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003475203342,
+          "median_difference": 0.000998461506
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.002931734951,
+          "median_difference": 0.00082647157
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.022310847397,
+      "horizon": 20,
+      "id": "h20_eligible_equal_return",
+      "mean_difference": 0.003189356984,
+      "median_difference": 0.000981325862,
+      "newey_west": {
+        "annualized_event_difference": 0.165846563155,
+        "lag": 4,
+        "mean_difference": 0.003189356984,
+        "standard_error": 0.001054021007,
+        "t_stat": 3.025895083361
+      },
+      "positive_fraction": 0.525966850829,
+      "raw_normal_p": 0.002478983044,
+      "romano_wolf_stepdown_p": 0.020848957552
+    },
+    "qqq_return": {
+      "baseline_key": "qqq_return",
+      "baseline_label": "QQQ",
+      "bootstrap_max_t_p": 0.041047947603,
+      "bootstrap_unadjusted_p": 0.02009899505,
+      "events": 905,
+      "family_bonferroni_p": 0.059970273513,
+      "fixed_halves": {
+        "first": {
+          "events": 429,
+          "mean_difference": 0.003261001838,
+          "median_difference": 0.002210529827
+        },
+        "second": {
+          "events": 476,
+          "mean_difference": 0.007182720024,
+          "median_difference": 0.003616452212
+        }
+      },
+      "global_bonferroni_p": 1.0,
+      "holm_adjusted_p": 0.053306909789,
+      "horizon": 20,
+      "id": "h20_qqq_return",
+      "mean_difference": 0.005323695603,
+      "median_difference": 0.00319919917,
+      "newey_west": {
+        "annualized_event_difference": 0.276832171334,
+        "lag": 4,
+        "mean_difference": 0.005323695603,
+        "standard_error": 0.001962134753,
+        "t_stat": 2.71321609965
+      },
+      "positive_fraction": 0.537016574586,
+      "raw_normal_p": 0.006663363724,
+      "romano_wolf_stepdown_p": 0.0398980051
+    }
+  },
+  "primary_horizon": 20,
+  "protocol": {
+    "calculated_after_protocol_commit": true,
+    "commit": "2bf27559be5b617361c0907c58ceededf32cdfea",
+    "path": "docs/SHORT_TERM_BASELINE_MULTIPLICITY_PROTOCOL.md",
+    "sha256": "1735ea7a1313aa845355074ace1d38d7fc6deef510c1227e7cd01ac1c4e64fce"
+  },
+  "receipt_float_decimal_places": 12,
+  "research_role": "survivor_cohort_baseline_multiplicity_falsification_only",
+  "research_round": 24,
+  "schema_version": 1
+}

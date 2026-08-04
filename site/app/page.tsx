@@ -11,6 +11,7 @@ import priorReturnRepair from "../data/short-term-french-prior-return-schema-rep
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
 import survivorshipStress from "../data/short-term-survivorship-contamination.json";
 import temporalTailRobustness from "../data/short-term-temporal-tail-robustness.json";
+import baselineMultiplicity from "../data/short-term-baseline-multiplicity.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -31,7 +32,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十三輪以年度聚類、區塊重抽及極端贏家反證現有訊號，只過 7/8，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十四輪以三個公平基準及九假說多重檢驗反證現有訊號，只過 6/9，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -162,6 +163,12 @@ const temporalTailFortySix = temporalTailRobustness.tail_event_removals.find(
 )!;
 const temporalControlRows = temporalTailRobustness.controls;
 const temporalAttackRows = temporalTailRobustness.attacks;
+const multiplicityEligible = baselineMultiplicity.primary_baselines.eligible_equal_return;
+const multiplicityComplete = baselineMultiplicity.primary_baselines.complete_cohort_equal_return;
+const multiplicityQqq = baselineMultiplicity.primary_baselines.qqq_return;
+const multiplicityBootstrap = baselineMultiplicity.common_bootstrap;
+const multiplicityControlRows = baselineMultiplicity.controls;
+const multiplicityAttackRows = baselineMultiplicity.attacks;
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -758,18 +765,20 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · TEMPORAL &amp; TAIL ROBUSTNESS · ROUND 23</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FAIR BASELINES &amp; MULTIPLICITY · ROUND 24</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />正平均未過集中度反證</h1>
+              <h1>短線高回報<br />排名訊號未過公平分母</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十三輪不再調整訊號，只反證現有 905 個 20 日 Top-7 事件的正平均是否依賴少數年份或極端贏家。八項事前門檻只過 <strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong>：曆年 cluster t 為 <strong>{temporalCluster.t_stat.toFixed(2)}</strong>，52-event block bootstrap 下界仍為 <strong>{pp(temporalBootstrap.mean_difference_quantiles.p025, 3)}</strong>；但刪除貢獻最大的 {temporalRemoveThree.removed_years.join("、")} 後，平均差只餘 <strong>{pp(temporalRemoveThree.mean_difference, 3)}</strong>，NW t <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>，低於固定 1.96。最大的 46 個正事件移除後，平均差亦只餘 <strong>{pp(temporalTailFortySix.mean_difference, 3)}</strong>。所以原本 t=3.03 不能標成時間集中度穩健 alpha。
+                真實與合成分開；第二十四輪把 5／10／20 日與合資格池、完整現時股池及 QQQ 組成九個同成本配對假說。20 日相對合資格池仍有 <strong>{pp(multiplicityEligible.mean_difference, 3)}</strong>、NW t <strong>{multiplicityEligible.newey_west.t_stat.toFixed(2)}</strong>，Holm p <strong>{multiplicityEligible.holm_adjusted_p.toFixed(4)}</strong>、共同 max-t p <strong>{multiplicityEligible.bootstrap_max_t_p.toFixed(4)}</strong>；但相對完整現時股池只餘 <strong>{pp(multiplicityComplete.mean_difference, 3)}</strong>、NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong>，全專案 6,208 次 Bonferroni p 為 <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong>，九項事前門檻只過 <strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong>。正面排名效果不能改寫成對完整股池及搜尋偏誤都穩健。
+                第二十三輪時間／尾部反證 <strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong> 亦繼續保留：刪除 {temporalRemoveThree.removed_years.join("、")} 後 NW t 只有 <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>。
                 第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
                 第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
                 第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#baseline-multiplicity">查看第 24 輪 6/9 反證</a>
                 <a className="primary-button aggressive-button" href="#temporal-tail-robustness">查看第 23 輪 7/8 反證</a>
                 <a className="primary-button aggressive-button" href="#survivorship-contamination">查看 20 格退出壓力</a>
                 <a className="primary-button aggressive-button" href="#provider-gap-closure">查看五路徑 14 項矩陣</a>
@@ -796,6 +805,10 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 24 輪公平基準／多重檢驗</dt><dd>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total} · 未通過</dd></div>
+                <div><dt>完整股池 NW t</dt><dd>{multiplicityComplete.newey_west.t_stat.toFixed(2)} · 低於 1.96</dd></div>
+                <div><dt>6,208 次搜尋校正</dt><dd>p {multiplicityEligible.global_bonferroni_p.toFixed(2)} · 未通過</dd></div>
+                <div><dt>基準／多重控制與攻擊</dt><dd>{baselineMultiplicity.control_summary.passed}/{baselineMultiplicity.control_summary.total} · {baselineMultiplicity.attack_summary.rejected}/{baselineMultiplicity.attack_summary.total}</dd></div>
                 <div><dt>第 23 輪集中度反證</dt><dd>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total} · 未通過</dd></div>
                 <div><dt>刪除最佳三年</dt><dd>NW t {temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)} · 低於 1.96</dd></div>
                 <div><dt>時間／尾部控制與攻擊</dt><dd>{temporalTailRobustness.control_summary.passed}/{temporalTailRobustness.control_summary.total} · {temporalTailRobustness.attack_summary.rejected}/{temporalTailRobustness.attack_summary.total}</dd></div>
@@ -827,6 +840,10 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 24 輪反證門檻</span><strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong><small>三項未通過</small></article>
+              <article><span>完整股池 NW t</span><strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong><small>低於固定 1.96</small></article>
+              <article><span>主要 Holm／max-t p</span><strong>{multiplicityEligible.holm_adjusted_p.toFixed(3)}／{multiplicityEligible.bootstrap_max_t_p.toFixed(3)}</strong><small>family 內通過</small></article>
+              <article><span>6,208 次 Bonferroni</span><strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong><small>全專案搜尋壓力失敗</small></article>
               <article><span>第 23 輪反證門檻</span><strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong><small>刪除最佳三年未通過</small></article>
               <article><span>刪除最佳三年 NW t</span><strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong><small>低於固定 1.96</small></article>
               <article><span>移除最大 5% 事件</span><strong>{pp(temporalTailFortySix.mean_difference, 3)}</strong><small>NW t {temporalTailFortySix.newey_west_lag4.t_stat.toFixed(2)}</small></article>
@@ -849,6 +866,134 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="baseline-multiplicity">
+            <div className="section-heading">
+              <div><span>FAIR BASELINES &amp; MULTIPLICITY · ROUND 24</span><h2>九項反證只過 6/9；正面排名未通過完整股池及全專案搜尋壓力</h2></div>
+              <p>固定 5／10／20 日、三個同成本 baseline 及 905 個共同事件；Holm、共同 max-t、Romano–Wolf、Reality Check 與 6,208 次 Bonferroni 全部呈列。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>20 日主要期限 · 九假說 family</span>
+                <h3>對合資格池 NW t {multiplicityEligible.newey_west.t_stat.toFixed(2)}；對完整股池只有 {multiplicityComplete.newey_west.t_stat.toFixed(2)}</h3>
+                <p>主要 Holm p {multiplicityEligible.holm_adjusted_p.toFixed(4)}、共同 max-t p {multiplicityEligible.bootstrap_max_t_p.toFixed(4)}、Reality Check p {multiplicityBootstrap.reality_check_p_value.toFixed(4)}；family 內仍有訊號，但完整現時股池和 6,208 次搜尋校正未通過。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>完整現時股池 baseline</span><strong>NW t {multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong><p>平均差 {pp(multiplicityComplete.mean_difference, 3)}，低於固定 1.96；完整股池本身仍有存活者偏差。</p></article>
+                <article><span>全專案搜尋壓力</span><strong>p {multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong><p>普通 p 必須低於 {baselineMultiplicity.global_unadjusted_p_threshold.toFixed(8)}；本輪不把 6,208 重設成 9 或 1。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>公平分母不是任選一個</b>
+              <p>合資格池回答 Top-7 是否勝過已通過趨勢與流動性濾網的股票；完整現時股池回答排名加濾網後能否勝過更廣分母；QQQ 顯示機會成本。三者缺一不可，而且全部仍未修復退市及歷史成分偏差。</p>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>20-DAY ATTRIBUTION</span><h3>排名效果為正，但合資格濾網本身拖低完整股池比較</h3></div>
+              <p>逐事件恆等式嚴格成立；不把合資格池視為唯一可接受 baseline。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>20 日歸因</th><th>定義</th><th>平均差</th><th>NW t</th><th>前半</th><th>後半</th></tr></thead>
+                <tbody>{[
+                  { label: "Top-7 排名效果", row: baselineMultiplicity.primary_attribution.ranking_effect },
+                  { label: "合資格濾網效果", row: baselineMultiplicity.primary_attribution.eligibility_effect },
+                  { label: "對完整股池合計", row: baselineMultiplicity.primary_attribution.combined_effect },
+                ].map(({ label, row }) => (
+                  <tr className={row.mean_difference < 0 ? "featured-row" : ""} key={label}>
+                    <th><b>{label}</b><span>固定 905 事件</span></th>
+                    <td>{row.definition}</td>
+                    <td className={row.mean_difference < 0 ? "negative-number" : ""}>{pp(row.mean_difference, 3)}</td>
+                    <td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td>
+                    <td>{pp(row.fixed_halves.first.mean_difference, 3)}</td>
+                    <td>{pp(row.fixed_halves.second.mean_difference, 3)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>NINE PAIRED HYPOTHESES</span><h3>三個期限 × 三個 baseline，不只展示最漂亮一格</h3></div>
+              <p>普通 p 來自固定 NW t；Holm、共同 max-t、Romano–Wolf 及全專案搜尋壓力使用同一 0.05 門檻。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>期限／baseline</th><th>平均差</th><th>NW t</th><th>普通 p</th><th>Holm</th><th>Max-t</th><th>RW step-down</th><th>6,208×</th></tr></thead>
+                <tbody>{baselineMultiplicity.comparisons.map((row) => (
+                  <tr className={row.horizon === 20 && row.baseline_key === "eligible_equal_return" ? "featured-row" : ""} key={row.id}>
+                    <th><b>{row.horizon} 日 · {row.baseline_label}</b><span>{row.events} 個共同事件</span></th>
+                    <td>{pp(row.mean_difference, 3)}</td>
+                    <td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td>
+                    <td>{row.raw_normal_p.toFixed(4)}</td>
+                    <td className={row.holm_adjusted_p > 0.05 ? "negative-number" : ""}>{row.holm_adjusted_p.toFixed(4)}</td>
+                    <td className={row.bootstrap_max_t_p > 0.05 ? "negative-number" : ""}>{row.bootstrap_max_t_p.toFixed(4)}</td>
+                    <td className={row.romano_wolf_stepdown_p > 0.05 ? "negative-number" : ""}>{row.romano_wolf_stepdown_p.toFixed(4)}</td>
+                    <td className="negative-number">{row.global_bonferroni_p.toFixed(2)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COMMON BLOCK BOOTSTRAP</span><h3>九列共用 20,000 條 52-event circular 路徑</h3></div>
+              <p>各列在零假設下去中心化，同日跨期限及 baseline 關係保留，不逐格重抽較有利亂數。</p>
+            </div>
+            <div className="evidence-stat-grid">
+              <article><span>Reality Check p</span><strong>{multiplicityBootstrap.reality_check_p_value.toFixed(4)}</strong><p>觀察最大正 t {multiplicityBootstrap.observed_max_positive_t.toFixed(2)}。</p></article>
+              <article><span>主要 max-t p</span><strong>{multiplicityEligible.bootstrap_max_t_p.toFixed(4)}</strong><p>九假說 single-step family-wise。</p></article>
+              <article><span>主要 RW p</span><strong>{multiplicityEligible.romano_wolf_stepdown_p.toFixed(4)}</strong><p>固定兩尾 step-down。</p></article>
+              <article><span>全專案通過界線</span><strong>{baselineMultiplicity.global_unadjusted_p_threshold.toFixed(8)}</strong><p>0.05／6,208，不冒充正式 DSR。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRE-FROZEN FALSIFICATION GATES</span><h3>九項門檻逐項呈列；6/9 不升格</h3></div>
+              <p>完整股池、全專案搜尋及三期限共同 max-t 三項失敗，不能用其餘六項掩蓋。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {baselineMultiplicity.gates.map((gate, index) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><div><b>{gate.label}</b><p>第 24 輪固定反證</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>十六道輸入、共同樣本、family、bootstrap 及決策控制</h3></div>
+              <p>16/16 只證明程式遵守事前協議，並非策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {multiplicityControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 24 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>十六項期限、baseline、family、路徑及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中事前指定錯誤碼。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {multiplicityAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 24 DECISION</span><b>family 內的 20 日排名線索保留；公平分母及全專案搜尋偏誤仍拒絕升格</b></div>
+              <p>20 日對 QQQ 的事件差 {pp(multiplicityQqq.mean_difference, 3)}、NW t {multiplicityQqq.newey_west.t_stat.toFixed(2)}，但 QQQ 的 Holm p {multiplicityQqq.holm_adjusted_p.toFixed(4)} 亦略高於 0.05。正式 1/18、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_BASELINE_MULTIPLICITY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 24 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_BASELINE_MULTIPLICITY_PROTOCOL.md" target="_blank" rel="noreferrer">事前多重檢驗協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_baseline_multiplicity_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 
