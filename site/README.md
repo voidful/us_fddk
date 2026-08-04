@@ -4,10 +4,10 @@
 
 - 長線穩定：v25 80% 美國大型成長股／20% 黃金的 20 年凍結回測、SPY／QQQ
   比較、目標配置與 LIVE Paper。
-- 短線高回報：最新 French 30 Industry 月度 6–1 動量的 63 年學術代理驗證，並列市場、
-  行業等權、自然漂移、成本、分段、滾動、統計、壓力期與固定 20 日事件比較；只過
-  17/33 道門檻，因此不顯示可交易配置。第六輪 prior-return 月檔在策略計算前因表段
-  標記不符以 6/8 停止；較早的大型股現時成分沙盒只保留作偏誤診斷。
+- 短線高回報：最新第 21 輪以 14 項正式能力比較 CRSP＋S&P DJI、S&P Global Market
+  Intelligence、LSEG、FactSet 及 Bloomberg 五條數據路徑；0/5 合格。網站先呈列
+  供應商矩陣、九項固定詢價、15/15 證據控制及 15/15 替代攻擊，再保留較早的正式
+  1/18、RF 5,009/5,031、point-in-time 1/20 與策略負結果；不顯示可交易配置。
 
 兩條線各自區分歷史門檻、統計確認、前瞻證據與實金狀態，不互相借用成功結果。
 v20 另以三組新區域 ETF 檢驗分散器相對強弱；因只過 45/154 道經濟門檻，
@@ -31,13 +31,13 @@ npm run build
 
 This starter does not use `wrangler.jsonc`.
 
-## 資料更新
+## 數據更新
 
 - 網站讀取 `data/trading-data.json`。
 - 該檔由上層 Python 專案的 `us-fddk build` 產生。
 - 每次更新必須保留行情快照 SHA-256，並先推進 LIVE paper 狀態再部署。
 - GitHub Action 以 `us-fddk v25-live-update` 與 `v25-site-export` 只推進凍結候選的
-  三個 LIVE Paper 帳戶；不會用新資料重選 20 年研究結果。
+  三個 LIVE Paper 帳戶；不會用新數據重選 20 年研究結果。
 - `npm run pages:test` 會產生並驗證可在 `/us_fddk/` 子路徑運作的靜態 Pages 產物。
 
 ## Workspace Auth Headers

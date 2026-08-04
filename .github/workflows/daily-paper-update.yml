@@ -47,6 +47,12 @@ jobs:
             echo "Official CRSP guide probe was unavailable or changed unexpectedly; preserving the last verified probe without blocking the separate Paper refresh." \
               >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Probe the five current official provider source identities
+        run: |
+          if ! python scripts/probe_short_term_provider_gap_sources.py; then
+            echo "One or more official provider source identities were unavailable or changed; preserving the last verified probe without qualifying any source." \
+              >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Fetch the latest completed U.S. session
         run: python -m usfddk v25-live-update
       - name: Export only the frozen v25 LIVE contract
@@ -76,6 +82,7 @@ jobs:
           python scripts/build_short_term_formal_backtest_readiness_report.py
           python scripts/build_short_term_risk_free_staging_report.py
           python scripts/build_short_term_provider_convergence_report.py
+          python scripts/build_short_term_provider_gap_closure_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -118,6 +125,9 @@ jobs:
             artifacts/short_term_provider_convergence_validation.json \
             site/data/short-term-provider-convergence.json \
             docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md \
+            artifacts/short_term_provider_gap_closure_validation.json \
+            site/data/short-term-provider-gap-closure.json \
+            docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -136,6 +146,7 @@ jobs:
           pytest tests/test_formal_backtest_readiness.py
           pytest tests/test_risk_free_staging.py
           pytest tests/test_provider_convergence.py
+          pytest tests/test_provider_gap_closure.py
           pytest tests/test_daily_momentum_regime.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit
@@ -158,6 +169,7 @@ jobs:
           paper_advanced="$(jq -r '.public_paper_status_deploy_allowed' artifacts/v25_live_refresh_status.json)"
           rf_probe_changed="false"
           guide_probe_changed="false"
+          gap_source_probe_changed="false"
           if ! git diff --quiet -- \
             artifacts/short_term_risk_free_source_probe.json \
             site/data/short-term-risk-free-source-probe.json; then
@@ -166,6 +178,12 @@ jobs:
           if ! git diff --quiet -- \
             artifacts/short_term_provider_guide_probe.json \
             site/data/short-term-provider-guide-probe.json; then
+            guide_probe_changed="true"
+          fi
+          if ! git diff --quiet -- \
+            artifacts/short_term_provider_gap_source_probe.json \
+            site/data/short-term-provider-gap-source-probe.json; then
+            gap_source_probe_changed="true"
             guide_probe_changed="true"
           fi
           if [ "$paper_advanced" != "true" ] && [ "$rf_probe_changed" != "true" ] && [ "$guide_probe_changed" != "true" ]; then
@@ -178,7 +196,9 @@ jobs:
             artifacts/short_term_risk_free_source_probe.json \
             site/data/short-term-risk-free-source-probe.json \
             artifacts/short_term_provider_guide_probe.json \
-            site/data/short-term-provider-guide-probe.json
+            site/data/short-term-provider-guide-probe.json \
+            artifacts/short_term_provider_gap_source_probe.json \
+            site/data/short-term-provider-gap-source-probe.json
           if [ "$paper_advanced" = "true" ]; then
             git add \
               artifacts/paper_v25_state.json \

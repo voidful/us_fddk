@@ -1,0 +1,68 @@
+{
+  "all_match_frozen_identities": true,
+  "formal_backtest_authorized": false,
+  "new_source_qualified": false,
+  "next_action": "URL、官方 host 或 identity marker 漂移只標記人工覆核；probe 永不自行改寫能力矩陣、提高 readiness 或啟動 Paper。",
+  "observations": {
+    "bloomberg_data_license": {
+      "final_url": "https://professional.bloomberg.com/products/data/data-management/data-license/",
+      "identity_sha256": "8ddab443b8899912540cc34be6054011ddf2320520214ec6bb74d735d05c55ca",
+      "marker_present": true,
+      "matches_frozen_identity": true,
+      "official_host_allowed": true,
+      "owner": "Bloomberg",
+      "title": "Data License",
+      "url": "https://professional.bloomberg.com/products/data/data-management/data-license/"
+    },
+    "crsp_stock_ciz_guide": {
+      "final_url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true",
+      "identity_sha256": "5e27c1908eb8e4a253072f25077bf91b66ba72433f9363d210a9efd1780a7219",
+      "marker_present": true,
+      "matches_frozen_identity": true,
+      "official_host_allowed": true,
+      "owner": "Morningstar Indexes / CRSP",
+      "title": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+      "url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true"
+    },
+    "factset_benchmarks": {
+      "final_url": "https://developer.factset.com/api-catalog/factset-benchmarks-api",
+      "identity_sha256": "23c98b934d96775bfd77c684656e22a028c0d0bacdf6d57f69d60089fdb041b1",
+      "marker_present": true,
+      "matches_frozen_identity": true,
+      "official_host_allowed": true,
+      "owner": "FactSet",
+      "title": "FactSet Benchmarks API",
+      "url": "https://developer.factset.com/api-catalog/factset-benchmarks-api"
+    },
+    "lseg_historical_constituents": {
+      "final_url": "https://developers.lseg.com/en/article-catalog/article/building-historical-index-constituents",
+      "identity_sha256": "3aa0ef92ec1b9ef29f1dcbfc54e6e13dde2611cb3326c7504750bbee41631a5a",
+      "marker_present": true,
+      "matches_frozen_identity": true,
+      "official_host_allowed": true,
+      "owner": "LSEG Developer Community",
+      "title": "Building Historical Index Constituents",
+      "url": "https://developers.lseg.com/en/article-catalog/article/building-historical-index-constituents"
+    },
+    "spgmi_index_data": {
+      "final_url": "https://www.marketplace.spglobal.com/en/datasets/index-data-%28100%29",
+      "identity_sha256": "32692abfad420cade16708baa543f25796b0ae9b2eb8970c6d1cd7113ffe7842",
+      "marker_present": true,
+      "matches_frozen_identity": true,
+      "official_host_allowed": true,
+      "owner": "S&P Global Market Intelligence",
+      "title": "Index Data",
+      "url": "https://www.marketplace.spglobal.com/en/datasets/index-data-%28100%29"
+    }
+  },
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "probe_version": "round21-provider-source-probe-v1",
+  "provider_package_qualified": false,
+  "real_money_action_usd": 0,
+  "research_round": 21,
+  "schema_version": 1,
+  "source_identity_count": 5,
+  "status": "matches_frozen_primary_source_identities",
+  "strategy_run_count": 0
+}

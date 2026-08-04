@@ -40,6 +40,15 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /PROVIDER GAP CLOSURE · ROUND 21/);
+  assert.match(html, /五條路徑逐項對齊 14 項正式能力；0\/5 合格/);
+  assert.match(html, /CRSP＋S&amp;P DJI 最接近完整；LSEG 是最完整的單一品牌候選/);
+  assert.match(html, /5(?:<!-- -->)?\/(?:<!-- -->)?14 明確/);
+  assert.match(html, /Point In Time: No/);
+  assert.match(html, /第一封詢價只問九個可驗收問題/);
+  assert.match(html, /十五道證據控制，全數通過/);
+  assert.match(html, /十五項產品、時間、價格、退出及 RF 攻擊全拒收/);
+  assert.match(html, /gap_decision_boundary_violation/);
   assert.match(html, /PROVIDER CONVERGENCE · ROUND 20/);
   assert.match(html, /Stock CIZ 直接支持 5\/10；其餘 5\/10 仍須逐列證據層/);
   assert.match(html, /同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口/);
@@ -180,6 +189,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   ).join("\n");
   assert.doesNotMatch(javascript, /IntersectionObserver/);
   assert.doesNotMatch(javascript, /motion-reveal/);
-  assert.match(styles, /status-pulse/);
+  assert.match(styles, /scroll-behavior:auto/);
+  assert.match(styles, /status-chip i\{[^}]*animation:none/);
+  assert.doesNotMatch(styles, /status-pulse|@keyframes/);
   assert.doesNotMatch(styles, /data-motion=ready|motion-reveal/);
 });

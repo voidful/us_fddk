@@ -1,0 +1,1086 @@
+{
+  "actual_formal_readiness": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 18
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 15,
+    "total": 15
+  },
+  "attacks": [
+    {
+      "expected_error_code": "gap_protocol_mismatch",
+      "id": "01",
+      "label": "協議 SHA 漂移",
+      "observed_error_code": "gap_protocol_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "gap_reference_mismatch",
+      "id": "02",
+      "label": "台股參考 commit 漂移",
+      "observed_error_code": "gap_reference_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "candidate_set_mismatch",
+      "id": "03",
+      "label": "候選路徑次序漂移",
+      "observed_error_code": "candidate_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "capability_set_mismatch",
+      "id": "04",
+      "label": "少一項正式能力",
+      "observed_error_code": "capability_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "non_primary_evidence",
+      "id": "05",
+      "label": "第三方文章冒充一手證據",
+      "observed_error_code": "non_primary_evidence",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "product_identity_inference",
+      "id": "06",
+      "label": "由品牌宣傳推算產品",
+      "observed_error_code": "product_identity_inference",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "license_inference",
+      "id": "07",
+      "label": "公開下載冒充研究授權",
+      "observed_error_code": "license_inference",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "coverage_inference",
+      "id": "08",
+      "label": "歷史宣傳冒充 20 年覆蓋",
+      "observed_error_code": "coverage_inference",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "membership_time_substitution",
+      "id": "09",
+      "label": "生效時間冒充公布時間",
+      "observed_error_code": "membership_time_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "known_at_substitution",
+      "id": "10",
+      "label": "有效區間冒充 KnownAt",
+      "observed_error_code": "known_at_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "adjusted_price_substitution",
+      "id": "11",
+      "label": "調整價冒充 raw open",
+      "observed_error_code": "adjusted_price_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "delist_imputation",
+      "id": "12",
+      "label": "缺失退出代價填 0",
+      "observed_error_code": "delist_imputation",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "calendar_benchmark_omission",
+      "id": "13",
+      "label": "省略日曆或同步基準",
+      "observed_error_code": "calendar_benchmark_omission",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_substitution",
+      "id": "14",
+      "label": "相近年期冒充精確 RF",
+      "observed_error_code": "risk_free_substitution",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "gap_decision_boundary_violation",
+      "id": "15",
+      "label": "文件分數啟動 Paper",
+      "observed_error_code": "gap_decision_boundary_violation",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_package_received": false,
+  "best_documented_route": {
+    "explicit_count": 5,
+    "hard_gap_count": 9,
+    "id": "crsp_spdj_composite",
+    "name": "CRSP Stock CIZ＋S&P DJI 事件＋CRSP Treasury",
+    "partial_count": 5
+  },
+  "complete_risk_free_package_received": false,
+  "control_summary": {
+    "all_passed": true,
+    "passed": 15,
+    "total": 15
+  },
+  "controls": [
+    {
+      "detail": "第 21 輪協議、收據及第 18／20 輪 SHA-256 完整。",
+      "id": "01",
+      "label": "協議與父契約",
+      "passed": true
+    },
+    {
+      "detail": "三個參考 repository 精確綁定，只轉移研究紀律。",
+      "id": "02",
+      "label": "台股參考版本",
+      "passed": true
+    },
+    {
+      "detail": "沒有看過結果後加第六條路徑或調換次序。",
+      "id": "03",
+      "label": "五條候選路徑",
+      "passed": true
+    },
+    {
+      "detail": "每條路徑逐項回答同一正式合約。",
+      "id": "04",
+      "label": "十四項能力",
+      "passed": true
+    },
+    {
+      "detail": "只使用供應商／數據擁有者的官方頁面、指南及 API 文件。",
+      "id": "05",
+      "label": "一手文件",
+      "passed": true
+    },
+    {
+      "detail": "品牌宣傳沒有被推算成已存在的固定產品代碼。",
+      "id": "06",
+      "label": "產品身份",
+      "passed": true
+    },
+    {
+      "detail": "公開可讀與使用者帳戶授權分開。",
+      "id": "07",
+      "label": "研究授權",
+      "passed": true
+    },
+    {
+      "detail": "歷史年數宣傳不代替 2005-08-01 起逐列 manifest。",
+      "id": "08",
+      "label": "固定 20 年覆蓋",
+      "passed": true
+    },
+    {
+      "detail": "AnnouncedAt 與 EffectiveAt 分開。",
+      "id": "09",
+      "label": "成分雙時鐘",
+      "passed": true
+    },
+    {
+      "detail": "有效區間不冒充當時可知時間。",
+      "id": "10",
+      "label": "Metadata KnownAt",
+      "passed": true
+    },
+    {
+      "detail": "調整價不冒充 t+1 raw open。",
+      "id": "11",
+      "label": "Raw 開市價",
+      "passed": true
+    },
+    {
+      "detail": "缺失 DelRet／條款保留缺口，不補零。",
+      "id": "12",
+      "label": "退出經濟",
+      "passed": true
+    },
+    {
+      "detail": "XNYS、QQQ、SPY 與個股執行時鐘均保留。",
+      "id": "13",
+      "label": "日曆與同步基準",
+      "passed": true
+    },
+    {
+      "detail": "4 週、年率／252 或代理 ETF 均不替代正式 RF。",
+      "id": "14",
+      "label": "精確 RF",
+      "passed": true
+    },
+    {
+      "detail": "正式 1/18、run 0、Paper 全現金、實金 US$0。",
+      "id": "15",
+      "label": "決策邊界",
+      "passed": true
+    }
+  ],
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_completed": false,
+  "gap_version": "round21-provider-gap-closure-v1",
+  "next_action": "先以九條固定問題向 CRSP＋S&P DJI 複合路徑及 LSEG 單一品牌路徑索取授權 data dictionary 與細樣本；未過真實 20/20、extension 16/16、RF 完整及正式 18/18 前保持全現金。",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "primary_sources": {
+    "bloomberg_cofi": {
+      "is_primary_owner_document": true,
+      "owner": "Bloomberg",
+      "title": "Company Financials, Estimates and Pricing Point-in-Time",
+      "url": "https://professional.bloomberg.com/products/data/enterprise-catalog/cofi/"
+    },
+    "bloomberg_data_license": {
+      "is_primary_owner_document": true,
+      "owner": "Bloomberg",
+      "title": "Data License",
+      "url": "https://professional.bloomberg.com/products/data/data-management/data-license/"
+    },
+    "bloomberg_events": {
+      "is_primary_owner_document": true,
+      "owner": "Bloomberg",
+      "title": "Event-Driven Feeds",
+      "url": "https://professional.bloomberg.com/products/data/enterprise-catalog/event-driven-feeds/"
+    },
+    "bloomberg_reference": {
+      "is_primary_owner_document": true,
+      "owner": "Bloomberg",
+      "title": "Reference Data",
+      "url": "https://professional.bloomberg.com/products/data/enterprise-catalog/reference/"
+    },
+    "bloomberg_research": {
+      "is_primary_owner_document": true,
+      "owner": "Bloomberg",
+      "title": "Investment Research Data",
+      "url": "https://professional.bloomberg.com/products/data/enterprise-catalog/investment-research-data/"
+    },
+    "crsp_stock_ciz_guide": {
+      "is_primary_owner_document": true,
+      "owner": "Morningstar Indexes / CRSP",
+      "title": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+      "url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true"
+    },
+    "crsp_treasury_guide": {
+      "is_primary_owner_document": true,
+      "owner": "Morningstar Indexes / CRSP",
+      "title": "CRSP US Treasury Database Guide",
+      "url": "https://indexes.morningstar.com/docs/guide/crsp-us-treasury-database-guide?isRdp=true"
+    },
+    "factset_benchmarks": {
+      "is_primary_owner_document": true,
+      "owner": "FactSet",
+      "title": "FactSet Benchmarks API",
+      "url": "https://developer.factset.com/api-catalog/factset-benchmarks-api"
+    },
+    "factset_global_prices": {
+      "is_primary_owner_document": true,
+      "owner": "FactSet",
+      "title": "FactSet Global Prices API",
+      "url": "https://developer.factset.com/api-catalog/factset-global-prices-api"
+    },
+    "factset_prices_returns": {
+      "is_primary_owner_document": true,
+      "owner": "FactSet",
+      "title": "FactSet Prices and Returns API",
+      "url": "https://www.factset.com/marketplace/catalog/product/factset-prices-and-returns-api"
+    },
+    "factset_pricing_reference": {
+      "is_primary_owner_document": true,
+      "owner": "FactSet",
+      "title": "FactSet Pricing and Reference Data",
+      "url": "https://www.factset.com/marketplace/catalog/product/factset-pricing-and-reference-data"
+    },
+    "lseg_corporate_actions": {
+      "is_primary_owner_document": true,
+      "owner": "LSEG",
+      "title": "Corporate Actions Data",
+      "url": "https://www.lseg.com/en/data-analytics/market-data/data-analytics-pricing/reference-data/corporate-actions"
+    },
+    "lseg_historical_constituents": {
+      "is_primary_owner_document": true,
+      "owner": "LSEG Developer Community",
+      "title": "Building Historical Index Constituents",
+      "url": "https://developers.lseg.com/en/article-catalog/article/building-historical-index-constituents"
+    },
+    "lseg_quant_analytics": {
+      "is_primary_owner_document": true,
+      "owner": "LSEG",
+      "title": "Quantitative Analytics Cloud Fact Sheet",
+      "url": "https://www.lseg.com/content/dam/data-analytics/en_us/documents/fact-sheets/quantitative-analytics-cloud-fact-sheet.pdf"
+    },
+    "sp_dji_api": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Dow Jones Indices",
+      "title": "S&P DJI API Data Solutions",
+      "url": "https://www.spglobal.com/spdji/en/landing/topic/api-data-solutions/"
+    },
+    "sp_dji_equity_policy": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Dow Jones Indices",
+      "title": "Equity Indices Policies & Practices",
+      "url": "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-equity-indices-policies-practices.pdf?force_download=true"
+    },
+    "sp_dji_us_methodology": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Dow Jones Indices",
+      "title": "S&P U.S. Indices Methodology",
+      "url": "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-us-indices.pdf?os=TMB"
+    },
+    "spgmi_corporate_actions": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Global Market Intelligence",
+      "title": "Corporate Actions",
+      "url": "https://www.spglobal.com/market-intelligence/en/solutions/corporate-actions"
+    },
+    "spgmi_index_data": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Global Market Intelligence",
+      "title": "Index Data",
+      "url": "https://www.marketplace.spglobal.com/en/datasets/index-data-%28100%29"
+    },
+    "spgmi_index_management": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Global Market Intelligence",
+      "title": "Index Management",
+      "url": "https://www.spglobal.com/market-intelligence/en/solutions/products/index-management"
+    },
+    "spgmi_market_data": {
+      "is_primary_owner_document": true,
+      "owner": "S&P Global Market Intelligence",
+      "title": "Market Data",
+      "url": "https://www.marketplace.spglobal.com/en/datasets/market-data-%2817%29"
+    }
+  },
+  "procurement_questions": [
+    {
+      "capability": "authorized_research_license",
+      "question": "請提供允許本地研究、20 年回測、保存驗收收據及發布彙總衍生結果的合約條款。"
+    },
+    {
+      "capability": "membership_announced_at",
+      "question": "每次 S&P 500 加入／移除可否交付公布 timestamp、時區、event ID 及原始來源？"
+    },
+    {
+      "capability": "security_metadata_known_at",
+      "question": "歷史 ticker、交易所、股份類別及行業可否逐列交付 KnownAt，而非只給 effective range？"
+    },
+    {
+      "capability": "delist_exit_economics",
+      "question": "缺失 DelRet 時可否交付原因、現金／換股條款、successor 及實際退出收益？"
+    },
+    {
+      "capability": "post_removal_price_path",
+      "question": "可否保證每次成分移除日至下一月度重新平衡 open 的 raw 可交易價格及狀態完整？"
+    },
+    {
+      "capability": "xnys_session_open_close",
+      "question": "可否同 cut 交付 2005-08-01 至 2026-07-31 的 XNYS session、開收市及早收市時間？"
+    },
+    {
+      "capability": "synchronized_qqq_spy_execution",
+      "question": "QQQ／SPY 可否與個股同 session、同 cut 交付 raw open、總回報因子及交易狀態？"
+    },
+    {
+      "capability": "exact_one_month_daily_simple_rf",
+      "question": "可否交付 US_1M_TBILL_DAILY_RETURN 同經濟定義的日度 simple return，而非 4 週或年率換算？"
+    },
+    {
+      "capability": "row_level_provenance_replay",
+      "question": "每次 export 可否固定產品版本、cutoff、export ID、逐列 source ID、列數及 SHA-256？"
+    }
+  ],
+  "qualified_route_count": 0,
+  "real_money_action_usd": 0,
+  "required_capability_ids": [
+    "authorized_research_license",
+    "point_in_time_sp500_membership",
+    "membership_announced_at",
+    "membership_effective_at",
+    "permanent_security_company_ids",
+    "security_metadata_known_at",
+    "raw_daily_ohlcv_status",
+    "distribution_event_clock_terms",
+    "delist_exit_economics",
+    "post_removal_price_path",
+    "xnys_session_open_close",
+    "synchronized_qqq_spy_execution",
+    "exact_one_month_daily_simple_rf",
+    "row_level_provenance_replay"
+  ],
+  "research_round": 21,
+  "route_summary": [
+    {
+      "documented_or_partial_count": 10,
+      "hard_gap_capabilities": [
+        "authorized_research_license",
+        "membership_announced_at",
+        "security_metadata_known_at",
+        "delist_exit_economics",
+        "post_removal_price_path",
+        "xnys_session_open_close",
+        "synchronized_qqq_spy_execution",
+        "exact_one_month_daily_simple_rf",
+        "row_level_provenance_replay"
+      ],
+      "id": "crsp_spdj_composite",
+      "name": "CRSP Stock CIZ＋S&P DJI 事件＋CRSP Treasury",
+      "qualified": false,
+      "role": "首個複合詢價路徑；公開證據最多，但並非同一授權的已交付 package。",
+      "status_counts": {
+        "contradicted_by_primary_documentation": 1,
+        "explicit_primary_documentation": 5,
+        "partial_primary_documentation": 5,
+        "qualified_provider_package": 0,
+        "unresolved_primary_documentation": 3,
+        "validated_authorized_sample": 0
+      }
+    },
+    {
+      "documented_or_partial_count": 6,
+      "hard_gap_capabilities": [
+        "authorized_research_license",
+        "point_in_time_sp500_membership",
+        "membership_announced_at",
+        "membership_effective_at",
+        "security_metadata_known_at",
+        "distribution_event_clock_terms",
+        "delist_exit_economics",
+        "post_removal_price_path",
+        "xnys_session_open_close",
+        "synchronized_qqq_spy_execution",
+        "exact_one_month_daily_simple_rf",
+        "row_level_provenance_replay"
+      ],
+      "id": "sp_global_market_intelligence",
+      "name": "S&P Global Market Intelligence",
+      "qualified": false,
+      "role": "歷史價格與指數數據廣，但公開 marketplace 明示非 point-in-time。",
+      "status_counts": {
+        "contradicted_by_primary_documentation": 1,
+        "explicit_primary_documentation": 2,
+        "partial_primary_documentation": 4,
+        "qualified_provider_package": 0,
+        "unresolved_primary_documentation": 7,
+        "validated_authorized_sample": 0
+      }
+    },
+    {
+      "documented_or_partial_count": 10,
+      "hard_gap_capabilities": [
+        "authorized_research_license",
+        "membership_announced_at",
+        "membership_effective_at",
+        "security_metadata_known_at",
+        "distribution_event_clock_terms",
+        "delist_exit_economics",
+        "post_removal_price_path",
+        "xnys_session_open_close",
+        "synchronized_qqq_spy_execution",
+        "exact_one_month_daily_simple_rf",
+        "row_level_provenance_replay"
+      ],
+      "id": "lseg_data_analytics",
+      "name": "LSEG Data & Analytics／Workspace／Datastream",
+      "qualified": false,
+      "role": "最完整的單一品牌採購候選；仍欠公布時鐘、退市實收及精確 RF。",
+      "status_counts": {
+        "contradicted_by_primary_documentation": 0,
+        "explicit_primary_documentation": 3,
+        "partial_primary_documentation": 7,
+        "qualified_provider_package": 0,
+        "unresolved_primary_documentation": 4,
+        "validated_authorized_sample": 0
+      }
+    },
+    {
+      "documented_or_partial_count": 9,
+      "hard_gap_capabilities": [
+        "authorized_research_license",
+        "point_in_time_sp500_membership",
+        "membership_announced_at",
+        "membership_effective_at",
+        "security_metadata_known_at",
+        "distribution_event_clock_terms",
+        "delist_exit_economics",
+        "post_removal_price_path",
+        "xnys_session_open_close",
+        "synchronized_qqq_spy_execution",
+        "exact_one_month_daily_simple_rf",
+        "row_level_provenance_replay"
+      ],
+      "id": "factset",
+      "name": "FactSet",
+      "qualified": false,
+      "role": "價格、永久 ID、公司行動與 as-of benchmark 強；公布時間及退出經濟未解。",
+      "status_counts": {
+        "contradicted_by_primary_documentation": 0,
+        "explicit_primary_documentation": 2,
+        "partial_primary_documentation": 7,
+        "qualified_provider_package": 0,
+        "unresolved_primary_documentation": 5,
+        "validated_authorized_sample": 0
+      }
+    },
+    {
+      "documented_or_partial_count": 8,
+      "hard_gap_capabilities": [
+        "authorized_research_license",
+        "point_in_time_sp500_membership",
+        "membership_announced_at",
+        "membership_effective_at",
+        "security_metadata_known_at",
+        "delist_exit_economics",
+        "post_removal_price_path",
+        "xnys_session_open_close",
+        "synchronized_qqq_spy_execution",
+        "exact_one_month_daily_simple_rf",
+        "row_level_provenance_replay"
+      ],
+      "id": "bloomberg_enterprise",
+      "name": "Bloomberg Enterprise／Data License",
+      "qualified": false,
+      "role": "企業數據廣且有 point-in-time 產品；公開頁未證明本研究的成分事件全鏈。",
+      "status_counts": {
+        "contradicted_by_primary_documentation": 0,
+        "explicit_primary_documentation": 3,
+        "partial_primary_documentation": 5,
+        "qualified_provider_package": 0,
+        "unresolved_primary_documentation": 6,
+        "validated_authorized_sample": 0
+      }
+    }
+  ],
+  "routes": [
+    {
+      "capabilities": {
+        "authorized_research_license": {
+          "finding": "公開頁面不等於研究授權條款。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "delist_exit_economics": {
+          "finding": "DelRet、missing type 及 successor 存在，但缺值不能推算為零。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "distribution_event_clock_terms": {
+          "finding": "宣派／除權息／記錄／派付日期及條款有欄位支持。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "exact_one_month_daily_simple_rf": {
+          "finding": "日度系列為 4／13／26 週；精確 1 個月系列是月度連續複利收益率。",
+          "source_ids": [
+            "crsp_treasury_guide"
+          ],
+          "status": "contradicted_by_primary_documentation"
+        },
+        "membership_announced_at": {
+          "finding": "官方政策說明事件預告及 17:15 ET 慣例，未公開逐列 event ID export。",
+          "source_ids": [
+            "sp_dji_equity_policy",
+            "sp_dji_us_methodology"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "membership_effective_at": {
+          "finding": "pro-forma／SDE 與 CIZ 生效區間把公布與生效分開。",
+          "source_ids": [
+            "sp_dji_equity_policy",
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "permanent_security_company_ids": {
+          "finding": "PERMNO／PERMCO 及 successor 欄位有現行資料字典。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "point_in_time_sp500_membership": {
+          "finding": "官方 API／CIZ 文件支持歷史成分及生效區間。",
+          "source_ids": [
+            "sp_dji_api",
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "post_removal_price_path": {
+          "finding": "公開文件未承諾每次移除後至下一 rebalancing open 的完整路徑。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "raw_daily_ohlcv_status": {
+          "finding": "raw 日線、成交量、回報及交易狀態有現行欄位。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "row_level_provenance_replay": {
+          "finding": "產品及欄位可固定，仍欠帳戶 export ID、逐列 source ID 與 hash。",
+          "source_ids": [
+            "crsp_stock_ciz_guide",
+            "sp_dji_api"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "security_metadata_known_at": {
+          "finding": "SecInfo 有效期不是逐列 KnownAt。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "synchronized_qqq_spy_execution": {
+          "finding": "日線能力存在，仍須真實樣本證明兩 ETF 同 session raw open／總回報。",
+          "source_ids": [
+            "crsp_stock_ciz_guide"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "xnys_session_open_close": {
+          "finding": "有假期政策，但未證明同一 package 的 20 年開收市及早收市 export。",
+          "source_ids": [
+            "sp_dji_us_methodology"
+          ],
+          "status": "partial_primary_documentation"
+        }
+      },
+      "id": "crsp_spdj_composite",
+      "name": "CRSP Stock CIZ＋S&P DJI 事件＋CRSP Treasury"
+    },
+    {
+      "capabilities": {
+        "authorized_research_license": {
+          "finding": "公開產品頁不構成訂閱或研究授權。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "delist_exit_economics": {
+          "finding": "未見 DelRet 等價經濟回報。",
+          "source_ids": [
+            "spgmi_corporate_actions"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "distribution_event_clock_terms": {
+          "finding": "公司行動及 dividend／split add-on 存在，固定欄位仍未公開齊全。",
+          "source_ids": [
+            "spgmi_corporate_actions",
+            "spgmi_market_data"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "exact_one_month_daily_simple_rf": {
+          "finding": "未見指定經濟定義的日度簡單 RF。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_announced_at": {
+          "finding": "未見逐列公布 timestamp。",
+          "source_ids": [
+            "spgmi_index_data"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_effective_at": {
+          "finding": "有成分及 rebalance event，但公開頁未列固定生效 timestamp schema。",
+          "source_ids": [
+            "spgmi_index_data",
+            "spgmi_index_management"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "permanent_security_company_ids": {
+          "finding": "指數成分可連接 S&P Global entity IDs。",
+          "source_ids": [
+            "spgmi_index_data"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "point_in_time_sp500_membership": {
+          "finding": "Index Data 公開規格明示 Point In Time: No。",
+          "source_ids": [
+            "spgmi_index_data"
+          ],
+          "status": "contradicted_by_primary_documentation"
+        },
+        "post_removal_price_path": {
+          "finding": "未見移除後路徑完整保證。",
+          "source_ids": [
+            "spgmi_market_data"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "raw_daily_ohlcv_status": {
+          "finding": "EOD as-quoted OHLCV 有公開規格；仍須樣本驗 raw 口徑及狀態。",
+          "source_ids": [
+            "spgmi_market_data"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "row_level_provenance_replay": {
+          "finding": "平台宣稱可追溯及重現，仍欠本產品逐列 export 證據。",
+          "source_ids": [
+            "spgmi_index_management"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "security_metadata_known_at": {
+          "finding": "未見逐列歷史 KnownAt。",
+          "source_ids": [
+            "spgmi_market_data"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "synchronized_qqq_spy_execution": {
+          "finding": "EOD 價格可覆蓋 ETF，但同步 raw open／總回報仍須樣本。",
+          "source_ids": [
+            "spgmi_market_data"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "xnys_session_open_close": {
+          "finding": "未見同一 package 的固定 XNYS session export。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        }
+      },
+      "id": "sp_global_market_intelligence",
+      "name": "S&P Global Market Intelligence"
+    },
+    {
+      "capabilities": {
+        "authorized_research_license": {
+          "finding": "須以實際 Workspace／DataScope 合約核對。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "delist_exit_economics": {
+          "finding": "已退市公司存在，不等於逐次退出實收回報及缺失原因齊備。",
+          "source_ids": [
+            "lseg_quant_analytics",
+            "lseg_corporate_actions"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "distribution_event_clock_terms": {
+          "finding": "公司行動有 25 年以上歷史及 audit trail，公開欄位未完整列出。",
+          "source_ids": [
+            "lseg_corporate_actions"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "exact_one_month_daily_simple_rf": {
+          "finding": "未見指定日度簡單 RF 經濟定義。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_announced_at": {
+          "finding": "Joiner／Leaver 能力未公開 S&P 500 公布 timestamp／event ID。",
+          "source_ids": [
+            "lseg_historical_constituents"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_effective_at": {
+          "finding": "變更日期存在，仍須確認 timestamp、時區及生效 session。",
+          "source_ids": [
+            "lseg_historical_constituents"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "permanent_security_company_ids": {
+          "finding": "fact sheet 明示單一不變 unique ID 及 security IDs。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "point_in_time_sp500_membership": {
+          "finding": "官方示例以 as-of 成分加 Joiner／Leaver 重建歷史名單。",
+          "source_ids": [
+            "lseg_historical_constituents",
+            "lseg_quant_analytics"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "post_removal_price_path": {
+          "finding": "未見逐事件完整路徑承諾。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "raw_daily_ohlcv_status": {
+          "finding": "pricing／timeseries 及已退市公司覆蓋有官方產品說明。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "row_level_provenance_replay": {
+          "finding": "有 audit trail／timestamp，但仍欠帳戶列級 replay receipt。",
+          "source_ids": [
+            "lseg_corporate_actions",
+            "lseg_quant_analytics"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "security_metadata_known_at": {
+          "finding": "point-in-time 值及可靠 timestamp 有描述，未逐欄證明 metadata KnownAt。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "synchronized_qqq_spy_execution": {
+          "finding": "須以同一 export 細樣本驗證同步。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "xnys_session_open_close": {
+          "finding": "有 timeseries，未見固定 XNYS 日曆欄位。",
+          "source_ids": [
+            "lseg_quant_analytics"
+          ],
+          "status": "partial_primary_documentation"
+        }
+      },
+      "id": "lseg_data_analytics",
+      "name": "LSEG Data & Analytics／Workspace／Datastream"
+    },
+    {
+      "capabilities": {
+        "authorized_research_license": {
+          "finding": "API 可見不代表已訂閱或可保存研究輸出。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "delist_exit_economics": {
+          "finding": "非活躍證券及 last-trade 可查，不等於 DelRet／現金換股條款完整。",
+          "source_ids": [
+            "factset_prices_returns",
+            "factset_pricing_reference"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "distribution_event_clock_terms": {
+          "finding": "splits／dividends／pay-date return 有能力，仍須固定完整事件時鐘。",
+          "source_ids": [
+            "factset_global_prices",
+            "factset_prices_returns"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "exact_one_month_daily_simple_rf": {
+          "finding": "未見指定 RF 系列及單位。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_announced_at": {
+          "finding": "未見公布 timestamp／event ID。",
+          "source_ids": [
+            "factset_benchmarks"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_effective_at": {
+          "finding": "as-of 成分可定位日期，未分開公布及生效時鐘。",
+          "source_ids": [
+            "factset_benchmarks"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "permanent_security_company_ids": {
+          "finding": "FactSet permanent identifier／fsymRegionalId 有官方說明。",
+          "source_ids": [
+            "factset_pricing_reference",
+            "factset_benchmarks"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "point_in_time_sp500_membership": {
+          "finding": "Benchmarks API 支持指定 as-of date 成分，未證明完整變更事件歷史。",
+          "source_ids": [
+            "factset_benchmarks"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "post_removal_price_path": {
+          "finding": "未見移除後指定窗口完整保證。",
+          "source_ids": [
+            "factset_prices_returns"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "raw_daily_ohlcv_status": {
+          "finding": "活躍及非活躍證券的歷史 OHLC、成交量及回報有 API。",
+          "source_ids": [
+            "factset_prices_returns"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "row_level_provenance_replay": {
+          "finding": "API 產品及 ID 可固定，仍欠 export/version/source-row receipt。",
+          "source_ids": [
+            "factset_pricing_reference",
+            "factset_benchmarks"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "security_metadata_known_at": {
+          "finding": "未見逐列歷史 KnownAt。",
+          "source_ids": [
+            "factset_pricing_reference"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "synchronized_qqq_spy_execution": {
+          "finding": "須以同 cut 原始開市及總回報細樣本驗證。",
+          "source_ids": [
+            "factset_prices_returns"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "xnys_session_open_close": {
+          "finding": "API 有 calendar 參數，未證明 XNYS 開收市時間。",
+          "source_ids": [
+            "factset_benchmarks"
+          ],
+          "status": "partial_primary_documentation"
+        }
+      },
+      "id": "factset",
+      "name": "FactSet"
+    },
+    {
+      "capabilities": {
+        "authorized_research_license": {
+          "finding": "Data License 產品頁不是使用者合約。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "delist_exit_economics": {
+          "finding": "涵蓋 bankruptcy／inactive companies，未見逐次退出實收回報及缺失原因。",
+          "source_ids": [
+            "bloomberg_events",
+            "bloomberg_research"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "distribution_event_clock_terms": {
+          "finding": "公司行動有 50 類事件及結構化 feed。",
+          "source_ids": [
+            "bloomberg_reference",
+            "bloomberg_events"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "exact_one_month_daily_simple_rf": {
+          "finding": "未見指定一個月日度簡單回報系列。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_announced_at": {
+          "finding": "未見 S&P 500 逐列公布 timestamp／ID。",
+          "source_ids": [
+            "bloomberg_events"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "membership_effective_at": {
+          "finding": "未見固定 membership effective schema。",
+          "source_ids": [
+            "bloomberg_reference"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "permanent_security_company_ids": {
+          "finding": "Bloomberg Company ID、FIGI 及 security master 有官方說明。",
+          "source_ids": [
+            "bloomberg_cofi",
+            "bloomberg_reference"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "point_in_time_sp500_membership": {
+          "finding": "官方宣稱長 point-in-time 歷史及 index constituent data，未指定 S&P 500 事件鏈。",
+          "source_ids": [
+            "bloomberg_research",
+            "bloomberg_reference"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "post_removal_price_path": {
+          "finding": "未見移除後指定窗口覆蓋承諾。",
+          "source_ids": [
+            "bloomberg_data_license"
+          ],
+          "status": "unresolved_primary_documentation"
+        },
+        "raw_daily_ohlcv_status": {
+          "finding": "歷史／EOD pricing 及 reference status 有企業數據能力。",
+          "source_ids": [
+            "bloomberg_data_license",
+            "bloomberg_reference"
+          ],
+          "status": "explicit_primary_documentation"
+        },
+        "row_level_provenance_replay": {
+          "finding": "DL+ 可追溯 source files，仍欠逐列 source ID、cut、列數及 SHA。",
+          "source_ids": [
+            "bloomberg_data_license"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "security_metadata_known_at": {
+          "finding": "PIT pricing/security master 存在，但公開範圍為 17 年且未逐欄列 KnownAt。",
+          "source_ids": [
+            "bloomberg_cofi",
+            "bloomberg_research"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "synchronized_qqq_spy_execution": {
+          "finding": "EOD 價格可覆蓋 ETF，仍須同步 raw 樣本。",
+          "source_ids": [
+            "bloomberg_reference"
+          ],
+          "status": "partial_primary_documentation"
+        },
+        "xnys_session_open_close": {
+          "finding": "未見同一 package 的 XNYS 開收市／早收市輸出。",
+          "source_ids": [],
+          "status": "unresolved_primary_documentation"
+        }
+      },
+      "id": "bloomberg_enterprise",
+      "name": "Bloomberg Enterprise／Data License"
+    }
+  ],
+  "schema_version": 1,
+  "status": "procurement_gap_matrix_complete_no_route_qualified",
+  "strategy_run_count": 0,
+  "strongest_standalone_brand_candidate_id": "lseg_data_analytics"
+}

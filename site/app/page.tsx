@@ -9,6 +9,8 @@ import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
+import providerGapClosure from "../data/short-term-provider-gap-closure.json";
+import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
 import providerGuideProbe from "../data/short-term-provider-guide-probe.json";
 import riskFreeStaging from "../data/short-term-risk-free-staging.json";
@@ -27,7 +29,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十輪已把 CRSP Stock CIZ 收窄為直接能力 5/10、證據層 5/10，Treasury 不作年期替代，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十一輪完成五條供應商、十四項正式能力的補缺矩陣，沒有路徑合格，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -133,6 +135,41 @@ const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
 const formalReadinessControl = formalBacktestReadiness.synthetic_control;
 const formalReadinessAttackRows = formalBacktestReadiness.attacks;
+const providerGapRouteRows = providerGapClosure.route_summary;
+const providerGapControlRows = providerGapClosure.controls;
+const providerGapAttackRows = providerGapClosure.attacks;
+const providerGapBest = providerGapClosure.best_documented_route;
+const providerGapStatusLabels: Record<string, string> = {
+  explicit_primary_documentation: "明確",
+  partial_primary_documentation: "部分",
+  contradicted_by_primary_documentation: "不符",
+  unresolved_primary_documentation: "未解",
+  validated_authorized_sample: "樣本通過",
+  qualified_provider_package: "完整合格",
+};
+const providerGapCapabilityLabels: Record<string, string> = {
+  authorized_research_license: "研究授權",
+  point_in_time_sp500_membership: "逐期 S&P 500 成分",
+  membership_announced_at: "成分公布時間",
+  membership_effective_at: "成分生效時間",
+  permanent_security_company_ids: "永久證券／公司 ID",
+  security_metadata_known_at: "Metadata KnownAt",
+  raw_daily_ohlcv_status: "Raw 日線及狀態",
+  distribution_event_clock_terms: "分派事件時鐘及條款",
+  delist_exit_economics: "退市／退出經濟",
+  post_removal_price_path: "移除後價格路徑",
+  xnys_session_open_close: "XNYS 日曆",
+  synchronized_qqq_spy_execution: "同步 QQQ／SPY",
+  exact_one_month_daily_simple_rf: "精確一個月日度 RF",
+  row_level_provenance_replay: "逐列來源重播",
+};
+const providerGapCapabilityRows = Object.entries(providerGapClosure.routes[0].capabilities).map(([key]) => ({
+  key,
+  label: providerGapCapabilityLabels[key] ?? key,
+  statuses: providerGapClosure.routes.map((route) => (
+    route.capabilities as Record<string, { status: string }>
+  )[key].status),
+}));
 const providerConvergenceControlRows = providerConvergence.controls;
 const providerConvergenceAttackRows = providerConvergence.attacks;
 const providerDirectRows = Object.entries(providerConvergence.capability_matrix.direct);
@@ -694,17 +731,18 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · PROVIDER CONVERGENCE · ROUND 20</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · PROVIDER GAP CLOSURE · ROUND 21</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
               <h1>短線高回報<br />先補真數據才跑結果</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十輪以最新官方 CRSP Stock CIZ／Treasury 指南，把固定十份供應商交接輸入收窄成 <strong>{providerConvergence.capability_matrix.direct_documented_count}/10 份直接數據字典能力</strong>及 <strong>{providerConvergence.capability_matrix.overlay_required_count}/10 份仍須 evidence overlay</strong>。同一供應商的 Treasury 日度 RF 是 4／13／26 週，不能冒充凍結的 1 個月日度簡單回報。十二道指南、欄位、年期、單位及決策控制 <strong>{providerConvergence.control_summary.passed}/{providerConvergence.control_summary.total}</strong> 通過，十二項攻擊 <strong>{providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total} 全部拒收</strong>；每日指南核對現為 <strong>{providerGuideProbe.all_match_frozen_guides ? "與凍結版本一致" : "發現未合資格新版"}</strong>。
+                真實與合成分開；第二十一輪把 CRSP＋S&amp;P DJI、S&amp;P Global Market Intelligence、LSEG、FactSet 及 Bloomberg 五條路徑放入同一個 14 項正式能力矩陣。<strong>沒有一條路徑合格</strong>；公開證據最多的 CRSP＋S&amp;P DJI 複合路線只有 <strong>{providerGapBest.explicit_count}/14 明確、{providerGapBest.partial_count}/14 部分</strong>，其餘 <strong>{providerGapBest.hard_gap_count}/14</strong> 仍不是明確能力。十五道證據控制 <strong>{providerGapClosure.control_summary.passed}/{providerGapClosure.control_summary.total}</strong> 通過，十五項替代攻擊 <strong>{providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total} 全部拒收</strong>；五個官方來源身份目前 <strong>{providerGapSourceProbe.all_match_frozen_identities ? "全部一致" : "需要人工覆核"}</strong>，但公開文件永不自動提高資格。
                 第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
-                <a className="primary-button aggressive-button" href="#provider-convergence">查看供應商直接 5/10</a>
+                <a className="primary-button aggressive-button" href="#provider-gap-closure">查看五路徑 14 項矩陣</a>
+                <a className="primary-button aggressive-button" href="#provider-convergence">查看 CRSP 直接 5/10</a>
                 <a className="primary-button aggressive-button" href="#risk-free-staging">查看官方 RF 5,009/5,031</a>
                 <a className="primary-button aggressive-button" href="#formal-backtest-readiness">查看正式就緒 1/18</a>
                 <a className="primary-button aggressive-button" href="#local-quarantine-intake">查看隔離匯入 1/16</a>
@@ -729,6 +767,8 @@ export default function Home() {
               <dl className="decision-list">
                 <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
                 <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>第 21 輪路徑</dt><dd>{providerGapClosure.qualified_route_count}/5 合格 · {providerGapBest.explicit_count}/14 最多明確</dd></div>
+                <div><dt>補缺控制／攻擊</dt><dd>{providerGapClosure.control_summary.passed}/{providerGapClosure.control_summary.total} · {providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total}</dd></div>
                 <div><dt>供應商直接能力</dt><dd>{providerConvergence.capability_matrix.direct_documented_count}/10 · 尚欠 {providerConvergence.capability_matrix.overlay_required_count} 份證據層</dd></div>
                 <div><dt>收斂控制／攻擊</dt><dd>{providerConvergence.control_summary.passed}/{providerConvergence.control_summary.total} · {providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total}</dd></div>
                 <div><dt>官方 RF 覆蓋</dt><dd>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} · 尚欠 {riskFreeStaging.study.missing_session_count} 日</dd></div>
@@ -750,6 +790,8 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 21 輪合格路徑</span><strong>{providerGapClosure.qualified_route_count}/5</strong><small>公開文件最高只屬採購候選</small></article>
+              <article><span>多供應商補缺攻擊</span><strong>{providerGapClosure.attack_summary.rejected}/{providerGapClosure.attack_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>Stock CIZ 直接能力</span><strong>{providerConvergence.capability_matrix.direct_documented_count}/10</strong><small>另 {providerConvergence.capability_matrix.overlay_required_count} 份須 evidence overlay</small></article>
               <article><span>指南收斂攻擊</span><strong>{providerConvergence.attack_summary.rejected}/{providerConvergence.attack_summary.total}</strong><small>不是供應商數據通過</small></article>
               <article><span>官方 RF 覆蓋</span><strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}</strong><small>尚欠 2026 年 7 月 {riskFreeStaging.study.missing_session_count} 日</small></article>
@@ -763,6 +805,113 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="provider-gap-closure">
+            <div className="section-heading">
+              <div><span>PROVIDER GAP CLOSURE · ROUND 21</span><h2>五條路徑逐項對齊 14 項正式能力；0/5 合格</h2></div>
+              <p>只採用供應商或數據擁有者的一手頁面、指南及 API 文件。公開產品說明最高只可成為採購候選，不等於已訂閱、已授權、已交付或可開始回測。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict provider-verdict">
+                <span>最新研究判斷</span>
+                <h3>CRSP＋S&amp;P DJI 最接近完整；LSEG 是最完整的單一品牌候選</h3>
+                <p>前者有成分生效、永久 ID、raw 日線、分派及退市字典，亦有 S&amp;P DJI 公布政策，但仍欠逐列 AnnouncedAt、Metadata KnownAt、缺失退出實收、移除後價格路徑及精確一個月日度 RF。LSEG 的 PIT、歷史成分、永久 ID 及已退市公司覆蓋較完整，但「有已退市公司」不等於每次退出的經濟回報齊備。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>最佳公開文件路徑</span><strong>{providerGapBest.explicit_count} 明確 · {providerGapBest.partial_count} 部分</strong><p>{providerGapBest.hard_gap_count}/14 仍不是明確能力；完整合格 0。</p></article>
+                <article><span>真實決策</span><strong>1/18 · strategy run 0</strong><p>provider package 0、完整 RF 0、Paper 全現金、實金 US$0。</p></article>
+              </div>
+            </div>
+
+            <div className="provider-grid provider-gap-grid" aria-label="第 21 輪五條供應商路徑">
+              {providerGapRouteRows.map((row) => {
+                const counts = row.status_counts;
+                return (
+                  <article className={row.id === providerGapBest.id ? "first-enquiry" : undefined} key={row.id}>
+                    <div className="provider-card-head"><span>{row.id === providerGapBest.id ? "FIRST COMPOSITE ENQUIRY" : row.id === providerGapClosure.strongest_standalone_brand_candidate_id ? "FIRST STANDALONE ENQUIRY" : "DOCUMENT REVIEW"}</span><b>{row.name}</b></div>
+                    <strong>{counts.explicit_primary_documentation}/14 明確 · {counts.partial_primary_documentation}/14 部分</strong>
+                    <p>{row.role}</p>
+                    <ul>
+                      <li>{counts.contradicted_by_primary_documentation}/14 官方明示不符</li>
+                      <li>{counts.unresolved_primary_documentation}/14 公開證據未解</li>
+                      <li>授權樣本 0 · 完整合格 0</li>
+                    </ul>
+                    <small>判斷：只屬採購候選；未通過真實 package 驗收。</small>
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="comparison-caveat">
+              <b>最重要反證</b>
+              <p>S&amp;P Global Market Intelligence 的公開 Index Data 規格明示 <code>Point In Time: No</code>；Bloomberg 的公司／定價 PIT 公開產品只有 17 年；CRSP Treasury 的日度系列是 4／13／26 週。歷史長、品牌大或數據種類多，都不能填入不相同的正式欄位。</p>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED CAPABILITY MATRIX</span><h3>同一 14 項合約，不用相近欄位補洞</h3></div>
+              <p>「部分」仍是硬缺口；只有使用者帳戶內的授權細樣本及完整 package 驗收才可以進一步升格。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table provider-table provider-gap-table">
+                <thead><tr><th>正式能力</th>{providerGapClosure.routes.map((route) => <th key={route.id}>{route.name}</th>)}</tr></thead>
+                <tbody>{providerGapCapabilityRows.map((capability) => (
+                  <tr key={capability.key}>
+                    <th><b>{capability.label}</b><span>{capability.key}</span></th>
+                    {capability.statuses.map((status, index) => (
+                      <td key={providerGapClosure.routes[index].id}><span className={`provider-status ${status}`}>{providerGapStatusLabels[status]}</span></td>
+                    ))}
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED PROCUREMENT QUESTIONS</span><h3>第一封詢價只問九個可驗收問題</h3></div>
+              <p>回答若沒有產品代碼、欄位、timestamp、覆蓋率及細樣本，保持「未解」，不靠銷售口頭承諾升格。</p>
+            </div>
+            <div className="point-in-time-groups provider-question-grid">
+              {providerGapClosure.procurement_questions.map((row, index) => (
+                <article className="blocked" key={row.capability}><span>{String(index + 1).padStart(2, "0")}</span><b>{providerGapCapabilityLabels[row.capability]}</b><strong>待供應商回答</strong><p>{row.question}</p></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EVIDENCE CONTROLS</span><h3>十五道證據控制，全數通過</h3></div>
+              <p>15/15 只表示公開文件解讀可重播且 fail closed，不表示取得任何市場列或策略有盈利能力。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {providerGapControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>REFUSAL-OF-SUBSTITUTION SUITE</span><h3>十五項產品、時間、價格、退出及 RF 攻擊全拒收</h3></div>
+              <p>每項只放入一個語義錯誤並命中指定代碼；不以 generic hash error 掩蓋前視或口徑偷換。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {providerGapAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>向 CRSP＋S&amp;P DJI 及 LSEG 索取相同的授權 data dictionary 與細樣本</b></div>
+              <p>{providerGapClosure.next_action} 收到真實樣本後仍按文件 12/12、隔離匯入 16/16、point-in-time 20/20、execution 16/16、RF 完整及正式 18/18 的固定次序驗收。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_REPORT.md" target="_blank" rel="noreferrer">第 21 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_PROTOCOL.md" target="_blank" rel="noreferrer">事前補缺協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_provider_gap_closure_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+                {Object.entries(providerGapSourceProbe.observations).map(([key, source]) => <a href={source.url} target="_blank" rel="noreferrer" key={key}>{source.owner}</a>)}
+              </div>
             </div>
           </section>
 

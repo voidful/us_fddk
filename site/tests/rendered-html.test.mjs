@@ -40,6 +40,17 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /PROVIDER GAP CLOSURE · ROUND 21/);
+  assert.match(html, /五條路徑逐項對齊 14 項正式能力；0\/5 合格/);
+  assert.match(html, /CRSP＋S&amp;P DJI 最接近完整；LSEG 是最完整的單一品牌候選/);
+  assert.match(html, /5(?:<!-- -->)?\/(?:<!-- -->)?14 明確/);
+  assert.match(html, /Point In Time: No/);
+  assert.match(html, /同一 14 項合約，不用相近欄位補洞/);
+  assert.match(html, /第一封詢價只問九個可驗收問題/);
+  assert.match(html, /十五道證據控制，全數通過/);
+  assert.match(html, /十五項產品、時間、價格、退出及 RF 攻擊全拒收/);
+  assert.match(html, /gap_decision_boundary_violation/);
+  assert.match(html, /向 CRSP＋S&amp;P DJI 及 LSEG 索取相同的授權 data dictionary 與細樣本/);
   assert.match(html, /PROVIDER CONVERGENCE · ROUND 20/);
   assert.match(html, /Stock CIZ 直接支持 5\/10；其餘 5\/10 仍須逐列證據層/);
   assert.match(html, /同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口/);
@@ -1135,4 +1146,7 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.match(css, /\.forward-decision-grid article:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1;/);
   assert.match(css, /\.faq-list details p \{[^}]*margin: 0 0 24px;/);
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
+  assert.match(css, /html \{ scroll-behavior: auto;/);
+  assert.match(css, /\.status-chip i \{[^}]*animation: none;/);
+  assert.doesNotMatch(css, /@keyframes status-pulse/);
 });

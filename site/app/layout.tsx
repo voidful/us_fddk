@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十輪已把 CRSP Stock CIZ 收窄為直接能力 5/10、證據層 5/10，Treasury 不作年期替代，正式就緒仍為 1/18。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十一輪完成五條供應商、十四項正式能力的補缺矩陣，沒有路徑合格，正式就緒仍為 1/18。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線 Stock CIZ 直接能力 5/10、證據層 5/10，Treasury 不作 RF 年期替代，正式策略運行 0，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線五條供應商路徑 0/5 合格，十五項替代攻擊全拒收，正式策略運行 0，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [

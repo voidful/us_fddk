@@ -1,5 +1,27 @@
 # 決策與負結果
 
+## 2026-08-04：五條供應商路徑逐項補缺；公開證據 0/5 合格
+
+- 在查看新供應商證據及寫 validator 前，先固定五條候選路徑、十四項正式能力、六級證據
+  狀態、十五道控制及十五項單一替代攻擊。第十八輪的 20 年期、US$1,000、四個
+  baseline、10／25／50 bps、6,208 trials DSR、PBO 及 Paper 門檻全部不改。
+- CRSP Stock CIZ＋S&P DJI 事件＋CRSP Treasury 的複合路徑在公開一手文件層最多：
+  **5/14 明確、5/14 部分、1/14 不符、3/14 未解**。它仍未公開證明逐列
+  `AnnouncedAt`／event ID、Metadata `KnownAt`、缺失退出實收、移除後完整價格路徑、
+  同步 XNYS／QQQ／SPY、精確一個月日度簡單 RF 及使用者研究授權。
+- LSEG 是公開證據最完整的單一品牌候選；FactSet 具永久 ID、OHLC 及 as-of benchmark；
+  Bloomberg Data License 有 20 年以上 Bulk、公司行動及 source-file tracing。但上述
+  能力均未等於本研究 14/14。S&P Global Market Intelligence 的 Index Data 公開規格
+  明示 `Point In Time: No`，不能以長歷史代替逐期可知成分。
+- 十五道協議、來源、產品、授權、coverage、雙時鐘、raw 價、退出、日曆、RF 及決策
+  控制 **15/15** 通過；十五項單一錯誤攻擊 **15/15** 按指定 error code 拒收。每日
+  source probe 只核對五個官方 URL／host／identity marker；任何漂移只待人工覆核，
+  不會自動改寫能力矩陣或提高 readiness。
+- 決定：五條路徑最高只屬採購候選。先以九個固定問題向 CRSP＋S&P DJI 複合路徑及
+  LSEG 索取授權 data dictionary 與同口徑細樣本；未有明確使用者授權，不登入、聯絡或
+  購買。真實正式就緒仍為 1/18、provider package 0、完整 RF 0、正式策略運行 0；
+  短線 Paper 全現金、0 持倉、實金 US$0。
+
 ## 2026-08-04：Stock CIZ 直接 5/10、overlay 5/10；Treasury 同供應商仍不可替代正式 RF
 
 - 在寫收斂驗證器前，先固定三個台股參考 commit、兩份最新官方指南 URL／effective
