@@ -40,6 +40,16 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /QQQ REPLACEMENT OVERLAY · ROUND 30/);
+  assert.match(html, /Headline 首次高於 QQQ，但二十項門檻只過 13\/20/);
+  assert.match(html, /候選終值 (?:<!-- -->)?US\$27,067(?:<!-- -->)?；QQQ 終值 (?:<!-- -->)?US\$21,797/);
+  assert.match(html, /NW t (?:<!-- -->)?0\.66/);
+  assert.match(html, /移除三年 t (?:<!-- -->)?-0\.97/);
+  assert.match(html, /八條完整資金路徑，同時保留強弱基準/);
+  assert.match(html, /高換手令 20 bp 優勢在較高成本及尾部壓力下反轉/);
+  assert.match(html, /二十九道輸入、QQQ 底倉、四腿成本、統計及決策控制/);
+  assert.match(html, /qqq_overlay_leg_contract_mismatch/);
+  assert.match(html, /qqq_overlay_decision_boundary_breached/);
   assert.match(html, /CALENDAR CAPITAL ACCOUNTING · ROUND 29/);
   assert.match(html, /五槽資金回測只過 13\/18；Top-7 有正回報，但長期明顯落後 QQQ/);
   assert.match(html, /五個資金槽各佔 20%/);

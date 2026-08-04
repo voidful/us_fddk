@@ -17,6 +17,7 @@ import commonRiskResidual from "../data/short-term-common-risk-residual.json";
 import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placebo.json";
 import reversalVolatilityAttribution from "../data/short-term-reversal-volatility-attribution.json";
 import calendarCapitalAccounting from "../data/short-term-calendar-capital-accounting.json";
+import qqqReplacementOverlay from "../data/short-term-qqq-replacement-overlay.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -37,7 +38,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十九輪以五槽核算 20 年資金佔用，13/18 門檻未通過，Paper 維持全現金。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十輪以 QQQ 全投資替換式疊加測試 20 年資金路徑，13/20 門檻未通過，Paper 維持全現金。",
 };
 
 const readerCapital = 1_000;
@@ -237,7 +238,6 @@ const calendarEligiblePath = calendarCapitalAccounting.paths.eligible_equal_five
 const calendarCompletePath = calendarCapitalAccounting.paths.complete_equal_five_slot;
 const calendarQqqEvent = calendarCapitalAccounting.paths.qqq_event_five_slot;
 const calendarQqq = calendarCapitalAccounting.paths.qqq_buy_hold;
-const calendarSpy = calendarCapitalAccounting.paths.spy_buy_hold;
 const calendarPathRows = Object.values(calendarCapitalAccounting.paths);
 const calendarFamilyRows = calendarCapitalAccounting.family.comparisons;
 const calendarEligible = calendarFamilyRows.find((row) => row.baseline_id === "eligible_equal_five_slot")!;
@@ -247,6 +247,22 @@ const calendarCrisisRows = Object.entries(calendarCapitalAccounting.stresses.cri
 const calendarCostRows = Object.entries(calendarCapitalAccounting.stresses.costs);
 const calendarControlRows = calendarCapitalAccounting.controls;
 const calendarAttackRows = calendarCapitalAccounting.attacks;
+const overlayCandidate = qqqReplacementOverlay.paths.top7_qqq_overlay;
+const overlayEligiblePath = qqqReplacementOverlay.paths.eligible_qqq_overlay;
+const overlayCompletePath = qqqReplacementOverlay.paths.complete_qqq_overlay;
+const overlayPlaceboPath = qqqReplacementOverlay.paths.qqq_switch_placebo;
+const overlayCashPath = qqqReplacementOverlay.paths.top7_cash_five_slot;
+const overlayQqq = qqqReplacementOverlay.paths.qqq_buy_hold;
+const overlayPathRows = Object.values(qqqReplacementOverlay.paths);
+const overlayFamilyRows = qqqReplacementOverlay.family.comparisons;
+const overlayQqqComparison = overlayFamilyRows.find((row) => row.baseline_id === "qqq_buy_hold")!;
+const overlayCompleteComparison = overlayFamilyRows.find((row) => row.baseline_id === "complete_qqq_overlay")!;
+const overlayRemovedYears = qqqReplacementOverlay.stresses.best_three_years_removed;
+const overlayEventTail = qqqReplacementOverlay.stresses.favorable_46_events_removed;
+const overlayCrisisRows = Object.entries(qqqReplacementOverlay.stresses.crisis_years);
+const overlayCostRows = Object.entries(qqqReplacementOverlay.stresses.costs);
+const overlayControlRows = qqqReplacementOverlay.controls;
+const overlayAttackRows = qqqReplacementOverlay.attacks;
 const rankPlaceboRows = [
   ...rankEligiblePlacebo.rows.map((row) => ({ universe: "合資格池", ...row })),
   ...rankCompletePlacebo.rows.map((row) => ({ universe: "完整現時股池", ...row })),
@@ -855,16 +871,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CALENDAR CAPITAL ACCOUNTING · ROUND 29</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · QQQ REPLACEMENT OVERLAY · ROUND 30</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />20 年事件回報放回真實資金時間線</h1>
+              <h1>短線高回報<br />閒置資金改持 QQQ 後，headline 首次反超</h1>
               <p className="hero-lead">
-                第二十九輪不再把 <strong>{calendarCapitalAccounting.input.events}</strong> 宗重疊交易當成可同時使用的獨立本金，而是按日曆時間分到五個資金槽，每槽 20%，由下一個交易日開市價進場、持有 20 個交易日，不借貸。20 bp 來回成本後，Top-7 由 US$1,000 模擬增至 <strong>{money(calendarCandidate.terminal_usd)}</strong>，CAGR <strong>{pct(calendarCandidate.cagr)}</strong>、SHY 超額 Sharpe <strong>{calendarCandidate.shy_excess_sharpe.toFixed(2)}</strong>、最大跌幅 <strong>{pct(calendarCandidate.max_drawdown)}</strong>。
-                基準沒有隱藏：QQQ 買入並持有同期增至 <strong>{money(calendarQqq.terminal_usd)}</strong>、CAGR <strong>{pct(calendarQqq.cagr)}</strong>，明顯較高；SPY CAGR 為 <strong>{pct(calendarSpy.cagr)}</strong>。Top-7 對完整現時股池的 NW t 只有 <strong>{calendarComplete.newey_west.t_stat.toFixed(2)}</strong>，移除最佳三年後對合資格池只餘 <strong>{calendarRemovedYears.newey_west.t_stat.toFixed(2)}</strong>，全專案 6,214 次 Bonferroni p 仍為 <strong>{calendarEligible.global_bonferroni_p.toFixed(2)}</strong>。
-                十八項事前門檻只過 <strong>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total}</strong>；2008／2022 候選回報分別為 <strong>{pct(calendarCapitalAccounting.stresses.crisis_years["2008"].top7_five_slot.return)}／{pct(calendarCapitalAccounting.stresses.crisis_years["2022"].top7_five_slot.return)}</strong>，100 bp 成本下 CAGR 降至 <strong>{pct(calendarCapitalAccounting.stresses.costs["100"].paths.top7_five_slot.cagr)}</strong>。數據截至 {shortDate(calendarCapitalAccounting.input.last_exit_date)}，不是即市訊號；正式就緒仍為 {calendarCapitalAccounting.decision.formal_readiness}、正式策略 run 0、短線 Paper 全現金、實金 US$0。
+                第三十輪保留第二十九輪 <strong>{qqqReplacementOverlay.input.events}</strong> 宗事件、五個 20% 資金槽、Top-7、D+1 及 20 日持有期；唯一改動是未有事件的槽位不再留現金，而是持有 QQQ。每個正常事件完整計入 QQQ 沽出、股票買入、股票沽出及 QQQ 買回四個交易腿。每資產 20 bp 來回成本後，US$1,000 候選增至 <strong>{money(overlayCandidate.terminal_usd)}</strong>、CAGR <strong>{pct(overlayCandidate.cagr)}</strong>，首次高於 QQQ 的 <strong>{money(overlayQqq.terminal_usd)}</strong>／<strong>{pct(overlayQqq.cagr)}</strong>。
+                但 headline 不足以升格：候選對 QQQ 的 NW t 只有 <strong>{overlayQqqComparison.newey_west.t_stat.toFixed(2)}</strong>，Holm／共同 max-t p 為 <strong>{overlayQqqComparison.holm_adjusted_p.toFixed(3)}／{overlayQqqComparison.bootstrap_max_t_p.toFixed(3)}</strong>；移除 {overlayRemovedYears.removed_years.join("、")} 後 NW t 變成 <strong>{overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong>。每資產 50／100 bp 時候選分別落後 QQQ <strong>{pct(Math.abs(qqqReplacementOverlay.stresses.costs["50"].candidate_cagr_differences.qqq_buy_hold))}／{pct(Math.abs(qqqReplacementOverlay.stresses.costs["100"].candidate_cagr_differences.qqq_buy_hold))}</strong>，移除最有利 46 宗事件亦重新落後 QQQ。
+                二十項事前門檻只過 <strong>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total}</strong>；數據截至 {shortDate(qqqReplacementOverlay.input.last_exit_date)}，仍是 2026 現時 survivor cohort，不是即市訊號。正式就緒 {qqqReplacementOverlay.decision.formal_readiness}、正式策略 run 0、短線 Paper 全現金、實金 US$0。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#qqq-replacement-overlay">查看第 30 輪 13/20 QQQ 疊加</a>
                 <a className="primary-button aggressive-button" href="#calendar-capital-accounting">查看第 29 輪 13/18 資金回測</a>
                 <a className="primary-button aggressive-button" href="#reversal-volatility-attribution">查看第 28 輪 6/14 歸因</a>
                 <a className="primary-button aggressive-button" href="#rank-monotonicity-placebo">查看第 27 輪 5/14 反證</a>
@@ -897,13 +914,14 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 30 輪 QQQ 疊加</dt><dd>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total} · 未通過</dd></div>
+                <div><dt>候選終值／CAGR</dt><dd>{money(overlayCandidate.terminal_usd)} · {pct(overlayCandidate.cagr)}</dd></div>
+                <div><dt>QQQ 終值／CAGR</dt><dd>{money(overlayQqq.terminal_usd)} · {pct(overlayQqq.cagr)}</dd></div>
+                <div><dt>SHY 超額 Sharpe／最大跌幅</dt><dd>{overlayCandidate.shy_excess_sharpe.toFixed(2)} · {pct(overlayCandidate.max_drawdown)}</dd></div>
+                <div><dt>QQQ NW t／max-t p</dt><dd>{overlayQqqComparison.newey_west.t_stat.toFixed(2)} · {overlayQqqComparison.bootstrap_max_t_p.toFixed(3)}</dd></div>
+                <div><dt>移除最佳三年／46 事件</dt><dd>t {overlayRemovedYears.newey_west.t_stat.toFixed(2)} · {pp(overlayEventTail.candidate_cagr_differences.qqq_buy_hold)}</dd></div>
+                <div><dt>疊加控制與攻擊</dt><dd>{qqqReplacementOverlay.control_summary.passed}/{qqqReplacementOverlay.control_summary.total} · {qqqReplacementOverlay.attack_summary.rejected}/{qqqReplacementOverlay.attack_summary.total}</dd></div>
                 <div><dt>第 29 輪五槽資金回測</dt><dd>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total} · 未通過</dd></div>
-                <div><dt>Top-7 終值／CAGR</dt><dd>{money(calendarCandidate.terminal_usd)} · {pct(calendarCandidate.cagr)}</dd></div>
-                <div><dt>QQQ 終值／CAGR</dt><dd>{money(calendarQqq.terminal_usd)} · {pct(calendarQqq.cagr)}</dd></div>
-                <div><dt>SHY 超額 Sharpe／最大跌幅</dt><dd>{calendarCandidate.shy_excess_sharpe.toFixed(2)} · {pct(calendarCandidate.max_drawdown)}</dd></div>
-                <div><dt>資金佔用／年率化換手</dt><dd>{pct(calendarCandidate.average_exposure)} · {calendarCandidate.annual_turnover.toFixed(1)}x</dd></div>
-                <div><dt>完整股池／移除最佳三年 t</dt><dd>{calendarComplete.newey_west.t_stat.toFixed(2)} · {calendarRemovedYears.newey_west.t_stat.toFixed(2)}</dd></div>
-                <div><dt>資金控制與攻擊</dt><dd>{calendarCapitalAccounting.control_summary.passed}/{calendarCapitalAccounting.control_summary.total} · {calendarCapitalAccounting.attack_summary.rejected}/{calendarCapitalAccounting.attack_summary.total}</dd></div>
                 <div><dt>第 28 輪反轉／波幅歸因</dt><dd>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total} · 未通過</dd></div>
                 <div><dt>原始→控制後 NW t</dt><dd>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</dd></div>
                 <div><dt>高段優勢保留</dt><dd>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</dd></div>
@@ -956,15 +974,15 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>第 29 輪資金門檻</span><strong>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total}</strong><small>五項未通過 · 不升格</small></article>
-              <article><span>Top-7 模擬終值</span><strong>{money(calendarCandidate.terminal_usd)}</strong><small>20 bp · CAGR {pct(calendarCandidate.cagr)}</small></article>
-              <article><span>QQQ 買入並持有</span><strong>{money(calendarQqq.terminal_usd)}</strong><small>CAGR {pct(calendarQqq.cagr)} · 明顯較高</small></article>
-              <article><span>Top-7 風險</span><strong>{calendarCandidate.shy_excess_sharpe.toFixed(2)} / {pct(calendarCandidate.max_drawdown)}</strong><small>SHY 超額 Sharpe／最大跌幅</small></article>
-              <article><span>資金佔用／換手</span><strong>{pct(calendarCandidate.average_exposure)} / {calendarCandidate.annual_turnover.toFixed(1)}x</strong><small>平均持倉／年率化換手</small></article>
-              <article><span>完整股池 NW t</span><strong>{calendarComplete.newey_west.t_stat.toFixed(2)}</strong><small>低於事前 1.96</small></article>
-              <article><span>移除最佳三年 NW t</span><strong>{calendarRemovedYears.newey_west.t_stat.toFixed(2)}</strong><small>{calendarRemovedYears.removed_years.join("／")}</small></article>
-              <article><span>100 bp 成本 CAGR</span><strong>{pct(calendarCapitalAccounting.stresses.costs["100"].paths.top7_five_slot.cagr)}</strong><small>交易成本壓力</small></article>
-              <article><span>資金控制／攻擊</span><strong>{calendarCapitalAccounting.control_summary.passed}/{calendarCapitalAccounting.control_summary.total} · {calendarCapitalAccounting.attack_summary.rejected}/{calendarCapitalAccounting.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
+              <article><span>第 30 輪疊加門檻</span><strong>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total}</strong><small>七項未通過 · 不升格</small></article>
+              <article><span>QQQ 疊加候選終值</span><strong>{money(overlayCandidate.terminal_usd)}</strong><small>20 bp／資產 · CAGR {pct(overlayCandidate.cagr)}</small></article>
+              <article><span>QQQ 買入並持有</span><strong>{money(overlayQqq.terminal_usd)}</strong><small>CAGR {pct(overlayQqq.cagr)} · headline 較低</small></article>
+              <article><span>候選風險</span><strong>{overlayCandidate.shy_excess_sharpe.toFixed(2)} / {pct(overlayCandidate.max_drawdown)}</strong><small>SHY 超額 Sharpe／最大跌幅</small></article>
+              <article><span>QQQ 配對 NW t</span><strong>{overlayQqqComparison.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {overlayQqqComparison.holm_adjusted_p.toFixed(3)}／{overlayQqqComparison.bootstrap_max_t_p.toFixed(3)}</small></article>
+              <article><span>完整股池 overlay t</span><strong>{overlayCompleteComparison.newey_west.t_stat.toFixed(2)}</strong><small>低於事前 1.96</small></article>
+              <article><span>移除最佳三年 NW t</span><strong>{overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong><small>{overlayRemovedYears.removed_years.join("／")}</small></article>
+              <article><span>100 bp 候選減 QQQ</span><strong>{pp(qqqReplacementOverlay.stresses.costs["100"].candidate_cagr_differences.qqq_buy_hold)}</strong><small>高換手成本反轉結論</small></article>
+              <article><span>疊加控制／攻擊</span><strong>{qqqReplacementOverlay.control_summary.passed}/{qqqReplacementOverlay.control_summary.total} · {qqqReplacementOverlay.attack_summary.rejected}/{qqqReplacementOverlay.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第 28 輪反證門檻</span><strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong><small>八項未通過</small></article>
               <article><span>原始→控制後 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><small>完整股池 {reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</small></article>
@@ -1020,6 +1038,146 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="qqq-replacement-overlay">
+            <div className="section-heading">
+              <div><span>QQQ REPLACEMENT OVERLAY · ROUND 30</span><h2>Headline 首次高於 QQQ，但二十項門檻只過 13/20</h2></div>
+              <p>五個槽位在沒有事件時持有 QQQ；事件開始才把該槽換成凍結 Top-7，完整計入四個交易腿。這直接測試選股能否為全投資 QQQ 增值，而不是用閒置現金拖低比較基準。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>US$1,000 歷史尺度 · 每資產 20 bp 來回成本</span>
+                <h3>候選終值 {money(overlayCandidate.terminal_usd)}；QQQ 終值 {money(overlayQqq.terminal_usd)}</h3>
+                <p>候選 CAGR {pct(overlayCandidate.cagr)}，比 QQQ 的 {pct(overlayQqq.cagr)} 高 {pp(overlayCandidate.cagr - overlayQqq.cagr)}；SHY 超額 Sharpe {overlayCandidate.shy_excess_sharpe.toFixed(2)}，最大跌幅 {pct(overlayCandidate.max_drawdown)}。這是正面 headline，不是升格結論。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>相對 QQQ 證據</span><strong>NW t {overlayQqqComparison.newey_west.t_stat.toFixed(2)}</strong><p>Holm／共同 max-t p {overlayQqqComparison.holm_adjusted_p.toFixed(4)}／{overlayQqqComparison.bootstrap_max_t_p.toFixed(4)}；6,221 次 Bonferroni p {overlayQqqComparison.global_bonferroni_p.toFixed(2)}。</p></article>
+                <article><span>時間與事件尾部</span><strong>移除三年 t {overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong><p>移除 {overlayRemovedYears.removed_years.join("、")} 後平均差轉負；移除最有利 46 宗事件後，候選減 QQQ CAGR 為 {pp(overlayEventTail.candidate_cagr_differences.qqq_buy_hold)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>Headline 高於 QQQ，不等於已證明可交易 alpha</b>
+              <p>本輪仍使用同一批已見 2026 現時 survivor cohort，缺逐期成分、永久 ID、公司行動及退市／退出經濟；而且對 QQQ 的統計、固定半期、危機、成本與事件尾部均未全部通過。數據最後退出日為 {shortDate(qqqReplacementOverlay.input.last_exit_date)}，不是即市買入訊號。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>日曆交易日</span><strong>{qqqReplacementOverlay.calendar_integrity.sessions.toLocaleString("zh-HK")}</strong><p>{shortDate(qqqReplacementOverlay.calendar_integrity.first_date)} 至 {shortDate(qqqReplacementOverlay.calendar_integrity.last_date)}。</p></article>
+              <article><span>資金槽／事件</span><strong>{qqqReplacementOverlay.method.slot_count} × {pct(qqqReplacementOverlay.method.slot_initial_weight, 0)}</strong><p>每槽 {qqqReplacementOverlay.method.events_per_slot} 宗；全程無槓桿。</p></article>
+              <article><span>候選交易腿</span><strong>{qqqReplacementOverlay.calendar_integrity.candidate_total_transaction_legs.toLocaleString("zh-HK")}</strong><p>正常事件四腿；不是只收一次 Top-7 成本。</p></article>
+              <article><span>首次成交後持倉</span><strong>100%</strong><p>最大現金誤差 {qqqReplacementOverlay.calendar_integrity.post_entry_maximum_cash_value.toExponential(1)}。</p></article>
+              <article><span>QQQ placebo 誤差</span><strong>{qqqReplacementOverlay.calendar_integrity.maximum_qqq_placebo_residual.toExponential(1)}</strong><p>相同 QQQ 價格路徑乘累積成本。</p></article>
+              <article><span>正式策略運行</span><strong>{qqqReplacementOverlay.decision.formal_strategy_runs}</strong><p>Paper 全現金 · 持倉 0 · 實金 US${qqqReplacementOverlay.decision.real_money_action_usd}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHT FIXED PATHS</span><h3>八條完整資金路徑，同時保留強弱基準</h3></div>
+              <p>eligible／complete overlay 使用相同槽位、QQQ 底倉、事件時鐘及四腿成本；QQQ placebo 專門量度高換手成本；第 29 輪現金路徑亦原樣保留。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>路徑</th><th>CAGR</th><th>終值</th><th>SHY 超額 Sharpe</th><th>最大跌幅</th><th>年率化換手</th><th>平均持倉</th></tr></thead>
+                <tbody>{overlayPathRows.map((row) => (
+                  <tr className={row.path_id === "top7_qqq_overlay" ? "featured-row" : ""} key={row.path_id}>
+                    <th><b>{row.label}</b><span>{row.asset_round_trip_cost_bps} bp／資產</span></th>
+                    <td>{pct(row.cagr)}</td><td>{money(row.terminal_usd)}</td><td>{row.shy_excess_sharpe.toFixed(2)}</td><td>{pct(row.max_drawdown)}</td><td>{row.annual_turnover.toFixed(1)}x</td><td>{pct(row.average_exposure)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SEVEN-BASELINE FAMILY</span><h3>Headline、完整股池、QQQ及多重檢驗一次呈列</h3></div>
+              <p>Newey–West lag 20；63-session circular blocks、20,000 條共同 bootstrap 路徑。QQQ 配對是主要機會成本，不能用較弱 placebo 取代。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>候選相對基準</th><th>年率化算術差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半日均</th><th>後半日均</th></tr></thead>
+                <tbody>{overlayFamilyRows.map((row) => (
+                  <tr className={row.baseline_id === "qqq_buy_hold" ? "featured-row" : ""} key={row.baseline_id}>
+                    <th><b>{row.baseline_label}</b><span>{row.sessions.toLocaleString("zh-HK")} 日</span></th>
+                    <td>{pct(row.newey_west.annualized_arithmetic_difference, 2)}</td><td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td><td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td><td>{(row.fixed_halves.first.mean_daily_difference * 10000).toFixed(2)} bp</td><td>{(row.fixed_halves.second.mean_daily_difference * 10000).toFixed(2)} bp</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, TIME &amp; EVENT TAIL</span><h3>高換手令 20 bp 優勢在較高成本及尾部壓力下反轉</h3></div>
+              <p>每資產 50／100 bp 表示正常事件名義總成本 100／200 bp；46-event 壓力按事前固定 Top-7 減 QQQ gross difference 排序，三條選股 overlay 同時移除。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>每資產成本</th><th>事件名義總成本</th><th>候選 CAGR</th><th>QQQ CAGR</th><th>Eligible overlay</th><th>Complete overlay</th><th>候選減 QQQ</th></tr></thead>
+                <tbody>
+                  <tr className="featured-row"><th><b>20 bp</b></th><td>40 bp</td><td>{pct(overlayCandidate.cagr)}</td><td>{pct(overlayQqq.cagr)}</td><td>{pct(overlayEligiblePath.cagr)}</td><td>{pct(overlayCompletePath.cagr)}</td><td>{pp(overlayCandidate.cagr - overlayQqq.cagr)}</td></tr>
+                  {overlayCostRows.map(([cost, row]) => (
+                    <tr key={cost}><th><b>{cost} bp</b></th><td>{row.normal_overlay_event_total_nominal_bps} bp</td><td>{pct(row.paths.top7_qqq_overlay.cagr)}</td><td>{pct(row.paths.qqq_buy_hold.cagr)}</td><td>{pct(row.paths.eligible_qqq_overlay.cagr)}</td><td>{pct(row.paths.complete_qqq_overlay.cagr)}</td><td className="negative-number">{pp(row.candidate_cagr_differences.qqq_buy_hold)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="evidence-stat-grid">
+              <article><span>移除最佳三年</span><strong>NW t {overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong><p>{overlayRemovedYears.removed_years.join("／")}；平均日差 {(overlayRemovedYears.mean_daily_difference * 10000).toFixed(2)} bp。</p></article>
+              <article><span>移除 46 有利事件</span><strong>{pp(overlayEventTail.candidate_cagr_differences.qqq_buy_hold)}</strong><p>候選減 QQQ CAGR；減 complete 為 {pp(overlayEventTail.candidate_cagr_differences.complete_qqq_overlay)}。</p></article>
+              <article><span>現金路徑對照</span><strong>{money(overlayCashPath.terminal_usd)}</strong><p>第 29 輪只持倉 {pct(overlayCashPath.average_exposure)}；不能與全投資 QQQ 混為一談。</p></article>
+              <article><span>QQQ 換手 placebo</span><strong>{money(overlayPlaceboPath.terminal_usd)}</strong><p>把相同資產反覆沽買也會被成本大幅侵蝕。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CRISIS PERIODS</span><h3>2008、2020、2022 沒有全部勝過 QQQ及守住最大跌幅</h3></div>
+              <p>危機年份在協議中事前固定；策略是高股票持倉替換，不是現金或短債替代品。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>年份</th><th>候選回報</th><th>候選最大跌幅</th><th>QQQ 回報</th><th>QQQ 最大跌幅</th><th>回報差</th></tr></thead>
+                <tbody>{overlayCrisisRows.map(([year, paths]) => (
+                  <tr key={year}><th><b>{year}</b></th><td>{pct(paths.top7_qqq_overlay.return)}</td><td>{pct(paths.top7_qqq_overlay.max_drawdown)}</td><td>{pct(paths.qqq_buy_hold.return)}</td><td>{pct(paths.qqq_buy_hold.max_drawdown)}</td><td>{pp(paths.top7_qqq_overlay.return - paths.qqq_buy_hold.return)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>TWENTY PRE-FROZEN GATES</span><h3>二十項門檻逐項呈列；13/20 不升格</h3></div>
+              <p>CAGR及終值高於 QQQ 的兩項通過，不能抵銷配對統計、完整股池、半期、最佳年份、危機及成本／尾部失敗。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {qqqReplacementOverlay.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 30 輪事前固定門檻</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>二十九道輸入、QQQ 底倉、四腿成本、統計及決策控制</h3></div>
+              <p>29/29 只證明程式遵守已推送協議，不是盈利或 Paper 通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {overlayControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 30 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>二十九項 hash、底倉、成本、family、尾部及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中指定錯誤碼，包括 qqq_overlay_leg_contract_mismatch 及 qqq_overlay_decision_boundary_breached。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {overlayAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}><div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div><p>{attack.expected_error_code}</p></article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 30 DECISION</span><b>全投資 headline 高於 QQQ，但統計、時間、危機、成本及事件尾部沒有同時通過；不建立新策略</b></div>
+              <p>正式就緒 {qqqReplacementOverlay.decision.formal_readiness}、逐股 point-in-time {qqqReplacementOverlay.decision.point_in_time_readiness}、合資格數據包 0、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。下一個可升級證據仍是獲授權逐期成分、永久 ID、公司行動及退市／退出經濟，再按既有正式預先登記運行一次。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_QQQ_REPLACEMENT_OVERLAY_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 30 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_QQQ_REPLACEMENT_OVERLAY_PROTOCOL.md" target="_blank" rel="noreferrer">事前 QQQ 疊加協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_qqq_replacement_overlay_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 
