@@ -8,6 +8,7 @@ import shortResearch from "../data/short-term-research.json";
 import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
+import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
 import localQuarantineIntake from "../data/short-term-local-quarantine-intake.json";
 import authorizedDataHandoff from "../data/short-term-authorized-data-handoff.json";
 import cizExecutionExtension from "../data/short-term-ciz-execution-extension.json";
@@ -22,7 +23,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十七輪本地隔離匯入合成控制 16/16、十六項攻擊全拒收，真實匯入 1/16、逐股數據 1/20。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十八輪正式回測事前登記合成控制 18/18、十八項攻擊全拒收，真實就緒 1/18、正式回測仍為 0。",
 };
 
 const readerCapital = 1_000;
@@ -126,6 +127,18 @@ const shortSignalRows = [
 ];
 const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical_gates).filter(Boolean).length;
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
+const formalReadinessControl = formalBacktestReadiness.synthetic_control;
+const formalReadinessAttackRows = formalBacktestReadiness.attacks;
+const formalBaselineLabels: Record<string, { label: string; detail: string }> = {
+  QQQ_buy_hold: { label: "QQQ 買入持有", detail: "主要高回報機會成本" },
+  SPY_buy_hold: { label: "SPY 買入持有", detail: "廣泛大型股市場基準" },
+  pit_eligible_equal_weight_monthly: { label: "逐期合資格池月度等權", detail: "分開選股排序與投資範圍回報" },
+  first_top10_equal_then_drift: { label: "首輪 Top-10 等權後漂移", detail: "只買第一個正式訊號十股，不再主動輪選" },
+};
+const formalBaselineRows = formalReadinessControl.baselines.map((key) => ({
+  key,
+  ...(formalBaselineLabels[key] ?? { label: key, detail: "凍結 baseline" }),
+}));
 const pointInTimeGateLabels: Record<string, string> = {
   "01_authorized_provider": "合法授權及供應商產品",
   "02_manifest_and_file_set": "Manifest 與精確檔案集合",
@@ -670,15 +683,16 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · LOCAL QUARANTINE INTAKE · ROUND 17</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FORMAL BACKTEST PREREGISTRATION · ROUND 18</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />真實與合成分開</h1>
+              <h1>短線高回報<br />先鎖規則才看結果</h1>
               <p className="hero-lead">
-                第十七輪發現舊 execution extension 只接受 synthetic status，不能把未來授權供應商包誠實標成真實來源。本輪不改寫舊 16/16 證據，另立 provider-mode bridge 及 repository 外 owner-only 匯入流程。合成控制通過 <strong>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total}</strong>，十六項路徑、symlink、身份、授權、時間、前視成分、QQQ 缺日、status 冒充及權限攻擊 <strong>{localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total} 全部拒收</strong>。
-                <strong>真實匯入只過 {localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}，文件 {authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}、逐股數據 {pointInTimeReadiness.gate_summary.passed}/{pointInTimeReadiness.gate_summary.total}，正式 20 年逐股回測 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 失敗及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 仍完整保留。
+                真實與合成分開；第十八輪在任何正式策略成績出現前，把風險免費日回報、四個公平 baseline、下一開市成交、公司行動單次入賬、6,208 次 DSR 懲罰及四路 PBO 全部凍結。合成就緒控制通過 <strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total}</strong>，十八項 RF 缺日／單位、run ID、baseline、成本、統計及來源冒充攻擊 <strong>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} 全部拒收</strong>。
+                <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#formal-backtest-readiness">查看正式就緒 1/18</a>
                 <a className="primary-button aggressive-button" href="#local-quarantine-intake">查看隔離匯入 1/16</a>
                 <a className="primary-button aggressive-button" href="#authorized-data-handoff">查看授權交接 1/12</a>
                 <a className="primary-button aggressive-button" href="#ciz-execution-extension">查看 extension 16/16</a>
@@ -692,13 +706,16 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>真實匯入 {localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total} · provider run 0</b>
+                <b>正式就緒 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total} · strategy run 0</b>
               </div>
               <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
-                <span>目前短線配置</span><strong>US$0</strong><small>樣本 0 · 數據 1/20 · Paper 保持全現金</small>
+                <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
+                <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
+                <div><dt>超額統計</dt><dd>US 1M T-bill RF · 真實包未到</dd></div>
                 <div><dt>隔離匯入控制</dt><dd>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total} · 只限合成</dd></div>
                 <div><dt>匯入攻擊</dt><dd>{localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>合成文件控制</dt><dd>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total} · 只驗證格式</dd></div>
@@ -715,6 +732,8 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>正式合成控制</span><strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total}</strong><small>不是策略回報通過</small></article>
               <article><span>真實隔離匯入</span><strong>{localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}</strong><small>只通過事前凍結</small></article>
               <article><span>真實文件交接</span><strong>{authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}</strong><small>只通過事前凍結</small></article>
               <article><span>Extension 合成控制</span><strong>{cizExecutionExtension.gate_summary.passed}/{cizExecutionExtension.gate_summary.total}</strong><small>不是供應商數據通過</small></article>
@@ -724,6 +743,80 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="formal-backtest-readiness">
+            <div className="section-heading">
+              <div><span>FORMAL BACKTEST READINESS · ROUND 18</span><h2>合成就緒 18/18、攻擊 18/18；真實正式就緒仍只有 1/18</h2></div>
+              <p>這一輪不試新參數、不產生成績；先把正式 20 年逐股回測的 RF、baseline、會計、統計及一次性 run ID 鎖死，避免看到結果後移動龍門。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>QQQ／SPY 不等於風險免費；超額統計不能再用 0 或 SHY 偷代</h3>
+                <p>{formalBacktestReadiness.gap_closed.risk_free_proxy} 正式 RF 必須與 XNYS 交易日一對一、以 decimal simple daily return 表示，來源、版本、授權、列數及 SHA-256 全部對數。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>合成控制／攻擊</span><strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · {formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total}</strong><p>只證明壞 RF、改規則或來源冒充會失敗關閉。</p></article>
+                <article><span>真實決策</span><strong>就緒 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total} · 回測 {formalBacktestReadiness.strategy_run_count}</strong><p>provider package 及真實 RF 均未收到；Paper 全現金。</p></article>
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOUR FAIR BASELINES</span><h3>四個比較對手在正式結果前定義清楚</h3></div>
+              <p>所有路徑同一交易日、US$1,000、下一日 raw open、公司行動及 10／25／50 bps；候選不能只挑較弱的 QQQ 比。</p>
+            </div>
+            <div className="point-in-time-groups" aria-label="第十八輪四個正式 baseline">
+              {formalBaselineRows.map((row, index) => (
+                <article className="passed" key={row.key}><span>{String(index + 1).padStart(2, "0")}</span><b>{row.label}</b><strong>{index < 2 ? "買入持有" : index === 2 ? "月度等權" : "只買一次"}</strong><p>{row.detail}</p></article>
+              ))}
+            </div>
+            <div className="comparison-caveat"><b>漂移 baseline 已消除歧義：</b><p>{formalBacktestReadiness.gap_closed.drift_baseline} 若公司退出，仍按退市／現金／換股條款只結算一次，現金退出款不假設賺取 RF。</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ACCOUNTING &amp; STATISTICS</span><h3>US$1,000、下一開市、6,208 trials 及四路 PBO 不可事後改</h3></div>
+              <p>組合中的零碎現金固定 0% 回報；RF 只用於風險免費超額 Sharpe、PSR／DSR，QQQ 補位仍是風險資產。</p>
+            </div>
+            <div className="short-evidence-grid">
+              <article><span>正式顯示本金</span><strong>US$1,000</strong><p>容許碎股以隔離資金規模影響；不代表實金落盤金額。</p></article>
+              <article><span>成交／成本</span><strong>t+1 raw open · 10／25／50 bps</strong><p>三個成本情境完整重跑，不以 CAGR 事後近似。</p></article>
+              <article><span>超額回報基準</span><strong>US 1M T-bill daily RF</strong><p>真實 provider RF 尚未收到；合成短表沒有市場證據。</p></article>
+              <article><span>全專案 DSR</span><strong>{formalReadinessControl.global_search_trials.toLocaleString("zh-HK")} trials</strong><p>成功、失敗及未升級路徑全計入，不把首次正式 run 重設為 1。</p></article>
+              <article><span>PBO</span><strong>{formalReadinessControl.pbo_paths} 路 · 10 段 CSCV</strong><p>綜合 Top-10 加三個既有台股直譯消融；不以勝出者換掉正式候選。</p></article>
+              <article><span>一次性執行</span><strong>immutable run ID</strong><p>綁定 intake、ledger、execution、RF、政策及協議 SHA-256；同一組輸入只准一次。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FORMAL READINESS GATES</span><h3>十八道事前控制逐項呈列</h3></div>
+              <p>合成 18/18 只驗證程式形狀；真實仍是 1/18，正式策略結果及選股名單都沒有生成。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {formalReadinessControl.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>十八項 RF、run ID、baseline、成本及決策錯誤全數拒收</h3></div>
+              <p>每次只改一個語義條件並對準指定 error code，避免普通 hash 錯誤掩蓋真正會計或統計問題。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {formalReadinessAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>只在合法 provider package 與同步一個月國庫券 RF 都到位後，運行一次固定正式回測</b></div>
+              <p>{formalBacktestReadiness.next_action} 任何經濟或統計門檻失敗即封存，不改權重、窗口、持股數或成本救援；全部通過亦只准由全現金開始前瞻 Paper。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md" target="_blank" rel="noreferrer">第十八輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md" target="_blank" rel="noreferrer">一次性事前登記</a><a href="https://github.com/voidful/us_fddk/blob/main/scripts/validate_short_term_formal_backtest_readiness.py" target="_blank" rel="noreferrer">只讀正式入口</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_formal_backtest_readiness_validation.json" target="_blank" rel="noreferrer">機器收據</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library/f-f_factors.html" target="_blank" rel="noreferrer">一個月國庫券 RF 定義</a></div>
             </div>
           </section>
 

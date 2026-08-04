@@ -12,18 +12,18 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第十七輪本地隔離匯入合成控制 16/16、十六項攻擊全拒收，真實匯入 1/16、逐股數據 1/20。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第十八輪正式回測事前登記合成控制 18/18、十八項攻擊全拒收，真實就緒 1/18、正式回測仍為 0。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線第十七輪本地隔離匯入合成控制 16/16、十六項攻擊全拒收，真實匯入 1/16、逐股數據 1/20，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線正式回測就緒合成控制 18/18、十八項攻擊全拒收，真實就緒 1/18、正式策略運行 0，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [
       {
         url: `${publicSiteRoot}/og.png`,
-        width: 1729,
-        height: 910,
-        alt: "US FDDK 美股雙策略研究：長線穩定與短線高回報",
+        width: 1731,
+        height: 909,
+        alt: "US FDDK 美股雙策略研究：長線 Paper-only，短線正式就緒 1/18",
       },
     ],
   },

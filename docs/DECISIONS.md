@@ -1,5 +1,22 @@
 # 決策與負結果
 
+## 2026-08-04：正式回測事前登記及合成就緒 18/18；真實仍為 1/18
+
+- 第十七輪 package 已可誠實區分 provider／synthetic，但仍缺正式超額 Sharpe、PSR 及
+  DSR 所需的風險免費日回報；QQQ／SPY 是風險資產，0 及 SHY 亦不可偷代。因此本輪在
+  任何正式結果出現前，新增與 XNYS session 一對一的 US 1M T-bill decimal simple
+  daily return package，固定來源、版本、授權、列數及 SHA-256。
+- 原協議的「同一十隻股份等權漂移」曾在現時股池沙盒被實作成整個今日完整股池起點等權。
+  正式 baseline 在結果前明確定義為：第一個正式訊號 Top-10 各 10% 只買一次，其後只
+  處理派息、拆股、退出及 successor，不再主動輪選；現金退出款固定 0% 回報。
+- 四個 baseline、US$1,000、t+1 raw open、10／25／50 bps、公司行動單次入賬、固定
+  兩半／滾動／危機段、6,208 trials DSR 及四條既有路徑十段 CSCV PBO 全部事前凍結。
+  合成控制 **18/18**，RF、路徑、來源、run ID、baseline、成本、統計及決策邊界攻擊
+  **18/18** 按指定 error code 拒收。
+- 決定：合成 18/18 不是策略成績。合法 provider package 0、同步 RF 包 0、真實就緒
+  1/18、point-in-time 1/20、正式策略運行 0。輸入齊全後只准 immutable run ID 一次
+  固定回測；任何門檻失敗即封存，不在同一資料上救援。Paper 全現金、實金 US$0。
+
 ## 2026-08-04：本地隔離匯入合成 16/16、攻擊 16/16；真實匯入仍為 1/16
 
 - 稽核發現第十五輪 execution manifest 把 status 固定為

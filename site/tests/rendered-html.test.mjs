@@ -40,6 +40,16 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /FORMAL BACKTEST READINESS · ROUND 18/);
+  assert.match(html, /合成就緒 18\/18、攻擊 18\/18；真實正式就緒仍只有 1\/18/);
+  assert.match(html, /QQQ／SPY 不等於風險免費；超額統計不能再用 0 或 SHY 偷代/);
+  assert.match(html, /四個比較對手在正式結果前定義清楚/);
+  assert.match(html, /首輪 Top-10 等權後漂移/);
+  assert.match(html, /US 1M T-bill daily RF/);
+  assert.match(html, /6,208 trials/);
+  assert.match(html, /十八道事前控制逐項呈列/);
+  assert.match(html, /十八項 RF、run ID、baseline、成本及決策錯誤全數拒收/);
+  assert.match(html, /只在合法 provider package 與同步一個月國庫券 RF 都到位後/);
   assert.match(html, /LOCAL QUARANTINE INTAKE · ROUND 17/);
   assert.match(html, /合成匯入 16\/16、攻擊 16\/16；真實匯入仍只有 1\/16/);
   assert.match(html, /舊 bridge 的 synthetic 標示不能直接承接真實供應商包/);

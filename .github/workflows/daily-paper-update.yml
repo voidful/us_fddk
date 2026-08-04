@@ -53,6 +53,7 @@ jobs:
           python scripts/build_short_term_ciz_execution_extension_report.py
           python scripts/build_short_term_authorized_data_handoff_report.py
           python scripts/build_short_term_local_quarantine_intake_report.py
+          python scripts/build_short_term_formal_backtest_readiness_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -86,6 +87,9 @@ jobs:
             artifacts/short_term_local_quarantine_intake_validation.json \
             site/data/short-term-local-quarantine-intake.json \
             docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_REPORT.md \
+            artifacts/short_term_formal_backtest_readiness_validation.json \
+            site/data/short-term-formal-backtest-readiness.json \
+            docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -101,6 +105,7 @@ jobs:
           pytest tests/test_ciz_execution_extension.py
           pytest tests/test_authorized_data_handoff.py
           pytest tests/test_local_quarantine_intake.py
+          pytest tests/test_formal_backtest_readiness.py
           pytest tests/test_daily_momentum_regime.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit

@@ -1,0 +1,368 @@
+{
+  "actual_formal_readiness": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 18
+  },
+  "actual_local_intake": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 16
+  },
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 18,
+    "total": 18
+  },
+  "attacks": [
+    {
+      "expected_error_code": "formal_path_boundary_invalid",
+      "id": "01",
+      "label": "相對路徑",
+      "observed_error_code": "formal_path_boundary_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_private_input_invalid",
+      "id": "02",
+      "label": "非 owner-only 輸入",
+      "observed_error_code": "formal_private_input_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_provider_mode_required",
+      "id": "03",
+      "label": "synthetic 冒充 provider",
+      "observed_error_code": "formal_provider_mode_required",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_prior_run_detected",
+      "id": "04",
+      "label": "Round 17 receipt 已跑一次",
+      "observed_error_code": "formal_prior_run_detected",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_input_binding_mismatch",
+      "id": "05",
+      "label": "上游 manifest 漂移",
+      "observed_error_code": "formal_input_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_file_set_mismatch",
+      "id": "06",
+      "label": "RF 多一個檔案",
+      "observed_error_code": "risk_free_file_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_receipt_invalid",
+      "id": "07",
+      "label": "RF CSV 收據不符",
+      "observed_error_code": "risk_free_receipt_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_session_mismatch",
+      "id": "08",
+      "label": "RF 缺一個 session",
+      "observed_error_code": "risk_free_session_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_session_mismatch",
+      "id": "09",
+      "label": "RF 多一個非交易日",
+      "observed_error_code": "risk_free_session_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_unit_invalid",
+      "id": "10",
+      "label": "RF 單位改為 percent",
+      "observed_error_code": "risk_free_unit_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_value_invalid",
+      "id": "11",
+      "label": "RF 日回報量級 2%",
+      "observed_error_code": "risk_free_value_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "risk_free_provenance_invalid",
+      "id": "12",
+      "label": "RF source record 重複",
+      "observed_error_code": "risk_free_provenance_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_run_id_mismatch",
+      "id": "13",
+      "label": "run ID 未綁定輸入",
+      "observed_error_code": "formal_run_id_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_statistics_policy_mismatch",
+      "id": "14",
+      "label": "DSR trials 改為 6,207",
+      "observed_error_code": "formal_statistics_policy_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_baseline_policy_mismatch",
+      "id": "15",
+      "label": "漂移 baseline 改名／改義",
+      "observed_error_code": "formal_baseline_policy_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_execution_policy_mismatch",
+      "id": "16",
+      "label": "成本由 50 改 40 bps",
+      "observed_error_code": "formal_execution_policy_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_run_already_exists",
+      "id": "17",
+      "label": "輸出目錄已存在",
+      "observed_error_code": "formal_run_already_exists",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_decision_boundary_violation",
+      "id": "18",
+      "label": "合成控制升級正式授權",
+      "observed_error_code": "formal_decision_boundary_violation",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_package_received": false,
+  "disclaimer": "合成 18/18 只證明事前規則、RF、baseline、統計及決策邊界會關門；正式策略結果仍為 0，不代表盈利或 Paper 通過。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_completed": false,
+  "formal_stock_backtest_input_ready": false,
+  "gap_closed": {
+    "drift_baseline": "固定為首個正式訊號 Top-10 只買一次後漂移，不再混用今日完整股池。",
+    "formal_strategy_results_generated": false,
+    "global_search_trials": 6208,
+    "pbo_paths": 4,
+    "risk_free_proxy": "新增同步 US 1M T-bill 日回報；禁止用 0 或 SHY 代替超額統計。"
+  },
+  "next_action": "取得合法 provider package 與同日 US 1M T-bill RF 包後，先通過 18/18，再以 immutable run ID 只跑一次凍結正式回測。",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "protocol_integrity": {
+    "frozen_at": "2026-08-04T00:23:43Z",
+    "hash_checks": {
+      "artifacts/short_term_local_quarantine_intake_protocol_receipt.json": true,
+      "artifacts/short_term_local_quarantine_intake_validation.json": true,
+      "docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md": true,
+      "docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_PROTOCOL.md": true,
+      "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md": true,
+      "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md": true,
+      "docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_PROTOCOL.md": true,
+      "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+      "usfddk/local_quarantine_intake.py": true,
+      "usfddk/local_quarantine_intake_validation.py": true,
+      "usfddk/metrics.py": true,
+      "usfddk/short_term_high_return.py": true,
+      "usfddk/validation.py": true
+    },
+    "passed": true
+  },
+  "provider_readiness_run_count": 0,
+  "readiness_version": "round18-formal-backtest-readiness-v1",
+  "real_money_action_usd": 0,
+  "research_round": 18,
+  "risk_free_provider_input_received": false,
+  "schema_version": 1,
+  "status": "formal_preregistration_and_synthetic_readiness_controls_passed_inputs_missing",
+  "strategy_run_count": 0,
+  "synthetic_control": {
+    "contains_provider_rows": false,
+    "formal_stock_backtest_authorized": false,
+    "gate_summary": {
+      "all_passed": true,
+      "passed": 18,
+      "total": 18
+    },
+    "gates": [
+      {
+        "detail": "Round 18 協議、收據及十二份前置雜湊完整",
+        "id": "01",
+        "label": "事前凍結完整性",
+        "passed": true
+      },
+      {
+        "detail": "輸入、RF、預留輸出均為 repository 外絕對路徑",
+        "id": "02",
+        "label": "外部絕對路徑",
+        "passed": true
+      },
+      {
+        "detail": "兩個輸入樹 owner-only 且無 symlink／特殊檔",
+        "id": "03",
+        "label": "owner-only 輸入",
+        "passed": true
+      },
+      {
+        "detail": "source_mode=synthetic_control；Round 17 策略執行 0 次",
+        "id": "04",
+        "label": "provider／合成及零次執行",
+        "passed": true
+      },
+      {
+        "detail": "base ledger point-in-time 20/20",
+        "id": "05",
+        "label": "base ledger 20/20",
+        "passed": true
+      },
+      {
+        "detail": "execution extension 16/16",
+        "id": "06",
+        "label": "execution extension 16/16",
+        "passed": true
+      },
+      {
+        "detail": "RF manifest、CSV、SHA-256、列數及授權完整",
+        "id": "07",
+        "label": "RF 收據及授權",
+        "passed": true
+      },
+      {
+        "detail": "RF 與 22 個 XNYS sessions 一對一",
+        "id": "08",
+        "label": "RF 日曆同步",
+        "passed": true
+      },
+      {
+        "detail": "RF 使用 decimal simple daily return 且量級有效",
+        "id": "09",
+        "label": "RF 單位及數值",
+        "passed": true
+      },
+      {
+        "detail": "run ID 綁定協議、三份上游收據、RF 及政策",
+        "id": "10",
+        "label": "immutable run ID",
+        "passed": true
+      },
+      {
+        "detail": "四因子、排名、同公司去重及三股行業 cap 固定",
+        "id": "11",
+        "label": "固定訊號規則",
+        "passed": true
+      },
+      {
+        "detail": "t close／t+1 raw open；10／25／50 bps 固定",
+        "id": "12",
+        "label": "固定成交及成本",
+        "passed": true
+      },
+      {
+        "detail": "派息、拆股、退市、現金及 successor 只計一次",
+        "id": "13",
+        "label": "公司行動單次入賬",
+        "passed": true
+      },
+      {
+        "detail": "四個 baseline 名稱、次序及漂移語義固定",
+        "id": "14",
+        "label": "四個公平 baseline",
+        "passed": true
+      },
+      {
+        "detail": "固定兩半、滾動窗口、危機段及 US$1,000",
+        "id": "15",
+        "label": "固定時段及資金口徑",
+        "passed": true
+      },
+      {
+        "detail": "NW／PSR／6,208-trial DSR／四路十段 PBO 固定",
+        "id": "16",
+        "label": "固定統計及多重測試",
+        "passed": true
+      },
+      {
+        "detail": "預留輸出不存在；正式執行須原子建立且只可一次",
+        "id": "17",
+        "label": "新輸出及一次性",
+        "passed": true
+      },
+      {
+        "detail": "合成只通過形狀控制；正式／Paper／實金均未升級",
+        "id": "18",
+        "label": "決策邊界分離",
+        "passed": true
+      }
+    ],
+    "policy": {
+      "baselines": [
+        "QQQ_buy_hold",
+        "SPY_buy_hold",
+        "pit_eligible_equal_weight_monthly",
+        "first_top10_equal_then_drift"
+      ],
+      "execution": {
+        "cash_return_policy": "zero_percent_uninvested_cash",
+        "clock": "signal_close_t_trade_raw_open_t_plus_1",
+        "costs_bps": [
+          10,
+          25,
+          50
+        ],
+        "dividend_policy": "receivable_ex_date_cash_available_pay_date_once",
+        "exit_policy": "one_economic_settlement_path_only",
+        "fractional_shares": true,
+        "starting_capital_usd": 1000
+      },
+      "statistics": {
+        "global_search_trials": 6208,
+        "newey_west_lag": "floor_4_times_n_over_100_power_2_over_9",
+        "pbo_paths": [
+          "frozen_composite_monthly_top10",
+          "tw_translation_weekly_top7",
+          "tw_translation_weekly_top7_spy_regime",
+          "tw_translation_weekly_top7_spy_regime_correlation"
+        ],
+        "pbo_slices": 10,
+        "risk_free_series": "US_1M_TBILL_DAILY_RETURN"
+      },
+      "strategy": {
+        "company_share_class_tie_break": "highest_20d_median_dollar_volume_then_security_id",
+        "minimum_history_sessions": 252,
+        "minimum_median_dollar_volume_usd": 20000000.0,
+        "minimum_raw_close_usd": 5.0,
+        "qqq_shortfall_weight_per_missing_stock": 0.1,
+        "rank_policy": "average_percentile_then_security_id",
+        "sector_cap_count": 3,
+        "top_n": 10,
+        "weights": {
+          "low_volatility_63": 0.1,
+          "momentum_12_1": 0.45,
+          "momentum_6_1": 0.25,
+          "trend_200": 0.2
+        }
+      }
+    },
+    "risk_free_sessions": 22,
+    "run_id_bound": true
+  }
+}

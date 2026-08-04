@@ -61,6 +61,7 @@
 - 短線第十三輪在寫 adapter 前凍結[CRSP CIZ 映射協議](docs/SHORT_TERM_CRSP_CIZ_MAPPING_PROTOCOL.md)，只接受現行 Flat File Format 2.0。PERMNO／PERMCO、raw OHLCV、membership 起訖及 DelRet 可直接或決定性派生；membership announced_at、security-info KnownAt、公司行動條款及缺失退出代價必須另有 evidence overlay。合成 CIZ 包轉成八份賬本後通過 **20/20**，生效日冒充公布時間、現時 history 倒填、adjusted 價、DelDlyDt 冒充退出日及缺失 DelRet 補洞等攻擊 **12/12 拒收**。這不含供應商列；真實入口仍為 **1/20**、正式回測 0、Paper 全現金、實金動作 US$0；完整[映射報告](docs/SHORT_TERM_CRSP_CIZ_MAPPING_REPORT.md)保留。
 - 短線第十四輪在寫 auditor 前凍結[CIZ 執行與退出會計協議](docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md)，追查 Round 13 的 20/20 是否足以正確計算持倉。`DlyDelFlg=Y` 儲存列與 outcome 對數後只計一次；100 元持倉遇 `DelRet=-50%` 恰為 50 元，現金收購、換股、拆細及分拆控制亦通過，十項雙計／早收股息／缺價／時鐘攻擊 **10/10 拒收**。但正式執行只過 **8/12**：現行輸出未保留 dividend pay-date，亦未保證訊號前 252 日、成分移除後至下一月度 open，以及同步 QQQ／SPY／QQQ 補位行情。因此正式回測仍為 0、Paper 全現金、實金動作 US$0；完整[會計報告](docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_REPORT.md)保留。
 - 短線第十五輪先凍結[CIZ 執行延伸資料協議](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md)，再以獨立 `ledger/`＋`execution/` package 封住第十四輪四項缺口，完全不修改舊 adapter。合成 control 保留 dividend ex／pay-date、逐月候選最少 252 個回報及 20 個正成交量 session、`removed_continues` 至下一重新平衡 open 的完整價格，以及同步 QQQ／SPY raw open／總回報；十六道控制 **16/16**，檔案、派息、251／19 日歷史、移除缺價、基準不同步、成本及時鐘攻擊 **16/16 拒收**。這只含三個合成 PERMNO 及 46 列合成基準；真實入口仍為 **1/20**、合法樣本 0、正式回測 0、Paper 全現金、實金動作 US$0；完整[extension 報告](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md)保留。
+- 短線第十八輪在正式結果出現前凍結[一次性正式回測事前登記](docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md)，補上既有 QQQ／SPY execution package 沒有的同步 US 1M T-bill 日回報，並把「同股漂移」明確改成首個正式訊號 Top-10 只買一次後漂移。四個 baseline、US$1,000、raw open、10／25／50 bps、公司行動單次入賬、6,208 trials DSR 及四路十段 PBO 全部事前固定；合成就緒控制 **18/18**，RF 缺日／單位、run ID、baseline、成本、統計及決策邊界攻擊 **18/18 拒收**。真實正式就緒仍為 **1/18**、provider package 0、RF 包 0、策略運行 0；完整[就緒報告](docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md)保留，Paper 全現金、實金 US$0。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -246,6 +247,17 @@ python scripts/build_short_term_authorized_data_handoff_report.py
 # 重建第十七輪本地隔離匯入：provider／synthetic status 分離、十六道控制及十六項攻擊
 # 16/16 只證明 owner-only 匯入器 fail closed；provider run 仍為 0
 python scripts/build_short_term_local_quarantine_intake_report.py
+
+# 重建第十八輪正式回測就緒稽核：RF、四 baseline、6,208 trials、十八道控制／攻擊
+# 18/18 只證明合成 fail closed；正式策略運行仍為 0，Paper 全現金
+python scripts/build_short_term_formal_backtest_readiness_report.py
+
+# 只有合法 provider package、同步 US 1M T-bill RF 及全新輸出三個外部絕對路徑到位才運行
+# 此入口只讀核對一次性 run ID；不計算策略、不建立 Paper、不作實金動作
+python scripts/validate_short_term_formal_backtest_readiness.py \
+  --package /private/input/validated-local-package \
+  --risk-free-bundle /private/input/us-1m-tbill-rf \
+  --output /private/output/formal-backtest-run
 
 # 只有使用者明確提供 repository 外四個絕對路徑時，才可運行正式 provider mode
 # 成功只表示輸入可供一次固定正式回測；不會自動跑策略、建立 Paper 或作實金動作
