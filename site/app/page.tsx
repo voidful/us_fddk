@@ -14,6 +14,7 @@ import temporalTailRobustness from "../data/short-term-temporal-tail-robustness.
 import baselineMultiplicity from "../data/short-term-baseline-multiplicity.json";
 import correlationCrowding from "../data/short-term-correlation-crowding.json";
 import commonRiskResidual from "../data/short-term-common-risk-residual.json";
+import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placebo.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -34,7 +35,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十六輪扣除 QQQ、SPY 及完整現時股池共同 beta，十四項反證只過 6/14，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十七輪排序單調性與隨機 placebo 反證只過 5/14，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -190,7 +191,6 @@ const commonRiskFamilyRows = commonRiskResidual.family.comparisons;
 const commonRiskRawEligible = commonRiskFamilyRows.find((row) => row.id === "RAW__eligible")!;
 const commonRiskQqqEligible = commonRiskFamilyRows.find((row) => row.id === "QQQ_252__eligible")!;
 const commonRiskQqqComplete = commonRiskFamilyRows.find((row) => row.id === "QQQ_252__complete_cohort")!;
-const commonRiskCohortEligible = commonRiskFamilyRows.find((row) => row.id === "COHORT_252__eligible")!;
 const commonRiskCohortComplete = commonRiskFamilyRows.find((row) => row.id === "COHORT_252__complete_cohort")!;
 const commonRiskQqqGap = commonRiskResidual.beta_gap_summaries.find((row) => row.id === "QQQ_252__eligible")!;
 const commonRiskQqqUp = commonRiskResidual.primary_stresses.qqq_forward_regimes_ex_post_not_a_signal.qqq_nonnegative;
@@ -202,6 +202,31 @@ const commonRiskSectorRows = Object.entries(commonRiskResidual.current_sector_la
   .sort((left, right) => right.count - left.count || left.sector.localeCompare(right.sector));
 const commonRiskControlRows = commonRiskResidual.controls;
 const commonRiskAttackRows = commonRiskResidual.attacks;
+const rankFamilyRows = rankMonotonicityPlacebo.family.comparisons;
+const rankEligibleTopMiddle = rankFamilyRows.find((row) => row.id === "eligible_top_middle")!;
+const rankEligibleMiddleBottom = rankFamilyRows.find((row) => row.id === "eligible_middle_bottom")!;
+const rankEligibleTopBottom = rankFamilyRows.find((row) => row.id === "eligible_top_bottom")!;
+const rankCompleteTopMiddle = rankFamilyRows.find((row) => row.id === "complete_top_middle")!;
+const rankCompleteMiddleBottom = rankFamilyRows.find((row) => row.id === "complete_middle_bottom")!;
+const rankCompleteTopBottom = rankFamilyRows.find((row) => row.id === "complete_top_bottom")!;
+const rankEligiblePlacebo = rankMonotonicityPlacebo.placebo.eligible;
+const rankCompletePlacebo = rankMonotonicityPlacebo.placebo.complete;
+const rankRegimes = rankMonotonicityPlacebo.primary_stresses.qqq_forward_regimes_ex_post_not_a_signal;
+const rankTails = rankMonotonicityPlacebo.primary_stresses.remove_largest_absolute_spreads;
+const rankControlRows = rankMonotonicityPlacebo.controls;
+const rankAttackRows = rankMonotonicityPlacebo.attacks;
+const rankPlaceboRows = [
+  ...rankEligiblePlacebo.rows.map((row) => ({ universe: "合資格池", ...row })),
+  ...rankCompletePlacebo.rows.map((row) => ({ universe: "完整現時股池", ...row })),
+];
+const rankSleeveRows = [
+  { universe: "合資格池", bucket: "高段", ...rankMonotonicityPlacebo.sleeve_summary.eligible.top },
+  { universe: "合資格池", bucket: "中段", ...rankMonotonicityPlacebo.sleeve_summary.eligible.middle },
+  { universe: "合資格池", bucket: "低段", ...rankMonotonicityPlacebo.sleeve_summary.eligible.bottom },
+  { universe: "完整現時股池", bucket: "高段", ...rankMonotonicityPlacebo.sleeve_summary.complete.top },
+  { universe: "完整現時股池", bucket: "中段", ...rankMonotonicityPlacebo.sleeve_summary.complete.middle },
+  { universe: "完整現時股池", bucket: "低段", ...rankMonotonicityPlacebo.sleeve_summary.complete.bottom },
+];
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -798,13 +823,14 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · COMMON RISK RESIDUAL · ROUND 26</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · RANK MONOTONICITY &amp; PLACEBO · ROUND 27</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />扣除市場 beta，完整股池仍未通過</h1>
+              <h1>短線高回報<br />高段勝中段，仍不是完整排序 alpha</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十六輪沒有調校新策略，而是用訊號日前 60／252 日 beta，把固定 Top-7 對合資格池及完整現時股池的差額同時扣除 QQQ、SPY 與固定 25 股共同風險。原 905 個事件全部重建；因 MA 在最早 39 個事件前不足 252 日，十列統一使用 <strong>{commonRiskResidual.input.family_common_events}</strong> 個共同事件。QQQ beta 平均解釋 raw eligible 差額 <strong>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)}</strong>；殘差對 eligible 仍有 <strong>{pp(commonRiskQqqEligible.mean_difference, 3)}</strong>、NW t <strong>{commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong>，但十假說 Holm／max-t p 為 <strong>{commonRiskQqqEligible.holm_adjusted_p.toFixed(4)}／{commonRiskQqqEligible.bootstrap_max_t_p.toFixed(4)}</strong>，未過 0.05。
-                同一 QQQ 殘差對完整現時股池只有 <strong>{pp(commonRiskQqqComplete.mean_difference, 3)}</strong>、NW t <strong>{commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong>；固定 25 股共同因子殘差對 eligible／complete 更只有 t <strong>{commonRiskCohortEligible.newey_west.t_stat.toFixed(2)}／{commonRiskCohortComplete.newey_west.t_stat.toFixed(2)}</strong>。未來 QQQ 上升組 t <strong>{commonRiskQqqUp.newey_west.t_stat.toFixed(2)}</strong>，下跌組只有 <strong>{commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</strong>；十四項反證只過 <strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong>。
+                真實與合成分開；第二十七輪沒有調校買賣規則，而是把同一 <strong>{rankMonotonicityPlacebo.input.events}</strong> 個事件的合資格池與完整現時 25 股股池按訊號日 20 日動量切成高、中、低三段。高段對中段的 eligible／complete NW t 為 <strong>{rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}／{rankCompleteTopMiddle.newey_west.t_stat.toFixed(2)}</strong>，但中段對低段平均反為 <strong>{pp(rankEligibleMiddleBottom.mean, 3)}／{pp(rankCompleteMiddleBottom.mean, 3)}</strong>，所以不是高至低的單調階梯。完整股池 top-bottom NW t 只有 <strong>{rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}</strong>，低於最強隨機 placebo {rankCompletePlacebo.maximum_placebo_t_id} 的 <strong>{rankCompletePlacebo.maximum_placebo_t.toFixed(2)}</strong>。
+                未來 QQQ 下跌組 eligible／complete 平均為 <strong>{pp(rankRegimes.eligible.qqq_negative.mean, 3)}／{pp(rankRegimes.complete.qqq_negative.mean, 3)}</strong>；移除最大 46 個絕對差後 NW t 只有 <strong>{rankTails.eligible.newey_west.t_stat.toFixed(2)}／{rankTails.complete.newey_west.t_stat.toFixed(2)}</strong>。十四項反證只過 <strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong>，不容許事後只挑 top-middle 建立策略。
+                第二十六輪 QQQ beta 殘差 eligible t <strong>{commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong>、完整股池 t <strong>{commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong> 及十四項只過 <strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong> 繼續保留；不會因最新一輪而刪除較早反證。
                 第二十五輪相關性擠擁 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>、中位有效獨立注數 <strong>{crowdingEffective.median.toFixed(2)}</strong> 及剔除 MU／AMD／MA 後 NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong> 繼續保留；三個現時代號只屬事後歸因，不是買入名單。第二十四輪完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 亦不刪除。
                 第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
                 第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
@@ -812,6 +838,7 @@ export default function Home() {
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#rank-monotonicity-placebo">查看第 27 輪 5/14 反證</a>
                 <a className="primary-button aggressive-button" href="#common-risk-residual">查看第 26 輪 6/14 反證</a>
                 <a className="primary-button aggressive-button" href="#correlation-crowding">查看第 25 輪 7/12 反證</a>
                 <a className="primary-button aggressive-button" href="#baseline-multiplicity">查看第 24 輪 6/9 反證</a>
@@ -841,6 +868,11 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 27 輪排序／placebo</dt><dd>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total} · 未通過</dd></div>
+                <div><dt>高段對中段 NW t</dt><dd>{rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}／{rankCompleteTopMiddle.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>中段對低段平均</dt><dd>{pp(rankEligibleMiddleBottom.mean, 3)}／{pp(rankCompleteMiddleBottom.mean, 3)}</dd></div>
+                <div><dt>完整股池／最強 placebo t</dt><dd>{rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}／{rankCompletePlacebo.maximum_placebo_t.toFixed(2)}</dd></div>
+                <div><dt>排序控制與攻擊</dt><dd>{rankMonotonicityPlacebo.control_summary.passed}/{rankMonotonicityPlacebo.control_summary.total} · {rankMonotonicityPlacebo.attack_summary.rejected}/{rankMonotonicityPlacebo.attack_summary.total}</dd></div>
                 <div><dt>第 26 輪共同風險殘差</dt><dd>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total} · 未通過</dd></div>
                 <div><dt>QQQ beta 貢獻</dt><dd>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)} raw eligible 差額</dd></div>
                 <div><dt>QQQ 殘差完整股池</dt><dd>NW t {commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</dd></div>
@@ -884,6 +916,13 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 27 輪反證門檻</span><strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong><small>九項未通過</small></article>
+              <article><span>原始／共同事件</span><strong>{rankMonotonicityPlacebo.input.events}／{rankMonotonicityPlacebo.input.events}</strong><small>沒有縮樣本或 coverage repair</small></article>
+              <article><span>eligible 高段勝中段</span><strong>NW t {rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {rankEligibleTopMiddle.holm_adjusted_p.toFixed(3)}／{rankEligibleTopMiddle.bootstrap_max_t_p.toFixed(3)}</small></article>
+              <article><span>complete top-bottom</span><strong>NW t {rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}</strong><small>低於 placebo {rankCompletePlacebo.maximum_placebo_t_id} · {rankCompletePlacebo.maximum_placebo_t.toFixed(2)}</small></article>
+              <article><span>QQQ 下跌組</span><strong>{rankRegimes.eligible.qqq_negative.newey_west.t_stat.toFixed(2)}／{rankRegimes.complete.qqq_negative.newey_west.t_stat.toFixed(2)}</strong><small>eligible／complete NW t</small></article>
+              <article><span>46-event 尾部</span><strong>{rankTails.eligible.newey_west.t_stat.toFixed(2)}／{rankTails.complete.newey_west.t_stat.toFixed(2)}</strong><small>兩者均低於 1.96</small></article>
+              <article><span>排序控制／攻擊</span><strong>{rankMonotonicityPlacebo.control_summary.passed}/{rankMonotonicityPlacebo.control_summary.total} · {rankMonotonicityPlacebo.attack_summary.rejected}/{rankMonotonicityPlacebo.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>第 26 輪反證門檻</span><strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong><small>八項未通過</small></article>
               <article><span>原始／共同樣本</span><strong>{commonRiskResidual.input.events}／{commonRiskResidual.input.family_common_events}</strong><small>MA 最早 39 事件不足 252 日</small></article>
               <article><span>QQQ beta 平均解釋</span><strong>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)}</strong><small>raw eligible 平均差</small></article>
@@ -924,6 +963,154 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="rank-monotonicity-placebo">
+            <div className="section-heading">
+              <div><span>RANK MONOTONICITY &amp; PLACEBO · ROUND 27</span><h2>十四項反證只過 5/14；高段勝中段，但底段反彈破壞排序單調性</h2></div>
+              <p>固定同一 905 個事件、訊號日 20 日動量、三分組、八假說共同 family 及 20 組隨機排序；沒有改 Top-K、持有期、成本、入場時鐘或事後只展示最有利分段。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>八假說共同 family · {rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</span>
+                <h3>eligible 高段對中段 NW t {rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}，但中段對低段為 {rankEligibleMiddleBottom.newey_west.t_stat.toFixed(2)}</h3>
+                <p>高段對中段平均 {pp(rankEligibleTopMiddle.mean, 3)}，可是低段平均回報高於中段，令 top-bottom 只餘 {pp(rankEligibleTopBottom.mean, 3)}、NW t {rankEligibleTopBottom.newey_west.t_stat.toFixed(2)}。這是局部排名線索，不是完整單調 alpha。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>完整現時股池</span><strong>top-bottom NW t {rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}</strong><p>低於最強隨機 placebo {rankCompletePlacebo.maximum_placebo_t_id} · NW t {rankCompletePlacebo.maximum_placebo_t.toFixed(2)}。</p></article>
+                <article><span>市場及尾部</span><strong>下跌市 {rankRegimes.eligible.qqq_negative.newey_west.t_stat.toFixed(2)}／{rankRegimes.complete.qqq_negative.newey_west.t_stat.toFixed(2)}</strong><p>移除最大 46 個差額後只有 t {rankTails.eligible.newey_west.t_stat.toFixed(2)}／{rankTails.complete.newey_west.t_stat.toFixed(2)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>原始／共同 905／905；沒有 coverage repair</b>
+              <p>這仍是第 24–26 輪已見的同一批事件，不是獨立未見確認。eligible 每事件 7–25 股，complete 每事件固定 25 股；每段互斥、聯集完整且大小最多相差一。股票仍是 2026 現時代號，沒有 point-in-time 成分、永久 ID 或退市／收購經濟，因此本輪只可反證，不可升格。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>原始／共同事件</span><strong>{rankMonotonicityPlacebo.input.events}／{rankMonotonicityPlacebo.input.events}</strong><p>{shortDate(rankMonotonicityPlacebo.input.first_signal_date)} 至 {shortDate(rankMonotonicityPlacebo.input.last_signal_date)}。</p></article>
+              <article><span>合資格股數</span><strong>{rankMonotonicityPlacebo.input.eligible_count.minimum}／{rankMonotonicityPlacebo.input.eligible_count.median.toFixed(0)}／{rankMonotonicityPlacebo.input.eligible_count.maximum}</strong><p>每事件最少／中位／最多，全部三分組。</p></article>
+              <article><span>eligible top-middle</span><strong>NW t {rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}</strong><p>Holm p {rankEligibleTopMiddle.holm_adjusted_p.toFixed(4)}；共同 max-t p {rankEligibleTopMiddle.bootstrap_max_t_p.toFixed(4)}。</p></article>
+              <article><span>complete top-bottom</span><strong>NW t {rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}</strong><p>後半平均只有 {pp(rankCompleteTopBottom.fixed_halves.second.mean, 3)}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>THREE SLEEVES</span><h3>高、中、低三段的實際 20 日等權回報</h3></div>
+              <p>各段均扣除 20 bps round trip；top-bottom 只是診斷差額，沒有冒充可執行沽空組合。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>三分組</th><th>平均 net return</th><th>中位 net return</th></tr></thead>
+                <tbody>{rankSleeveRows.map((row) => (
+                  <tr key={`${row.universe}-${row.bucket}`}><th><b>{row.universe}</b></th><td>{row.bucket}</td><td>{pct(row.mean_net_return, 2)}</td><td>{pct(row.median_net_return, 2)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHT-HYPOTHESIS FAMILY</span><h3>六個三段差額與兩個 rank IC，一次共同校正</h3></div>
+              <p>52-event circular blocks、20,000 條共同路徑及固定 seed；不刪除負面的 middle-bottom 或完整股池列。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>固定比較</th><th>平均</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半</th><th>後半</th></tr></thead>
+                <tbody>{rankFamilyRows.map((row) => {
+                  const rankIc = row.id.endsWith("rank_ic");
+                  const render = (value: number) => rankIc ? value.toFixed(4) : pp(value, 3);
+                  return (
+                    <tr className={row.id.includes("middle_bottom") ? "featured-row" : ""} key={row.id}>
+                      <th><b>{row.id.replace("eligible", "合資格池").replace("complete", "完整現時股池").replace("top_middle", "高段－中段").replace("middle_bottom", "中段－低段").replace("top_bottom", "高段－低段").replace("rank_ic", "rank IC")}</b><span>{row.events} 個事件</span></th>
+                      <td className={row.mean < 0 ? "negative-number" : ""}>{render(row.mean)}</td>
+                      <td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td>
+                      <td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td>
+                      <td>{render(row.fixed_halves.first.mean)}</td><td className={row.fixed_halves.second.mean < 0 ? "negative-number" : ""}>{render(row.fixed_halves.second.mean)}</td>
+                    </tr>
+                  );
+                })}</tbody>
+              </table>
+            </div>
+            <div className="subsection-heading stock-heading">
+              <div><span>RANDOM-RANK PLACEBOS</span><h3>每個 universe 20 組固定亂數排序，完整呈列最強比較</h3></div>
+              <p>eligible 真實平均及 t 同時高於 placebo 最大值；complete 真實 t {rankCompleteTopBottom.newey_west.t_stat.toFixed(2)} 低於 P14 的 {rankCompletePlacebo.maximum_placebo_t.toFixed(2)}，故跨 universe 門檻失敗。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>真實平均</th><th>真實 NW t</th><th>placebo 最大平均</th><th>最強 t</th><th>同時勝出</th></tr></thead>
+                <tbody>
+                  <tr><th><b>合資格池</b></th><td>{pp(rankEligiblePlacebo.true_mean, 3)}</td><td>{rankEligiblePlacebo.true_t.toFixed(2)}</td><td>{rankEligiblePlacebo.maximum_placebo_mean_id} · {pp(rankEligiblePlacebo.maximum_placebo_mean, 3)}</td><td>{rankEligiblePlacebo.maximum_placebo_t_id} · {rankEligiblePlacebo.maximum_placebo_t.toFixed(2)}</td><td>是</td></tr>
+                  <tr className="featured-row"><th><b>完整現時股池</b></th><td>{pp(rankCompletePlacebo.true_mean, 3)}</td><td>{rankCompletePlacebo.true_t.toFixed(2)}</td><td>{rankCompletePlacebo.maximum_placebo_mean_id} · {pp(rankCompletePlacebo.maximum_placebo_mean, 3)}</td><td>{rankCompletePlacebo.maximum_placebo_t_id} · {rankCompletePlacebo.maximum_placebo_t.toFixed(2)}</td><td className="negative-number">否</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <details className="method-details">
+              <summary>展開全部 40 組隨機排序 placebo</summary>
+              <div className="metric-table-wrap">
+                <table className="metric-table compact-table">
+                  <thead><tr><th>Universe</th><th>Placebo</th><th>平均 top-bottom</th><th>NW t</th><th>前半</th><th>後半</th></tr></thead>
+                  <tbody>{rankPlaceboRows.map((row) => (
+                    <tr key={`${row.universe}-${row.id}`}><th><b>{row.universe}</b></th><td>{row.id}</td><td className={row.mean < 0 ? "negative-number" : ""}>{pp(row.mean, 3)}</td><td>{row.newey_west.t_stat.toFixed(2)}</td><td>{pp(row.fixed_halves.first.mean, 3)}</td><td className={row.fixed_halves.second.mean < 0 ? "negative-number" : ""}>{pp(row.fixed_halves.second.mean, 3)}</td></tr>
+                  ))}</tbody>
+                </table>
+              </div>
+            </details>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>REGIME &amp; TAIL FALSIFICATION</span><h3>QQQ 下跌組兩個平均皆負；最大 46 個差額移除後亦未過</h3></div>
+              <p>未來 QQQ 方向是事後壓力，不是可知的 regime 訊號；尾部壓力分別移除各 universe 最大的絕對 top-bottom 差額。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>固定壓力</th><th>事件</th><th>平均 top-bottom</th><th>NW t</th></tr></thead>
+                <tbody>
+                  <tr><th><b>合資格池</b></th><td>未來 QQQ 非負</td><td>{rankRegimes.eligible.qqq_nonnegative.events}</td><td>{pp(rankRegimes.eligible.qqq_nonnegative.mean, 3)}</td><td>{rankRegimes.eligible.qqq_nonnegative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr className="featured-row"><th><b>合資格池</b></th><td>未來 QQQ 負</td><td>{rankRegimes.eligible.qqq_negative.events}</td><td className="negative-number">{pp(rankRegimes.eligible.qqq_negative.mean, 3)}</td><td className="negative-number">{rankRegimes.eligible.qqq_negative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>合資格池</b></th><td>移除最大 46 個差額</td><td>{rankTails.eligible.events}</td><td>{pp(rankTails.eligible.mean, 3)}</td><td>{rankTails.eligible.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>完整現時股池</b></th><td>未來 QQQ 非負</td><td>{rankRegimes.complete.qqq_nonnegative.events}</td><td>{pp(rankRegimes.complete.qqq_nonnegative.mean, 3)}</td><td>{rankRegimes.complete.qqq_nonnegative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr className="featured-row"><th><b>完整現時股池</b></th><td>未來 QQQ 負</td><td>{rankRegimes.complete.qqq_negative.events}</td><td className="negative-number">{pp(rankRegimes.complete.qqq_negative.mean, 3)}</td><td className="negative-number">{rankRegimes.complete.qqq_negative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>完整現時股池</b></th><td>移除最大 46 個差額</td><td>{rankTails.complete.events}</td><td>{pp(rankTails.complete.mean, 3)}</td><td>{rankTails.complete.newey_west.t_stat.toFixed(2)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOURTEEN FALSIFICATION GATES</span><h3>十四項門檻逐項呈列；5/14 不升格</h3></div>
+              <p>重建、覆蓋及高段對中段通過，不可抵銷底段、完整 top-bottom、IC、多重校正、placebo、市況及尾部失敗。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {rankMonotonicityPlacebo.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 27 輪事前固定門檻</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>二十三道輸入、排序、bucket、family、placebo 及決策控制</h3></div>
+              <p>23/23 只證明程式遵守凍結協議，不是策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {rankControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 27 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>二十三項 hash、時鐘、universe、bucket、IC、seed 及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中指定錯誤碼，包括 rank_monotonicity_placebo_contract_mismatch 及 rank_monotonicity_decision_boundary_breached。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {rankAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}><div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div><p>{attack.expected_error_code}</p></article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 27 DECISION</span><b>高段對中段有局部線索，但完整單調性、placebo、下跌市及尾部均未通過；不建立新策略</b></div>
+              <p>正式就緒 1/18、逐股 point-in-time 1/20、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。下一個可升級證據仍是獲授權逐期成分、永久 ID、歷史行業、公司行動及退市／退出經濟，而不是改 bucket 或只買事後最有利的 top sleeve。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 27 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_PROTOCOL.md" target="_blank" rel="noreferrer">事前排序／placebo 協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_rank_monotonicity_placebo_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 

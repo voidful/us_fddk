@@ -1,5 +1,29 @@
 # 決策與負結果
 
+## 2026-08-04：短線第 27 輪排序單調性只過 5/14；高段勝中段不等於完整 alpha 階梯
+
+- 在任何新排序統計前先固定第 24–26 輪收據、905 個原始事件、eligible／完整現時 25 股
+  兩個 universe、訊號日 20 日動量、ticker 升序 tie-break、三段 `array_split`、八假說
+  Holm 及 52-event／20,000 路徑共同 max-t、每 universe 20 組隨機 placebo、QQQ 未來
+  升跌市與移除 46 個最大絕對差事件。協議 SHA-256 為
+  `557416f499a96c525d6b3cf42350237921aca41ff4b1f836bd4f746cc0829e0f`，先以 commit
+  `b0c7978` 保存；結果前沒有 coverage repair 或參數改動。
+- 原 905 個事件全部重建，eligible 每事件 7–25 股、complete 固定 25 股；每段互斥、聯集
+  完整且最多相差一股。eligible／complete 的 top-middle 平均為 +0.516／+0.400 個百分點，
+  NW t **2.57／2.30**；但八列共同 family 的 Holm／max-t 最小 p 仍只有
+  **0.0825／0.0809**，未過 0.05。
+- 排序不是單調階梯：eligible／complete 的 middle-bottom 平均為 **-0.145／-0.149 個
+  百分點**，top-bottom t 只有 **1.46／1.09**，rank IC t 只有 **1.01／1.46**。前後半
+  top-middle 均正，不足以事後刪除底段反彈及另外六個已固定假說。
+- eligible 真實 top-bottom 的平均及 t 都高於 20 組 placebo 最大值；complete 真實平均
+  雖較高，但 t **1.09** 低於 P14 的 **1.22**，所以兩個 universe 同時勝出的門檻失敗。
+  未來 QQQ 下跌時 eligible／complete 平均為 **-0.647／-0.183 個百分點**；移除 46 個
+  最大絕對差後 t 只有 **1.46／1.93**。
+- 十四項反證只過 **5/14**；23/23 控制與 23/23 單欄變異攻擊拒收只證明執行遵守凍結
+  協議，不證明盈利。決定：不改 bucket 數、不改只買 top sleeve、不用上升市結果建立
+  regime 訊號，也不把 long-short 診斷冒充可沽空策略。正式就緒 1/18、point-in-time
+  1/20、策略 run 0、Paper 全現金、持倉 0、實金 US$0。
+
 ## 2026-08-04：短線第 26 輪共同風險殘差只過 6/14；不能把正面排名差寫成已校正 alpha
 
 - 在計算任何 beta 或殘差前先固定第 24／25 輪收據、905 個原始事件、60／252 日 OLS
