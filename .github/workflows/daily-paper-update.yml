@@ -84,6 +84,7 @@ jobs:
           python scripts/build_short_term_provider_convergence_report.py
           python scripts/build_short_term_provider_gap_closure_report.py
           python scripts/build_short_term_survivorship_contamination_report.py
+          python scripts/build_short_term_temporal_tail_robustness_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -132,6 +133,9 @@ jobs:
             artifacts/short_term_survivorship_contamination_validation.json \
             site/data/short-term-survivorship-contamination.json \
             docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_RESEARCH_REPORT.md \
+            artifacts/short_term_temporal_tail_robustness_validation.json \
+            site/data/short-term-temporal-tail-robustness.json \
+            docs/SHORT_TERM_TEMPORAL_TAIL_ROBUSTNESS_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -152,6 +156,7 @@ jobs:
           pytest tests/test_provider_convergence.py
           pytest tests/test_provider_gap_closure.py
           pytest tests/test_survivorship_contamination.py
+          pytest tests/test_temporal_tail_robustness.py
           pytest tests/test_daily_momentum_regime.py
           pytest tests/test_site_export.py
           pytest tests/test_v25_live.py -k audit

@@ -1,0 +1,3649 @@
+{
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 15,
+    "total": 15
+  },
+  "attacks": [
+    {
+      "expected_error_code": "robustness_input_hash_mismatch",
+      "id": "01",
+      "label": "輸入 SHA 漂移",
+      "observed_error_code": "robustness_input_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_path_not_frozen",
+      "id": "02",
+      "label": "事件路徑漂移",
+      "observed_error_code": "robustness_path_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_horizon_not_frozen",
+      "id": "03",
+      "label": "改用 10 日",
+      "observed_error_code": "robustness_horizon_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_event_count_mismatch",
+      "id": "04",
+      "label": "事件數漂移",
+      "observed_error_code": "robustness_event_count_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_event_order_invalid",
+      "id": "05",
+      "label": "容許日期重排",
+      "observed_error_code": "robustness_event_order_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_baseline_not_paired",
+      "id": "06",
+      "label": "取消配對 baseline",
+      "observed_error_code": "robustness_baseline_not_paired",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_cost_double_counted",
+      "id": "07",
+      "label": "重複扣成本",
+      "observed_error_code": "robustness_cost_double_counted",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_hac_lags_not_frozen",
+      "id": "08",
+      "label": "刪除 HAC lag 52",
+      "observed_error_code": "robustness_hac_lags_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_calendar_clusters_not_frozen",
+      "id": "09",
+      "label": "刪除 2008 cluster",
+      "observed_error_code": "robustness_calendar_clusters_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_epochs_not_frozen",
+      "id": "10",
+      "label": "合併市場時段",
+      "observed_error_code": "robustness_epochs_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_year_removal_not_frozen",
+      "id": "11",
+      "label": "只刪最佳一年",
+      "observed_error_code": "robustness_year_removal_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_winsor_grid_not_frozen",
+      "id": "12",
+      "label": "刪除 5% winsor",
+      "observed_error_code": "robustness_winsor_grid_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_tail_removal_not_frozen",
+      "id": "13",
+      "label": "刪除較少極端事件",
+      "observed_error_code": "robustness_tail_removal_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_bootstrap_not_frozen",
+      "id": "14",
+      "label": "縮短 bootstrap block",
+      "observed_error_code": "robustness_bootstrap_not_frozen",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "robustness_decision_boundary_breached",
+      "id": "15",
+      "label": "提前授權 Paper",
+      "observed_error_code": "robustness_decision_boundary_breached",
+      "rejected": true
+    }
+  ],
+  "best_year_ranking": [
+    2025,
+    2026,
+    2009,
+    2012,
+    2020,
+    2018,
+    2016,
+    2019,
+    2006,
+    2014,
+    2010,
+    2015,
+    2013,
+    2007,
+    2023,
+    2024,
+    2011,
+    2017,
+    2008,
+    2022,
+    2021
+  ],
+  "best_year_removals": [
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.002745484716,
+        "standard_error": 0.001014193207,
+        "t_stat": 2.707062813947,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 165,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.002318016751,
+          "median_difference": 0.000300344713,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.120536871027,
+            "lag": 4,
+            "mean_difference": 0.002318016751,
+            "standard_error": 0.003254518007,
+            "t_stat": 0.712245790449
+          },
+          "positive_fraction": 0.527272727273,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 857,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 428,
+        "second_mean_difference": 0.00201406114
+      },
+      "mean_difference": 0.002745484716,
+      "median_difference": 0.000895307018,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.14276520523,
+        "lag": 4,
+        "mean_difference": 0.002745484716,
+        "standard_error": 0.001020648113,
+        "t_stat": 2.689942480021
+      },
+      "positive_fraction": 0.521586931155,
+      "removed_count": 1,
+      "removed_years": [
+        2025
+      ]
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 18,
+        "degrees_of_freedom": 17,
+        "mean_difference": 0.001800965383,
+        "standard_error": 0.000822138082,
+        "t_stat": 2.190587473346,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 92,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.001691600187,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.087963209747,
+            "lag": 4,
+            "mean_difference": 0.001691600187,
+            "standard_error": 0.002651743436,
+            "t_stat": 0.63792000544
+          },
+          "positive_fraction": 0.478260869565,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 138,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": -0.001009480054,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": -0.052492962787,
+            "lag": 4,
+            "mean_difference": -0.001009480054,
+            "standard_error": 0.002642396351,
+            "t_stat": -0.382032034307
+          },
+          "positive_fraction": 0.485507246377,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 788,
+      "fixed_halves": {
+        "first_events": 387,
+        "first_mean_difference": 0.00278791619,
+        "second_events": 401,
+        "second_mean_difference": 0.000848471712
+      },
+      "mean_difference": 0.001800965383,
+      "median_difference": 0.000382466662,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.093650199931,
+        "lag": 4,
+        "mean_difference": 0.001800965383,
+        "standard_error": 0.000924989502,
+        "t_stat": 1.947011701315
+      },
+      "positive_fraction": 0.510152284264,
+      "removed_count": 3,
+      "removed_years": [
+        2025,
+        2026,
+        2009
+      ]
+    }
+  ],
+  "calendar_cluster": {
+    "clusters": 21,
+    "degrees_of_freedom": 20,
+    "mean_difference": 0.003189356984,
+    "standard_error": 0.001061337476,
+    "t_stat": 3.005035681187,
+    "two_sided_5pct_critical": 2.085963
+  },
+  "calendar_years": [
+    {
+      "events": 22,
+      "mean_difference": 0.008374748302,
+      "median_difference": 0.005505990616,
+      "positive_fraction": 0.590909090909,
+      "share_of_net_sum": 0.06383262916,
+      "share_of_positive_sum": 0.032670907549,
+      "sum_difference": 0.18424446265,
+      "year": 2006
+    },
+    {
+      "events": 47,
+      "mean_difference": 0.002044338617,
+      "median_difference": -0.000298475084,
+      "positive_fraction": 0.446808510638,
+      "share_of_net_sum": 0.033288864297,
+      "share_of_positive_sum": 0.037218709115,
+      "sum_difference": 0.096083915004,
+      "year": 2007
+    },
+    {
+      "events": 23,
+      "mean_difference": -0.005421789583,
+      "median_difference": 0.0,
+      "positive_fraction": 0.434782608696,
+      "share_of_net_sum": -0.04320348527,
+      "share_of_positive_sum": 0.011032180771,
+      "sum_difference": -0.124701160409,
+      "year": 2008
+    },
+    {
+      "events": 42,
+      "mean_difference": 0.009808063531,
+      "median_difference": 0.007433275553,
+      "positive_fraction": 0.595238095238,
+      "share_of_net_sum": 0.142718689466,
+      "share_of_positive_sum": 0.072602065185,
+      "sum_difference": 0.411938668307,
+      "year": 2009
+    },
+    {
+      "events": 38,
+      "mean_difference": 0.003616512826,
+      "median_difference": 0.0,
+      "positive_fraction": 0.473684210526,
+      "share_of_net_sum": 0.047612599659,
+      "share_of_positive_sum": 0.039154076446,
+      "sum_difference": 0.137427487398,
+      "year": 2010
+    },
+    {
+      "events": 41,
+      "mean_difference": 0.000107855593,
+      "median_difference": 0.0,
+      "positive_fraction": 0.487804878049,
+      "share_of_net_sum": 0.001532056628,
+      "share_of_positive_sum": 0.033724273685,
+      "sum_difference": 0.004422079332,
+      "year": 2011
+    },
+    {
+      "events": 43,
+      "mean_difference": 0.006798183536,
+      "median_difference": 0.003917518183,
+      "positive_fraction": 0.674418604651,
+      "share_of_net_sum": 0.101276720405,
+      "share_of_positive_sum": 0.052888324925,
+      "sum_difference": 0.292321892039,
+      "year": 2012
+    },
+    {
+      "events": 51,
+      "mean_difference": 0.001966027981,
+      "median_difference": -0.00104710231,
+      "positive_fraction": 0.470588235294,
+      "share_of_net_sum": 0.034738267814,
+      "share_of_positive_sum": 0.040216545132,
+      "sum_difference": 0.100267427036,
+      "year": 2013
+    },
+    {
+      "events": 51,
+      "mean_difference": 0.002781394206,
+      "median_difference": 0.00370848525,
+      "positive_fraction": 0.56862745098,
+      "share_of_net_sum": 0.049145189051,
+      "share_of_positive_sum": 0.036365591892,
+      "sum_difference": 0.141851104484,
+      "year": 2014
+    },
+    {
+      "events": 47,
+      "mean_difference": 0.00268540514,
+      "median_difference": -0.000109623791,
+      "positive_fraction": 0.468085106383,
+      "share_of_net_sum": 0.043727632267,
+      "share_of_positive_sum": 0.029627705826,
+      "sum_difference": 0.126214041564,
+      "year": 2015
+    },
+    {
+      "events": 45,
+      "mean_difference": 0.004519134232,
+      "median_difference": 0.002936108091,
+      "positive_fraction": 0.6,
+      "share_of_net_sum": 0.070455685301,
+      "share_of_positive_sum": 0.049084703281,
+      "sum_difference": 0.203361040423,
+      "year": 2016
+    },
+    {
+      "events": 52,
+      "mean_difference": -0.0003131827,
+      "median_difference": -0.002487129582,
+      "positive_fraction": 0.442307692308,
+      "share_of_net_sum": -0.005642211951,
+      "share_of_positive_sum": 0.042507240923,
+      "sum_difference": -0.016285500422,
+      "year": 2017
+    },
+    {
+      "events": 42,
+      "mean_difference": 0.005073373555,
+      "median_difference": 0.0,
+      "positive_fraction": 0.47619047619,
+      "share_of_net_sum": 0.073823463996,
+      "share_of_positive_sum": 0.050939266462,
+      "sum_difference": 0.213081689317,
+      "year": 2018
+    },
+    {
+      "events": 50,
+      "mean_difference": 0.00378479027,
+      "median_difference": 0.003789000708,
+      "positive_fraction": 0.56,
+      "share_of_net_sum": 0.065563195295,
+      "share_of_positive_sum": 0.046955394436,
+      "sum_difference": 0.189239513484,
+      "year": 2019
+    },
+    {
+      "events": 47,
+      "mean_difference": 0.005427242782,
+      "median_difference": 0.003076792316,
+      "positive_fraction": 0.617021276596,
+      "share_of_net_sum": 0.088374179776,
+      "share_of_positive_sum": 0.067787562625,
+      "sum_difference": 0.255080410744,
+      "year": 2020
+    },
+    {
+      "events": 51,
+      "mean_difference": -0.00478704771,
+      "median_difference": -0.005982852799,
+      "positive_fraction": 0.43137254902,
+      "share_of_net_sum": -0.084583610707,
+      "share_of_positive_sum": 0.044565177273,
+      "sum_difference": -0.244139433214,
+      "year": 2021
+    },
+    {
+      "events": 36,
+      "mean_difference": -0.006187653041,
+      "median_difference": -0.002406795123,
+      "positive_fraction": 0.388888888889,
+      "share_of_net_sum": -0.077175018594,
+      "share_of_positive_sum": 0.020686610513,
+      "sum_difference": -0.222755509494,
+      "year": 2022
+    },
+    {
+      "events": 50,
+      "mean_difference": 0.001388711364,
+      "median_difference": 0.000870122886,
+      "positive_fraction": 0.56,
+      "share_of_net_sum": 0.024056380382,
+      "share_of_positive_sum": 0.050637096584,
+      "sum_difference": 0.069435568221,
+      "year": 2023
+    },
+    {
+      "events": 52,
+      "mean_difference": 0.000269455651,
+      "median_difference": -0.00077091842,
+      "positive_fraction": 0.480769230769,
+      "share_of_net_sum": 0.004854437666,
+      "share_of_positive_sum": 0.058903879522,
+      "sum_difference": 0.014011693877,
+      "year": 2024
+    },
+    {
+      "events": 48,
+      "mean_difference": 0.011114326432,
+      "median_difference": 0.007237990684,
+      "positive_fraction": 0.604166666667,
+      "share_of_net_sum": 0.184830089483,
+      "share_of_positive_sum": 0.098838210732,
+      "sum_difference": 0.533487668713,
+      "year": 2025
+    },
+    {
+      "events": 27,
+      "mean_difference": 0.019325222638,
+      "median_difference": 0.018971412615,
+      "positive_fraction": 0.740740740741,
+      "share_of_net_sum": 0.180774245878,
+      "share_of_positive_sum": 0.083594477125,
+      "sum_difference": 0.521781011232,
+      "year": 2026
+    }
+  ],
+  "control_summary": {
+    "all_passed": true,
+    "passed": 15,
+    "total": 15
+  },
+  "controls": [
+    {
+      "id": "01",
+      "label": "輸入 SHA",
+      "passed": true
+    },
+    {
+      "id": "02",
+      "label": "固定事件路徑",
+      "passed": true
+    },
+    {
+      "id": "03",
+      "label": "固定 20 日期限",
+      "passed": true
+    },
+    {
+      "id": "04",
+      "label": "905 個事件",
+      "passed": true
+    },
+    {
+      "id": "05",
+      "label": "嚴格日期順序",
+      "passed": true
+    },
+    {
+      "id": "06",
+      "label": "逐事件配對 baseline",
+      "passed": true
+    },
+    {
+      "id": "07",
+      "label": "成本不重扣",
+      "passed": true
+    },
+    {
+      "id": "08",
+      "label": "四個 HAC lag",
+      "passed": true
+    },
+    {
+      "id": "09",
+      "label": "21 個曆年 cluster",
+      "passed": true
+    },
+    {
+      "id": "10",
+      "label": "五個固定時段",
+      "passed": true
+    },
+    {
+      "id": "11",
+      "label": "最佳 1／3 年刪除",
+      "passed": true
+    },
+    {
+      "id": "12",
+      "label": "兩個 winsor grid",
+      "passed": true
+    },
+    {
+      "id": "13",
+      "label": "10／46 個極端事件刪除",
+      "passed": true
+    },
+    {
+      "id": "14",
+      "label": "52／5,000／seed circular bootstrap",
+      "passed": true
+    },
+    {
+      "id": "15",
+      "label": "決策邊界",
+      "passed": true
+    }
+  ],
+  "decision": {
+    "can_promote_from_this_round": false,
+    "complete_risk_free_packages": 0,
+    "formal_readiness": "1/18",
+    "formal_strategy_runs": 0,
+    "not_rejected_by_round23": false,
+    "paper_positions": 0,
+    "paper_status": "all_cash_not_started",
+    "point_in_time_readiness": "1/20",
+    "qualified_provider_packages": 0,
+    "real_money_action_usd": 0,
+    "us1000_is_reader_example_only": true
+  },
+  "epochs": [
+    {
+      "end": "2009-12-31",
+      "events": 134,
+      "id": "2006_2009",
+      "label": "2006–2009",
+      "mean_difference": 0.00423556631,
+      "median_difference": 0.00075069485,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.220249448124,
+        "lag": 4,
+        "mean_difference": 0.00423556631,
+        "standard_error": 0.00277429647,
+        "t_stat": 1.526717261646
+      },
+      "positive_fraction": 0.514925373134,
+      "start": "2006-08-04"
+    },
+    {
+      "end": "2013-12-31",
+      "events": 173,
+      "id": "2010_2013",
+      "label": "2010–2013",
+      "mean_difference": 0.003089242114,
+      "median_difference": 0.000927160986,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.160640589953,
+        "lag": 4,
+        "mean_difference": 0.003089242114,
+        "standard_error": 0.001735541145,
+        "t_stat": 1.779987829267
+      },
+      "positive_fraction": 0.526011560694,
+      "start": "2010-01-01"
+    },
+    {
+      "end": "2017-12-31",
+      "events": 195,
+      "id": "2014_2017",
+      "label": "2014–2017",
+      "mean_difference": 0.0023340548,
+      "median_difference": 0.000998461506,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.121370849613,
+        "lag": 4,
+        "mean_difference": 0.0023340548,
+        "standard_error": 0.001463877623,
+        "t_stat": 1.594433006586
+      },
+      "positive_fraction": 0.517948717949,
+      "start": "2014-01-01"
+    },
+    {
+      "end": "2021-12-31",
+      "events": 190,
+      "id": "2018_2021",
+      "label": "2018–2021",
+      "mean_difference": 0.002175064107,
+      "median_difference": 0.001302661331,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.113103333564,
+        "lag": 4,
+        "mean_difference": 0.002175064107,
+        "standard_error": 0.00210925413,
+        "t_stat": 1.03120059193
+      },
+      "positive_fraction": 0.521052631579,
+      "start": "2018-01-01"
+    },
+    {
+      "end": "2026-07-02",
+      "events": 213,
+      "id": "2022_2026",
+      "label": "2022–2026",
+      "mean_difference": 0.004300283721,
+      "median_difference": 0.001086518057,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.223614753486,
+        "lag": 4,
+        "mean_difference": 0.004300283721,
+        "standard_error": 0.003083616706,
+        "t_stat": 1.394558445853
+      },
+      "positive_fraction": 0.544600938967,
+      "start": "2022-01-01"
+    }
+  ],
+  "gate_summary": {
+    "all_passed": false,
+    "passed": 7,
+    "total": 8
+  },
+  "gates": [
+    {
+      "id": "calendar_cluster_t",
+      "label": "曆年 cluster t 不低於 t(20) 5% 臨界值",
+      "passed": true
+    },
+    {
+      "id": "block_bootstrap_lower_bound",
+      "label": "52-event block bootstrap 2.5% 分位數大於零",
+      "passed": true
+    },
+    {
+      "id": "positive_calendar_years",
+      "label": "至少 14/21 個曆年平均差為正",
+      "passed": true
+    },
+    {
+      "id": "all_epochs_positive",
+      "label": "五個固定市場時段平均差全為正",
+      "passed": true
+    },
+    {
+      "id": "remove_best_year",
+      "label": "刪除最佳一年後平均為正且 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "remove_best_three_years",
+      "label": "刪除最佳三年後平均為正且 NW t 不低於 1.96",
+      "passed": false
+    },
+    {
+      "id": "winsor_one_percent",
+      "label": "1% 對稱 winsor 後平均為正且 NW t 不低於 1.96",
+      "passed": true
+    },
+    {
+      "id": "winsor_five_percent",
+      "label": "5% 對稱 winsor 後平均為正且 NW t 不低於 1.96",
+      "passed": true
+    }
+  ],
+  "generated_on": "2026-08-04",
+  "hac_frontier": [
+    {
+      "annualized_event_difference": 0.165846563155,
+      "lag": 4,
+      "mean_difference": 0.003189356984,
+      "standard_error": 0.001054021007,
+      "t_stat": 3.025895083361
+    },
+    {
+      "annualized_event_difference": 0.165846563155,
+      "lag": 13,
+      "mean_difference": 0.003189356984,
+      "standard_error": 0.001043045454,
+      "t_stat": 3.057735377605
+    },
+    {
+      "annualized_event_difference": 0.165846563155,
+      "lag": 26,
+      "mean_difference": 0.003189356984,
+      "standard_error": 0.001022138527,
+      "t_stat": 3.120278611403
+    },
+    {
+      "annualized_event_difference": 0.165846563155,
+      "lag": 52,
+      "mean_difference": 0.003189356984,
+      "standard_error": 0.001018588672,
+      "t_stat": 3.131153007398
+    }
+  ],
+  "input": {
+    "embedded_round_trip_cost_bps_each_side": 20,
+    "event_path": "taiwan_reference_signal_layer_diagnostic.horizons[\"20\"].event_series",
+    "event_series_sha256": "98cf4daa4b4509329e6c4a279774fd56b69ba901bd7f2fca0f7976a63c8eba3c",
+    "events": 905,
+    "first_signal_date": "2006-08-04",
+    "holding_period_sessions": 20,
+    "last_signal_date": "2026-07-02",
+    "path": "artifacts/short_term_high_return_validation.json",
+    "sha256": "fa2463cc8273a316e4a98428767b695eb85c74e9ac75c47b5ca34592102979e8",
+    "top_k": 7
+  },
+  "leave_one_year_out": [
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003060162636,
+        "standard_error": 0.001079702758,
+        "t_stat": 2.834263979033,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 112,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.003422512704,
+          "median_difference": 0.00037057654,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.177970660633,
+            "lag": 4,
+            "mean_difference": 0.003422512704,
+            "standard_error": 0.003092009773,
+            "t_stat": 1.106889355508
+          },
+          "positive_fraction": 0.5,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 883,
+      "fixed_halves": {
+        "first_events": 407,
+        "first_mean_difference": 0.003210363074,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003060162636,
+      "median_difference": 0.000944737264,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.159128457075,
+        "lag": 4,
+        "mean_difference": 0.003060162636,
+        "standard_error": 0.001068921539,
+        "t_stat": 2.862850568672
+      },
+      "positive_fraction": 0.524348810872,
+      "removed_year": 2006
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003252079435,
+        "standard_error": 0.001119632247,
+        "t_stat": 2.904596079496,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 87,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.005419332995,
+          "median_difference": 0.002456730576,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.28180531573,
+            "lag": 4,
+            "mean_difference": 0.005419332995,
+            "standard_error": 0.00390203209,
+            "t_stat": 1.388848904743
+          },
+          "positive_fraction": 0.551724137931,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 858,
+      "fixed_halves": {
+        "first_events": 382,
+        "first_mean_difference": 0.003651252143,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003252079435,
+      "median_difference": 0.001094908006,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.169108130623,
+        "lag": 4,
+        "mean_difference": 0.003252079435,
+        "standard_error": 0.001098566425,
+        "t_stat": 2.9602938541
+      },
+      "positive_fraction": 0.530303030303,
+      "removed_year": 2007
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003413910692,
+        "standard_error": 0.001068142962,
+        "t_stat": 3.196117762234,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 111,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.006236640054,
+          "median_difference": 0.001343650285,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.324305282792,
+            "lag": 4,
+            "mean_difference": 0.006236640054,
+            "standard_error": 0.00300562182,
+            "t_stat": 2.074991608205
+          },
+          "positive_fraction": 0.531531531532,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 882,
+      "fixed_halves": {
+        "first_events": 406,
+        "first_mean_difference": 0.003979220183,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003413910692,
+      "median_difference": 0.001090676018,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.177523356005,
+        "lag": 4,
+        "mean_difference": 0.003413910692,
+        "standard_error": 0.001068018377,
+        "t_stat": 3.196490589503
+      },
+      "positive_fraction": 0.528344671202,
+      "removed_year": 2008
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.002867241485,
+        "standard_error": 0.001058276998,
+        "t_stat": 2.709348773473,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 92,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.001691600187,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.087963209747,
+            "lag": 4,
+            "mean_difference": 0.001691600187,
+            "standard_error": 0.002651743436,
+            "t_stat": 0.63792000544
+          },
+          "positive_fraction": 0.478260869565,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 863,
+      "fixed_halves": {
+        "first_events": 387,
+        "first_mean_difference": 0.00278791619,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.002867241485,
+      "median_difference": 0.000864374027,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.149096557246,
+        "lag": 4,
+        "mean_difference": 0.002867241485,
+        "standard_error": 0.001053515153,
+        "t_stat": 2.721594916922
+      },
+      "positive_fraction": 0.522595596756,
+      "removed_year": 2009
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003170635044,
+        "standard_error": 0.001108897226,
+        "t_stat": 2.859268622114,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 135,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.002940825173,
+          "median_difference": 0.001415014878,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.152922909016,
+            "lag": 4,
+            "mean_difference": 0.002940825173,
+            "standard_error": 0.001905197416,
+            "t_stat": 1.543580286704
+          },
+          "positive_fraction": 0.540740740741,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 867,
+      "fixed_halves": {
+        "first_events": 391,
+        "first_mean_difference": 0.00346146994,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003170635044,
+      "median_difference": 0.001004319572,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.164873022273,
+        "lag": 4,
+        "mean_difference": 0.003170635044,
+        "standard_error": 0.001082032135,
+        "t_stat": 2.930259593586
+      },
+      "positive_fraction": 0.528258362168,
+      "removed_year": 2010
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003335585638,
+        "standard_error": 0.001104098926,
+        "t_stat": 3.021093091698,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 132,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.004015278837,
+          "median_difference": 0.001400161905,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.20879449952,
+            "lag": 4,
+            "mean_difference": 0.004015278837,
+            "standard_error": 0.001949046723,
+            "t_stat": 2.060124465167
+          },
+          "positive_fraction": 0.537878787879,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 864,
+      "fixed_halves": {
+        "first_events": 388,
+        "first_mean_difference": 0.003831031326,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003335585638,
+      "median_difference": 0.001045418815,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.173450453159,
+        "lag": 4,
+        "mean_difference": 0.003335585638,
+        "standard_error": 0.001089759049,
+        "t_stat": 3.060846927205
+      },
+      "positive_fraction": 0.527777777778,
+      "removed_year": 2011
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003009334314,
+        "standard_error": 0.001097596009,
+        "t_stat": 2.741750415634,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 130,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.001862438414,
+          "median_difference": -7.6622671e-05,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.096846797507,
+            "lag": 4,
+            "mean_difference": 0.001862438414,
+            "standard_error": 0.001941307484,
+            "t_stat": 0.959373220828
+          },
+          "positive_fraction": 0.476923076923,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 862,
+      "fixed_halves": {
+        "first_events": 386,
+        "first_mean_difference": 0.003105026792,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003009334314,
+      "median_difference": 0.000745753253,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.156485384303,
+        "lag": 4,
+        "mean_difference": 0.003009334314,
+        "standard_error": 0.001090834758,
+        "t_stat": 2.75874443197
+      },
+      "positive_fraction": 0.518561484919,
+      "removed_year": 2012
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003262412931,
+        "standard_error": 0.001124290014,
+        "t_stat": 2.9017538979,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 122,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003558782449,
+          "median_difference": 0.001194814252,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.185056687344,
+            "lag": 4,
+            "mean_difference": 0.003558782449,
+            "standard_error": 0.002274407235,
+            "t_stat": 1.564707671252
+          },
+          "positive_fraction": 0.549180327869,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 854,
+      "fixed_halves": {
+        "first_events": 378,
+        "first_mean_difference": 0.00367882224,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003262412931,
+      "median_difference": 0.001001390539,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.169645472423,
+        "lag": 4,
+        "mean_difference": 0.003262412931,
+        "standard_error": 0.001109168133,
+        "t_stat": 2.941315058557
+      },
+      "positive_fraction": 0.529274004684,
+      "removed_year": 2013
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.0032137201,
+        "standard_error": 0.001126132738,
+        "t_stat": 2.853766693224,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 144,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.002175622094,
+          "median_difference": 0.000354102938,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113132348899,
+            "lag": 4,
+            "mean_difference": 0.002175622094,
+            "standard_error": 0.001883182625,
+            "t_stat": 1.155290020733
+          },
+          "positive_fraction": 0.5,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 854,
+      "fixed_halves": {
+        "first_events": 378,
+        "first_mean_difference": 0.003568812511,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.0032137201,
+      "median_difference": 0.000879840523,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.167113445225,
+        "lag": 4,
+        "mean_difference": 0.0032137201,
+        "standard_error": 0.001112152604,
+        "t_stat": 2.88963950405
+      },
+      "positive_fraction": 0.523419203747,
+      "removed_year": 2014
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003216962737,
+        "standard_error": 0.001120830847,
+        "t_stat": 2.87015899498,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 148,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.002222477328,
+          "median_difference": 0.002141222266,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.115568821035,
+            "lag": 4,
+            "mean_difference": 0.002222477328,
+            "standard_error": 0.001794834889,
+            "t_stat": 1.238262829022
+          },
+          "positive_fraction": 0.533783783784,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 858,
+      "fixed_halves": {
+        "first_events": 382,
+        "first_mean_difference": 0.003572377467,
+        "second_events": 476,
+        "second_mean_difference": 0.002931734951
+      },
+      "mean_difference": 0.003216962737,
+      "median_difference": 0.001045418815,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.167282062347,
+        "lag": 4,
+        "mean_difference": 0.003216962737,
+        "standard_error": 0.001105052655,
+        "t_stat": 2.911139774536
+      },
+      "positive_fraction": 0.529137529138,
+      "removed_year": 2015
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003119775616,
+        "standard_error": 0.001115149979,
+        "t_stat": 2.797628727485,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 150,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.001678530971,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.087283610484,
+            "lag": 4,
+            "mean_difference": 0.001678530971,
+            "standard_error": 0.001610528321,
+            "t_stat": 1.042223815055
+          },
+          "positive_fraction": 0.493333333333,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 860,
+      "fixed_halves": {
+        "first_events": 405,
+        "first_mean_difference": 0.003382888685,
+        "second_events": 455,
+        "second_mean_difference": 0.002885576071
+      },
+      "mean_difference": 0.003119775616,
+      "median_difference": 0.000860642104,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.162228332038,
+        "lag": 4,
+        "mean_difference": 0.003119775616,
+        "standard_error": 0.001095608889,
+        "t_stat": 2.847526746639
+      },
+      "positive_fraction": 0.522093023256,
+      "removed_year": 2016
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003402876402,
+        "standard_error": 0.001106820858,
+        "t_stat": 3.074459951209,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 143,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.003296686619,
+          "median_difference": 0.001844841874,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.171427704172,
+            "lag": 4,
+            "mean_difference": 0.003296686619,
+            "standard_error": 0.001468132875,
+            "t_stat": 2.245496081666
+          },
+          "positive_fraction": 0.545454545455,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 853,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 424,
+        "second_mean_difference": 0.003329696549
+      },
+      "mean_difference": 0.003402876402,
+      "median_difference": 0.001094833979,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.176949572892,
+        "lag": 4,
+        "mean_difference": 0.003402876402,
+        "standard_error": 0.001094340117,
+        "t_stat": 3.109523583157
+      },
+      "positive_fraction": 0.531066822978,
+      "removed_year": 2017
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003097666722,
+        "standard_error": 0.00110926489,
+        "t_stat": 2.792540131537,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 148,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.001352570885,
+          "median_difference": 0.001476116605,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.070333686032,
+            "lag": 4,
+            "mean_difference": 0.001352570885,
+            "standard_error": 0.002357223302,
+            "t_stat": 0.573798368631
+          },
+          "positive_fraction": 0.533783783784,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 863,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 434,
+        "second_mean_difference": 0.002724479602
+      },
+      "mean_difference": 0.003097666722,
+      "median_difference": 0.000998461506,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.161078669537,
+        "lag": 4,
+        "mean_difference": 0.003097666722,
+        "standard_error": 0.001082344855,
+        "t_stat": 2.861996070641
+      },
+      "positive_fraction": 0.528389339513,
+      "removed_year": 2018
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003154536324,
+        "standard_error": 0.001123865336,
+        "t_stat": 2.806863261392,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 140,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.001600161906,
+          "median_difference": 0.000772991916,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.083208419114,
+            "lag": 4,
+            "mean_difference": 0.001600161906,
+            "standard_error": 0.002659364648,
+            "t_stat": 0.601708346832
+          },
+          "positive_fraction": 0.507142857143,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 855,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 426,
+        "second_mean_difference": 0.002831611087
+      },
+      "mean_difference": 0.003154536324,
+      "median_difference": 0.000895307018,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.164035888835,
+        "lag": 4,
+        "mean_difference": 0.003154536324,
+        "standard_error": 0.001102561352,
+        "t_stat": 2.861098221328
+      },
+      "positive_fraction": 0.523976608187,
+      "removed_year": 2019
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003066768834,
+        "standard_error": 0.001112086397,
+        "t_stat": 2.757671383611,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 143,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.001106166221,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.057520643486,
+            "lag": 4,
+            "mean_difference": 0.001106166221,
+            "standard_error": 0.00241135546,
+            "t_stat": 0.458732127672
+          },
+          "positive_fraction": 0.48951048951,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 858,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 429,
+        "second_mean_difference": 0.002658334326
+      },
+      "mean_difference": 0.003066768834,
+      "median_difference": 0.000808573401,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.159471979366,
+        "lag": 4,
+        "mean_difference": 0.003066768834,
+        "standard_error": 0.001087234607,
+        "t_stat": 2.820705682174
+      },
+      "positive_fraction": 0.520979020979,
+      "removed_year": 2020
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003665699653,
+        "standard_error": 0.001012264642,
+        "t_stat": 3.621285876584,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 139,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.004729508011,
+          "median_difference": 0.002706892533,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.245934416578,
+            "lag": 4,
+            "mean_difference": 0.004729508011,
+            "standard_error": 0.002216807462,
+            "t_stat": 2.133477124961
+          },
+          "positive_fraction": 0.553956834532,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 213,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.004300283721,
+          "median_difference": 0.001086518057,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.223614753486,
+            "lag": 4,
+            "mean_difference": 0.004300283721,
+            "standard_error": 0.003083616706,
+            "t_stat": 1.394558445853
+          },
+          "positive_fraction": 0.544600938967,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 854,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 425,
+        "second_mean_difference": 0.00385798887
+      },
+      "mean_difference": 0.003665699653,
+      "median_difference": 0.001094908006,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.190616381946,
+        "lag": 4,
+        "mean_difference": 0.003665699653,
+        "standard_error": 0.001075641545,
+        "t_stat": 3.407919367808
+      },
+      "positive_fraction": 0.531615925059,
+      "removed_year": 2021
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003577817698,
+        "standard_error": 0.001034441156,
+        "t_stat": 3.458696202891,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 177,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.006433423401,
+          "median_difference": 0.003552784141,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.334538016872,
+            "lag": 4,
+            "mean_difference": 0.006433423401,
+            "standard_error": 0.003462745777,
+            "t_stat": 1.85789654075
+          },
+          "positive_fraction": 0.576271186441,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 869,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 440,
+        "second_mean_difference": 0.003677866695
+      },
+      "mean_difference": 0.003577817698,
+      "median_difference": 0.001189256935,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.186046520309,
+        "lag": 4,
+        "mean_difference": 0.003577817698,
+        "standard_error": 0.001068486674,
+        "t_stat": 3.348490706919
+      },
+      "positive_fraction": 0.53164556962,
+      "removed_year": 2022
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003294657897,
+        "standard_error": 0.001120447763,
+        "t_stat": 2.94048326619,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 163,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.005193404076,
+          "median_difference": 0.00124416066,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.270057011933,
+            "lag": 4,
+            "mean_difference": 0.005193404076,
+            "standard_error": 0.003845206963,
+            "t_stat": 1.350617567576
+          },
+          "positive_fraction": 0.539877300613,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 855,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 426,
+        "second_mean_difference": 0.003112841005
+      },
+      "mean_difference": 0.003294657897,
+      "median_difference": 0.000981325862,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.171322210652,
+        "lag": 4,
+        "mean_difference": 0.003294657897,
+        "standard_error": 0.001093042302,
+        "t_stat": 3.014208957942
+      },
+      "positive_fraction": 0.523976608187,
+      "removed_year": 2023
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.003367358003,
+        "standard_error": 0.001113490169,
+        "t_stat": 3.024147043537,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 161,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.005602166079,
+          "median_difference": 0.00343264694,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.291312636093,
+            "lag": 4,
+            "mean_difference": 0.005602166079,
+            "standard_error": 0.00376373296,
+            "t_stat": 1.488460031
+          },
+          "positive_fraction": 0.565217391304,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 853,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 424,
+        "second_mean_difference": 0.003258240902
+      },
+      "mean_difference": 0.003367358003,
+      "median_difference": 0.001086518057,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.175102616147,
+        "lag": 4,
+        "mean_difference": 0.003367358003,
+        "standard_error": 0.001080281009,
+        "t_stat": 3.11711302268
+      },
+      "positive_fraction": 0.528722157093,
+      "removed_year": 2024
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.002745484716,
+        "standard_error": 0.001014193207,
+        "t_stat": 2.707062813947,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 165,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.002318016751,
+          "median_difference": 0.000300344713,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.120536871027,
+            "lag": 4,
+            "mean_difference": 0.002318016751,
+            "standard_error": 0.003254518007,
+            "t_stat": 0.712245790449
+          },
+          "positive_fraction": 0.527272727273,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 857,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 428,
+        "second_mean_difference": 0.00201406114
+      },
+      "mean_difference": 0.002745484716,
+      "median_difference": 0.000895307018,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.14276520523,
+        "lag": 4,
+        "mean_difference": 0.002745484716,
+        "standard_error": 0.001020648113,
+        "t_stat": 2.689942480021
+      },
+      "positive_fraction": 0.521586931155,
+      "removed_year": 2025
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 20,
+        "degrees_of_freedom": 19,
+        "mean_difference": 0.002693151548,
+        "standard_error": 0.000962492469,
+        "t_stat": 2.798101422584,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 134,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00423556631,
+          "median_difference": 0.00075069485,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.220249448124,
+            "lag": 4,
+            "mean_difference": 0.00423556631,
+            "standard_error": 0.00277429647,
+            "t_stat": 1.526717261646
+          },
+          "positive_fraction": 0.514925373134,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 186,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.002119244201,
+          "median_difference": 0.00022408871,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.110200698433,
+            "lag": 4,
+            "mean_difference": 0.002119244201,
+            "standard_error": 0.00285538152,
+            "t_stat": 0.742193008548
+          },
+          "positive_fraction": 0.516129032258,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 878,
+      "fixed_halves": {
+        "first_events": 429,
+        "first_mean_difference": 0.003475203342,
+        "second_events": 449,
+        "second_mean_difference": 0.001945935023
+      },
+      "mean_difference": 0.002693151548,
+      "median_difference": 0.000755295024,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.140043880491,
+        "lag": 4,
+        "mean_difference": 0.002693151548,
+        "standard_error": 0.000992357987,
+        "t_stat": 2.71389113831
+      },
+      "positive_fraction": 0.519362186788,
+      "removed_year": 2026
+    }
+  ],
+  "moving_block_bootstrap": {
+    "block_length_events": 52,
+    "blocks_per_path": 18,
+    "circular": true,
+    "mean_difference_quantiles": {
+      "p025": 0.001283634948,
+      "p500": 0.003099659597,
+      "p975": 0.005368630346
+    },
+    "paths": 5000,
+    "positive_mean_fraction": 0.9998,
+    "seed": 20260804,
+    "start_index_sha256": "b94d6548e389015925d340b6444329d70f8a8ae9fa11c4cd8547cd345098a781"
+  },
+  "observed": {
+    "mean_active_difference": 0.003189356984,
+    "mean_eligible_equal_return": 0.011352299733,
+    "mean_selected_return": 0.014541656717,
+    "median_active_difference": 0.000981325862,
+    "positive_fraction": 0.525966850829
+  },
+  "positive_calendar_years": 17,
+  "protocol": {
+    "calculated_after_protocol_commit": true,
+    "commit": "77679e3024318b48c6547f0e6b68f98db0aa7171",
+    "path": "docs/SHORT_TERM_TEMPORAL_TAIL_ROBUSTNESS_PROTOCOL.md",
+    "sha256": "5119362c145ac7bfd4406973ab5d50ba2ec9d1ffd65c22de41c6cf03138b7273"
+  },
+  "receipt_float_decimal_places": 12,
+  "research_role": "survivor_cohort_temporal_tail_falsification_only",
+  "research_round": 23,
+  "schema_version": 1,
+  "sign_test": {
+    "negative": 410,
+    "nonzero_trials": 886,
+    "positive": 476,
+    "two_sided_exact_p_value": 0.028926037271,
+    "zero": 19
+  },
+  "tail_event_removals": [
+    {
+      "calendar_cluster": {
+        "clusters": 21,
+        "degrees_of_freedom": 20,
+        "mean_difference": 0.002216433579,
+        "standard_error": 0.000829711684,
+        "t_stat": 2.671329837654,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 132,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.002924741071,
+          "median_difference": 0.00066700561,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.152086535679,
+            "lag": 4,
+            "mean_difference": 0.002924741071,
+            "standard_error": 0.00224212593,
+            "t_stat": 1.304449955901
+          },
+          "positive_fraction": 0.507575757576,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 173,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.003089242114,
+          "median_difference": 0.000927160986,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.160640589953,
+            "lag": 4,
+            "mean_difference": 0.003089242114,
+            "standard_error": 0.001735541145,
+            "t_stat": 1.779987829267
+          },
+          "positive_fraction": 0.526011560694,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 190,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": 0.002175064107,
+          "median_difference": 0.001302661331,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.113103333564,
+            "lag": 4,
+            "mean_difference": 0.002175064107,
+            "standard_error": 0.00210925413,
+            "t_stat": 1.03120059193
+          },
+          "positive_fraction": 0.521052631579,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 205,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": 0.000950246241,
+          "median_difference": 0.000393133856,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.049412804526,
+            "lag": 4,
+            "mean_difference": 0.000950246241,
+            "standard_error": 0.002398430001,
+            "t_stat": 0.396195111258
+          },
+          "positive_fraction": 0.526829268293,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 895,
+      "fixed_halves": {
+        "first_events": 427,
+        "first_mean_difference": 0.003066421943,
+        "second_events": 468,
+        "second_mean_difference": 0.001440910007
+      },
+      "mean_difference": 0.002216433579,
+      "median_difference": 0.000856910182,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.115254546091,
+        "lag": 4,
+        "mean_difference": 0.002216433579,
+        "standard_error": 0.000913269322,
+        "t_stat": 2.426922184487
+      },
+      "positive_fraction": 0.520670391061,
+      "removed_count": 10,
+      "removed_first_date": "2009-04-03",
+      "removed_fraction": 0.011049723757,
+      "removed_last_date": "2026-05-01",
+      "removed_sum_difference": 0.902660017378,
+      "share_of_net_sum": 0.312732124039,
+      "share_of_positive_sum": 0.098311440468
+    },
+    {
+      "calendar_cluster": {
+        "clusters": 21,
+        "degrees_of_freedom": 20,
+        "mean_difference": 0.000104525728,
+        "standard_error": 0.000736991341,
+        "t_stat": 0.141827620183,
+        "two_sided_5pct_critical": 2.085963
+      },
+      "epochs": [
+        {
+          "end": "2009-12-31",
+          "events": 126,
+          "id": "2006_2009",
+          "label": "2006–2009",
+          "mean_difference": 0.00087690758,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.045599194175,
+            "lag": 4,
+            "mean_difference": 0.00087690758,
+            "standard_error": 0.001930902136,
+            "t_stat": 0.45414397973
+          },
+          "positive_fraction": 0.484126984127,
+          "start": "2006-08-04"
+        },
+        {
+          "end": "2013-12-31",
+          "events": 168,
+          "id": "2010_2013",
+          "label": "2010–2013",
+          "mean_difference": 0.001610805766,
+          "median_difference": 0.000296953587,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.083761899823,
+            "lag": 4,
+            "mean_difference": 0.001610805766,
+            "standard_error": 0.001544150238,
+            "t_stat": 1.043166478116
+          },
+          "positive_fraction": 0.511904761905,
+          "start": "2010-01-01"
+        },
+        {
+          "end": "2017-12-31",
+          "events": 195,
+          "id": "2014_2017",
+          "label": "2014–2017",
+          "mean_difference": 0.0023340548,
+          "median_difference": 0.000998461506,
+          "newey_west_lag4": {
+            "annualized_event_difference": 0.121370849613,
+            "lag": 4,
+            "mean_difference": 0.0023340548,
+            "standard_error": 0.001463877623,
+            "t_stat": 1.594433006586
+          },
+          "positive_fraction": 0.517948717949,
+          "start": "2014-01-01"
+        },
+        {
+          "end": "2021-12-31",
+          "events": 180,
+          "id": "2018_2021",
+          "label": "2018–2021",
+          "mean_difference": -0.000757602482,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": -0.039395329053,
+            "lag": 4,
+            "mean_difference": -0.000757602482,
+            "standard_error": 0.001859986317,
+            "t_stat": -0.407316158737
+          },
+          "positive_fraction": 0.494444444444,
+          "start": "2018-01-01"
+        },
+        {
+          "end": "2026-07-02",
+          "events": 190,
+          "id": "2022_2026",
+          "label": "2022–2026",
+          "mean_difference": -0.003211001909,
+          "median_difference": 0.0,
+          "newey_west_lag4": {
+            "annualized_event_difference": -0.166972099274,
+            "lag": 4,
+            "mean_difference": -0.003211001909,
+            "standard_error": 0.001874056363,
+            "t_stat": -1.713396658227
+          },
+          "positive_fraction": 0.489473684211,
+          "start": "2022-01-01"
+        }
+      ],
+      "events": 859,
+      "fixed_halves": {
+        "first_events": 416,
+        "first_mean_difference": 0.001850873044,
+        "second_events": 443,
+        "second_mean_difference": -0.00153538507
+      },
+      "mean_difference": 0.000104525728,
+      "median_difference": 3.2449553e-05,
+      "newey_west_lag4": {
+        "annualized_event_difference": 0.005435337857,
+        "lag": 4,
+        "mean_difference": 0.000104525728,
+        "standard_error": 0.000796568878,
+        "t_stat": 0.131219949664
+      },
+      "positive_fraction": 0.500582072177,
+      "removed_count": 46,
+      "removed_first_date": "2006-09-29",
+      "removed_fraction": 0.050828729282,
+      "removed_last_date": "2026-05-22",
+      "removed_sum_difference": 2.796580469914,
+      "share_of_net_sum": 0.968892532696,
+      "share_of_positive_sum": 0.304584061651
+    }
+  ],
+  "winsorized": [
+    {
+      "hac_frontier": [
+        {
+          "annualized_event_difference": 0.160878498809,
+          "lag": 4,
+          "mean_difference": 0.003093817285,
+          "standard_error": 0.000990124263,
+          "t_stat": 3.124675759676
+        },
+        {
+          "annualized_event_difference": 0.160878498809,
+          "lag": 13,
+          "mean_difference": 0.003093817285,
+          "standard_error": 0.000983135459,
+          "t_stat": 3.146888109296
+        },
+        {
+          "annualized_event_difference": 0.160878498809,
+          "lag": 26,
+          "mean_difference": 0.003093817285,
+          "standard_error": 0.000966716645,
+          "t_stat": 3.200335176082
+        },
+        {
+          "annualized_event_difference": 0.160878498809,
+          "lag": 52,
+          "mean_difference": 0.003093817285,
+          "standard_error": 0.000957260287,
+          "t_stat": 3.23194989616
+        }
+      ],
+      "lower_bound": -0.048954831545,
+      "lower_quantile": 0.01,
+      "mean_difference": 0.003093817285,
+      "median_difference": 0.000981325862,
+      "positive_fraction": 0.525966850829,
+      "upper_bound": 0.068848103421,
+      "upper_quantile": 0.99
+    },
+    {
+      "hac_frontier": [
+        {
+          "annualized_event_difference": 0.141598992324,
+          "lag": 4,
+          "mean_difference": 0.002723057545,
+          "standard_error": 0.000855080427,
+          "t_stat": 3.184563063347
+        },
+        {
+          "annualized_event_difference": 0.141598992324,
+          "lag": 13,
+          "mean_difference": 0.002723057545,
+          "standard_error": 0.000834167768,
+          "t_stat": 3.264400337927
+        },
+        {
+          "annualized_event_difference": 0.141598992324,
+          "lag": 26,
+          "mean_difference": 0.002723057545,
+          "standard_error": 0.00080217078,
+          "t_stat": 3.394610738086
+        },
+        {
+          "annualized_event_difference": 0.141598992324,
+          "lag": 52,
+          "mean_difference": 0.002723057545,
+          "standard_error": 0.000775915106,
+          "t_stat": 3.509478710624
+        }
+      ],
+      "lower_bound": -0.034033857013,
+      "lower_quantile": 0.05,
+      "mean_difference": 0.002723057545,
+      "median_difference": 0.000981325862,
+      "positive_fraction": 0.525966850829,
+      "upper_bound": 0.040845135093,
+      "upper_quantile": 0.95
+    }
+  ]
+}

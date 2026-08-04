@@ -10,6 +10,7 @@ import priorReturnContract from "../data/short-term-french-prior-return-contract
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
 import survivorshipStress from "../data/short-term-survivorship-contamination.json";
+import temporalTailRobustness from "../data/short-term-temporal-tail-robustness.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -30,7 +31,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十二輪量化存活者偏差與缺失退市污染，主要合成格 5/5，但嚴重退出令統計證據跌穿門檻，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十三輪以年度聚類、區塊重抽及極端贏家反證現有訊號，只過 7/8，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -145,6 +146,22 @@ const survivorshipControlRows = survivorshipStress.controls;
 const survivorshipAttackRows = survivorshipStress.attacks;
 const survivorshipSevere80 = survivorshipTwoPctRows.find((row) => row.exit_return === -0.8)!;
 const survivorshipSevere100 = survivorshipTwoPctRows.find((row) => row.exit_return === -1)!;
+const temporalBootstrap = temporalTailRobustness.moving_block_bootstrap;
+const temporalCluster = temporalTailRobustness.calendar_cluster;
+const temporalRemoveOne = temporalTailRobustness.best_year_removals.find(
+  (row) => row.removed_count === 1,
+)!;
+const temporalRemoveThree = temporalTailRobustness.best_year_removals.find(
+  (row) => row.removed_count === 3,
+)!;
+const temporalTailTen = temporalTailRobustness.tail_event_removals.find(
+  (row) => row.removed_count === 10,
+)!;
+const temporalTailFortySix = temporalTailRobustness.tail_event_removals.find(
+  (row) => row.removed_count === 46,
+)!;
+const temporalControlRows = temporalTailRobustness.controls;
+const temporalAttackRows = temporalTailRobustness.attacks;
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -741,17 +758,19 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · SURVIVORSHIP STRESS · ROUND 22</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · TEMPORAL &amp; TAIL ROBUSTNESS · ROUND 23</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />正面訊號先過退出壓力</h1>
+              <h1>短線高回報<br />正平均未過集中度反證</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十二輪只壓測現時唯一正面線索：905 個 20 日 Top-7 事件。固定主要格假設每個事件有 <strong>2%</strong> 機會漏掉一隻本來會入選、退出回報 <strong>-50%</strong> 的股份；配對差由 <strong>{pp(survivorshipStress.observed_signal.mean_active_difference, 3)}</strong> 降至 <strong>{pp(survivorshipPrimary.expected.mean_difference, 3)}</strong>，NW t 由 <strong>{survivorshipStress.observed_signal.newey_west.t_stat.toFixed(2)}</strong> 降至 <strong>{survivorshipPrimary.expected.newey_west.t_stat.toFixed(2)}</strong>，事前門檻 <strong>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total}</strong>。但相同 2% 污染下，-80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>，均低於 1.96；平均值未歸零，不等於統計證據仍可靠。
+                真實與合成分開；第二十三輪不再調整訊號，只反證現有 905 個 20 日 Top-7 事件的正平均是否依賴少數年份或極端贏家。八項事前門檻只過 <strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong>：曆年 cluster t 為 <strong>{temporalCluster.t_stat.toFixed(2)}</strong>，52-event block bootstrap 下界仍為 <strong>{pp(temporalBootstrap.mean_difference_quantiles.p025, 3)}</strong>；但刪除貢獻最大的 {temporalRemoveThree.removed_years.join("、")} 後，平均差只餘 <strong>{pp(temporalRemoveThree.mean_difference, 3)}</strong>，NW t <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>，低於固定 1.96。最大的 46 個正事件移除後，平均差亦只餘 <strong>{pp(temporalTailFortySix.mean_difference, 3)}</strong>。所以原本 t=3.03 不能標成時間集中度穩健 alpha。
+                第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
                 第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
                 第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#temporal-tail-robustness">查看第 23 輪 7/8 反證</a>
                 <a className="primary-button aggressive-button" href="#survivorship-contamination">查看 20 格退出壓力</a>
                 <a className="primary-button aggressive-button" href="#provider-gap-closure">查看五路徑 14 項矩陣</a>
                 <a className="primary-button aggressive-button" href="#provider-convergence">查看 CRSP 直接 5/10</a>
@@ -777,6 +796,9 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 23 輪集中度反證</dt><dd>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total} · 未通過</dd></div>
+                <div><dt>刪除最佳三年</dt><dd>NW t {temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)} · 低於 1.96</dd></div>
+                <div><dt>時間／尾部控制與攻擊</dt><dd>{temporalTailRobustness.control_summary.passed}/{temporalTailRobustness.control_summary.total} · {temporalTailRobustness.attack_summary.rejected}/{temporalTailRobustness.attack_summary.total}</dd></div>
                 <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
                 <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>第 22 輪主要壓力</dt><dd>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total} · 只限合成</dd></div>
@@ -805,6 +827,10 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 23 輪反證門檻</span><strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong><small>刪除最佳三年未通過</small></article>
+              <article><span>刪除最佳三年 NW t</span><strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong><small>低於固定 1.96</small></article>
+              <article><span>移除最大 5% 事件</span><strong>{pp(temporalTailFortySix.mean_difference, 3)}</strong><small>NW t {temporalTailFortySix.newey_west_lag4.t_stat.toFixed(2)}</small></article>
+              <article><span>時間／尾部攻擊</span><strong>{temporalTailRobustness.attack_summary.rejected}/{temporalTailRobustness.attack_summary.total}</strong><small>全部 fail closed</small></article>
               <article><span>第 22 輪主要合成格</span><strong>{survivorshipStress.primary_gate_summary.passed}/{survivorshipStress.primary_gate_summary.total}</strong><small>不能修復存活者偏差</small></article>
               <article><span>-100%／2% NW t</span><strong>{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong><small>低於 1.96；統計證據失效</small></article>
               <article><span>退出壓力攻擊</span><strong>{survivorshipStress.attack_summary.rejected}/{survivorshipStress.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
@@ -823,6 +849,197 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="temporal-tail-robustness">
+            <div className="section-heading">
+              <div><span>TEMPORAL &amp; TAIL ROBUSTNESS · ROUND 23</span><h2>八項反證只過 7/8；最佳三年移除後統計門檻失效</h2></div>
+              <p>只分析凍結的 905 個 20 日配對事件，不調 Top-K、持有期、成本或 baseline。年度聚類、52-event 區塊重抽、最佳年份刪除及對稱 winsor 全部在計算前固定。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>事前反證結果 · {temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</span>
+                <h3>原始平均 {pp(temporalTailRobustness.observed.mean_active_difference, 3)}；曆年 cluster t {temporalCluster.t_stat.toFixed(2)}</h3>
+                <p>52-event circular block bootstrap 的 95% 區間為 {pp(temporalBootstrap.mean_difference_quantiles.p025, 3)} 至 {pp(temporalBootstrap.mean_difference_quantiles.p975, 3)}，正平均路徑 {pct(temporalBootstrap.positive_mean_fraction, 1)}。這只描述現時 survivor cohort，不是退市修正後區間。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>刪除最佳三年</span><strong>NW t {temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong><p>{temporalRemoveThree.removed_years.join("、")} 移除後平均 {pp(temporalRemoveThree.mean_difference, 3)}，低於固定 1.96 門檻。</p></article>
+                <article><span>刪除最大 5% 正事件</span><strong>{pp(temporalTailFortySix.mean_difference, 3)}</strong><p>46 列佔全部正配對差 {pct(temporalTailFortySix.share_of_positive_sum, 1)}；移除後 NW t {temporalTailFortySix.newey_west_lag4.t_stat.toFixed(2)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>判讀邊界</b>
+              <p>7/8 是負結果，不可四捨五入成通過。現有事件沒有歷史永久 ID 或行業身份，故本輪沒有假裝做逐股集中度；正式 point-in-time／退市逐股回測仍是 0 次。</p>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>DEPENDENCE FRONTIER</span><h3>四個 Newey–West lag 與 21 個曆年 cluster</h3></div>
+              <p>lag 4 約涵蓋一個重疊持有期；13、26、52 全部呈列，不能事後挑選。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>統計</th><th>事件／cluster</th><th>平均差</th><th>標準誤</th><th>t 值</th><th>固定門檻</th></tr></thead>
+                <tbody>
+                  {temporalTailRobustness.hac_frontier.map((row) => (
+                    <tr key={row.lag}>
+                      <th><b>NW lag {row.lag}</b><span>每週重疊事件</span></th>
+                      <td>{temporalTailRobustness.input.events}</td>
+                      <td>{pp(row.mean_difference, 3)}</td>
+                      <td>{pp(row.standard_error, 3)}</td>
+                      <td>{row.t_stat.toFixed(2)}</td>
+                      <td>完整呈列</td>
+                    </tr>
+                  ))}
+                  <tr className="featured-row">
+                    <th><b>曆年 cluster</b><span>有限樣本修正</span></th>
+                    <td>{temporalCluster.clusters}</td>
+                    <td>{pp(temporalCluster.mean_difference, 3)}</td>
+                    <td>{pp(temporalCluster.standard_error, 3)}</td>
+                    <td>{temporalCluster.t_stat.toFixed(2)}</td>
+                    <td>t(20) ≥ {temporalCluster.two_sided_5pct_critical.toFixed(6)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FIXED MARKET EPOCHS</span><h3>五個市場時段平均全正，但各段證據強度有限</h3></div>
+              <p>時段在結果前固定；不合併較弱年份，也不以近期高回報取代全期。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>固定時段</th><th>事件</th><th>平均差</th><th>中位差</th><th>正配對</th><th>NW4 t</th></tr></thead>
+                <tbody>{temporalTailRobustness.epochs.map((row) => (
+                  <tr key={row.id}>
+                    <th><b>{row.label}</b><span>{row.start} 至 {row.end}</span></th>
+                    <td>{row.events}</td>
+                    <td>{pp(row.mean_difference, 3)}</td>
+                    <td>{pp(row.median_difference, 3)}</td>
+                    <td>{pct(row.positive_fraction, 1)}</td>
+                    <td>{row.newey_west_lag4.t_stat.toFixed(2)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CALENDAR-YEAR CONCENTRATION</span><h3>{temporalTailRobustness.positive_calendar_years}/21 年平均為正；2025–2026 貢獻偏高</h3></div>
+              <p>淨差貢獻可為負或超過普通比例；它量化每年對全期配對差總和的影響。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>年份</th><th>事件</th><th>平均差</th><th>中位差</th><th>正配對</th><th>淨差貢獻</th></tr></thead>
+                <tbody>{temporalTailRobustness.calendar_years.map((row) => (
+                  <tr className={row.year >= 2025 ? "featured-row" : ""} key={row.year}>
+                    <th><b>{row.year}</b><span>曆年 cluster</span></th>
+                    <td>{row.events}</td>
+                    <td className={row.mean_difference < 0 ? "negative-number" : ""}>{pp(row.mean_difference, 3)}</td>
+                    <td>{pp(row.median_difference, 3)}</td>
+                    <td>{pct(row.positive_fraction, 1)}</td>
+                    <td>{pct(row.share_of_net_sum, 1)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>INFLUENCE &amp; TAIL TESTS</span><h3>刪除最佳年份及最大正事件，集中度完整披露</h3></div>
+              <p>這些是反證壓力，不是建議正式策略排除真實贏家。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>壓力</th><th>移除</th><th>剩餘平均差</th><th>NW4 t</th><th>年度 cluster t</th><th>判讀</th></tr></thead>
+                <tbody>
+                  {[temporalRemoveOne, temporalRemoveThree].map((row) => (
+                    <tr className={row.removed_count === 3 ? "featured-row" : ""} key={`year-${row.removed_count}`}>
+                      <th><b>最佳年份</b><span>按原始 sum(D) 排序一次</span></th>
+                      <td>{row.removed_years.join("、")}</td>
+                      <td>{pp(row.mean_difference, 3)}</td>
+                      <td className={row.newey_west_lag4.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west_lag4.t_stat.toFixed(2)}</td>
+                      <td>{row.calendar_cluster.t_stat.toFixed(2)}</td>
+                      <td>{row.newey_west_lag4.t_stat >= 1.96 ? "未跌穿" : "門檻失效"}</td>
+                    </tr>
+                  ))}
+                  {[temporalTailTen, temporalTailFortySix].map((row) => (
+                    <tr key={`tail-${row.removed_count}`}>
+                      <th><b>最大正事件</b><span>固定 deterministic 排序</span></th>
+                      <td>{row.removed_count} 列</td>
+                      <td>{pp(row.mean_difference, 3)}</td>
+                      <td className={row.newey_west_lag4.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west_lag4.t_stat.toFixed(2)}</td>
+                      <td>{row.calendar_cluster.t_stat.toFixed(2)}</td>
+                      <td>佔正差 {pct(row.share_of_positive_sum, 1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SYMMETRIC WINSOR</span><h3>1% 與 5% 對稱截尾均保留，沒有只剪負尾</h3></div>
+              <p>線性分位數及四個 HAC lag 均在協議中固定。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Winsor</th><th>上下界</th><th>平均差</th><th>NW4</th><th>NW13</th><th>NW26</th><th>NW52</th></tr></thead>
+                <tbody>{temporalTailRobustness.winsorized.map((row) => (
+                  <tr key={row.lower_quantile}>
+                    <th><b>{pct(row.lower_quantile, 0)}／{pct(row.upper_quantile, 0)}</b><span>對稱截尾</span></th>
+                    <td>{pp(row.lower_bound, 2)} 至 {pp(row.upper_bound, 2)}</td>
+                    <td>{pp(row.mean_difference, 3)}</td>
+                    {row.hac_frontier.map((hac) => <td key={hac.lag}>{hac.t_stat.toFixed(2)}</td>)}
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PRE-FROZEN FALSIFICATION GATES</span><h3>八項門檻逐項呈列；7/8 不升格</h3></div>
+              <p>唯一失敗是刪除最佳三年後 NW t 低於 1.96；差距再小也不改門檻。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {temporalTailRobustness.gates.map((gate, index) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{String(index + 1).padStart(2, "0")}</span><div><b>{gate.label}</b><p>第 23 輪固定反證</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>十五道輸入、時間、尾部、重抽及決策邊界控制</h3></div>
+              <p>15/15 只證明輸出遵守事前協議，並非策略可投資。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {temporalControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 23 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>十五項路徑、時間、尾部、bootstrap 及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中事前指定錯誤碼。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {temporalAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 23 DECISION</span><b>保留值得以合法數據原樣重測的假說；不把 7/8 寫成成功</b></div>
+              <p>sign test 為正 {temporalTailRobustness.sign_test.positive}、負 {temporalTailRobustness.sign_test.negative}、零 {temporalTailRobustness.sign_test.zero}，雙尾 p={temporalTailRobustness.sign_test.two_sided_exact_p_value.toFixed(4)}；但幅度及年度集中度仍令一項主要門檻失敗。正式 1/18、Paper 全現金、持倉 0、實金 US$0。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_TEMPORAL_TAIL_ROBUSTNESS_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 23 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_TEMPORAL_TAIL_ROBUSTNESS_PROTOCOL.md" target="_blank" rel="noreferrer">事前反證協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_temporal_tail_robustness_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 

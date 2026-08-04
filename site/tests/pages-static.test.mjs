@@ -40,6 +40,17 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /TEMPORAL &amp; TAIL ROBUSTNESS · ROUND 23/);
+  assert.match(html, /八項反證只過 7\/8；最佳三年移除後統計門檻失效/);
+  assert.match(html, /曆年 cluster t (?:<!-- -->)?3\.01/);
+  assert.match(html, /52-event circular block bootstrap/);
+  assert.match(html, /2025、2026、2009/);
+  assert.match(html, /NW t (?:<!-- -->)?1\.95/);
+  assert.match(html, /17(?:<!-- -->)?\/(?:<!-- -->)?21 年平均為正/);
+  assert.match(html, /46 列佔全部正配對差 (?:<!-- -->)?30\.5%/);
+  assert.match(html, /八項門檻逐項呈列；7\/8 不升格/);
+  assert.match(html, /十五道輸入、時間、尾部、重抽及決策邊界控制/);
+  assert.match(html, /robustness_decision_boundary_breached/);
   assert.match(html, /SURVIVORSHIP CONTAMINATION · ROUND 22/);
   assert.match(html, /主要合成格 5\/5；嚴重退出令統計證據先於平均值消失/);
   assert.match(html, /固定主要格 · -50% 退出／2% 污染/);
