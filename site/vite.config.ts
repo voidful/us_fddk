@@ -13,10 +13,10 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
 const localBindingConfig = {
   main: "./worker/index.ts",
-  // Pin the day before the Sites platform's 2026-08-04 default transition so
-  // vinext's required Node.js runtime remains explicit and reproducible.
-  compatibility_date: "2026-08-03",
-  compatibility_flags: ["nodejs_compat"],
+  // Sites enables Node.js compatibility by default from this date. Keep the
+  // empty array explicit so a deployment template cannot re-add a stale flag.
+  compatibility_date: "2026-08-04",
+  compatibility_flags: [],
   d1_databases: d1
     ? [
         {
