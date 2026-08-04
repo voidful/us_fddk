@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十五輪檢驗相關性擠擁，十二項反證只過 7/12，名義 Top-7 的中位有效獨立注數只有 2.21，正式就緒仍為 1/18。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十六輪扣除 QQQ、SPY 及完整現時股池共同 beta，十四項反證只過 6/14，正式就緒仍為 1/18。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線相關性擠擁反證只過 7/12，中位有效獨立注數只有 2.21，正式策略運行 0，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線共同市場風險殘差反證只過 6/14，正式策略運行 0，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [

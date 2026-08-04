@@ -1,5 +1,33 @@
 # 決策與負結果
 
+## 2026-08-04：短線第 26 輪共同風險殘差只過 6/14；不能把正面排名差寫成已校正 alpha
+
+- 在計算任何 beta 或殘差前先固定第 24／25 輪收據、905 個原始事件、60／252 日 OLS
+  beta、QQQ／SPY／固定 25 股共同因子、eligible／完整現時股池兩個 baseline、十假說
+  Holm 及 52-event／20,000 路徑共同 max-t。父協議 SHA-256 為
+  `efa5d2f6bcf6489d9f2f15d982b54f760e581e1bd27642890b53fbb297f5b38c`，先以 commit
+  `6616064` 保存。
+- 父協議首次執行在第一個 beta cell 以 `common_risk_beta_window_mismatch` 停止，沒有
+  寫出統計。覆蓋盤點只發現 MA 在最早 39 個事件不足 252 日；其後先提交
+  [共同樣本 repair](SHORT_TERM_COMMON_RISK_RESIDUAL_COVERAGE_REPAIR_PROTOCOL.md)，五模型及
+  兩 baseline 統一使用 2007-06-01 起的 866 個事件，不讓 60 日模型偷用較長樣本。修復
+  SHA-256 為 `a4c92a7145924b670e853d978f260adaa6a5794ce9be078ae9eb9810496341ea`，commit
+  `b781601`；原 905 事件仍逐列重建，結果明示為非獨立證據。
+- 866 個共同事件的 raw Top-7 對 eligible 為 +0.313 個百分點、NW t 2.88；對完整現時
+  股池只有 +0.261 個百分點、NW t **1.78**。QQQ 252 日 beta 殘差對 eligible 仍為
+  +0.228 個百分點、NW t 2.45，但十假說 Holm／共同 max-t p 為 **0.1302／0.0524**；
+  對完整股池只餘 +0.180 個百分點、NW t **1.36**。
+- QQQ beta 貢獻平均佔 raw eligible 差額 **27.0%**；絕對 beta gap 中位／95th 為
+  **0.108／0.404**，未過 0.10／0.25。SPY 殘差對 eligible／complete 的 t 為 2.21／1.11，
+  cohort factor 只有 **1.51／0.66**。未來 QQQ 上升組 t 2.59、下跌組只有 **0.70**；
+  46-event beta 尾部壓力則仍過 t 2.20。
+- 2026 現時行業標籤只作單向警告：中位有效行業 3.27，30.1% 事件至少四股屬同一現時
+  行業。它不是歷史 point-in-time 身份或買入名單。十四項反證只過 **6/14**；21/21
+  控制及 21/21 攻擊拒收只證明協議執行正確。
+- 決定：不搜尋 126 日窗、beta clipping、其他 factor、樣本起點或 baseline 救援。保留
+  「raw eligible 差並非全由 QQQ beta 解釋」的窄線索，但正式 v1、6,208-trial DSR 及
+  Paper 門檻不變；正式就緒 1/18、策略 run 0、Paper 全現金、持倉 0、實金 US$0。
+
 ## 2026-08-04：短線第 25 輪名義 Top-7 中位只得 2.21 個有效注數；7/12 不升格
 
 - 在重建逐股 Top-7、相關系數及現時代號貢獻前，先固定三個台股參考 commit、行情／

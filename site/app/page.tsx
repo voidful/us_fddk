@@ -13,6 +13,7 @@ import survivorshipStress from "../data/short-term-survivorship-contamination.js
 import temporalTailRobustness from "../data/short-term-temporal-tail-robustness.json";
 import baselineMultiplicity from "../data/short-term-baseline-multiplicity.json";
 import correlationCrowding from "../data/short-term-correlation-crowding.json";
+import commonRiskResidual from "../data/short-term-common-risk-residual.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -33,7 +34,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十五輪檢驗相關性擠擁，十二項反證只過 7/12，名義 Top-7 的中位有效獨立注數只有 2.21，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十六輪扣除 QQQ、SPY 及完整現時股池共同 beta，十四項反證只過 6/14，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -96,9 +97,11 @@ const amdDiagnostic = stockComparisons.find((row) => row.symbol === "AMD")!;
 const sectorLabels: Record<string, string> = {
   "Information Technology": "資訊科技",
   "Consumer Discretionary": "非必需消費",
+  "Consumer Staples": "必需消費",
   Communication: "通訊服務",
   Financials: "金融",
   "Health Care": "醫療保健",
+  Industrials: "工業",
   Energy: "能源",
 };
 const identityGateNames = [
@@ -183,6 +186,22 @@ const crowdingContributors = correlationCrowding.current_symbol_contributors;
 const crowdingLeaveOne = correlationCrowding.leave_one_symbol_out.rows_sorted_weakest_first;
 const crowdingControlRows = correlationCrowding.controls;
 const crowdingAttackRows = correlationCrowding.attacks;
+const commonRiskFamilyRows = commonRiskResidual.family.comparisons;
+const commonRiskRawEligible = commonRiskFamilyRows.find((row) => row.id === "RAW__eligible")!;
+const commonRiskQqqEligible = commonRiskFamilyRows.find((row) => row.id === "QQQ_252__eligible")!;
+const commonRiskQqqComplete = commonRiskFamilyRows.find((row) => row.id === "QQQ_252__complete_cohort")!;
+const commonRiskCohortEligible = commonRiskFamilyRows.find((row) => row.id === "COHORT_252__eligible")!;
+const commonRiskCohortComplete = commonRiskFamilyRows.find((row) => row.id === "COHORT_252__complete_cohort")!;
+const commonRiskQqqGap = commonRiskResidual.beta_gap_summaries.find((row) => row.id === "QQQ_252__eligible")!;
+const commonRiskQqqUp = commonRiskResidual.primary_stresses.qqq_forward_regimes_ex_post_not_a_signal.qqq_nonnegative;
+const commonRiskQqqDown = commonRiskResidual.primary_stresses.qqq_forward_regimes_ex_post_not_a_signal.qqq_negative;
+const commonRiskTail = commonRiskResidual.primary_stresses.remove_largest_absolute_beta_contribution;
+const commonRiskSector = commonRiskResidual.current_sector_label_diagnostic.summary;
+const commonRiskSectorRows = Object.entries(commonRiskResidual.current_sector_label_diagnostic.selection_slots_by_current_sector)
+  .map(([sector, count]) => ({ sector, count }))
+  .sort((left, right) => right.count - left.count || left.sector.localeCompare(right.sector));
+const commonRiskControlRows = commonRiskResidual.controls;
+const commonRiskAttackRows = commonRiskResidual.attacks;
 const providerGapRouteRows = providerGapClosure.route_summary;
 const providerGapControlRows = providerGapClosure.controls;
 const providerGapAttackRows = providerGapClosure.attacks;
@@ -779,21 +798,21 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CORRELATION CROWDING · ROUND 25</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · COMMON RISK RESIDUAL · ROUND 26</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />名義七注，實際中位只餘 2.21 注</h1>
+              <h1>短線高回報<br />扣除市場 beta，完整股池仍未通過</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十五輪不再調校收益，而是反證凍結的 905 個 20 日 Top-7 事件有沒有假分散。名義每期持有七股，但中位有效獨立注數只有 <strong>{crowdingEffective.median.toFixed(2)}</strong>，<strong>{pct(crowdingEffective.fraction_below_3, 1)}</strong> 的事件少於三注，<strong>{pct(crowdingHighPairs.events_with_any_fraction, 1)}</strong> 至少出現一對 60 日相關度高於 0.70。按參考方法施加 cap 2 後，平均相關度只由 <strong>{crowdingMeanPair.mean.toFixed(3)}</strong> 降至 <strong>{crowdingCap.crowding_change.mean_pairwise_correlation_after.toFixed(3)}</strong>，減幅只有 <strong>{crowdingCap.crowding_change.mean_pairwise_correlation_reduction.toFixed(3)}</strong>；十二項事前反證只過 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>。
-                剔除事後淨貢獻最高的 MU、AMD、MA 後，平均差只餘 <strong>{pp(crowdingRemoveThree.mean_difference, 3)}</strong>、NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong>、Holm p <strong>{crowdingRemoveThree.holm_adjusted_p.toFixed(3)}</strong>、max-t p <strong>{crowdingRemoveThree.bootstrap_max_t_p.toFixed(3)}</strong>；這三個現時代號只屬事後歸因，不是買入名單。
-                第二十四輪公平基準／多重檢驗 <strong>{baselineMultiplicity.gate_summary.passed}/{baselineMultiplicity.gate_summary.total}</strong>、完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 繼續保留；第二十三輪刪除 {temporalRemoveThree.removed_years.join("、")} 後 NW t 亦只有 <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>。
-                第二十三輪時間／尾部反證 <strong>{temporalTailRobustness.gate_summary.passed}/{temporalTailRobustness.gate_summary.total}</strong> 亦繼續保留：刪除 {temporalRemoveThree.removed_years.join("、")} 後 NW t 只有 <strong>{temporalRemoveThree.newey_west_lag4.t_stat.toFixed(2)}</strong>。
+                真實與合成分開；第二十六輪沒有調校新策略，而是用訊號日前 60／252 日 beta，把固定 Top-7 對合資格池及完整現時股池的差額同時扣除 QQQ、SPY 與固定 25 股共同風險。原 905 個事件全部重建；因 MA 在最早 39 個事件前不足 252 日，十列統一使用 <strong>{commonRiskResidual.input.family_common_events}</strong> 個共同事件。QQQ beta 平均解釋 raw eligible 差額 <strong>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)}</strong>；殘差對 eligible 仍有 <strong>{pp(commonRiskQqqEligible.mean_difference, 3)}</strong>、NW t <strong>{commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong>，但十假說 Holm／max-t p 為 <strong>{commonRiskQqqEligible.holm_adjusted_p.toFixed(4)}／{commonRiskQqqEligible.bootstrap_max_t_p.toFixed(4)}</strong>，未過 0.05。
+                同一 QQQ 殘差對完整現時股池只有 <strong>{pp(commonRiskQqqComplete.mean_difference, 3)}</strong>、NW t <strong>{commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong>；固定 25 股共同因子殘差對 eligible／complete 更只有 t <strong>{commonRiskCohortEligible.newey_west.t_stat.toFixed(2)}／{commonRiskCohortComplete.newey_west.t_stat.toFixed(2)}</strong>。未來 QQQ 上升組 t <strong>{commonRiskQqqUp.newey_west.t_stat.toFixed(2)}</strong>，下跌組只有 <strong>{commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</strong>；十四項反證只過 <strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong>。
+                第二十五輪相關性擠擁 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>、中位有效獨立注數 <strong>{crowdingEffective.median.toFixed(2)}</strong> 及剔除 MU／AMD／MA 後 NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong> 繼續保留；三個現時代號只屬事後歸因，不是買入名單。第二十四輪完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 亦不刪除。
                 第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
                 第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
                 第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#common-risk-residual">查看第 26 輪 6/14 反證</a>
                 <a className="primary-button aggressive-button" href="#correlation-crowding">查看第 25 輪 7/12 反證</a>
                 <a className="primary-button aggressive-button" href="#baseline-multiplicity">查看第 24 輪 6/9 反證</a>
                 <a className="primary-button aggressive-button" href="#temporal-tail-robustness">查看第 23 輪 7/8 反證</a>
@@ -822,6 +841,10 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 26 輪共同風險殘差</dt><dd>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total} · 未通過</dd></div>
+                <div><dt>QQQ beta 貢獻</dt><dd>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)} raw eligible 差額</dd></div>
+                <div><dt>QQQ 殘差完整股池</dt><dd>NW t {commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>殘差控制與攻擊</dt><dd>{commonRiskResidual.control_summary.passed}/{commonRiskResidual.control_summary.total} · {commonRiskResidual.attack_summary.rejected}/{commonRiskResidual.attack_summary.total}</dd></div>
                 <div><dt>第 25 輪相關性擠擁</dt><dd>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total} · 未通過</dd></div>
                 <div><dt>中位有效獨立注數</dt><dd>{crowdingEffective.median.toFixed(2)}／7 · 未通過</dd></div>
                 <div><dt>剔除 MU／AMD／MA</dt><dd>NW t {crowdingRemoveThree.newey_west.t_stat.toFixed(2)} · 低於 1.96</dd></div>
@@ -861,6 +884,14 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 26 輪反證門檻</span><strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong><small>八項未通過</small></article>
+              <article><span>原始／共同樣本</span><strong>{commonRiskResidual.input.events}／{commonRiskResidual.input.family_common_events}</strong><small>MA 最早 39 事件不足 252 日</small></article>
+              <article><span>QQQ beta 平均解釋</span><strong>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)}</strong><small>raw eligible 平均差</small></article>
+              <article><span>QQQ 殘差 eligible</span><strong>NW t {commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {commonRiskQqqEligible.holm_adjusted_p.toFixed(3)}／{commonRiskQqqEligible.bootstrap_max_t_p.toFixed(3)}</small></article>
+              <article><span>QQQ 殘差完整股池</span><strong>NW t {commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong><small>後半平均 {pp(commonRiskQqqComplete.fixed_halves.second.mean_difference, 3)}</small></article>
+              <article><span>QQQ 下跌組</span><strong>NW t {commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</strong><small>{commonRiskQqqDown.events} 個事後分組事件</small></article>
+              <article><span>現時 sector 過半</span><strong>{pct(commonRiskSector.events_with_current_sector_majority_fraction, 1)}</strong><small>只作單向風險警示</small></article>
+              <article><span>殘差控制／攻擊</span><strong>{commonRiskResidual.control_summary.passed}/{commonRiskResidual.control_summary.total} · {commonRiskResidual.attack_summary.rejected}/{commonRiskResidual.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>第 25 輪反證門檻</span><strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong><small>五項未通過</small></article>
               <article><span>中位有效獨立注數</span><strong>{crowdingEffective.median.toFixed(2)}／7</strong><small>{pct(crowdingEffective.fraction_below_3, 1)} 少於三注</small></article>
               <article><span>至少一對高相關</span><strong>{pct(crowdingHighPairs.events_with_any_fraction, 1)}</strong><small>中位最高相關 {crowdingMaxPair.median.toFixed(3)}</small></article>
@@ -893,6 +924,153 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="common-risk-residual">
+            <div className="section-heading">
+              <div><span>COMMON RISK RESIDUAL · ROUND 26</span><h2>十四項反證只過 6/14；扣除市場 beta 後仍未通過完整股池及共同校正</h2></div>
+              <p>固定第二十四輪的 Top-7、合資格池、完整現時 25 股股池、成本與 D+1 執行時鐘；只測試共同風險解釋，沒有調校入場、退出、Top-K 或持有期。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>十假說共同 family · {commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</span>
+                <h3>QQQ 殘差 eligible NW t {commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}，但 Holm p {commonRiskQqqEligible.holm_adjusted_p.toFixed(4)}、共同 max-t p {commonRiskQqqEligible.bootstrap_max_t_p.toFixed(4)}</h3>
+                <p>原始 eligible 差額為 {pp(commonRiskRawEligible.mean_difference, 3)}、NW t {commonRiskRawEligible.newey_west.t_stat.toFixed(2)}；扣除訊號日前 252 日 QQQ beta 後仍有 {pp(commonRiskQqqEligible.mean_difference, 3)}，卻沒有通過同一十假說 family 的兩項校正。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>完整現時股池</span><strong>NW t {commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong><p>QQQ 殘差平均 {pp(commonRiskQqqComplete.mean_difference, 3)}；固定 25 股共同因子殘差只有 t {commonRiskCohortComplete.newey_west.t_stat.toFixed(2)}。</p></article>
+                <article><span>市場方向壓力</span><strong>上升 {commonRiskQqqUp.newey_west.t_stat.toFixed(2)}／下跌 {commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</strong><p>按未來 QQQ 回報事後分組，只作反證；下跌組沒有達到固定 1.96。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>父協議先停止；866-event coverage repair 不是獨立首次證據</b>
+              <p>父協議先完整重建原始 905 個事件，但 MA 在最早 39 個事件的訊號日前沒有足夠 252 日歷史，首次執行以 common_risk_beta_window_mismatch 停止且沒有產生結果。修復協議只准十列統一使用 2007-06-01 起的 866 個共同事件；它屬同一研究 family 的透明修復，不是新的獨立確認。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>原始 905／共同 866</span><strong>{commonRiskResidual.input.events}／{commonRiskResidual.input.family_common_events}</strong><p>39 個早期事件只因 MA 不足 252 日；原始四條回報仍逐列完全重建。</p></article>
+              <article><span>QQQ beta 平均解釋</span><strong>{pct(commonRiskQqqGap.beta_contribution_share_of_raw_mean, 1)}</strong><p>平均 beta 貢獻 {pp(commonRiskQqqGap.mean_beta_contribution, 3)}，不是可交易訊號。</p></article>
+              <article><span>QQQ 絕對 beta gap</span><strong>{commonRiskQqqGap.median_absolute_beta_gap.toFixed(3)}／{commonRiskQqqGap.p95_absolute_beta_gap.toFixed(3)}</strong><p>中位／95th，兩者均高於固定 0.10／0.25 門檻。</p></article>
+              <article><span>QQQ 下跌組 NW t</span><strong>{commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</strong><p>{commonRiskQqqDown.events} 個事件，平均 {pp(commonRiskQqqDown.mean_difference, 3)}；不能證明逆市穩健。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>TEN-HYPOTHESIS FAMILY</span><h3>五種風險模型 × 兩個公平 baseline，同時呈列共同校正</h3></div>
+              <p>全部使用相同 866 個事件、52-event circular blocks、20,000 條共同路徑及固定 seed；不事後挑出 QQQ 252 這一列作唯一結論。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>模型 × baseline</th><th>平均殘差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半</th><th>後半</th></tr></thead>
+                <tbody>{commonRiskFamilyRows.map((row) => (
+                  <tr className={row.id === "QQQ_252__eligible" ? "featured-row" : ""} key={row.id}>
+                    <th><b>{row.label.replace("complete_cohort", "完整現時股池").replace("eligible", "合資格池")}</b><span>{row.events} 個共同事件</span></th>
+                    <td>{pp(row.mean_difference, 3)}</td>
+                    <td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td>
+                    <td>{row.holm_adjusted_p.toFixed(4)}</td>
+                    <td>{row.bootstrap_max_t_p.toFixed(4)}</td>
+                    <td>{pp(row.fixed_halves.first.mean_difference, 3)}</td>
+                    <td className={row.fixed_halves.second.mean_difference < 0 ? "negative-number" : ""}>{pp(row.fixed_halves.second.mean_difference, 3)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>BETA GAP ATTRIBUTION</span><h3>市場敏感度差距解釋多少原始排名差</h3></div>
+              <p>beta 只用訊號收市或以前的 60／252 日數據；factor 未來回報使用與股票相同的 D+1 經調整開市至退出收市時鐘。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>模型 × baseline</th><th>平均 beta gap</th><th>絕對 gap 中位</th><th>絕對 gap 95th</th><th>beta 貢獻</th><th>佔 raw 差額</th></tr></thead>
+                <tbody>{commonRiskResidual.beta_gap_summaries.map((row) => (
+                  <tr className={row.id === "QQQ_252__eligible" ? "featured-row" : ""} key={row.id}>
+                    <th><b>{row.id.replace("complete_cohort", "完整現時股池").replace("eligible", "合資格池")}</b><span>{pct(row.positive_beta_gap_fraction, 1)} beta gap 為正</span></th>
+                    <td>{row.mean_beta_gap.toFixed(3)}</td>
+                    <td>{row.median_absolute_beta_gap.toFixed(3)}</td>
+                    <td>{row.p95_absolute_beta_gap.toFixed(3)}</td>
+                    <td>{pp(row.mean_beta_contribution, 3)}</td>
+                    <td>{pct(row.beta_contribution_share_of_raw_mean, 1)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>REGIME, TAIL &amp; CURRENT SECTOR CAUTIONS</span><h3>下跌市證據不足；46 個最大 beta 貢獻事件及現時 sector 集中度完整披露</h3></div>
+              <p>市場方向使用未來回報，因此不是訊號；sector 是 2026 現時分類，不是逐期分類，只可作單向警示。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>固定壓力</th><th>事件</th><th>平均殘差</th><th>NW t</th><th>判讀</th></tr></thead>
+                <tbody>
+                  <tr><th><b>未來 QQQ 非負</b><span>事後市場分組</span></th><td>{commonRiskQqqUp.events}</td><td>{pp(commonRiskQqqUp.mean_difference, 3)}</td><td>{commonRiskQqqUp.newey_west.t_stat.toFixed(2)}</td><td>通過單列 t 門檻</td></tr>
+                  <tr className="featured-row"><th><b>未來 QQQ 負</b><span>事後市場分組</span></th><td>{commonRiskQqqDown.events}</td><td>{pp(commonRiskQqqDown.mean_difference, 3)}</td><td className="negative-number">{commonRiskQqqDown.newey_west.t_stat.toFixed(2)}</td><td>不通過</td></tr>
+                  <tr><th><b>移除最大絕對 beta 貢獻</b><span>移除 {commonRiskTail.removed_events} 個固定事件</span></th><td>{commonRiskTail.events}</td><td>{pp(commonRiskTail.mean_difference, 3)}</td><td>{commonRiskTail.newey_west.t_stat.toFixed(2)}</td><td>移除 {pct(commonRiskTail.removed_absolute_beta_contribution_share, 1)} 絕對貢獻後仍通過</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>2026 現時 sector 標籤 · 非 point-in-time</span>
+                <h3>中位有效 sector {commonRiskSector.median_effective_current_sectors.toFixed(2)}；{pct(commonRiskSector.events_with_current_sector_majority_fraction, 1)} 事件有至少四股同 sector</h3>
+                <p>單一 sector 最多佔 {commonRiskSector.maximum_current_sector_stocks}/7；這只能警示選股可能重複承擔相同風險，不能用來證明歷史 sector 歸因或建立買入名單。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                {commonRiskSectorRows.map(({ sector, count }) => (
+                  <article key={sector}><span>{sectorLabels[sector] ?? sector}</span><strong>{count.toLocaleString("zh-HK")} slots</strong><p>佔 {pct(count / (commonRiskResidual.input.family_common_events * 7), 1)} 的共同事件持倉格。</p></article>
+                ))}
+              </div>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOURTEEN FALSIFICATION GATES</span><h3>十四項門檻逐項呈列；6/14 不升格</h3></div>
+              <p>輸入完整、數學可重建不代表投資命題成立；完整 baseline、共同校正及下跌市壓力均是硬門檻。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {commonRiskResidual.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 26 輪事前固定門檻</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>二十一道輸入、覆蓋、beta、baseline、bootstrap 及決策控制</h3></div>
+              <p>21/21 只證明程式遵守父協議與 coverage repair，並非策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {commonRiskControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>第 26 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>二十一項 hash、共同樣本、factor、beta、baseline 及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中事前指定錯誤碼，包括 common_risk_decision_boundary_breached 與 common_risk_coverage_repair_mismatch。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {commonRiskAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 26 DECISION</span><b>部分 raw 排名差不能完全由市場 beta 解釋，但完整股池、共同校正及下跌市證據未通過；不建立新策略</b></div>
+              <p>本輪只把「可能全是高 beta」收窄為「不是全部，但仍不夠穩健」；正式就緒 1/18、逐股 point-in-time 1/20、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。下一個正式步驟仍是已授權逐期成分、退市／收購與逐列 known-at 數據，而不是再挑一個更有利的 beta 規格。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_COMMON_RISK_RESIDUAL_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 26 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_COMMON_RISK_RESIDUAL_PROTOCOL.md" target="_blank" rel="noreferrer">事前共同風險協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_COMMON_RISK_RESIDUAL_COVERAGE_REPAIR_PROTOCOL.md" target="_blank" rel="noreferrer">866-event 覆蓋修復協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_common_risk_residual_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 

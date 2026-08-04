@@ -48,6 +48,7 @@ jobs:
           python scripts/build_short_term_temporal_tail_robustness_report.py
           python scripts/build_short_term_baseline_multiplicity_report.py
           python scripts/build_short_term_correlation_crowding_report.py
+          python scripts/build_short_term_common_risk_residual_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -105,6 +106,9 @@ jobs:
             artifacts/short_term_correlation_crowding_validation.json \
             site/data/short-term-correlation-crowding.json \
             docs/SHORT_TERM_CORRELATION_CROWDING_RESEARCH_REPORT.md \
+            artifacts/short_term_common_risk_residual_validation.json \
+            site/data/short-term-common-risk-residual.json \
+            docs/SHORT_TERM_COMMON_RISK_RESIDUAL_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -127,6 +131,7 @@ jobs:
           pytest tests/test_temporal_tail_robustness.py
           pytest tests/test_baseline_multiplicity.py
           pytest tests/test_correlation_crowding.py
+          pytest tests/test_common_risk_residual.py
           pytest tests/test_daily_momentum_regime.py
       - uses: actions/setup-node@v7
         with:
