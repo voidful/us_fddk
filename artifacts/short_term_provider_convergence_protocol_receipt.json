@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "research_round": 20,
+  "status": "frozen_after_official_guide_inspection_before_convergence_implementation",
+  "frozen_at": "2026-08-04T01:39:29Z",
+  "git_head_at_freeze": "0ba444aa1d9b9c0a338191b7c5090f14dada6150",
+  "protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_CONVERGENCE_PROTOCOL.md",
+    "sha256": "7ef6c405c5aa9a7934e55511cb8962c9c47f007e9dc0a6dccd4be3fd0b836024"
+  },
+  "parent_formal_protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md",
+    "sha256": "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
+  },
+  "parent_formal_protocol_receipt": {
+    "path": "artifacts/short_term_formal_backtest_preregistration_receipt.json",
+    "sha256": "ae4792e75a7a7c1e15850eb1e9247846b5dc99304dd89baa6a23a321c7f0bb2b"
+  },
+  "parent_risk_free_protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md",
+    "sha256": "d0ccaa65694ba7b41aa1726a7a475c05ea988f03091246ce2173cc9681176439"
+  },
+  "parent_authorized_handoff_protocol": {
+    "path": "docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF_PROTOCOL.md",
+    "sha256": "4cd6da3541243573ab3a0113eebd26b581831ad31765b4fdc0a82c998703e754"
+  },
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "official_guides_inspected_at_freeze": true,
+  "independent_first_seen_evidence": false,
+  "stock_ciz_guide": {
+    "effective_date": "2026-07-27",
+    "page_count": 97,
+    "pdf_sha256": "e42f452207d4a30ef05de542a2dac9522f240100cec99a0309b1b3ab20699ec6",
+    "pdf_url": "https://indexes.morningstar.com/api/docs/6a70fc12f1246457e16fbfad"
+  },
+  "treasury_guide": {
+    "effective_date": "2026-06-30",
+    "page_count": 46,
+    "pdf_sha256": "d256ae7633049eca9d4c9385913f599c7bece7c3c508c39bf3b8afa18c479781",
+    "pdf_url": "https://indexes.morningstar.com/api/docs/6a454eb24453862570c90c07"
+  },
+  "convergence_implementation_present_at_freeze": false,
+  "convergence_output_present_at_freeze": false,
+  "provider_package_present_at_freeze": false,
+  "complete_risk_free_bundle_present_at_freeze": false,
+  "strategy_result_present_at_freeze": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 12,
+  "frozen_attack_count": 12
+}
