@@ -40,6 +40,11 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /OFFICIAL RISK-FREE STAGING · ROUND 19/);
+  assert.match(html, /官方 RF 已覆蓋 5,009\/5,031；仍欠最後 22 個 XNYS session/);
+  assert.match(html, /99\.56%/);
+  assert.match(html, /與凍結 snapshot 一致/);
+  assert.match(html, /rf_decision_boundary_violation/);
   assert.match(html, /FORMAL BACKTEST READINESS · ROUND 18/);
   assert.match(html, /合成就緒 18\/18、攻擊 18\/18；真實正式就緒仍只有 1\/18/);
   assert.match(html, /QQQ／SPY 不等於風險免費/);

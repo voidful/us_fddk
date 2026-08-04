@@ -9,6 +9,8 @@ import frenchResearch from "../data/short-term-french-30-industry.json";
 import priorReturnContract from "../data/short-term-french-prior-return-contract.json";
 import priorReturnRepair from "../data/short-term-french-prior-return-schema-repair.json";
 import formalBacktestReadiness from "../data/short-term-formal-backtest-readiness.json";
+import riskFreeStaging from "../data/short-term-risk-free-staging.json";
+import riskFreeSourceProbe from "../data/short-term-risk-free-source-probe.json";
 import localQuarantineIntake from "../data/short-term-local-quarantine-intake.json";
 import authorizedDataHandoff from "../data/short-term-authorized-data-handoff.json";
 import cizExecutionExtension from "../data/short-term-ciz-execution-extension.json";
@@ -23,7 +25,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第十八輪正式回測事前登記合成控制 18/18、十八項攻擊全拒收，真實就緒 1/18、正式回測仍為 0。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第十九輪已核實官方日度 RF 覆蓋 5,009/5,031、仍欠 22 日，正式就緒 1/18、正式回測仍為 0。",
 };
 
 const readerCapital = 1_000;
@@ -129,6 +131,9 @@ const shortEconomicPassed = Object.values(shortResearch.economic_and_statistical
 const shortDataPassed = Object.values(shortResearch.data_gates).filter(Boolean).length;
 const formalReadinessControl = formalBacktestReadiness.synthetic_control;
 const formalReadinessAttackRows = formalBacktestReadiness.attacks;
+const riskFreeControlRows = riskFreeStaging.controls;
+const riskFreeAttackRows = riskFreeStaging.attacks;
+const riskFreeCoveragePct = riskFreeStaging.study.coverage_fraction * 100;
 const formalBaselineLabels: Record<string, { label: string; detail: string }> = {
   QQQ_buy_hold: { label: "QQQ 買入持有", detail: "主要高回報機會成本" },
   SPY_buy_hold: { label: "SPY 買入持有", detail: "廣泛大型股市場基準" },
@@ -683,15 +688,16 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · FORMAL BACKTEST PREREGISTRATION · ROUND 18</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · OFFICIAL RISK-FREE STAGING · ROUND 19</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />先鎖規則才看結果</h1>
+              <h1>短線高回報<br />先補真數據才跑結果</h1>
               <p className="hero-lead">
-                真實與合成分開；第十八輪在任何正式策略成績出現前，把風險免費日回報、四個公平 baseline、下一開市成交、公司行動單次入賬、6,208 次 DSR 懲罰及四路 PBO 全部凍結。合成就緒控制通過 <strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total}</strong>，十八項 RF 缺日／單位、run ID、baseline、成本、統計及來源冒充攻擊 <strong>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} 全部拒收</strong>。
+                真實與合成分開；第十九輪已把官方 Fama/French 日度 RF 轉成逐日可稽核暫存，固定研究期共有 {riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} 個 XNYS session，現時真實覆蓋 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，仍欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。八道來源／單位／session／owner-only 控制 <strong>{riskFreeStaging.control_summary.passed}/{riskFreeStaging.control_summary.total}</strong> 通過，八項攻擊 <strong>{riskFreeStaging.attack_summary.rejected}/{riskFreeStaging.attack_summary.total} 全部拒收</strong>；缺一日都不會生成正式 RF manifest。
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#risk-free-staging">查看官方 RF 5,009/5,031</a>
                 <a className="primary-button aggressive-button" href="#formal-backtest-readiness">查看正式就緒 1/18</a>
                 <a className="primary-button aggressive-button" href="#local-quarantine-intake">查看隔離匯入 1/16</a>
                 <a className="primary-button aggressive-button" href="#authorized-data-handoff">查看授權交接 1/12</a>
@@ -715,7 +721,8 @@ export default function Home() {
               <dl className="decision-list">
                 <div><dt>正式就緒控制</dt><dd>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total} · 只限合成</dd></div>
                 <div><dt>就緒攻擊</dt><dd>{formalBacktestReadiness.attack_summary.rejected}/{formalBacktestReadiness.attack_summary.total} · 全部拒收</dd></div>
-                <div><dt>超額統計</dt><dd>US 1M T-bill RF · 真實包未到</dd></div>
+                <div><dt>官方 RF 覆蓋</dt><dd>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} · 尚欠 {riskFreeStaging.study.missing_session_count} 日</dd></div>
+                <div><dt>RF staging 攻擊</dt><dd>{riskFreeStaging.attack_summary.rejected}/{riskFreeStaging.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>隔離匯入控制</dt><dd>{localQuarantineIntake.synthetic_gate_summary.passed}/{localQuarantineIntake.synthetic_gate_summary.total} · 只限合成</dd></div>
                 <div><dt>匯入攻擊</dt><dd>{localQuarantineIntake.attack_summary.rejected}/{localQuarantineIntake.attack_summary.total} · 全部拒收</dd></div>
                 <div><dt>合成文件控制</dt><dd>{authorizedDataHandoff.synthetic_gate_summary.passed}/{authorizedDataHandoff.synthetic_gate_summary.total} · 只驗證格式</dd></div>
@@ -733,6 +740,7 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>官方 RF 覆蓋</span><strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}</strong><small>尚欠 2026 年 7 月 {riskFreeStaging.study.missing_session_count} 日</small></article>
               <article><span>正式合成控制</span><strong>{formalReadinessControl.gate_summary.passed}/{formalReadinessControl.gate_summary.total}</strong><small>不是策略回報通過</small></article>
               <article><span>真實隔離匯入</span><strong>{localQuarantineIntake.actual_local_intake.passed}/{localQuarantineIntake.actual_local_intake.total}</strong><small>只通過事前凍結</small></article>
               <article><span>真實文件交接</span><strong>{authorizedDataHandoff.actual_document_handoff.passed}/{authorizedDataHandoff.actual_document_handoff.total}</strong><small>只通過事前凍結</small></article>
@@ -743,6 +751,68 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="risk-free-staging">
+            <div className="section-heading">
+              <div><span>OFFICIAL RISK-FREE STAGING · ROUND 19</span><h2>官方 RF 已覆蓋 5,009/5,031；仍欠最後 22 個 XNYS session</h2></div>
+              <p>首次把「RF 未收到」收窄成可核對的真實缺口：官方 202606 snapshot 只到 2026-06-30，不能以 99.56% 當作完整，更不能補 0、複製 6 月或用 SHY 偷代。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>最新研究判斷</span>
+                <h3>經濟定義正確、轉換可重現；正式時間軸仍缺一整個月</h3>
+                <p>來源 RF 是在該月交易日複利至一個月美國國庫券回報的 simple daily rate。原檔百分點只除以 100 一次；{riskFreeStaging.study.missing_session_count} 個缺日及明確授權證據未解決前，不生成正式 `risk_free_manifest.json`。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>真實覆蓋</span><strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} · {riskFreeCoveragePct.toFixed(2)}%</strong><p>2006-08-01 至 2026-06-30 完整對上 XNYS；額外日期 {riskFreeStaging.study.extra_session_count}。</p></article>
+                <article><span>正式決策</span><strong>RF 完整包 0 · strategy run 0</strong><p>正式就緒維持 {riskFreeStaging.actual_formal_readiness.passed}/{riskFreeStaging.actual_formal_readiness.total}；Paper 全現金，實金 US$0。</p></article>
+              </div>
+            </div>
+
+            <div className="short-evidence-grid">
+              <article><span>官方 data cut</span><strong>{riskFreeStaging.source.data_cut}</strong><p>官方日度檔最後 session：{riskFreeStaging.source.full_last_session}。</p></article>
+              <article><span>每日來源掃描</span><strong>{riskFreeSourceProbe.matches_frozen_source ? "與凍結 snapshot 一致" : "發現新來源待核對"}</strong><p>掃描只比較 hash、data cut 及覆蓋；新來源不會自動獲正式資格。</p></article>
+              <article><span>正式研究期</span><strong>{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")} 日</strong><p>{riskFreeStaging.study.start} 至 {riskFreeStaging.study.end}，固定 XNYS 日曆。</p></article>
+              <article><span>已覆蓋</span><strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")} 日</strong><p>由 {riskFreeStaging.study.first_available_session} 至 {riskFreeStaging.study.last_available_session}。</p></article>
+              <article><span>仍缺失</span><strong>{riskFreeStaging.study.missing_session_count} 日</strong><p>{riskFreeStaging.study.missing_sessions[0]} 至 {riskFreeStaging.study.missing_sessions.at(-1)}，不作任何填補。</p></article>
+              <article><span>來源／權限</span><strong>公開下載 · 授權待證</strong><p>官方 bytes 及 SHA-256 已凍結；未把公開下載推論為完整本地研究授權條款。</p></article>
+              <article><span>正式檔案</span><strong>刻意不生成</strong><p>partial 檔名與正式驗證器要求不同，不可能誤接入一次性回測。</p></article>
+            </div>
+
+            <div className="comparison-caveat"><b>精確缺日：</b><p>{riskFreeStaging.study.missing_sessions.join("、")}</p></div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>REAL SOURCE CONTROLS</span><h3>八道官方來源、單位、session、權限及決策控制</h3></div>
+              <p>8/8 代表 202606 snapshot 被安全處理並準確報缺；不是完整 5,031/5,031，也不是策略回報。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {riskFreeControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}>
+                  <span>{gate.id}</span><div><b>{gate.label}</b><p>{gate.detail}</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FROZEN ADVERSARIAL SUITE</span><h3>八項來源 ZIP、定義、日期、單位、路徑及越權攻擊全拒收</h3></div>
+              <p>尤其測試「缺 22 日仍要求正式 manifest」：必須以 `rf_decision_boundary_violation` 停止。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {riskFreeAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}>
+                  <div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div>
+                  <p>{attack.expected_error_code}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>NEXT VALID ACTION</span><b>等同一經濟定義補齊 2026 年 7 月，仍須與逐股 provider package 一起通過 18/18</b></div>
+              <p>{riskFreeStaging.next_action} RF 完整只關閉一個缺口；退市、成分公布時間、公司行動及 point-in-time 股池仍不能省略。</p>
+              <div className="data-source-links"><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md" target="_blank" rel="noreferrer">第十九輪完整報告</a><a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md" target="_blank" rel="noreferrer">凍結暫存協議</a><a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_risk_free_staging_validation.json" target="_blank" rel="noreferrer">機器收據</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library.html" target="_blank" rel="noreferrer">Fama/French Data Library</a><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/f-f_factors.html" target="_blank" rel="noreferrer">RF 經濟定義</a></div>
             </div>
           </section>
 

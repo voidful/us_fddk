@@ -1,0 +1,226 @@
+{
+  "actual_formal_readiness": {
+    "all_passed": false,
+    "only_passed_gate": "01_preregistration_integrity",
+    "passed": 1,
+    "total": 18
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 8,
+    "total": 8
+  },
+  "attacks": [
+    {
+      "expected_error_code": "rf_source_file_set_mismatch",
+      "id": "01",
+      "label": "ZIP 多一個 member",
+      "observed_error_code": "rf_source_file_set_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_source_archive_unsafe",
+      "id": "02",
+      "label": "ZIP member path traversal",
+      "observed_error_code": "rf_source_archive_unsafe",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_source_hash_mismatch",
+      "id": "03",
+      "label": "凍結來源 SHA-256 漂移",
+      "observed_error_code": "rf_source_hash_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_source_definition_mismatch",
+      "id": "04",
+      "label": "經濟定義或表頭改變",
+      "observed_error_code": "rf_source_definition_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_source_session_invalid",
+      "id": "05",
+      "label": "日期重複或倒序",
+      "observed_error_code": "rf_source_session_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_source_value_invalid",
+      "id": "06",
+      "label": "RF decimal 量級超過 1%",
+      "observed_error_code": "rf_source_value_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_staging_path_invalid",
+      "id": "07",
+      "label": "輸出位於 repository 內",
+      "observed_error_code": "rf_staging_path_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "rf_decision_boundary_violation",
+      "id": "08",
+      "label": "缺日仍要求正式 manifest",
+      "observed_error_code": "rf_decision_boundary_violation",
+      "rejected": true
+    }
+  ],
+  "authorized_provider_package_received": false,
+  "complete_risk_free_package_received": false,
+  "control_summary": {
+    "all_passed": true,
+    "passed": 8,
+    "total": 8
+  },
+  "controls": [
+    {
+      "detail": "Round 19 協議及第十八輪 RF 正式契約 SHA-256 完整",
+      "id": "01",
+      "label": "協議及第十八輪綁定",
+      "passed": true
+    },
+    {
+      "detail": "官方 ZIP、唯一 member、202606 data cut 及 SHA-256 一致",
+      "id": "02",
+      "label": "官方來源 snapshot",
+      "passed": true
+    },
+    {
+      "detail": "simple daily rate 複利至一個月 T-bill；Mkt-RF／SMB／HML／RF",
+      "id": "03",
+      "label": "經濟定義及表頭",
+      "passed": true
+    },
+    {
+      "detail": "官方日期唯一遞增，四個原始回報有限",
+      "id": "04",
+      "label": "日期及原始值",
+      "passed": true
+    },
+    {
+      "detail": "RF 百分點只除 100 一次；輸出為 decimal simple daily return",
+      "id": "05",
+      "label": "單位轉換",
+      "passed": true
+    },
+    {
+      "detail": "5009/5031 已覆蓋；精確列出最後 22 個缺失 session",
+      "id": "06",
+      "label": "XNYS session 對賬",
+      "passed": true
+    },
+    {
+      "detail": "外部新目錄、5 個固定檔案、0700／0600、無正式 manifest",
+      "id": "07",
+      "label": "Owner-only 原子暫存",
+      "passed": true
+    },
+    {
+      "detail": "缺 2026 年 7 月及授權證據；正式回測、Paper、實金全部關閉",
+      "id": "08",
+      "label": "決策邊界",
+      "passed": true
+    }
+  ],
+  "disclaimer": "5,009/5,031 是 RF 數據覆蓋，不是策略勝率或回報；缺一日仍不准正式回測，亦不代表 Paper 或盈利通過。",
+  "evidence_as_of": "2026-08-04",
+  "formal_stock_backtest_completed": false,
+  "formal_stock_backtest_input_ready": false,
+  "next_action": "每日檢查官方下一個 data cut；只有同一經濟定義覆蓋至 2026-07-31、授權證據完成且逐股 provider package 通過後，才可生成正式 RF manifest。",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "protocol_integrity": {
+    "frozen_at": "2026-08-04T00:57:44Z",
+    "git_head_at_freeze": "a83330dd9d1e3744a3d4da6be6f8ad1012b07a5f",
+    "hash_checks": {
+      "artifacts/short_term_formal_backtest_preregistration_receipt.json": true,
+      "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md": true,
+      "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true,
+      "usfddk/formal_backtest_readiness.py": true
+    },
+    "independent_first_seen_evidence": false,
+    "passed": true
+  },
+  "real_money_action_usd": 0,
+  "research_round": 19,
+  "schema_version": 1,
+  "source": {
+    "data_cut": "202606",
+    "details_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/f-f_factors.html",
+    "economic_definition": "simple daily rate compounded over trading days to the one-month Treasury bill return",
+    "explicit_local_research_license_evidence_captured": false,
+    "full_first_session": "1926-07-01",
+    "full_last_session": "2026-06-30",
+    "full_row_count": 26274,
+    "member": "F-F_Research_Data_Factors_daily.csv",
+    "member_bytes": 1209019,
+    "page_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library.html",
+    "sha256": "39f9ae1d0e9f575024bc23145980ac270cea508fb67e592578b3f4d65f36d006",
+    "source_access": "public_download",
+    "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip"
+  },
+  "source_references": [
+    "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library.html",
+    "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/f-f_factors.html",
+    "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip"
+  ],
+  "staging": {
+    "file_set": [
+      "availability_manifest.json",
+      "missing_sessions.csv",
+      "risk_free_daily_partial.csv",
+      "source_snapshot.zip",
+      "staging_receipt.json"
+    ],
+    "formal_manifest_generated": false,
+    "owner_only": true,
+    "status": "owner_only_partial_staging_complete_formal_input_blocked"
+  },
+  "staging_version": "round19-official-risk-free-staging-v1",
+  "status": "official_rf_staged_incomplete_22_sessions_missing",
+  "strategy_run_count": 0,
+  "study": {
+    "available_sessions": 5009,
+    "calendar": "XNYS",
+    "coverage_fraction": 0.9956271119061817,
+    "end": "2026-07-31",
+    "extra_session_count": 0,
+    "extra_sessions": [],
+    "first_available_session": "2006-08-01",
+    "last_available_session": "2026-06-30",
+    "missing_session_count": 22,
+    "missing_sessions": [
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-13",
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-20",
+      "2026-07-21",
+      "2026-07-22",
+      "2026-07-23",
+      "2026-07-24",
+      "2026-07-27",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30",
+      "2026-07-31"
+    ],
+    "required_sessions": 5031,
+    "start": "2006-08-01"
+  }
+}

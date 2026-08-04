@@ -1,5 +1,22 @@
 # 決策與負結果
 
+## 2026-08-04：官方 RF 真實覆蓋 5,009/5,031；缺最後 22 日仍不運行
+
+- 第十八輪已在結果前固定一個月美國國庫券的 simple daily return、完整 XNYS 日曆及
+  禁止 0／SHY 代替。今輪直接下載官方 Fama/French daily factors 202606 snapshot，
+  SHA-256 為 `39f9ae1d0e9f575024bc23145980ac270cea508fb67e592578b3f4d65f36d006`；
+  官方檔由 2026-05-29 推進至 2026-06-30。
+- 固定 2006-08-01–2026-07-31 共有 5,031 個 XNYS session。官方 RF 可逐日對上
+  5,009 個、額外 0 個，覆蓋 99.56%；仍欠 2026-07-01 至 2026-07-31 的 22 個
+  session。原檔百分點只除以 100 一次，不填 0、不複製 6 月、不插值、不拼接有利替代。
+- owner-only 暫存只產生 `risk_free_daily_partial.csv`、缺日清單、原始 ZIP、availability
+  manifest 及 SHA-256 收據；故意不產生正式驗證器接受的 `risk_free_daily.csv` 或
+  `risk_free_manifest.json`。來源／定義／單位／session／權限／決策控制 **8/8**，八項
+  ZIP、日期、數值、路徑及越權攻擊 **8/8** 按指定 error code 拒收。
+- 公開下載已核實，但沒有把它推論為明確本地研究授權條款。決定：完整 RF 包仍為 0，
+  真實正式就緒維持 1/18；RF 補齊亦不能取代逐股 point-in-time／退市 provider package。
+  正式策略運行 0、短線 Paper 全現金、實金 US$0。
+
 ## 2026-08-04：正式回測事前登記及合成就緒 18/18；真實仍為 1/18
 
 - 第十七輪 package 已可誠實區分 provider／synthetic，但仍缺正式超額 Sharpe、PSR 及

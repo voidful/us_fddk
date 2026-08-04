@@ -40,6 +40,17 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /OFFICIAL RISK-FREE STAGING · ROUND 19/);
+  assert.match(html, /官方 RF 已覆蓋 5,009\/5,031；仍欠最後 22 個 XNYS session/);
+  assert.match(html, /99\.56%/);
+  assert.match(html, /每日來源掃描/);
+  assert.match(html, /與凍結 snapshot 一致/);
+  assert.match(html, /經濟定義正確、轉換可重現；正式時間軸仍缺一整個月/);
+  assert.match(html, /2026-07-01(?:<!-- -->)? 至 (?:<!-- -->)?2026-07-31/);
+  assert.match(html, /八道官方來源、單位、session、權限及決策控制/);
+  assert.match(html, /八項來源 ZIP、定義、日期、單位、路徑及越權攻擊全拒收/);
+  assert.match(html, /rf_decision_boundary_violation/);
+  assert.match(html, /等同一經濟定義補齊 2026 年 7 月/);
   assert.match(html, /FORMAL BACKTEST READINESS · ROUND 18/);
   assert.match(html, /合成就緒 18\/18、攻擊 18\/18；真實正式就緒仍只有 1\/18/);
   assert.match(html, /QQQ／SPY 不等於風險免費；超額統計不能再用 0 或 SHY 偷代/);

@@ -6,6 +6,7 @@
 
 - GitHub Pages 顯示凍結的 20 年研究與 v25 LIVE Paper，清楚分開研究快照日與前瞻資料日。
 - GitHub Actions 每天 04:30 UTC（台北 12:30）檢查最近完成的 XNYS session；週末與休市日不建立假版本。
+- 同一每日 Action 亦下載官方 Fama/French 日度 factors 只作來源 probe；hash、data cut 或覆蓋有變才提交公開狀態，任何新 snapshot 均須另行凍結及授權核對，不能自動升級正式 RF。
 - 日更只推進事前鎖定的 v25、SPY 與 80% VUG／20% SHY 三個同起點 Paper 帳戶，不用新資料重選歷史冠軍。
 - 同日行情改寫、三帳戶不同步、前瞻收據鏈或網站契約不一致時會 fail closed，不推送也不部署。
 - 公開頁與所有 Paper 結果只供研究教育；在 252 個新增交易日與完整升級合約通過前，實金訊號維持關閉。
@@ -62,6 +63,7 @@
 - 短線第十四輪在寫 auditor 前凍結[CIZ 執行與退出會計協議](docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_PROTOCOL.md)，追查 Round 13 的 20/20 是否足以正確計算持倉。`DlyDelFlg=Y` 儲存列與 outcome 對數後只計一次；100 元持倉遇 `DelRet=-50%` 恰為 50 元，現金收購、換股、拆細及分拆控制亦通過，十項雙計／早收股息／缺價／時鐘攻擊 **10/10 拒收**。但正式執行只過 **8/12**：現行輸出未保留 dividend pay-date，亦未保證訊號前 252 日、成分移除後至下一月度 open，以及同步 QQQ／SPY／QQQ 補位行情。因此正式回測仍為 0、Paper 全現金、實金動作 US$0；完整[會計報告](docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_REPORT.md)保留。
 - 短線第十五輪先凍結[CIZ 執行延伸資料協議](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_PROTOCOL.md)，再以獨立 `ledger/`＋`execution/` package 封住第十四輪四項缺口，完全不修改舊 adapter。合成 control 保留 dividend ex／pay-date、逐月候選最少 252 個回報及 20 個正成交量 session、`removed_continues` 至下一重新平衡 open 的完整價格，以及同步 QQQ／SPY raw open／總回報；十六道控制 **16/16**，檔案、派息、251／19 日歷史、移除缺價、基準不同步、成本及時鐘攻擊 **16/16 拒收**。這只含三個合成 PERMNO 及 46 列合成基準；真實入口仍為 **1/20**、合法樣本 0、正式回測 0、Paper 全現金、實金動作 US$0；完整[extension 報告](docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md)保留。
 - 短線第十八輪在正式結果出現前凍結[一次性正式回測事前登記](docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md)，補上既有 QQQ／SPY execution package 沒有的同步 US 1M T-bill 日回報，並把「同股漂移」明確改成首個正式訊號 Top-10 只買一次後漂移。四個 baseline、US$1,000、raw open、10／25／50 bps、公司行動單次入賬、6,208 trials DSR 及四路十段 PBO 全部事前固定；合成就緒控制 **18/18**，RF 缺日／單位、run ID、baseline、成本、統計及決策邊界攻擊 **18/18 拒收**。真實正式就緒仍為 **1/18**、provider package 0、RF 包 0、策略運行 0；完整[就緒報告](docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md)保留，Paper 全現金、實金 US$0。
+- 短線第十九輪把官方 Fama/French 202606 日度 RF 做成[owner-only 暫存入口](docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md)：固定 2006-08-01–2026-07-31 的 5,031 個 XNYS session，真實覆蓋 **5,009/5,031（99.56%）**，仍精確欠 2026 年 7 月最後 **22 日**。來源 ZIP／經濟定義／percent-to-decimal／日期／權限／決策控制 **8/8**，八項攻擊 **8/8 拒收**；partial 檔刻意不能生成或冒充正式 RF manifest。完整[暫存報告](docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md)保留；正式就緒仍為 **1/18**、逐股 provider package 0、策略運行 0、Paper 全現金、實金 US$0。
 - 持久化 paper trade：LIVE 前瞻模式保存現金、總報酬單位、待成交委託、成交、成本與逐日權益；REPLAY 只作歷史流程驗證並明確標示。
 - 調整價修訂防護：除息、拆股或供應商修訂讓舊調整價改變時，等比例重基準總報酬單位並保持當時市值，不製造假損益；每次重基準都留下舊／新價格、倍數、前後市值與快照雜湊收據。
 - 曝險控制：另以每月末再平衡的被動 90% QQQ／10% SHY 檢查波動管理是否真的創造價值，避免把較高 QQQ 曝險誤認成勝過 SPY 的 alpha。
@@ -251,6 +253,14 @@ python scripts/build_short_term_local_quarantine_intake_report.py
 # 重建第十八輪正式回測就緒稽核：RF、四 baseline、6,208 trials、十八道控制／攻擊
 # 18/18 只證明合成 fail closed；正式策略運行仍為 0，Paper 全現金
 python scripts/build_short_term_formal_backtest_readiness_report.py
+
+# 重建第十九輪官方 RF 暫存稽核：真實覆蓋 5,009/5,031、缺最後 22 個 XNYS session
+# 8/8 控制與 8/8 攻擊不等於完整 RF；不生成正式 manifest、不授權回測或 Paper
+python scripts/build_short_term_risk_free_staging_report.py
+
+# 把凍結的官方 202606 snapshot 寫入一個全新、repository 外、owner-only 暫存目錄
+# 目錄只含 partial CSV、缺日清單、來源 snapshot 及收據，不能被正式入口誤收
+python scripts/stage_short_term_risk_free.py /private/output/ken-french-rf-202606
 
 # 只有合法 provider package、同步 US 1M T-bill RF 及全新輸出三個外部絕對路徑到位才運行
 # 此入口只讀核對一次性 run ID；不計算策略、不建立 Paper、不作實金動作
