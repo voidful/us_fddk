@@ -6,6 +6,9 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from scripts.build_short_term_survivorship_contamination_report import (
+    _canonicalize_floats,
+)
 from usfddk.survivorship_contamination import (
     CONTAMINATION_RATE_GRID,
     EXIT_RETURN_GRID,
@@ -137,3 +140,9 @@ def test_deterministic_randomness_and_decision_boundary(result: dict) -> None:
         "allocation_usd": 0,
     }
     assert result["real_money_action_usd"] == 0
+
+
+def test_receipt_float_canonicalization_removes_platform_epsilon() -> None:
+    left = {"t": 1.4909766094180172, "q": [0.002354270094792401]}
+    right = {"t": 1.4909766094180177, "q": [0.0023542700947924004]}
+    assert _canonicalize_floats(left) == _canonicalize_floats(right)

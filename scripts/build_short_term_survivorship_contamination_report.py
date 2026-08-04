@@ -14,6 +14,18 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/short_term_survivorship_contamination_validation.json"
 SITE_DATA = ROOT / "site/data/short-term-survivorship-contamination.json"
 REPORT = ROOT / "docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_RESEARCH_REPORT.md"
+RECEIPT_FLOAT_DECIMAL_PLACES = 12
+
+
+def _canonicalize_floats(value: Any) -> Any:
+    """Remove sub-picounit BLAS drift from committed cross-platform receipts."""
+    if isinstance(value, float):
+        return round(value, RECEIPT_FLOAT_DECIMAL_PLACES)
+    if isinstance(value, dict):
+        return {key: _canonicalize_floats(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize_floats(item) for item in value]
+    return value
 
 
 def _pct(value: float, digits: int = 2) -> str:
@@ -205,6 +217,8 @@ MC 區間是污染位置的模型不確定性，不是市場回報信賴區間�
 
 def main() -> None:
     result = run_survivorship_contamination_stress(ROOT)
+    result["receipt_float_decimal_places"] = RECEIPT_FLOAT_DECIMAL_PLACES
+    result = _canonicalize_floats(result)
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     ARTIFACT.write_text(rendered, encoding="utf-8")
     SITE_DATA.write_text(rendered, encoding="utf-8")

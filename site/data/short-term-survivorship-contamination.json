@@ -93,25 +93,25 @@
   "break_even_by_exit_return": [
     {
       "exit_return": -0.25,
-      "mean_zero_contamination_rate": 0.14894468563201188,
+      "mean_zero_contamination_rate": 0.148944685632,
       "mean_zero_within_zero_to_one": true,
       "newey_west_below_1_96_contamination_rate": 0.0539
     },
     {
       "exit_return": -0.5,
-      "mean_zero_contamination_rate": 0.07698466588143499,
+      "mean_zero_contamination_rate": 0.076984665881,
       "mean_zero_within_zero_to_one": true,
       "newey_west_below_1_96_contamination_rate": 0.0276
     },
     {
       "exit_return": -0.8,
-      "mean_zero_contamination_rate": 0.04873190488177417,
+      "mean_zero_contamination_rate": 0.048731904882,
       "mean_zero_within_zero_to_one": true,
       "newey_west_below_1_96_contamination_rate": 0.0174
     },
     {
       "exit_return": -1.0,
-      "mean_zero_contamination_rate": 0.039152741433718254,
+      "mean_zero_contamination_rate": 0.039152741434,
       "mean_zero_within_zero_to_one": true,
       "newey_west_below_1_96_contamination_rate": 0.014
     }
@@ -224,23 +224,23 @@
     "schema_repair_protocol_sha256": "68522a1f50d24f7d4234052bceb77b140e745dacfd29eb85ced17feaf540e4a5"
   },
   "observed_signal": {
-    "active_win_fraction": 0.5259668508287293,
+    "active_win_fraction": 0.525966850829,
     "events": 905,
     "first_signal_date": "2006-08-04",
     "fixed_halves": {
-      "first_mean_difference": 0.0034752033421179417,
-      "second_mean_difference": 0.002931734950670541
+      "first_mean_difference": 0.003475203342,
+      "second_mean_difference": 0.002931734951
     },
     "last_signal_date": "2026-07-02",
-    "mean_active_difference": 0.0031893569837433975,
-    "mean_eligible_equal_return": 0.011352299733142392,
-    "mean_selected_return": 0.014541656716885789,
-    "median_active_difference": 0.0009813258616346715,
+    "mean_active_difference": 0.003189356984,
+    "mean_eligible_equal_return": 0.011352299733,
+    "mean_selected_return": 0.014541656717,
+    "median_active_difference": 0.000981325862,
     "newey_west": {
-      "annualized_event_difference": 0.16584656315465668,
+      "annualized_event_difference": 0.165846563155,
       "lag": 4,
-      "mean_difference": 0.0031893569837433975,
-      "t_stat": 3.0258950833609455
+      "mean_difference": 0.003189356984,
+      "t_stat": 3.025895083361
     }
   },
   "paper": {
@@ -254,25 +254,25 @@
     "exit_return": -0.5,
     "expected": {
       "fixed_halves": {
-        "first_mean_difference": 0.00269485868260781,
-        "second_mean_difference": 0.002059702465715616
+        "first_mean_difference": 0.002694858683,
+        "second_mean_difference": 0.002059702466
       },
-      "mean_difference": 0.0023607875674247335,
-      "median_difference": 0.0002499148954968637,
+      "mean_difference": 0.002360787567,
+      "median_difference": 0.000249914895,
       "newey_west": {
-        "annualized_event_difference": 0.12276095350608615,
+        "annualized_event_difference": 0.122760953506,
         "lag": 4,
-        "mean_difference": 0.0023607875674247335,
-        "t_stat": 2.2534616266278817
+        "mean_difference": 0.002360787567,
+        "t_stat": 2.253461626628
       },
-      "win_fraction": 0.5060773480662983
+      "win_fraction": 0.506077348066
     },
     "monte_carlo": {
       "both_halves_positive_fraction": 1.0,
       "mean_difference_quantiles": {
-        "p025": 0.0019562548315290172,
-        "p500": 0.0023790582621190885,
-        "p975": 0.0027288516347670033
+        "p025": 0.001956254832,
+        "p500": 0.002379058262,
+        "p975": 0.002728851635
       },
       "paths": 2000,
       "positive_mean_fraction": 1.0
@@ -318,6 +318,7 @@
   },
   "reader_capital_example_usd": 1000,
   "real_money_action_usd": 0,
+  "receipt_float_decimal_places": 12,
   "research_role": "survivorship_bias_sensitivity_only",
   "research_round": 22,
   "schema_repair_protocol": {
@@ -336,25 +337,25 @@
       "exit_return": -0.25,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0033752716896201487,
-          "second_mean_difference": 0.0028182406635425695
+          "first_mean_difference": 0.00337527169,
+          "second_mean_difference": 0.002818240664
         },
-        "mean_difference": 0.0030822918350202283,
-        "median_difference": 0.000872501996017269,
+        "mean_difference": 0.003082291835,
+        "median_difference": 0.000872501996,
         "newey_west": {
-          "annualized_event_difference": 0.16027917542105188,
+          "annualized_event_difference": 0.160279175421,
           "lag": 4,
-          "mean_difference": 0.0030822918350202283,
-          "t_stat": 2.928320135912108
+          "mean_difference": 0.003082291835,
+          "t_stat": 2.928320135912
         },
-        "win_fraction": 0.5248618784530387
+        "win_fraction": 0.524861878453
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.002967217957770798,
-          "p500": 0.0030859724415519475,
-          "p975": 0.0031725623212062307
+          "p025": 0.002967217958,
+          "p500": 0.003085972442,
+          "p975": 0.003172562321
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -365,25 +366,25 @@
       "exit_return": -0.25,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0032753400371223567,
-          "second_mean_difference": 0.002704746376414596
+          "first_mean_difference": 0.003275340037,
+          "second_mean_difference": 0.002704746376
         },
-        "mean_difference": 0.002975226686297059,
-        "median_difference": 0.0008153839609398279,
+        "mean_difference": 0.002975226686,
+        "median_difference": 0.000815383961,
         "newey_west": {
-          "annualized_event_difference": 0.1547117876874471,
+          "annualized_event_difference": 0.154711787687,
           "lag": 4,
-          "mean_difference": 0.002975226686297059,
-          "t_stat": 2.830468458899731
+          "mean_difference": 0.002975226686,
+          "t_stat": 2.8304684589
         },
-        "win_fraction": 0.523756906077348
+        "win_fraction": 0.523756906077
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0028164095659259304,
-          "p500": 0.0029794123986912153,
-          "p975": 0.0031044928959498793
+          "p025": 0.002816409566,
+          "p500": 0.002979412399,
+          "p975": 0.003104492896
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -394,25 +395,25 @@
       "exit_return": -0.25,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0030754767321267695,
-          "second_mean_difference": 0.002477757802158654
+          "first_mean_difference": 0.003075476732,
+          "second_mean_difference": 0.002477757802
         },
-        "mean_difference": 0.002761096388850722,
-        "median_difference": 0.000621841561512896,
+        "mean_difference": 0.002761096389,
+        "median_difference": 0.000621841562,
         "newey_west": {
-          "annualized_event_difference": 0.14357701222023753,
+          "annualized_event_difference": 0.14357701222,
           "lag": 4,
-          "mean_difference": 0.002761096388850722,
-          "t_stat": 2.6339340695054774
+          "mean_difference": 0.002761096389,
+          "t_stat": 2.633934069505
         },
-        "win_fraction": 0.5171270718232044
+        "win_fraction": 0.517127071823
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.002541809117361674,
-          "p500": 0.002770193090762683,
-          "p975": 0.0029546130512636973
+          "p025": 0.002541809117,
+          "p500": 0.002770193091,
+          "p975": 0.002954613051
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -423,25 +424,25 @@
       "exit_return": -0.25,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.002475886817140011,
-          "second_mean_difference": 0.001796792079390822
+          "first_mean_difference": 0.002475886817,
+          "second_mean_difference": 0.001796792079
         },
-        "mean_difference": 0.0021187054965117087,
-        "median_difference": -8.004449429926258e-08,
+        "mean_difference": 0.002118705497,
+        "median_difference": -8.0044e-08,
         "newey_west": {
-          "annualized_event_difference": 0.11017268581860885,
+          "annualized_event_difference": 0.110172685819,
           "lag": 4,
-          "mean_difference": 0.0021187054965117087,
-          "t_stat": 2.0376691117661467
+          "mean_difference": 0.002118705497,
+          "t_stat": 2.037669111766
         },
-        "win_fraction": 0.4994475138121547
+        "win_fraction": 0.499447513812
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0017995995507704098,
-          "p500": 0.002127840853383335,
-          "p975": 0.0024139790671233122
+          "p025": 0.001799599551,
+          "p500": 0.002127840853,
+          "p975": 0.002413979067
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -452,25 +453,25 @@
       "exit_return": -0.25,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0014765702921620799,
-          "second_mean_difference": 0.0006618492081111028
+          "first_mean_difference": 0.001476570292,
+          "second_mean_difference": 0.000661849208
         },
-        "mean_difference": 0.0010480540092800191,
-        "median_difference": -0.00045133581391451237,
+        "mean_difference": 0.001048054009,
+        "median_difference": -0.000451335814,
         "newey_west": {
-          "annualized_event_difference": 0.054498808482560994,
+          "annualized_event_difference": 0.054498808483,
           "lag": 4,
-          "mean_difference": 0.0010480540092800191,
-          "t_stat": 1.0216213372850844
+          "mean_difference": 0.001048054009,
+          "t_stat": 1.021621337285
         },
-        "win_fraction": 0.48066298342541436
+        "win_fraction": 0.480662983425
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.9735,
         "mean_difference_quantiles": {
-          "p025": 0.0006020919886187904,
-          "p500": 0.001061745270771096,
-          "p975": 0.0014765870493918868
+          "p025": 0.000602091989,
+          "p500": 0.001061745271,
+          "p975": 0.001476587049
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -481,25 +482,25 @@
       "exit_return": -0.5,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0032801171772404093,
-          "second_mean_difference": 0.0027137268294318093
+          "first_mean_difference": 0.003280117177,
+          "second_mean_difference": 0.002713726829
         },
-        "mean_difference": 0.0029822146296637313,
-        "median_difference": 0.0008075669310822041,
+        "mean_difference": 0.00298221463,
+        "median_difference": 0.000807566931,
         "newey_west": {
-          "annualized_event_difference": 0.15507516074251404,
+          "annualized_event_difference": 0.155075160743,
           "lag": 4,
-          "mean_difference": 0.0029822146296637313,
-          "t_stat": 2.8337048088825627
+          "mean_difference": 0.00298221463,
+          "t_stat": 2.833704808883
         },
-        "win_fraction": 0.523756906077348
+        "win_fraction": 0.523756906077
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.00276538799616513,
-          "p500": 0.0029903196875639016,
-          "p975": 0.0031545493849644995
+          "p025": 0.002765387996,
+          "p500": 0.002990319688,
+          "p975": 0.003154549385
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -510,25 +511,25 @@
       "exit_return": -0.5,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0030850310123628766,
-          "second_mean_difference": 0.002495718708193078
+          "first_mean_difference": 0.003085031012,
+          "second_mean_difference": 0.002495718708
         },
-        "mean_difference": 0.0027750722755840655,
-        "median_difference": 0.0006242947431099337,
+        "mean_difference": 0.002775072276,
+        "median_difference": 0.000624294743,
         "newey_west": {
-          "annualized_event_difference": 0.1443037583303714,
+          "annualized_event_difference": 0.14430375833,
           "lag": 4,
-          "mean_difference": 0.0027750722755840655,
-          "t_stat": 2.640900939671967
+          "mean_difference": 0.002775072276,
+          "t_stat": 2.640900939672
         },
-        "win_fraction": 0.5171270718232044
+        "win_fraction": 0.517127071823
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0024783604391364006,
-          "p500": 0.002782519551455267,
-          "p975": 0.0030245325977845514
+          "p025": 0.002478360439,
+          "p500": 0.002782519551,
+          "p975": 0.003024532598
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -539,25 +540,25 @@
       "exit_return": -0.5,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.00269485868260781,
-          "second_mean_difference": 0.002059702465715616
+          "first_mean_difference": 0.002694858683,
+          "second_mean_difference": 0.002059702466
         },
-        "mean_difference": 0.0023607875674247335,
-        "median_difference": 0.0002499148954968637,
+        "mean_difference": 0.002360787567,
+        "median_difference": 0.000249914895,
         "newey_west": {
-          "annualized_event_difference": 0.12276095350608615,
+          "annualized_event_difference": 0.122760953506,
           "lag": 4,
-          "mean_difference": 0.0023607875674247335,
-          "t_stat": 2.2534616266278817
+          "mean_difference": 0.002360787567,
+          "t_stat": 2.253461626628
         },
-        "win_fraction": 0.5060773480662983
+        "win_fraction": 0.506077348066
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0019562548315290172,
-          "p500": 0.0023790582621190885,
-          "p975": 0.0027288516347670033
+          "p025": 0.001956254832,
+          "p500": 0.002379058262,
+          "p975": 0.002728851635
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -568,25 +569,25 @@
       "exit_return": -0.5,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0015243416933426125,
-          "second_mean_difference": 0.0007516537382832285
+          "first_mean_difference": 0.001524341693,
+          "second_mean_difference": 0.000751653738
         },
-        "mean_difference": 0.001117933442946737,
-        "median_difference": -0.0004575777336397101,
+        "mean_difference": 0.001117933443,
+        "median_difference": -0.000457577734,
         "newey_west": {
-          "annualized_event_difference": 0.058132539033230325,
+          "annualized_event_difference": 0.058132539033,
           "lag": 4,
-          "mean_difference": 0.001117933442946737,
-          "t_stat": 1.0766712318263882
+          "mean_difference": 0.001117933443,
+          "t_stat": 1.076671231826
         },
-        "win_fraction": 0.481767955801105
+        "win_fraction": 0.481767955801
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.942,
         "mean_difference_quantiles": {
-          "p025": 0.0005079184395151349,
-          "p500": 0.0011372904363695494,
-          "p975": 0.0016855252840140354
+          "p025": 0.00050791844,
+          "p500": 0.001137290436,
+          "p975": 0.001685525284
         },
         "paths": 2000,
         "positive_mean_fraction": 0.9995
@@ -597,25 +598,25 @@
       "exit_return": -0.5,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": -0.0004265199554327178,
-          "second_mean_difference": -0.0014284274741040851
+          "first_mean_difference": -0.000426519955,
+          "second_mean_difference": -0.001428427474
         },
-        "mean_difference": -0.0009534900978499229,
-        "median_difference": -0.0015762117435554426,
+        "mean_difference": -0.000953490098,
+        "median_difference": -0.001576211744,
         "newey_west": {
-          "annualized_event_difference": -0.049581485088195994,
+          "annualized_event_difference": -0.049581485088,
           "lag": 4,
-          "mean_difference": -0.0009534900978499229,
-          "t_stat": -0.9314991126808352
+          "mean_difference": -0.000953490098,
+          "t_stat": -0.931499112681
         },
-        "win_fraction": 0.4453038674033149
+        "win_fraction": 0.445303867403
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.0005,
         "mean_difference_quantiles": {
-          "p025": -0.0017939181605709524,
-          "p500": -0.0009294784546175733,
-          "p975": -0.00015007941403249466
+          "p025": -0.001793918161,
+          "p500": -0.000929478455,
+          "p975": -0.000150079414
         },
         "paths": 2000,
         "positive_mean_fraction": 0.007
@@ -626,25 +627,25 @@
       "exit_return": -0.8,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0031659317623847216,
-          "second_mean_difference": 0.0025883102284988985
+          "first_mean_difference": 0.003165931762,
+          "second_mean_difference": 0.002588310228
         },
-        "mean_difference": 0.002862121983235934,
-        "median_difference": 0.0006829218506959004,
+        "mean_difference": 0.002862121983,
+        "median_difference": 0.000682921851,
         "newey_west": {
-          "annualized_event_difference": 0.14883034312826857,
+          "annualized_event_difference": 0.148830343128,
           "lag": 4,
-          "mean_difference": 0.002862121983235934,
-          "t_stat": 2.720119721407133
+          "mean_difference": 0.002862121983,
+          "t_stat": 2.720119721407
         },
-        "win_fraction": 0.518232044198895
+        "win_fraction": 0.518232044199
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0025217700226558824,
-          "p500": 0.0028742078627418096,
-          "p975": 0.0031307880146044225
+          "p025": 0.002521770023,
+          "p500": 0.002874207863,
+          "p975": 0.003130788015
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -655,25 +656,25 @@
       "exit_return": -0.8,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0028566601826515007,
-          "second_mean_difference": 0.002244885506327256
+          "first_mean_difference": 0.002856660183,
+          "second_mean_difference": 0.002244885506
         },
-        "mean_difference": 0.002534886982728472,
-        "median_difference": 0.00039540381387182606,
+        "mean_difference": 0.002534886983,
+        "median_difference": 0.000395403814,
         "newey_west": {
-          "annualized_event_difference": 0.13181412310188054,
+          "annualized_event_difference": 0.131814123102,
           "lag": 4,
-          "mean_difference": 0.002534886982728472,
-          "t_stat": 2.413237999809441
+          "mean_difference": 0.002534886983,
+          "t_stat": 2.413237999809
         },
-        "win_fraction": 0.5138121546961326
+        "win_fraction": 0.513812154696
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.002078486952149405,
-          "p500": 0.002547665583334337,
-          "p975": 0.0029248723934035964
+          "p025": 0.002078486952,
+          "p500": 0.002547665583,
+          "p975": 0.002924872393
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -684,25 +685,25 @@
       "exit_return": -0.8,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.002238117023185059,
-          "second_mean_difference": 0.0015580360619839707
+          "first_mean_difference": 0.002238117023,
+          "second_mean_difference": 0.001558036062
         },
-        "mean_difference": 0.0018804169817135475,
-        "median_difference": -0.00023607177373330263,
+        "mean_difference": 0.001880416982,
+        "median_difference": -0.000236071774,
         "newey_west": {
-          "annualized_event_difference": 0.09778168304910446,
+          "annualized_event_difference": 0.097781683049,
           "lag": 4,
-          "mean_difference": 0.0018804169817135475,
-          "t_stat": 1.796206683713938
+          "mean_difference": 0.001880416982,
+          "t_stat": 1.796206683714
         },
-        "win_fraction": 0.49392265193370166
+        "win_fraction": 0.493922651934
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.9985,
         "mean_difference_quantiles": {
-          "p025": 0.0012540067711897156,
-          "p500": 0.0019119031688522073,
-          "p975": 0.002468597006580089
+          "p025": 0.001254006771,
+          "p500": 0.001911903169,
+          "p975": 0.002468597007
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -713,25 +714,25 @@
       "exit_return": -0.8,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.00038248754478573344,
-          "second_mean_difference": -0.0005025122710458848
+          "first_mean_difference": 0.000382487545,
+          "second_mean_difference": -0.000502512271
         },
-        "mean_difference": -8.299302133122839e-05,
-        "median_difference": -0.0008802219749698436,
+        "mean_difference": -8.2993021e-05,
+        "median_difference": -0.000880221975,
         "newey_west": {
-          "annualized_event_difference": -0.004315637109223876,
+          "annualized_event_difference": -0.004315637109,
           "lag": 4,
-          "mean_difference": -8.299302133122839e-05,
-          "t_stat": -0.08004556766690807
+          "mean_difference": -8.2993021e-05,
+          "t_stat": -0.080045567667
         },
-        "win_fraction": 0.4607734806629834
+        "win_fraction": 0.460773480663
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.1775,
         "mean_difference_quantiles": {
-          "p025": -0.0010451243584160093,
-          "p500": -5.042154497581397e-05,
-          "p975": 0.0008098382520586412
+          "p025": -0.001045124358,
+          "p500": -5.0421545e-05,
+          "p975": 0.000809838252
         },
         "paths": 2000,
         "positive_mean_fraction": 0.456
@@ -742,25 +743,25 @@
       "exit_return": -0.8,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": -0.0027102282525464753,
-          "second_mean_difference": -0.003936759492762311
+          "first_mean_difference": -0.002710228253,
+          "second_mean_difference": -0.003936759493
         },
-        "mean_difference": -0.0033553430264058543,
-        "median_difference": -0.0035794860567870974,
+        "mean_difference": -0.003355343026,
+        "median_difference": -0.003579486057,
         "newey_west": {
-          "annualized_event_difference": -0.17447783737310443,
+          "annualized_event_difference": -0.174477837373,
           "lag": 4,
-          "mean_difference": -0.0033553430264058543,
-          "t_stat": -3.283632212569567
+          "mean_difference": -0.003355343026,
+          "t_stat": -3.28363221257
         },
-        "win_fraction": 0.40552486187845305
+        "win_fraction": 0.405524861878
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.0,
         "mean_difference_quantiles": {
-          "p025": -0.004669908972519688,
-          "p500": -0.0033180675207248682,
-          "p975": -0.002109869627174159
+          "p025": -0.004669908973,
+          "p500": -0.003318067521,
+          "p975": -0.002109869627
         },
         "paths": 2000,
         "positive_mean_fraction": 0.0
@@ -771,25 +772,25 @@
       "exit_return": -1.0,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0030898081524809292,
-          "second_mean_difference": 0.002504699161210291
+          "first_mean_difference": 0.003089808152,
+          "second_mean_difference": 0.002504699161
         },
-        "mean_difference": 0.002782060218950737,
-        "median_difference": 0.0006129006025090524,
+        "mean_difference": 0.002782060219,
+        "median_difference": 0.000612900603,
         "newey_west": {
-          "annualized_event_difference": 0.14466713138543832,
+          "annualized_event_difference": 0.144667131385,
           "lag": 4,
-          "mean_difference": 0.002782060218950737,
-          "t_stat": 2.6443683875374915
+          "mean_difference": 0.002782060219,
+          "t_stat": 2.644368387537
         },
-        "win_fraction": 0.5171270718232044
+        "win_fraction": 0.517127071823
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.002354270094792401,
-          "p500": 0.0027956614373889784,
-          "p975": 0.0031161472071425606
+          "p025": 0.002354270095,
+          "p500": 0.002795661437,
+          "p975": 0.003116147207
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -800,25 +801,25 @@
       "exit_return": -1.0,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.002704412962843916,
-          "second_mean_difference": 0.002077663371750041
+          "first_mean_difference": 0.002704412963,
+          "second_mean_difference": 0.002077663372
         },
-        "mean_difference": 0.0023747634541580764,
-        "median_difference": 0.0002590807590350957,
+        "mean_difference": 0.002374763454,
+        "median_difference": 0.000259080759,
         "newey_west": {
-          "annualized_event_difference": 0.12348769961621997,
+          "annualized_event_difference": 0.123487699616,
           "lag": 4,
-          "mean_difference": 0.0023747634541580764,
-          "t_stat": 2.2613553430314877
+          "mean_difference": 0.002374763454,
+          "t_stat": 2.261355343031
         },
-        "win_fraction": 0.5082872928176796
+        "win_fraction": 0.508287292818
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 1.0,
         "mean_difference_quantiles": {
-          "p025": 0.0018046791122694542,
-          "p500": 0.002392090068218228,
-          "p975": 0.0028600064482123566
+          "p025": 0.001804679112,
+          "p500": 0.002392090068,
+          "p975": 0.002860006448
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -829,25 +830,25 @@
       "exit_return": -1.0,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": 0.0019336225835698913,
-          "second_mean_difference": 0.00122359179282954
+          "first_mean_difference": 0.001933622584,
+          "second_mean_difference": 0.001223591793
         },
-        "mean_difference": 0.0015601699245727562,
-        "median_difference": -0.00034259462877617923,
+        "mean_difference": 0.001560169925,
+        "median_difference": -0.000342594629,
         "newey_west": {
-          "annualized_event_difference": 0.08112883607778332,
+          "annualized_event_difference": 0.081128836078,
           "lag": 4,
-          "mean_difference": 0.0015601699245727562,
-          "t_stat": 1.4909766094180172
+          "mean_difference": 0.001560169925,
+          "t_stat": 1.490976609418
         },
-        "win_fraction": 0.48839779005524864
+        "win_fraction": 0.488397790055
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.9765,
         "mean_difference_quantiles": {
-          "p025": 0.0007854821851031235,
-          "p500": 0.0015991491152787312,
-          "p975": 0.002294218406402568
+          "p025": 0.000785482185,
+          "p500": 0.001599149115,
+          "p975": 0.002294218406
         },
         "paths": 2000,
         "positive_mean_fraction": 1.0
@@ -858,25 +859,25 @@
       "exit_return": -1.0,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": -0.00037874855425218537,
-          "second_mean_difference": -0.0013386229439319613
+          "first_mean_difference": -0.000378748554,
+          "second_mean_difference": -0.001338622944
         },
-        "mean_difference": -0.0008836106641832052,
-        "median_difference": -0.0015195440060486488,
+        "mean_difference": -0.000883610664,
+        "median_difference": -0.001519544006,
         "newey_west": {
-          "annualized_event_difference": -0.04594775453752667,
+          "annualized_event_difference": -0.045947754538,
           "lag": 4,
-          "mean_difference": -0.0008836106641832052,
-          "t_stat": -0.8529368339043543
+          "mean_difference": -0.000883610664,
+          "t_stat": -0.852936833904
         },
-        "win_fraction": 0.44640883977900553
+        "win_fraction": 0.446408839779
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.016,
         "mean_difference_quantiles": {
-          "p025": -0.002072151154085333,
-          "p500": -0.0008428904322064718,
-          "p975": 0.00023159824229974842
+          "p025": -0.002072151154,
+          "p500": -0.000842890432,
+          "p975": 0.000231598242
         },
         "paths": 2000,
         "positive_mean_fraction": 0.0705
@@ -887,25 +888,25 @@
       "exit_return": -1.0,
       "expected": {
         "fixed_halves": {
-          "first_mean_difference": -0.004232700450622313,
-          "second_mean_difference": -0.005608980838534462
+          "first_mean_difference": -0.004232700451,
+          "second_mean_difference": -0.005608980839
         },
-        "mean_difference": -0.004956578312109808,
-        "median_difference": -0.005196555368644577,
+        "mean_difference": -0.004956578312,
+        "median_difference": -0.005196555369,
         "newey_west": {
-          "annualized_event_difference": -0.25774207222971,
+          "annualized_event_difference": -0.25774207223,
           "lag": 4,
-          "mean_difference": -0.004956578312109808,
-          "t_stat": -4.853504779104745
+          "mean_difference": -0.004956578312,
+          "t_stat": -4.853504779105
         },
-        "win_fraction": 0.3701657458563536
+        "win_fraction": 0.370165745856
       },
       "monte_carlo": {
         "both_halves_positive_fraction": 0.0,
         "mean_difference_quantiles": {
-          "p025": -0.006584251543554794,
-          "p500": -0.004911581088455219,
-          "p975": -0.0033994420495633312
+          "p025": -0.006584251544,
+          "p500": -0.004911581088,
+          "p975": -0.00339944205
         },
         "paths": 2000,
         "positive_mean_fraction": 0.0
