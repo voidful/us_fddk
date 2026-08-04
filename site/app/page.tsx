@@ -15,6 +15,7 @@ import baselineMultiplicity from "../data/short-term-baseline-multiplicity.json"
 import correlationCrowding from "../data/short-term-correlation-crowding.json";
 import commonRiskResidual from "../data/short-term-common-risk-residual.json";
 import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placebo.json";
+import reversalVolatilityAttribution from "../data/short-term-reversal-volatility-attribution.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -35,7 +36,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十七輪排序單調性與隨機 placebo 反證只過 5/14，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十八輪短期反轉與波幅歸因反證只過 6/14，正式就緒仍為 1/18。",
 };
 
 const readerCapital = 1_000;
@@ -215,6 +216,21 @@ const rankRegimes = rankMonotonicityPlacebo.primary_stresses.qqq_forward_regimes
 const rankTails = rankMonotonicityPlacebo.primary_stresses.remove_largest_absolute_spreads;
 const rankControlRows = rankMonotonicityPlacebo.controls;
 const rankAttackRows = rankMonotonicityPlacebo.attacks;
+const reversalFamilyRows = reversalVolatilityAttribution.family.comparisons;
+const reversalEligibleRawTop = reversalFamilyRows.find((row) => row.id === "eligible_raw_top_middle")!;
+const reversalCompleteRawTop = reversalFamilyRows.find((row) => row.id === "complete_raw_top_middle")!;
+const reversalEligibleRawBottom = reversalFamilyRows.find((row) => row.id === "eligible_raw_bottom_middle")!;
+const reversalCompleteRawBottom = reversalFamilyRows.find((row) => row.id === "complete_raw_bottom_middle")!;
+const reversalEligibleResidualTop = reversalFamilyRows.find((row) => row.id === "eligible_residual_top_middle")!;
+const reversalCompleteResidualTop = reversalFamilyRows.find((row) => row.id === "complete_residual_top_middle")!;
+const reversalEligibleResidualBottom = reversalFamilyRows.find((row) => row.id === "eligible_residual_bottom_middle")!;
+const reversalCompleteResidualBottom = reversalFamilyRows.find((row) => row.id === "complete_residual_bottom_middle")!;
+const reversalEligibleAttribution = reversalVolatilityAttribution.attribution_summary.eligible;
+const reversalCompleteAttribution = reversalVolatilityAttribution.attribution_summary.complete;
+const reversalRegimes = reversalVolatilityAttribution.primary_stresses.qqq_trailing_20d_known_at_signal;
+const reversalTails = reversalVolatilityAttribution.primary_stresses.remove_largest_raw_bottom_middle;
+const reversalControlRows = reversalVolatilityAttribution.controls;
+const reversalAttackRows = reversalVolatilityAttribution.attacks;
 const rankPlaceboRows = [
   ...rankEligiblePlacebo.rows.map((row) => ({ universe: "合資格池", ...row })),
   ...rankCompletePlacebo.rows.map((row) => ({ universe: "完整現時股池", ...row })),
@@ -823,13 +839,14 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · RANK MONOTONICITY &amp; PLACEBO · ROUND 27</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · REVERSAL &amp; VOLATILITY ATTRIBUTION · ROUND 28</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />高段勝中段，仍不是完整排序 alpha</h1>
+              <h1>短線高回報<br />控制短期反轉與波幅後，優勢不再通過</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十七輪沒有調校買賣規則，而是把同一 <strong>{rankMonotonicityPlacebo.input.events}</strong> 個事件的合資格池與完整現時 25 股股池按訊號日 20 日動量切成高、中、低三段。高段對中段的 eligible／complete NW t 為 <strong>{rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}／{rankCompleteTopMiddle.newey_west.t_stat.toFixed(2)}</strong>，但中段對低段平均反為 <strong>{pp(rankEligibleMiddleBottom.mean, 3)}／{pp(rankCompleteMiddleBottom.mean, 3)}</strong>，所以不是高至低的單調階梯。完整股池 top-bottom NW t 只有 <strong>{rankCompleteTopBottom.newey_west.t_stat.toFixed(2)}</strong>，低於最強隨機 placebo {rankCompletePlacebo.maximum_placebo_t_id} 的 <strong>{rankCompletePlacebo.maximum_placebo_t.toFixed(2)}</strong>。
-                未來 QQQ 下跌組 eligible／complete 平均為 <strong>{pp(rankRegimes.eligible.qqq_negative.mean, 3)}／{pp(rankRegimes.complete.qqq_negative.mean, 3)}</strong>；移除最大 46 個絕對差後 NW t 只有 <strong>{rankTails.eligible.newey_west.t_stat.toFixed(2)}／{rankTails.complete.newey_west.t_stat.toFixed(2)}</strong>。十四項反證只過 <strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong>，不容許事後只挑 top-middle 建立策略。
+                真實與合成分開；第二十八輪沒有改買賣規則，而是用訊號日已知的 5 日回報與 20 日已實現波幅，解釋第二十七輪同一 <strong>{reversalVolatilityAttribution.input.events}</strong> 個事件。原始高段對中段 eligible／complete NW t 為 <strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}</strong>；控制後只餘 <strong>{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</strong>，平均只保留 <strong>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</strong>，完整股池後半更跌至 <strong>{pp(reversalCompleteResidualTop.fixed_halves.second.mean, 3)}</strong>。
+                低段反彈亦未消失：控制後 bottom-middle 仍為 <strong>{pp(reversalEligibleResidualBottom.mean, 3)}／{pp(reversalCompleteResidualBottom.mean, 3)}</strong>。在訊號日可知的 QQQ 過去 20 日下跌環境，殘差高段對中段平均為 <strong>{pp(reversalRegimes.eligible.qqq_trailing_negative.mean, 3)}／{pp(reversalRegimes.complete.qqq_trailing_negative.mean, 3)}</strong>；移除 46 個最大原始 bottom-middle 事件後 NW t 為 <strong>{reversalTails.eligible.newey_west.t_stat.toFixed(2)}／{reversalTails.complete.newey_west.t_stat.toFixed(2)}</strong>。十四項反證只過 <strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong>，所以這是風險歸因，不是新交易策略。
+                第二十七輪高段勝中段但排序不單調的 <strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong> 結果完整保留；不會因本輪歸因而刪除原始證據。
                 第二十六輪 QQQ beta 殘差 eligible t <strong>{commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong>、完整股池 t <strong>{commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong> 及十四項只過 <strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong> 繼續保留；不會因最新一輪而刪除較早反證。
                 第二十五輪相關性擠擁 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>、中位有效獨立注數 <strong>{crowdingEffective.median.toFixed(2)}</strong> 及剔除 MU／AMD／MA 後 NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong> 繼續保留；三個現時代號只屬事後歸因，不是買入名單。第二十四輪完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 亦不刪除。
                 第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
@@ -838,6 +855,7 @@ export default function Home() {
                 <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#reversal-volatility-attribution">查看第 28 輪 6/14 歸因</a>
                 <a className="primary-button aggressive-button" href="#rank-monotonicity-placebo">查看第 27 輪 5/14 反證</a>
                 <a className="primary-button aggressive-button" href="#common-risk-residual">查看第 26 輪 6/14 反證</a>
                 <a className="primary-button aggressive-button" href="#correlation-crowding">查看第 25 輪 7/12 反證</a>
@@ -868,6 +886,11 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 28 輪反轉／波幅歸因</dt><dd>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total} · 未通過</dd></div>
+                <div><dt>原始→控制後 NW t</dt><dd>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>高段優勢保留</dt><dd>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</dd></div>
+                <div><dt>QQQ 過去 20 日下跌組</dt><dd>NW t {reversalRegimes.eligible.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}／{reversalRegimes.complete.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>歸因控制與攻擊</dt><dd>{reversalVolatilityAttribution.control_summary.passed}/{reversalVolatilityAttribution.control_summary.total} · {reversalVolatilityAttribution.attack_summary.rejected}/{reversalVolatilityAttribution.attack_summary.total}</dd></div>
                 <div><dt>第 27 輪排序／placebo</dt><dd>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total} · 未通過</dd></div>
                 <div><dt>高段對中段 NW t</dt><dd>{rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}／{rankCompleteTopMiddle.newey_west.t_stat.toFixed(2)}</dd></div>
                 <div><dt>中段對低段平均</dt><dd>{pp(rankEligibleMiddleBottom.mean, 3)}／{pp(rankCompleteMiddleBottom.mean, 3)}</dd></div>
@@ -916,6 +939,13 @@ export default function Home() {
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
+              <article><span>第 28 輪反證門檻</span><strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong><small>八項未通過</small></article>
+              <article><span>原始→控制後 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><small>完整股池 {reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</small></article>
+              <article><span>高段優勢保留</span><strong>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</strong><small>eligible／complete</small></article>
+              <article><span>complete 後半殘差</span><strong>{pp(reversalCompleteResidualTop.fixed_halves.second.mean, 3)}</strong><small>方向轉負</small></article>
+              <article><span>QQQ 過去 20 日下跌組</span><strong>{reversalRegimes.eligible.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}／{reversalRegimes.complete.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}</strong><small>訊號日已知 · eligible／complete t</small></article>
+              <article><span>46-event 尾部</span><strong>{reversalTails.eligible.newey_west.t_stat.toFixed(2)}／{reversalTails.complete.newey_west.t_stat.toFixed(2)}</strong><small>兩者均不高於 1.96</small></article>
+              <article><span>歸因控制／攻擊</span><strong>{reversalVolatilityAttribution.control_summary.passed}/{reversalVolatilityAttribution.control_summary.total} · {reversalVolatilityAttribution.attack_summary.rejected}/{reversalVolatilityAttribution.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>第 27 輪反證門檻</span><strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong><small>九項未通過</small></article>
               <article><span>原始／共同事件</span><strong>{rankMonotonicityPlacebo.input.events}／{rankMonotonicityPlacebo.input.events}</strong><small>沒有縮樣本或 coverage repair</small></article>
               <article><span>eligible 高段勝中段</span><strong>NW t {rankEligibleTopMiddle.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {rankEligibleTopMiddle.holm_adjusted_p.toFixed(3)}／{rankEligibleTopMiddle.bootstrap_max_t_p.toFixed(3)}</small></article>
@@ -963,6 +993,139 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="reversal-volatility-attribution">
+            <div className="section-heading">
+              <div><span>REVERSAL &amp; VOLATILITY ATTRIBUTION · ROUND 28</span><h2>十四項反證只過 6/14；控制後 top-middle 只保留 42%／35%</h2></div>
+              <p>固定第二十七輪同一 905 個事件與 bucket；只加入訊號日已知的 5 日回報及 20 日波幅，以橫截面 OLS 分拆原始、模型解釋及殘差，沒有改 Top-K、持有期、成本或入場時鐘。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>八假說共同 family · {reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</span>
+                <h3>eligible 原始 NW t {reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}，控制後只有 {reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</h3>
+                <p>完整現時股池亦由 t {reversalCompleteRawTop.newey_west.t_stat.toFixed(2)} 降至 {reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}；控制後平均只保留 {pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}，完整股池後半更為 {pp(reversalCompleteResidualTop.fixed_halves.second.mean, 3)}。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>底段反彈未完全解釋</span><strong>殘差 {pp(reversalEligibleResidualBottom.mean, 3)}／{pp(reversalCompleteResidualBottom.mean, 3)}</strong><p>eligible／complete bottom-middle 仍為正，但 t 只有 {reversalEligibleResidualBottom.newey_west.t_stat.toFixed(2)}／{reversalCompleteResidualBottom.newey_west.t_stat.toFixed(2)}。</p></article>
+                <article><span>市場及尾部</span><strong>弱市 t {reversalRegimes.eligible.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}／{reversalRegimes.complete.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}</strong><p>移除 46 個最大原始底段反彈後，殘差 top-middle t 亦只有 {reversalTails.eligible.newey_west.t_stat.toFixed(2)}／{reversalTails.complete.newey_west.t_stat.toFixed(2)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>原始／共同 905／905；同一已見 survivor cohort</b>
+              <p>本輪重播第二十七輪 bucket hash，沒有縮樣本或 coverage repair。股票仍是 2026 現時代號，缺 point-in-time 成分、永久 ID、歷史行業及退市／收購經濟；這是機制歸因，不是獨立未見確認。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>研究事件</span><strong>{reversalVolatilityAttribution.input.events}</strong><p>{shortDate(reversalVolatilityAttribution.input.first_signal_date)} 至 {shortDate(reversalVolatilityAttribution.input.last_signal_date)}。</p></article>
+              <article><span>eligible 原始→殘差 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><p>保留 {pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}。</p></article>
+              <article><span>complete 原始→殘差 t</span><strong>{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</strong><p>保留 {pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}。</p></article>
+              <article><span>OLS 完整性</span><strong>rank 3 · condition ≤ {reversalVolatilityAttribution.attribution_integrity.maximum_condition_number.toFixed(0)}</strong><p>raw = predicted + residual，收據以 12 位小數固定。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>RAW → PREDICTED → RESIDUAL</span><h3>高段優勢被共同控制大幅吸收；底段反彈沒有被完整解釋</h3></div>
+              <p>所有數字均為每個事件的 20 日淨回報差；predicted 只由訊號日前數據推算，不使用未來市場方向。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>原始 top-middle</th><th>殘差 top-middle</th><th>保留</th><th>原始 bottom-middle</th><th>模型解釋 bottom-middle</th><th>殘差 bottom-middle</th></tr></thead>
+                <tbody>
+                  <tr><th><b>合資格池</b></th><td>{pp(reversalEligibleRawTop.mean, 3)}</td><td>{pp(reversalEligibleResidualTop.mean, 3)}</td><td>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}</td><td>{pp(reversalEligibleRawBottom.mean, 3)}</td><td>{pp(reversalEligibleAttribution.predicted_bottom_middle.mean, 3)}</td><td>{pp(reversalEligibleResidualBottom.mean, 3)}</td></tr>
+                  <tr className="featured-row"><th><b>完整現時股池</b></th><td>{pp(reversalCompleteRawTop.mean, 3)}</td><td>{pp(reversalCompleteResidualTop.mean, 3)}</td><td>{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</td><td>{pp(reversalCompleteRawBottom.mean, 3)}</td><td>{pp(reversalCompleteAttribution.predicted_bottom_middle.mean, 3)}</td><td>{pp(reversalCompleteResidualBottom.mean, 3)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SIGNAL-DATE ATTRIBUTION</span><h3>低段近期跌得更多；完整股池低段亦明顯較高波幅</h3></div>
+              <p>rank gap 為 bottom-middle；beta 及貢獻均逐事件估計再做 Newey–West lag 4，不把平均係數誤當固定交易規則。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>5 日 rank gap</th><th>波幅 rank gap</th><th>5 日 beta</th><th>波幅 beta</th><th>5 日貢獻</th><th>波幅貢獻</th></tr></thead>
+                <tbody>
+                  <tr><th><b>合資格池</b></th><td>{reversalEligibleAttribution.prior5_rank_gap_bottom_middle.mean.toFixed(3)}</td><td>{reversalEligibleAttribution.volatility_rank_gap_bottom_middle.mean.toFixed(3)}</td><td>{pp(reversalEligibleAttribution.beta_prior5.mean, 3)}</td><td>{pp(reversalEligibleAttribution.beta_volatility.mean, 3)}</td><td>{pp(reversalEligibleAttribution.prior5_contribution_bottom_middle.mean, 3)}</td><td>{pp(reversalEligibleAttribution.volatility_contribution_bottom_middle.mean, 3)}</td></tr>
+                  <tr className="featured-row"><th><b>完整現時股池</b></th><td>{reversalCompleteAttribution.prior5_rank_gap_bottom_middle.mean.toFixed(3)}</td><td>{reversalCompleteAttribution.volatility_rank_gap_bottom_middle.mean.toFixed(3)}</td><td>{pp(reversalCompleteAttribution.beta_prior5.mean, 3)}</td><td>{pp(reversalCompleteAttribution.beta_volatility.mean, 3)}</td><td>{pp(reversalCompleteAttribution.prior5_contribution_bottom_middle.mean, 3)}</td><td>{pp(reversalCompleteAttribution.volatility_contribution_bottom_middle.mean, 3)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHT-HYPOTHESIS FAMILY</span><h3>原始與殘差、兩個 universe、兩個差額，一次共同校正</h3></div>
+              <p>52-event circular blocks、20,000 條共同路徑及固定 seed；原始顯著不等於殘差 family 通過。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>固定比較</th><th>平均</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半</th><th>後半</th></tr></thead>
+                <tbody>{reversalFamilyRows.map((row) => (
+                  <tr className={row.id.includes("residual") ? "featured-row" : ""} key={row.id}>
+                    <th><b>{row.id.replace("eligible", "合資格池").replace("complete", "完整現時股池").replace("raw", "原始").replace("residual", "殘差").replace("top_middle", "高段－中段").replace("bottom_middle", "低段－中段")}</b><span>{row.events} 個事件</span></th>
+                    <td>{pp(row.mean, 3)}</td><td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td><td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td><td>{pp(row.fixed_halves.first.mean, 3)}</td><td className={row.fixed_halves.second.mean < 0 ? "negative-number" : ""}>{pp(row.fixed_halves.second.mean, 3)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>KNOWN-AT REGIME &amp; TAIL</span><h3>QQQ 過去 20 日轉弱時殘差為負；尾部移除後亦未通過</h3></div>
+              <p>市場環境在訊號日已知；尾部壓力固定移除每個 universe 最大 46 個原始 bottom-middle 絕對差，再測殘差 top-middle。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Universe</th><th>固定壓力</th><th>事件</th><th>殘差平均</th><th>NW t</th></tr></thead>
+                <tbody>
+                  <tr><th><b>合資格池</b></th><td>QQQ 過去 20 日非負</td><td>{reversalRegimes.eligible.qqq_trailing_nonnegative.events}</td><td>{pp(reversalRegimes.eligible.qqq_trailing_nonnegative.mean, 3)}</td><td>{reversalRegimes.eligible.qqq_trailing_nonnegative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr className="featured-row"><th><b>合資格池</b></th><td>QQQ 過去 20 日負</td><td>{reversalRegimes.eligible.qqq_trailing_negative.events}</td><td>{pp(reversalRegimes.eligible.qqq_trailing_negative.mean, 3)}</td><td>{reversalRegimes.eligible.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>合資格池</b></th><td>移除最大 46 個底段差</td><td>{reversalTails.eligible.events}</td><td>{pp(reversalTails.eligible.mean, 3)}</td><td>{reversalTails.eligible.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>完整現時股池</b></th><td>QQQ 過去 20 日非負</td><td>{reversalRegimes.complete.qqq_trailing_nonnegative.events}</td><td>{pp(reversalRegimes.complete.qqq_trailing_nonnegative.mean, 3)}</td><td>{reversalRegimes.complete.qqq_trailing_nonnegative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr className="featured-row"><th><b>完整現時股池</b></th><td>QQQ 過去 20 日負</td><td>{reversalRegimes.complete.qqq_trailing_negative.events}</td><td>{pp(reversalRegimes.complete.qqq_trailing_negative.mean, 3)}</td><td>{reversalRegimes.complete.qqq_trailing_negative.newey_west.t_stat.toFixed(2)}</td></tr>
+                  <tr><th><b>完整現時股池</b></th><td>移除最大 46 個底段差</td><td>{reversalTails.complete.events}</td><td>{pp(reversalTails.complete.mean, 3)}</td><td>{reversalTails.complete.newey_west.t_stat.toFixed(2)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FOURTEEN FALSIFICATION GATES</span><h3>十四項門檻逐項呈列；6/14 不升格</h3></div>
+              <p>輸入、coverage、bucket 重播、OLS 身份及原始 top-middle 通過，不能抵銷殘差、bottom-middle、共同校正、弱市及尾部失敗。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {reversalVolatilityAttribution.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 28 輪事前固定門檻</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>二十三道輸入、特徵、OLS、歸因、family 及決策控制</h3></div>
+              <p>23/23 只證明程式遵守凍結協議，不是策略盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {reversalControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 28 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>二十三項 hash、窗口、rank、OLS、bucket、bootstrap 及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中指定錯誤碼，包括 reversal_volatility_regression_contract_mismatch 及 reversal_volatility_decision_boundary_breached。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {reversalAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}><div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div><p>{attack.expected_error_code}</p></article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 28 DECISION</span><b>原始高段優勢大部分由共同控制吸收；殘差、弱市、尾部及共同校正均未通過，不建立新策略</b></div>
+              <p>正式就緒 1/18、逐股 point-in-time 1/20、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。下一個可升級證據仍是獲授權逐期成分、永久 ID、歷史行業、公司行動及退市／退出經濟，再用未見期作一次固定規則確認。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 28 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_PROTOCOL.md" target="_blank" rel="noreferrer">事前反轉／波幅協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_reversal_volatility_attribution_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 
