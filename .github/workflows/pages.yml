@@ -51,6 +51,7 @@ jobs:
           python scripts/build_short_term_common_risk_residual_report.py
           python scripts/build_short_term_rank_monotonicity_placebo_report.py
           python scripts/build_short_term_reversal_volatility_attribution_report.py
+          python scripts/build_short_term_calendar_capital_accounting_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
@@ -117,6 +118,9 @@ jobs:
             artifacts/short_term_reversal_volatility_attribution_validation.json \
             site/data/short-term-reversal-volatility-attribution.json \
             docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
+            artifacts/short_term_calendar_capital_accounting_validation.json \
+            site/data/short-term-calendar-capital-accounting.json \
+            docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -142,6 +146,7 @@ jobs:
           pytest tests/test_common_risk_residual.py
           pytest tests/test_rank_monotonicity_placebo.py
           pytest tests/test_reversal_volatility_attribution.py
+          pytest tests/test_calendar_capital_accounting.py
           pytest tests/test_daily_momentum_regime.py
       - uses: actions/setup-node@v7
         with:

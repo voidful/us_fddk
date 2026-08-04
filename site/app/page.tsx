@@ -16,6 +16,7 @@ import correlationCrowding from "../data/short-term-correlation-crowding.json";
 import commonRiskResidual from "../data/short-term-common-risk-residual.json";
 import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placebo.json";
 import reversalVolatilityAttribution from "../data/short-term-reversal-volatility-attribution.json";
+import calendarCapitalAccounting from "../data/short-term-calendar-capital-accounting.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -36,7 +37,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十八輪短期反轉與波幅歸因反證只過 6/14，正式就緒仍為 1/18。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第二十九輪以五槽核算 20 年資金佔用，13/18 門檻未通過，Paper 維持全現金。",
 };
 
 const readerCapital = 1_000;
@@ -231,6 +232,21 @@ const reversalRegimes = reversalVolatilityAttribution.primary_stresses.qqq_trail
 const reversalTails = reversalVolatilityAttribution.primary_stresses.remove_largest_raw_bottom_middle;
 const reversalControlRows = reversalVolatilityAttribution.controls;
 const reversalAttackRows = reversalVolatilityAttribution.attacks;
+const calendarCandidate = calendarCapitalAccounting.paths.top7_five_slot;
+const calendarEligiblePath = calendarCapitalAccounting.paths.eligible_equal_five_slot;
+const calendarCompletePath = calendarCapitalAccounting.paths.complete_equal_five_slot;
+const calendarQqqEvent = calendarCapitalAccounting.paths.qqq_event_five_slot;
+const calendarQqq = calendarCapitalAccounting.paths.qqq_buy_hold;
+const calendarSpy = calendarCapitalAccounting.paths.spy_buy_hold;
+const calendarPathRows = Object.values(calendarCapitalAccounting.paths);
+const calendarFamilyRows = calendarCapitalAccounting.family.comparisons;
+const calendarEligible = calendarFamilyRows.find((row) => row.baseline_id === "eligible_equal_five_slot")!;
+const calendarComplete = calendarFamilyRows.find((row) => row.baseline_id === "complete_equal_five_slot")!;
+const calendarRemovedYears = calendarCapitalAccounting.stresses.best_three_years_removed;
+const calendarCrisisRows = Object.entries(calendarCapitalAccounting.stresses.crisis_years);
+const calendarCostRows = Object.entries(calendarCapitalAccounting.stresses.costs);
+const calendarControlRows = calendarCapitalAccounting.controls;
+const calendarAttackRows = calendarCapitalAccounting.attacks;
 const rankPlaceboRows = [
   ...rankEligiblePlacebo.rows.map((row) => ({ universe: "合資格池", ...row })),
   ...rankCompletePlacebo.rows.map((row) => ({ universe: "完整現時股池", ...row })),
@@ -839,22 +855,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · REVERSAL &amp; VOLATILITY ATTRIBUTION · ROUND 28</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · CALENDAR CAPITAL ACCOUNTING · ROUND 29</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />控制短期反轉與波幅後，優勢不再通過</h1>
+              <h1>短線高回報<br />20 年事件回報放回真實資金時間線</h1>
               <p className="hero-lead">
-                真實與合成分開；第二十八輪沒有改買賣規則，而是用訊號日已知的 5 日回報與 20 日已實現波幅，解釋第二十七輪同一 <strong>{reversalVolatilityAttribution.input.events}</strong> 個事件。原始高段對中段 eligible／complete NW t 為 <strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}</strong>；控制後只餘 <strong>{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</strong>，平均只保留 <strong>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</strong>，完整股池後半更跌至 <strong>{pp(reversalCompleteResidualTop.fixed_halves.second.mean, 3)}</strong>。
-                低段反彈亦未消失：控制後 bottom-middle 仍為 <strong>{pp(reversalEligibleResidualBottom.mean, 3)}／{pp(reversalCompleteResidualBottom.mean, 3)}</strong>。在訊號日可知的 QQQ 過去 20 日下跌環境，殘差高段對中段平均為 <strong>{pp(reversalRegimes.eligible.qqq_trailing_negative.mean, 3)}／{pp(reversalRegimes.complete.qqq_trailing_negative.mean, 3)}</strong>；移除 46 個最大原始 bottom-middle 事件後 NW t 為 <strong>{reversalTails.eligible.newey_west.t_stat.toFixed(2)}／{reversalTails.complete.newey_west.t_stat.toFixed(2)}</strong>。十四項反證只過 <strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong>，所以這是風險歸因，不是新交易策略。
-                第二十七輪高段勝中段但排序不單調的 <strong>{rankMonotonicityPlacebo.gate_summary.passed}/{rankMonotonicityPlacebo.gate_summary.total}</strong> 結果完整保留；不會因本輪歸因而刪除原始證據。
-                第二十六輪 QQQ beta 殘差 eligible t <strong>{commonRiskQqqEligible.newey_west.t_stat.toFixed(2)}</strong>、完整股池 t <strong>{commonRiskQqqComplete.newey_west.t_stat.toFixed(2)}</strong> 及十四項只過 <strong>{commonRiskResidual.gate_summary.passed}/{commonRiskResidual.gate_summary.total}</strong> 繼續保留；不會因最新一輪而刪除較早反證。
-                第二十五輪相關性擠擁 <strong>{correlationCrowding.gate_summary.passed}/{correlationCrowding.gate_summary.total}</strong>、中位有效獨立注數 <strong>{crowdingEffective.median.toFixed(2)}</strong> 及剔除 MU／AMD／MA 後 NW t <strong>{crowdingRemoveThree.newey_west.t_stat.toFixed(2)}</strong> 繼續保留；三個現時代號只屬事後歸因，不是買入名單。第二十四輪完整股池 NW t <strong>{multiplicityComplete.newey_west.t_stat.toFixed(2)}</strong> 及全專案 6,208 次 Bonferroni p <strong>{multiplicityEligible.global_bonferroni_p.toFixed(2)}</strong> 亦不刪除。
-                第二十二輪退出污染結果仍完整保留：-50%／2% 主要格 5/5，但 -80%／-100% 退出的 NW t 只有 <strong>{survivorshipSevere80.expected.newey_west.t_stat.toFixed(2)}／{survivorshipSevere100.expected.newey_west.t_stat.toFixed(2)}</strong>。
-                第 21 輪五條正式數據路徑仍是 <strong>{providerGapClosure.qualified_route_count}/5 合格</strong>；公開文件只屬採購候選，不能修復真實污染率及退出分布。
-                第十九輪官方 Fama/French 日度 RF 真實覆蓋仍為 <strong>{riskFreeStaging.study.available_sessions.toLocaleString("zh-HK")}/{riskFreeStaging.study.required_sessions.toLocaleString("zh-HK")}（{riskFreeCoveragePct.toFixed(2)}%）</strong>，欠 2026 年 7 月最後 <strong>{riskFreeStaging.study.missing_session_count} 日</strong>。
-                <strong>真實正式就緒只有 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}，provider 匯入 {formalBacktestReadiness.actual_local_intake.passed}/{formalBacktestReadiness.actual_local_intake.total}、逐股數據 {formalBacktestReadiness.actual_point_in_time_readiness.passed}/{formalBacktestReadiness.actual_point_in_time_readiness.total}，正式 20 年逐股回測仍是 0 次；短線 Paper、持倉及實金動作均為 US$0</strong>。第十輪 {dailyRepair.passed}/{dailyRepair.required} 負結果及候選近期 CAGR {pct(dailyRecent.candidate.cagr, 2)} 對 QQQ {pct(dailyRecent.qqq.cagr, 2)} 繼續保留。
+                第二十九輪不再把 <strong>{calendarCapitalAccounting.input.events}</strong> 宗重疊交易當成可同時使用的獨立本金，而是按日曆時間分到五個資金槽，每槽 20%，由下一個交易日開市價進場、持有 20 個交易日，不借貸。20 bp 來回成本後，Top-7 由 US$1,000 模擬增至 <strong>{money(calendarCandidate.terminal_usd)}</strong>，CAGR <strong>{pct(calendarCandidate.cagr)}</strong>、SHY 超額 Sharpe <strong>{calendarCandidate.shy_excess_sharpe.toFixed(2)}</strong>、最大跌幅 <strong>{pct(calendarCandidate.max_drawdown)}</strong>。
+                基準沒有隱藏：QQQ 買入並持有同期增至 <strong>{money(calendarQqq.terminal_usd)}</strong>、CAGR <strong>{pct(calendarQqq.cagr)}</strong>，明顯較高；SPY CAGR 為 <strong>{pct(calendarSpy.cagr)}</strong>。Top-7 對完整現時股池的 NW t 只有 <strong>{calendarComplete.newey_west.t_stat.toFixed(2)}</strong>，移除最佳三年後對合資格池只餘 <strong>{calendarRemovedYears.newey_west.t_stat.toFixed(2)}</strong>，全專案 6,214 次 Bonferroni p 仍為 <strong>{calendarEligible.global_bonferroni_p.toFixed(2)}</strong>。
+                十八項事前門檻只過 <strong>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total}</strong>；2008／2022 候選回報分別為 <strong>{pct(calendarCapitalAccounting.stresses.crisis_years["2008"].top7_five_slot.return)}／{pct(calendarCapitalAccounting.stresses.crisis_years["2022"].top7_five_slot.return)}</strong>，100 bp 成本下 CAGR 降至 <strong>{pct(calendarCapitalAccounting.stresses.costs["100"].paths.top7_five_slot.cagr)}</strong>。數據截至 {shortDate(calendarCapitalAccounting.input.last_exit_date)}，不是即市訊號；正式就緒仍為 {calendarCapitalAccounting.decision.formal_readiness}、正式策略 run 0、短線 Paper 全現金、實金 US$0。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#calendar-capital-accounting">查看第 29 輪 13/18 資金回測</a>
                 <a className="primary-button aggressive-button" href="#reversal-volatility-attribution">查看第 28 輪 6/14 歸因</a>
                 <a className="primary-button aggressive-button" href="#rank-monotonicity-placebo">查看第 27 輪 5/14 反證</a>
                 <a className="primary-button aggressive-button" href="#common-risk-residual">查看第 26 輪 6/14 反證</a>
@@ -886,6 +897,13 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 29 輪五槽資金回測</dt><dd>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total} · 未通過</dd></div>
+                <div><dt>Top-7 終值／CAGR</dt><dd>{money(calendarCandidate.terminal_usd)} · {pct(calendarCandidate.cagr)}</dd></div>
+                <div><dt>QQQ 終值／CAGR</dt><dd>{money(calendarQqq.terminal_usd)} · {pct(calendarQqq.cagr)}</dd></div>
+                <div><dt>SHY 超額 Sharpe／最大跌幅</dt><dd>{calendarCandidate.shy_excess_sharpe.toFixed(2)} · {pct(calendarCandidate.max_drawdown)}</dd></div>
+                <div><dt>資金佔用／年率化換手</dt><dd>{pct(calendarCandidate.average_exposure)} · {calendarCandidate.annual_turnover.toFixed(1)}x</dd></div>
+                <div><dt>完整股池／移除最佳三年 t</dt><dd>{calendarComplete.newey_west.t_stat.toFixed(2)} · {calendarRemovedYears.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>資金控制與攻擊</dt><dd>{calendarCapitalAccounting.control_summary.passed}/{calendarCapitalAccounting.control_summary.total} · {calendarCapitalAccounting.attack_summary.rejected}/{calendarCapitalAccounting.attack_summary.total}</dd></div>
                 <div><dt>第 28 輪反轉／波幅歸因</dt><dd>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total} · 未通過</dd></div>
                 <div><dt>原始→控制後 NW t</dt><dd>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}／{reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</dd></div>
                 <div><dt>高段優勢保留</dt><dd>{pct(reversalEligibleAttribution.aggregate_top_middle_retention_fraction, 1)}／{pct(reversalCompleteAttribution.aggregate_top_middle_retention_fraction, 1)}</dd></div>
@@ -938,6 +956,15 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>第 29 輪資金門檻</span><strong>{calendarCapitalAccounting.gate_summary.passed}/{calendarCapitalAccounting.gate_summary.total}</strong><small>五項未通過 · 不升格</small></article>
+              <article><span>Top-7 模擬終值</span><strong>{money(calendarCandidate.terminal_usd)}</strong><small>20 bp · CAGR {pct(calendarCandidate.cagr)}</small></article>
+              <article><span>QQQ 買入並持有</span><strong>{money(calendarQqq.terminal_usd)}</strong><small>CAGR {pct(calendarQqq.cagr)} · 明顯較高</small></article>
+              <article><span>Top-7 風險</span><strong>{calendarCandidate.shy_excess_sharpe.toFixed(2)} / {pct(calendarCandidate.max_drawdown)}</strong><small>SHY 超額 Sharpe／最大跌幅</small></article>
+              <article><span>資金佔用／換手</span><strong>{pct(calendarCandidate.average_exposure)} / {calendarCandidate.annual_turnover.toFixed(1)}x</strong><small>平均持倉／年率化換手</small></article>
+              <article><span>完整股池 NW t</span><strong>{calendarComplete.newey_west.t_stat.toFixed(2)}</strong><small>低於事前 1.96</small></article>
+              <article><span>移除最佳三年 NW t</span><strong>{calendarRemovedYears.newey_west.t_stat.toFixed(2)}</strong><small>{calendarRemovedYears.removed_years.join("／")}</small></article>
+              <article><span>100 bp 成本 CAGR</span><strong>{pct(calendarCapitalAccounting.stresses.costs["100"].paths.top7_five_slot.cagr)}</strong><small>交易成本壓力</small></article>
+              <article><span>資金控制／攻擊</span><strong>{calendarCapitalAccounting.control_summary.passed}/{calendarCapitalAccounting.control_summary.total} · {calendarCapitalAccounting.attack_summary.rejected}/{calendarCapitalAccounting.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第 28 輪反證門檻</span><strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong><small>八項未通過</small></article>
               <article><span>原始→控制後 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><small>完整股池 {reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</small></article>
@@ -993,6 +1020,135 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="calendar-capital-accounting">
+            <div className="section-heading">
+              <div><span>CALENDAR CAPITAL ACCOUNTING · ROUND 29</span><h2>五槽資金回測只過 13/18；Top-7 有正回報，但長期明顯落後 QQQ</h2></div>
+              <p>把 905 宗重疊事件放回同一條 2006–2026 日曆時間線；五個資金槽各佔 20%，同槽不重疊、不借貸，並同時列出事件式公平基準及 QQQ／SPY／SHY 買入並持有。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>US$1,000 讀者換算 · 20 bp 來回成本</span>
+                <h3>Top-7 終值 {money(calendarCandidate.terminal_usd)}；QQQ 終值 {money(calendarQqq.terminal_usd)}</h3>
+                <p>候選 CAGR {pct(calendarCandidate.cagr)}、SHY 超額 Sharpe {calendarCandidate.shy_excess_sharpe.toFixed(2)}、最大跌幅 {pct(calendarCandidate.max_drawdown)}；QQQ CAGR {pct(calendarQqq.cagr)}，所以「有盈利」不等於「值得取代簡單基準」。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>統計完整性</span><strong>完整股池 t {calendarComplete.newey_west.t_stat.toFixed(2)}</strong><p>合資格池局部 Holm／max-t p 為 {calendarEligible.holm_adjusted_p.toFixed(4)}／{calendarEligible.bootstrap_max_t_p.toFixed(4)}，但全專案 Bonferroni p {calendarEligible.global_bonferroni_p.toFixed(2)}。</p></article>
+                <article><span>時間集中</span><strong>移除最佳三年 t {calendarRemovedYears.newey_west.t_stat.toFixed(2)}</strong><p>剔除 {calendarRemovedYears.removed_years.join("、")} 後不再達 1.96；前後半一致性亦未通過。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>真實與合成分開；同一已見 survivor cohort 不是正式 point-in-time 回測</b>
+              <p>股票仍使用 2026 現時代號，缺逐期成分、永久 ID、歷史行業、公司行動及退市／退出經濟。完整資金會計能修正重疊持倉與本金重用，不能修正存活者偏差；數據截至 {shortDate(calendarCapitalAccounting.input.last_exit_date)}，不是即市訊號。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>日曆交易日</span><strong>{calendarCapitalAccounting.calendar_integrity.sessions.toLocaleString("zh-HK")}</strong><p>{shortDate(calendarCapitalAccounting.calendar_integrity.first_date)} 至 {shortDate(calendarCapitalAccounting.calendar_integrity.last_date)}。</p></article>
+              <article><span>資金槽</span><strong>{calendarCapitalAccounting.method.slot_count} × {pct(calendarCapitalAccounting.method.slot_initial_weight, 0)}</strong><p>每槽 {calendarCapitalAccounting.method.events_per_slot} 宗；最高同時持有 {calendarCapitalAccounting.reconstruction.maximum_concurrent_intervals} 槽。</p></article>
+              <article><span>Top-7 平均持倉</span><strong>{pct(calendarCandidate.average_exposure)}</strong><p>最高 {pct(calendarCandidate.maximum_exposure)}；年率化換手 {calendarCandidate.annual_turnover.toFixed(1)} 倍。</p></article>
+              <article><span>成本拖累</span><strong>{pp(calendarCandidate.cost_drag_cagr)}</strong><p>相對零成本終值少 {money(calendarCandidate.cost_drag_terminal_usd)}。</p></article>
+              <article><span>2008／2022 回報</span><strong>{pct(calendarCapitalAccounting.stresses.crisis_years["2008"].top7_five_slot.return)}／{pct(calendarCapitalAccounting.stresses.crisis_years["2022"].top7_five_slot.return)}</strong><p>不是低風險現金替代品。</p></article>
+              <article><span>正式策略運行</span><strong>{calendarCapitalAccounting.decision.formal_strategy_runs}</strong><p>Paper 全現金 · 實金 US${calendarCapitalAccounting.decision.real_money_action_usd}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SEVEN FIXED PATHS</span><h3>七條同起訖日路徑，不只展示候選</h3></div>
+              <p>所有 Sharpe 均以 SHY 日回報作超額回報代理；US$ 終值只把相對淨值換算成讀者示例本金。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>路徑</th><th>CAGR</th><th>終值</th><th>SHY 超額 Sharpe</th><th>最大跌幅</th><th>年率化換手</th><th>平均持倉</th></tr></thead>
+                <tbody>{calendarPathRows.map((row) => (
+                  <tr className={row.path_id === "top7_five_slot" ? "featured-row" : ""} key={row.path_id}>
+                    <th><b>{row.label}</b><span>{row.round_trip_cost_bps} bp</span></th>
+                    <td>{pct(row.cagr)}</td><td>{money(row.terminal_usd)}</td><td>{row.shy_excess_sharpe.toFixed(2)}</td><td>{pct(row.max_drawdown)}</td><td>{row.annual_turnover.toFixed(1)}x</td><td>{pct(row.average_exposure)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SIX-BASELINE FAMILY</span><h3>公平事件基準、買入並持有及多重檢驗一次呈列</h3></div>
+              <p>Newey–West lag 20；63-session circular blocks、20,000 條共同 bootstrap 路徑。前後半為固定日曆切割，不因結果移動。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>Top-7 相對基準</th><th>年率化算術差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半日均</th><th>後半日均</th></tr></thead>
+                <tbody>{calendarFamilyRows.map((row) => (
+                  <tr className={row.baseline_id === "eligible_equal_five_slot" ? "featured-row" : ""} key={row.baseline_id}>
+                    <th><b>{row.baseline_label}</b><span>{row.sessions.toLocaleString("zh-HK")} 日</span></th>
+                    <td>{pct(row.newey_west.annualized_arithmetic_difference, 2)}</td><td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td><td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td><td>{(row.fixed_halves.first.mean_daily_difference * 10000).toFixed(2)} bp</td><td>{(row.fixed_halves.second.mean_daily_difference * 10000).toFixed(2)} bp</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST &amp; CRISIS STRESS</span><h3>換手令成本不能忽略；危機年份並非只看平均 CAGR</h3></div>
+              <p>50／100 bp 來回成本沿用同一五槽路徑；2008、2020、2022 使用該曆年內的實際日線回報。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>成本</th><th>Top-7 CAGR</th><th>終值</th><th>合資格池</th><th>完整現時股池</th><th>QQQ event</th></tr></thead>
+                <tbody>
+                  <tr className="featured-row"><th><b>20 bp</b></th><td>{pct(calendarCandidate.cagr)}</td><td>{money(calendarCandidate.terminal_usd)}</td><td>{pct(calendarEligiblePath.cagr)}</td><td>{pct(calendarCompletePath.cagr)}</td><td>{pct(calendarQqqEvent.cagr)}</td></tr>
+                  {calendarCostRows.map(([cost, row]) => (
+                    <tr key={cost}><th><b>{cost} bp</b></th><td>{pct(row.paths.top7_five_slot.cagr)}</td><td>{money(row.paths.top7_five_slot.terminal_usd)}</td><td>{pct(row.paths.eligible_equal_five_slot.cagr)}</td><td>{pct(row.paths.complete_equal_five_slot.cagr)}</td><td>{pct(row.paths.qqq_event_five_slot.cagr)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>危機年份</th><th>Top-7 回報</th><th>Top-7 最大跌幅</th><th>QQQ</th><th>SPY</th><th>SHY</th></tr></thead>
+                <tbody>{calendarCrisisRows.map(([year, paths]) => (
+                  <tr key={year}><th><b>{year}</b></th><td>{pct(paths.top7_five_slot.return)}</td><td>{pct(paths.top7_five_slot.max_drawdown)}</td><td>{pct(paths.qqq_buy_hold.return)}</td><td>{pct(paths.spy_buy_hold.return)}</td><td>{pct(paths.shy_buy_hold.return)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHTEEN PRE-FROZEN GATES</span><h3>十八項門檻逐項呈列；13/18 不升格</h3></div>
+              <p>五槽會計、正回報或局部顯著不能抵銷 QQQ、完整股池、前後半、最佳年份集中及全專案多重搜尋失敗。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {calendarCapitalAccounting.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 29 輪事前固定門檻</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>PROTOCOL CONTROLS</span><h3>二十五道輸入、資金、成本、統計及決策控制</h3></div>
+              <p>25/25 只證明程式遵守凍結協議，不是未來盈利通過。</p>
+            </div>
+            <div className="point-in-time-gate-list">
+              {calendarControlRows.map((gate) => (
+                <article className={gate.passed ? "passed" : "blocked"} key={gate.id}><span>{gate.id}</span><div><b>{gate.label}</b><p>第 29 輪固定控制</p></div><strong>{gate.passed ? "通過" : "未通過"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>MUTATION ATTACKS</span><h3>二十五項 hash、槽位、成本、family、壓力及越權偷換全拒收</h3></div>
+              <p>每項只改一個契約欄位並命中指定錯誤碼，包括 calendar_capital_bootstrap_contract_mismatch 及 calendar_capital_decision_boundary_breached。</p>
+            </div>
+            <div className="test-matrix point-in-time-tests acceptance-tests">
+              {calendarAttackRows.map((attack) => (
+                <article className="test-card" key={attack.id}><div><span>{attack.id} · {attack.label}</span><b className="negative-number">{attack.rejected ? "拒收" : "誤收"}</b></div><p>{attack.expected_error_code}</p></article>
+              ))}
+            </div>
+
+            <div className="data-source-decision provider-decision">
+              <div><span>ROUND 29 DECISION</span><b>事件層優勢經資金佔用後仍不足以勝過 QQQ、完整股池及全專案多重搜尋；不建立新策略</b></div>
+              <p>正式就緒 {calendarCapitalAccounting.decision.formal_readiness}、逐股 point-in-time {calendarCapitalAccounting.decision.point_in_time_readiness}、合資格數據包 0、正式策略 run 0、Paper 全現金、持倉 0、實金 US$0。下一個可升級證據是獲授權逐期成分、永久 ID、公司行動及退市／退出經濟，再以首段真正未見數據驗證已凍結規則。</p>
+              <div className="data-source-links">
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">第 29 輪完整報告</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_PROTOCOL.md" target="_blank" rel="noreferrer">事前資金會計協議</a>
+                <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_calendar_capital_accounting_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+              </div>
             </div>
           </section>
 

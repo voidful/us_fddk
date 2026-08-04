@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十八輪短期反轉與波幅歸因反證只過 6/14，正式就緒仍為 1/18。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第二十九輪以五槽核算 20 年資金佔用，13/18 門檻未通過，Paper 維持全現金。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線控制短期反轉與波幅後反證只過 6/14，正式策略運行 0，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線五槽資金回測雖錄得 12.3% CAGR，仍落後 QQQ 且只過 13/18 門檻，實金動作 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [
