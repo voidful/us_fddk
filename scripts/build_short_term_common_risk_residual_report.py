@@ -15,7 +15,8 @@ RECEIPT_FLOAT_DECIMAL_PLACES = 12
 
 def _canonicalize_floats(value: Any) -> Any:
     if isinstance(value, float):
-        return round(value, RECEIPT_FLOAT_DECIMAL_PLACES)
+        rounded = round(value, RECEIPT_FLOAT_DECIMAL_PLACES)
+        return 0.0 if rounded == 0.0 else rounded
     if isinstance(value, dict):
         return {key: _canonicalize_floats(item) for key, item in value.items()}
     if isinstance(value, list):
@@ -178,7 +179,9 @@ family，不能先看 residual 較漂亮才把原始比較刪除。正式 6,208-
 
 每列逐事件嚴格滿足 `raw active = residual active + beta gap × factor event return`。
 beta 只用訊號日或之前的調整收市日回報，不 clipping、不 winsor、不 shrink；未來 factor
-回報只用於事後分解，不是訊號。
+回報只用於事後分解，不是訊號。正值比例把絕對值不高於 `1e-12` 的浮點殘差視為零，
+並在 JSON 收據把四捨五入後的負零正規化為 `0.0`；這只消除跨平台數值庫差異，不改平均、
+t 值、p 值、門檻或決策。
 
 ## QQQ 上／下及 beta-contribution 尾部壓力
 

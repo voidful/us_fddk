@@ -110,6 +110,7 @@ BOOTSTRAP_PATHS = 20_000
 BOOTSTRAP_SEED = 26_202_608
 TAIL_REMOVAL_EVENTS = 46
 RECONSTRUCTION_TOLERANCE = 1e-12
+SIGN_CLASSIFICATION_TOLERANCE = RECONSTRUCTION_TOLERANCE
 
 
 class CommonRiskResidualError(ValueError):
@@ -367,7 +368,7 @@ def _comparison(
         "events": len(values),
         "mean_difference": float(values.mean()),
         "median_difference": float(np.median(values)),
-        "positive_fraction": float((values > 0.0).mean()),
+        "positive_fraction": float((values > SIGN_CLASSIFICATION_TOLERANCE).mean()),
         "newey_west": nw,
         "raw_normal_p": _normal_two_sided_p(float(nw["t_stat"])),
     }
@@ -695,7 +696,9 @@ def _beta_gap_summaries(residuals: dict[str, Any]) -> list[dict[str, Any]]:
                     "median_beta_gap": float(np.median(gaps)),
                     "median_absolute_beta_gap": float(np.median(np.abs(gaps))),
                     "p95_absolute_beta_gap": float(np.quantile(np.abs(gaps), 0.95)),
-                    "positive_beta_gap_fraction": float((gaps > 0.0).mean()),
+                    "positive_beta_gap_fraction": float(
+                        (gaps > SIGN_CLASSIFICATION_TOLERANCE).mean()
+                    ),
                     "mean_beta_contribution": float(contribution.mean()),
                     "mean_raw_active": float(raw.mean()),
                     "beta_contribution_share_of_raw_mean": (

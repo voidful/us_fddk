@@ -2,16 +2,21 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
 import pytest
 
+from scripts.build_short_term_common_risk_residual_report import _canonicalize_floats
 from usfddk.common_risk_residual import (
     FROZEN_CONTRACT,
     PROTOCOL_PATH,
     PROTOCOL_SHA256,
     REPAIR_PROTOCOL_PATH,
     REPAIR_PROTOCOL_SHA256,
+    _comparison,
     run_common_risk_residual,
     run_contract_attacks,
     validate_common_risk_contract,
@@ -61,6 +66,18 @@ def test_beta_coverage_and_decomposition_are_exact(result: dict) -> None:
     assert all(
         row["maximum_decomposition_residual"] <= 1e-12 for row in result["beta_gap_summaries"]
     )
+
+
+def test_near_zero_signs_and_negative_zero_are_platform_stable() -> None:
+    values = np.asarray([-5e-13, 5e-13, 2e-12], dtype=float)
+    comparison = _comparison(
+        values,
+        pd.Series(pd.to_datetime(["2026-01-01", "2026-01-02", "2026-01-03"])),
+        include_halves=False,
+    )
+    assert comparison["positive_fraction"] == pytest.approx(1 / 3)
+    assert _canonicalize_floats(-5e-13) == 0.0
+    assert str(_canonicalize_floats(-5e-13)) == "0.0"
 
 
 def test_ten_hypothesis_family_preserves_unfavourable_baselines(result: dict) -> None:
@@ -150,6 +167,7 @@ def test_controls_and_single_field_attacks_are_complete(result: dict) -> None:
 
 def test_generated_receipts_are_identical_and_match_calculation(result: dict) -> None:
     assert ARTIFACT.read_bytes() == SITE_DATA.read_bytes()
+    assert re.search(rb": -0\.0(?:[,}\n])", ARTIFACT.read_bytes()) is None
     stored = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     assert stored["research_round"] == result["research_round"] == 26
     assert stored["gate_summary"] == result["gate_summary"]
