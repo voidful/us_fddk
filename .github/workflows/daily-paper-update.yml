@@ -74,6 +74,7 @@ jobs:
           ./.venv/bin/python -m usfddk v25-refresh-status
       - name: Verify research code
         run: |
+          ./.venv/bin/pytest tests/test_ci_runtime_contract.py
           ./.venv/bin/python scripts/build_short_term_french_prior_return_schema_repair_report.py
           ./.venv/bin/python scripts/build_short_term_french_size_prior_report.py
           ./.venv/bin/python scripts/build_short_term_french_size_momentum_tilt_report.py
