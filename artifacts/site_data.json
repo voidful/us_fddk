@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-03T20:25:04.702919Z",
-  "data_through": "2026-08-03",
+  "generated_at_utc": "2026-08-08T19:56:24.788123Z",
+  "data_through": "2026-08-07",
   "freshness": {
-    "last_session": "2026-08-03",
-    "next_expected_session": "2026-08-04",
-    "next_session_close_utc": "2026-08-04T20:00:00Z",
-    "refresh_due_at_utc": "2026-08-05T02:00:00Z",
+    "last_session": "2026-08-07",
+    "next_expected_session": "2026-08-10",
+    "next_session_close_utc": "2026-08-10T20:00:00Z",
+    "refresh_due_at_utc": "2026-08-11T02:00:00Z",
     "vendor_grace_hours": 6.0
   },
   "research_start": "2006-07-31",
@@ -8045,26 +8045,26 @@
       "evidence_classification": "theory_fixed_product_definition_sensitivity_with_seen_summaries_but_post_freeze_joint_paths",
       "paper": {
         "mode": "live",
-        "as_of": "2026-08-03",
+        "as_of": "2026-08-07",
         "started_at": "2026-07-31",
-        "snapshot_sha256": "1a70758e03c728081c97ea0ec7838d13c47cab872e0f8d47f686c57dc5300da5",
+        "snapshot_sha256": "d3cadd2ca7721d22222d3264556ac7f7a1f412c16f1a836b9523f6f0e1797689",
         "initial_cash": 100000.0,
         "cost_bps": 10.0,
         "total_costs": 99.9000999000999,
         "execution_clock": "signal at close t; rebalance at adjusted open t+1",
-        "equity": 101397.31711597907,
-        "return": 0.013973171159790576,
+        "equity": 105008.78598041365,
+        "return": 0.05008785980413655,
         "cash": 1.2789769243681803e-13,
         "transactions": 2,
         "status": "invested",
         "holdings": {
           "VUG": {
-            "market_value": 81330.38133222694,
-            "weight": 0.8020959887844035
+            "market_value": 83497.19869445871,
+            "weight": 0.7951448815914575
           },
           "GLD": {
-            "market_value": 20066.935783752124,
-            "weight": 0.1979040112155966
+            "market_value": 21511.587285954945,
+            "weight": 0.2048551184085426
           }
         },
         "pending_order": null,
@@ -8107,10 +8107,10 @@
         ],
         "accounts": {
           "candidate": {
-            "as_of": "2026-08-03",
-            "equity": 101397.31711597907,
-            "return": 0.013973171159790576,
-            "max_drawdown": 0.0,
+            "as_of": "2026-08-07",
+            "equity": 105008.78598041365,
+            "return": 0.05008785980413655,
+            "max_drawdown": -0.0004338716072419535,
             "cash": 1.2789769243681803e-13,
             "total_costs": 99.9000999000999,
             "transactions": 2,
@@ -8125,14 +8125,34 @@
                 "date": "2026-08-03",
                 "equity": 101397.31711597907,
                 "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-04",
+                "equity": 103406.86300637563,
+                "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-05",
+                "equity": 103906.33478913353,
+                "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-06",
+                "equity": 103861.25278065595,
+                "drawdown": -0.0004338716072419535
+              },
+              {
+                "date": "2026-08-07",
+                "equity": 105008.78598041365,
+                "drawdown": 0.0
               }
             ]
           },
           "SPY": {
-            "as_of": "2026-08-03",
-            "equity": 100997.15352457369,
-            "return": 0.009971535245736796,
-            "max_drawdown": 0.0,
+            "as_of": "2026-08-07",
+            "equity": 103075.29885339651,
+            "return": 0.03075298853396502,
+            "max_drawdown": -0.003591224858201403,
             "cash": 1.2789769243681803e-13,
             "total_costs": 99.9000999000999,
             "transactions": 1,
@@ -8147,14 +8167,34 @@
                 "date": "2026-08-03",
                 "equity": 100997.15352457369,
                 "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-04",
+                "equity": 102818.03147977231,
+                "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-05",
+                "equity": 102612.74479145488,
+                "drawdown": -0.0019966020100065096
+              },
+              {
+                "date": "2026-08-06",
+                "equity": 102448.78880925082,
+                "drawdown": -0.003591224858201403
+              },
+              {
+                "date": "2026-08-07",
+                "equity": 103075.29885339651,
+                "drawdown": 0.0
               }
             ]
           },
           "matched_80_VUG_20_SHY": {
-            "as_of": "2026-08-03",
-            "equity": 101307.95764772368,
-            "return": 0.013079576477236898,
-            "max_drawdown": 0.0,
+            "as_of": "2026-08-07",
+            "equity": 103511.42252192451,
+            "return": 0.03511422521924512,
+            "max_drawdown": -0.003875869321860348,
             "cash": 1.2789769243681803e-13,
             "total_costs": 99.9000999000999,
             "transactions": 2,
@@ -8168,6 +8208,26 @@
               {
                 "date": "2026-08-03",
                 "equity": 101307.95764772368,
+                "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-04",
+                "equity": 103209.67141342288,
+                "drawdown": 0.0
+              },
+              {
+                "date": "2026-08-05",
+                "equity": 102880.77677404572,
+                "drawdown": -0.003186664920768134
+              },
+              {
+                "date": "2026-08-06",
+                "equity": 102809.64421427231,
+                "drawdown": -0.003875869321860348
+              },
+              {
+                "date": "2026-08-07",
+                "equity": 103511.42252192451,
                 "drawdown": 0.0
               }
             ]
@@ -8190,11 +8250,11 @@
             ]
           },
           "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-          "as_of": "2026-08-03",
+          "as_of": "2026-08-07",
           "started_at": "2026-07-31",
-          "forward_sessions": 1,
+          "forward_sessions": 5,
           "minimum_sessions": 252,
-          "remaining_sessions": 251,
+          "remaining_sessions": 247,
           "filled_orders_including_initial_allocation": 1,
           "initial_allocations": 1,
           "account_fill_counts": {
@@ -8219,45 +8279,45 @@
           "remaining_filled_rebalances": 6,
           "integrity_violations": 0,
           "candidate": {
-            "equity": 101397.31711597907,
-            "return": 0.013973171159790576,
-            "max_drawdown": 0.0
+            "equity": 105008.78598041365,
+            "return": 0.05008785980413655,
+            "max_drawdown": -0.0004338716072419535
           },
           "SPY": {
-            "equity": 100997.15352457369,
-            "return": 0.009971535245736796,
-            "max_drawdown": 0.0
+            "equity": 103075.29885339651,
+            "return": 0.03075298853396502,
+            "max_drawdown": -0.003591224858201403
           },
           "matched_80_VUG_20_SHY": {
-            "equity": 101307.95764772368,
-            "return": 0.013079576477236898,
-            "max_drawdown": 0.0
+            "equity": 103511.42252192451,
+            "return": 0.03511422521924512,
+            "max_drawdown": -0.003875869321860348
           },
-          "return_difference_vs_SPY": 0.0040016359140537805,
-          "return_difference_vs_matched": 0.0008935946825536778,
+          "return_difference_vs_SPY": 0.019334871270171528,
+          "return_difference_vs_matched": 0.014973634584891427,
           "forward_diagnostics": {
             "SPY": {
-              "annualized_return_difference": 20.824642266330248,
+              "annualized_return_difference": 7.140332022811031,
               "persistence_available": false,
               "first_half_annualized_difference": null,
               "second_half_annualized_difference": null,
               "active_newey_west": {
-                "mean_daily": 0.0,
-                "annualized": 0.0,
-                "t_stat": 0.0,
-                "lag": 0.0
+                "mean_daily": 0.0037430466926055006,
+                "annualized": 0.9432477665365862,
+                "t_stat": 12.929893699326522,
+                "lag": 5.0
               }
             },
             "matched_80_VUG_20_SHY": {
-              "annualized_return_difference": 6.576912316543172,
+              "annualized_return_difference": 6.048921554691029,
               "persistence_available": false,
               "first_half_annualized_difference": null,
               "second_half_annualized_difference": null,
               "active_newey_west": {
-                "mean_daily": 0.0,
-                "annualized": 0.0,
-                "t_stat": 0.0,
-                "lag": 0.0
+                "mean_daily": 0.0028875182420359915,
+                "annualized": 0.7276545969930699,
+                "t_stat": 5.314728209628221,
+                "lag": 5.0
               }
             }
           },
@@ -9011,5 +9071,5 @@
   },
   "research_snapshot_data_through": "2026-07-31",
   "research_snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
-  "live_snapshot_sha256": "1a70758e03c728081c97ea0ec7838d13c47cab872e0f8d47f686c57dc5300da5"
+  "live_snapshot_sha256": "d3cadd2ca7721d22222d3264556ac7f7a1f412c16f1a836b9523f6f0e1797689"
 }

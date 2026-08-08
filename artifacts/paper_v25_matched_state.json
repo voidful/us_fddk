@@ -4,21 +4,21 @@
   "strategy": "v25 公平基準 80% VUG／20% SHY（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-08-02T22:37:29.709082+00:00",
-  "updated_at": "2026-08-03T20:25:03.850564+00:00",
+  "updated_at": "2026-08-08T19:56:23.932831+00:00",
   "initial_cash": 100000.0,
   "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-08-03",
+  "as_of": "2026-08-07",
   "holdings": {
     "VUG": {
       "shares": 933.9731238179958,
-      "last_price": 87.08000183105469,
-      "market_value": 81330.38133222694
+      "last_price": 89.4000015258789,
+      "market_value": 83497.19869445871
     },
     "SHY": {
       "shares": 244.31426116721892,
-      "last_price": 81.7699966430664,
-      "market_value": 19977.57631549674
+      "last_price": 81.91999816894531,
+      "market_value": 20014.2238274658
     }
   },
   "pending_order": null,
@@ -75,10 +75,42 @@
       "turnover": 0.999000999000999,
       "cost": 99.9000999000999,
       "drawdown": 0.0
+    },
+    {
+      "date": "2026-08-04",
+      "equity": 103209.67141342288,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": 0.0
+    },
+    {
+      "date": "2026-08-05",
+      "equity": 102880.77677404572,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": -0.003186664920768134
+    },
+    {
+      "date": "2026-08-06",
+      "equity": 102809.64421427231,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": -0.003875869321860348
+    },
+    {
+      "date": "2026-08-07",
+      "equity": 103511.42252192451,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": 0.0
     }
   ],
   "adjustment_rebases": [],
   "total_costs": 99.9000999000999,
-  "snapshot_sha256": "1a70758e03c728081c97ea0ec7838d13c47cab872e0f8d47f686c57dc5300da5",
+  "snapshot_sha256": "d3cadd2ca7721d22222d3264556ac7f7a1f412c16f1a836b9523f6f0e1797689",
   "started_at": "2026-07-31"
 }

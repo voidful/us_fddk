@@ -5,7 +5,7 @@
   "next_action": "URL、官方 host 或 identity marker 漂移只標記人工覆核；probe 永不自行改寫能力矩陣、提高 readiness 或啟動 Paper。",
   "observations": {
     "bloomberg_data_license": {
-      "final_url": "https://professional.bloomberg.com/products/data/data-management/data-license/",
+      "final_url": "https://professional.bloomberg.com/products/data/data-license/",
       "identity_sha256": "8ddab443b8899912540cc34be6054011ddf2320520214ec6bb74d735d05c55ca",
       "marker_present": true,
       "matches_frozen_identity": true,
