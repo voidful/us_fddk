@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "research_round": 33,
+  "status": "frozen_before_first_remote_observation",
+  "frozen_at": "2026-08-08T14:44:43Z",
+  "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+  "protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_PROTOCOL.md",
+    "sha256": "42c55adf76bba072b50618800890e5e34f07aae3d0b68be7ec1b46f5dcdaea9d"
+  },
+  "parent_provider_gap_closure_protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_PROTOCOL.md",
+    "sha256": "ec97b748d9abc8f3ef0d707dde923f27c3796e7c1f7bdceae68c3eaaa4339655"
+  },
+  "parent_provider_gap_closure_receipt": {
+    "path": "artifacts/short_term_provider_gap_closure_protocol_receipt.json",
+    "sha256": "a931d201d6b996348c85c4360fb172f1bb3b5dfb722e58236fa3e3779c72ccba"
+  },
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "source_ids": [
+    "crsp_ciz_guide",
+    "crsp_index_history_feed",
+    "crsp_ciz_migration_notice",
+    "lseg_historical_constituents"
+  ],
+  "first_remote_observation_before_freeze": false,
+  "raw_sources_persisted": false,
+  "authorized_provider_package_present_at_freeze": false,
+  "complete_risk_free_package_present_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 12,
+  "frozen_attack_count": 12
+}
