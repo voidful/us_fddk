@@ -20,6 +20,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
       - uses: actions/configure-pages@v6
         id: pages
       - uses: actions/setup-python@v7
@@ -28,7 +31,8 @@ jobs:
           cache: pip
       - name: Verify frozen short-term research output
         run: |
-          python -m pip install -e '.[dev]'
+          uv sync --locked --extra dev
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
           python scripts/build_short_term_french_prior_return_schema_repair_report.py
           python scripts/build_short_term_french_size_prior_report.py
           python scripts/build_short_term_french_size_momentum_tilt_report.py
