@@ -100,6 +100,25 @@ def test_production_entrypoint_rejects_relative_paths_before_reading() -> None:
     assert error.value.code == "formal_path_boundary_invalid"
 
 
+def test_provider_mode_requires_release_firewall_before_formal_readiness(
+    tmp_path: Path,
+) -> None:
+    package = tmp_path / "package"
+    risk_free = tmp_path / "risk-free"
+    output = tmp_path / "output"
+    package.mkdir()
+    risk_free.mkdir()
+    with pytest.raises(FormalBacktestReadinessError) as error:
+        audit_formal_backtest_readiness(
+            package,
+            risk_free,
+            output,
+            root=ROOT,
+            source_mode="provider",
+        )
+    assert error.value.code == "formal_release_firewall_required"
+
+
 def test_cli_is_provider_only_and_does_not_offer_strategy_switches() -> None:
     completed = subprocess.run(
         [
@@ -114,6 +133,7 @@ def test_cli_is_provider_only_and_does_not_offer_strategy_switches() -> None:
     )
     assert "--package" in completed.stdout
     assert "--risk-free-bundle" in completed.stdout
+    assert "--release-firewall" in completed.stdout
     assert "--output" in completed.stdout
     assert "--mode" not in completed.stdout
     assert "--trials" not in completed.stdout

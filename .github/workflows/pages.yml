@@ -47,6 +47,8 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_authorized_data_handoff_report.py
           ./.venv/bin/python scripts/build_short_term_local_quarantine_intake_report.py
           ./.venv/bin/python scripts/build_short_term_formal_backtest_readiness_report.py
+          ./.venv/bin/python scripts/build_short_term_restatement_firewall.py
+          ./.venv/bin/python scripts/build_short_term_formal_release_integration.py
           ./.venv/bin/python scripts/build_short_term_risk_free_staging_report.py
           ./.venv/bin/python scripts/build_short_term_provider_convergence_report.py
           ./.venv/bin/python scripts/build_short_term_provider_gap_closure_report.py
@@ -95,6 +97,12 @@ jobs:
             artifacts/short_term_formal_backtest_readiness_validation.json \
             site/data/short-term-formal-backtest-readiness.json \
             docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md \
+            artifacts/short_term_restatement_firewall_validation.json \
+            site/data/short-term-restatement-firewall.json \
+            docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md \
+            artifacts/short_term_formal_release_integration_validation.json \
+            site/data/short-term-formal-release-integration.json \
+            docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md \
             artifacts/short_term_risk_free_staging_validation.json \
             site/data/short-term-risk-free-staging.json \
             docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md \
@@ -146,6 +154,8 @@ jobs:
           ./.venv/bin/pytest tests/test_authorized_data_handoff.py
           ./.venv/bin/pytest tests/test_local_quarantine_intake.py
           ./.venv/bin/pytest tests/test_formal_backtest_readiness.py
+          ./.venv/bin/pytest tests/test_restatement_firewall.py
+          ./.venv/bin/pytest tests/test_formal_release_integration.py
           ./.venv/bin/pytest tests/test_risk_free_staging.py
           ./.venv/bin/pytest tests/test_provider_convergence.py
           ./.venv/bin/pytest tests/test_provider_gap_closure.py

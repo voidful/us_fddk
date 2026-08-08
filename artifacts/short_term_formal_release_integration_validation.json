@@ -1,0 +1,114 @@
+{
+  "actual_formal_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 18
+  },
+  "actual_point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "attack_summary": {
+    "all_rejected": true,
+    "rejected": 8,
+    "total": 8
+  },
+  "attacks": [
+    {
+      "expected_error_code": "formal_release_firewall_required",
+      "id": "missing_receipt",
+      "observed_error_code": "formal_release_firewall_required",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_receipt_schema_invalid",
+      "id": "schema",
+      "observed_error_code": "formal_release_receipt_schema_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_mode_invalid",
+      "id": "mode",
+      "observed_error_code": "formal_release_mode_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_as_known_invalid",
+      "id": "as_known",
+      "observed_error_code": "formal_release_as_known_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_package_binding_mismatch",
+      "id": "binding",
+      "observed_error_code": "formal_release_package_binding_mismatch",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_chain_invalid",
+      "id": "chain",
+      "observed_error_code": "formal_release_chain_invalid",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_decision_boundary_violation",
+      "id": "decision",
+      "observed_error_code": "formal_release_decision_boundary_violation",
+      "rejected": true
+    },
+    {
+      "expected_error_code": "formal_release_synthetic_substitution",
+      "id": "synthetic",
+      "observed_error_code": "formal_release_synthetic_substitution",
+      "rejected": true
+    }
+  ],
+  "control_summary": {
+    "all_passed": true,
+    "passed": 8,
+    "total": 8
+  },
+  "controls": {
+    "as_known_mode_required": true,
+    "package_binding_verified": true,
+    "paper_and_real_money_locked": true,
+    "provider_mode_required": true,
+    "provider_receipt_exact_file_set": true,
+    "release_chain_has_rows": true,
+    "release_envelope_validated": true,
+    "round35_protocol_integrity": true
+  },
+  "next_action": "取得真正 provider release receipt 後，透過正式 CLI 的 --release-firewall 與 package binding 一併驗收；合成控制不授權正式回測。",
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "protocol_integrity": {
+    "frozen_at": "2026-08-08T15:15:19Z",
+    "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+    "hash_checks": {
+      "artifacts/short_term_formal_backtest_preregistration_receipt.json": true,
+      "artifacts/short_term_formal_release_integration_protocol_receipt.json": true,
+      "artifacts/short_term_restatement_firewall_protocol_receipt.json": true,
+      "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md": true,
+      "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md": true,
+      "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md": true
+    },
+    "passed": true,
+    "restatement_protocol": {
+      "path": "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md",
+      "sha256": "d8cae6bce76300efb44c22439c46cf20f5aeda3a9d5776ad0faea318e11fef8f"
+    }
+  },
+  "provider_release_receipt_present": false,
+  "real_money_action_usd": 0,
+  "research_round": 35,
+  "schema_version": 1,
+  "status": "synthetic_release_integration_controls_passed_no_formal_authorization",
+  "strategy_run_count": 0,
+  "synthetic_control": {
+    "formal_backtest_authorized": false,
+    "formal_firewall_shape_passed": true,
+    "paper_state": "all_cash",
+    "provider_rows_present": false
+  }
+}

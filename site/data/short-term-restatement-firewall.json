@@ -1,0 +1,160 @@
+{
+  "as_known_integrity_passed": true,
+  "as_known_summary": {
+    "as_known_integrity_passed": true,
+    "eligible_release_ids": [
+      "R-20260701-v1"
+    ],
+    "formal_backtest_authorized": false,
+    "future_selected_release_ids": [],
+    "mode": "as_known",
+    "paper_authorized": false,
+    "paper_state": "all_cash",
+    "protocol_integrity": {
+      "frozen_at": "2026-08-08T15:00:35Z",
+      "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+      "hash_checks": {
+        "artifacts/short_term_point_in_time_protocol_receipt.json": true,
+        "artifacts/short_term_provider_evidence_refresh_protocol_receipt.json": true,
+        "artifacts/short_term_restatement_firewall_protocol_receipt.json": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_PROTOCOL.md": true,
+        "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md": true
+      },
+      "passed": true
+    },
+    "provider_package_qualified": false,
+    "real_money_action_usd": 0,
+    "requested_as_of": "2026-07-05T20:00:00Z",
+    "restatement_release_ids": [],
+    "row_count": 2,
+    "row_count_by_release": {
+      "R-20260701-v1": 2
+    },
+    "selected_release_ids": [
+      "R-20260701-v1"
+    ],
+    "strategy_input_allowed": false,
+    "strategy_run_count": 0
+  },
+  "attack_codes": {
+    "chain_cycle": "supersedes_chain_invalid",
+    "decision_boundary": "release_decision_boundary_violation",
+    "duplicate_release": "release_id_duplicate",
+    "final_revised_strategy": "final_revised_strategy_substitution",
+    "future_release": "future_release_leakage",
+    "future_restatement": "restatement_substitution",
+    "protocol_hash": "release_protocol_mismatch",
+    "receipt_tamper": "release_receipt_mismatch",
+    "row_schema": "release_schema_mismatch"
+  },
+  "attack_summary": {
+    "all_passed": true,
+    "passed": 9,
+    "total": 9
+  },
+  "attacks": {
+    "chain_cycle": true,
+    "decision_boundary": true,
+    "duplicate_release": true,
+    "final_revised_strategy": true,
+    "future_release": true,
+    "future_restatement": true,
+    "protocol_hash": true,
+    "receipt_tamper": true,
+    "row_schema": true
+  },
+  "control_summary": {
+    "all_passed": true,
+    "passed": 9,
+    "total": 9
+  },
+  "controls": {
+    "as_known_mode": true,
+    "formal_backtest_locked": true,
+    "only_eligible_release_selected": true,
+    "paper_and_cash_locked": true,
+    "protocol_integrity": true,
+    "restatement_not_used_as_known": true,
+    "row_receipts_match": true,
+    "strategy_input_locked": true,
+    "supersedes_chain_retained": true
+  },
+  "final_revised_summary": {
+    "as_known_integrity_passed": false,
+    "eligible_release_ids": [
+      "R-20260701-v1"
+    ],
+    "formal_backtest_authorized": false,
+    "future_selected_release_ids": [
+      "R-20260701-v2"
+    ],
+    "mode": "final_revised",
+    "paper_authorized": false,
+    "paper_state": "all_cash",
+    "protocol_integrity": {
+      "frozen_at": "2026-08-08T15:00:35Z",
+      "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+      "hash_checks": {
+        "artifacts/short_term_point_in_time_protocol_receipt.json": true,
+        "artifacts/short_term_provider_evidence_refresh_protocol_receipt.json": true,
+        "artifacts/short_term_restatement_firewall_protocol_receipt.json": true,
+        "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md": true,
+        "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_PROTOCOL.md": true,
+        "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md": true
+      },
+      "passed": true
+    },
+    "provider_package_qualified": false,
+    "real_money_action_usd": 0,
+    "requested_as_of": "2026-07-05T20:00:00Z",
+    "restatement_release_ids": [
+      "R-20260701-v2"
+    ],
+    "row_count": 2,
+    "row_count_by_release": {
+      "R-20260701-v2": 2
+    },
+    "selected_release_ids": [
+      "R-20260701-v2"
+    ],
+    "strategy_input_allowed": false,
+    "strategy_run_count": 0
+  },
+  "fixture": {
+    "mode": "as_known",
+    "provider": "synthetic-only",
+    "requested_as_of": "2026-07-05T20:00:00Z",
+    "restatement_release_ids_in_ledger": [
+      "R-20260701-v2"
+    ],
+    "selected_release_ids": [
+      "R-20260701-v1"
+    ]
+  },
+  "formal_backtest_authorized": false,
+  "formal_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 18
+  },
+  "mode": "as_known",
+  "next_action": "取得授權 provider package 後，將每一份 release ledger 綁定實際 export／row receipt，再按 as-known 模式驗收；synthetic 9/9 不等於正式數據通過。",
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "protocol_sha256": "d8cae6bce76300efb44c22439c46cf20f5aeda3a9d5776ad0faea318e11fef8f",
+  "provider_package_qualified": false,
+  "raw_provider_bytes_persisted": false,
+  "real_money_action_usd": 0,
+  "requested_as_of": "2026-07-05T20:00:00Z",
+  "research_round": 34,
+  "schema_version": 1,
+  "status": "synthetic_firewall_controls_passed",
+  "strategy_input_allowed": false,
+  "strategy_run_count": 0
+}

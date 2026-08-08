@@ -13,11 +13,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
             "只讀稽核 repository 外的 provider package、同步 US 1M T-bill RF 包及"
-            "預留新輸出路徑；不運行策略、不建立 Paper、不操作實金"
+            "release firewall receipt、預留新輸出路徑；不運行策略、不建立 Paper、不操作實金"
         )
     )
     parser.add_argument("--package", type=Path, required=True)
     parser.add_argument("--risk-free-bundle", type=Path, required=True)
+    parser.add_argument("--release-firewall", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -28,6 +29,7 @@ def main() -> int:
             args.output,
             root=ROOT,
             source_mode="provider",
+            release_firewall=args.release_firewall,
         )
     except Exception as exc:  # noqa: BLE001 - stable semantic code is the CLI contract.
         code = getattr(exc, "code", "formal_readiness_unexpected_error")

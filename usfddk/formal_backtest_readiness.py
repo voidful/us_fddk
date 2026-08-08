@@ -10,6 +10,10 @@ from typing import Any
 
 import pandas as pd
 
+from .formal_release_integration import (
+    FormalReleaseIntegrationError,
+    audit_release_firewall,
+)
 from .local_quarantine_intake import (
     LocalQuarantineIntakeError,
     audit_local_quarantine_package,
@@ -486,8 +490,13 @@ def _validate_decision_boundary(
     formal_authorized: bool,
     paper_authorized: bool,
     real_money_action_usd: float,
+    release_firewall_passed: bool | None = None,
 ) -> None:
-    expected_formal = source_mode == "provider"
+    expected_formal = (
+        source_mode == "provider"
+        if release_firewall_passed is None
+        else source_mode == "provider" and release_firewall_passed
+    )
     if (
         formal_authorized is not expected_formal
         or paper_authorized is not False
@@ -508,6 +517,7 @@ def audit_formal_backtest_readiness(
     source_mode: str = "provider",
     requirements: PointInTimeRequirements | None = None,
     expected_run_id: str | None = None,
+    release_firewall: str | Path | None = None,
 ) -> dict[str, Any]:
     """Audit immutable formal inputs without running a strategy or writing output."""
 
@@ -531,12 +541,42 @@ def audit_formal_backtest_readiness(
         must_exist=False,
         expect_directory=True,
     )
-    if len({package_path, risk_free_path, output_path}) != 3:
+    release_path: Path | None = None
+    if source_mode == "provider":
+        if release_firewall is None:
+            _fail(
+                "formal_release_firewall_required",
+                "provider formal readiness 必須提供 release firewall receipt",
+            )
+        release_path = _external_path(
+            release_firewall,
+            root=root_path,
+            must_exist=True,
+            expect_directory=True,
+        )
+    path_set = {package_path, risk_free_path, output_path}
+    if release_path is not None:
+        path_set.add(release_path)
+    if len(path_set) != (4 if source_mode == "provider" else 3):
         _fail("formal_path_boundary_invalid", "輸入、RF 與輸出路徑必須分開")
-    if not _private_tree_ok(package_path) or not _private_tree_ok(risk_free_path):
+    if (
+        not _private_tree_ok(package_path)
+        or not _private_tree_ok(risk_free_path)
+        or (release_path is not None and not _private_tree_ok(release_path))
+    ):
         _fail("formal_private_input_invalid", "正式輸入不是 owner-only 或含連結／特殊檔")
 
     receipt = _validate_package_receipt(package_path, source_mode)
+    release_audit: dict[str, Any] | None = None
+    if release_path is not None:
+        try:
+            release_audit = audit_release_firewall(
+                release_path,
+                package_path,
+                root=root_path,
+            )
+        except FormalReleaseIntegrationError as exc:
+            _fail(exc.code, exc.detail)
     try:
         upstream_audit = audit_local_quarantine_package(
             package_path,
@@ -599,12 +639,17 @@ def audit_formal_backtest_readiness(
     )
     if expected_run_id is not None:
         _require_run_id(run_id, expected_run_id)
-    formal_authorized = source_mode == "provider"
+    formal_authorized = bool(
+        source_mode == "provider"
+        and release_audit is not None
+        and release_audit["formal_backtest_authorized"] is True
+    )
     _validate_decision_boundary(
         source_mode=source_mode,
         formal_authorized=formal_authorized,
         paper_authorized=False,
         real_money_action_usd=0,
+        release_firewall_passed=release_audit is not None,
     )
 
     gate_details = [
@@ -641,6 +686,15 @@ def audit_formal_backtest_readiness(
             else "synthetic_formal_readiness_control_passed_not_authorized"
         ),
         "source_mode": source_mode,
+        "release_firewall": (
+            release_audit
+            if release_audit is not None
+            else {
+                "required": False,
+                "status": "not_required_synthetic_control",
+                "formal_backtest_authorized": False,
+            }
+        ),
         "protocol_integrity": protocol,
         "gate_summary": {"passed": 18, "total": 18, "all_passed": True},
         "gates": [

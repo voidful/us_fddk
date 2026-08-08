@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "research_round": 35,
+  "status": "frozen_before_formal_provider_release_receipt",
+  "frozen_at": "2026-08-08T15:15:19Z",
+  "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+  "protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md",
+    "sha256": "f02529ec9e09c4cdc3942769d1a8df11cab052654c62afb2e9f65f611000e1ed"
+  },
+  "parent_restatement_protocol": {
+    "path": "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md",
+    "sha256": "d8cae6bce76300efb44c22439c46cf20f5aeda3a9d5776ad0faea318e11fef8f"
+  },
+  "parent_restatement_receipt": {
+    "path": "artifacts/short_term_restatement_firewall_protocol_receipt.json",
+    "sha256": "65be630a5360c23b0eba18d4f5d0b62e5e7b6ad2d94b5da88294ba7ef470260d"
+  },
+  "parent_formal_preregistration_protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md",
+    "sha256": "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
+  },
+  "parent_formal_preregistration_receipt": {
+    "path": "artifacts/short_term_formal_backtest_preregistration_receipt.json",
+    "sha256": "ae4792e75a7a7c1e15850eb1e9247846b5dc99304dd89baa6a23a321c7f0bb2b"
+  },
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "provider_release_receipt_present_at_freeze": false,
+  "formal_provider_run_present_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 8,
+  "frozen_attack_count": 8
+}

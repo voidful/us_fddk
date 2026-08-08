@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "research_round": 34,
+  "status": "frozen_before_release_ledger_fixture",
+  "frozen_at": "2026-08-08T15:00:35Z",
+  "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+  "protocol": {
+    "path": "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md",
+    "sha256": "d8cae6bce76300efb44c22439c46cf20f5aeda3a9d5776ad0faea318e11fef8f"
+  },
+  "parent_provider_evidence_protocol": {
+    "path": "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_PROTOCOL.md",
+    "sha256": "42c55adf76bba072b50618800890e5e34f07aae3d0b68be7ec1b46f5dcdaea9d"
+  },
+  "parent_provider_evidence_receipt": {
+    "path": "artifacts/short_term_provider_evidence_refresh_protocol_receipt.json",
+    "sha256": "099c5fecc5d604582921cbc4b932c81226492b7bbff632f388f1003c8b25f961"
+  },
+  "parent_point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "parent_point_in_time_receipt": {
+    "path": "artifacts/short_term_point_in_time_protocol_receipt.json",
+    "sha256": "337d7116df98cfab692b125528cb986d0107145463db98c0f97c45fc0d433e48"
+  },
+  "reference_commits": {
+    "tst_wocker": "3372aa088328700feafeeb07c72ab832ea2d3ecb",
+    "tw_block_warrant": "37463c54796ba36f4aac262519ea7fc2ef797de6",
+    "tst_wocker_filter_lab": "06c87b7a1735877c9ccbab3a339c1742814a5058"
+  },
+  "synthetic_fixture_present_at_freeze": false,
+  "authorized_provider_package_present_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 9,
+  "frozen_attack_count": 9
+}
