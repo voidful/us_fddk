@@ -30,6 +30,12 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Verify frozen short-term research output
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+          PYTHONHASHSEED: "0"
         run: |
           uv sync --locked --extra dev
           export PATH="$GITHUB_WORKSPACE/.venv/bin:$PATH"
