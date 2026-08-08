@@ -60,45 +60,45 @@ jobs:
               >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Fetch the latest completed U.S. session
-        run: uv run python -m usfddk v25-live-update
+        run: ./.venv/bin/python -m usfddk v25-live-update
       - name: Export only the frozen v25 LIVE contract
-        run: uv run python -m usfddk v25-site-export
+        run: ./.venv/bin/python -m usfddk v25-site-export
       - name: Audit website and append the evidence chain
         run: |
-          uv run python -m usfddk v25-reference-check --receipt-ledger ""
+          ./.venv/bin/python -m usfddk v25-reference-check --receipt-ledger ""
           if [ "$(jq -r '.data_advanced' artifacts/v25_live_update_status.json)" = "true" ]; then
-            uv run python -m usfddk v25-reference-check
+            ./.venv/bin/python -m usfddk v25-reference-check
           else
             echo "No new U.S. session; the formal append-only ledger remains untouched."
           fi
-          uv run python -m usfddk v25-refresh-status
+          ./.venv/bin/python -m usfddk v25-refresh-status
       - name: Verify research code
         run: |
-          uv run python scripts/build_short_term_french_prior_return_schema_repair_report.py
-          uv run python scripts/build_short_term_french_size_prior_report.py
-          uv run python scripts/build_short_term_french_size_momentum_tilt_report.py
-          uv run python scripts/audit_short_term_point_in_time_data.py
-          uv run python scripts/build_short_term_provider_qualification_report.py
-          uv run python scripts/build_short_term_crsp_sample_acceptance_report.py
-          uv run python scripts/build_short_term_crsp_ciz_mapping_report.py
-          uv run python scripts/build_short_term_ciz_execution_accounting_report.py
-          uv run python scripts/build_short_term_ciz_execution_extension_report.py
-          uv run python scripts/build_short_term_authorized_data_handoff_report.py
-          uv run python scripts/build_short_term_local_quarantine_intake_report.py
-          uv run python scripts/build_short_term_formal_backtest_readiness_report.py
-          uv run python scripts/build_short_term_risk_free_staging_report.py
-          uv run python scripts/build_short_term_provider_convergence_report.py
-          uv run python scripts/build_short_term_provider_gap_closure_report.py
-          uv run python scripts/build_short_term_survivorship_contamination_report.py
-          uv run python scripts/build_short_term_temporal_tail_robustness_report.py
-          uv run python scripts/build_short_term_baseline_multiplicity_report.py
-          uv run python scripts/build_short_term_correlation_crowding_report.py
-          uv run python scripts/build_short_term_common_risk_residual_report.py
-          uv run python scripts/build_short_term_rank_monotonicity_placebo_report.py
-          uv run python scripts/build_short_term_reversal_volatility_attribution_report.py
-          uv run python scripts/build_short_term_calendar_capital_accounting_report.py
-          uv run python scripts/build_short_term_qqq_replacement_overlay_report.py
-          uv run python scripts/build_short_term_daily_momentum_regime_report.py
+          ./.venv/bin/python scripts/build_short_term_french_prior_return_schema_repair_report.py
+          ./.venv/bin/python scripts/build_short_term_french_size_prior_report.py
+          ./.venv/bin/python scripts/build_short_term_french_size_momentum_tilt_report.py
+          ./.venv/bin/python scripts/audit_short_term_point_in_time_data.py
+          ./.venv/bin/python scripts/build_short_term_provider_qualification_report.py
+          ./.venv/bin/python scripts/build_short_term_crsp_sample_acceptance_report.py
+          ./.venv/bin/python scripts/build_short_term_crsp_ciz_mapping_report.py
+          ./.venv/bin/python scripts/build_short_term_ciz_execution_accounting_report.py
+          ./.venv/bin/python scripts/build_short_term_ciz_execution_extension_report.py
+          ./.venv/bin/python scripts/build_short_term_authorized_data_handoff_report.py
+          ./.venv/bin/python scripts/build_short_term_local_quarantine_intake_report.py
+          ./.venv/bin/python scripts/build_short_term_formal_backtest_readiness_report.py
+          ./.venv/bin/python scripts/build_short_term_risk_free_staging_report.py
+          ./.venv/bin/python scripts/build_short_term_provider_convergence_report.py
+          ./.venv/bin/python scripts/build_short_term_provider_gap_closure_report.py
+          ./.venv/bin/python scripts/build_short_term_survivorship_contamination_report.py
+          ./.venv/bin/python scripts/build_short_term_temporal_tail_robustness_report.py
+          ./.venv/bin/python scripts/build_short_term_baseline_multiplicity_report.py
+          ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
+          ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
+          ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
+          ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
+          ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
+          ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
+          ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
@@ -173,34 +173,34 @@ jobs:
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
-          uv run ruff check usfddk tests
-          uv run pytest tests/test_french_prior_return_research.py
-          uv run pytest tests/test_french_size_prior.py
-          uv run pytest tests/test_french_size_momentum_tilt.py
-          uv run pytest tests/test_point_in_time_ledger.py
-          uv run pytest tests/test_provider_qualification.py
-          uv run pytest tests/test_crsp_sample_acceptance.py
-          uv run pytest tests/test_crsp_ciz_mapping.py
-          uv run pytest tests/test_ciz_execution_accounting.py
-          uv run pytest tests/test_ciz_execution_extension.py
-          uv run pytest tests/test_authorized_data_handoff.py
-          uv run pytest tests/test_local_quarantine_intake.py
-          uv run pytest tests/test_formal_backtest_readiness.py
-          uv run pytest tests/test_risk_free_staging.py
-          uv run pytest tests/test_provider_convergence.py
-          uv run pytest tests/test_provider_gap_closure.py
-          uv run pytest tests/test_survivorship_contamination.py
-          uv run pytest tests/test_temporal_tail_robustness.py
-          uv run pytest tests/test_baseline_multiplicity.py
-          uv run pytest tests/test_correlation_crowding.py
-          uv run pytest tests/test_common_risk_residual.py
-          uv run pytest tests/test_rank_monotonicity_placebo.py
-          uv run pytest tests/test_reversal_volatility_attribution.py
-          uv run pytest tests/test_calendar_capital_accounting.py
-          uv run pytest tests/test_qqq_replacement_overlay.py
-          uv run pytest tests/test_daily_momentum_regime.py
-          uv run pytest tests/test_site_export.py
-          uv run pytest tests/test_v25_live.py -k audit
+          ./.venv/bin/ruff check usfddk tests
+          ./.venv/bin/pytest tests/test_french_prior_return_research.py
+          ./.venv/bin/pytest tests/test_french_size_prior.py
+          ./.venv/bin/pytest tests/test_french_size_momentum_tilt.py
+          ./.venv/bin/pytest tests/test_point_in_time_ledger.py
+          ./.venv/bin/pytest tests/test_provider_qualification.py
+          ./.venv/bin/pytest tests/test_crsp_sample_acceptance.py
+          ./.venv/bin/pytest tests/test_crsp_ciz_mapping.py
+          ./.venv/bin/pytest tests/test_ciz_execution_accounting.py
+          ./.venv/bin/pytest tests/test_ciz_execution_extension.py
+          ./.venv/bin/pytest tests/test_authorized_data_handoff.py
+          ./.venv/bin/pytest tests/test_local_quarantine_intake.py
+          ./.venv/bin/pytest tests/test_formal_backtest_readiness.py
+          ./.venv/bin/pytest tests/test_risk_free_staging.py
+          ./.venv/bin/pytest tests/test_provider_convergence.py
+          ./.venv/bin/pytest tests/test_provider_gap_closure.py
+          ./.venv/bin/pytest tests/test_survivorship_contamination.py
+          ./.venv/bin/pytest tests/test_temporal_tail_robustness.py
+          ./.venv/bin/pytest tests/test_baseline_multiplicity.py
+          ./.venv/bin/pytest tests/test_correlation_crowding.py
+          ./.venv/bin/pytest tests/test_common_risk_residual.py
+          ./.venv/bin/pytest tests/test_rank_monotonicity_placebo.py
+          ./.venv/bin/pytest tests/test_reversal_volatility_attribution.py
+          ./.venv/bin/pytest tests/test_calendar_capital_accounting.py
+          ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py
+          ./.venv/bin/pytest tests/test_daily_momentum_regime.py
+          ./.venv/bin/pytest tests/test_site_export.py
+          ./.venv/bin/pytest tests/test_v25_live.py -k audit
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
