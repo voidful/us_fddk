@@ -56,8 +56,8 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
           ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
-          ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
+          ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
           ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \

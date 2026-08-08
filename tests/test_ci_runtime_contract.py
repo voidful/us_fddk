@@ -41,3 +41,11 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
     assert 'true)' in text and '"$python_bin" -m usfddk build "$@"' in text
     assert "skipping full build to preserve website/report idempotence" in text
     assert "Invalid v25 LIVE data_advanced value" in text
+
+
+def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
+    for workflow in WORKFLOWS:
+        text = workflow.read_text(encoding="utf-8")
+        parent = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
+        child = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
+        assert parent < child, workflow.name
