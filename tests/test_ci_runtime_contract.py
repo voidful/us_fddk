@@ -32,3 +32,12 @@ def test_research_workflow_keeps_the_frozen_output_diff_guard(workflow: Path) ->
     text = workflow.read_text(encoding="utf-8")
     assert "git diff --exit-code" in text
     assert "artifacts/short_term_formal_backtest_readiness_validation.json" in text
+
+
+def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
+    text = (ROOT / "scripts/refresh_live_reference.sh").read_text(encoding="utf-8")
+    assert 'update_status_path="$project_dir/artifacts/v25_live_update_status.json"' in text
+    assert 'case "$data_advanced" in' in text
+    assert 'true)' in text and '"$python_bin" -m usfddk build "$@"' in text
+    assert "skipping full build to preserve website/report idempotence" in text
+    assert "Invalid v25 LIVE data_advanced value" in text

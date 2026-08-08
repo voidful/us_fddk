@@ -50,7 +50,24 @@ if [[ -f "$readiness_path" ]]; then
 fi
 
 "$python_bin" -m usfddk v25-live-update
-"$python_bin" -m usfddk build "$@"
+update_status_path="$project_dir/artifacts/v25_live_update_status.json"
+if [[ ! -f "$update_status_path" ]]; then
+  echo "v25 LIVE update did not produce its status receipt; refusing to rebuild or deploy." >&2
+  exit 2
+fi
+data_advanced="$("$python_bin" -c 'import json,sys; print(str(json.load(open(sys.argv[1], encoding="utf-8")).get("data_advanced")).lower())' "$update_status_path")"
+case "$data_advanced" in
+  true)
+    "$python_bin" -m usfddk build "$@"
+    ;;
+  false)
+    echo "No new completed U.S. session; skipping full build to preserve website/report idempotence."
+    ;;
+  *)
+    echo "Invalid v25 LIVE data_advanced value: $data_advanced; refusing to rebuild or deploy." >&2
+    exit 2
+    ;;
+esac
 "$python_bin" -m usfddk reference-check
 "$python_bin" -m usfddk v25-reference-check
 
