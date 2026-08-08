@@ -56,24 +56,7 @@ jobs:
           python scripts/build_short_term_common_risk_residual_report.py
           python scripts/build_short_term_rank_monotonicity_placebo_report.py
           python scripts/build_short_term_reversal_volatility_attribution_report.py
-          python - <<'PY'
-          import hashlib
-          import sys
-          from pathlib import Path
-
-          import numpy
-          import pandas
-
-          receipt = Path("artifacts/short_term_reversal_volatility_attribution_validation.json")
-          print(
-              "frozen-debug",
-              sys.executable,
-              sys.version,
-              "numpy=" + numpy.__version__,
-              "pandas=" + pandas.__version__,
-              "round28_sha256=" + hashlib.sha256(receipt.read_bytes()).hexdigest(),
-          )
-          PY
+          python -c 'import hashlib, sys; from pathlib import Path; import numpy, pandas; receipt = Path("artifacts/short_term_reversal_volatility_attribution_validation.json"); print("frozen-debug", sys.executable, sys.version, "numpy=" + numpy.__version__, "pandas=" + pandas.__version__, "round28_sha256=" + hashlib.sha256(receipt.read_bytes()).hexdigest())'
           python scripts/build_short_term_calendar_capital_accounting_report.py
           python scripts/build_short_term_qqq_replacement_overlay_report.py
           python scripts/build_short_term_daily_momentum_regime_report.py
