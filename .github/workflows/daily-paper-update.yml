@@ -31,6 +31,7 @@ jobs:
       - name: Install research runtime
         run: |
           uv sync --locked --extra dev
+          export PATH="$GITHUB_WORKSPACE/.venv/bin:$PATH"
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
       - name: Probe the current official risk-free source
         run: |

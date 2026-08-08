@@ -32,6 +32,7 @@ jobs:
       - name: Verify frozen short-term research output
         run: |
           uv sync --locked --extra dev
+          export PATH="$GITHUB_WORKSPACE/.venv/bin:$PATH"
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
           python scripts/build_short_term_french_prior_return_schema_repair_report.py
           python scripts/build_short_term_french_size_prior_report.py
