@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "protocol_phase": 1,
+  "status": "frozen_after_official_documentation_review_before_any_disclosure_data_fetch_or_strategy_design",
+  "frozen_at": "2026-08-09T16:32:24Z",
+  "git_head_at_freeze": "a4d16512390a9349924925177142b8ee255a2f58",
+  "protocol": {
+    "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md",
+    "sha256": "ffe2d6df0fce9a305a5a361bc4ce0d377cc9d9afb20246f212031ce57a3949b7"
+  },
+  "manifest_schema": {
+    "path": "schemas/short_term_disclosure_point_in_time_manifest.schema.json",
+    "sha256": "e86300b2cbb3b6b5d4e6d6cfd394b3e4b5b4badb07098aa9f10e5b6835d67485"
+  },
+  "parent_point_in_time_contract": {
+    "path": "docs/SHORT_TERM_POINT_IN_TIME_LEDGER_CONTRACT.md",
+    "sha256": "1e684e0ddbffbd29860a78d01c27b1e42885d53fafd8b1b95ae47b7547396b6c"
+  },
+  "parent_point_in_time_receipt": {
+    "path": "artifacts/short_term_point_in_time_protocol_receipt.json",
+    "sha256": "337d7116df98cfab692b125528cb986d0107145463db98c0f97c45fc0d433e48"
+  },
+  "parent_restatement_firewall_protocol": {
+    "path": "docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md",
+    "sha256": "d8cae6bce76300efb44c22439c46cf20f5aeda3a9d5776ad0faea318e11fef8f"
+  },
+  "parent_restatement_firewall_receipt": {
+    "path": "artifacts/short_term_restatement_firewall_protocol_receipt.json",
+    "sha256": "65be630a5360c23b0eba18d4f5d0b62e5e7b6ad2d94b5da88294ba7ef470260d"
+  },
+  "official_documentation_inspected_at_freeze": true,
+  "official_sources": [
+    {
+      "id": "house_disclosure_portal",
+      "source_type": "congress_house_ptr",
+      "url": "https://disclosures-clerk.house.gov/FinancialDisclosure",
+      "semantic_role": "official_public_search_entry"
+    },
+    {
+      "id": "house_ptr_due_date_guidance",
+      "source_type": "congress_house_ptr",
+      "url": "https://ethics.house.gov/periodic-transaction-report-calculator/",
+      "semantic_role": "ptr_notification_30_day_and_transaction_45_day_deadline_guidance"
+    },
+    {
+      "id": "house_public_access_and_use_guidance",
+      "source_type": "congress_house_ptr",
+      "url": "https://ethics.house.gov/manual/retention-of-and-public-access-to-reports/",
+      "semantic_role": "public_access_and_prohibited_use_guidance"
+    },
+    {
+      "id": "senate_disclosure_portal",
+      "source_type": "congress_senate_ptr",
+      "url": "https://efdsearch.senate.gov/search/home/",
+      "semantic_role": "official_public_search_entry"
+    },
+    {
+      "id": "senate_financial_disclosure_guidance",
+      "source_type": "congress_senate_ptr",
+      "url": "https://www.ethics.senate.gov/public/index.cfm/financialdisclosure",
+      "semantic_role": "ptr_scope_deadline_public_access_and_prohibited_use_guidance"
+    },
+    {
+      "id": "us_code_5_13107",
+      "source_type": "congress_house_ptr_and_congress_senate_ptr",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&num=0&req=granuleid%3AUSC-prelim-title5-section13107",
+      "semantic_role": "financial_disclosure_report_use_restrictions"
+    },
+    {
+      "id": "sec_form_4",
+      "source_type": "sec_form_4",
+      "url": "https://www.sec.gov/files/form4.pdf",
+      "semantic_role": "form_and_field_instructions"
+    },
+    {
+      "id": "sec_ownership_form_codes",
+      "source_type": "sec_form_4",
+      "url": "https://www.sec.gov/edgar/searchedgar/ownershipformcodes.html",
+      "semantic_role": "transaction_code_semantics"
+    },
+    {
+      "id": "sec_schedule_13d_13g_guide",
+      "source_type": "sec_schedule_13d_and_sec_schedule_13g",
+      "url": "https://www.sec.gov/submit-filings/filer-support-resources/how-do-i-guides/file-schedule-13d-schedule-13-g-corresponding-amendments",
+      "semantic_role": "filing_and_amendment_guide"
+    },
+    {
+      "id": "sec_schedule_13d_13g_final_rule",
+      "source_type": "sec_schedule_13d_and_sec_schedule_13g",
+      "url": "https://www.sec.gov/files/rules/final/2023/33-11253.pdf",
+      "semantic_role": "current_deadlines_and_structured_data_rule"
+    },
+    {
+      "id": "sec_form_13f",
+      "source_type": "sec_form_13f",
+      "url": "https://www.sec.gov/files/form13f.pdf",
+      "semantic_role": "quarter_end_holdings_form_and_instructions"
+    },
+    {
+      "id": "sec_form_13f_faq",
+      "source_type": "sec_form_13f",
+      "url": "https://www.sec.gov/rules-regulations/staff-guidance/division-investment-management-frequently-asked-questions/frequently-asked-questions-about-form-13f",
+      "semantic_role": "threshold_and_45_day_filing_deadline_guidance"
+    },
+    {
+      "id": "sec_accessing_edgar_data",
+      "source_type": "all_sec_sources",
+      "url": "https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data",
+      "semantic_role": "public_access_dissemination_user_agent_and_fair_access"
+    },
+    {
+      "id": "sec_webmaster_faq",
+      "source_type": "all_sec_sources",
+      "url": "https://www.sec.gov/about/webmaster-frequently-asked-questions",
+      "semantic_role": "acceptance_to_public_availability_lag_and_declared_user_agent"
+    },
+    {
+      "id": "sec_developer_resources",
+      "source_type": "all_sec_sources",
+      "url": "https://www.sec.gov/about/developer-resources",
+      "semantic_role": "maximum_10_requests_per_second_across_machines"
+    }
+  ],
+  "source_types": [
+    "congress_house_ptr",
+    "congress_senate_ptr",
+    "sec_form_4",
+    "sec_schedule_13d",
+    "sec_schedule_13g",
+    "sec_form_13f"
+  ],
+  "timestamp_fields": [
+    "event_at",
+    "filed_at",
+    "accepted_at",
+    "public_at",
+    "first_observed_at",
+    "known_at",
+    "decision_at",
+    "trade_at"
+  ],
+  "known_at_contract": {
+    "basis_values": [
+      "official_public_timestamp",
+      "independent_archived_first_seen",
+      "local_first_observed_fallback"
+    ],
+    "rule": "official_public_timestamp_else_independent_archived_first_seen_else_local_first_observed",
+    "filed_at_is_public_at": false,
+    "accepted_at_is_public_at": false,
+    "statutory_due_date_is_public_at": false,
+    "unverified_fixed_dissemination_lag_allowed": false
+  },
+  "xnys_clock": {
+    "calendar": "XNYS",
+    "decision_at_rule": "first_official_xnys_close_strictly_after_known_at",
+    "trade_at_rule": "next_official_xnys_open_after_decision_at",
+    "calendar_day_plus_one_allowed": false,
+    "same_close_execution_allowed": false,
+    "official_early_closes_required": true
+  },
+  "revision_contract": {
+    "append_only": true,
+    "hash_algorithm": "sha256",
+    "original_versions_preserved": true,
+    "amendments_supersede_without_overwrite": true,
+    "first_observed_backfill_allowed": false,
+    "final_revised_strategy_substitution_allowed": false
+  },
+  "legal_and_access_state_at_freeze": {
+    "congress_exact_use_written_legal_clearance_received": false,
+    "congress_commercial_use_cleared": false,
+    "source_terms_snapshots_present": false,
+    "sec_declared_user_agent_configured": false,
+    "sec_global_rate_limiter_verified": false,
+    "sec_policy_ceiling_requests_per_second": 10,
+    "authorized_collection_allowed": false
+  },
+  "privacy_state_at_freeze": {
+    "raw_disclosure_records_fetched": false,
+    "raw_disclosure_records_stored": false,
+    "personal_data_fetched": false,
+    "personal_data_stored": false,
+    "normalized_disclosure_rows": 0,
+    "source_documents": 0,
+    "private_quarantine_implemented": false,
+    "public_sanitizer_implemented": false,
+    "minimum_distinct_actor_count_for_public_aggregate": 10,
+    "public_person_names_allowed": false,
+    "public_tickers_allowed_in_phase_1": false,
+    "public_raw_rows_or_document_ledger_allowed": false
+  },
+  "coverage_state_at_freeze": {
+    "claim": "no_disclosure_dataset_collected",
+    "complete_period_claimed": false,
+    "twenty_year_coverage_claimed": false,
+    "twenty_year_coverage_validated": false,
+    "historical_backfill_performed": false
+  },
+  "actual_disclosure_readiness": {
+    "passed": 2,
+    "total": 20,
+    "all_passed": false,
+    "passed_gate_ids": [
+      "01_protocol_schema_receipt_integrity",
+      "02_official_source_semantics_pinned"
+    ],
+    "blocked_gate_ids": [
+      "03_congress_exact_use_legal_clearance",
+      "04_source_terms_and_automation_clearance",
+      "05_sec_fair_access_client_verified",
+      "06_private_quarantine_verified",
+      "07_closed_manifest_admitted",
+      "08_source_request_receipts_complete",
+      "09_stable_document_version_ids",
+      "10_eight_timestamps_complete_or_reasoned",
+      "11_public_at_evidence_verified",
+      "12_known_at_derivation_verified",
+      "13_append_only_revision_chain_verified",
+      "14_point_in_time_security_mapping_verified",
+      "15_source_specific_semantics_verified",
+      "16_xnys_decision_entry_clock_verified",
+      "17_coverage_lag_missingness_audited",
+      "18_public_sanitizer_verified",
+      "19_independent_synthetic_attacks_passed",
+      "20_authorized_real_sample_accepted"
+    ]
+  },
+  "decision_boundary": {
+    "readiness_only": true,
+    "strategy_defined": false,
+    "strategy_rule_changed": false,
+    "strategy_run_count": 0,
+    "formal_backtest_authorized": false,
+    "formal_backtest_completed": false,
+    "paper_authorized": false,
+    "paper_state": "all_cash",
+    "paper_positions": [],
+    "paper_backfilled_trades": 0,
+    "orders_created": 0,
+    "real_money_action_usd": 0,
+    "today_action": "today_no_trade"
+  }
+}
