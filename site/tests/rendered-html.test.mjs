@@ -58,11 +58,13 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
     html.indexOf("LEADER PULLBACK–REBOUND · ROUND 39")
       < html.indexOf("MULTI-WINDOW RESONANCE · ROUND 38"),
   );
-  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1/);
-  assert.match(html, /來源就緒 2\/20；公開披露不是即時名人跟單訊號/);
-  assert.match(html, /六種披露來源只固定語意，不產生選股名單/);
+  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1 \+ FORM 4 ROUND 41/);
+  assert.match(html, /公開披露總體 2\/20；Form 4 動態候選規格已凍結，但專屬 admission 仍為 0\/16/);
+  assert.match(html, /20 年 known-at 未驗證；事件／run (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?0/);
+  assert.match(html, /Congress PTR · 與 Form 4 分離/);
+  assert.match(html, /candidate specification 已 result-blind 凍結/);
+  assert.match(html, /策略運行 0/);
   assert.match(html, /觀察來源 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?6(?:<!-- -->)?；文件 (?:<!-- -->)?0(?:<!-- -->)?，事件 (?:<!-- -->)?0/);
-  assert.match(html, /Congress 法律／授權/);
   assert.match(html, /已知時間、延遲與落盤時鐘不可互換/);
   assert.match(html, /今天不下單；Paper 全現金、持倉 0、實金 US\$0/);
   const disclosurePanel = html.match(
@@ -71,6 +73,10 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.ok(disclosurePanel);
   assert.match(disclosurePanel, /data-sanitized-disclosure="true"/);
   assert.match(disclosurePanel, /data-dynamic-selection="disabled"/);
+  assert.match(disclosurePanel, /data-form4-specification="frozen-unexecuted"/);
+  assert.match(disclosurePanel, /data-form4-admission="0\/16"/);
+  assert.match(disclosurePanel, /data-congress-selection="disabled"/);
+  assert.doesNotMatch(disclosurePanel, /20\/20 也只可開始另一份事前凍結研究/);
   assert.doesNotMatch(disclosurePanel, /<table|data-actor|data-ticker/);
   assert.doesNotMatch(disclosurePanel, /(?:^|[>\s])(?:AAPL|MSFT|NVDA|AMD|META)(?:[<\s]|$)/);
   assert.match(html, /MULTI-WINDOW RESONANCE · ROUND 38/);
@@ -262,7 +268,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /四個比較對手在正式結果前定義清楚/);
   assert.match(html, /首輪 Top-10 等權後漂移/);
   assert.match(html, /US 1M T-bill daily RF/);
-  assert.match(html, /6,208 trials/);
+  assert.match(html, /6,287(?:<!-- -->)? trials/);
   assert.match(html, /十八道事前控制逐項呈列/);
   assert.match(html, /十八項 RF、run ID、baseline、成本及決策錯誤全數拒收/);
   assert.match(html, /只在合法 provider package 與同步一個月國庫券 RF 都到位後/);
