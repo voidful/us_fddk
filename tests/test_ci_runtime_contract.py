@@ -53,10 +53,28 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
 def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
     for workflow in WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
+        round38 = text.index("scripts/build_short_term_multi_window_resonance_report.py")
         round30 = text.index("scripts/build_short_term_qqq_replacement_overlay_report.py")
         round29 = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
         round28 = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
-        assert round30 < round29 < round28, workflow.name
+        assert round38 < round30 < round29 < round28, workflow.name
+        round38_test = text.index("pytest tests/test_multi_window_resonance.py")
+        round38_report_test = text.index(
+            "pytest tests/test_multi_window_resonance_report.py"
+        )
+        round30_test = text.index("pytest tests/test_qqq_replacement_overlay.py")
+        round29_test = text.index("pytest tests/test_calendar_capital_accounting.py")
+        round28_test = text.index("pytest tests/test_reversal_volatility_attribution.py")
+        assert (
+            round38_test
+            < round38_report_test
+            < round30_test
+            < round29_test
+            < round28_test
+        ), workflow.name
+        assert "artifacts/short_term_multi_window_resonance_validation.json" in text
+        assert "site/data/short-term-multi-window-resonance.json" in text
+        assert "docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md" in text
 
 
 @pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
