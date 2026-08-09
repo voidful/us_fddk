@@ -1,0 +1,163 @@
+{
+  "all_frozen_identity_checks_pass": false,
+  "authorized_provider_package": false,
+  "capability_matrix": {
+    "delist_exit_economics": {
+      "finding": "文件身份刷新沒有交付 DelRet、缺失原因、現金／換股條款或 successor rows。",
+      "source_ids": [],
+      "status": "unresolved_primary_documentation"
+    },
+    "membership_announced_at": {
+      "finding": "生效日、change date 或 release time 不是逐列公布 timestamp／event ID。",
+      "source_ids": [
+        "crsp_index_history_feed",
+        "lseg_historical_constituents"
+      ],
+      "status": "unresolved_primary_documentation"
+    },
+    "membership_effective_at": {
+      "finding": "有 open-date／change-date 線索，仍須授權樣本確認 session、時區及欄位。",
+      "source_ids": [
+        "crsp_index_history_feed",
+        "lseg_historical_constituents"
+      ],
+      "status": "partial_primary_documentation"
+    },
+    "point_in_time_sp500_membership": {
+      "finding": "CRSP 可提供歷史／最新 restated 檔；LSEG 示範以 Joiner／Leaver 重建，但兩者均未交付本研究的 as-known export 收據。",
+      "source_ids": [
+        "crsp_index_history_feed",
+        "lseg_historical_constituents"
+      ],
+      "status": "partial_primary_documentation"
+    },
+    "row_level_provenance_replay": {
+      "finding": "文件、release 或 restatement 說明不等於本地 export ID、逐列 source ID、列數及 SHA。",
+      "source_ids": [
+        "crsp_index_history_feed",
+        "lseg_historical_constituents"
+      ],
+      "status": "partial_primary_documentation"
+    },
+    "security_metadata_known_at": {
+      "finding": "有效區間或目前 metadata 不等於逐列 KnownAt。",
+      "source_ids": [
+        "crsp_ciz_guide"
+      ],
+      "status": "unresolved_primary_documentation"
+    }
+  },
+  "complete_risk_free_package": false,
+  "error": {
+    "code": "remote_download_failed",
+    "detail": "crsp_ciz_migration_notice: HTTPError: HTTP Error 404: Not Found"
+  },
+  "expected_source_identity_count": 4,
+  "formal_backtest_authorized": false,
+  "formal_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 18
+  },
+  "manual_review_required": true,
+  "new_source_qualified": false,
+  "next_action": "若需正式回測，須取得使用者授權 package 並按 Round21 驗收 18/18、point-in-time 20/20、execution 16/16 及完整 RF；本探針不會自動升級。",
+  "observation_errors": {
+    "crsp_ciz_guide": {
+      "code": "marker_missing",
+      "detail": "crsp_ciz_guide marker check failed"
+    },
+    "crsp_index_history_feed": {
+      "code": "marker_missing",
+      "detail": "crsp_index_history_feed marker check failed"
+    }
+  },
+  "observations": {
+    "crsp_ciz_guide": {
+      "body_sha256": "d8a6f17f45e833bd9b060f92a96020c1a1d6fb474d8dfc2b4f9a6b20fabdfeb6",
+      "body_size_bytes": 548103,
+      "content_kind": "html",
+      "content_type": "text/html; charset=utf-8",
+      "final_url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true",
+      "host": "indexes.morningstar.com",
+      "http_status": 200,
+      "marker_checks": {
+        "CIZ": false,
+        "CRSP US Stock Databases Guide": true
+      },
+      "matches_frozen_identity": false,
+      "owner": "Morningstar Indexes / CRSP",
+      "raw_source_persisted": false,
+      "source_id": "crsp_ciz_guide",
+      "title": "CRSP US Stock Databases Guide for Flat File Format 2.0",
+      "url": "https://indexes.morningstar.com/docs/guide/crsp-us-stock-databases-guide-for-flat-file-format-2-0?isRdp=true"
+    },
+    "crsp_index_history_feed": {
+      "body_sha256": "b1cf470b98741add92c9ed16eb5698eb90674180cf01afd083670fb50c073eb9",
+      "body_size_bytes": 145917,
+      "content_kind": "pdf",
+      "content_type": "application/pdf",
+      "final_url": "https://www.crsp.org/wp-content/uploads/2023/10/Index_File_Description-Direct_Client_Feed.pdf",
+      "host": "www.crsp.org",
+      "http_status": 200,
+      "marker_checks": {
+        "%PDF-": true,
+        "INDEX LEVEL AND CONSTITUENT HISTORY": false
+      },
+      "matches_frozen_identity": false,
+      "owner": "Center for Research in Security Prices",
+      "raw_source_persisted": false,
+      "source_id": "crsp_index_history_feed",
+      "title": "Index File Description Direct Client Feed",
+      "url": "https://www.crsp.org/wp-content/uploads/2023/10/Index_File_Description-Direct_Client_Feed.pdf"
+    },
+    "lseg_historical_constituents": {
+      "body_sha256": "2252be7ad1b5fe6b639fb4db111cea178fc5481ac239bd966e9f281cb23bb222",
+      "body_size_bytes": 296726,
+      "content_kind": "html",
+      "content_type": "text/html;charset=utf-8",
+      "final_url": "https://developers.lseg.com/en/article-catalog/article/building-historical-index-constituents",
+      "host": "developers.lseg.com",
+      "http_status": 200,
+      "marker_checks": {
+        "Building historical index constituents": true,
+        "Joiner": true,
+        "Leaver": true
+      },
+      "matches_frozen_identity": true,
+      "owner": "LSEG Developer Community",
+      "raw_source_persisted": false,
+      "source_id": "lseg_historical_constituents",
+      "title": "Building historical index constituents",
+      "url": "https://developers.lseg.com/en/article-catalog/article/building-historical-index-constituents"
+    }
+  },
+  "observed_at_utc": "2026-08-08T20:59:50.806841Z",
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "point_in_time_readiness": {
+    "all_passed": false,
+    "passed": 1,
+    "total": 20
+  },
+  "protocol_integrity": {
+    "frozen_at": "2026-08-08T14:44:43Z",
+    "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+    "hash_checks": {
+      "artifacts/short_term_provider_evidence_refresh_protocol_receipt.json": true,
+      "artifacts/short_term_provider_gap_closure_protocol_receipt.json": true,
+      "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_PROTOCOL.md": true,
+      "docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_PROTOCOL.md": true
+    },
+    "passed": true
+  },
+  "protocol_sha256": "42c55adf76bba072b50618800890e5e34f07aae3d0b68be7ec1b46f5dcdaea9d",
+  "provider_package_qualified": false,
+  "raw_source_persisted": false,
+  "real_money_action_usd": 0,
+  "research_round": 33,
+  "schema_version": 1,
+  "source_identity_count": 3,
+  "status": "manual_review_required",
+  "strategy_run_count": 0
+}

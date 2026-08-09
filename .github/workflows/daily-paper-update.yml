@@ -92,6 +92,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_risk_free_staging_report.py
           ./.venv/bin/python scripts/build_short_term_provider_convergence_report.py
           ./.venv/bin/python scripts/build_short_term_provider_gap_closure_report.py
+          ./.venv/bin/python scripts/build_short_term_provider_evidence_refresh_report.py
           ./.venv/bin/python scripts/build_short_term_survivorship_contamination_report.py
           ./.venv/bin/python scripts/build_short_term_temporal_tail_robustness_report.py
           ./.venv/bin/python scripts/build_short_term_baseline_multiplicity_report.py
@@ -152,6 +153,9 @@ jobs:
             artifacts/short_term_provider_gap_closure_validation.json \
             site/data/short-term-provider-gap-closure.json \
             docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_REPORT.md \
+            artifacts/short_term_provider_evidence_refresh.json \
+            site/data/short-term-provider-evidence-refresh.json \
+            docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_REPORT.md \
             artifacts/short_term_survivorship_contamination_validation.json \
             site/data/short-term-survivorship-contamination.json \
             docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_RESEARCH_REPORT.md \
@@ -200,6 +204,8 @@ jobs:
           ./.venv/bin/pytest tests/test_risk_free_staging.py
           ./.venv/bin/pytest tests/test_provider_convergence.py
           ./.venv/bin/pytest tests/test_provider_gap_closure.py
+          ./.venv/bin/pytest tests/test_provider_evidence_refresh.py
+          ./.venv/bin/pytest tests/test_provider_evidence_refresh_report.py
           ./.venv/bin/pytest tests/test_survivorship_contamination.py
           ./.venv/bin/pytest tests/test_temporal_tail_robustness.py
           ./.venv/bin/pytest tests/test_baseline_multiplicity.py

@@ -276,6 +276,11 @@ python scripts/build_short_term_provider_convergence_report.py
 # 每日核對兩份官方指南身份；版本漂移只標記未合資格，不會自行改協議或 readiness
 python scripts/probe_short_term_provider_guides.py
 
+# 第三十三輪唯讀刷新四份官方 provider 證據；只保存 URL／HTTP／marker／SHA metadata
+# 目前 3/4、manual_review_required；文件觀察不等於 point-in-time package，Paper 仍 all_cash
+python scripts/probe_short_term_provider_evidence_refresh.py
+python scripts/build_short_term_provider_evidence_refresh_report.py
+
 # 把凍結的官方 202606 snapshot 寫入一個全新、repository 外、owner-only 暫存目錄
 # 目錄只含 partial CSV、缺日清單、來源 snapshot 及收據，不能被正式入口誤收
 python scripts/stage_short_term_risk_free.py /private/output/ken-french-rf-202606

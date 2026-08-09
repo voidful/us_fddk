@@ -60,3 +60,14 @@ def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
         assert "tests/test_formal_release_integration.py" in text
         assert "site/data/short-term-restatement-firewall.json" in text
         assert "site/data/short-term-formal-release-integration.json" in text
+
+
+def test_provider_evidence_refresh_receipt_is_rebuilt_and_tested() -> None:
+    for workflow in WORKFLOWS:
+        text = workflow.read_text(encoding="utf-8")
+        assert "scripts/build_short_term_provider_evidence_refresh_report.py" in text
+        assert "tests/test_provider_evidence_refresh.py" in text
+        assert "tests/test_provider_evidence_refresh_report.py" in text
+        assert "artifacts/short_term_provider_evidence_refresh.json" in text
+        assert "site/data/short-term-provider-evidence-refresh.json" in text
+        assert "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_REPORT.md" in text
