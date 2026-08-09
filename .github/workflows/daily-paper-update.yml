@@ -73,6 +73,12 @@ jobs:
           fi
           ./.venv/bin/python -m usfddk v25-refresh-status
       - name: Verify research code
+        env:
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+          PYTHONHASHSEED: "0"
         run: |
           ./.venv/bin/pytest tests/test_ci_runtime_contract.py
           ./.venv/bin/python scripts/build_short_term_french_prior_return_schema_repair_report.py
@@ -100,9 +106,9 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
           ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
+          ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
           ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
-          ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \

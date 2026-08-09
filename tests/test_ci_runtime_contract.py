@@ -53,9 +53,27 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
 def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
     for workflow in WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
-        parent = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
-        child = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
-        assert parent < child, workflow.name
+        round30 = text.index("scripts/build_short_term_qqq_replacement_overlay_report.py")
+        round29 = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
+        round28 = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
+        assert round30 < round29 < round28, workflow.name
+
+
+@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+def test_numerical_receipt_rebuild_uses_the_frozen_execution_contract(workflow: Path) -> None:
+    text = workflow.read_text(encoding="utf-8")
+    expected = {
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONHASHSEED": "0",
+    }
+    for name, value in expected.items():
+        assert re.search(rf"^\s+{name}: [\"']?{value}[\"']?\s*$", text, re.MULTILINE), (
+            workflow.name,
+            name,
+        )
 
 
 def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
