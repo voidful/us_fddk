@@ -358,6 +358,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.doesNotMatch(javascript, /motion-reveal/);
   assert.match(styles, /scroll-behavior:auto/);
   assert.match(styles, /status-chip i\{[^}]*animation:none/);
+  assert.match(styles, /\.aggressive-hero\{[^}]*align-items:start/);
+  assert.match(styles, /\.hero-actions\{[^}]*flex-wrap:wrap/);
   assert.doesNotMatch(styles, /status-pulse|@keyframes/);
   assert.doesNotMatch(styles, /data-motion=ready|motion-reveal/);
 });

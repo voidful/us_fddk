@@ -1330,5 +1330,7 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
   assert.match(css, /html \{ scroll-behavior: auto;/);
   assert.match(css, /\.status-chip i \{[^}]*animation: none;/);
+  assert.match(css, /\.aggressive-hero \{[^}]*align-items: start;/);
+  assert.match(css, /\.hero-actions \{[^}]*flex-wrap: wrap;/);
   assert.doesNotMatch(css, /@keyframes status-pulse/);
 });
