@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "research_round": 36,
+  "status": "frozen_after_formal_release_integration_before_risk_free_rebind",
+  "frozen_at": "2026-08-08T15:40:00Z",
+  "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+  "protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md",
+    "sha256": "807919e88a60c364cbcf48f0bd3eb06bf006d9956b1a121ef2cf2b8b58b05b9b"
+  },
+  "parent_round19_protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md",
+    "sha256": "d0ccaa65694ba7b41aa1726a7a475c05ea988f03091246ce2173cc9681176439"
+  },
+  "parent_round19_receipt": {
+    "path": "artifacts/short_term_risk_free_staging_protocol_receipt.json",
+    "sha256": "bbcde7cea30c21169ba5e09f851b5a71e873856aef7f366fa810cd5628714e82"
+  },
+  "parent_round35_protocol": {
+    "path": "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md",
+    "sha256": "f02529ec9e09c4cdc3942769d1a8df11cab052654c62afb2e9f65f611000e1ed"
+  },
+  "parent_round35_receipt": {
+    "path": "artifacts/short_term_formal_release_integration_protocol_receipt.json",
+    "sha256": "0a43039e569a4561f89887c761c457d0d202d950bb4cda070210bb24460f78fd"
+  },
+  "current_formal_validator": {
+    "path": "usfddk/formal_backtest_readiness.py",
+    "sha256": "f1c98d5fee063dac34d73359b2c3c8a08f92eed10a195caeb0302306032ccbf0"
+  },
+  "current_formal_release_integration": {
+    "path": "usfddk/formal_release_integration.py",
+    "sha256": "b27037b8eebbe4ce83064523b4c8d3db99f3ad5edb342b682cc71cdcab770fa5"
+  },
+  "provider_release_receipt_present_at_freeze": false,
+  "formal_provider_run_present_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 8,
+  "frozen_attack_count": 8
+}

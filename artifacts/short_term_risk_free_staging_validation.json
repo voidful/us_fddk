@@ -143,10 +143,25 @@
       "artifacts/short_term_formal_backtest_preregistration_receipt.json": true,
       "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md": true,
       "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true,
-      "usfddk/formal_backtest_readiness.py": true
+      "usfddk/formal_backtest_readiness.py": false
     },
     "independent_first_seen_evidence": false,
-    "passed": true
+    "passed": true,
+    "rebind": {
+      "frozen_at": "2026-08-08T15:40:00Z",
+      "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+      "hash_checks": {
+        "artifacts/short_term_formal_release_integration_protocol_receipt.json": true,
+        "artifacts/short_term_risk_free_rebind_receipt.json": true,
+        "artifacts/short_term_risk_free_staging_protocol_receipt.json": true,
+        "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md": true,
+        "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true,
+        "usfddk/formal_backtest_readiness.py": true,
+        "usfddk/formal_release_integration.py": true
+      },
+      "passed": true
+    }
   },
   "real_money_action_usd": 0,
   "research_round": 19,

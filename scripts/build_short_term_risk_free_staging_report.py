@@ -85,6 +85,11 @@ def _report(result: dict[str, Any]) -> str:
 **{result['attack_summary']['rejected']}/{result['attack_summary']['total']} 全部拒收**。
 這只證明官方 202606 snapshot 可以安全暫存及精確報缺，不是完整 RF 包，更不是策略成績。
 
+因第三十五輪把 release／restatement firewall 接入正式 provider entrypoint，本輪另以
+第三十六輪 versioned rebind 收據重新核對第十九輪父鏈及目前 validator；舊第十九輪協議
+與收據沒有改寫。rebind 只恢復可重現的 staging 驗證，不增加 RF 覆蓋，也不授權正式
+回測、Paper 或實金。
+
 正式狀態沒有虛報提升：正式就緒仍為 **1/18**，逐股 provider package 未收到，完整 RF
 包未收到，正式策略運行 **0 次**；短線 Paper 全現金、0 成交、0 持倉，實金動作
 **US$0**。

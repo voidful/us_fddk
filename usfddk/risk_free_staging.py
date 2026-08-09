@@ -25,6 +25,16 @@ PROTOCOL_RECEIPT_PATH = (
     "artifacts/short_term_risk_free_staging_protocol_receipt.json"
 )
 PROTOCOL_SHA256 = "d0ccaa65694ba7b41aa1726a7a475c05ea988f03091246ce2173cc9681176439"
+REBIND_PROTOCOL_PATH = "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md"
+REBIND_PROTOCOL_RECEIPT_PATH = (
+    "artifacts/short_term_risk_free_rebind_receipt.json"
+)
+REBIND_PROTOCOL_SHA256 = (
+    "807919e88a60c364cbcf48f0bd3eb06bf006d9956b1a121ef2cf2b8b58b05b9b"
+)
+REBIND_PROTOCOL_RECEIPT_SHA256 = (
+    "f208061b579951ad514366af277e5349428e0dc45d84b58da4f5a5b7d3b18adb"
+)
 PARENT_PROTOCOL_PATH = "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md"
 PARENT_PROTOCOL_SHA256 = (
     "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
@@ -92,9 +102,86 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     )
 
 
+def _rebind_integrity(root: Path) -> dict[str, Any]:
+    """Validate the versioned parent-chain rebind without mutating Round 19."""
+
+    receipt_path = root / REBIND_PROTOCOL_RECEIPT_PATH
+    try:
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        checks = {
+            REBIND_PROTOCOL_PATH: _sha256_file(root / REBIND_PROTOCOL_PATH)
+            == REBIND_PROTOCOL_SHA256,
+            REBIND_PROTOCOL_RECEIPT_PATH: _sha256_file(receipt_path)
+            == REBIND_PROTOCOL_RECEIPT_SHA256,
+            receipt["parent_round19_protocol"]["path"]: _sha256_file(
+                root / receipt["parent_round19_protocol"]["path"]
+            )
+            == receipt["parent_round19_protocol"]["sha256"],
+            receipt["parent_round19_receipt"]["path"]: _sha256_file(
+                root / receipt["parent_round19_receipt"]["path"]
+            )
+            == receipt["parent_round19_receipt"]["sha256"],
+            receipt["parent_round35_protocol"]["path"]: _sha256_file(
+                root / receipt["parent_round35_protocol"]["path"]
+            )
+            == receipt["parent_round35_protocol"]["sha256"],
+            receipt["parent_round35_receipt"]["path"]: _sha256_file(
+                root / receipt["parent_round35_receipt"]["path"]
+            )
+            == receipt["parent_round35_receipt"]["sha256"],
+            receipt["current_formal_validator"]["path"]: _sha256_file(
+                root / receipt["current_formal_validator"]["path"]
+            )
+            == receipt["current_formal_validator"]["sha256"],
+            receipt["current_formal_release_integration"]["path"]: _sha256_file(
+                root / receipt["current_formal_release_integration"]["path"]
+            )
+            == receipt["current_formal_release_integration"]["sha256"],
+        }
+        passed = bool(
+            receipt["schema_version"] == 1
+            and receipt["research_round"] == 36
+            and receipt["status"]
+            == "frozen_after_formal_release_integration_before_risk_free_rebind"
+            and receipt["protocol"]
+            == {
+                "path": REBIND_PROTOCOL_PATH,
+                "sha256": REBIND_PROTOCOL_SHA256,
+            }
+            and receipt["provider_release_receipt_present_at_freeze"] is False
+            and receipt["formal_provider_run_present_at_freeze"] is False
+            and receipt["formal_backtest_authorized"] is False
+            and receipt["strategy_run_count"] == 0
+            and receipt["paper_authorized"] is False
+            and receipt["paper_state"] == "all_cash"
+            and receipt["real_money_action_usd"] == 0
+            and receipt["frozen_control_count"] == 8
+            and receipt["frozen_attack_count"] == 8
+            and all(checks.values())
+        )
+    except RiskFreeStagingError:
+        raise
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+        receipt = {}
+        checks = {}
+        passed = False
+    if not passed:
+        _fail(
+            "rf_staging_rebind_integrity_failed",
+            "第三十六輪 rebind 協議、父鏈或目前正式入口 SHA-256 不完整",
+        )
+    return {
+        "passed": True,
+        "frozen_at": receipt["frozen_at"],
+        "git_head_at_freeze": receipt["git_head_at_freeze"],
+        "hash_checks": checks,
+    }
+
+
 def _protocol_integrity(root: str | Path) -> dict[str, Any]:
     root_path = Path(root).resolve()
     receipt_path = root_path / PROTOCOL_RECEIPT_PATH
+    rebind: dict[str, Any] | None = None
     try:
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         checks = {
@@ -110,6 +197,14 @@ def _protocol_integrity(root: str | Path) -> dict[str, Any]:
                 root_path / receipt["parent_formal_validator"]["path"]
             )
             == receipt["parent_formal_validator"]["sha256"],
+        }
+        historical_parent_validator_ok = checks[
+            receipt["parent_formal_validator"]["path"]
+        ]
+        base_checks = {
+            key: value
+            for key, value in checks.items()
+            if key != receipt["parent_formal_validator"]["path"]
         }
         passed = bool(
             receipt["schema_version"] == 1
@@ -141,8 +236,13 @@ def _protocol_integrity(root: str | Path) -> dict[str, Any]:
             and receipt["real_money_action_usd"] == 0
             and receipt["frozen_control_count"] == 8
             and receipt["frozen_attack_count"] == 8
-            and all(checks.values())
+            and all(base_checks.values())
         )
+        if passed and not historical_parent_validator_ok:
+            rebind = _rebind_integrity(root_path)
+            passed = rebind["passed"]
+    except RiskFreeStagingError:
+        raise
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
         receipt = {}
         checks = {}
@@ -158,6 +258,7 @@ def _protocol_integrity(root: str | Path) -> dict[str, Any]:
         "git_head_at_freeze": receipt["git_head_at_freeze"],
         "independent_first_seen_evidence": False,
         "hash_checks": checks,
+        "rebind": rebind,
     }
 
 

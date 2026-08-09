@@ -4,9 +4,12 @@ import json
 import stat
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
+import pytest
 
+import usfddk.risk_free_staging as risk_free_staging
 from scripts.build_short_term_risk_free_staging_report import _site_summary
 from usfddk.risk_free_staging import (
     EXPECTED_MISSING_SESSION_COUNT,
@@ -85,6 +88,24 @@ def test_all_eight_controls_pass_and_all_attacks_hit_exact_codes() -> None:
         row["observed_error_code"] == row["expected_error_code"]
         for row in result["attacks"]
     )
+    assert result["protocol_integrity"]["rebind"]["passed"] is True
+    assert result["protocol_integrity"]["rebind"]["hash_checks"][
+        "usfddk/formal_backtest_readiness.py"
+    ] is True
+
+
+def test_round36_rebind_rejects_current_formal_entry_drift() -> None:
+    original = risk_free_staging._sha256_file
+
+    def drifted_hash(path: Path) -> str:
+        if path.resolve() == (ROOT / "usfddk/formal_backtest_readiness.py").resolve():
+            return "0" * 64
+        return original(path)
+
+    with patch.object(risk_free_staging, "_sha256_file", drifted_hash):
+        with pytest.raises(risk_free_staging.RiskFreeStagingError) as error:
+            risk_free_staging._protocol_integrity(ROOT)
+    assert error.value.code == "rf_staging_rebind_integrity_failed"
 
 
 def test_formal_paper_and_real_money_boundaries_remain_closed() -> None:
