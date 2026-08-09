@@ -1,0 +1,774 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eric-lam.com/us_fddk/schemas/short-term-disclosure-point-in-time-manifest-v1.json",
+  "title": "US FDDK public-disclosure known-at readiness manifest",
+  "description": "Closed Phase 1 admission manifest. It validates readiness claims only and never authorizes a strategy, backtest, Paper position, or real-money trade.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "phase",
+    "bundle_id",
+    "generated_at",
+    "legal_use",
+    "sec_access",
+    "coverage",
+    "source_receipts",
+    "normalized_record_contract",
+    "timestamp_contract",
+    "revision_contract",
+    "privacy_contract",
+    "files",
+    "readiness_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "contract_id": {
+      "const": "us_fddk.short_term_disclosure_known_at.v1"
+    },
+    "phase": {
+      "const": "known_at_readiness_only"
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{7,127}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "legal_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_use_description",
+        "commercial_use_review_status",
+        "congress_use_review_status",
+        "source_terms_reviewed",
+        "reviewed_at",
+        "expires_at",
+        "authority_reference",
+        "evidence_sha256"
+      ],
+      "properties": {
+        "exact_use_description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commercial_use_review_status": {
+          "const": "approved_for_exact_use"
+        },
+        "congress_use_review_status": {
+          "const": "approved_for_exact_use"
+        },
+        "source_terms_reviewed": {
+          "const": true
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "authority_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "sec_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "user_agent_contact_declared",
+        "sec_policy_ceiling_requests_per_second",
+        "configured_requests_per_second",
+        "global_across_processes_and_machines",
+        "cache_enabled",
+        "retry_after_and_429_backoff",
+        "stop_on_403_or_robots_terms_change"
+      ],
+      "properties": {
+        "user_agent_contact_declared": {
+          "const": true
+        },
+        "sec_policy_ceiling_requests_per_second": {
+          "const": 10
+        },
+        "configured_requests_per_second": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10
+        },
+        "global_across_processes_and_machines": {
+          "const": true
+        },
+        "cache_enabled": {
+          "const": true
+        },
+        "retry_after_and_429_backoff": {
+          "const": true
+        },
+        "stop_on_403_or_robots_terms_change": {
+          "const": true
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim",
+        "complete_period_claimed",
+        "twenty_year_coverage_claimed",
+        "twenty_year_coverage_validated",
+        "observed_start",
+        "observed_end"
+      ],
+      "properties": {
+        "claim": {
+          "const": "observed_records_only_no_complete_period_claim"
+        },
+        "complete_period_claimed": {
+          "const": false
+        },
+        "twenty_year_coverage_claimed": {
+          "const": false
+        },
+        "twenty_year_coverage_validated": {
+          "const": false
+        },
+        "observed_start": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_end": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "source_receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "congress_house_ptr",
+        "congress_senate_ptr",
+        "sec_form_4",
+        "sec_schedule_13d",
+        "sec_schedule_13g",
+        "sec_form_13f"
+      ],
+      "properties": {
+        "congress_house_ptr": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "congress_house_ptr"
+                },
+                "official_entry_url": {
+                  "const": "https://disclosures-clerk.house.gov/FinancialDisclosure"
+                }
+              }
+            }
+          ]
+        },
+        "congress_senate_ptr": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "congress_senate_ptr"
+                },
+                "official_entry_url": {
+                  "const": "https://efdsearch.senate.gov/search/home/"
+                }
+              }
+            }
+          ]
+        },
+        "sec_form_4": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "sec_form_4"
+                },
+                "official_entry_url": {
+                  "const": "https://www.sec.gov/search-filings"
+                }
+              }
+            }
+          ]
+        },
+        "sec_schedule_13d": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "sec_schedule_13d"
+                },
+                "official_entry_url": {
+                  "const": "https://www.sec.gov/search-filings"
+                }
+              }
+            }
+          ]
+        },
+        "sec_schedule_13g": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "sec_schedule_13g"
+                },
+                "official_entry_url": {
+                  "const": "https://www.sec.gov/search-filings"
+                }
+              }
+            }
+          ]
+        },
+        "sec_form_13f": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/sourceReceipt"
+            },
+            {
+              "properties": {
+                "source_type": {
+                  "const": "sec_form_13f"
+                },
+                "official_entry_url": {
+                  "const": "https://www.sec.gov/search-filings"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "normalized_record_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "source_type_values",
+        "required_fields",
+        "unknown_value_policy"
+      ],
+      "properties": {
+        "format": {
+          "const": "utf8_jsonl_one_object_per_line"
+        },
+        "source_type_values": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "congress_house_ptr"
+            },
+            {
+              "const": "congress_senate_ptr"
+            },
+            {
+              "const": "sec_form_4"
+            },
+            {
+              "const": "sec_schedule_13d"
+            },
+            {
+              "const": "sec_schedule_13g"
+            },
+            {
+              "const": "sec_form_13f"
+            }
+          ],
+          "items": false
+        },
+        "required_fields": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "source_type"
+            },
+            {
+              "const": "source_document_id"
+            },
+            {
+              "const": "source_version_id"
+            },
+            {
+              "const": "supersedes_version_id"
+            },
+            {
+              "const": "security_id"
+            },
+            {
+              "const": "actor_token"
+            },
+            {
+              "const": "actor_role"
+            },
+            {
+              "const": "economic_semantics"
+            },
+            {
+              "const": "transaction_code"
+            },
+            {
+              "const": "ownership_nature"
+            },
+            {
+              "const": "value_min_usd"
+            },
+            {
+              "const": "value_max_usd"
+            },
+            {
+              "const": "event_precision"
+            },
+            {
+              "const": "event_at"
+            },
+            {
+              "const": "filed_at"
+            },
+            {
+              "const": "accepted_at"
+            },
+            {
+              "const": "public_at"
+            },
+            {
+              "const": "first_observed_at"
+            },
+            {
+              "const": "known_at"
+            },
+            {
+              "const": "known_at_basis"
+            },
+            {
+              "const": "decision_at"
+            },
+            {
+              "const": "trade_at"
+            }
+          ],
+          "items": false
+        },
+        "unknown_value_policy": {
+          "const": "explicit_null_with_source_reason_no_imputation"
+        }
+      }
+    },
+    "timestamp_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timezone",
+        "calendar",
+        "required_timestamp_fields",
+        "known_at_basis_values",
+        "known_at_rule",
+        "decision_at_rule",
+        "trade_at_rule"
+      ],
+      "properties": {
+        "timezone": {
+          "const": "UTC"
+        },
+        "calendar": {
+          "const": "XNYS"
+        },
+        "required_timestamp_fields": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "event_at"
+            },
+            {
+              "const": "filed_at"
+            },
+            {
+              "const": "accepted_at"
+            },
+            {
+              "const": "public_at"
+            },
+            {
+              "const": "first_observed_at"
+            },
+            {
+              "const": "known_at"
+            },
+            {
+              "const": "decision_at"
+            },
+            {
+              "const": "trade_at"
+            }
+          ],
+          "items": false
+        },
+        "known_at_basis_values": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "official_public_timestamp"
+            },
+            {
+              "const": "independent_archived_first_seen"
+            },
+            {
+              "const": "local_first_observed_fallback"
+            }
+          ],
+          "items": false
+        },
+        "known_at_rule": {
+          "const": "official_public_timestamp_else_independent_archived_first_seen_else_local_first_observed"
+        },
+        "decision_at_rule": {
+          "const": "first_official_xnys_close_strictly_after_known_at"
+        },
+        "trade_at_rule": {
+          "const": "next_official_xnys_open_after_decision_at"
+        }
+      }
+    },
+    "revision_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "append_only",
+        "original_versions_preserved",
+        "hash_algorithm",
+        "canonicalization",
+        "genesis_previous_sha256",
+        "chain_head_sha256",
+        "revision_count",
+        "final_revised_strategy_substitution_allowed"
+      ],
+      "properties": {
+        "append_only": {
+          "const": true
+        },
+        "original_versions_preserved": {
+          "const": true
+        },
+        "hash_algorithm": {
+          "const": "sha256"
+        },
+        "canonicalization": {
+          "const": "utf8_json_sorted_keys_compact_separators_no_nan"
+        },
+        "genesis_previous_sha256": {
+          "const": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chain_head_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "revision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "final_revised_strategy_substitution_allowed": {
+          "const": false
+        }
+      }
+    },
+    "privacy_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_payload_location",
+        "raw_data_allowed_in_git_ci_site",
+        "internal_actor_key",
+        "actor_salt_allowed_in_git",
+        "minimum_distinct_actor_count_for_public_aggregate",
+        "public_output",
+        "public_forbidden_fields"
+      ],
+      "properties": {
+        "raw_payload_location": {
+          "const": "encrypted_private_quarantine_not_git_ci_site"
+        },
+        "raw_data_allowed_in_git_ci_site": {
+          "const": false
+        },
+        "internal_actor_key": {
+          "const": "salted_nonreversible_actor_token"
+        },
+        "actor_salt_allowed_in_git": {
+          "const": false
+        },
+        "minimum_distinct_actor_count_for_public_aggregate": {
+          "const": 10
+        },
+        "public_output": {
+          "const": "source_family_readiness_lag_missingness_revision_and_compliance_aggregates_only"
+        },
+        "public_forbidden_fields": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "person_name"
+            },
+            {
+              "const": "street_address"
+            },
+            {
+              "const": "signature"
+            },
+            {
+              "const": "family_member_name"
+            },
+            {
+              "const": "spouse_or_dependent_label"
+            },
+            {
+              "const": "actor_token"
+            },
+            {
+              "const": "ticker"
+            },
+            {
+              "const": "cusip"
+            },
+            {
+              "const": "cik"
+            },
+            {
+              "const": "accession_number"
+            },
+            {
+              "const": "source_document_id"
+            },
+            {
+              "const": "source_document_url"
+            },
+            {
+              "const": "raw_document_body"
+            }
+          ],
+          "items": false
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disclosure_events.jsonl",
+        "source_versions.jsonl",
+        "identifier_history.csv",
+        "trading_calendar.csv",
+        "sanitized_summary.json"
+      ],
+      "properties": {
+        "disclosure_events.jsonl": {
+          "$ref": "#/$defs/fileReceipt"
+        },
+        "source_versions.jsonl": {
+          "$ref": "#/$defs/fileReceipt"
+        },
+        "identifier_history.csv": {
+          "$ref": "#/$defs/fileReceipt"
+        },
+        "trading_calendar.csv": {
+          "$ref": "#/$defs/fileReceipt"
+        },
+        "sanitized_summary.json": {
+          "$ref": "#/$defs/fileReceipt"
+        }
+      }
+    },
+    "readiness_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_format_pass_implies_data_truth",
+        "strategy_defined",
+        "strategy_run_count",
+        "formal_backtest_authorized",
+        "paper_authorized",
+        "paper_state",
+        "paper_positions",
+        "backfilled_trades",
+        "real_money_action_usd",
+        "today_action"
+      ],
+      "properties": {
+        "manifest_format_pass_implies_data_truth": {
+          "const": false
+        },
+        "strategy_defined": {
+          "const": false
+        },
+        "strategy_run_count": {
+          "const": 0
+        },
+        "formal_backtest_authorized": {
+          "const": false
+        },
+        "paper_authorized": {
+          "const": false
+        },
+        "paper_state": {
+          "const": "all_cash"
+        },
+        "paper_positions": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "backfilled_trades": {
+          "const": 0
+        },
+        "real_money_action_usd": {
+          "const": 0
+        },
+        "today_action": {
+          "const": "today_no_trade"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sourceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_type",
+        "official_entry_url",
+        "request_url",
+        "collected_at",
+        "first_observed_at",
+        "http_status",
+        "content_type",
+        "content_sha256",
+        "byte_count",
+        "record_count",
+        "request_receipt_sha256",
+        "terms_snapshot_sha256",
+        "legal_use_approved",
+        "raw_payload_location"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string"
+        },
+        "official_entry_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "request_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "collected_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "first_observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "http_status": {
+          "const": 200
+        },
+        "content_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "byte_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "request_receipt_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "terms_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "legal_use_approved": {
+          "const": true
+        },
+        "raw_payload_location": {
+          "const": "private_quarantine_not_git_ci_site"
+        }
+      }
+    },
+    "fileReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "rows",
+        "bytes"
+      ],
+      "properties": {
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

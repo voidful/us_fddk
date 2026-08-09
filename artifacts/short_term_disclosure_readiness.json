@@ -1,0 +1,237 @@
+{
+  "attacks": {
+    "adversarial_mutations_are_test_suite_only": true,
+    "independent_contract_passed": false,
+    "runtime_mutations_executed": 0
+  },
+  "controls": {
+    "actor_names_published": 0,
+    "raw_rows_generated": 0,
+    "raw_rows_published": 0,
+    "security_identifiers_published": 0
+  },
+  "coverage": {
+    "documents_observed": 0,
+    "events_observed": 0,
+    "per_source_year_denominators_audited": false,
+    "source_types_observed": 0,
+    "source_types_required": 6,
+    "twenty_year_coverage_claimed": false,
+    "twenty_year_coverage_validated": false
+  },
+  "decision": {
+    "can_promote": false,
+    "formal_backtest_authorized": false,
+    "strategy_runs": 0,
+    "today": "今天不下單"
+  },
+  "disclaimer": "資料入口通過不等於策略有效，不構成投資或法律建議，亦不保證盈利。",
+  "gates": {
+    "01_protocol_schema_receipt_integrity": {
+      "detail": "協議、schema、收據及前置雜湊一致",
+      "failure_code": null,
+      "passed": true
+    },
+    "02_official_source_semantics_pinned": {
+      "detail": "六類官方來源及不可推論語意已事前固定",
+      "failure_code": null,
+      "passed": true
+    },
+    "03_congress_exact_use_legal_clearance": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "04_source_terms_and_automation_clearance": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "05_sec_fair_access_client_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "06_private_quarantine_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "07_closed_manifest_admitted": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "08_source_request_receipts_complete": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "09_stable_document_version_ids": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "10_eight_timestamps_complete_or_reasoned": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "11_public_at_evidence_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "12_known_at_derivation_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "13_append_only_revision_chain_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "14_point_in_time_security_mapping_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "15_source_specific_semantics_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "16_xnys_decision_entry_clock_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "17_coverage_lag_missingness_audited": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "18_public_sanitizer_verified": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "19_independent_synthetic_attacks_passed": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    },
+    "20_authorized_real_sample_accepted": {
+      "detail": "尚未由合法真實外部數據包驗證",
+      "failure_code": "not_evaluated",
+      "passed": false
+    }
+  },
+  "input": {
+    "configured": false,
+    "failure_code": "bundle_not_configured",
+    "raw_rows_published": 0,
+    "repository_external_required": true
+  },
+  "known_at": {
+    "basis_order": [
+      "official_public_timestamp",
+      "independent_archived_first_seen",
+      "local_first_observed_fallback"
+    ],
+    "documents_validated": 0,
+    "events_validated": 0,
+    "final_revision_substitution_allowed": false,
+    "historical_backfill_allowed": false,
+    "prohibited_proxies": [
+      "event_at",
+      "legal_due_date",
+      "filed_at",
+      "accepted_at",
+      "nightly_index_date"
+    ]
+  },
+  "lag": {
+    "decision_at_rule": "first_official_xnys_close_strictly_after_known_at",
+    "definition": "known_at_minus_event_at",
+    "events_measured": 0,
+    "events_with_valid_trade_clock": 0,
+    "same_or_prior_session_execution_allowed": false,
+    "source_year_missingness_audited": false,
+    "trade_at_rule": "next_official_xnys_open_after_decision_at"
+  },
+  "legal": {
+    "authorized_for_local_research": false,
+    "congress_exact_use_written_clearance": false,
+    "legal_advice_provided": false,
+    "official_public_sources_only": true,
+    "raw_redistribution_allowed": null
+  },
+  "next_action": "先取得精確用途書面准許及合法 repository-external 真實小樣本，再原樣重跑二十道門檻",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": 0,
+    "status": "all_cash_not_started"
+  },
+  "phase": "phase1_disclosure_known_at_readiness",
+  "readiness": {
+    "all_passed": false,
+    "passed": 2,
+    "total": 20
+  },
+  "real_money_usd": 0,
+  "research_round": 40,
+  "schema_version": 1,
+  "selection": {
+    "dynamic_selection_enabled": false,
+    "published_selection_count": 0,
+    "strategy_defined": false
+  },
+  "source_catalog": [
+    {
+      "cannot_infer": "即時成交、精確數量、價格、當刻持倉或由議員親自落盤",
+      "economic_semantics": "延遲申報的金額區間，可屬本人、配偶或受養人",
+      "label": "美國眾議院 PTR",
+      "phase1_status": "blocked_by_written_exact_use_legal_clearance",
+      "source_type": "congress_house_ptr"
+    },
+    {
+      "cannot_infer": "法定最後期限不是實際公開時間，亦不是無延遲交易訊號",
+      "economic_semantics": "延遲申報的金額區間，可屬本人、配偶或受養人",
+      "label": "美國參議院 PTR",
+      "phase1_status": "blocked_by_written_exact_use_legal_clearance",
+      "source_type": "congress_senate_ptr"
+    },
+    {
+      "cannot_infer": "未分辨交易 code、註腳、修訂及直接／間接持有前，不得當成公開市場買沽",
+      "economic_semantics": "Section 16 董事、高級人員及逾 10% 股東的持股變動",
+      "label": "SEC Form 4",
+      "phase1_status": "input_not_observed",
+      "source_type": "sec_form_4"
+    },
+    {
+      "cannot_infer": "逐筆成交、精確建倉日或建倉成本",
+      "economic_semantics": "逾 5% 實益擁有權及控制意圖的披露快照",
+      "label": "SEC Schedule 13D",
+      "phase1_status": "input_not_observed",
+      "source_type": "sec_schedule_13d"
+    },
+    {
+      "cannot_infer": "單一延遲、看好方向，或由 amendment 差額直接推導買沽",
+      "economic_semantics": "依申報人類型及門檻呈列的實益擁有權快照",
+      "label": "SEC Schedule 13G",
+      "phase1_status": "input_not_observed",
+      "source_type": "sec_schedule_13g"
+    },
+    {
+      "cannot_infer": "交易日、成交價、企業家個人交易，或由兩季差額直接推導買沽",
+      "economic_semantics": "機構投資經理的季度末持倉快照，通常可延遲約 45 日申報",
+      "label": "SEC Form 13F",
+      "phase1_status": "input_not_observed",
+      "source_type": "sec_form_13f"
+    }
+  ],
+  "status": "blocked_by_disclosure_known_at_readiness"
+}

@@ -2,14 +2,6 @@ import assert from "node:assert/strict";
 import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
-const publicSiteRoot = (
-  process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
-).replace(/\/$/, "");
-const escapedPublicSiteRoot = publicSiteRoot.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-const ogImagePattern = new RegExp(
-  `property="og:image" content="${escapedPublicSiteRoot}/og\\.png"`,
-);
-
 test("GitHub Pages output is self-contained under the repository base path", async () => {
   const html = await readFile(new URL("../pages-dist/index.html", import.meta.url), "utf8");
   const tradingData = JSON.parse(
@@ -59,6 +51,21 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1/);
+  assert.match(html, /來源就緒 2\/20；公開披露不是即時名人跟單訊號/);
+  assert.match(html, /六種披露來源只固定語意，不產生選股名單/);
+  assert.match(html, /觀察來源 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?6(?:<!-- -->)?；文件 (?:<!-- -->)?0(?:<!-- -->)?，事件 (?:<!-- -->)?0/);
+  assert.match(html, /Congress 法律／授權/);
+  assert.match(html, /已知時間、延遲與落盤時鐘不可互換/);
+  assert.match(html, /今天不下單；Paper 全現金、持倉 0、實金 US\$0/);
+  assert.match(html, /data-sanitized-disclosure="true"/);
+  assert.match(html, /data-dynamic-selection="disabled"/);
+  const disclosurePanel = html.match(
+    /<section[^>]*id="disclosure-readiness"[\s\S]*?<\/section>/,
+  )?.[0];
+  assert.ok(disclosurePanel);
+  assert.doesNotMatch(disclosurePanel, /<table|data-actor|data-ticker/);
+  assert.doesNotMatch(disclosurePanel, /(?:^|[>\s])(?:AAPL|MSFT|NVDA|AMD|META)(?:[<\s]|$)/);
   assert.match(html, /MULTI-WINDOW RESONANCE · ROUND 38/);
   assert.match(html, /四窗共振只過 11\/20；沒有勝過原 Top-7 或同持倉比率 20 日排名/);
   assert.match(html, /共振候選終值 (?:<!-- -->)?US\$22,654(?:<!-- -->)?；原 Top-7 為 (?:<!-- -->)?US\$27,067/);
@@ -318,9 +325,12 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /181 個滾動五年窗/);
   assert.match(html, /對 SPY 未確認/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);
+  assert.match(html, /讀者動作/);
+  assert.doesNotMatch(html, /<small>讀者示例本金<\/small>/);
+  assert.doesNotMatch(html, />-0(?:\.0+)?%/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.match(html, ogImagePattern);
-  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /name="twitter:card" content="summary"/);
+  assert.doesNotMatch(html, /(?:og:image|twitter:image)/);
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 
   const script = html.match(/(?:src|href)="\/us_fddk\/(assets\/[^"]+\.js)"/);
@@ -348,6 +358,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.doesNotMatch(javascript, /motion-reveal/);
   assert.match(styles, /scroll-behavior:auto/);
   assert.match(styles, /status-chip i\{[^}]*animation:none/);
+  assert.match(styles, /\.aggressive-hero\{[^}]*align-items:start/);
+  assert.match(styles, /\.hero-actions\{[^}]*flex-wrap:wrap/);
   assert.doesNotMatch(styles, /status-pulse|@keyframes/);
   assert.doesNotMatch(styles, /data-motion=ready|motion-reveal/);
 });
