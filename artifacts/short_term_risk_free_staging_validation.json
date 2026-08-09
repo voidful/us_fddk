@@ -148,17 +148,32 @@
     "independent_first_seen_evidence": false,
     "passed": true,
     "rebind": {
-      "frozen_at": "2026-08-08T15:40:00Z",
-      "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+      "effective_version": "round41-v1.1",
+      "frozen_at": "2026-08-09T22:17:30Z",
+      "git_head_at_freeze": "cf733a2495a27fa94bbf7c32da65dfd3924602a5",
       "hash_checks": {
-        "artifacts/short_term_formal_release_integration_protocol_receipt.json": true,
+        "artifacts/short_term_global_trial_ledger.json": true,
+        "artifacts/short_term_risk_free_rebind_amendment_v1_1_receipt.json": true,
         "artifacts/short_term_risk_free_rebind_receipt.json": true,
-        "artifacts/short_term_risk_free_staging_protocol_receipt.json": true,
-        "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md": true,
+        "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md": true,
+        "docs/SHORT_TERM_RISK_FREE_REBIND_AMENDMENT_V1_1.md": true,
         "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md": true,
-        "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true,
         "usfddk/formal_backtest_readiness.py": true,
         "usfddk/formal_release_integration.py": true
+      },
+      "historical_round36": {
+        "frozen_at": "2026-08-08T15:40:00Z",
+        "frozen_formal_validator_sha256": "f1c98d5fee063dac34d73359b2c3c8a08f92eed10a195caeb0302306032ccbf0",
+        "git_head_at_freeze": "2ab8f6a6bea8dca01a555fd733b6114544070204",
+        "hash_checks": {
+          "artifacts/short_term_formal_release_integration_protocol_receipt.json": true,
+          "artifacts/short_term_risk_free_rebind_receipt.json": true,
+          "artifacts/short_term_risk_free_staging_protocol_receipt.json": true,
+          "docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md": true,
+          "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md": true,
+          "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true
+        },
+        "passed": true
       },
       "passed": true
     }
