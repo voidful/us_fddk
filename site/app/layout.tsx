@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，151 宗事件非空，候選低於 QQQ 與相同比例 Top-N，Paper 維持全現金。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，公開披露 Phase 1 就緒只過 2/20，動態選擇停用，Paper 維持全現金。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線龍頭回調—回升只過 8/22，151 宗事件非空，候選低於 QQQ 與相同比例 Top-N，日曆矛盾未修飾，今天不下單、實金 US$0。",
+    description: "長線維持 Paper-only；短線龍頭回調—回升只過 8/22，公開披露來源就緒只過 2/20。候選低於 QQQ 與相同比例 Top-N，動態選擇停用、今天不下單、實金 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [
@@ -29,6 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: "美股雙策略研究｜穩定與進取分開驗證",
+    description: "短線第 39 輪只過 8/22；披露來源就緒 2/20。Paper 全現金、今天不下單。",
     images: [`${publicSiteRoot}/og.png`],
   },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },

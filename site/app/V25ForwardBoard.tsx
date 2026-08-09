@@ -89,12 +89,15 @@ const money = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-const pct = (value: number, digits = 2) =>
-  new Intl.NumberFormat("zh-HK", {
+const pct = (value: number, digits = 2) => {
+  const roundedZeroThreshold = 0.5 * 10 ** -(digits + 2);
+  const normalizedValue = Math.abs(value) < roundedZeroThreshold ? 0 : value;
+  return new Intl.NumberFormat("zh-HK", {
     style: "percent",
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
-  }).format(value);
+  }).format(normalizedValue);
+};
 
 const gateState = (sampleReady: boolean, passed: boolean) =>
   sampleReady ? (passed ? "通過" : "未通過") : "等待足夠樣本";

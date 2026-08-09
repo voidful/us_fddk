@@ -58,6 +58,21 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
     html.indexOf("LEADER PULLBACK–REBOUND · ROUND 39")
       < html.indexOf("MULTI-WINDOW RESONANCE · ROUND 38"),
   );
+  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1/);
+  assert.match(html, /來源就緒 2\/20；公開披露不是即時名人跟單訊號/);
+  assert.match(html, /六種披露來源只固定語意，不產生選股名單/);
+  assert.match(html, /觀察來源 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?6(?:<!-- -->)?；文件 (?:<!-- -->)?0(?:<!-- -->)?，事件 (?:<!-- -->)?0/);
+  assert.match(html, /Congress 法律／授權/);
+  assert.match(html, /已知時間、延遲與落盤時鐘不可互換/);
+  assert.match(html, /今天不下單；Paper 全現金、持倉 0、實金 US\$0/);
+  const disclosurePanel = html.match(
+    /<section[^>]*id="disclosure-readiness"[\s\S]*?<\/section>/,
+  )?.[0];
+  assert.ok(disclosurePanel);
+  assert.match(disclosurePanel, /data-sanitized-disclosure="true"/);
+  assert.match(disclosurePanel, /data-dynamic-selection="disabled"/);
+  assert.doesNotMatch(disclosurePanel, /<table|data-actor|data-ticker/);
+  assert.doesNotMatch(disclosurePanel, /(?:^|[>\s])(?:AAPL|MSFT|NVDA|AMD|META)(?:[<\s]|$)/);
   assert.match(html, /MULTI-WINDOW RESONANCE · ROUND 38/);
   assert.match(html, /四窗共振只過 11\/20；沒有勝過原 Top-7 或同持倉比率 20 日排名/);
   assert.match(html, /共振候選終值 (?:<!-- -->)?US\$22,654(?:<!-- -->)?；原 Top-7 為 (?:<!-- -->)?US\$27,067/);
@@ -362,6 +377,9 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /NW t .*3\.03/);
   assert.match(html, /tst_wocker_filter_lab/);
   assert.match(html, /實金及 Paper 動作均為 US\$0/);
+  assert.match(html, /讀者動作/);
+  assert.doesNotMatch(html, /<small>讀者示例本金<\/small>/);
+  assert.doesNotMatch(html, />-0(?:\.0+)?%/);
   assert.match(html, ogImagePattern);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /IntersectionObserver|motion-reveal/);
@@ -586,6 +604,7 @@ test("server-renders the latest-strategy investment report", async () => {
   );
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
   assert.match(html, ogImagePattern);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.match(html, /data-signal-freshness="checking"/);
   assert.match(html, /LONG-TERM STABILITY · v25/);
   assert.match(html, /SHORT-TERM RETURN RESEARCH/);
@@ -1337,5 +1356,7 @@ test("mobile controls keep safe touch targets and readable FAQ spacing", async (
   assert.doesNotMatch(css, /\.faq-list details p \{[^}]*margin: -/);
   assert.match(css, /html \{ scroll-behavior: auto;/);
   assert.match(css, /\.status-chip i \{[^}]*animation: none;/);
+  assert.match(css, /\.aggressive-hero \{[^}]*align-items: start;/);
+  assert.match(css, /\.hero-actions \{[^}]*flex-wrap: wrap;/);
   assert.doesNotMatch(css, /@keyframes status-pulse/);
 });

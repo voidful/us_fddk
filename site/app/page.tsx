@@ -20,6 +20,7 @@ import calendarCapitalAccounting from "../data/short-term-calendar-capital-accou
 import qqqReplacementOverlay from "../data/short-term-qqq-replacement-overlay.json";
 import leaderPullbackRebound from "../data/short-term-leader-pullback-rebound.json";
 import multiWindowResonance from "../data/short-term-multi-window-resonance.json";
+import disclosureReadiness from "../data/short-term-disclosure-readiness.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -40,10 +41,9 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，151 宗事件非空，候選低於 QQQ 與相同比例 Top-N，Paper 維持全現金。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，公開披露 Phase 1 就緒只過 2/20，動態選擇停用，Paper 維持全現金。",
 };
 
-const readerCapital = 1_000;
 const latest = data.research_pipeline.growth_gold_diversification;
 const pooled = latest.pooled;
 const diagnostics = pooled.post_entry_diagnostics_not_used_for_frozen_gate;
@@ -302,6 +302,11 @@ const resonanceRegimeRows = Object.entries(multiWindowResonance.stresses.known_a
 const resonanceSelectionRows = multiWindowResonance.selection_distribution.candidate_count_histogram;
 const resonanceControlRows = multiWindowResonance.controls;
 const resonanceAttackRows = multiWindowResonance.attacks;
+const disclosureCoverage = disclosureReadiness.coverage;
+const disclosureSourceRows = disclosureReadiness.source_catalog;
+const disclosureKnownAt = disclosureReadiness.known_at;
+const disclosureLag = disclosureReadiness.lag;
+const disclosureLegal = disclosureReadiness.legal;
 const resonanceGateLabels: Record<string, string> = {
   exact_inputs: "固定輸入與父收據精確",
   parent_event_reconstruction: "905 宗父事件逐列重播",
@@ -945,6 +950,7 @@ export default function Home() {
               </p>
               <div className="hero-actions">
                 <a className="primary-button aggressive-button" href="#leader-pullback-rebound">查看第 39 輪 8/22 回調反證</a>
+                <a className="primary-button aggressive-button" href="#disclosure-readiness">查看公開披露就緒 2/20</a>
                 <a className="primary-button aggressive-button" href="#multi-window-resonance">查看第 38 輪 11/20 共振反證</a>
                 <a className="primary-button aggressive-button" href="#qqq-replacement-overlay">查看第 30 輪 13/20 QQQ 疊加</a>
                 <a className="primary-button aggressive-button" href="#calendar-capital-accounting">查看第 29 輪 13/18 資金回測</a>
@@ -972,9 +978,9 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>正式就緒 {formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total} · strategy run 0</b>
+                <b>披露就緒 {disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · dynamic selection disabled</b>
               </div>
-              <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
+              <div className="capital-number"><small>讀者動作</small><strong>今天不下單</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
@@ -987,6 +993,10 @@ export default function Home() {
                 <div><dt>比較日／成交前現金列</dt><dd>{leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")} · {leaderPullbackRebound.input.pre_trade_cash_sessions}</dd></div>
                 <div><dt>候選預期／實際委託</dt><dd>{lprCandidate.order_receipt.expected_total_orders} · {lprCandidate.order_receipt.actual_total_orders}</dd></div>
                 <div><dt>回調控制與攻擊</dt><dd>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</dd></div>
+                <div><dt>公開披露 Phase 1</dt><dd>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · 未通過</dd></div>
+                <div><dt>觀察來源／文件／事件</dt><dd>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required} · {disclosureCoverage.documents_observed} · {disclosureCoverage.events_observed}</dd></div>
+                <div><dt>Congress 精確用途法律准許</dt><dd>{disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</dd></div>
+                <div><dt>動態選擇／策略運行</dt><dd>停用 · {disclosureReadiness.decision.strategy_runs}</dd></div>
                 <div><dt>第 38 輪四窗共振</dt><dd>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total} · 未通過</dd></div>
                 <div><dt>共振候選終值／CAGR</dt><dd>{money(resonanceCandidate.terminal_usd)} · {pct(resonanceCandidate.cagr)}</dd></div>
                 <div><dt>原 Top-7／20 日配對</dt><dd>{money(resonanceOriginal.terminal_usd)} · {money(resonanceMatched20.terminal_usd)}</dd></div>
@@ -1063,6 +1073,10 @@ export default function Home() {
               <article><span>日曆自洽</span><strong>未通過</strong><small>{leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")} 比較日 + 1 成交前現金列</small></article>
               <article><span>候選子委託</span><strong>{lprCandidate.order_receipt.actual_total_orders}/{lprCandidate.order_receipt.expected_total_orders}</strong><small>實際／預期 · 期末全現金</small></article>
               <article><span>回調控制／攻擊</span><strong>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</strong><small>日曆矛盾如實保留</small></article>
+              <article><span>披露數據就緒</span><strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong><small>只固定協議與來源語意</small></article>
+              <article><span>實際觀察來源</span><strong>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required}</strong><small>原始包未配置 · 不擷取</small></article>
+              <article><span>動態選擇</span><strong>停用</strong><small>策略未定義 · 運行 0</small></article>
+              <article><span>法律／授權硬門檻</span><strong>未通過</strong><small>Congress 精確用途未獲書面准許</small></article>
               <article><span>第 38 輪共振門檻</span><strong>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total}</strong><small>九項未通過 · 不升格</small></article>
               <article><span>四窗共振終值</span><strong>{money(resonanceCandidate.terminal_usd)}</strong><small>20 bp／資產 · CAGR {pct(resonanceCandidate.cagr)}</small></article>
               <article><span>原 Top-7 終值</span><strong>{money(resonanceOriginal.terminal_usd)}</strong><small>CAGR {pct(resonanceOriginal.cagr)} · 較簡單規則勝出</small></article>
@@ -1316,6 +1330,71 @@ export default function Home() {
               <span>Protocol</span><code>{leaderPullbackRebound.protocol.commit.slice(0, 12)}</code>
               <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a>
               <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_leader_pullback_rebound_validation.json" target="_blank" rel="noreferrer">機器收據</a>
+            </div>
+          </section>
+
+          <section
+            className="section wrap"
+            id="disclosure-readiness"
+            data-sanitized-disclosure="true"
+            data-dynamic-selection="disabled"
+          >
+            <div className="section-heading">
+              <div><span>DISCLOSURE SOURCE READINESS · PHASE 1</span><h2>來源就緒 2/20；公開披露不是即時名人跟單訊號</h2></div>
+              <p>六種披露來源只固定語意，不產生選股名單；公開輸出不呈列人物、股票代號、原始列或逐文件賬本。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>真實輸入尚未到位</span>
+                <h3>觀察來源 {disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required}；文件 {disclosureCoverage.documents_observed}，事件 {disclosureCoverage.events_observed}</h3>
+                <p>現存收據只證明二十道門檻已事前定義，不是數據覆蓋、回測或策略質素證明。不聲稱任何 20 年完整披露歷史。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>known-at 與延遲</span><strong>{disclosureKnownAt.events_validated} 宗通過</strong><p>延遲固定為 known_at 減 event_at；缺精確時間就標記未解，不補 0。</p></article>
+                <article><span>Congress 法律／授權</span><strong>{disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</strong><p>未就本專案精確用途取得有效書面准許前，兩個 Congress 來源均不收集任何一列。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>今天不下單；Paper 全現金、持倉 0、實金 US$0</b>
+              <p>動態選擇停用，策略未定義且運行 0。20/20 也只可開始另一份事前凍結研究，不會自動開啟 Paper 或實金。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>數據就緒</span><strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong><p>只通過協議／schema／收據一致與官方來源語意固定。</p></article>
+              <article><span>20 年覆蓋</span><strong>未驗證</strong><p>逐來源、逐年份分母、延遲、修訂與缺失尚未對數。</p></article>
+              <article><span>decision_at</span><strong>已定義</strong><p>嚴格晚於 known_at 的第一個官方 XNYS 收市。</p></article>
+              <article><span>trade_at</span><strong>已定義</strong><p>再下一個官方 XNYS 開市；目前通過事件 {disclosureLag.events_with_valid_trade_clock}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SIX FIXED SOURCE TYPES</span><h3>來源類別不等於六種買入訊號</h3></div>
+              <p>PTR 是延遲金額區間，Form 4 必須分辨交易 code，13D／13G 是實益擁有權快照，13F 是滯後季末持倉快照。</p>
+            </div>
+            <div className="note-grid">
+              {disclosureSourceRows.map((source) => (
+                <article key={source.source_type}>
+                  <span>{source.source_type}</span>
+                  <h3>{source.label}</h3>
+                  <p>{source.economic_semantics}。不可推論：{source.cannot_infer}。</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>KNOWN-AT, LAG &amp; XNYS CLOCK</span><h3>已知時間、延遲與落盤時鐘不可互換</h3></div>
+              <p>官方 public timestamp 優先，其次是獨立不可回填 first-seen；兩者皆無時，保守使用本地 first observed。法定期限、filed 或 accepted 不得回推。</p>
+            </div>
+
+            <div className="decision-banner negative-banner">
+              <div><span>PHASE 1 DECISION</span><b>法律、known-at、覆蓋與真實小樣本未封口；動態選擇停用</b></div>
+              <strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong>
+            </div>
+            <div className="source-line">
+              <span>公開輸出</span><code>SANITIZED · NO SELECTION</code>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_DISCLOSURE_READINESS_REPORT.md" target="_blank" rel="noreferrer">完整就緒報告</a>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md" target="_blank" rel="noreferrer">known-at 協議</a>
             </div>
           </section>
 

@@ -91,7 +91,7 @@ button, input { font: inherit; }
 .hero h1 { max-width: 720px; margin: 20px 0 18px; font-family: Georgia, "Noto Serif TC", serif; font-size: clamp(3.4rem, 6.2vw, 6.2rem); font-weight: 560; letter-spacing: -0.062em; line-height: 0.98; }
 .hero-lead { max-width: 710px; margin: 0; color: #4a5552; font-size: 1.1rem; }
 .hero-lead strong { color: var(--ink); }
-.hero-actions { display: flex; gap: 10px; margin-top: 28px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .primary-button, .secondary-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 8px; font-size: 0.86rem; font-weight: 800; }
 .primary-button { color: white; background: var(--green); }
 .secondary-button { border: 1px solid #b8c0bc; background: rgba(255, 255, 255, 0.42); }
@@ -115,7 +115,7 @@ button, input { font: inherit; }
 .decision-list dd { margin: 0; text-align: right; font-size: 0.79rem; font-weight: 800; }
 .decision-list .locked { color: var(--red); }
 .decision-card > p { margin: 15px 0 0; color: var(--muted); font-size: 0.74rem; }
-.aggressive-hero { min-height: 630px; }
+.aggressive-hero { min-height: 630px; align-items: start; }
 .aggressive-hero h1 { color: #6d342b; }
 .aggressive-button { background: #6d342b; }
 .aggressive-card { border-color: #d7bab3; box-shadow: 0 18px 60px rgba(82, 39, 31, 0.1); }
