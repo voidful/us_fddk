@@ -63,6 +63,7 @@ def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
 def test_numerical_receipt_rebuild_uses_the_frozen_execution_contract(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
     expected = {
+        "OPENBLAS_CORETYPE": "HASWELL",
         "OPENBLAS_NUM_THREADS": "1",
         "OMP_NUM_THREADS": "1",
         "MKL_NUM_THREADS": "1",

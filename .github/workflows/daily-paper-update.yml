@@ -74,6 +74,7 @@ jobs:
           ./.venv/bin/python -m usfddk v25-refresh-status
       - name: Verify research code
         env:
+          OPENBLAS_CORETYPE: "HASWELL"
           OPENBLAS_NUM_THREADS: "1"
           OMP_NUM_THREADS: "1"
           MKL_NUM_THREADS: "1"
