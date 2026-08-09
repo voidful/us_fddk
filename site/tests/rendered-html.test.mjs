@@ -544,6 +544,12 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
+  const tradingData = JSON.parse(
+    await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
+  );
+  const readinessPattern = new RegExp(
+    `${tradingData.readiness.passed_gate_count}(?:<!-- -->)?/(?:<!-- -->)?${tradingData.readiness.required_gate_count}`,
+  );
   assert.match(html, /<html[^>]*lang="zh-Hant-HK"/);
   assert.match(html, ogImagePattern);
   assert.match(html, /data-signal-freshness="checking"/);
@@ -556,8 +562,23 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.match(html, /今日實金動作維持/);
   assert.match(html, /US\$0/);
   assert.match(html, /US\$1,000/);
-  assert.match(html, /VUG.*US\$800/);
-  assert.match(html, /GLD.*US\$200/);
+  assert.match(html, /今天不下單/);
+  assert.match(html, /實金 readiness/);
+  assert.match(html, readinessPattern);
+  assert.match(html, /配置與本金試算/);
+  assert.match(html, /未達 11\/11，暫不顯示/);
+  assert.match(html, /data-allocation-visible="false"/);
+  assert.doesNotMatch(html, /v25-paper-capital|paper-calculator|data-allocation-visible="true"/);
+  assert.match(html, /實金動作 US\$0/);
+  assert.match(html, /隔離 Paper 機器帳戶的不可回填稽核紀錄，不是讀者配置、落盤指示或交易建議/);
+  assert.doesNotMatch(html, /PAPER 模擬交易試算 · 不會落盤/);
+  assert.doesNotMatch(html, /示例 Paper 本金|快速選擇 Paper 本金|value="1000"/);
+  assert.doesNotMatch(
+    html,
+    /Paper 目標.*US\$800|VUG US\$800.*GLD US\$200|US\$800 VUG.*US\$200 GLD/,
+  );
+  assert.match(html, /只是把歷史資金路徑換算成一致的比較尺度/);
+  assert.match(html, /歷史凍結回測規則曾.*這不是現時交易指示，今天不下單/);
   assert.match(html, /目前市場與策略狀況/);
   assert.match(html, /近期五年仍領先 SPY/);
   assert.match(html, /20 年歷史入口/);
@@ -577,7 +598,7 @@ test("server-renders the latest-strategy investment report", async () => {
   assert.match(html, /最差歷史壓力並不溫和/);
   assert.match(html, /歷史通過，前瞻證據由零開始/);
   assert.match(html, /LIVE PAPER · 同起點公平競賽/);
-  assert.match(html, /PAPER 模擬交易試算 · 不會落盤/);
+  assert.match(html, /REAL-MONEY LOCK · 只供 PAPER 驗證/);
   assert.match(html, /專業判讀與限制/);
   assert.match(html, /Yahoo Finance／yfinance/);
   assert.doesNotMatch(html, /v3 在 20 年贏 QQQ/);
@@ -591,7 +612,6 @@ test("server-renders the latest-strategy investment report", async () => {
     "回撤",
     "買進",
     "賣出",
-    "下單",
     "資料",
     "新手",
     "部位",
@@ -605,6 +625,7 @@ test("server-renders the latest-strategy investment report", async () => {
   ]) {
     assert.doesNotMatch(html, new RegExp(discouragedTerm));
   }
+  assert.doesNotMatch(html.replaceAll("今天不下單", ""), /下單/);
 });
 
 test("data contract fails closed when the exposure-control benchmark is not robust", async () => {

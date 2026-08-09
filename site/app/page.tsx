@@ -120,7 +120,11 @@ const identityGateNames = [
   "zero_integrity_violations",
 ] as const;
 const paperIntegrity = identityGateNames.every((key) => forward.gates[key] === true);
-const realMoneyLocked = !latest.real_money_signal_display_allowed;
+const realMoneyReady =
+  data.readiness.trade_ready === true &&
+  data.readiness.allocation_visible === true &&
+  data.readiness.passed_gate_count === 11 &&
+  data.readiness.required_gate_count === 11;
 const shortCandidate = shortResearch.frozen_candidate;
 const shortBaselines = shortResearch.baselines;
 const shortComparison = shortResearch.comparison_vs_qqq;
@@ -568,20 +572,22 @@ export default function Home() {
           </div>
           <aside className="decision-card" aria-label="最新策略決策摘要">
             <div className="decision-head">
-              <span>長線策略摘要</span>
-              <b>{realMoneyLocked ? "實金配置鎖定" : "參考配置開放"}</b>
+              <span>今日決定</span>
+              <b>{realMoneyReady ? "參考配置開放" : "今天不下單"}</b>
             </div>
-            <div className="capital-number"><small>讀者示例本金</small><strong>{money(readerCapital)}</strong></div>
-            <div className="allocation-split" aria-label="Paper 目標配置">
-              <div className="growth" style={{ width: "80%" }}><b>VUG</b><span>80% · {money(800)}</span></div>
-              <div className="gold" style={{ width: "20%" }}><b>GLD</b><span>20%</span></div>
-            </div>
+            <div className="capital-number"><small>實金 readiness</small><strong>{data.readiness.passed_gate_count}/{data.readiness.required_gate_count}</strong></div>
             <dl className="decision-list">
-              <div><dt>Paper 目標</dt><dd>VUG {money(800)}／GLD {money(200)}</dd></div>
+              <div><dt>今日動作</dt><dd className="locked">今天不下單</dd></div>
+              <div>
+                <dt>配置與本金試算</dt>
+                <dd className={realMoneyReady ? undefined : "locked"}>
+                  {realMoneyReady ? "通過 11/11；只供參考" : "未達 11/11，暫不顯示"}
+                </dd>
+              </div>
               <div><dt>下一步</dt><dd>{paper.pending_order ? "等待下一交易日開市模擬成交" : "等待下次月末檢查"}</dd></div>
               <div><dt>實金動作</dt><dd className="locked">US$0 · 不落盤</dd></div>
             </dl>
-            <p>US$1,000 只作比例示例；正式 Paper 三個模擬組合仍以 US$100,000 公平起跑。</p>
+            <p>Paper 狀態及歷史最後權重只供驗證；未通過全部前瞻門檻前，不呈列為交易配置。</p>
           </aside>
         </section>
 
@@ -617,7 +623,7 @@ export default function Home() {
               <article><span>數據狀態</span><strong>{paperIntegrity ? "完整性通過" : "暫停參考"}</strong><p>最新交易日 {data.freshness.last_session}；下一預期交易日 {data.freshness.next_expected_session}。</p></article>
               <article><span>當前風險</span><strong>{pct(diagnostics.portfolio_underwater.current_drawdown, 1)}</strong><p>這是回測組合相對自身歷史高位的距離，不是未來跌幅預測。</p></article>
               <article><span>最長復原期</span><strong>{diagnostics.portfolio_underwater.max_underwater_months} 個月</strong><p>最深一段由 {diagnostics.portfolio_underwater.deepest_episode.peak} 高位開始，至 {diagnostics.portfolio_underwater.deepest_episode.recovery} 才復原。</p></article>
-              <article><span>今日可執行狀態</span><strong className="danger-text">Paper-only</strong><p>待成交指令不等於成交；實金配置仍鎖定。</p></article>
+              <article><span>今日可執行狀態</span><strong className="danger-text">今天不下單</strong><p>待成交指令不等於成交；實金配置仍鎖定。</p></article>
             </div>
           </div>
         </section>
@@ -832,7 +838,7 @@ export default function Home() {
             <p>候選、SPY 與公平持倉比率基準同日起跑；不把 20 年回測接到 LIVE 圖，也不回填成交。</p>
           </div>
           <V25ForwardBoard paper={paper} integrity={paperIntegrity} />
-          <PaperAllocationLab paperOnly={!latest.trade_ready} />
+          <PaperAllocationLab paperOnly={!realMoneyReady} />
         </section>
 
         <section className="section wrap report-notes" id="notes">
@@ -861,8 +867,8 @@ export default function Home() {
           <div className="faq-list">
             <details open><summary>長線穩定策略現在可以用實金嗎？</summary><p>不可以。歷史回測通過只准建立 Paper。前瞻仍是 {forward.forward_sessions}/{forward.minimum_sessions} 個新增交易日、{forward.filled_rebalances}/{forward.minimum_filled_rebalances} 次完成重新平衡，實金動作為 US$0。</p></details>
             <details><summary>為甚麼同時比較 SPY、純成長和公平持倉比率基準？</summary><p>SPY 回答是否勝過廣泛市場；純成長回答黃金是否犧牲上行；80% 成長／20% SHY 回答黃金是否只靠降低股票持倉比率製造較淺跌幅。三者缺一不可。</p></details>
-            <details><summary>目前市場判讀是買入還是避險？</summary><p>此策略沒有短線看好或看淡訊號，只在每個完整月末把比例拉回 80/20。最新五年窗仍領先 SPY，但組合距歷史高位約 {pct(Math.abs(diagnostics.portfolio_underwater.current_drawdown), 1)}，不能解讀為保證反彈。</p></details>
-            <details><summary>US$1,000 應該如何理解？</summary><p>US$800 VUG／US$200 GLD 是瀏覽器內的 Paper 比例示例，不是落盤指令。正式前瞻比較仍以 US$100,000 同起點、相同成本及相同交易日序列運作。</p></details>
+            <details><summary>目前市場判讀是買入還是避險？</summary><p>歷史凍結回測規則曾在每個完整月末把比例拉回 80/20；這不是現時交易指示，今天不下單。最新五年窗仍領先 SPY，但組合距歷史高位約 {pct(Math.abs(diagnostics.portfolio_underwater.current_drawdown), 1)}，不能解讀為保證反彈。</p></details>
+            <details><summary>為甚麼報告仍會出現 US$1,000？</summary><p>這只是把歷史資金路徑換算成一致的比較尺度，不是建議本金。未達 11/11 前，頁面不顯示任何當前配置百分比或金額試算。</p></details>
           </div>
         </section>
         </div>

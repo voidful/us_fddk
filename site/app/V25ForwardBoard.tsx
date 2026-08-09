@@ -273,6 +273,9 @@ export default function V25ForwardBoard({
           )}
         </article>
       </div>
+      <p className="forward-log-disclaimer">
+        以上只屬隔離 Paper 機器帳戶的不可回填稽核紀錄，不是讀者配置、落盤指示或交易建議。
+      </p>
       <p className="forward-final-decision"><b>目前決定：</b>{forward.live_confirmed ? "前瞻門檻已全數通過，才進入參考配置模式。" : sampleReady ? "一年樣本已滿，但仍有穩健門檻未過；繼續 Paper-only。" : "繼續 Paper-only；樣本未滿前，即使暫時領先也不開放實金參考。"}</p>
     </section>
   );

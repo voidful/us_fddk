@@ -21,24 +21,38 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
     [capital],
   );
 
+  if (paperOnly) {
+    return (
+      <div className="paper-allocation-lab allocation-locked" data-allocation-visible="false">
+        <div className="paper-lab-heading">
+          <div>
+            <span>REAL-MONEY LOCK · 只供 PAPER 驗證</span>
+            <h3>今天不下單</h3>
+          </div>
+          <p>
+            實金 readiness 未達 11/11；配置百分比、金額換算及快速本金按鈕暫不顯示。
+          </p>
+        </div>
+        <div className="allocation-lock-notice" role="status">
+          <strong>實金動作 US$0</strong>
+          <p>Paper 持倉及歷史最後權重不是交易建議；待全部前瞻門檻通過後才重新評估顯示。</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="paper-allocation-lab">
       <div className="paper-lab-heading">
         <div>
-          <span>{paperOnly ? "PAPER 模擬交易試算 · 不會落盤" : "前瞻門檻通過 · 參考試算"}</span>
+          <span>前瞻門檻通過 · 參考試算</span>
           <h3>以 US$1,000 看懂固定 80/20</h3>
         </div>
-        <p>
-          {paperOnly
-            ? "只用來理解固定權重怎麼運作；不連證券商、不計股數，也不代表現在應投入這筆錢。"
-            : "只換算目標權重；實際股數、稅務、匯率與成交價格仍需自行核對。"}
-        </p>
+        <p>只換算目標權重；實際股數、稅務、匯率與成交價格仍需自行核對。</p>
       </div>
       <div className="calculator-shell paper-calculator">
         <div className="capital-control">
-          <label htmlFor="v25-paper-capital">
-            {paperOnly ? "示例 Paper 本金（美元）" : "參考本金（美元）"}
-          </label>
+          <label htmlFor="v25-paper-capital">參考本金（美元）</label>
           <div className="money-input">
             <span>$</span>
             <input
@@ -84,9 +98,7 @@ export default function PaperAllocationLab({ paperOnly }: { paperOnly: boolean }
             </article>
           ))}
           <p className="paper-calculator-warning">
-            {paperOnly
-              ? "目前實金動作仍是 0；這兩個金額只存在於瀏覽器試算，不會寫入 Paper 模擬組合。未計碎股限制、佣金、買賣差價、匯率及稅項。"
-              : "此處只是配置參考，不會自動落盤或保證成交；未計碎股限制、佣金、買賣差價、匯率及稅項。"}
+            此處只是配置參考，不會自動落盤或保證成交；未計碎股限制、佣金、買賣差價、匯率及稅項。
           </p>
         </div>
       </div>
