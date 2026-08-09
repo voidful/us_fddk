@@ -55,6 +55,13 @@ def test_research_workflow_keeps_the_frozen_output_diff_guard(workflow: Path) ->
     assert "artifacts/short_term_formal_backtest_readiness_validation.json" in text
 
 
+@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+def test_full_research_jobs_keep_the_verified_sixty_minute_budget(workflow: Path) -> None:
+    text = workflow.read_text(encoding="utf-8")
+    assert len(re.findall(r"^\s{4}timeout-minutes: 60$", text, re.MULTILINE)) == 1
+    assert "timeout-minutes: 45" not in text
+
+
 def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
     text = (ROOT / "scripts/refresh_live_reference.sh").read_text(encoding="utf-8")
     assert 'update_status_path="$project_dir/artifacts/v25_live_update_status.json"' in text
@@ -67,11 +74,16 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
 def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
     for workflow in WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
+        round39 = text.index("scripts/build_short_term_leader_pullback_rebound_report.py")
         round38 = text.index("scripts/build_short_term_multi_window_resonance_report.py")
         round30 = text.index("scripts/build_short_term_qqq_replacement_overlay_report.py")
         round29 = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
         round28 = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
-        assert round38 < round30 < round29 < round28, workflow.name
+        assert round39 < round38 < round30 < round29 < round28, workflow.name
+        round39_test = text.index("pytest tests/test_leader_pullback_rebound.py")
+        round39_report_test = text.index(
+            "pytest tests/test_leader_pullback_rebound_report.py"
+        )
         round38_test = text.index("pytest tests/test_multi_window_resonance.py")
         round38_report_test = text.index(
             "pytest tests/test_multi_window_resonance_report.py"
@@ -80,12 +92,17 @@ def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
         round29_test = text.index("pytest tests/test_calendar_capital_accounting.py")
         round28_test = text.index("pytest tests/test_reversal_volatility_attribution.py")
         assert (
-            round38_test
+            round39_test
+            < round39_report_test
+            < round38_test
             < round38_report_test
             < round30_test
             < round29_test
             < round28_test
         ), workflow.name
+        assert "artifacts/short_term_leader_pullback_rebound_validation.json" in text
+        assert "site/data/short-term-leader-pullback-rebound.json" in text
+        assert "docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md" in text
         assert "artifacts/short_term_multi_window_resonance_validation.json" in text
         assert "site/data/short-term-multi-window-resonance.json" in text
         assert "docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md" in text

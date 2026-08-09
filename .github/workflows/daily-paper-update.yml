@@ -16,7 +16,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7
         with:
@@ -107,6 +107,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
           ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
+          ./.venv/bin/python scripts/build_short_term_leader_pullback_rebound_report.py
           ./.venv/bin/python scripts/build_short_term_multi_window_resonance_report.py
           ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
@@ -186,6 +187,9 @@ jobs:
             artifacts/short_term_rank_monotonicity_placebo_validation.json \
             site/data/short-term-rank-monotonicity-placebo.json \
             docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_RESEARCH_REPORT.md \
+            artifacts/short_term_leader_pullback_rebound_validation.json \
+            site/data/short-term-leader-pullback-rebound.json \
+            docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md \
             artifacts/short_term_multi_window_resonance_validation.json \
             site/data/short-term-multi-window-resonance.json \
             docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md \
@@ -229,6 +233,8 @@ jobs:
           ./.venv/bin/pytest tests/test_correlation_crowding.py
           ./.venv/bin/pytest tests/test_common_risk_residual.py
           ./.venv/bin/pytest tests/test_rank_monotonicity_placebo.py
+          ./.venv/bin/pytest tests/test_leader_pullback_rebound.py
+          ./.venv/bin/pytest tests/test_leader_pullback_rebound_report.py
           ./.venv/bin/pytest tests/test_multi_window_resonance.py
           ./.venv/bin/pytest tests/test_multi_window_resonance_report.py
           ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py

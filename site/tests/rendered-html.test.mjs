@@ -40,6 +40,24 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /長線穩定/);
   assert.match(html, /短線高回報/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /LEADER PULLBACK–REBOUND · ROUND 39/);
+  assert.match(html, /龍頭回調—回升只過 8\/22；151 宗非空事件仍未勝 QQQ 或相同比例 Top-N/);
+  assert.match(html, /候選終值 (?:<!-- -->)?US\$21,479(?:<!-- -->)?；QQQ 為 (?:<!-- -->)?US\$21,756/);
+  assert.match(html, /NW t (?:<!-- -->)?-0\.41/);
+  assert.match(html, /對 Top-N t (?:<!-- -->)?-0\.31/);
+  assert.match(html, /754 宗事件沒有候選；稀疏結果沒有事後回補或集中/);
+  assert.match(html, /九條同日曆、同起點完整資金路徑；候選低於 QQQ 與 matched Top-N/);
+  assert.match(html, /八個比較共同校正；相對 QQQ 與相同比例 Top-N 的差額均為負/);
+  assert.match(html, /比例成本、子委託固定費、最佳三年及 46-event 尾部完整呈列/);
+  assert.match(html, /九路預期與實際子委託完全一致；不公開逐股 ledger/);
+  assert.match(html, /5,027 個比較交易日加一列成交前現金；協議的 5,028 日敘述自相矛盾/);
+  assert.match(html, /二十二項門檻逐項呈列；8\/22 不升格/);
+  assert.match(html, /七十五／七十六道控制；七十二項突變攻擊全部拒收/);
+  assert.match(html, /今天不下單；8\/22 不是 Paper（模擬交易）啟動條件/);
+  assert.ok(
+    html.indexOf("LEADER PULLBACK–REBOUND · ROUND 39")
+      < html.indexOf("MULTI-WINDOW RESONANCE · ROUND 38"),
+  );
   assert.match(html, /MULTI-WINDOW RESONANCE · ROUND 38/);
   assert.match(html, /四窗共振只過 11\/20；沒有勝過原 Top-7 或同持倉比率 20 日排名/);
   assert.match(html, /共振候選終值 (?:<!-- -->)?US\$22,654(?:<!-- -->)?；原 Top-7 為 (?:<!-- -->)?US\$27,067/);
