@@ -34,6 +34,20 @@ def test_setup_uv_action_uses_a_resolvable_release(workflow: Path) -> None:
     assert "astral-sh/setup-uv@v9\n" not in text
 
 
+def test_pages_deploys_only_from_main_while_branch_builds_remain_available() -> None:
+    text = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+    build_start = text.index("  build:\n")
+    deploy_start = text.index("  deploy:\n")
+
+    assert "workflow_dispatch:" in text
+    assert "github.ref == 'refs/heads/main'" not in text[build_start:deploy_start]
+    assert (
+        "  deploy:\n"
+        "    if: github.ref == 'refs/heads/main'\n"
+        "    environment:\n"
+    ) in text
+
+
 @pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
 def test_research_workflow_keeps_the_frozen_output_diff_guard(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
