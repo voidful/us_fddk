@@ -49,3 +49,14 @@ def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
         parent = text.index("scripts/build_short_term_calendar_capital_accounting_report.py")
         child = text.index("scripts/build_short_term_reversal_volatility_attribution_report.py")
         assert parent < child, workflow.name
+
+
+def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
+    for workflow in WORKFLOWS:
+        text = workflow.read_text(encoding="utf-8")
+        assert "scripts/build_short_term_restatement_firewall.py" in text
+        assert "scripts/build_short_term_formal_release_integration.py" in text
+        assert "tests/test_restatement_firewall.py" in text
+        assert "tests/test_formal_release_integration.py" in text
+        assert "site/data/short-term-restatement-firewall.json" in text
+        assert "site/data/short-term-formal-release-integration.json" in text
