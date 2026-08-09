@@ -1,0 +1,173 @@
+{
+  "comparison": {
+    "correlation": -0.35236972954319173,
+    "formal_equivalence": false,
+    "max_abs_diff": 0.00010283455570128091,
+    "mean_abs_diff": 3.370424079528972e-05,
+    "mean_diff": -3.370424079528972e-05,
+    "overlap_end": "2026-06-30",
+    "overlap_sessions": 123,
+    "overlap_start": "2026-01-02",
+    "proxy_formula": "(1 + annual_percent / 100) ** (1 / 365) - 1",
+    "status": "definition_mismatch_diagnostic"
+  },
+  "complete_risk_free_package": false,
+  "coverage": {
+    "all_source_sessions": 151,
+    "all_target_sessions_observed": true,
+    "missing_target_sessions": [],
+    "observed_target_sessions": 22,
+    "source_first_session": "2026-01-02",
+    "source_last_session": "2026-08-07",
+    "target_end": "2026-07-31",
+    "target_sessions": 22,
+    "target_start": "2026-07-01"
+  },
+  "formal_backtest_authorized": false,
+  "formal_rf_substitute": false,
+  "next_action": "取得與正式 French／ICE BofA 定義一致且獲授權的完整 RF manifest；Treasury bridge 只作差異診斷，不能回填正式 RF。",
+  "observed_at_utc": "2026-08-09T02:10:43.773511Z",
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "protocol_integrity": {
+    "hash_checks": {
+      "artifacts/french_ff_factors_daily_39f9ae1d.zip": true,
+      "artifacts/short_term_rf_treasury_bridge_protocol_receipt.json": true,
+      "artifacts/short_term_risk_free_rebind_receipt.json": true,
+      "artifacts/short_term_risk_free_staging_protocol_receipt.json": true,
+      "docs/SHORT_TERM_RF_TREASURY_BRIDGE_PROTOCOL.md": true,
+      "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md": true,
+      "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md": true
+    },
+    "passed": true
+  },
+  "protocol_sha256": "08d3163799cb1999666c55ef980f480fa5e50a1f11a46c5147aa7e5c3fd8ca1d",
+  "real_money_action_usd": 0,
+  "research_round": 37,
+  "schema_version": 1,
+  "source": {
+    "body_sha256": "b35dd554d36e7735ea5aee84fffcb2042ae1bc49231594a2ba68fa37244dcaf6",
+    "body_size_bytes": 586232,
+    "content_type": "text/xml; charset=utf-8",
+    "field": "ROUND_B1_YIELD_4WK_2",
+    "final_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_bill_rates&field_tdr_date_value=2026",
+    "host": "home.treasury.gov",
+    "http_status": 200,
+    "raw_source_persisted": false,
+    "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_bill_rates&field_tdr_date_value=2026"
+  },
+  "status": "official_treasury_bridge_observed_formal_rf_still_blocked",
+  "strategy_run_count": 0,
+  "target_rows": [
+    {
+      "annual_yield_percent": 3.63,
+      "date": "2026-07-01",
+      "proxy_daily_simple": 9.769429837458432e-05
+    },
+    {
+      "annual_yield_percent": 3.67,
+      "date": "2026-07-02",
+      "proxy_daily_simple": 9.875170123629928e-05
+    },
+    {
+      "annual_yield_percent": 3.67,
+      "date": "2026-07-06",
+      "proxy_daily_simple": 9.875170123629928e-05
+    },
+    {
+      "annual_yield_percent": 3.65,
+      "date": "2026-07-07",
+      "proxy_daily_simple": 9.822305067408443e-05
+    },
+    {
+      "annual_yield_percent": 3.63,
+      "date": "2026-07-08",
+      "proxy_daily_simple": 9.769429837458432e-05
+    },
+    {
+      "annual_yield_percent": 3.69,
+      "date": "2026-07-09",
+      "proxy_daily_simple": 9.928025010053076e-05
+    },
+    {
+      "annual_yield_percent": 3.69,
+      "date": "2026-07-10",
+      "proxy_daily_simple": 9.928025010053076e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-13",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-14",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-15",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.73,
+      "date": "2026-07-16",
+      "proxy_daily_simple": 0.00010033704289202916
+    },
+    {
+      "annual_yield_percent": 3.71,
+      "date": "2026-07-17",
+      "proxy_daily_simple": 9.980869730608077e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-20",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-21",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.71,
+      "date": "2026-07-22",
+      "proxy_daily_simple": 9.980869730608077e-05
+    },
+    {
+      "annual_yield_percent": 3.79,
+      "date": "2026-07-23",
+      "proxy_daily_simple": 0.000101921470322619
+    },
+    {
+      "annual_yield_percent": 3.77,
+      "date": "2026-07-24",
+      "proxy_daily_simple": 0.00010139342936099638
+    },
+    {
+      "annual_yield_percent": 3.75,
+      "date": "2026-07-27",
+      "proxy_daily_simple": 0.00010086528689723373
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-28",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.67,
+      "date": "2026-07-29",
+      "proxy_daily_simple": 9.875170123629928e-05
+    },
+    {
+      "annual_yield_percent": 3.7,
+      "date": "2026-07-30",
+      "proxy_daily_simple": 9.954448640825397e-05
+    },
+    {
+      "annual_yield_percent": 3.69,
+      "date": "2026-07-31",
+      "proxy_daily_simple": 9.928025010053076e-05
+    }
+  ]
+}

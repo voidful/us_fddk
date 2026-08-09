@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "research_round": 37,
+  "status": "frozen_before_treasury_bridge_observation",
+  "protocol": {
+    "path": "docs/SHORT_TERM_RF_TREASURY_BRIDGE_PROTOCOL.md",
+    "sha256": "08d3163799cb1999666c55ef980f480fa5e50a1f11a46c5147aa7e5c3fd8ca1d"
+  },
+  "parent_risk_free_staging_protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_STAGING_PROTOCOL.md",
+    "sha256": "d0ccaa65694ba7b41aa1726a7a475c05ea988f03091246ce2173cc9681176439"
+  },
+  "parent_risk_free_staging_receipt": {
+    "path": "artifacts/short_term_risk_free_staging_protocol_receipt.json",
+    "sha256": "bbcde7cea30c21169ba5e09f851b5a71e873856aef7f366fa810cd5628714e82"
+  },
+  "parent_risk_free_rebind_protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md",
+    "sha256": "807919e88a60c364cbcf48f0bd3eb06bf006d9956b1a121ef2cf2b8b58b05b9b"
+  },
+  "parent_risk_free_rebind_receipt": {
+    "path": "artifacts/short_term_risk_free_rebind_receipt.json",
+    "sha256": "f208061b579951ad514366af277e5349428e0dc45d84b58da4f5a5b7d3b18adb"
+  },
+  "treasury_source": {
+    "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_bill_rates&field_tdr_date_value=2026",
+    "host": "home.treasury.gov",
+    "field": "ROUND_B1_YIELD_4WK_2",
+    "target_start": "2026-07-01",
+    "target_end": "2026-07-31"
+  },
+  "frozen_french_rf": {
+    "path": "artifacts/french_ff_factors_daily_39f9ae1d.zip",
+    "sha256": "39f9ae1d0e9f575024bc23145980ac270cea508fb67e592578b3f4d65f36d006"
+  },
+  "expected_missing_session_count": 22,
+  "source_observed_before_freeze": false,
+  "raw_source_persisted_at_freeze": false,
+  "formal_rf_substitute_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "real_money_action_usd": 0,
+  "frozen_control_count": 10,
+  "frozen_attack_count": 10
+}

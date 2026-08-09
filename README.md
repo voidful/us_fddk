@@ -281,6 +281,11 @@ python scripts/probe_short_term_provider_guides.py
 python scripts/probe_short_term_provider_evidence_refresh.py
 python scripts/build_short_term_provider_evidence_refresh_report.py
 
+# 第三十七輪只以官方 U.S. Treasury 4-week coupon-equivalent 觀察 frozen RF 的 22 個缺日
+# 這是定義差異診斷；raw XML 不落盤，不回填正式 RF、不改 readiness、不建立 Paper
+python scripts/probe_short_term_rf_treasury_bridge.py
+python scripts/build_short_term_rf_treasury_bridge_report.py
+
 # 把凍結的官方 202606 snapshot 寫入一個全新、repository 外、owner-only 暫存目錄
 # 目錄只含 partial CSV、缺日清單、來源 snapshot 及收據，不能被正式入口誤收
 python scripts/stage_short_term_risk_free.py /private/output/ken-french-rf-202606

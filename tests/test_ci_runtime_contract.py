@@ -28,6 +28,13 @@ def test_project_commands_use_the_locked_python_runtime(workflow: Path) -> None:
 
 
 @pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+def test_setup_uv_action_uses_a_resolvable_release(workflow: Path) -> None:
+    text = workflow.read_text(encoding="utf-8")
+    assert "astral-sh/setup-uv@v9.0.0" in text
+    assert "astral-sh/setup-uv@v9\n" not in text
+
+
+@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
 def test_research_workflow_keeps_the_frozen_output_diff_guard(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
     assert "git diff --exit-code" in text
@@ -71,3 +78,14 @@ def test_provider_evidence_refresh_receipt_is_rebuilt_and_tested() -> None:
         assert "artifacts/short_term_provider_evidence_refresh.json" in text
         assert "site/data/short-term-provider-evidence-refresh.json" in text
         assert "docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_REPORT.md" in text
+
+
+def test_treasury_bridge_report_is_deterministic_and_locked() -> None:
+    for workflow in WORKFLOWS:
+        text = workflow.read_text(encoding="utf-8")
+        assert "scripts/build_short_term_rf_treasury_bridge_report.py" in text
+        assert "tests/test_risk_free_treasury_bridge.py" in text
+        assert "tests/test_risk_free_treasury_bridge_report.py" in text
+        assert "artifacts/short_term_rf_treasury_bridge.json" in text
+        assert "site/data/short-term-rf-treasury-bridge.json" in text
+        assert "docs/SHORT_TERM_RF_TREASURY_BRIDGE_REPORT.md" in text
