@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
+const publicSiteRoot = (
+  process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
+).replace(/\/$/, "");
+const escapedPublicSiteRoot = publicSiteRoot.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const ogImagePattern = new RegExp(
+  `property="og:image" content="${escapedPublicSiteRoot}/og\\.png"`,
+);
+
 test("GitHub Pages output is self-contained under the repository base path", async () => {
   const html = await readFile(new URL("../pages-dist/index.html", import.meta.url), "utf8");
   const tradingData = JSON.parse(
@@ -51,6 +59,23 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Aerage Value Weighted Returns -- Monthly/);
   assert.match(html, /Value Weight Returns -- Monthly/);
   assert.match(html, /真實與合成分開/);
+  assert.match(html, /LEADER PULLBACK–REBOUND · ROUND 39/);
+  assert.match(html, /龍頭回調—回升只過 8\/22；151 宗非空事件仍未勝 QQQ 或相同比例 Top-N/);
+  assert.match(html, /候選終值 (?:<!-- -->)?US\$21,479(?:<!-- -->)?；QQQ 為 (?:<!-- -->)?US\$21,756/);
+  assert.match(html, /NW t (?:<!-- -->)?-0\.41/);
+  assert.match(html, /對 Top-N t (?:<!-- -->)?-0\.31/);
+  assert.match(html, /754 宗事件沒有候選；稀疏結果沒有事後回補或集中/);
+  assert.match(html, /九條同日曆、同起點完整資金路徑；候選低於 QQQ 與 matched Top-N/);
+  assert.match(html, /八個比較共同校正；相對 QQQ 與相同比例 Top-N 的差額均為負/);
+  assert.match(html, /比例成本、子委託固定費、最佳三年及 46-event 尾部完整呈列/);
+  assert.match(html, /九路預期與實際子委託完全一致；不公開逐股 ledger/);
+  assert.match(html, /5,027 個比較交易日加一列成交前現金；協議的 5,028 日敘述自相矛盾/);
+  assert.match(html, /二十二項門檻逐項呈列；8\/22 不升格/);
+  assert.match(html, /七十五／七十六道控制；七十二項突變攻擊全部拒收/);
+  assert.ok(
+    html.indexOf("LEADER PULLBACK–REBOUND · ROUND 39")
+      < html.indexOf("MULTI-WINDOW RESONANCE · ROUND 38"),
+  );
   assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1/);
   assert.match(html, /來源就緒 2\/20；公開披露不是即時名人跟單訊號/);
   assert.match(html, /六種披露來源只固定語意，不產生選股名單/);
@@ -329,8 +354,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.doesNotMatch(html, /<small>讀者示例本金<\/small>/);
   assert.doesNotMatch(html, />-0(?:\.0+)?%/);
   assert.match(html, /\/us_fddk\/assets\//);
-  assert.match(html, /name="twitter:card" content="summary"/);
-  assert.doesNotMatch(html, /(?:og:image|twitter:image)/);
+  assert.match(html, ogImagePattern);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.doesNotMatch(html, /(?:href|src)="\/assets\//);
 
   const script = html.match(/(?:src|href)="\/us_fddk\/(assets\/[^"]+\.js)"/);

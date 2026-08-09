@@ -18,6 +18,7 @@ import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placeb
 import reversalVolatilityAttribution from "../data/short-term-reversal-volatility-attribution.json";
 import calendarCapitalAccounting from "../data/short-term-calendar-capital-accounting.json";
 import qqqReplacementOverlay from "../data/short-term-qqq-replacement-overlay.json";
+import leaderPullbackRebound from "../data/short-term-leader-pullback-rebound.json";
 import multiWindowResonance from "../data/short-term-multi-window-resonance.json";
 import disclosureReadiness from "../data/short-term-disclosure-readiness.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
@@ -40,7 +41,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；美國議員與企業內部人公開披露 Phase 1 只過 2/20 數據就緒門檻，動態選擇停用，Paper 維持全現金。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，公開披露 Phase 1 就緒只過 2/20，動態選擇停用，Paper 維持全現金。",
 };
 
 const latest = data.research_pipeline.growth_gold_diversification;
@@ -267,6 +268,23 @@ const overlayCrisisRows = Object.entries(qqqReplacementOverlay.stresses.crisis_y
 const overlayCostRows = Object.entries(qqqReplacementOverlay.stresses.costs);
 const overlayControlRows = qqqReplacementOverlay.controls;
 const overlayAttackRows = qqqReplacementOverlay.attacks;
+const lprCandidate = leaderPullbackRebound.paths.lpr10_qqq_overlay;
+const lprMatchedTopN = leaderPullbackRebound.paths.matched_topn_10d_overlay;
+const lprQqq = leaderPullbackRebound.paths.qqq_buy_hold;
+const lprPathRows = Object.values(leaderPullbackRebound.paths);
+const lprFamilyRows = leaderPullbackRebound.family.comparisons;
+const lprQqqComparison = lprFamilyRows.find((row) => row.baseline_id === "qqq_buy_hold")!;
+const lprMatchedTopNComparison = lprFamilyRows.find((row) => row.baseline_id === "matched_topn_10d_overlay")!;
+const lprSelectionRows = leaderPullbackRebound.selection_distribution.candidate_count_histogram;
+const lprCostRows = Object.entries(leaderPullbackRebound.stresses.costs);
+const lprFixedFeeRows = Object.entries(leaderPullbackRebound.stresses.fixed_child_order_fees);
+const lprCrisisRows = Object.entries(leaderPullbackRebound.stresses.crisis_years);
+const lprRegimeRows = Object.entries(leaderPullbackRebound.stresses.known_at_qqq_regimes);
+const lprRemovedYears = leaderPullbackRebound.stresses.best_three_years_removed;
+const lprEventTail = leaderPullbackRebound.stresses.favorable_46_events_removed;
+const lprOrderRows = Object.entries(leaderPullbackRebound.calendar_integrity.order_diagnostics.primary);
+const lprControlRows = leaderPullbackRebound.controls;
+const lprAttackRows = leaderPullbackRebound.attacks;
 const resonanceCandidate = multiWindowResonance.paths.resonance3_qqq_overlay;
 const resonanceMatched20 = multiWindowResonance.paths.matched_20d_qqq_overlay;
 const resonanceOriginal = multiWindowResonance.paths.original_top7_qqq_overlay;
@@ -921,15 +939,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · DISCLOSURE KNOWN-AT · PHASE 1</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · LEADER PULLBACK–REBOUND · ROUND 39</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />公開披露先過合法與 known-at；現在不跟單</h1>
+              <h1>短線高回報<br />龍頭回調—回升仍低於 QQQ 與相同比例 Top-N</h1>
               <p className="hero-lead">
-                Phase 1 只在擷取數據或設計策略前固定六類官方披露的經濟語意、公開可得時間與合規邊界。實際就緒只過 <strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong>；觀察來源 <strong>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required}</strong>、文件 {disclosureCoverage.documents_observed}、事件 {disclosureCoverage.events_observed}，不聲稱 20 年完整覆蓋。
-                Congress 披露的精確用途尚未獲書面法律／授權判定；公開可看不等於可作任何投資或網站用途。申報日、SEC accepted 時間或法定期限也不能單獨冒充 `known_at`。因此不擷取、不選股、不回測；動態選擇停用，策略運行 0。<strong>今天不下單</strong>；短線 Paper 全現金、持倉 0、實金 US$0。
+                第三十九輪只在同一 <strong>{leaderPullbackRebound.input.events}</strong> 宗已見 survivor 事件的原 Top-7 內，固定檢查 3%–16% 回調、收市回升、ATR14 及 reward/risk 不低於 1.60；D+1 調整開市買入，第 10 個 session 調整收市沽出，未入選部分繼續持有 QQQ。只有 <strong>{leaderPullbackRebound.selection_distribution.nonempty_events}</strong> 宗事件非空，平均候選 <strong>{leaderPullbackRebound.selection_distribution.mean_candidates.toFixed(2)}</strong> 隻。
+                10 bp 單向成本後，US$1,000 歷史尺度增至 <strong>{money(lprCandidate.terminal_usd)}</strong>、CAGR <strong>{pct(lprCandidate.cagr)}</strong>，低於 QQQ 的 <strong>{money(lprQqq.terminal_usd)}</strong>／<strong>{pct(lprQqq.cagr)}</strong>，也低於相同比例原 Top-N 的 <strong>{money(lprMatchedTopN.terminal_usd)}</strong>／<strong>{pct(lprMatchedTopN.cagr)}</strong>。相對 QQQ／Top-N 的 NW t 分別為 <strong>{lprQqqComparison.newey_west.t_stat.toFixed(2)}／{lprMatchedTopNComparison.newey_west.t_stat.toFixed(2)}</strong>。
+                二十二項事前門檻只過 <strong>{leaderPullbackRebound.gate_summary.passed}/{leaderPullbackRebound.gate_summary.total}</strong>；協議把比較交易期寫成 5,028 日，實際只有 <strong>{leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")}</strong> 日，加一列成交前現金才達 5,028，日曆矛盾沒有被改寫。<strong>今天不下單</strong>；短線 Paper 全現金、持倉 0、實金 US$0，也不呈列任何最新逐股名單、逐筆委託或可照抄比例。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#leader-pullback-rebound">查看第 39 輪 8/22 回調反證</a>
                 <a className="primary-button aggressive-button" href="#disclosure-readiness">查看公開披露就緒 2/20</a>
                 <a className="primary-button aggressive-button" href="#multi-window-resonance">查看第 38 輪 11/20 共振反證</a>
                 <a className="primary-button aggressive-button" href="#qqq-replacement-overlay">查看第 30 輪 13/20 QQQ 疊加</a>
@@ -965,6 +985,14 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 39 輪龍頭回調—回升</dt><dd>{leaderPullbackRebound.gate_summary.passed}/{leaderPullbackRebound.gate_summary.total} · 未通過</dd></div>
+                <div><dt>候選終值／CAGR</dt><dd>{money(lprCandidate.terminal_usd)} · {pct(lprCandidate.cagr)}</dd></div>
+                <div><dt>QQQ／相同比例 Top-N</dt><dd>{money(lprQqq.terminal_usd)} · {money(lprMatchedTopN.terminal_usd)}</dd></div>
+                <div><dt>相對 QQQ／Top-N NW t</dt><dd>{lprQqqComparison.newey_west.t_stat.toFixed(2)} · {lprMatchedTopNComparison.newey_west.t_stat.toFixed(2)}</dd></div>
+                <div><dt>非空事件／平均候選</dt><dd>{leaderPullbackRebound.selection_distribution.nonempty_events}/{leaderPullbackRebound.input.events} · {leaderPullbackRebound.selection_distribution.mean_candidates.toFixed(2)}</dd></div>
+                <div><dt>比較日／成交前現金列</dt><dd>{leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")} · {leaderPullbackRebound.input.pre_trade_cash_sessions}</dd></div>
+                <div><dt>候選預期／實際委託</dt><dd>{lprCandidate.order_receipt.expected_total_orders} · {lprCandidate.order_receipt.actual_total_orders}</dd></div>
+                <div><dt>回調控制與攻擊</dt><dd>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</dd></div>
                 <div><dt>公開披露 Phase 1</dt><dd>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · 未通過</dd></div>
                 <div><dt>觀察來源／文件／事件</dt><dd>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required} · {disclosureCoverage.documents_observed} · {disclosureCoverage.events_observed}</dd></div>
                 <div><dt>Congress 精確用途法律准許</dt><dd>{disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</dd></div>
@@ -1036,6 +1064,15 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
+              <article><span>第 39 輪回調門檻</span><strong>{leaderPullbackRebound.gate_summary.passed}/{leaderPullbackRebound.gate_summary.total}</strong><small>十四項未通過 · 不升格</small></article>
+              <article><span>回調候選終值</span><strong>{money(lprCandidate.terminal_usd)}</strong><small>10 bp／單向 · CAGR {pct(lprCandidate.cagr)}</small></article>
+              <article><span>QQQ 買入並持有</span><strong>{money(lprQqq.terminal_usd)}</strong><small>CAGR {pct(lprQqq.cagr)} · 候選較低</small></article>
+              <article><span>相同比例 Top-N</span><strong>{money(lprMatchedTopN.terminal_usd)}</strong><small>CAGR {pct(lprMatchedTopN.cagr)} · 候選較低</small></article>
+              <article><span>151 宗非空事件</span><strong>{leaderPullbackRebound.selection_distribution.mean_candidates.toFixed(2)} 隻</strong><small>905 宗平均候選 · 股票目標 {pct(leaderPullbackRebound.selection_distribution.mean_stock_target_fraction)}</small></article>
+              <article><span>相對 QQQ／Top-N t</span><strong>{lprQqqComparison.newey_west.t_stat.toFixed(2)}／{lprMatchedTopNComparison.newey_west.t_stat.toFixed(2)}</strong><small>兩者均沒有正面統計確認</small></article>
+              <article><span>日曆自洽</span><strong>未通過</strong><small>{leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")} 比較日 + 1 成交前現金列</small></article>
+              <article><span>候選子委託</span><strong>{lprCandidate.order_receipt.actual_total_orders}/{lprCandidate.order_receipt.expected_total_orders}</strong><small>實際／預期 · 期末全現金</small></article>
+              <article><span>回調控制／攻擊</span><strong>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</strong><small>日曆矛盾如實保留</small></article>
               <article><span>披露數據就緒</span><strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong><small>只固定協議與來源語意</small></article>
               <article><span>實際觀察來源</span><strong>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required}</strong><small>原始包未配置 · 不擷取</small></article>
               <article><span>動態選擇</span><strong>停用</strong><small>策略未定義 · 運行 0</small></article>
@@ -1106,6 +1143,193 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="leader-pullback-rebound">
+            <div className="section-heading">
+              <div><span>LEADER PULLBACK–REBOUND · ROUND 39</span><h2>龍頭回調—回升只過 8/22；151 宗非空事件仍未勝 QQQ 或相同比例 Top-N</h2></div>
+              <p>只在原 Top-7 內套用 3%–16% 回調、收市回升、ATR14 與 reward/risk 結構；D+1 調整開市進場，第 10 個 session 調整收市離場。這是同一已見 survivor 樣本的反證，不是最新選股名單。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>US$1,000 歷史尺度 · 10 bp 單向成本</span>
+                <h3>候選終值 {money(lprCandidate.terminal_usd)}；QQQ 為 {money(lprQqq.terminal_usd)}</h3>
+                <p>候選 CAGR {pct(lprCandidate.cagr)}，QQQ 為 {pct(lprQqq.cagr)}、相同比例原 Top-N 為 {pct(lprMatchedTopN.cagr)}；候選減兩者分別是 {pp(lprCandidate.cagr - lprQqq.cagr)}／{pp(lprCandidate.cagr - lprMatchedTopN.cagr)}。回調結構沒有帶來可驗證增值。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>相對 QQQ 證據</span><strong>NW t {lprQqqComparison.newey_west.t_stat.toFixed(2)}</strong><p>Holm／共同 max-t p {lprQqqComparison.holm_adjusted_p.toFixed(4)}／{lprQqqComparison.bootstrap_max_t_p.toFixed(4)}；6,237 次 Bonferroni p {lprQqqComparison.global_bonferroni_p.toFixed(2)}。</p></article>
+                <article><span>最直接的相同比例反證</span><strong>對 Top-N t {lprMatchedTopNComparison.newey_west.t_stat.toFixed(2)}</strong><p>Holm／共同 max-t p {lprMatchedTopNComparison.holm_adjusted_p.toFixed(4)}／{lprMatchedTopNComparison.bootstrap_max_t_p.toFixed(4)}；候選 CAGR 亦較低。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>今天不下單；8/22 不是 Paper（模擬交易）啟動條件</b>
+              <p>比較交易期實際只有 {leaderPullbackRebound.input.comparison_trade_sessions.toLocaleString("zh-HK")} 日，另有 {leaderPullbackRebound.input.pre_trade_cash_sessions} 列成交前現金；協議卻把比較起訖期寫成 5,028 日。系統如實令日曆自洽 gate 失敗，沒有回改協議、放寬門檻或重選參數。短線 Paper 全現金、持倉 0、實金 {money(leaderPullbackRebound.decision.real_money_action_usd)}；不呈列最新逐股、逐筆委託或金額試算。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>非空事件</span><strong>{leaderPullbackRebound.selection_distribution.nonempty_events}/{leaderPullbackRebound.input.events}</strong><p>前半 {leaderPullbackRebound.selection_distribution.nonempty_first_half_events}、後半 {leaderPullbackRebound.selection_distribution.nonempty_second_half_events}；平均候選 {leaderPullbackRebound.selection_distribution.mean_candidates.toFixed(2)} 隻。</p></article>
+              <article><span>平均股票目標</span><strong>{pct(leaderPullbackRebound.selection_distribution.mean_stock_target_fraction)}</strong><p>實際平均股票 driver {pct(lprCandidate.average_stock_driver_fraction)}；其餘主要持有 QQQ。</p></article>
+              <article><span>原 Top-7 回調分布</span><strong>{pct(leaderPullbackRebound.selection_distribution.feature_distribution.pullback.median, 2)}</strong><p>{leaderPullbackRebound.selection_distribution.feature_distribution.parent_top7_feature_rows.toLocaleString("zh-HK")} 列中位數；平均 {pct(leaderPullbackRebound.selection_distribution.feature_distribution.pullback.mean, 2)}，只有 3%–16% 才可能入選。</p></article>
+              <article><span>原 Top-7 reward/risk</span><strong>{leaderPullbackRebound.selection_distribution.feature_distribution.reward_risk.median.toFixed(2)}</strong><p>{leaderPullbackRebound.selection_distribution.feature_distribution.parent_top7_feature_rows.toLocaleString("zh-HK")} 列中位數；只有不低於 {leaderPullbackRebound.method.reward_risk_minimum.toFixed(2)} 才可能入選，持有期不執行止賺或止蝕。</p></article>
+              <article><span>完整日曆／比較日</span><strong>{leaderPullbackRebound.calendar_integrity.sessions.toLocaleString("zh-HK")}／{leaderPullbackRebound.calendar_integrity.comparison_trade_sessions.toLocaleString("zh-HK")}</strong><p>2006/08/04 是成交前現金列；首個交易日 {shortDate(leaderPullbackRebound.calendar_integrity.first_trade_date)}。</p></article>
+              <article><span>十日最大 concurrency</span><strong>{leaderPullbackRebound.calendar_integrity.maximum_concurrent_ten_day_intervals}/{leaderPullbackRebound.method.slot_count}</strong><p>五槽上限內；不能抵銷 protocol 日曆內部矛盾。</p></article>
+              <article><span>候選實際／預期委託</span><strong>{lprCandidate.order_receipt.actual_total_orders}/{lprCandidate.order_receipt.expected_total_orders}</strong><p>零候選事件標記委託 {lprCandidate.order_receipt.zero_candidate_event_actual_orders}；最大逐事件差 {lprCandidate.order_receipt.maximum_event_order_count_residual}。</p></article>
+              <article><span>九路期末狀態</span><strong>{leaderPullbackRebound.calendar_integrity.terminal_state_all_cash ? "全現金" : "不一致"}</strong><p>期末持倉比率與持倉數全部為 0；實金動作 {money(leaderPullbackRebound.decision.real_money_action_usd)}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SELECTION DISTRIBUTION</span><h3>754 宗事件沒有候選；稀疏結果沒有事後回補或集中</h3></div>
+              <p>每宗只保留原 Top-7 中符合全部結構條件的股票，N=0 時不建立事件委託；以下只顯示數量，不公開最新代號。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>每宗確認股票數 N</th><th>事件數</th><th>佔 905 宗</th><th>股票目標</th><th>QQQ 餘額</th></tr></thead>
+                <tbody>{lprSelectionRows.map((row) => (
+                  <tr className={row.candidate_count === 0 ? "featured-row" : ""} key={row.candidate_count}>
+                    <th><b>{row.candidate_count} 隻</b></th><td>{row.events}</td><td>{pct(row.events / leaderPullbackRebound.input.events)}</td><td>{pct(row.candidate_count / leaderPullbackRebound.method.stock_subslots)}</td><td>{pct(1 - row.candidate_count / leaderPullbackRebound.method.stock_subslots)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>NINE FIXED PATHS</span><h3>九條同日曆、同起點完整資金路徑；候選低於 QQQ 與 matched Top-N</h3></div>
+              <p>matched 路徑逐事件使用相同 N／7 股票比例與十日時鐘；另列原 Top-7、QQQ 換手 placebo、QQQ、SPY 及 SHY。所有路徑於同一最後交易日沽清，不以未實現持倉冒充終值。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>路徑</th><th>CAGR</th><th>終值</th><th>SHY 超額 Sharpe</th><th>最大跌幅</th><th>比例成本拖累</th><th>子委託</th></tr></thead>
+                <tbody>{lprPathRows.map((row) => (
+                  <tr className={row.path_id === "lpr10_qqq_overlay" ? "featured-row" : ""} key={row.path_id}>
+                    <th><b>{row.label}</b><span>{row.one_way_leg_cost_bps} bp／單向</span></th><td>{pct(row.cagr)}</td><td>{money(row.terminal_usd)}</td><td>{row.shy_excess_sharpe.toFixed(2)}</td><td>{pct(row.max_drawdown)}</td><td>{pct(row.proportional_cost_drag_cagr)}</td><td>{row.total_child_orders.toLocaleString("zh-HK")}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHT-HYPOTHESIS FAMILY</span><h3>八個比較共同校正；相對 QQQ 與相同比例 Top-N 的差額均為負</h3></div>
+              <p>Newey–West lag 10；63-session circular blocks、20,000 條共同 bootstrap、seed 39,202,608。全專案搜尋次數增至 6,237，不因新結果重設。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>候選相對基準</th><th>年率化算術差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半日均</th><th>後半日均</th></tr></thead>
+                <tbody>{lprFamilyRows.map((row) => (
+                  <tr className={row.baseline_id === "qqq_buy_hold" || row.baseline_id === "matched_topn_10d_overlay" ? "featured-row" : ""} key={row.baseline_id}>
+                    <th><b>{row.baseline_label}</b><span>{row.sessions.toLocaleString("zh-HK")} 日</span></th><td>{pct(row.newey_west.annualized_arithmetic_difference, 2)}</td><td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td><td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td><td>{(row.fixed_halves.first.mean_daily_difference * 10000).toFixed(2)} bp</td><td>{(row.fixed_halves.second.mean_daily_difference * 10000).toFixed(2)} bp</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, FIXED FEE, TIME &amp; EVENT TAIL</span><h3>比例成本、子委託固定費、最佳三年及 46-event 尾部完整呈列</h3></div>
+              <p>比例成本與固定費分開重建；US$0.01／0.05 只是 US$1,000 操作診斷，不是券商報價。沒有用較低成本、刪除弱期或事後改參數救援。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>成本情境</th><th>候選 CAGR</th><th>QQQ CAGR</th><th>Top-N CAGR</th><th>候選減 QQQ</th><th>候選減 Top-N</th></tr></thead>
+                <tbody>
+                  <tr className="featured-row"><th><b>10 bp／單向</b><span>主要成本</span></th><td>{pct(lprCandidate.cagr)}</td><td>{pct(lprQqq.cagr)}</td><td>{pct(lprMatchedTopN.cagr)}</td><td>{pp(lprCandidate.cagr - lprQqq.cagr)}</td><td>{pp(lprCandidate.cagr - lprMatchedTopN.cagr)}</td></tr>
+                  {lprCostRows.map(([cost, row]) => (
+                    <tr key={cost}><th><b>{cost} bp／單向</b></th><td>{pct(row.paths.lpr10_qqq_overlay.cagr)}</td><td>{pct(row.paths.qqq_buy_hold.cagr)}</td><td>{pct(row.paths.matched_topn_10d_overlay.cagr)}</td><td className="negative-number">{pp(row.candidate_cagr_differences.qqq_buy_hold)}</td><td className="negative-number">{pp(row.candidate_cagr_differences.matched_topn_10d_overlay)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="evidence-stat-grid">
+              {lprFixedFeeRows.map(([fee, row]) => (
+                <article key={fee}><span>每子委託 {"US$" + fee}</span><strong>CAGR {pct(row.paths.lpr10_qqq_overlay.cagr)}</strong><p>{row.paths.lpr10_qqq_overlay.total_child_orders} 份候選子委託；固定費合計 {"US$" + row.paths.lpr10_qqq_overlay.total_fixed_cost_usd.toFixed(2)}。</p></article>
+              ))}
+              <article><span>移除最佳三年</span><strong>NW t {lprRemovedYears.newey_west.t_stat.toFixed(2)}</strong><p>{lprRemovedYears.removed_years.join("／")}；平均日差 {(lprRemovedYears.mean_daily_difference * 10000).toFixed(2)} bp。</p></article>
+              <article><span>移除 46 有利事件</span><strong>{pp(lprEventTail.candidate_cagr_differences.qqq_buy_hold)}</strong><p>候選減 QQQ CAGR；減 Top-N 為 {pp(lprEventTail.candidate_cagr_differences.matched_topn_10d_overlay)}。</p></article>
+              {lprRegimeRows.map(([regime, row]) => (
+                <article key={regime}><span>訊號日 QQQ 20 日{regime === "negative" ? "下跌" : "非負"}</span><strong>{pp(row.average_event_increment, 3)}</strong><p>{row.events} 宗；平均候選 {row.average_candidates.toFixed(2)} 隻，只作已知市況診斷。</p></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CRISIS PERIODS</span><h3>2008、2020、2022 回報及最大跌幅均未同時不遜於 QQQ</h3></div>
+              <p>危機年份事前固定；三段候選回報都略低於 QQQ，沒有只挑較漂亮的跌幅或年份。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>年份</th><th>候選回報</th><th>候選最大跌幅</th><th>QQQ 回報</th><th>QQQ 最大跌幅</th><th>回報差</th></tr></thead>
+                <tbody>{lprCrisisRows.map(([year, paths]) => (
+                  <tr key={year}><th><b>{year}</b></th><td>{pct(paths.lpr10_qqq_overlay.return)}</td><td>{pct(paths.lpr10_qqq_overlay.max_drawdown)}</td><td>{pct(paths.qqq_buy_hold.return)}</td><td>{pct(paths.qqq_buy_hold.max_drawdown)}</td><td>{pp(paths.lpr10_qqq_overlay.return - paths.qqq_buy_hold.return)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>ORDER RECEIPTS</span><h3>九路預期與實際子委託完全一致；不公開逐股 ledger</h3></div>
+              <p>每路獨立核對初始 QQQ、事件換手、股票買賣及期末清倉；下表只列聚合數量。完整逐筆 ledger 留在機器收據，避免把歷史代號或名義金額變成交易提示。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>路徑</th><th>預期子委託</th><th>實際子委託</th><th>差額</th><th>期末清倉委託</th></tr></thead>
+                <tbody>{lprOrderRows.map(([pathId, row]) => (
+                  <tr className={pathId === "lpr10_qqq_overlay" ? "featured-row" : ""} key={pathId}>
+                    <th><b>{leaderPullbackRebound.paths[pathId as keyof typeof leaderPullbackRebound.paths].label}</b></th><td>{row.expected_total_orders.toLocaleString("zh-HK")}</td><td>{row.actual_total_orders.toLocaleString("zh-HK")}</td><td>{row.actual_total_orders - row.expected_total_orders}</td><td>{row.actual_terminal_liquidation_orders}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CALENDAR INTEGRITY</span><h3>5,027 個比較交易日加一列成交前現金；協議的 5,028 日敘述自相矛盾</h3></div>
+              <p>完整路徑由 {shortDate(leaderPullbackRebound.calendar_integrity.first_date)} 至 {shortDate(leaderPullbackRebound.calendar_integrity.last_date)} 共 {leaderPullbackRebound.calendar_integrity.sessions.toLocaleString("zh-HK")} 列；真正有回報比較的交易期由 {shortDate(leaderPullbackRebound.calendar_integrity.first_trade_date)} 開始，只有 {leaderPullbackRebound.calendar_integrity.comparison_trade_sessions.toLocaleString("zh-HK")} 日。exact-inputs 如實失敗。</p>
+            </div>
+            <div className="evidence-stat-grid">
+              <article><span>Protocol 日曆自洽</span><strong>{leaderPullbackRebound.calendar_integrity.protocol_calendar_internal_consistency ? "通過" : "未通過"}</strong><p>凍結文本不回改；這亦是 76 道控制唯一未通過項。</p></article>
+              <article><span>日線資金 identity</span><strong>{leaderPullbackRebound.calendar_integrity.maximum_daily_identity_residual.toExponential(1)}</strong><p>driver 最大殘差 {leaderPullbackRebound.calendar_integrity.maximum_driver_identity_residual.toExponential(1)}；成本最大殘差 {leaderPullbackRebound.calendar_integrity.maximum_cost_identity_residual.toExponential(1)}。</p></article>
+              <article><span>期末清倉日</span><strong>{shortDate(leaderPullbackRebound.calendar_integrity.terminal_liquidation_date)}</strong><p>九路持倉比率、持倉數及名義持倉比率全部歸零。</p></article>
+              <article><span>Paper 狀態</span><strong>全現金、未啟動</strong><p>正式策略運行 {leaderPullbackRebound.decision.formal_strategy_runs}；point-in-time 就緒 {leaderPullbackRebound.decision.point_in_time_readiness}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>TWENTY-TWO FALSIFICATION GATES</span><h3>二十二項門檻逐項呈列；8/22 不升格</h3></div>
+              <p>工程 identity、較原 Top-7 的 CAGR 及部分公平基準比較通過，不能抵銷日曆、稀疏度、QQQ／Top-N、統計、半期、危機、市況、成本與尾部失敗。</p>
+            </div>
+            <div className="gate-grid compact-gates">
+              {leaderPullbackRebound.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "failed"} key={gate.id}><span>{gate.passed ? "通過" : "未通過"}</span><b>{gate.label.replaceAll("曝險", "持倉比率")}</b><strong>{gate.passed ? "✓" : "×"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FAIL-CLOSED RECEIPTS</span><h3>七十五／七十六道控制；七十二項突變攻擊全部拒收</h3></div>
+              <p>唯一未通過控制是凍結協議本身的日曆矛盾；其餘只證明父收據、OHLC 時鐘、分配、委託、成本、family、壓力及決策邊界可重播，不代表未來盈利。</p>
+            </div>
+            <details className="receipt-details">
+              <summary>展開 {lprControlRows.length} 道控制</summary>
+              <div className="gate-grid compact-gates">
+                {lprControlRows.map((control) => (
+                  <article className={control.passed ? "passed" : "failed"} key={control.id}><span>{control.id}</span><b>{control.label.replaceAll("_", " ")}</b><strong>{control.passed ? "✓" : "×"}</strong></article>
+                ))}
+              </div>
+            </details>
+            <details className="receipt-details">
+              <summary>展開 {lprAttackRows.length} 項突變攻擊</summary>
+              <div className="attack-grid">
+                {lprAttackRows.map((attack) => (
+                  <article className={attack.rejected ? "rejected" : "escaped"} key={attack.id}><span>{attack.id}</span><b>{attack.field.replaceAll("_", " ")}</b><code>{attack.observed_error_code}</code></article>
+                ))}
+              </div>
+            </details>
+
+            <div className="decision-banner negative-banner">
+              <div><span>ROUND 39 DECISION</span><b>候選低於 QQQ 與相同比例 Top-N，日曆矛盾未通過；不建立新策略</b></div>
+              <strong>{leaderPullbackRebound.gate_summary.passed}/{leaderPullbackRebound.gate_summary.total}</strong>
+            </div>
+            <div className="source-line">
+              <span>數據最後交易日</span><code>{leaderPullbackRebound.input.calendar_last_date}</code>
+              <span>Protocol</span><code>{leaderPullbackRebound.protocol.commit.slice(0, 12)}</code>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a>
+              <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_leader_pullback_rebound_validation.json" target="_blank" rel="noreferrer">機器收據</a>
             </div>
           </section>
 

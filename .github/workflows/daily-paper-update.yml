@@ -107,6 +107,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
           ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
+          ./.venv/bin/python scripts/build_short_term_leader_pullback_rebound_report.py
           ./.venv/bin/python scripts/build_short_term_disclosure_readiness_report.py
           ./.venv/bin/python scripts/build_short_term_multi_window_resonance_report.py
           ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
@@ -187,6 +188,9 @@ jobs:
             artifacts/short_term_rank_monotonicity_placebo_validation.json \
             site/data/short-term-rank-monotonicity-placebo.json \
             docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_RESEARCH_REPORT.md \
+            artifacts/short_term_leader_pullback_rebound_validation.json \
+            site/data/short-term-leader-pullback-rebound.json \
+            docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md \
             artifacts/short_term_disclosure_readiness.json \
             site/data/short-term-disclosure-readiness.json \
             docs/SHORT_TERM_DISCLOSURE_READINESS_REPORT.md \
@@ -233,6 +237,8 @@ jobs:
           ./.venv/bin/pytest tests/test_correlation_crowding.py
           ./.venv/bin/pytest tests/test_common_risk_residual.py
           ./.venv/bin/pytest tests/test_rank_monotonicity_placebo.py
+          ./.venv/bin/pytest tests/test_leader_pullback_rebound.py
+          ./.venv/bin/pytest tests/test_leader_pullback_rebound_report.py
           ./.venv/bin/pytest tests/test_disclosure_known_at_protocol.py
           ./.venv/bin/pytest tests/test_disclosure_known_at.py
           ./.venv/bin/pytest tests/test_disclosure_readiness_report.py
