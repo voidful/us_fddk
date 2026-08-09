@@ -18,6 +18,7 @@ import rankMonotonicityPlacebo from "../data/short-term-rank-monotonicity-placeb
 import reversalVolatilityAttribution from "../data/short-term-reversal-volatility-attribution.json";
 import calendarCapitalAccounting from "../data/short-term-calendar-capital-accounting.json";
 import qqqReplacementOverlay from "../data/short-term-qqq-replacement-overlay.json";
+import multiWindowResonance from "../data/short-term-multi-window-resonance.json";
 import providerGapClosure from "../data/short-term-provider-gap-closure.json";
 import providerGapSourceProbe from "../data/short-term-provider-gap-source-probe.json";
 import providerConvergence from "../data/short-term-provider-convergence.json";
@@ -38,7 +39,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十輪以 QQQ 全投資替換式疊加測試 20 年資金路徑，13/20 門檻未通過，Paper 維持全現金。",
+    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十八輪四窗動量共振只過 11/20 門檻，落後原 Top-7 與相同比例 20 日排名，Paper 維持全現金。",
 };
 
 const readerCapital = 1_000;
@@ -260,13 +261,51 @@ const overlayQqq = qqqReplacementOverlay.paths.qqq_buy_hold;
 const overlayPathRows = Object.values(qqqReplacementOverlay.paths);
 const overlayFamilyRows = qqqReplacementOverlay.family.comparisons;
 const overlayQqqComparison = overlayFamilyRows.find((row) => row.baseline_id === "qqq_buy_hold")!;
-const overlayCompleteComparison = overlayFamilyRows.find((row) => row.baseline_id === "complete_qqq_overlay")!;
 const overlayRemovedYears = qqqReplacementOverlay.stresses.best_three_years_removed;
 const overlayEventTail = qqqReplacementOverlay.stresses.favorable_46_events_removed;
 const overlayCrisisRows = Object.entries(qqqReplacementOverlay.stresses.crisis_years);
 const overlayCostRows = Object.entries(qqqReplacementOverlay.stresses.costs);
 const overlayControlRows = qqqReplacementOverlay.controls;
 const overlayAttackRows = qqqReplacementOverlay.attacks;
+const resonanceCandidate = multiWindowResonance.paths.resonance3_qqq_overlay;
+const resonanceMatched20 = multiWindowResonance.paths.matched_20d_qqq_overlay;
+const resonanceOriginal = multiWindowResonance.paths.original_top7_qqq_overlay;
+const resonanceQqq = multiWindowResonance.paths.qqq_buy_hold;
+const resonancePathRows = Object.values(multiWindowResonance.paths);
+const resonanceFamilyRows = multiWindowResonance.family.comparisons;
+const resonanceQqqComparison = resonanceFamilyRows.find((row) => row.baseline_id === "qqq_buy_hold")!;
+const resonanceMatched20Comparison = resonanceFamilyRows.find((row) => row.baseline_id === "matched_20d_qqq_overlay")!;
+const resonanceOriginalComparison = resonanceFamilyRows.find((row) => row.baseline_id === "original_top7_qqq_overlay")!;
+const resonanceRemovedYears = multiWindowResonance.stresses.best_three_years_removed;
+const resonanceEventTail = multiWindowResonance.stresses.favorable_46_events_removed;
+const resonanceCostRows = Object.entries(multiWindowResonance.stresses.costs);
+const resonanceCrisisRows = Object.entries(multiWindowResonance.stresses.crisis_years);
+const resonanceRegimeRows = Object.entries(multiWindowResonance.stresses.known_at_qqq_regimes);
+const resonanceSelectionRows = multiWindowResonance.selection_distribution.candidate_count_histogram;
+const resonanceControlRows = multiWindowResonance.controls;
+const resonanceAttackRows = multiWindowResonance.attacks;
+const resonanceGateLabels: Record<string, string> = {
+  exact_inputs: "固定輸入與父收據精確",
+  parent_event_reconstruction: "905 宗父事件逐列重播",
+  slot_clock: "五槽與成交時鐘精確",
+  resonance_ranking: "四窗共振與排名精確",
+  partial_allocations: "部分替換比例精確",
+  daily_identities: "每日資產與持倉 identity",
+  parent_and_placebo_identities: "父路徑與 QQQ placebo identity",
+  candidate_cagr_vs_qqq: "CAGR 高於 QQQ",
+  candidate_terminal_vs_qqq: "期末值高於 QQQ",
+  candidate_sharpe_vs_qqq: "SHY 超額 Sharpe 高於 QQQ",
+  candidate_drawdown_vs_qqq: "跌幅不比 QQQ 深超過 5pp",
+  candidate_cagr_vs_original: "CAGR 高於第 30 輪 Top-7",
+  candidate_cagr_vs_matched20: "CAGR 高於相同比例 20 日排名",
+  candidate_cagr_vs_equal_baselines: "CAGR 高於兩條等權 baseline",
+  statistical_vs_qqq: "相對 QQQ 統計門檻",
+  statistical_vs_matched: "相對 matched 路徑統計門檻",
+  fixed_halves: "固定前後半期同向",
+  best_three_years_removed: "移除最佳三年仍通過",
+  crisis_and_regimes: "危機年與已知市場狀態",
+  global_cost_and_tail: "6,229 trials、成本與 46-event 尾部",
+};
 const rankPlaceboRows = [
   ...rankEligiblePlacebo.rows.map((row) => ({ universe: "合資格池", ...row })),
   ...rankCompletePlacebo.rows.map((row) => ({ universe: "完整現時股池", ...row })),
@@ -877,16 +916,17 @@ export default function Home() {
           <section className="hero aggressive-hero wrap">
             <div className="hero-copy">
               <div className="eyebrow-row">
-                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · QQQ REPLACEMENT OVERLAY · ROUND 30</span>
+                <span className="eyebrow">SHORT-TERM RETURN RESEARCH · MULTI-WINDOW RESONANCE · ROUND 38</span>
                 <span className="status-chip research"><i /> 尚未啟動 PAPER</span>
               </div>
-              <h1>短線高回報<br />閒置資金改持 QQQ 後，headline 首次反超</h1>
+              <h1>短線高回報<br />四窗共振沒有勝過較簡單的 20 日排名</h1>
               <p className="hero-lead">
-                第三十輪保留第二十九輪 <strong>{qqqReplacementOverlay.input.events}</strong> 宗事件、五個 20% 資金槽、Top-7、D+1 及 20 日持有期；唯一改動是未有事件的槽位不再留現金，而是持有 QQQ。每個正常事件完整計入 QQQ 沽出、股票買入、股票沽出及 QQQ 買回四個交易腿。每資產 20 bp 來回成本後，US$1,000 候選增至 <strong>{money(overlayCandidate.terminal_usd)}</strong>、CAGR <strong>{pct(overlayCandidate.cagr)}</strong>，首次高於 QQQ 的 <strong>{money(overlayQqq.terminal_usd)}</strong>／<strong>{pct(overlayQqq.cagr)}</strong>。
-                但 headline 不足以升格：候選對 QQQ 的 NW t 只有 <strong>{overlayQqqComparison.newey_west.t_stat.toFixed(2)}</strong>，Holm／共同 max-t p 為 <strong>{overlayQqqComparison.holm_adjusted_p.toFixed(3)}／{overlayQqqComparison.bootstrap_max_t_p.toFixed(3)}</strong>；移除 {overlayRemovedYears.removed_years.join("、")} 後 NW t 變成 <strong>{overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong>。每資產 50／100 bp 時候選分別落後 QQQ <strong>{pct(Math.abs(qqqReplacementOverlay.stresses.costs["50"].candidate_cagr_differences.qqq_buy_hold))}／{pct(Math.abs(qqqReplacementOverlay.stresses.costs["100"].candidate_cagr_differences.qqq_buy_hold))}</strong>，移除最有利 46 宗事件亦重新落後 QQQ。
-                二十項事前門檻只過 <strong>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total}</strong>；數據截至 {shortDate(qqqReplacementOverlay.input.last_exit_date)}，仍是 2026 現時 survivor cohort，不是即市訊號。正式就緒 {qqqReplacementOverlay.decision.formal_readiness}、正式策略 run 0、短線 Paper 全現金、實金 US$0。
+                第三十八輪把同一 <strong>{multiWindowResonance.input.events}</strong> 宗已見 survivor 事件，固定改成 5／10／15／20 日四窗 Top-7；股票至少在三窗入選才佔一個七分之一子槽，其餘資金繼續持有 QQQ。每資產 20 bp 來回成本後，US$1,000 歷史尺度增至 <strong>{money(resonanceCandidate.terminal_usd)}</strong>、CAGR <strong>{pct(resonanceCandidate.cagr)}</strong>，表面略高於 QQQ 的 <strong>{money(resonanceQqq.terminal_usd)}</strong>／<strong>{pct(resonanceQqq.cagr)}</strong>。
+                關鍵反證是複雜度沒有增值：候選低於第 30 輪原 Top-7 的 <strong>{money(resonanceOriginal.terminal_usd)}</strong>，亦低於相同比例 20 日排名的 <strong>{money(resonanceMatched20.terminal_usd)}</strong>。相對 QQQ 的 NW t 只有 <strong>{resonanceQqqComparison.newey_west.t_stat.toFixed(2)}</strong>，Holm／共同 max-t p 為 <strong>{resonanceQqqComparison.holm_adjusted_p.toFixed(3)}／{resonanceQqqComparison.bootstrap_max_t_p.toFixed(3)}</strong>；移除 {resonanceRemovedYears.removed_years.join("、")} 後 NW t 為 <strong>{resonanceRemovedYears.newey_west.t_stat.toFixed(2)}</strong>，移除最有利 46 宗事件後落後 QQQ <strong>{pct(Math.abs(resonanceEventTail.candidate_cagr_differences.qqq_buy_hold))}</strong> CAGR。
+                二十項事前門檻只過 <strong>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total}</strong>；數據截至 {shortDate(multiWindowResonance.input.last_exit_date)}，point-in-time 就緒仍只有 <strong>{multiWindowResonance.decision.point_in_time_readiness}</strong>。<strong>今天不下單</strong>；短線 Paper 全現金、持倉 0、實金 US$0，也不呈列任何最新逐股名單或可照抄比例。
               </p>
               <div className="hero-actions">
+                <a className="primary-button aggressive-button" href="#multi-window-resonance">查看第 38 輪 11/20 共振反證</a>
                 <a className="primary-button aggressive-button" href="#qqq-replacement-overlay">查看第 30 輪 13/20 QQQ 疊加</a>
                 <a className="primary-button aggressive-button" href="#calendar-capital-accounting">查看第 29 輪 13/18 資金回測</a>
                 <a className="primary-button aggressive-button" href="#reversal-volatility-attribution">查看第 28 輪 6/14 歸因</a>
@@ -920,6 +960,13 @@ export default function Home() {
                 <span>目前短線配置</span><strong>US$0</strong><small>正式結果 0 · 就緒 1/18 · Paper 保持全現金</small>
               </div>
               <dl className="decision-list">
+                <div><dt>第 38 輪四窗共振</dt><dd>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total} · 未通過</dd></div>
+                <div><dt>共振候選終值／CAGR</dt><dd>{money(resonanceCandidate.terminal_usd)} · {pct(resonanceCandidate.cagr)}</dd></div>
+                <div><dt>原 Top-7／20 日配對</dt><dd>{money(resonanceOriginal.terminal_usd)} · {money(resonanceMatched20.terminal_usd)}</dd></div>
+                <div><dt>相對 QQQ NW t／max-t p</dt><dd>{resonanceQqqComparison.newey_west.t_stat.toFixed(2)} · {resonanceQqqComparison.bootstrap_max_t_p.toFixed(3)}</dd></div>
+                <div><dt>平均候選數／事件股票目標</dt><dd>{multiWindowResonance.selection_distribution.mean_candidates.toFixed(2)} · {pct(multiWindowResonance.selection_distribution.mean_stock_target_fraction)}</dd></div>
+                <div><dt>移除最佳三年／46 事件</dt><dd>t {resonanceRemovedYears.newey_west.t_stat.toFixed(2)} · {pp(resonanceEventTail.candidate_cagr_differences.qqq_buy_hold)}</dd></div>
+                <div><dt>共振控制與攻擊</dt><dd>{multiWindowResonance.control_summary.passed}/{multiWindowResonance.control_summary.total} · {multiWindowResonance.attack_summary.rejected}/{multiWindowResonance.attack_summary.total}</dd></div>
                 <div><dt>第 30 輪 QQQ 疊加</dt><dd>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total} · 未通過</dd></div>
                 <div><dt>候選終值／CAGR</dt><dd>{money(overlayCandidate.terminal_usd)} · {pct(overlayCandidate.cagr)}</dd></div>
                 <div><dt>QQQ 終值／CAGR</dt><dd>{money(overlayQqq.terminal_usd)} · {pct(overlayQqq.cagr)}</dd></div>
@@ -980,15 +1027,17 @@ export default function Home() {
 
           <section className="truth-strip aggressive-truth">
             <div className="wrap truth-grid">
-              <article><span>第 30 輪疊加門檻</span><strong>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total}</strong><small>七項未通過 · 不升格</small></article>
-              <article><span>QQQ 疊加候選終值</span><strong>{money(overlayCandidate.terminal_usd)}</strong><small>20 bp／資產 · CAGR {pct(overlayCandidate.cagr)}</small></article>
-              <article><span>QQQ 買入並持有</span><strong>{money(overlayQqq.terminal_usd)}</strong><small>CAGR {pct(overlayQqq.cagr)} · headline 較低</small></article>
-              <article><span>候選風險</span><strong>{overlayCandidate.shy_excess_sharpe.toFixed(2)} / {pct(overlayCandidate.max_drawdown)}</strong><small>SHY 超額 Sharpe／最大跌幅</small></article>
-              <article><span>QQQ 配對 NW t</span><strong>{overlayQqqComparison.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {overlayQqqComparison.holm_adjusted_p.toFixed(3)}／{overlayQqqComparison.bootstrap_max_t_p.toFixed(3)}</small></article>
-              <article><span>完整股池 overlay t</span><strong>{overlayCompleteComparison.newey_west.t_stat.toFixed(2)}</strong><small>低於事前 1.96</small></article>
-              <article><span>移除最佳三年 NW t</span><strong>{overlayRemovedYears.newey_west.t_stat.toFixed(2)}</strong><small>{overlayRemovedYears.removed_years.join("／")}</small></article>
-              <article><span>100 bp 候選減 QQQ</span><strong>{pp(qqqReplacementOverlay.stresses.costs["100"].candidate_cagr_differences.qqq_buy_hold)}</strong><small>高換手成本反轉結論</small></article>
-              <article><span>疊加控制／攻擊</span><strong>{qqqReplacementOverlay.control_summary.passed}/{qqqReplacementOverlay.control_summary.total} · {qqqReplacementOverlay.attack_summary.rejected}/{qqqReplacementOverlay.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
+              <article><span>第 38 輪共振門檻</span><strong>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total}</strong><small>九項未通過 · 不升格</small></article>
+              <article><span>四窗共振終值</span><strong>{money(resonanceCandidate.terminal_usd)}</strong><small>20 bp／資產 · CAGR {pct(resonanceCandidate.cagr)}</small></article>
+              <article><span>原 Top-7 終值</span><strong>{money(resonanceOriginal.terminal_usd)}</strong><small>CAGR {pct(resonanceOriginal.cagr)} · 較簡單規則勝出</small></article>
+              <article><span>相同比例 20 日排名</span><strong>{money(resonanceMatched20.terminal_usd)}</strong><small>CAGR {pct(resonanceMatched20.cagr)}</small></article>
+              <article><span>QQQ 買入並持有</span><strong>{money(resonanceQqq.terminal_usd)}</strong><small>CAGR {pct(resonanceQqq.cagr)}</small></article>
+              <article><span>相對 QQQ NW t</span><strong>{resonanceQqqComparison.newey_west.t_stat.toFixed(2)}</strong><small>Holm／max-t {resonanceQqqComparison.holm_adjusted_p.toFixed(3)}／{resonanceQqqComparison.bootstrap_max_t_p.toFixed(3)}</small></article>
+              <article><span>相對 20 日排名 t</span><strong>{resonanceMatched20Comparison.newey_west.t_stat.toFixed(2)}</strong><small>兩個固定半期皆落後</small></article>
+              <article><span>移除最佳三年 NW t</span><strong>{resonanceRemovedYears.newey_west.t_stat.toFixed(2)}</strong><small>{resonanceRemovedYears.removed_years.join("／")}</small></article>
+              <article><span>100 bp 候選減 QQQ</span><strong>{pp(multiWindowResonance.stresses.costs["100"].candidate_cagr_differences.qqq_buy_hold)}</strong><small>高換手成本大幅拖累</small></article>
+              <article><span>共振控制／攻擊</span><strong>{multiWindowResonance.control_summary.passed}/{multiWindowResonance.control_summary.total} · {multiWindowResonance.attack_summary.rejected}/{multiWindowResonance.attack_summary.total}</strong><small>只證明協議 fail closed</small></article>
+              <article><span>第 30 輪疊加門檻</span><strong>{qqqReplacementOverlay.gate_summary.passed}/{qqqReplacementOverlay.gate_summary.total}</strong><small>歷史輪次保留 · 13/20</small></article>
               <article><span>正式回測就緒</span><strong>{formalBacktestReadiness.actual_formal_readiness.passed}/{formalBacktestReadiness.actual_formal_readiness.total}</strong><small>只通過事前凍結</small></article>
               <article><span>第 28 輪反證門檻</span><strong>{reversalVolatilityAttribution.gate_summary.passed}/{reversalVolatilityAttribution.gate_summary.total}</strong><small>八項未通過</small></article>
               <article><span>原始→控制後 t</span><strong>{reversalEligibleRawTop.newey_west.t_stat.toFixed(2)}→{reversalEligibleResidualTop.newey_west.t_stat.toFixed(2)}</strong><small>完整股池 {reversalCompleteRawTop.newey_west.t_stat.toFixed(2)}→{reversalCompleteResidualTop.newey_west.t_stat.toFixed(2)}</small></article>
@@ -1044,6 +1093,162 @@ export default function Home() {
               <article><span>第十輪總門檻</span><strong>{dailyRepair.passed}/{dailyRepair.required}</strong><small>近期只過 {dailyRepair.recent_passed}/{dailyRepair.recent_required}</small></article>
               <article><span>正式逐股回測</span><strong>未運行</strong><small>不以現時成分倒推</small></article>
               <article><span>短線 Paper</span><strong>未啟動</strong><small>實金及 Paper 均為 0</small></article>
+            </div>
+          </section>
+
+          <section className="section wrap" id="multi-window-resonance">
+            <div className="section-heading">
+              <div><span>MULTI-WINDOW RESONANCE · ROUND 38</span><h2>四窗共振只過 11/20；沒有勝過原 Top-7 或同持倉比率 20 日排名</h2></div>
+              <p>5／10／15／20 日各取 Top-7，至少三窗入選才佔一個七分之一股票子槽；不足七隻的部分繼續持有 QQQ。這是固定複雜度增量測試，不是最新選股名單。</p>
+            </div>
+
+            <div className="aggressive-overview-grid">
+              <article className="aggressive-verdict point-in-time-verdict">
+                <span>US$1,000 歷史尺度 · 每資產 20 bp 來回成本</span>
+                <h3>共振候選終值 {money(resonanceCandidate.terminal_usd)}；原 Top-7 為 {money(resonanceOriginal.terminal_usd)}</h3>
+                <p>候選 CAGR {pct(resonanceCandidate.cagr)}，只比 QQQ 的 {pct(resonanceQqq.cagr)} 高 {pp(resonanceCandidate.cagr - resonanceQqq.cagr)}，卻比原 Top-7 低 {pp(resonanceCandidate.cagr - resonanceOriginal.cagr)}，也比相同比例 20 日排名低 {pp(resonanceCandidate.cagr - resonanceMatched20.cagr)}。複雜度沒有帶來增值。</p>
+              </article>
+              <div className="aggressive-risk-stack">
+                <article><span>相對 QQQ 證據</span><strong>NW t {resonanceQqqComparison.newey_west.t_stat.toFixed(2)}</strong><p>Holm／共同 max-t p {resonanceQqqComparison.holm_adjusted_p.toFixed(4)}／{resonanceQqqComparison.bootstrap_max_t_p.toFixed(4)}；6,229 次 Bonferroni p {resonanceQqqComparison.global_bonferroni_p.toFixed(2)}。</p></article>
+                <article><span>最直接的簡單規則反證</span><strong>對 20 日排名 t {resonanceMatched20Comparison.newey_west.t_stat.toFixed(2)}</strong><p>前後兩半平均日差均為負；對原 Top-7 的 NW t 亦只有 {resonanceOriginalComparison.newey_west.t_stat.toFixed(2)}。</p></article>
+              </div>
+            </div>
+
+            <div className="comparison-caveat">
+              <b>今天不下單；11/20 不是候選 Paper 的啟動條件</b>
+              <p>這批 {multiWindowResonance.input.events} 宗事件仍由 2026 現時代號倒推，缺逐期成分、永久 ID、完整公司行動及退市經濟；point-in-time 就緒只有 {multiWindowResonance.decision.point_in_time_readiness}。網站不呈列最新逐股名單、建議比例或金額試算；Paper 全現金、持倉 0、實金 US$0。</p>
+            </div>
+
+            <div className="evidence-stat-grid">
+              <article><span>共同事件／五槽</span><strong>{multiWindowResonance.input.events}／{multiWindowResonance.method.slot_count}</strong><p>每槽 {multiWindowResonance.method.events_per_slot} 宗；D+1 開市、持有 {multiWindowResonance.method.holding_sessions} 個交易日。</p></article>
+              <article><span>平均候選數</span><strong>{multiWindowResonance.selection_distribution.mean_candidates.toFixed(2)}／7</strong><p>事件開始的平均股票目標 {pct(multiWindowResonance.selection_distribution.mean_stock_target_fraction)}；餘額留在 QQQ。</p></article>
+              <article><span>實際平均股票 driver</span><strong>{pct(resonanceCandidate.average_stock_driver_fraction)}</strong><p>QQQ driver {pct(resonanceCandidate.average_qqq_driver_fraction)}；全程無槓桿。</p></article>
+              <article><span>候選成本扣賬操作</span><strong>{multiWindowResonance.calendar_integrity.candidate_cost_charge_operations.toLocaleString("zh-HK")}</strong><p>按每個被替換子槽的四個單向名義成本扣賬；不是券商成交單數。</p></article>
+              <article><span>日線 identity</span><strong>{multiWindowResonance.calendar_integrity.maximum_daily_identity_residual.toExponential(1)}</strong><p>父 Top-7 最大殘差 {multiWindowResonance.calendar_integrity.maximum_original_top7_parent_residual.toExponential(1)}。</p></article>
+              <article><span>正式策略運行</span><strong>{multiWindowResonance.decision.formal_strategy_runs}</strong><p>provider package {multiWindowResonance.decision.qualified_provider_packages} · 實金 US${multiWindowResonance.decision.real_money_action_usd}。</p></article>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>SELECTION DISTRIBUTION</span><h3>共振大多保留五至七隻；沒有形成稀疏、高確信股票集</h3></div>
+              <p>905 宗事件最少仍有 {multiWindowResonance.selection_distribution.minimum_candidates} 隻、最多 {multiWindowResonance.selection_distribution.maximum_candidates} 隻；這是歷史選擇數分布，不公開逐股結果作交易提示。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>每宗事件候選數</th><th>事件數</th><th>佔 905 宗</th><th>事件股票目標</th><th>QQQ 餘額</th></tr></thead>
+                <tbody>{resonanceSelectionRows.map((row) => (
+                  <tr className={row.candidate_count >= 5 ? "featured-row" : ""} key={row.candidate_count}>
+                    <th><b>{row.candidate_count} 隻</b></th><td>{row.events}</td><td>{pct(row.events / multiWindowResonance.input.events)}</td><td>{pct(row.candidate_count / 7)}</td><td>{pct(1 - row.candidate_count / 7)}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>NINE FIXED PATHS</span><h3>九條同日曆資金路徑；複雜候選與公平持倉比率 baseline 一次呈列</h3></div>
+              <p>matched 路徑逐事件使用相同股票總比例；原 Top-7 保留第 30 輪全替換；QQQ placebo 量度同時鐘換手成本。不能只選較弱的 SPY／SHY 作比較。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>路徑</th><th>CAGR</th><th>終值</th><th>SHY 超額 Sharpe</th><th>最大跌幅</th><th>成本拖累 CAGR</th><th>年率化換手</th></tr></thead>
+                <tbody>{resonancePathRows.map((row) => (
+                  <tr className={row.path_id === "resonance3_qqq_overlay" ? "featured-row" : ""} key={row.path_id}>
+                    <th><b>{row.label}</b><span>{row.asset_round_trip_cost_bps} bp／資產</span></th><td>{pct(row.cagr)}</td><td>{money(row.terminal_usd)}</td><td>{row.shy_excess_sharpe.toFixed(2)}</td><td>{pct(row.max_drawdown)}</td><td>{pct(row.cost_drag_cagr)}</td><td>{row.annual_turnover.toFixed(1)}x</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>EIGHT-HYPOTHESIS FAMILY</span><h3>八個比較共同校正；相對 QQQ 及簡單排名均沒有統計確認</h3></div>
+              <p>Newey–West lag 20；63-session circular blocks、20,000 條共同 bootstrap、seed 38,202,608。全專案搜尋次數由 6,221 增至 6,229，不可重設。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>候選相對基準</th><th>年率化算術差</th><th>NW t</th><th>Holm p</th><th>Max-t p</th><th>前半日均</th><th>後半日均</th></tr></thead>
+                <tbody>{resonanceFamilyRows.map((row) => (
+                  <tr className={row.baseline_id === "qqq_buy_hold" ? "featured-row" : ""} key={row.baseline_id}>
+                    <th><b>{row.baseline_label}</b><span>{row.sessions.toLocaleString("zh-HK")} 日</span></th><td>{pct(row.newey_west.annualized_arithmetic_difference, 2)}</td><td className={row.newey_west.t_stat < 1.96 ? "negative-number" : ""}>{row.newey_west.t_stat.toFixed(2)}</td><td>{row.holm_adjusted_p.toFixed(4)}</td><td>{row.bootstrap_max_t_p.toFixed(4)}</td><td>{(row.fixed_halves.first.mean_daily_difference * 10000).toFixed(2)} bp</td><td>{(row.fixed_halves.second.mean_daily_difference * 10000).toFixed(2)} bp</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>COST, TIME &amp; EVENT TAIL</span><h3>較高成本、最佳年份移除及 46-event 尾部均推翻正面 headline</h3></div>
+              <p>50／100 bp 同步重建所有路徑；46-event 壓力把同一批最有利事件在候選與 matched 路徑改回 QQQ，不刪日期或重排資金槽。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>每資產來回成本</th><th>子槽四腿名義成本</th><th>共振 CAGR</th><th>QQQ CAGR</th><th>原 Top-7</th><th>20 日配對</th><th>候選減 QQQ</th></tr></thead>
+                <tbody>
+                  <tr className="featured-row"><th><b>20 bp</b></th><td>40 bp</td><td>{pct(resonanceCandidate.cagr)}</td><td>{pct(resonanceQqq.cagr)}</td><td>{pct(resonanceOriginal.cagr)}</td><td>{pct(resonanceMatched20.cagr)}</td><td>{pp(resonanceCandidate.cagr - resonanceQqq.cagr)}</td></tr>
+                  {resonanceCostRows.map(([cost, row]) => (
+                    <tr key={cost}><th><b>{cost} bp</b></th><td>{Number(cost) * 2} bp</td><td>{pct(row.paths.resonance3_qqq_overlay.cagr)}</td><td>{pct(row.paths.qqq_buy_hold.cagr)}</td><td>{pct(row.paths.original_top7_qqq_overlay.cagr)}</td><td>{pct(row.paths.matched_20d_qqq_overlay.cagr)}</td><td className="negative-number">{pp(row.candidate_cagr_differences.qqq_buy_hold)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="evidence-stat-grid">
+              <article><span>移除最佳三年</span><strong>NW t {resonanceRemovedYears.newey_west.t_stat.toFixed(2)}</strong><p>{resonanceRemovedYears.removed_years.join("／")}；平均日差 {(resonanceRemovedYears.mean_daily_difference * 10000).toFixed(2)} bp。</p></article>
+              <article><span>移除 46 有利事件</span><strong>{pp(resonanceEventTail.candidate_cagr_differences.qqq_buy_hold)}</strong><p>候選減 QQQ CAGR；減 20 日配對為 {pp(resonanceEventTail.candidate_cagr_differences.matched_20d_qqq_overlay)}。</p></article>
+              {resonanceRegimeRows.map(([regime, row]) => (
+                <article key={regime}><span>訊號日 QQQ 20 日{regime === "negative" ? "下跌" : "非負"}</span><strong>{pp(row.average_event_difference, 3)}</strong><p>{row.events} 宗；平均候選 {row.average_candidates.toFixed(2)} 隻。</p></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>CRISIS PERIODS</span><h3>2008、2020、2022 沒有同時勝過 QQQ</h3></div>
+              <p>危機年份及已知 QQQ 狀態均在協議中固定；2008／2020 候選落後 QQQ，QQQ 過去 20 日下跌組的平均事件差亦為負。</p>
+            </div>
+            <div className="metric-table-wrap">
+              <table className="metric-table compact-table">
+                <thead><tr><th>年份</th><th>候選回報</th><th>候選最大跌幅</th><th>QQQ 回報</th><th>QQQ 最大跌幅</th><th>回報差</th></tr></thead>
+                <tbody>{resonanceCrisisRows.map(([year, paths]) => (
+                  <tr key={year}><th><b>{year}</b></th><td>{pct(paths.resonance3_qqq_overlay.return)}</td><td>{pct(paths.resonance3_qqq_overlay.max_drawdown)}</td><td>{pct(paths.qqq_buy_hold.return)}</td><td>{pct(paths.qqq_buy_hold.max_drawdown)}</td><td>{pp(paths.resonance3_qqq_overlay.return - paths.qqq_buy_hold.return)}</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>TWENTY FALSIFICATION GATES</span><h3>二十項門檻逐項呈列；11/20 不升格</h3></div>
+              <p>工程 identity 通過不代表經濟結果通過；失敗集中在 Sharpe、簡單規則、統計、半期、最佳年份、危機、成本及尾部。</p>
+            </div>
+            <div className="gate-grid compact-gates">
+              {multiWindowResonance.gates.map((gate) => (
+                <article className={gate.passed ? "passed" : "failed"} key={gate.id}><span>{gate.passed ? "通過" : "未通過"}</span><b>{resonanceGateLabels[gate.id] ?? gate.id}</b><strong>{gate.passed ? "✓" : "×"}</strong></article>
+              ))}
+            </div>
+
+            <div className="subsection-heading stock-heading">
+              <div><span>FAIL-CLOSED RECEIPTS</span><h3>四十五道控制通過；三十九項單欄偷換全部拒收</h3></div>
+              <p>這只證明 protocol、父收據、排名、比例、成本、family、壓力與決策邊界可重播，不代表共振選股有效。</p>
+            </div>
+            <details className="receipt-details">
+              <summary>展開 {resonanceControlRows.length} 道控制</summary>
+              <div className="gate-grid compact-gates">
+                {resonanceControlRows.map((control) => (
+                  <article className={control.passed ? "passed" : "failed"} key={control.id}><span>{control.id}</span><b>{control.label.replaceAll("_", " ")}</b><strong>{control.passed ? "✓" : "×"}</strong></article>
+                ))}
+              </div>
+            </details>
+            <details className="receipt-details">
+              <summary>展開 {resonanceAttackRows.length} 項突變攻擊</summary>
+              <div className="attack-grid">
+                {resonanceAttackRows.map((attack) => (
+                  <article className={attack.rejected ? "rejected" : "escaped"} key={attack.id}><span>{attack.id}</span><b>{attack.label.replaceAll("_", " ")}</b><code>{attack.observed_error_code}</code></article>
+                ))}
+              </div>
+            </details>
+
+            <div className="decision-banner negative-banner">
+              <div><span>ROUND 38 DECISION</span><b>共振候選只略高於 QQQ，卻落後兩條更簡單的動量路徑；不建立新策略</b></div>
+              <strong>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total}</strong>
+            </div>
+            <div className="source-line">
+              <span>數據最後退出日</span><code>{multiWindowResonance.input.last_exit_date}</code>
+              <span>Protocol</span><code>{multiWindowResonance.protocol.commit.slice(0, 12)}</code>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md" target="_blank" rel="noreferrer">完整研究報告</a>
+              <a href="https://github.com/voidful/us_fddk/blob/main/artifacts/short_term_multi_window_resonance_validation.json" target="_blank" rel="noreferrer">機器收據</a>
             </div>
           </section>
 

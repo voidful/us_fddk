@@ -16,7 +16,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
         with:
@@ -107,6 +107,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
           ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
+          ./.venv/bin/python scripts/build_short_term_multi_window_resonance_report.py
           ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
           ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
@@ -185,15 +186,18 @@ jobs:
             artifacts/short_term_rank_monotonicity_placebo_validation.json \
             site/data/short-term-rank-monotonicity-placebo.json \
             docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_RESEARCH_REPORT.md \
-            artifacts/short_term_reversal_volatility_attribution_validation.json \
-            site/data/short-term-reversal-volatility-attribution.json \
-            docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
-            artifacts/short_term_calendar_capital_accounting_validation.json \
-            site/data/short-term-calendar-capital-accounting.json \
-            docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_RESEARCH_REPORT.md \
+            artifacts/short_term_multi_window_resonance_validation.json \
+            site/data/short-term-multi-window-resonance.json \
+            docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md \
             artifacts/short_term_qqq_replacement_overlay_validation.json \
             site/data/short-term-qqq-replacement-overlay.json \
             docs/SHORT_TERM_QQQ_REPLACEMENT_OVERLAY_RESEARCH_REPORT.md \
+            artifacts/short_term_calendar_capital_accounting_validation.json \
+            site/data/short-term-calendar-capital-accounting.json \
+            docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_RESEARCH_REPORT.md \
+            artifacts/short_term_reversal_volatility_attribution_validation.json \
+            site/data/short-term-reversal-volatility-attribution.json \
+            docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
             docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
@@ -225,9 +229,11 @@ jobs:
           ./.venv/bin/pytest tests/test_correlation_crowding.py
           ./.venv/bin/pytest tests/test_common_risk_residual.py
           ./.venv/bin/pytest tests/test_rank_monotonicity_placebo.py
-          ./.venv/bin/pytest tests/test_reversal_volatility_attribution.py
-          ./.venv/bin/pytest tests/test_calendar_capital_accounting.py
+          ./.venv/bin/pytest tests/test_multi_window_resonance.py
+          ./.venv/bin/pytest tests/test_multi_window_resonance_report.py
           ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py
+          ./.venv/bin/pytest tests/test_calendar_capital_accounting.py
+          ./.venv/bin/pytest tests/test_reversal_volatility_attribution.py
           ./.venv/bin/pytest tests/test_daily_momentum_regime.py
           ./.venv/bin/pytest tests/test_site_export.py
           ./.venv/bin/pytest tests/test_v25_live.py -k audit

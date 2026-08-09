@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: "美股雙策略研究｜長線穩定與短線高回報",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第三十輪以 QQQ 全投資替換式疊加測試 20 年資金路徑，13/20 門檻未通過，Paper 維持全現金。",
+  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第三十八輪四窗動量共振只過 11/20，落後原 Top-7 與相同比例 20 日排名，Paper 維持全現金。",
   openGraph: {
     title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線 QQQ 替換式疊加的 20 bp headline 雖高於 QQQ，但統計、成本及尾部只過 13/20 門檻，實金動作 US$0。",
+    description: "長線維持 Paper-only；短線四窗動量共振雖略高於 QQQ，仍落後兩條較簡單動量路徑，只過 11/20 門檻，今天不下單、實金 US$0。",
     locale: "zh_HK",
     type: "website",
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: `${publicSiteRoot}/og.png`,
         width: 1731,
         height: 909,
-        alt: "US FDDK 美股雙策略研究：長線 Paper-only，短線正式就緒 1/18",
+        alt: "US FDDK 美股雙策略研究：長線 Paper-only，短線第 38 輪共振反證 11/20",
       },
     ],
   },
