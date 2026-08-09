@@ -116,7 +116,8 @@ def test_provider_mode_requires_release_firewall_before_formal_readiness(
             root=ROOT,
             source_mode="provider",
         )
-    assert error.value.code == "formal_release_firewall_required"
+    assert error.value.code == "formal_provider_mode_required"
+    assert "release firewall" in error.value.detail
 
 
 def test_cli_is_provider_only_and_does_not_offer_strategy_switches() -> None:

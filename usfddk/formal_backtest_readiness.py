@@ -545,7 +545,7 @@ def audit_formal_backtest_readiness(
     if source_mode == "provider":
         if release_firewall is None:
             _fail(
-                "formal_release_firewall_required",
+                "formal_provider_mode_required",
                 "provider formal readiness 必須提供 release firewall receipt",
             )
         release_path = _external_path(

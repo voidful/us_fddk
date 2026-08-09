@@ -37,10 +37,10 @@
       "rejected": true
     },
     {
-      "expected_error_code": "formal_release_firewall_required",
+      "expected_error_code": "formal_provider_mode_required",
       "id": "03",
-      "label": "synthetic 冒充 provider／缺少 release firewall",
-      "observed_error_code": "formal_release_firewall_required",
+      "label": "synthetic 冒充 provider",
+      "observed_error_code": "formal_provider_mode_required",
       "rejected": true
     },
     {

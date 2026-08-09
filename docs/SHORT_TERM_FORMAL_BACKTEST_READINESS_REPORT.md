@@ -64,7 +64,7 @@ SHA-256；合成控制共有 22 個短樣本 session，沒有供應商列。
 |---|---|---|---|
 | 01 | 相對路徑 | `formal_path_boundary_invalid` | 拒收 |
 | 02 | 非 owner-only 輸入 | `formal_private_input_invalid` | 拒收 |
-| 03 | synthetic 冒充 provider／缺少 release firewall | `formal_release_firewall_required` | 拒收 |
+| 03 | synthetic 冒充 provider | `formal_provider_mode_required` | 拒收 |
 | 04 | Round 17 receipt 已跑一次 | `formal_prior_run_detected` | 拒收 |
 | 05 | 上游 manifest 漂移 | `formal_input_binding_mismatch` | 拒收 |
 | 06 | RF 多一個檔案 | `risk_free_file_set_mismatch` | 拒收 |
