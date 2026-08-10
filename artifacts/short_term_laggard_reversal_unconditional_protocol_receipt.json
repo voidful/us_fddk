@@ -1,0 +1,52 @@
+{
+  "control_definition": {
+    "control_for": [
+      "round57_market_stress_laggard_reversal",
+      "round58_laggard_reversal_placebo"
+    ],
+    "market_condition": "none",
+    "market_filter": "none"
+  },
+  "cost_round_trip_bps": 20.0,
+  "global_trial_ledger": {
+    "minimum_increment": 3,
+    "new_family_id": "round59_laggard_reversal_unconditional_three_horizons",
+    "prior_lower_bound": 6308
+  },
+  "horizons": [
+    5,
+    10,
+    20
+  ],
+  "independent_first_seen_evidence": false,
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "preceding_placebo_protocol_path": "docs/SHORT_TERM_LAGGARD_REVERSAL_PLACEBO_PROTOCOL.md",
+  "primary_horizon_sessions": 20,
+  "protocol_sha256": "4b4f322f4cffef415c6a2b8a8331fd4fdc0554108d804da1df2900eb22b2dbc0",
+  "real_money_authorized": false,
+  "receipt_sha256": "014d33c0784a78bcaaf6b412fcf6b6f7cc4a18b5680651f3a756b525240c6f5b",
+  "research_role": "posthoc_robustness_diagnostic",
+  "research_round": 59,
+  "schema_version": 1,
+  "signal": {
+    "dollar_volume_threshold_usd": 20000000.0,
+    "frequency": "daily_completed_xnys",
+    "lookback_return_sessions": 5,
+    "price_threshold_usd": 5.0,
+    "selection_count": 5,
+    "stock_return_threshold": -0.05
+  },
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "status": "posthoc_laggard_reversal_unconditional_diagnostic_only",
+  "strategy_rule_changed": false,
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}
