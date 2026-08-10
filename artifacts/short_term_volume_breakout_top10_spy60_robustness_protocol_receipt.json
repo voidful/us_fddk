@@ -1,0 +1,57 @@
+{
+  "costs_round_trip_bps": [
+    20.0,
+    50.0
+  ],
+  "frequency": "weekly_completed_xnys",
+  "gate_names": [
+    "full_period_20bps_capital_gates_preserved",
+    "full_period_50bps_cagr_above_passive_QQQ",
+    "first_half_20bps_cagr_above_passive_QQQ",
+    "second_half_20bps_cagr_above_passive_QQQ",
+    "first_half_50bps_cagr_above_passive_QQQ",
+    "second_half_50bps_cagr_above_passive_QQQ"
+  ],
+  "global_trial_ledger": {
+    "minimum_increment": 1,
+    "new_family_id": "round64_volume_breakout_top10_spy60_robustness",
+    "prior_lower_bound": 6315
+  },
+  "half_periods": {
+    "first_half": {
+      "end": "2016-07-31",
+      "start": "2006-08-01"
+    },
+    "second_half": {
+      "end": "2026-07-31",
+      "start": "2016-08-01"
+    }
+  },
+  "holding_sessions": 20,
+  "independent_first_seen_evidence": false,
+  "market_filter": "SPY_close_above_60_session_SMA",
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "predecessor_protocol_receipt_sha256": "acae6bfa93dacb38734a04a2010c0053e28e6924cb9b5f81d3819953b53e7f95",
+  "predecessor_protocol_sha256": "dc5ef0d794677a0845250fc2c74001f975f5ba493dca170a4cd872127350de5f",
+  "predecessor_validation_sha256": "3e6f71ecb3b2deddc4309fd0621900f6da837e327852960c1a5e94ee63111588",
+  "protocol_sha256": "4822b3ebfaf5eeea899cc482938c00e8f15caee07a8c0861feb5a10928013ed4",
+  "real_money_authorized": false,
+  "receipt_sha256": "0c1a88110519fcbbb5ce71feb9ce66a15818be1dfb280fa5b9558034fbb85ead",
+  "research_role": "robustness_stress_diagnostic",
+  "research_round": 64,
+  "schema_version": 1,
+  "selection_count": 10,
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "status": "posthoc_volume_breakout_top10_spy60_robustness_diagnostic_only",
+  "strategy_rule_changed": false,
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}
