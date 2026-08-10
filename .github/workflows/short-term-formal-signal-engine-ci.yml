@@ -12,6 +12,7 @@ on:
       - "usfddk/formal_performance.py"
       - "usfddk/formal_backtest_runner.py"
       - "usfddk/formal_benchmark_actions.py"
+      - "usfddk/formal_report.py"
       - "tests/test_formal_signal_engine.py"
       - "tests/test_formal_execution_schedule.py"
       - "tests/test_formal_raw_accounting.py"
@@ -19,10 +20,13 @@ on:
       - "tests/test_formal_performance.py"
       - "tests/test_formal_backtest_runner.py"
       - "tests/test_formal_benchmark_actions.py"
+      - "tests/test_formal_report.py"
       - "scripts/run_short_term_formal_backtest.py"
+      - "scripts/build_short_term_formal_backtest_report.py"
       - "docs/SHORT_TERM_FORMAL_PERFORMANCE.md"
       - "docs/SHORT_TERM_FORMAL_BACKTEST_RUNNER.md"
       - "docs/SHORT_TERM_FORMAL_BENCHMARK_ACTION_BRIDGE.md"
+      - "docs/SHORT_TERM_FORMAL_RESEARCH_REPORT.md"
       - "docs/SHORT_TERM_FORMAL_RAW_ACCOUNTING.md"
       - "pyproject.toml"
       - "uv.lock"
@@ -54,7 +58,8 @@ jobs:
             tests/test_formal_baseline_schedule.py \
             tests/test_formal_performance.py \
             tests/test_formal_backtest_runner.py \
-            tests/test_formal_benchmark_actions.py
+            tests/test_formal_benchmark_actions.py \
+            tests/test_formal_report.py
           uv run ruff check \
             usfddk/formal_signal_engine.py \
             usfddk/formal_execution_schedule.py \
@@ -63,12 +68,15 @@ jobs:
             usfddk/formal_performance.py \
             usfddk/formal_backtest_runner.py \
             usfddk/formal_benchmark_actions.py \
+            usfddk/formal_report.py \
             scripts/run_short_term_formal_backtest.py \
+            scripts/build_short_term_formal_backtest_report.py \
             tests/test_formal_signal_engine.py \
             tests/test_formal_execution_schedule.py \
             tests/test_formal_raw_accounting.py \
             tests/test_formal_baseline_schedule.py \
             tests/test_formal_performance.py \
             tests/test_formal_backtest_runner.py \
-            tests/test_formal_benchmark_actions.py
+            tests/test_formal_benchmark_actions.py \
+            tests/test_formal_report.py
           git diff --check
