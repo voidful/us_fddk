@@ -42,7 +42,7 @@ def _inputs(*, future_membership_announcement: bool = False) -> SignalInputs:
         [
             {
                 "security_id": security_id,
-                "scheme": "GICS",
+                "scheme": "ICB",
                 "sector_code": "TECH" if security_id != "SEC-B" else "FIN",
                 "effective_from": str(dates[0].date()),
                 "effective_to": "",

@@ -6,7 +6,9 @@ on:
       - ".github/workflows/short-term-formal-signal-engine-ci.yml"
       - "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md"
       - "usfddk/formal_signal_engine.py"
+      - "usfddk/formal_execution_schedule.py"
       - "tests/test_formal_signal_engine.py"
+      - "tests/test_formal_execution_schedule.py"
       - "pyproject.toml"
       - "uv.lock"
   workflow_dispatch:
@@ -30,6 +32,10 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           uv sync --locked --extra dev
-          uv run pytest -q tests/test_formal_signal_engine.py
-          uv run ruff check usfddk/formal_signal_engine.py tests/test_formal_signal_engine.py
+          uv run pytest -q tests/test_formal_signal_engine.py tests/test_formal_execution_schedule.py
+          uv run ruff check \
+            usfddk/formal_signal_engine.py \
+            usfddk/formal_execution_schedule.py \
+            tests/test_formal_signal_engine.py \
+            tests/test_formal_execution_schedule.py
           git diff --check

@@ -20,6 +20,7 @@ import pandas as pd
 
 FORMAL_SIGNAL_ENGINE_VERSION = "round18-formal-signal-engine-v1"
 FORMAL_SIGNAL_POLICY = "last_official_session_each_complete_month"
+FORMAL_CLASSIFICATION_SCHEME = "ICB"
 FORMAL_STRATEGY_PROTOCOL_SHA256 = (
     "589a799b18412e1fdad569c48e94313689c57b75eae84972a5c20baaa6ede139"
 )
@@ -337,7 +338,9 @@ def _eligible_rows(
         if security_id not in master.index:
             _fail("signal_security_master_invalid", f"{security_id} 不在 security master")
         master_row = master.loc[security_id]
-        class_rows = classifications.loc[classifications["scheme"].eq("GICS")]
+        class_rows = classifications.loc[
+            classifications["scheme"].eq(FORMAL_CLASSIFICATION_SCHEME)
+        ]
         class_rows = _active_rows(
             class_rows,
             security_id=security_id,
@@ -348,7 +351,7 @@ def _eligible_rows(
         classification = _require_exactly_one(
             class_rows,
             "signal_classification_ambiguous",
-            f"{security_id} 在 {signal.date()} 沒有唯一 point-in-time GICS sector",
+            f"{security_id} 在 {signal.date()} 沒有唯一 point-in-time ICB sector",
         )
         sector_code = str(classification["sector_code"]).strip()
         if not sector_code:

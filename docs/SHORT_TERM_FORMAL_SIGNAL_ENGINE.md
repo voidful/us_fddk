@@ -11,7 +11,7 @@ point-in-time 橋接層。它只接受 provider ledger 的永久 `security_id`�
 - 同公司股份類別按訊號日前 20 日中位美元成交額去重，同值以永久 `security_id`；
 - 綜合排名首十隻，每個歷史 sector 最多三隻，不足槽位以 QQQ 補位。
 
-訊號層會把 membership `announced_at` 與 classification `known_at` 同 XNYS
+訊號層固定使用 provider ledger 的 ICB classification，並把 membership `announced_at` 與 classification `known_at` 同 XNYS
 `close_at` 比較；同日收市後才公布的資料會被排除。所有缺價、缺分類、歧義身份及
 無法建立窗口的情況都 fail closed，不會以前視資料補值。
 
@@ -33,6 +33,10 @@ targets, audit = build_monthly_target_weights(inputs)
 - 計算回報、Paper 交易或實金動作；
 - 改寫正式回測 readiness、全域 trial ledger 或網站資料；
 - 把合成控制或局部訊號結果升格為策略成功。
+
+`usfddk/formal_execution_schedule.py` 會再把每個月末 target 映射到唯一的下一個
+XNYS 開市日；最後一個 session、重複 execution、缺失 target 或權重不等於 100% 都會
+拒收。這層仍不做估值，避免把「有 target」誤稱為「已完成回測」。
 
 正式執行前仍必須先通過 Round 17 provider intake、point-in-time 20/20、execution
 extension 16/16、RF 及 release firewall。資料包尚未到位時，網站維持成功-only
