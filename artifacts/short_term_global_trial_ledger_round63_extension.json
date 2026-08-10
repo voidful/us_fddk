@@ -1,0 +1,57 @@
+{
+  "base_extension": {
+    "chain_head_sha256": "5e5e037c3b86353e8e5cfac707bb27cb34a5cc9c5df04f3f1d8e98975475c179",
+    "current_lower_bound": 6314,
+    "path": "artifacts/short_term_global_trial_ledger_round62_extension.json",
+    "sha256": "0db2cf00d54ad396a66656d1d2be76c3af206f5540f2900f3d0750df309ecdce"
+  },
+  "chain_head_sha256": "24c166caa077af5ef4e813697c925b8f499044274bd8863b099b9f1a1793752c",
+  "current_lower_bound": 6315,
+  "entry": {
+    "current_lower_bound": 6315,
+    "entry_sha256": "24c166caa077af5ef4e813697c925b8f499044274bd8863b099b9f1a1793752c",
+    "exact_increment_claimed": false,
+    "family_id": "round63_volume_breakout_top10_spy60_regime",
+    "minimum_increment": 1,
+    "previous_entry_sha256": "5e5e037c3b86353e8e5cfac707bb27cb34a5cc9c5df04f3f1d8e98975475c179",
+    "previous_lower_bound": 6314,
+    "publication_state": "tracked",
+    "result_state": "result_seen",
+    "seen_result": true,
+    "sequence": 23,
+    "source_bindings": [
+      {
+        "label": "protocol_receipt",
+        "path": "artifacts/short_term_volume_breakout_top10_spy60_protocol_receipt.json",
+        "sha256": "acae6bfa93dacb38734a04a2010c0053e28e6924cb9b5f81d3819953b53e7f95"
+      },
+      {
+        "label": "result",
+        "path": "artifacts/short_term_volume_breakout_top10_spy60_validation.json",
+        "sha256": "3e6f71ecb3b2deddc4309fd0621900f6da837e327852960c1a5e94ee63111588"
+      },
+      {
+        "label": "report",
+        "path": "docs/SHORT_TERM_VOLUME_BREAKOUT_TOP10_SPY60_REPORT.md",
+        "sha256": "0590cb1f602f5355cf58e7b12a0303bbc4341514ae5a5e06c65b39087ef76d96"
+      },
+      {
+        "label": "predecessor",
+        "path": "artifacts/short_term_global_trial_ledger_round62_extension.json",
+        "sha256": "0db2cf00d54ad396a66656d1d2be76c3af206f5540f2900f3d0750df309ecdce"
+      }
+    ]
+  },
+  "extension_protocol_path": "docs/SHORT_TERM_VOLUME_BREAKOUT_TOP10_SPY60_PROTOCOL.md",
+  "extension_protocol_sha256": "dc5ef0d794677a0845250fc2c74001f975f5ba493dca170a4cd872127350de5f",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "receipt_sha256": "d693dd0cf202151c7a4cd42ea30354776bba9adad524fc1321ff2482f18ccde9",
+  "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
+  "status": "append_only_global_trial_lower_bound_extension"
+}
