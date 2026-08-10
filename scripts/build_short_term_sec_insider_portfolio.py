@@ -12,7 +12,10 @@ from usfddk.sec_insider_portfolio import (
     PORTFOLIO_BASELINE_SYMBOLS,
     PORTFOLIO_COST_SCENARIOS,
     PORTFOLIO_HOLDING_SESSIONS,
+    PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD,
+    PORTFOLIO_MIN_PRICE_USD,
     PORTFOLIO_ONE_WAY_COST_BPS,
+    load_long_liquidity,
     prepare_portfolio_signals,
     simulate_event_portfolio,
 )
@@ -50,6 +53,7 @@ def main() -> int:
     )
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--prices", type=Path, required=True)
+    parser.add_argument("--liquidity", type=Path, required=True)
     parser.add_argument("--price-client", default="external_prepared_csv")
     parser.add_argument("--price-source-url", default="https://finance.yahoo.com/")
     parser.add_argument(
@@ -59,8 +63,9 @@ def main() -> int:
     )
     args = parser.parse_args()
     manifest = _load_manifest(args.manifest)
-    if not args.prices.is_file():
-        raise SystemExit(f"price CSV 不存在：{args.prices}")
+    for path, label in ((args.prices, "price CSV"), (args.liquidity, "liquidity CSV")):
+        if not path.is_file():
+            raise SystemExit(f"{label} 不存在：{path}")
     quarter_events = []
     sec_sources = []
     total_events = 0
@@ -80,9 +85,17 @@ def main() -> int:
             }
         )
     prices = load_long_total_return_prices(args.prices)
+    liquidity = load_long_liquidity(args.liquidity)
     quarter_candidates = build_quarter_candidates(quarter_events)
     flattened = [row for label in quarter_candidates for row in quarter_candidates[label]]
     accepted, skipped = prepare_portfolio_signals(flattened, prices)
+    liquidity_accepted, liquidity_skipped = prepare_portfolio_signals(
+        flattened,
+        prices,
+        liquidity=liquidity,
+        min_price_usd=PORTFOLIO_MIN_PRICE_USD,
+        min_median_dollar_volume_usd=PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD,
+    )
 
     early_rows = [
         row
@@ -96,6 +109,20 @@ def main() -> int:
     ]
     early_accepted, early_skipped = prepare_portfolio_signals(early_rows, prices)
     late_accepted, late_skipped = prepare_portfolio_signals(late_rows, prices)
+    early_liquidity_accepted, early_liquidity_skipped = prepare_portfolio_signals(
+        early_rows,
+        prices,
+        liquidity=liquidity,
+        min_price_usd=PORTFOLIO_MIN_PRICE_USD,
+        min_median_dollar_volume_usd=PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD,
+    )
+    late_liquidity_accepted, late_liquidity_skipped = prepare_portfolio_signals(
+        late_rows,
+        prices,
+        liquidity=liquidity,
+        min_price_usd=PORTFOLIO_MIN_PRICE_USD,
+        min_median_dollar_volume_usd=PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD,
+    )
     diagnostic = {
         "all_period": simulate_event_portfolio(
             accepted, prices, baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS
@@ -110,6 +137,7 @@ def main() -> int:
         },
     }
     cost_scenarios = {}
+    liquidity_cost_scenarios = {}
     for cost_bps in PORTFOLIO_COST_SCENARIOS:
         cost_scenarios[str(int(cost_bps))] = {
             "all_period": simulate_event_portfolio(
@@ -133,6 +161,28 @@ def main() -> int:
                 ),
             },
         }
+        liquidity_cost_scenarios[str(int(cost_bps))] = {
+            "all_period": simulate_event_portfolio(
+                liquidity_accepted,
+                prices,
+                one_way_cost_bps=cost_bps,
+                baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
+            ),
+            "fixed_halves": {
+                "2024Q1_2025Q1": simulate_event_portfolio(
+                    early_liquidity_accepted,
+                    prices,
+                    one_way_cost_bps=cost_bps,
+                    baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
+                ),
+                "2025Q2_2026Q2": simulate_event_portfolio(
+                    late_liquidity_accepted,
+                    prices,
+                    one_way_cost_bps=cost_bps,
+                    baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
+                ),
+            },
+        }
     payload = {
         "schema_version": 1,
         "status": "post_hoc_fixed_event_portfolio_diagnostic",
@@ -142,6 +192,8 @@ def main() -> int:
             "holding_sessions": PORTFOLIO_HOLDING_SESSIONS,
             "one_way_cost_bps": PORTFOLIO_ONE_WAY_COST_BPS,
             "baseline_symbols": list(PORTFOLIO_BASELINE_SYMBOLS),
+            "min_price_usd": PORTFOLIO_MIN_PRICE_USD,
+            "min_median_dollar_volume_usd": PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD,
         },
         "sec_sources": sec_sources,
         "sec_input_counts": {
@@ -158,9 +210,18 @@ def main() -> int:
             "symbol_count": int(prices["symbol"].nunique()),
             "row_count": int(len(prices)),
         },
+        "liquidity_source": {
+            "filename": args.liquidity.name,
+            "sha256": sha256_file(args.liquidity),
+            "row_count": int(len(liquidity)),
+            "symbol_count": int(liquidity["symbol"].nunique()),
+            "columns": ["close", "dollar_volume"],
+        },
         "signal_filter": {
             "accepted_count": len(accepted),
             "skipped": skipped,
+            "liquidity_filtered_accepted_count": len(liquidity_accepted),
+            "liquidity_filtered_skipped": liquidity_skipped,
             "fixed_half_accepted_counts": {
                 "2024Q1_2025Q1": len(early_accepted),
                 "2025Q2_2026Q2": len(late_accepted),
@@ -169,9 +230,18 @@ def main() -> int:
                 "2024Q1_2025Q1": early_skipped,
                 "2025Q2_2026Q2": late_skipped,
             },
+            "liquidity_filtered_fixed_half_accepted_counts": {
+                "2024Q1_2025Q1": len(early_liquidity_accepted),
+                "2025Q2_2026Q2": len(late_liquidity_accepted),
+            },
+            "liquidity_filtered_fixed_half_skipped": {
+                "2024Q1_2025Q1": early_liquidity_skipped,
+                "2025Q2_2026Q2": late_liquidity_skipped,
+            },
         },
         "diagnostic": diagnostic,
         "cost_scenarios": cost_scenarios,
+        "liquidity_filtered_cost_scenarios": liquidity_cost_scenarios,
         "decision": {
             "strategy_status": "research_candidate_only",
             "formal_backtest_completed": False,
@@ -192,6 +262,7 @@ def main() -> int:
                 "status": payload["status"],
                 "candidate_count": len(flattened),
                 "accepted_count": len(accepted),
+                "liquidity_filtered_accepted_count": len(liquidity_accepted),
                 "portfolio_cagr": all_period["portfolio"]["cagr"],
                 "qqq_cagr": all_period["QQQ"]["cagr"],
                 "output": str(args.output),

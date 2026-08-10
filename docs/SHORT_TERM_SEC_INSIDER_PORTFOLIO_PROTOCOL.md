@@ -11,6 +11,9 @@
   active issuer 時持有現金。這不是 Top-K 搜尋，亦不按回報排序救援。
 - 只納入有完整 20-session adjusted open／close 價格的訊號；缺價、缺 session 或不足
   20 日的訊號只計入 skip log，不補值、不以前後 ticker 代替。
+- 另做一個事前固定的可交易性 filter：入場前 20 個 XNYS sessions 的 median dollar
+  volume 至少 US$20m，入場前一日收市價至少 US$5；只使用入場日前資料。未過濾的結果
+  保留作 upper-bound，過濾結果獨立報告，兩者不互相調參。
 - 入場日 adjusted open；入場日用 open-to-close，之後用 close-to-close；到期日收市後
   離場。成本情境事前固定為單邊 10 bps（主要）、25 bps 及 50 bps（壓力測試）；同一
   批訊號、持倉及期間全部重用，不按成本結果重新選擇。

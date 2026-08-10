@@ -102,6 +102,28 @@ issuer，亦未有逐筆 spread、流動性、退市／收購回報。接受「�
 50 bps 壓力情境下全期及前／後固定分段均落後 QQQ、SPY 及 IWM，顯示表面優勢高度依賴低成本及
 不完整價格 coverage；不能以 10 bps 結果宣稱短線策略穩健。
 
+### 可交易性 filter 壓力測試
+
+為免把小型、難成交的股票當作可執行結果，另以**入場前** 20 個 XNYS sessions 的 median
+dollar volume 至少 US$20m，及入場前一日收市價至少 US$5 作事前固定 filter。filter
+只讀取入場日前的資料；未過濾 upper-bound 與 filter 後組合分開計算，沒有以結果重新選股。
+
+5,798 個候選列中，upper-bound 接受 2,266 列；加入可交易性 filter 後只接受 **642 列**。
+其餘列留在 skip log：3,400 列成交額不足、1,179 列沒有完整 20-session 流動性歷史，另有
+577 列因 issuer 持倉重疊而跳過。這些拒收原因不會轉成網站策略或行動建議。
+
+| 單邊成本 | Filter 組合 CAGR | QQQ CAGR | SPY CAGR | IWM CAGR | 對 QQQ 超額 | 最大回撤 | Sharpe |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 10 bps | 20.16% | 22.81% | 19.47% | 18.39% | -2.66pp | -26.56% | 0.86 |
+| 25 bps | 12.24% | 22.66% | 19.33% | 18.25% | -10.43pp | -28.44% | 0.59 |
+| **50 bps** | **0.17%** | **22.42%** | **19.08%** | **18.01%** | **-22.24pp** | **-32.06%** | **0.13** |
+
+filter 後組合在全期、三個成本情境均未跑贏 QQQ；前五季在 10／25／50 bps 的 CAGR 分別為
+0.26%／-6.70%／-17.26%，後五季雖在 10 bps 為 47.14%，但 25／50 bps 已降至 37.20%／22.09%，
+且仍落後 QQQ。結論是這條 insider event 線沒有通過可交易性、成本及跨期穩健性門檻，故
+**沒有成功可行策略可發布**；完整失敗及 skip 原因只保留在機器收據及研究 log，網站不顯示
+候選名單、失敗績效或買入指令。
+
 ## 固定規則
 
 - 只取 Form 4／4-A 的 `NONDERIV_TRANS`，不把 Form 3、Form 5、衍生工具或持倉列
@@ -137,7 +159,7 @@ risk-free provider package。
 - Universe audit 重建：`python scripts/audit_short_term_sec_insider_universe.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - 事件後診斷重建：`python scripts/build_short_term_sec_insider_forward_diagnostic.py --sec-zip <external-zip> --prices <prepared-long-csv> --as-of 2026-06-30 --price-client <client-version>`
 - 十季診斷重建：`python scripts/build_short_term_sec_insider_multi_quarter.py --manifest <quarter-manifest> --prices <prepared-long-csv> --price-client <client-version>`
-- 組合檢查重建：`python scripts/build_short_term_sec_insider_portfolio.py --manifest <quarter-manifest> --prices <prepared-long-csv> --price-client <client-version>`
+- 組合檢查重建：`python scripts/build_short_term_sec_insider_portfolio.py --manifest <quarter-manifest> --prices <prepared-long-csv> --liquidity <prepared-liquidity-csv> --price-client <client-version>`
 - 單元測試：`tests/test_sec_insider.py`
 
 下一個有效動作是取得覆蓋完整歷史的價格、退市及 point-in-time 成分資料，先把這條

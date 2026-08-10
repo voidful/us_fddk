@@ -5,8 +5,10 @@ from __future__ import annotations
 import math
 from collections import defaultdict
 from datetime import date
+from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 PORTFOLIO_SCHEMA_VERSION = 1
@@ -15,6 +17,8 @@ PORTFOLIO_ONE_WAY_COST_BPS = 10.0
 PORTFOLIO_ROUND_TRIP_COST_BPS = 20.0
 PORTFOLIO_COST_SCENARIOS = (10.0, 25.0, 50.0)
 PORTFOLIO_BASELINE_SYMBOLS = ("QQQ", "SPY", "IWM")
+PORTFOLIO_MIN_PRICE_USD = 5.0
+PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD = 20_000_000.0
 
 
 def _price_maps(
@@ -36,22 +40,66 @@ def _price_maps(
     return sessions, session_positions, dict(by_symbol)
 
 
+def load_long_liquidity(path: str | Path) -> pd.DataFrame:
+    """Load a dated dollar-volume snapshot used only for pre-entry filters."""
+
+    frame = pd.read_csv(path, dtype={"symbol": str, "date": str})
+    required = {"symbol", "date", "close", "dollar_volume"}
+    missing = required - set(frame.columns)
+    if missing:
+        raise ValueError(f"liquidity snapshot 欄位不完整：{sorted(missing)}")
+    frame = frame.loc[:, sorted(required)].copy()
+    frame["symbol"] = frame["symbol"].str.strip().str.upper()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.date
+    frame["close"] = pd.to_numeric(frame["close"], errors="coerce")
+    frame["dollar_volume"] = pd.to_numeric(frame["dollar_volume"], errors="coerce")
+    if frame["symbol"].eq("").any() or frame["date"].isna().any():
+        raise ValueError("liquidity snapshot 有空白 symbol 或無效日期")
+    if frame.duplicated(["symbol", "date"]).any():
+        raise ValueError("liquidity snapshot 有重複 symbol/date")
+    invalid = (
+        ~np.isfinite(frame["close"])
+        | ~np.isfinite(frame["dollar_volume"])
+        | (frame["close"] <= 0.0)
+        | (frame["dollar_volume"] < 0.0)
+    )
+    if invalid.any():
+        raise ValueError("liquidity snapshot 有非有限或非正 close/dollar_volume")
+    return frame.sort_values(["symbol", "date"]).reset_index(drop=True)
+
+
 def prepare_portfolio_signals(
     candidates: list[dict[str, Any]],
     prices: pd.DataFrame,
     *,
     holding_sessions: int = PORTFOLIO_HOLDING_SESSIONS,
+    liquidity: pd.DataFrame | None = None,
+    min_price_usd: float | None = None,
+    min_median_dollar_volume_usd: float | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
     """Apply fixed price-completeness and first-signal-wins rules."""
 
     if holding_sessions != PORTFOLIO_HOLDING_SESSIONS:
         raise ValueError("portfolio holding period is frozen at 20 sessions")
     sessions, positions, by_symbol = _price_maps(prices)
+    if (liquidity is None) != (
+        min_price_usd is None and min_median_dollar_volume_usd is None
+    ):
+        raise ValueError("liquidity filter 必須同時提供資料及兩個固定門檻")
+    liquidity_by_symbol: dict[str, dict[date, tuple[float, float]]] = defaultdict(dict)
+    if liquidity is not None:
+        for row in liquidity.itertuples(index=False):
+            liquidity_by_symbol[str(row.symbol)][row.date] = (
+                float(row.close),
+                float(row.dollar_volume),
+            )
     accepted: list[dict[str, Any]] = []
     skipped = {
         "missing_session": 0,
         "missing_price_window": 0,
         "overlapping_issuer_signal": 0,
+        "insufficient_liquidity_history": 0,
+        "below_liquidity_threshold": 0,
     }
     active_until: dict[str, date] = {}
     ordered = sorted(
@@ -77,6 +125,25 @@ def prepare_portfolio_signals(
         if ticker in active_until and entry <= active_until[ticker]:
             skipped["overlapping_issuer_signal"] += 1
             continue
+        if liquidity is not None:
+            history_start = entry_position - holding_sessions
+            if history_start < 0:
+                skipped["insufficient_liquidity_history"] += 1
+                continue
+            liquidity_rows = liquidity_by_symbol.get(ticker, {})
+            history = sessions[history_start:entry_position]
+            if any(day not in liquidity_rows for day in history):
+                skipped["insufficient_liquidity_history"] += 1
+                continue
+            closes = [liquidity_rows[day][0] for day in history]
+            dollar_volumes = [liquidity_rows[day][1] for day in history]
+            if (
+                closes[-1] < float(min_price_usd)
+                or float(np.median(dollar_volumes))
+                < float(min_median_dollar_volume_usd)
+            ):
+                skipped["below_liquidity_threshold"] += 1
+                continue
         symbol_prices = by_symbol.get(ticker, {})
         window = sessions[entry_position : exit_position + 1]
         if any(day not in symbol_prices for day in window):
