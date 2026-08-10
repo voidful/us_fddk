@@ -1,0 +1,57 @@
+{
+  "base_extension": {
+    "chain_head_sha256": "4ea77d8d718258267444a37f1610b511c8eca061255b9b47d39f2827bd949307",
+    "current_lower_bound": 6299,
+    "path": "artifacts/short_term_global_trial_ledger_round55_extension.json",
+    "sha256": "8fc7b9b075620f59f246fe21d091f1e9d281b04ab18c0678c38bbeb122d2b3a3"
+  },
+  "chain_head_sha256": "d5af5ae92f812039d007ef69f6714a55a0b9cff5bd750e9d897f35825e5ea024",
+  "current_lower_bound": 6302,
+  "entry": {
+    "current_lower_bound": 6302,
+    "entry_sha256": "d5af5ae92f812039d007ef69f6714a55a0b9cff5bd750e9d897f35825e5ea024",
+    "exact_increment_claimed": false,
+    "family_id": "round56_gap_reversal_three_horizons",
+    "minimum_increment": 3,
+    "previous_entry_sha256": "4ea77d8d718258267444a37f1610b511c8eca061255b9b47d39f2827bd949307",
+    "previous_lower_bound": 6299,
+    "publication_state": "tracked",
+    "result_state": "result_seen",
+    "seen_result": true,
+    "sequence": 16,
+    "source_bindings": [
+      {
+        "label": "protocol_receipt",
+        "path": "artifacts/short_term_gap_reversal_diagnostic_protocol_receipt.json",
+        "sha256": "a06860b800166199f625461e08d37128a9573eb541e5ce55c5a5be08241b9223"
+      },
+      {
+        "label": "result",
+        "path": "artifacts/short_term_gap_reversal_diagnostic_validation.json",
+        "sha256": "a24afcfe7ddc445acd046addc92d02734f15a7e02da0236c478ab41ba8ff68cd"
+      },
+      {
+        "label": "report",
+        "path": "docs/SHORT_TERM_GAP_REVERSAL_DIAGNOSTIC_REPORT.md",
+        "sha256": "cc3c5b7236bf3c45e917a58962f37204d7326dcdf623458d2bf5fbed40f16d56"
+      },
+      {
+        "label": "predecessor",
+        "path": "artifacts/short_term_global_trial_ledger_round55_extension.json",
+        "sha256": "8fc7b9b075620f59f246fe21d091f1e9d281b04ab18c0678c38bbeb122d2b3a3"
+      }
+    ]
+  },
+  "extension_protocol_path": "docs/SHORT_TERM_GAP_REVERSAL_DIAGNOSTIC_PROTOCOL.md",
+  "extension_protocol_sha256": "f0eea2d718a3e1631c883006b77ec6ad6c0a20453eb60eb6542b55abaac1e561",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "receipt_sha256": "b95ad4bbc02409687b3a0dec85dd4d0183299b12caa94d5747134d225b7c6ac5",
+  "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
+  "status": "append_only_global_trial_lower_bound_extension"
+}
