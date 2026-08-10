@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import io
 import json
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -12,6 +15,7 @@ from usfddk.form4_admission_feasibility import (
     _daily_index_row,
     _load_protocol_binding,
     _parse_complete_submission,
+    _parse_quarter_zip,
     _physical_header_projection,
     _validate_physical_header_profile,
     build_form4_feasibility_failure_receipt,
@@ -118,6 +122,83 @@ def test_schema_projection_mutations_fail_closed() -> None:
     ) == "form4_feasibility_physical_header_profile_mismatch"
 
 
+def test_full_zip_parser_selects_only_frozen_rows_and_streams_other_tables() -> None:
+    metadata = {
+        "tables": [
+            {
+                "url": role,
+                "tableSchema": {
+                    "columns": [{"name": name} for name in _metadata(role, "2026Q2")]
+                },
+            }
+            for role in PHYSICAL
+        ]
+    }
+    submission_header = PHYSICAL["SUBMISSION.tsv"]
+    rows: list[str] = []
+    fixtures = (
+        (1, "01-APR-2026", "4"),
+        (2, "02-APR-2026", "4/A"),
+        (3, "03-APR-2026", "4"),
+        (4, "06-APR-2026", "4"),
+        (5, "07-APR-2026", "4"),
+    )
+    for serial, filing_date, form in fixtures:
+        values = {name: "" for name in submission_header}
+        values.update(
+            {
+                "ACCESSION_NUMBER": f"{serial:010d}-26-{serial:06d}",
+                "FILING_DATE": filing_date,
+                "DOCUMENT_TYPE": form,
+                "ISSUERCIK": str(1000 + serial),
+            }
+        )
+        rows.append("\t".join(values[name] for name in submission_header))
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("FORM_345_METADATA.json", json.dumps(metadata))
+        archive.writestr("FORM_345_README.htm", "<p>synthetic schema fixture</p>")
+        for role, header in PHYSICAL.items():
+            content = "\t".join(header) + "\n"
+            if role == "SUBMISSION.tsv":
+                content += "\n".join(rows) + "\n"
+            archive.writestr(role, content)
+    body = buffer.getvalue()
+    receipt = {
+        "source_kind": "insider_transactions_quarter_zip",
+        "requested_url": "https://www.sec.gov/files/2026q2_form345.zip",
+        "known_at": None,
+        "public_at": None,
+        "observation_mode": "engineering_fetch_not_contemporaneous_evidence",
+        "body_sha256": hashlib.sha256(body).hexdigest(),
+        "byte_count": len(body),
+        "receipt_sha256": "a" * 64,
+    }
+
+    class FixtureClient:
+        @staticmethod
+        def object_bytes(receipt_value: object) -> bytes:
+            assert receipt_value is receipt
+            return body
+
+    binding = _load_protocol_binding(ROOT)
+    parsed = _parse_quarter_zip(
+        FixtureClient(),  # type: ignore[arg-type]
+        "2026Q2",
+        receipt,
+        required_headers=binding["receipt"]["quarterly_zip_contract"]["required_tables"],
+        amendment_receipt=binding["amendment_receipt"],
+    )
+    assert len(parsed["form4_rows"]) == 5
+    assert len(parsed["samples"]) == 4
+    assert parsed["amendment_state"] == "amendment_added"
+    assert all(
+        not rows_value
+        for role, rows_value in parsed["tables"].items()
+        if role != "SUBMISSION.tsv"
+    )
+
+
 def test_daily_index_is_right_anchored_and_archive_cik_is_not_issuer_cik() -> None:
     accession = "0000123456-26-000001"
     archive_cik = "7654321"
@@ -196,3 +277,13 @@ def test_public_receipts_are_redacted_and_admission_stays_two_of_sixteen() -> No
     assert passed == ["01", "04"]
     mutated = copy.deepcopy(controls)
     assert len(mutated["gates"]) == 16
+
+    real_controls = _admission_controls(real_sample_replayed=True)
+    assert real_controls["passed"] == 3
+    assert [gate["id"] for gate in real_controls["gates"] if gate["passed"]] == [
+        "01",
+        "04",
+        "16",
+    ]
+    assert real_controls["candidate_selection_authorized"] is False
+    assert real_controls["strategy_run_authorized"] is False

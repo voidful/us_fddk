@@ -42,15 +42,6 @@ EXPECTED_SCHEMA_AMENDMENT_RECEIPT_SHA256 = (
 SCHEMA_AMENDMENT_FROZEN_AT = "2026-08-09T23:39:35Z"
 FIXED_QUARTERS = ("2006Q1", "2016Q3", "2026Q2")
 ALLOWED_DOCUMENT_TYPES = frozenset({"4", "4/A"})
-FIXED_SEMANTICS = (
-    ("P", "A"),
-    ("A", "A"),
-    ("M", "A"),
-    ("F", "D"),
-    ("G", "A"),
-    ("G", "D"),
-)
-
 REQUIRED_TABLES: dict[str, tuple[str, ...]] = {
     "SUBMISSION.tsv": (
         "ACCESSION_NUMBER",
@@ -563,6 +554,8 @@ def _read_tsv(
     expected_header: tuple[str, ...],
     quarter_id: str,
     amendment_receipt: Mapping[str, Any],
+    keep_accessions: set[str] | None = None,
+    known_accessions: set[str] | None = None,
 ) -> list[dict[str, str]]:
     try:
         text = raw.decode("utf-8-sig")
@@ -588,7 +581,15 @@ def _read_tsv(
         for row in reader:
             if None in row or any(value is None for value in row.values()):
                 _fail("form4_feasibility_header_mismatch", f"{table_name} row width drifted")
-            rows.append({str(key): str(value) for key, value in row.items()})
+            item = {str(key): str(value) for key, value in row.items()}
+            accession = item.get("ACCESSION_NUMBER", "")
+            if known_accessions is not None and accession and accession not in known_accessions:
+                _fail(
+                    "form4_feasibility_accession_invalid",
+                    f"{table_name} references an unknown accession",
+                )
+            if keep_accessions is None or accession in keep_accessions:
+                rows.append(item)
     except csv.Error:
         _fail("form4_feasibility_header_mismatch", f"{table_name} is not valid TSV")
     return rows
@@ -649,12 +650,33 @@ def _parse_quarter_zip(
         infos = [item for item in archive.infolist() if not item.is_dir()]
         names = [item.filename for item in infos]
         if len(names) != len(set(names)) or any(
-            PurePosixPath(name).is_absolute() or ".." in PurePosixPath(name).parts
+            PurePosixPath(name).is_absolute()
+            or ".." in PurePosixPath(name).parts
+            or "\\" in name
+            or unquote(name) != name
             for name in names
         ):
             _fail("form4_feasibility_zip_member_mismatch", "ZIP member is unsafe or duplicated")
+        total_size = sum(item.file_size for item in infos)
+        compressed_size = sum(item.compress_size for item in infos)
+        if (
+            total_size <= 0
+            or total_size > 1_000_000_000
+            or compressed_size <= 0
+            or total_size / compressed_size > 200
+            or any(item.file_size > 500_000_000 for item in infos)
+        ):
+            _fail("form4_feasibility_zip_member_mismatch", "ZIP expansion limit exceeded")
+        try:
+            corrupt = archive.testzip()
+        except (OSError, RuntimeError, zipfile.BadZipFile):
+            _fail("form4_feasibility_zip_member_mismatch", "ZIP CRC replay failed")
+        if corrupt is not None:
+            _fail("form4_feasibility_zip_member_mismatch", "ZIP member CRC is invalid")
         metadata_candidates: list[tuple[str, dict[str, tuple[str, ...]]]] = []
         for info in infos:
+            if info.file_size > 2_000_000:
+                continue
             try:
                 payload = json.loads(archive.read(info).decode("utf-8-sig"))
             except (UnicodeDecodeError, json.JSONDecodeError):
@@ -670,93 +692,100 @@ def _parse_quarter_zip(
         _, metadata = metadata_candidates[0]
         if set(metadata) != set(required_headers):
             _fail("form4_feasibility_zip_member_mismatch", "metadata table roles drifted")
-        tables: dict[str, list[dict[str, str]]] = {}
+        physical_headers: dict[str, tuple[str, ...]] = {}
         for table_name, anchors in required_headers.items():
             if names.count(table_name) != 1:
                 _fail("form4_feasibility_zip_member_mismatch", f"{table_name} missing")
             metadata_header = metadata[table_name]
             if any(anchor not in metadata_header for anchor in anchors):
                 _fail("form4_feasibility_header_mismatch", f"{table_name} anchor missing")
-            physical_header = _physical_header_projection(
+            physical_headers[table_name] = _physical_header_projection(
                 metadata_header,
                 table_name=table_name,
                 quarter_id=quarter_id,
                 amendment_receipt=amendment_receipt,
             )
+        submissions = _read_tsv(
+            archive.read("SUBMISSION.tsv"),
+            table_name="SUBMISSION.tsv",
+            expected_header=physical_headers["SUBMISSION.tsv"],
+            quarter_id=quarter_id,
+            amendment_receipt=amendment_receipt,
+        )
+        form4_rows: list[dict[str, str]] = []
+        seen: set[str] = set()
+        for row in submissions:
+            raw_form = row["DOCUMENT_TYPE"]
+            if raw_form.casefold() in {"4", "4/a"} and raw_form not in ALLOWED_DOCUMENT_TYPES:
+                _fail("form4_feasibility_form_type_invalid", "Form 4 type is not exact")
+            if raw_form not in ALLOWED_DOCUMENT_TYPES:
+                continue
+            accession = row["ACCESSION_NUMBER"]
+            if _ACCESSION.fullmatch(accession) is None:
+                _fail("form4_feasibility_accession_invalid", "SUBMISSION accession is invalid")
+            if accession in seen:
+                _fail("form4_feasibility_accession_duplicate", "SUBMISSION accession is duplicated")
+            seen.add(accession)
+            if _CIK.fullmatch(row["ISSUERCIK"]) is None:
+                _fail("form4_feasibility_complete_submission_mismatch", "issuer CIK is invalid")
+            item = dict(row)
+            item["normalized_FILING_DATE"] = _normalize_sec_date(
+                row["FILING_DATE"], quarter_id=quarter_id
+            )
+            form4_rows.append(item)
+        if len(form4_rows) < 3:
+            _fail("form4_feasibility_sample_too_small", f"{quarter_id} has fewer than 3 filings")
+        form4_rows.sort(
+            key=lambda row: (row["normalized_FILING_DATE"], row["ACCESSION_NUMBER"])
+        )
+        n = len(form4_rows)
+        base = (("first", 0), ("median", (n - 1) // 2), ("last", n - 1))
+        samples: list[dict[str, str]] = []
+        selected: set[str] = set()
+        for label, index in base:
+            row = dict(form4_rows[index])
+            row["sample_role"] = label
+            samples.append(row)
+            selected.add(row["ACCESSION_NUMBER"])
+        if len(selected) != 3:
+            _fail("form4_feasibility_sample_too_small", "base sample accessions are not distinct")
+        amendments = [row for row in form4_rows if row["DOCUMENT_TYPE"] == "4/A"]
+        if not amendments:
+            _fail("form4_feasibility_amendment_sample_missing", f"{quarter_id} has no 4/A")
+        extra = next(
+            (row for row in amendments if row["ACCESSION_NUMBER"] not in selected),
+            None,
+        )
+        if extra is not None:
+            item = dict(extra)
+            item["sample_role"] = "amendment"
+            samples.append(item)
+            selected.add(item["ACCESSION_NUMBER"])
+            amendment_state = "amendment_added"
+        else:
+            amendment_state = "amendment_covered_by_base"
+        if not 3 <= len(samples) <= 4 or not any(
+            row["DOCUMENT_TYPE"] == "4/A" for row in samples
+        ):
+            _fail("form4_feasibility_sample_not_deterministic", "amendment selection drifted")
+        all_submission_accessions = {
+            row["ACCESSION_NUMBER"]
+            for row in submissions
+            if _ACCESSION.fullmatch(row.get("ACCESSION_NUMBER", ""))
+        }
+        tables: dict[str, list[dict[str, str]]] = {"SUBMISSION.tsv": submissions}
+        for table_name in required_headers:
+            if table_name == "SUBMISSION.tsv":
+                continue
             tables[table_name] = _read_tsv(
                 archive.read(table_name),
                 table_name=table_name,
-                expected_header=physical_header,
+                expected_header=physical_headers[table_name],
                 quarter_id=quarter_id,
                 amendment_receipt=amendment_receipt,
+                keep_accessions=selected,
+                known_accessions=all_submission_accessions,
             )
-    submissions = tables["SUBMISSION.tsv"]
-    form4_rows: list[dict[str, str]] = []
-    seen: set[str] = set()
-    for row in submissions:
-        raw_form = row["DOCUMENT_TYPE"]
-        if raw_form.casefold() in {"4", "4/a"} and raw_form not in ALLOWED_DOCUMENT_TYPES:
-            _fail("form4_feasibility_form_type_invalid", "Form 4 type is not exact")
-        if raw_form not in ALLOWED_DOCUMENT_TYPES:
-            continue
-        accession = row["ACCESSION_NUMBER"]
-        if _ACCESSION.fullmatch(accession) is None:
-            _fail("form4_feasibility_accession_invalid", "SUBMISSION accession is invalid")
-        if accession in seen:
-            _fail("form4_feasibility_accession_duplicate", "SUBMISSION accession is duplicated")
-        seen.add(accession)
-        if _CIK.fullmatch(row["ISSUERCIK"]) is None:
-            _fail("form4_feasibility_complete_submission_mismatch", "issuer CIK is invalid")
-        item = dict(row)
-        item["normalized_FILING_DATE"] = _normalize_sec_date(
-            row["FILING_DATE"], quarter_id=quarter_id
-        )
-        form4_rows.append(item)
-    if len(form4_rows) < 3:
-        _fail("form4_feasibility_sample_too_small", f"{quarter_id} has fewer than 3 filings")
-    form4_rows.sort(key=lambda row: (row["normalized_FILING_DATE"], row["ACCESSION_NUMBER"]))
-    n = len(form4_rows)
-    base = (("first", 0), ("median", (n - 1) // 2), ("last", n - 1))
-    samples: list[dict[str, str]] = []
-    selected: set[str] = set()
-    for label, index in base:
-        row = dict(form4_rows[index])
-        row["sample_role"] = label
-        samples.append(row)
-        selected.add(row["ACCESSION_NUMBER"])
-    if len(selected) != 3:
-        _fail("form4_feasibility_sample_too_small", "base sample accessions are not distinct")
-    amendments = [row for row in form4_rows if row["DOCUMENT_TYPE"] == "4/A"]
-    if not amendments:
-        _fail("form4_feasibility_amendment_sample_missing", f"{quarter_id} has no 4/A")
-    extra = next((row for row in amendments if row["ACCESSION_NUMBER"] not in selected), None)
-    if extra is not None:
-        item = dict(extra)
-        item["sample_role"] = "amendment"
-        samples.append(item)
-        selected.add(item["ACCESSION_NUMBER"])
-        amendment_state = "amendment_added"
-    else:
-        amendment_state = "amendment_covered_by_base"
-    if not 3 <= len(samples) <= 4 or not any(
-        row["DOCUMENT_TYPE"] == "4/A" for row in samples
-    ):
-        _fail("form4_feasibility_sample_not_deterministic", "amendment selection drifted")
-    all_submission_accessions = {
-        row["ACCESSION_NUMBER"]
-        for row in submissions
-        if _ACCESSION.fullmatch(row.get("ACCESSION_NUMBER", ""))
-    }
-    for table_name, rows in tables.items():
-        if table_name == "SUBMISSION.tsv":
-            continue
-        for row in rows:
-            accession = row["ACCESSION_NUMBER"]
-            if accession and accession not in all_submission_accessions:
-                _fail(
-                    "form4_feasibility_accession_invalid",
-                    f"{table_name} references an unknown accession",
-                )
     return {
         "quarter_id": quarter_id,
         "tables": tables,
@@ -1143,7 +1172,7 @@ def _validate_filing_evidence(
     }
 
 
-def _admission_controls() -> dict[str, Any]:
+def _admission_controls(*, real_sample_replayed: bool = False) -> dict[str, Any]:
     reasons = {
         "01": "frozen_parent_lineage_hashes_verified",
         "04": "source_scope_sec_form_4_and_exact_form_types_verified",
@@ -1160,19 +1189,24 @@ def _admission_controls() -> dict[str, Any]:
         "13": "pit_security_universe_not_replayed",
         "14": "pit_market_execution_inputs_not_replayed",
         "15": "local_fixture_attacks_are_not_full_independent_admission_attacks",
-        "16": "real_sample_not_authorized_or_replayed",
+        "16": (
+            "authorized_real_sample_independently_replayed"
+            if real_sample_replayed
+            else "real_sample_not_authorized_or_replayed"
+        ),
     }
     gates = [
         {
             "id": gate_id,
             "name": name,
-            "passed": gate_id in {"01", "04"},
+            "passed": gate_id in {"01", "04"}
+            or (gate_id == "16" and real_sample_replayed),
             "reason": reasons[gate_id],
         }
         for gate_id, name in FORM4_ADMISSION_GATES
     ]
     return {
-        "passed": 2,
+        "passed": 3 if real_sample_replayed else 2,
         "total": 16,
         "all_passed": False,
         "gates": gates,
@@ -1183,10 +1217,27 @@ def _admission_controls() -> dict[str, Any]:
 
 def build_form4_feasibility_failure_receipt(
     error: Form4AdmissionFeasibilityError,
+    *,
+    sample_count: int = 0,
+    evidence_mode: str = "none_after_failure",
+    private_manifest_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Build an identifier-free public stop receipt from a fail-closed error."""
 
-    code = error.code if error.code in ALL_ATTACK_CODES else "form4_feasibility_result_boundary_breached"
+    if isinstance(sample_count, bool) or not isinstance(sample_count, int) or not 0 <= sample_count <= 12:
+        _fail("form4_feasibility_result_boundary_breached", "failure sample count is invalid")
+    if evidence_mode not in {"none_after_failure", "authorized_real_sample"}:
+        _fail("form4_feasibility_result_boundary_breached", "failure evidence mode is invalid")
+    if private_manifest_sha256 is not None and re.fullmatch(
+        r"[0-9a-f]{64}", private_manifest_sha256
+    ) is None:
+        _fail("form4_feasibility_result_boundary_breached", "private manifest hash is invalid")
+    code = (
+        error.code
+        if error.code in ALL_ATTACK_CODES
+        else "form4_feasibility_result_boundary_breached"
+    )
+    controls = _admission_controls()
     return {
         "schema_version": SCHEMA_VERSION,
         "protocol_sha256": EXPECTED_SCHEMA_AMENDMENT_SHA256,
@@ -1194,22 +1245,31 @@ def build_form4_feasibility_failure_receipt(
         "frozen_at": SCHEMA_AMENDMENT_FROZEN_AT,
         "status": "stopped_no_admission_claim",
         "fixed_quarters": list(FIXED_QUARTERS),
-        "sample_count": 0,
-        "admission_controls": _admission_controls(),
+        "sample_count": sample_count,
+        "admission_controls": controls,
         "attack_results": {"error_code": code, "identifier_detail_included": False},
         "stop_reasons": [code],
         "state_boundary": {
-            "evidence_mode": "none_after_failure",
+            "evidence_mode": evidence_mode,
             "authorized_real_form4_rows": 0,
-            "form4_specific_admission": {"passed": 2, "total": 16, "all_passed": False},
+            "form4_specific_admission": {
+                "passed": controls["passed"],
+                "total": controls["total"],
+                "all_passed": controls["all_passed"],
+            },
             "candidate_selection_count": 0,
             "strategy_run_count": 0,
             "performance_present": False,
-            "paper_authorized": False,
+            "paper": {
+                "authorized": False,
+                "state": "all_cash",
+                "backfilled_trades": 0,
+                "positions": [],
+            },
             "real_money_action_usd": 0,
             "today_action": "今天不下單",
         },
-        "private_manifest_sha256": None,
+        "private_manifest_sha256": private_manifest_sha256,
     }
 
 
@@ -1220,9 +1280,11 @@ def audit_form4_admission_feasibility(
     quarter_receipts: Mapping[str, Mapping[str, Any]],
     filing_evidence: Mapping[str, Mapping[str, Any]],
     evidence_mode: str,
+    real_sample_authorized: bool = False,
+    private_manifest_sha256: str | None = None,
     state_claims: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Replay a synthetic Form 4 admission sample without authorizing admission.
+    """Replay a sealed Form 4 feasibility sample without authorizing a strategy.
 
     All market identifiers remain inside the in-memory private manifest commitment.
     The function never performs a fetch: every byte must already be bound by a stored
@@ -1231,10 +1293,29 @@ def audit_form4_admission_feasibility(
 
     binding = _load_protocol_binding(Path(repository_root))
     _validate_state_claims(state_claims)
-    if evidence_mode != "synthetic_fixture":
+    if evidence_mode not in {"synthetic_fixture", "authorized_real_sample"}:
         _fail(
             "form4_feasibility_private_boundary_breached",
-            "this result-blind implementation accepts only explicit synthetic fixture mode",
+            "evidence mode is outside the frozen feasibility boundary",
+        )
+    is_real_sample = evidence_mode == "authorized_real_sample"
+    if is_real_sample != real_sample_authorized:
+        _fail(
+            "form4_feasibility_private_boundary_breached",
+            "real-sample replay requires a separately validated authorization",
+        )
+    if is_real_sample:
+        if private_manifest_sha256 is None or re.fullmatch(
+            r"[0-9a-f]{64}", private_manifest_sha256
+        ) is None:
+            _fail(
+                "form4_feasibility_private_boundary_breached",
+                "real-sample replay must bind one private manifest",
+            )
+    elif private_manifest_sha256 is not None:
+        _fail(
+            "form4_feasibility_private_boundary_breached",
+            "synthetic replay cannot claim a stored private manifest",
         )
     if set(quarter_receipts) != set(FIXED_QUARTERS):
         _fail("form4_feasibility_quarter_set_mismatch", "fixed quarter set drifted")
@@ -1274,17 +1355,6 @@ def audit_form4_admission_feasibility(
         )
         for sample in samples
     ]
-    observed_semantics: Counter[tuple[str, str]] = Counter()
-    for item in private_samples:
-        for label, count in item["semantics"].items():
-            code, acquired_disposed = label.split("/", 1)
-            observed_semantics[(code, acquired_disposed)] += int(count)
-    missing_semantics = [pair for pair in FIXED_SEMANTICS if observed_semantics[pair] <= 0]
-    if missing_semantics:
-        _fail(
-            "form4_feasibility_complete_submission_mismatch",
-            "fixed P/A and control semantics were not all retained",
-        )
     private_manifest = {
         "schema_version": 1,
         "evidence_mode": evidence_mode,
@@ -1299,10 +1369,16 @@ def audit_form4_admission_feasibility(
         ],
         "samples": private_samples,
     }
+    real_sample_replayed = is_real_sample
+    controls = _admission_controls(real_sample_replayed=real_sample_replayed)
     state_boundary = {
         "evidence_mode": evidence_mode,
         "authorized_real_form4_rows": 0,
-        "form4_specific_admission": {"passed": 2, "total": 16, "all_passed": False},
+        "form4_specific_admission": {
+            "passed": controls["passed"],
+            "total": controls["total"],
+            "all_passed": controls["all_passed"],
+        },
         "candidate_selection_count": 0,
         "strategy_run_count": 0,
         "performance_present": False,
@@ -1320,18 +1396,26 @@ def audit_form4_admission_feasibility(
         "protocol_sha256": binding["protocol_sha256"],
         "protocol_receipt_sha256": binding["protocol_receipt_sha256"],
         "frozen_at": binding["frozen_at"],
-        "status": "synthetic_fixture_feasibility_replayed_form4_admission_2_of_16",
+        "status": (
+            "authorized_real_sample_replayed_form4_admission_3_of_16"
+            if is_real_sample
+            else "synthetic_fixture_feasibility_replayed_form4_admission_2_of_16"
+        ),
         "fixed_quarters": list(FIXED_QUARTERS),
         "sample_count": len(samples),
-        "admission_controls": _admission_controls(),
+        "admission_controls": controls,
         "attack_results": {
             "runtime_mutations_executed": False,
             "fixed_codes": list(ALL_ATTACK_CODES),
             "covered_by_fake_fixture_tests": True,
         },
-        "stop_reasons": [],
+        "stop_reasons": ["form4_admission_below_16_of_16"],
         "state_boundary": state_boundary,
-        "private_manifest_sha256": _canonical_sha256(private_manifest),
+        "private_manifest_sha256": (
+            private_manifest_sha256
+            if is_real_sample
+            else _canonical_sha256(private_manifest)
+        ),
     }
     expected_keys = set(
         binding["receipt"]["future_public_validation"]["exact_top_level_keys"]
