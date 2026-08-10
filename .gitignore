@@ -45,4 +45,7 @@ artifacts/*
 !artifacts/short_term_volume_breakout_diagnostic_protocol_receipt.json
 !artifacts/short_term_volume_breakout_diagnostic_validation.json
 !artifacts/short_term_global_trial_ledger_round54_extension.json
+!artifacts/short_term_oversold_reversal_diagnostic_protocol_receipt.json
+!artifacts/short_term_oversold_reversal_diagnostic_validation.json
+!artifacts/short_term_global_trial_ledger_round55_extension.json
 .site-git-backup/
