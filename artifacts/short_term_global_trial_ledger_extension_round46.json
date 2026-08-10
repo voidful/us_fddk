@@ -1,0 +1,43 @@
+{
+  "schema_version": "us_fddk.global_trial_ledger_extension.round46.v1",
+  "status": "append_only_successor_preregistered_unrun",
+  "count_semantics": "conservative_minimum_hypothesis_path_lower_bound_not_exact_global_count",
+  "exact_global_count_claimed": false,
+  "predecessor": {
+    "path": "artifacts/short_term_global_trial_ledger.json",
+    "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49",
+    "schema_version": 1,
+    "entry_count": 12,
+    "current_lower_bound": 6287,
+    "chain_head_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085"
+  },
+  "entry": {
+    "sequence": 12,
+    "family_id": "round46_form4_forward_eight_comparisons",
+    "result_state": "preregistered_unrun",
+    "publication_state": "tracked_preregistered",
+    "seen_result": false,
+    "previous_lower_bound": 6287,
+    "minimum_increment": 8,
+    "current_lower_bound": 6295,
+    "exact_increment_claimed": true,
+    "source_bindings": [
+      {
+        "label": "round46_protocol",
+        "path": "docs/SHORT_TERM_FORM4_FORWARD_STRATEGY_EVIDENCE_PROTOCOL.md",
+        "sha256": "a72bbfc56071aa16831bc90a64e3063fdcb1ecea40624b697be6e11d18b7e32c"
+      }
+    ],
+    "previous_entry_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085",
+    "entry_sha256": "73685eeebb1975b27f34c9718f2f19821d55e2df924c0ff93dd829e508bf998b"
+  },
+  "combined_tip_sha256": "73685eeebb1975b27f34c9718f2f19821d55e2df924c0ff93dd829e508bf998b",
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "extension_sha256": "a6e129bbd03a396b1c0f9f09b6c4f7b83dfddcc0926d0e5d8f7c82fc4f788585"
+}
