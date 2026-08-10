@@ -47,12 +47,15 @@ def test_liquidity_filter_uses_only_prior_sessions(tmp_path) -> None:
     rows = []
     for symbol in ("AAA", "BBB"):
         for day in sorted(prices[prices["symbol"].eq(symbol)]["date"].unique()):
+            entry_day = day == date(2026, 6, 29)
             rows.append(
                 {
                     "symbol": symbol,
                     "date": day,
-                    "close": 10.0,
-                    "dollar_volume": 25_000_000.0,
+                    # The entry-day quote is deliberately untradeable.  It must
+                    # not leak into the pre-entry history calculation.
+                    "close": 1.0 if entry_day else 10.0,
+                    "dollar_volume": 1_000_000.0 if entry_day else 25_000_000.0,
                 }
             )
     path = tmp_path / "liquidity.csv"
