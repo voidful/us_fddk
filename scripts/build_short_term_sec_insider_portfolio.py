@@ -9,6 +9,7 @@ from usfddk.sec_insider import parse_insider_purchases, sha256_file
 from usfddk.sec_insider_forward import load_long_total_return_prices
 from usfddk.sec_insider_multi import EXPECTED_QUARTERS, build_quarter_candidates
 from usfddk.sec_insider_portfolio import (
+    PORTFOLIO_BASELINE_SYMBOLS,
     PORTFOLIO_COST_SCENARIOS,
     PORTFOLIO_HOLDING_SESSIONS,
     PORTFOLIO_ONE_WAY_COST_BPS,
@@ -96,24 +97,39 @@ def main() -> int:
     early_accepted, early_skipped = prepare_portfolio_signals(early_rows, prices)
     late_accepted, late_skipped = prepare_portfolio_signals(late_rows, prices)
     diagnostic = {
-        "all_period": simulate_event_portfolio(accepted, prices),
+        "all_period": simulate_event_portfolio(
+            accepted, prices, baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS
+        ),
         "fixed_halves": {
-            "2024Q1_2025Q1": simulate_event_portfolio(early_accepted, prices),
-            "2025Q2_2026Q2": simulate_event_portfolio(late_accepted, prices),
+            "2024Q1_2025Q1": simulate_event_portfolio(
+                early_accepted, prices, baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS
+            ),
+            "2025Q2_2026Q2": simulate_event_portfolio(
+                late_accepted, prices, baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS
+            ),
         },
     }
     cost_scenarios = {}
     for cost_bps in PORTFOLIO_COST_SCENARIOS:
         cost_scenarios[str(int(cost_bps))] = {
             "all_period": simulate_event_portfolio(
-                accepted, prices, one_way_cost_bps=cost_bps
+                accepted,
+                prices,
+                one_way_cost_bps=cost_bps,
+                baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
             ),
             "fixed_halves": {
                 "2024Q1_2025Q1": simulate_event_portfolio(
-                    early_accepted, prices, one_way_cost_bps=cost_bps
+                    early_accepted,
+                    prices,
+                    one_way_cost_bps=cost_bps,
+                    baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
                 ),
                 "2025Q2_2026Q2": simulate_event_portfolio(
-                    late_accepted, prices, one_way_cost_bps=cost_bps
+                    late_accepted,
+                    prices,
+                    one_way_cost_bps=cost_bps,
+                    baseline_symbols=PORTFOLIO_BASELINE_SYMBOLS,
                 ),
             },
         }
@@ -125,6 +141,7 @@ def main() -> int:
             "sha256": sha256_file(PROTOCOL),
             "holding_sessions": PORTFOLIO_HOLDING_SESSIONS,
             "one_way_cost_bps": PORTFOLIO_ONE_WAY_COST_BPS,
+            "baseline_symbols": list(PORTFOLIO_BASELINE_SYMBOLS),
         },
         "sec_sources": sec_sources,
         "sec_input_counts": {

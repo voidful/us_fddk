@@ -71,6 +71,7 @@ def test_saved_portfolio_receipt_is_upper_bound_only_and_not_paper() -> None:
     assert receipt["signal_filter"]["accepted_count"] == 2266
     assert receipt["signal_filter"]["skipped"]["missing_price_window"] == 883
     assert all_period["portfolio"]["cagr"] > all_period["QQQ"]["cagr"]
+    assert set(all_period["baselines"]) == {"QQQ", "SPY", "IWM"}
     assert all_period["annualized_turnover"] > 30.0
     assert (
         receipt["cost_scenarios"]["50"]["all_period"]["portfolio"]["cagr"]

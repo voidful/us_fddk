@@ -14,6 +14,7 @@ PORTFOLIO_HOLDING_SESSIONS = 20
 PORTFOLIO_ONE_WAY_COST_BPS = 10.0
 PORTFOLIO_ROUND_TRIP_COST_BPS = 20.0
 PORTFOLIO_COST_SCENARIOS = (10.0, 25.0, 50.0)
+PORTFOLIO_BASELINE_SYMBOLS = ("QQQ", "SPY", "IWM")
 
 
 def _price_maps(
@@ -121,14 +122,15 @@ def _metrics(equity: pd.Series, daily_returns: pd.Series, days: int) -> dict[str
     }
 
 
-def _qqq_baseline(
+def _buy_hold_baseline(
     prices: pd.DataFrame,
     *,
+    symbol: str,
     start: date,
     end: date,
     one_way_cost: float,
 ) -> tuple[dict[str, float], pd.Series]:
-    rows = prices[prices["symbol"].eq("QQQ")].sort_values("date")
+    rows = prices[prices["symbol"].eq(symbol)].sort_values("date")
     rows = rows[(rows["date"] >= start) & (rows["date"] <= end)].reset_index(drop=True)
     if rows.empty:
         return _metrics(pd.Series(dtype=float), pd.Series(dtype=float), 1), pd.Series(dtype=float)
@@ -156,6 +158,7 @@ def simulate_event_portfolio(
     prices: pd.DataFrame,
     *,
     one_way_cost_bps: float = PORTFOLIO_ONE_WAY_COST_BPS,
+    baseline_symbols: tuple[str, ...] = ("QQQ",),
 ) -> dict[str, Any]:
     """Simulate all eligible signals with equal active-position weights."""
 
@@ -167,6 +170,10 @@ def simulate_event_portfolio(
             "period": None,
             "portfolio": _metrics(pd.Series(dtype=float), pd.Series(dtype=float), 1),
             "QQQ": _metrics(pd.Series(dtype=float), pd.Series(dtype=float), 1),
+            "baselines": {
+                symbol: _metrics(pd.Series(dtype=float), pd.Series(dtype=float), 1)
+                for symbol in baseline_symbols
+            },
             "comparison": {"cagr_difference": 0.0, "total_return_difference": 0.0},
             "average_active_positions": 0.0,
             "annualized_turnover": 0.0,
@@ -224,17 +231,24 @@ def simulate_event_portfolio(
     equity_series = pd.Series(equity_values, index=session_slice)
     return_values = equity_series.pct_change().fillna(equity_series.iloc[0] - 1.0)
     portfolio_metrics = _metrics(equity_series, return_values, max((end - start).days, 1))
-    qqq_metrics, _ = _qqq_baseline(
-        prices,
-        start=start,
-        end=end,
-        one_way_cost=one_way_cost,
-    )
+    baselines: dict[str, dict[str, float]] = {}
+    for symbol in baseline_symbols:
+        if symbol not in by_symbol:
+            raise ValueError(f"price snapshot 缺少 baseline：{symbol}")
+        baselines[symbol], _ = _buy_hold_baseline(
+            prices,
+            symbol=symbol,
+            start=start,
+            end=end,
+            one_way_cost=one_way_cost,
+        )
+    qqq_metrics = baselines["QQQ"]
     return {
         "signal_count": len(signals),
         "period": {"start": start.isoformat(), "end": end.isoformat()},
         "portfolio": portfolio_metrics,
         "QQQ": qqq_metrics,
+        "baselines": baselines,
         "comparison": {
             "cagr_difference": portfolio_metrics["cagr"] - qqq_metrics["cagr"],
             "total_return_difference": portfolio_metrics["total_return"]

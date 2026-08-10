@@ -14,8 +14,8 @@
 - 入場日 adjusted open；入場日用 open-to-close，之後用 close-to-close；到期日收市後
   離場。成本情境事前固定為單邊 10 bps（主要）、25 bps 及 50 bps（壓力測試）；同一
   批訊號、持倉及期間全部重用，不按成本結果重新選擇。
-- QQQ 在相同 portfolio evaluation period 以 adjusted open 進場、末日收市離場，同樣
-  扣 20 bps，作為主要 baseline。
+- QQQ、SPY、IWM 在相同 portfolio evaluation period 以 adjusted open 進場、末日收市
+  離場，同樣扣 20 bps；三者均事前固定，QQQ 仍是主要高回報 baseline。
 
 ## 評估
 
