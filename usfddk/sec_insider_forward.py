@@ -58,27 +58,41 @@ def load_long_total_return_prices(path: str | Path) -> pd.DataFrame:
     return frame.sort_values(["symbol", "date"]).reset_index(drop=True)
 
 
-def _forward_return(
+def _price_lookup(
     prices: pd.DataFrame,
+) -> dict[str, tuple[dict[date, int], np.ndarray, np.ndarray]]:
+    lookup: dict[str, tuple[dict[date, int], np.ndarray, np.ndarray]] = {}
+    for symbol, rows in prices.groupby("symbol", sort=False):
+        rows = rows.sort_values("date").reset_index(drop=True)
+        dates = rows["date"].tolist()
+        lookup[str(symbol)] = (
+            {day: index for index, day in enumerate(dates)},
+            rows["adj_open"].to_numpy(dtype=float),
+            rows["adj_close"].to_numpy(dtype=float),
+        )
+    return lookup
+
+
+def _forward_return(
+    prices: dict[str, tuple[dict[date, int], np.ndarray, np.ndarray]],
     *,
     symbol: str,
     entry_date: date,
     horizon: int,
     cost: float,
 ) -> float | None:
-    rows = prices[prices["symbol"].eq(symbol)]
-    if rows.empty:
+    entry_positions = prices.get(symbol)
+    if entry_positions is None:
         return None
-    rows = rows.sort_values("date").reset_index(drop=True)
-    positions = rows.index[rows["date"].eq(entry_date)].tolist()
-    if not positions:
+    date_positions, adj_open, adj_close = entry_positions
+    entry_position = date_positions.get(entry_date)
+    if entry_position is None:
         return None
-    entry_position = positions[0]
     exit_position = entry_position + horizon - 1
-    if exit_position >= len(rows):
+    if exit_position >= len(adj_close):
         return None
-    entry = float(rows.loc[entry_position, "adj_open"])
-    exit = float(rows.loc[exit_position, "adj_close"])
+    entry = float(adj_open[entry_position])
+    exit = float(adj_close[exit_position])
     return exit / entry - 1.0 - cost
 
 
@@ -131,7 +145,8 @@ def compute_forward_event_diagnostic(
         raise ValueError("forward diagnostic horizons are frozen at 5/10/20 sessions")
     if round_trip_cost_bps != FORWARD_ROUND_TRIP_COST_BPS:
         raise ValueError("forward diagnostic cost is frozen at 20 bps round trip")
-    if baseline_symbol not in set(prices["symbol"]):
+    price_lookup = _price_lookup(prices)
+    if baseline_symbol not in price_lookup:
         raise ValueError(f"price snapshot 缺少 baseline：{baseline_symbol}")
     cost = round_trip_cost_bps / 10_000.0
     normalized: list[dict[str, Any]] = []
@@ -159,14 +174,14 @@ def compute_forward_event_diagnostic(
         missing_baseline = 0
         for row in normalized:
             candidate_return = _forward_return(
-                prices,
+                price_lookup,
                 symbol=row["ticker"],
                 entry_date=row["available_session"],
                 horizon=horizon,
                 cost=cost,
             )
             baseline_return = _forward_return(
-                prices,
+                price_lookup,
                 symbol=baseline_symbol,
                 entry_date=row["available_session"],
                 horizon=horizon,

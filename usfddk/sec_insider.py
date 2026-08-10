@@ -13,6 +13,7 @@ import hashlib
 import math
 import re
 import zipfile
+from bisect import bisect_left, bisect_right
 from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import date, timedelta
@@ -299,14 +300,21 @@ def rank_insider_clusters(
         and (universe_symbols is None or event.issuer_ticker in universe_symbols)
     ]
     known.sort(key=lambda event: (event.filing_date, event.accession_number, event.transaction_sk))
+    events_by_ticker: dict[str, list[InsiderPurchase]] = {}
+    dates_by_ticker: dict[str, list[date]] = {}
+    for event in known:
+        events_by_ticker.setdefault(event.issuer_ticker, []).append(event)
+    for ticker, ticker_events in events_by_ticker.items():
+        dates_by_ticker[ticker] = [event.filing_date for event in ticker_events]
     candidates: list[dict[str, Any]] = []
     for current in known:
         start = _window_start_xnys(current.filing_date, window_sessions)
-        window = [
-            event
-            for event in known
-            if start <= event.filing_date <= current.filing_date
-            and event.issuer_ticker == current.issuer_ticker
+        ticker_events = events_by_ticker[current.issuer_ticker]
+        ticker_dates = dates_by_ticker[current.issuer_ticker]
+        window = ticker_events[
+            bisect_left(ticker_dates, start) : bisect_right(
+                ticker_dates, current.filing_date
+            )
         ]
         owner_count = len({event.owner_cik for event in window})
         notional = sum(event.notional_usd for event in window)

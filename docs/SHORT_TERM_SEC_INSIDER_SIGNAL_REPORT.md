@@ -47,6 +47,29 @@ adjusted close 離場，候選及 QQQ 同時計扣 20 bps round-trip。使用 20
 資金等權組合。這是值得用 CRSP／WRDS／Norgate 逐期成分及退市回報重測的線索，並非
 可執行 alpha、買入名單或盈利證據。正面數字也不會改變正式 readiness 或 Paper 狀態。
 
+## 十季固定樣本診斷
+
+為避免單季結果主導判讀，另外事前固定 2024 Q1 至 2026 Q2 十個 SEC quarterly
+packages，再用同一 20-session cluster 及同一價格時計重算。共解析 65,591 筆事件，
+產生 5,798 個候選列；Yahoo exploratory snapshot 覆蓋 1,329／1,465 個候選 ticker，
+20 日窗口有 4,915 列完整，缺口全部保留。
+
+| 固定樣本 | 5 日超額 | 10 日超額 | **20 日超額** | 20 日 bootstrap 95% 區間 |
+|---|---:|---:|---:|---:|
+| 全部十季 | +0.66pp | +0.71pp | **+0.36pp** | -0.28pp 至 +0.99pp |
+| 前五季（2024Q1–2025Q1） | +0.48pp | +0.36pp | **-0.59pp** | -1.40pp 至 +0.19pp |
+| 後五季（2025Q2–2026Q2） | +0.83pp | +1.03pp | **+1.24pp** | +0.28pp 至 +2.28pp |
+
+全期主要 20 日配對勝率只有 45.0%，bootstrap 平均超額低於或等於零的比例為 14.9%；
+前半段落後、後半段領先，顯示結果受市場時段影響，不能稱為跨期穩健。季度結果亦
+混合：2024Q2 約 -4.26pp、2025Q2 約 -1.38pp、2026Q1 約 -1.36pp，但 2025Q4
+約 +6.09pp。全期平均超額雖為 +0.36pp，但中位超額為 -1.15pp；後半期平均 +1.24pp
+時中位數仍為 -0.74pp，顯示正數主要由少量尾部事件拉動。這種 regime sensitivity、
+事件重疊及 137 個候選 ticker 缺乏價格，足以阻止任何 Paper 或網站行動建議。
+
+十季結果只是「值得向合格資料申請重測」的研究線索；它不是十季正式回測，也沒有把
+候選列轉成資金等權組合。
+
 ## 固定規則
 
 - 只取 Form 4／4-A 的 `NONDERIV_TRANS`，不把 Form 3、Form 5、衍生工具或持倉列
@@ -74,11 +97,13 @@ risk-free provider package。
 - 機器收據：`artifacts/short_term_sec_insider_signal.json`
 - Universe audit：`artifacts/short_term_sec_insider_universe_audit.json`
 - 事件後診斷：`artifacts/short_term_sec_insider_forward_diagnostic.json`
+- 十季診斷：`artifacts/short_term_sec_insider_multi_quarter_diagnostic.json`
 - 下載 URL：SEC 2026 Q2 Form 345 ZIP
 - SHA-256：`11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27`
 - 重建：`python scripts/build_short_term_sec_insider_signal.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - Universe audit 重建：`python scripts/audit_short_term_sec_insider_universe.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - 事件後診斷重建：`python scripts/build_short_term_sec_insider_forward_diagnostic.py --sec-zip <external-zip> --prices <prepared-long-csv> --as-of 2026-06-30 --price-client <client-version>`
+- 十季診斷重建：`python scripts/build_short_term_sec_insider_multi_quarter.py --manifest <quarter-manifest> --prices <prepared-long-csv> --price-client <client-version>`
 - 單元測試：`tests/test_sec_insider.py`
 
 下一個有效動作是取得覆蓋完整歷史的價格、退市及 point-in-time 成分資料，先把這條
