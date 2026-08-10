@@ -21,6 +21,12 @@ def main() -> int:
     )
     parser.add_argument("--package", type=Path, required=True)
     parser.add_argument("--risk-free-bundle", type=Path, required=True)
+    parser.add_argument(
+        "--benchmark-action-bundle",
+        type=Path,
+        required=True,
+        help="repository 外、owner-only 的 QQQ／SPY 公司行動 provider bridge",
+    )
     parser.add_argument("--release-firewall", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -33,6 +39,7 @@ def main() -> int:
             root=ROOT,
             source_mode="provider",
             release_firewall=args.release_firewall,
+            benchmark_action_bundle=args.benchmark_action_bundle,
         )
     except Exception as exc:  # noqa: BLE001 - stable semantic code is the CLI contract.
         code = getattr(exc, "code", "formal_runner_unexpected_error")

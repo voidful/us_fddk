@@ -43,6 +43,16 @@ def test_benchmark_factor_without_action_ledger_is_rejected() -> None:
     assert error.value.code == "benchmark_action_ledger_missing"
 
 
+def test_benchmark_factor_is_accepted_only_when_action_bridge_is_bound() -> None:
+    sessions = pd.DatetimeIndex(["2026-01-02", "2026-01-05"])
+    prices = runner._benchmark_prices(
+        _benchmark(factor=1.001),
+        sessions,
+        benchmark_action_ledger_bound=True,
+    )
+    assert set(prices["security_id"]) == {"QQQ", "SPY"}
+
+
 def test_combined_prices_filter_history_and_keep_observed_raw_rows() -> None:
     sessions = pd.DatetimeIndex(["2026-01-02", "2026-01-05"])
     stocks = pd.DataFrame(

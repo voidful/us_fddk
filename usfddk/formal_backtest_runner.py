@@ -8,10 +8,9 @@ failure receipt so the same input cannot be silently retried or tuned.
 
 The current CIZ execution extension supplies benchmark raw prices and a total
 return factor, but not an explicit QQQ/SPY action ledger.  Raw accounting cannot
-pretend that factor is a corporate-action ledger, so a non-unit benchmark factor
-is rejected with ``benchmark_action_ledger_missing`` until that provider bridge
-is delivered.  This is intentional: no attractive but economically incomplete
-backtest is produced.
+pretend that factor is a corporate-action ledger, so a provider benchmark-action
+bridge is required before a non-unit factor can be used.  This is intentional:
+no attractive but economically incomplete backtest is produced.
 """
 
 from __future__ import annotations
@@ -31,12 +30,13 @@ from .formal_backtest_readiness import (
     audit_formal_backtest_readiness,
 )
 from .formal_baseline_schedule import build_formal_baseline_targets
+from .formal_benchmark_actions import BenchmarkActionBridge, load_benchmark_action_bridge
 from .formal_execution_schedule import build_next_open_schedule, execution_schedule_frame
 from .formal_performance import compare_formal_paths
 from .formal_raw_accounting import run_raw_accounting
 from .formal_signal_engine import build_monthly_target_weights, load_signal_inputs_from_ledger
 
-FORMAL_BACKTEST_RUNNER_VERSION = "round22-formal-backtest-runner-v1"
+FORMAL_BACKTEST_RUNNER_VERSION = "round23-formal-backtest-runner-v1"
 _BENCHMARK_COLUMNS = (
     "asset_id",
     "session",
@@ -115,7 +115,12 @@ def _study_calendar(
     return selected, start, end
 
 
-def _benchmark_prices(benchmark: pd.DataFrame, sessions: pd.DatetimeIndex) -> pd.DataFrame:
+def _benchmark_prices(
+    benchmark: pd.DataFrame,
+    sessions: pd.DatetimeIndex,
+    *,
+    benchmark_action_ledger_bound: bool = False,
+) -> pd.DataFrame:
     parsed = pd.to_datetime(benchmark["session"], format="%Y-%m-%d", errors="coerce")
     if parsed.isna().any() or benchmark[["asset_id", "session"]].duplicated().any():
         _fail("benchmark_execution_data_missing", "QQQ／SPY benchmark 日期不唯一")
@@ -136,7 +141,10 @@ def _benchmark_prices(benchmark: pd.DataFrame, sessions: pd.DatetimeIndex) -> pd
     # The raw accounting bridge only accepts explicit action rows.  A non-unit
     # factor without such a bridge would either omit distributions or double
     # count them, so stop before a strategy run rather than silently choosing.
-    if not np.isclose(numeric["total_return_factor"].to_numpy(dtype=float), 1.0).all():
+    if (
+        not benchmark_action_ledger_bound
+        and not np.isclose(numeric["total_return_factor"].to_numpy(dtype=float), 1.0).all()
+    ):
         _fail(
             "benchmark_action_ledger_missing",
             "QQQ／SPY 有非 1 總回報因子，但 execution package 沒有 ETF 公司行動帳本",
@@ -156,13 +164,19 @@ def _combine_prices(
     daily_prices: pd.DataFrame,
     benchmark: pd.DataFrame,
     sessions: pd.DatetimeIndex,
+    *,
+    benchmark_action_ledger_bound: bool = False,
 ) -> pd.DataFrame:
     stock = daily_prices.loc[:, list(_RAW_PRICE_COLUMNS)].copy()
     stock_sessions = pd.to_datetime(stock["session"], format="%Y-%m-%d", errors="coerce")
     if stock_sessions.isna().any():
         _fail("formal_runner_price_invalid", "股票價格含無效 session")
     stock = stock.loc[stock_sessions.isin(sessions)].copy()
-    benchmark_raw = _benchmark_prices(benchmark, sessions)
+    benchmark_raw = _benchmark_prices(
+        benchmark,
+        sessions,
+        benchmark_action_ledger_bound=benchmark_action_ledger_bound,
+    )
     frame = pd.concat([stock, benchmark_raw], ignore_index=True)
     parsed = pd.to_datetime(frame["session"], format="%Y-%m-%d", errors="coerce")
     if parsed.isna().any() or not set(parsed).issubset(set(sessions)):
@@ -177,6 +191,7 @@ def _combine_prices(
 def _event_tables(
     package: Path,
     sessions: pd.DatetimeIndex,
+    benchmark_bridge: BenchmarkActionBridge | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     ledger = package / "ledger"
     execution = package / "execution"
@@ -208,6 +223,20 @@ def _event_tables(
         outcomes["outcome_type"].isin(_EXIT_OUTCOMES)
         & outcomes["exit_effective_date"].isin(session_strings)
     ].copy()
+    if benchmark_bridge is not None:
+        actions = pd.concat([actions, benchmark_bridge.actions], ignore_index=True)
+        entitlements = pd.concat(
+            [entitlements, benchmark_bridge.entitlements], ignore_index=True
+        )
+        outcomes = pd.concat([outcomes, benchmark_bridge.outcomes], ignore_index=True)
+    if actions["event_id"].duplicated().any() or actions["source_record_id"].duplicated().any():
+        _fail("formal_runner_action_duplicate", "股票與 QQQ／SPY action ID 重複")
+    if entitlements["event_id"].duplicated().any() or entitlements["source_record_id"].duplicated().any():
+        _fail("formal_runner_action_duplicate", "股票與 QQQ／SPY entitlement ID 重複")
+    if outcomes["source_record_id"].duplicated().any() or outcomes.duplicated(
+        ["security_id", "exit_effective_date"]
+    ).any():
+        _fail("formal_runner_action_duplicate", "股票與 QQQ／SPY outcome ID 重複")
     return actions, entitlements, outcomes
 
 
@@ -232,10 +261,12 @@ def _write_account_files(
 
 def _run_authorized(
     *,
+    root: Path,
     package: Path,
     risk_free_bundle: Path,
     readiness: dict[str, Any],
     output: Path,
+    benchmark_action_bundle: str | Path | None,
 ) -> dict[str, Any]:
     execution_manifest = _read_json(
         package / "execution/execution_manifest.json", "execution_manifest.json"
@@ -244,13 +275,36 @@ def _run_authorized(
     sessions, study_start, study_end = _study_calendar(
         inputs.trading_calendar, execution_manifest
     )
+    if benchmark_action_bundle is None:
+        _fail(
+            "benchmark_action_ledger_missing",
+            "provider execution package 必須另附 QQQ／SPY 公司行動 bridge",
+        )
+    benchmark_bridge = load_benchmark_action_bridge(
+        benchmark_action_bundle,
+        root=root,
+        execution_manifest_path=package / "execution/execution_manifest.json",
+        formal_run_id=str(readiness["run_id"]),
+        study_start=study_start,
+        study_end=study_end,
+        sessions=sessions,
+    )
     benchmark = _csv(
         package / "execution/benchmark_daily.csv",
         _BENCHMARK_COLUMNS,
         "benchmark_daily.csv",
     )
-    prices = _combine_prices(inputs.daily_prices, benchmark, sessions)
-    actions, entitlements, outcomes = _event_tables(package, sessions)
+    prices = _combine_prices(
+        inputs.daily_prices,
+        benchmark,
+        sessions,
+        benchmark_action_ledger_bound=True,
+    )
+    actions, entitlements, outcomes = _event_tables(
+        package,
+        sessions,
+        benchmark_bridge=benchmark_bridge,
+    )
     targets, signal_audit = build_monthly_target_weights(
         inputs, start=study_start, end=study_end
     )
@@ -327,6 +381,7 @@ def run_formal_backtest_once(
     requirements: Any | None = None,
     expected_run_id: str | None = None,
     release_firewall: str | Path | None = None,
+    benchmark_action_bundle: str | Path | None = None,
 ) -> dict[str, Any]:
     """Run the frozen provider study once, or fail before strategy calculation.
 
@@ -376,10 +431,12 @@ def run_formal_backtest_once(
     )
     try:
         result = _run_authorized(
+            root=Path(root).resolve(),
             package=Path(package).resolve(),
             risk_free_bundle=Path(risk_free_bundle).resolve(),
             readiness=readiness,
             output=output,
+            benchmark_action_bundle=benchmark_action_bundle,
         )
         _json(output / "run_summary.json", result)
         (output / "run_started.json").unlink()

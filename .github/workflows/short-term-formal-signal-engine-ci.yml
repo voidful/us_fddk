@@ -11,15 +11,18 @@ on:
       - "usfddk/formal_baseline_schedule.py"
       - "usfddk/formal_performance.py"
       - "usfddk/formal_backtest_runner.py"
+      - "usfddk/formal_benchmark_actions.py"
       - "tests/test_formal_signal_engine.py"
       - "tests/test_formal_execution_schedule.py"
       - "tests/test_formal_raw_accounting.py"
       - "tests/test_formal_baseline_schedule.py"
       - "tests/test_formal_performance.py"
       - "tests/test_formal_backtest_runner.py"
+      - "tests/test_formal_benchmark_actions.py"
       - "scripts/run_short_term_formal_backtest.py"
       - "docs/SHORT_TERM_FORMAL_PERFORMANCE.md"
       - "docs/SHORT_TERM_FORMAL_BACKTEST_RUNNER.md"
+      - "docs/SHORT_TERM_FORMAL_BENCHMARK_ACTION_BRIDGE.md"
       - "docs/SHORT_TERM_FORMAL_RAW_ACCOUNTING.md"
       - "pyproject.toml"
       - "uv.lock"
@@ -50,7 +53,8 @@ jobs:
             tests/test_formal_raw_accounting.py \
             tests/test_formal_baseline_schedule.py \
             tests/test_formal_performance.py \
-            tests/test_formal_backtest_runner.py
+            tests/test_formal_backtest_runner.py \
+            tests/test_formal_benchmark_actions.py
           uv run ruff check \
             usfddk/formal_signal_engine.py \
             usfddk/formal_execution_schedule.py \
@@ -58,11 +62,13 @@ jobs:
             usfddk/formal_baseline_schedule.py \
             usfddk/formal_performance.py \
             usfddk/formal_backtest_runner.py \
+            usfddk/formal_benchmark_actions.py \
             scripts/run_short_term_formal_backtest.py \
             tests/test_formal_signal_engine.py \
             tests/test_formal_execution_schedule.py \
             tests/test_formal_raw_accounting.py \
             tests/test_formal_baseline_schedule.py \
             tests/test_formal_performance.py \
-            tests/test_formal_backtest_runner.py
+            tests/test_formal_backtest_runner.py \
+            tests/test_formal_benchmark_actions.py
           git diff --check
