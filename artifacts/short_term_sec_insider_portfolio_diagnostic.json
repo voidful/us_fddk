@@ -1034,7 +1034,7 @@
     "min_price_usd": 5.0,
     "one_way_cost_bps": 10.0,
     "path": "docs/SHORT_TERM_SEC_INSIDER_PORTFOLIO_PROTOCOL.md",
-    "sha256": "a7f800dfcbad8b441eb99d2385c5661fd908cd9660fe18a892f44f6cd1b84dee"
+    "sha256": "86a67dfdf4195dec478692338b71d74d12711c4144839e4b6c005ba4a23b0775"
   },
   "schema_version": 1,
   "sec_input_counts": {

@@ -15,7 +15,7 @@ from usfddk.sec_insider_portfolio import (
 
 
 def _prices() -> pd.DataFrame:
-    days = [date(2026, 6, 1) + timedelta(days=offset) for offset in range(60)]
+    days = [date(2026, 6, 1) + timedelta(days=offset) for offset in range(180)]
     sessions = [day for day in days if day.weekday() < 5]
     rows = []
     for symbol, base in (("AAA", 100.0), ("BBB", 200.0), ("QQQ", 300.0)):
@@ -73,6 +73,40 @@ def test_liquidity_filter_uses_only_prior_sessions(tmp_path) -> None:
     )
     assert len(signals) == 1
     assert skipped["below_liquidity_threshold"] == 0
+
+
+def test_trend_filter_uses_only_prior_sessions(tmp_path) -> None:
+    prices = _prices()
+    entry_day = date(2026, 8, 31)
+    prices.loc[
+        prices["symbol"].eq("AAA") & prices["date"].eq(entry_day), "adj_close"
+    ] = 1.0
+    rows = []
+    for symbol in ("AAA",):
+        for day in sorted(prices[prices["symbol"].eq(symbol)]["date"].unique()):
+            is_entry = day == entry_day
+            rows.append(
+                {
+                    "symbol": symbol,
+                    "date": day,
+                    # A bad entry-day print must not leak into the gate.
+                    "close": 1.0 if is_entry else 10.0,
+                    "dollar_volume": 1_000_000.0 if is_entry else 25_000_000.0,
+                }
+            )
+    path = tmp_path / "liquidity.csv"
+    pd.DataFrame(rows).to_csv(path, index=False)
+    liquidity = load_long_liquidity(path)
+    signals, skipped = prepare_portfolio_signals(
+        [{"ticker": "AAA", "available_session": entry_day.isoformat(), "score": 1.0}],
+        prices,
+        liquidity=liquidity,
+        min_price_usd=5.0,
+        min_median_dollar_volume_usd=20_000_000.0,
+        trend_filter=True,
+    )
+    assert len(signals) == 1
+    assert skipped["below_trend_threshold"] == 0
 
 
 def test_portfolio_is_research_metric_and_beats_synthetic_baseline() -> None:

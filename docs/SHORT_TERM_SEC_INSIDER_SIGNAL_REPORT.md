@@ -74,8 +74,8 @@ packages，再用同一 20-session cluster 及同一價格時計重算。共解�
 
 最後把同一批候選套入事前固定的組合時計：每個 issuer 只取第一個未重疊訊號，持有
 20 個交易日，所有 active issuer 等權，不設 Top-K；目標權重變動按單邊 10 bps 計成本，
-QQQ 使用相同期間及 20 bps round-trip。這只檢查事件平均數字能否落地，不是另一輪參數
-搜尋。
+QQQ 使用相同期間及相同成本情境（10／25／50 bps 對應 20／50／100 bps round-trip）。
+這只檢查事件平均數字能否落地，不是另一輪參數搜尋。
 
 | 固定期間 | 組合 CAGR | QQQ CAGR | SPY CAGR | IWM CAGR | 組合最大回撤 | Sharpe | 年化 turnover |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -123,6 +123,13 @@ filter 後組合在全期、三個成本情境均未跑贏 QQQ；前五季在 10
 且仍落後 QQQ。結論是這條 insider event 線沒有通過可交易性、成本及跨期穩健性門檻，故
 **沒有成功可行策略可發布**；完整失敗及 skip 原因只保留在機器收據及研究 log，網站不顯示
 候選名單、失敗績效或買入指令。
+
+在不改動上述規則的前提下，另按已預先提交的
+[trend 共振協議](SHORT_TERM_SEC_INSIDER_TREND_PROTOCOL.md) 加入 60-session 趨勢及
+20-session 正動量 gate。該 extension 只接受 142 列；10／25 bps 全期 CAGR 為 35.47%／26.63%，
+但前五季為 -11.00%／-16.62%，50 bps 全期降至 13.15% 並落後 QQQ。完整結果見
+[trend 共振研究報告](SHORT_TERM_SEC_INSIDER_TREND_REPORT.md)；它同樣不通過升格門檻，
+只保留在研究 log。
 
 ## 固定規則
 

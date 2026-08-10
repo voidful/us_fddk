@@ -25,8 +25,8 @@
 ## 固定比較與壓力
 
 - 單邊成本固定為 10、25、50 bps；不因結果調整。
-- QQQ、SPY、IWM 使用相同 evaluation period、相同 open／close 時計及 20 bps round-trip
-  baseline 成本。
+- QQQ、SPY、IWM 使用相同 evaluation period、相同 open／close 時計及同一成本情境；
+  即單邊 10／25／50 bps 對應 20／50／100 bps round-trip baseline 成本。
 - 報告全期及事前固定前五季／後五季、CAGR、total return、Sharpe、最大回撤及年化
   turnover；不以任一結果選擇子時段或股票。
 

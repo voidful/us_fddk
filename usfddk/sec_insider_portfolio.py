@@ -19,6 +19,8 @@ PORTFOLIO_COST_SCENARIOS = (10.0, 25.0, 50.0)
 PORTFOLIO_BASELINE_SYMBOLS = ("QQQ", "SPY", "IWM")
 PORTFOLIO_MIN_PRICE_USD = 5.0
 PORTFOLIO_MIN_MEDIAN_DOLLAR_VOLUME_USD = 20_000_000.0
+PORTFOLIO_TREND_LOOKBACK_SESSIONS = 60
+PORTFOLIO_TREND_MOMENTUM_SESSIONS = 20
 
 
 def _price_maps(
@@ -76,6 +78,7 @@ def prepare_portfolio_signals(
     liquidity: pd.DataFrame | None = None,
     min_price_usd: float | None = None,
     min_median_dollar_volume_usd: float | None = None,
+    trend_filter: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
     """Apply fixed price-completeness and first-signal-wins rules."""
 
@@ -86,6 +89,8 @@ def prepare_portfolio_signals(
         min_price_usd is None and min_median_dollar_volume_usd is None
     ):
         raise ValueError("liquidity filter 必須同時提供資料及兩個固定門檻")
+    if not isinstance(trend_filter, bool):
+        raise ValueError("trend filter 必須是固定的布林值")
     liquidity_by_symbol: dict[str, dict[date, tuple[float, float]]] = defaultdict(dict)
     if liquidity is not None:
         for row in liquidity.itertuples(index=False):
@@ -101,6 +106,13 @@ def prepare_portfolio_signals(
         "insufficient_liquidity_history": 0,
         "below_liquidity_threshold": 0,
     }
+    if trend_filter:
+        skipped.update(
+            {
+                "insufficient_trend_history": 0,
+                "below_trend_threshold": 0,
+            }
+        )
     active_until: dict[str, date] = {}
     ordered = sorted(
         candidates,
@@ -122,6 +134,26 @@ def prepare_portfolio_signals(
             skipped["missing_price_window"] += 1
             continue
         exit_date = sessions[exit_position]
+        if trend_filter:
+            symbol_prices = by_symbol.get(ticker, {})
+            trend_start = entry_position - PORTFOLIO_TREND_LOOKBACK_SESSIONS
+            if trend_start < 0:
+                skipped["insufficient_trend_history"] += 1
+                continue
+            trend_window = sessions[trend_start:entry_position]
+            if any(day not in symbol_prices for day in trend_window):
+                skipped["insufficient_trend_history"] += 1
+                continue
+            trend_closes = [symbol_prices[day][1] for day in trend_window]
+            prior_close = trend_closes[-1]
+            moving_average = float(np.mean(trend_closes))
+            momentum_base = trend_closes[
+                -1 - PORTFOLIO_TREND_MOMENTUM_SESSIONS
+            ]
+            momentum = prior_close / momentum_base - 1.0
+            if prior_close <= moving_average or momentum <= 0.0:
+                skipped["below_trend_threshold"] += 1
+                continue
         if ticker in active_until and entry <= active_until[ticker]:
             skipped["overlapping_issuer_signal"] += 1
             continue
