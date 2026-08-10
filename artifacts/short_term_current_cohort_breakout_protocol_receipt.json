@@ -1,0 +1,48 @@
+{
+  "bootstrap": {
+    "block_events": 8,
+    "samples": 2000,
+    "seed": 20260810
+  },
+  "cost_round_trip_bps": 20,
+  "formal_backtest_authorized": false,
+  "global_trial_ledger": {
+    "chain_head_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085",
+    "current_lower_bound": 6287,
+    "ledger_path": "artifacts/short_term_global_trial_ledger.json",
+    "ledger_sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49",
+    "minimum_increment": 3,
+    "new_family_id": "round51_current_cohort_breakout_three_horizons",
+    "protocol_path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "protocol_sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+  },
+  "horizons": [5, 10, 20],
+  "paper_authorized": false,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "protocol_path": "docs/SHORT_TERM_CURRENT_COHORT_BREAKOUT_DIAGNOSTIC_PROTOCOL.md",
+  "protocol_sha256": "71eb8586b682e6add9d992d1c52e84c17a4265b6ab3c584f5be9c5b708559390",
+  "real_money_authorized": false,
+  "research_round": 51,
+  "schema_version": 1,
+  "signal": {
+    "breakout_sessions": 60,
+    "dollar_volume_threshold_usd": 20000000,
+    "market_vix_cap": 30,
+    "momentum_sessions": 20,
+    "price_threshold_usd": 5,
+    "selection_count": 5,
+    "trend_sma_sessions": 50,
+    "volume_multiple": 1.5
+  },
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "status": "preregistered_unrun_current_cohort_breakout_diagnostic",
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014",
+  "receipt_sha256": "83a3caede74cc73c551ccecb4bbe96538203d865df3871441f2b272e7f2e599f"
+}

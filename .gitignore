@@ -33,4 +33,5 @@ artifacts/*
 !artifacts/short_term_form4_historical_feasibility_validation.json
 !artifacts/short_term_form4_current_cohort_coverage_protocol_receipt.json
 !artifacts/short_term_form4_current_cohort_coverage_validation.json
+!artifacts/short_term_current_cohort_breakout_protocol_receipt.json
 .site-git-backup/
