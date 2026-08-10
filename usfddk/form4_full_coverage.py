@@ -504,6 +504,7 @@ def _parse_purchase_aggregates(
         {
             "issuer_cik": by_accession[accession]["issuer_cik"],
             "issuer_symbol": by_accession[accession]["issuer_symbol"],
+            "filing_date": by_accession[accession]["filing_date"].isoformat(),
             "notional": notional,
         }
         for accession, notional in notional_by_accession.items()
