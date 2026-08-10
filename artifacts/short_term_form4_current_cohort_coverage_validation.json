@@ -1,0 +1,113 @@
+{
+  "aggregate_counts": {
+    "mapped_left_boundary_clusters": 0,
+    "mapped_symbols_missing_current_cik": 0
+  },
+  "coverage_gate": {
+    "gates": {
+      "both_recent_quarters_have_mapped_primary_cluster": false,
+      "mapped_issuers_at_least_10": false,
+      "mapped_primary_clusters_at_least_30": false,
+      "sec_mapping_schema_and_hash_valid": true,
+      "watchlist_columns_complete": true
+    },
+    "minimum_mapped_issuers": 10,
+    "minimum_mapped_primary_clusters": 30,
+    "observed_mapped_issuers": 1,
+    "observed_mapped_primary_clusters": 2,
+    "passed": false,
+    "recent_quarters_observed": 0,
+    "recent_quarters_required": [
+      "2016Q3",
+      "2026Q2"
+    ]
+  },
+  "diagnostic_scope": "current_watchlist_survivorship_biased_coverage_only",
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "limitations": [
+    "current_sec_cik_mapping_is_not_historical_ticker_or_known_at_mapping",
+    "watchlist_is_current_survivor_cohort_not_point_in_time_membership",
+    "snapshot_contains_adjusted_ohlcv_not_raw_execution_prices",
+    "no_delisting_or_corporate_action_outcome_ledger",
+    "no_market_returns_or_benchmark_readout",
+    "coverage_diagnostic_does_not_modify_round46_or_round49"
+  ],
+  "quarter_results": [
+    {
+      "eligible_purchase_accession_count": 4927,
+      "form4_submission_count": 68520,
+      "left_boundary_count_all_issuers": 46,
+      "mapped_issuer_count": 1,
+      "mapped_left_boundary_count": 0,
+      "mapped_primary_cluster_count": 2,
+      "primary_cluster_count_all_issuers": 267,
+      "quarter": "2006Q1",
+      "source_bytes": 17306804,
+      "source_filename": "2006q1_form345.zip",
+      "source_sha256": "62becdadbe5eaff68f03edefe2ba2357c8bb498a1f825b697003e087cf98e6ce"
+    },
+    {
+      "eligible_purchase_accession_count": 3245,
+      "form4_submission_count": 35714,
+      "left_boundary_count_all_issuers": 23,
+      "mapped_issuer_count": 0,
+      "mapped_left_boundary_count": 0,
+      "mapped_primary_cluster_count": 0,
+      "primary_cluster_count_all_issuers": 239,
+      "quarter": "2016Q3",
+      "source_bytes": 8704557,
+      "source_filename": "2016q3_form345.zip",
+      "source_sha256": "5a25d3c6cb874875904b2be0059bb4784e4da28b315af30b15568fd250bd0dde"
+    },
+    {
+      "eligible_purchase_accession_count": 2998,
+      "form4_submission_count": 49832,
+      "left_boundary_count_all_issuers": 33,
+      "mapped_issuer_count": 0,
+      "mapped_left_boundary_count": 0,
+      "mapped_primary_cluster_count": 0,
+      "primary_cluster_count_all_issuers": 299,
+      "quarter": "2026Q2",
+      "source_bytes": 11498860,
+      "source_filename": "2026q2_form345.zip",
+      "source_sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27"
+    }
+  ],
+  "receipt_sha256": "1635e329c8a5a6ca8c715483f7205078a9087a49365690acdda96a960f3fd7a2",
+  "research_round": 50,
+  "schema_version": "usfddk.short_term_form4_current_cohort_coverage.v1",
+  "sec_mapping": {
+    "bytes": 795627,
+    "record_count": 10398,
+    "sha256": "6dd9c4363c5a95d43f4d8e8f8279f9ae6538d10d295bbdeebe5a433ec954bf6d",
+    "source_url": "https://www.sec.gov/files/company_tickers.json",
+    "watchlist_mapped_count": 30
+  },
+  "snapshot": {
+    "adjusted_ohlcv_only": true,
+    "archive_bytes": 5821773,
+    "archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "end": "2026-07-31",
+    "filename": "snapshot_20260731_6a7ca6b8.zip",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "rows": 5680,
+    "start": "2004-01-02",
+    "stock_watchlist_count": 30,
+    "stock_watchlist_mapped_count": 30
+  },
+  "state_boundary": {
+    "candidate_selection_count": 0,
+    "paper_authorized": false,
+    "paper_positions": 0,
+    "performance_present": false,
+    "real_money_action_usd": 0,
+    "strategy_run_count": 0,
+    "today_action": "今天不下單",
+    "website_publication_authorized": false
+  },
+  "status": "current_cohort_coverage_failed_no_formal_backtest"
+}
