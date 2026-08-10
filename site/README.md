@@ -1,22 +1,11 @@
 # 成長守門員網站
 
-美股雙策略研究的閱讀介面，以兩個 Tab 分開呈列：
+這是 success-only 的公開決策頁：瀏覽器只讀取
+`data/public-decision.json`，只呈列已完整通過事前、成本、風險、前瞻及資料
+完整性核驗的策略和行動建議。沒有合資格策略時，首頁固定顯示「今天不下單」。
 
-- 長線穩定：v25 80% 美國大型成長股／20% 黃金的 20 年凍結回測、SPY／QQQ
-  比較、目標配置與 LIVE Paper。
-- 短線高回報：最新第 22 輪以四種退出回報、五種污染率壓測 905 個既有 20 日 Top-7
-  事件。-50%／2% 主要合成格 5/5，但 -80%／-100% 的 NW t 已跌至 1.80／1.49；網站
-  完整呈列 20 格、break-even、日期 repair、12/12 控制及 12/12 攻擊。第 21 輪五條
-  正式數據路徑 0/5、正式 1/18、RF 5,009/5,031、point-in-time 1/20 與策略負結果全部
-  保留；不顯示可交易配置。
-
-兩條線各自區分歷史門檻、統計確認、前瞻證據與實金狀態，不互相借用成功結果。
-v20 另以三組新區域 ETF 檢驗分散器相對強弱；因只過 45/154 道經濟門檻，
-網站封存負結果且不建立 v20 Paper。
-v21 再固定檢驗「常駐 60% 核心、確認上升約 120% 股票曝險、轉弱約 60%」；
-三組大型股保留實際 20 年 2 倍 ETF 診斷，新中小型股使用 15 年實際 3 倍 ETF
-外部路徑。完整經濟門檻只過 53/128、新外部只過 4/32，因此同樣不建立 Paper、
-不顯示可照抄配置。
+完整研究報告、Paper 狀態、失敗候選及機器收據留在 repository 的 artifacts、
+docs 和 research log，並不直接送入公開頁面。
 
 ## Prerequisites
 
@@ -34,8 +23,11 @@ This starter does not use `wrangler.jsonc`.
 
 ## 數據更新
 
-- 網站讀取 `data/trading-data.json`。
-- 該檔由上層 Python 專案的 `us-fddk build` 產生。
+- `scripts/build_public_decision_data.py` 讀取完整研究資料，輸出公開白名單
+  `data/public-decision.json`，並把未獲批准候選寫入
+  `artifacts/public_decision_build_log.json`。
+- 網站不直接讀取 `data/trading-data.json` 或任何研究診斷；失敗結果只供內部
+  追蹤，不會成為交易建議。
 - 每次更新必須保留行情快照 SHA-256，並先推進 LIVE paper 狀態再部署。
 - GitHub Action 以 `us-fddk v25-live-update` 與 `v25-site-export` 只推進凍結候選的
   三個 LIVE Paper 帳戶；不會用新數據重選 20 年研究結果。

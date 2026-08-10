@@ -1,0 +1,14 @@
+{
+  "action_detail": "不建立新倉，保留現金並等待下一個完成交易日的正式驗證。",
+  "data_through": "2026-08-07",
+  "disclaimer": "研究與教育用途，不構成投資建議；不保證未來跑贏 SPY 或任何 ETF。",
+  "generated_at_utc": "2026-08-10T18:32:48.701997Z",
+  "lead": "目前沒有可公開的已驗證策略；今日維持現金，等待下一個檢查日。",
+  "next_expected_session": "2026-08-10",
+  "policy": "首頁只顯示已驗證、可執行的策略；完整研究記錄與機器收據另存於 GitHub。",
+  "refresh_due_at_utc": "2026-08-11T02:00:00Z",
+  "schema_version": 1,
+  "strategies": [],
+  "surface": "hold-cash",
+  "today_action": "今天不下單"
+}

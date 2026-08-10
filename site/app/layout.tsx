@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import data from "../data/trading-data.json";
+import publicDecision from "../data/public-decision.json";
 import "./globals.css";
 
 const publicSiteUrl =
@@ -9,29 +9,20 @@ const publicSiteRoot = publicSiteUrl.replace(/\/$/, "");
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl),
   title: {
-    default: "美股雙策略研究｜長線穩定與短線高回報",
+    default: "美股交易參考｜只顯示已驗證策略",
     template: "%s｜US FDDK",
   },
-  description: "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，公開披露 Phase 1 就緒只過 2/20，動態選擇停用，Paper 維持全現金。",
+  description: "只呈列完整通過事前、成本、風險及前瞻驗證的美股策略與今日行動；未通過結果保留在研究日誌。",
   openGraph: {
-    title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "長線維持 Paper-only；短線龍頭回調—回升只過 8/22，公開披露來源就緒只過 2/20。候選低於 QQQ 與相同比例 Top-N，動態選擇停用、今天不下單、實金 US$0。",
+    title: "美股交易參考｜只顯示已驗證策略",
+    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
     locale: "zh_HK",
     type: "website",
-    images: [
-      {
-        url: `${publicSiteRoot}/og.png`,
-        width: 1731,
-        height: 909,
-        alt: "US FDDK 美股雙策略研究：長線 Paper-only，短線第 39 輪龍頭回調反證 8/22",
-      },
-    ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "美股雙策略研究｜穩定與進取分開驗證",
-    description: "短線第 39 輪只過 8/22；披露來源就緒 2/20。Paper 全現金、今天不下單。",
-    images: [`${publicSiteRoot}/og.png`],
+    card: "summary",
+    title: "美股交易參考｜只顯示已驗證策略",
+    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
   },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };
@@ -47,7 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html
       lang="zh-Hant-HK"
       data-signal-freshness="checking"
-      data-refresh-due={data.freshness.refresh_due_at_utc}
+      data-refresh-due={publicDecision.refresh_due_at_utc}
       suppressHydrationWarning
     >
       <body>

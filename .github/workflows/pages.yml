@@ -74,6 +74,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
           ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
           ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
+          ./.venv/bin/python scripts/build_public_decision_data.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
@@ -168,7 +169,9 @@ jobs:
             docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
-            docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
+            docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md \
+            artifacts/public_decision_build_log.json \
+            site/data/public-decision.json
           ./.venv/bin/pytest tests/test_french_prior_return_research.py
           ./.venv/bin/pytest tests/test_french_size_prior.py
           ./.venv/bin/pytest tests/test_french_size_momentum_tilt.py
@@ -207,6 +210,7 @@ jobs:
           ./.venv/bin/pytest tests/test_calendar_capital_accounting.py
           ./.venv/bin/pytest tests/test_reversal_volatility_attribution.py
           ./.venv/bin/pytest tests/test_daily_momentum_regime.py
+          ./.venv/bin/pytest tests/test_public_decision.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"

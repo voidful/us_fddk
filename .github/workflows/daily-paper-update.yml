@@ -114,6 +114,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
           ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
           ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
+          ./.venv/bin/python scripts/build_public_decision_data.py
           git diff --exit-code -- \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
@@ -208,7 +209,9 @@ jobs:
             docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
             artifacts/short_term_daily_momentum_regime_validation.json \
             site/data/short-term-daily-momentum-regime.json \
-            docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
+            docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md \
+            artifacts/public_decision_build_log.json \
+            site/data/public-decision.json
           ./.venv/bin/ruff check usfddk tests
           ./.venv/bin/pytest tests/test_french_prior_return_research.py
           ./.venv/bin/pytest tests/test_french_size_prior.py
@@ -298,7 +301,9 @@ jobs:
             artifacts/short_term_provider_guide_probe.json \
             site/data/short-term-provider-guide-probe.json \
             artifacts/short_term_provider_gap_source_probe.json \
-            site/data/short-term-provider-gap-source-probe.json
+            site/data/short-term-provider-gap-source-probe.json \
+            artifacts/public_decision_build_log.json \
+            site/data/public-decision.json
           if [ "$paper_advanced" = "true" ]; then
             git add \
               artifacts/paper_v25_state.json \
