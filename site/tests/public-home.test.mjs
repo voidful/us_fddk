@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -41,4 +42,16 @@ test("public home renders only the fail-closed action when no strategy is promot
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   assertPublicDecisionSurface(await response.text());
+});
+
+test("public page imports only the success-only decision contract", async () => {
+  const source = await readFile(new URL("../app/PublicDecisionPage.tsx", import.meta.url), "utf8");
+  const decision = JSON.parse(
+    await readFile(new URL("../data/public-decision.json", import.meta.url), "utf8"),
+  );
+  assert.doesNotMatch(source, /trading-data|formal-backtest-readiness|qqq-replacement-overlay/);
+  assert.equal(decision.surface, "hold-cash");
+  assert.deepEqual(decision.strategies, []);
+  const rendered = JSON.stringify(decision);
+  assert.doesNotMatch(rendered, /失敗|淘汰|攻擊測試|負結果|未通過項目/);
 });

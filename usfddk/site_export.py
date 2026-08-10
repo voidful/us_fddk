@@ -101,6 +101,263 @@ def _preserve_idempotent_generation_time(
     return candidate
 
 
+_PUBLIC_ACCOUNT_INTEGRITY_GATES = (
+    "all_accounts_live_and_same_start",
+    "all_accounts_same_as_of",
+    "all_accounts_same_snapshot",
+    "all_accounts_same_cost_and_cash",
+    "all_accounts_same_session_path",
+    "all_accounts_same_execution_clock",
+    "all_accounts_same_order_path",
+    "all_accounts_same_fill_counts",
+    "zero_integrity_violations",
+)
+
+
+def _public_all_true(values: Any) -> bool:
+    return isinstance(values, dict) and bool(values) and all(value is True for value in values.values())
+
+
+def _public_percent(value: Any, digits: int = 1) -> str:
+    return f"{float(value):.{digits}%}"
+
+
+def _public_money(value: Any) -> str:
+    return f"US${float(value):,.0f}"
+
+
+def _public_allocation(weights: dict[str, Any]) -> tuple[str, str] | None:
+    clean = {
+        str(ticker): float(weight)
+        for ticker, weight in weights.items()
+        if isinstance(ticker, str) and float(weight) > 0.0
+    }
+    if not clean:
+        return None
+    ordered = sorted(clean.items(), key=lambda item: (-item[1], item[0]))
+    allocation = "／".join(f"{ticker} {weight:.0%}" for ticker, weight in ordered)
+    rounded_weights = [float(f"{weight:.0%}".rstrip("%")) / 100.0 for _, weight in ordered]
+    amount_example = "／".join(
+        _public_money(1_000.0 * weight) for weight in rounded_weights
+    )
+    return allocation, amount_example
+
+
+def _public_long_term_strategy(payload: dict[str, Any]) -> dict[str, Any] | None:
+    """Return only a fully promoted long-term strategy view model.
+
+    The full research payload remains an audit/log input.  This function deliberately
+    copies a small allow-list and never copies failed gates, limitations, or Paper
+    diagnostics into the public decision contract.
+    """
+    readiness = payload.get("readiness")
+    pipeline = payload.get("research_pipeline")
+    if not isinstance(readiness, dict) or not isinstance(pipeline, dict):
+        return None
+    gates = readiness.get("gates")
+    required = readiness.get("required_gate_count")
+    passed = readiness.get("passed_gate_count")
+    root_ready = (
+        isinstance(required, int)
+        and isinstance(passed, int)
+        and required == 11
+        and passed == required
+        and isinstance(gates, dict)
+        and len(gates) == required
+        and _public_all_true(gates)
+        and readiness.get("trade_ready") is True
+        and readiness.get("allocation_visible") is True
+        and readiness.get("selected_strategy_key") == "growth_gold_diversification"
+    )
+    latest = pipeline.get("growth_gold_diversification")
+    if not isinstance(latest, dict):
+        return None
+    paper = latest.get("paper")
+    forward = paper.get("forward_evidence") if isinstance(paper, dict) else None
+    data_through = payload.get("data_through")
+    integrity_ready = (
+        isinstance(paper, dict)
+        and isinstance(forward, dict)
+        and forward.get("as_of") == data_through
+        and forward.get("integrity_violations") == 0
+        and isinstance(forward.get("gates"), dict)
+        and all(forward["gates"].get(name) is True for name in _PUBLIC_ACCOUNT_INTEGRITY_GATES)
+    )
+    if not (
+        root_ready
+        and latest.get("trade_ready") is True
+        and latest.get("real_money_signal_display_allowed") is True
+        and forward.get("live_confirmed") is True
+        and integrity_ready
+    ):
+        return None
+
+    pooled = latest.get("pooled")
+    if not isinstance(pooled, dict):
+        return None
+    strategy_metrics = pooled.get("strategy_metrics")
+    spy_metrics = pooled.get("spy_metrics")
+    if not isinstance(strategy_metrics, dict) or not isinstance(spy_metrics, dict):
+        return None
+    weights: dict[str, Any] = {}
+    pending = paper.get("pending_order")
+    if isinstance(pending, dict) and isinstance(pending.get("target_weights"), dict):
+        weights = pending["target_weights"]
+    elif isinstance(paper.get("holdings"), dict):
+        weights = {
+            ticker: position.get("weight")
+            for ticker, position in paper["holdings"].items()
+            if isinstance(position, dict) and "weight" in position
+        }
+    allocation = _public_allocation(weights)
+    if allocation is None:
+        return None
+    forward_sessions = int(forward.get("forward_sessions", 0))
+    filled_rebalances = int(forward.get("filled_rebalances", 0))
+    action = (
+        "下一個完成交易日按已凍結指令調整持倉"
+        if pending
+        else "今天不下單；維持現有持倉，等待下一個月末檢查"
+    )
+    return {
+        "verified": True,
+        "key": "long-term",
+        "horizon": "長線穩定",
+        "name": str(latest.get("name", "已驗證長線策略")),
+        "description": "固定規則、每月檢查；只在歷史、成本、風險及前瞻門檻全部通過後公開。",
+        "action": action,
+        "allocation": allocation[0],
+        "amount_example": allocation[1],
+        "metrics": [
+            {
+                "label": "20 年年率化回報",
+                "value": _public_percent(strategy_metrics.get("cagr", 0.0), 2),
+                "comparison": f"SPY {_public_percent(spy_metrics.get('cagr', 0.0), 2)}",
+            },
+            {
+                "label": "最大跌幅",
+                "value": _public_percent(strategy_metrics.get("max_drawdown", 0.0), 1),
+                "comparison": f"SPY {_public_percent(spy_metrics.get('max_drawdown', 0.0), 1)}",
+            },
+            {
+                "label": "前瞻交易日",
+                "value": str(forward_sessions),
+                "comparison": f"{filled_rebalances} 次完成換倉",
+            },
+        ],
+    }
+
+
+def _public_short_term_strategy(
+    formal_readiness: dict[str, Any] | None,
+    overlay: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if not isinstance(formal_readiness, dict) or not isinstance(overlay, dict):
+        return None
+    actual = formal_readiness.get("actual_formal_readiness")
+    summary = overlay.get("gate_summary")
+    decision = overlay.get("decision")
+    if not isinstance(actual, dict) or not isinstance(summary, dict) or not isinstance(decision, dict):
+        return None
+    total = actual.get("total")
+    passed = actual.get("passed")
+    summary_total = summary.get("total")
+    summary_passed = summary.get("passed")
+    symbols = decision.get("public_symbols")
+    action = decision.get("public_action")
+    if not (
+        actual.get("all_passed") is True
+        and isinstance(total, int)
+        and isinstance(passed, int)
+        and passed == total
+        and summary.get("all_passed") is True
+        and isinstance(summary_total, int)
+        and isinstance(summary_passed, int)
+        and summary_passed == summary_total
+        and decision.get("trade_ready") is True
+        and decision.get("can_promote_from_this_round") is True
+        and decision.get("new_strategy_created") is True
+        and int(decision.get("formal_strategy_runs", 0)) > 0
+        and isinstance(action, str)
+        and action.strip()
+        and isinstance(symbols, list)
+        and symbols
+        and all(isinstance(symbol, str) and symbol.strip() for symbol in symbols)
+    ):
+        return None
+    return {
+        "verified": True,
+        "key": "short-term",
+        "horizon": "短線高回報",
+        "name": "已驗證個股策略",
+        "description": "正式個股策略已通過凍結資料、成本、統計、壓力及前瞻門檻。",
+        "action": action.strip(),
+        "allocation": "／".join(symbols),
+        "metrics": [
+            {
+                "label": "正式就緒",
+                "value": f"{passed}/{total}",
+                "comparison": "全部事前門檻通過",
+            },
+            {
+                "label": "策略運行",
+                "value": str(int(decision["formal_strategy_runs"])),
+                "comparison": "正式、不可回填",
+            },
+        ],
+    }
+
+
+def build_public_decision_payload(
+    payload: dict[str, Any],
+    *,
+    formal_readiness: dict[str, Any] | None = None,
+    short_term_overlay: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build the success-only, beginner-facing website contract.
+
+    Research results that are not promoted remain in the source payload and logs;
+    this allow-list is the only data imported by the public decision page.
+    """
+    strategies = []
+    long_term = _public_long_term_strategy(payload)
+    if long_term is not None:
+        strategies.append(long_term)
+    short_term = _public_short_term_strategy(formal_readiness, short_term_overlay)
+    if short_term is not None:
+        strategies.append(short_term)
+    data_through = str(payload.get("data_through", ""))
+    freshness = payload.get("freshness")
+    freshness = freshness if isinstance(freshness, dict) else {}
+    today_action = (
+        "今天不下單"
+        if not strategies or all(strategy["action"].startswith("今天不下單") for strategy in strategies)
+        else "按已驗證策略執行"
+    )
+    return {
+        "schema_version": 1,
+        "generated_at_utc": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        "data_through": data_through,
+        "next_expected_session": str(freshness.get("next_expected_session", "")),
+        "refresh_due_at_utc": str(freshness.get("refresh_due_at_utc", "")),
+        "surface": "verified-strategy" if strategies else "hold-cash",
+        "today_action": today_action,
+        "lead": (
+            "以下只列出已完整通過驗證、並有明確執行規則的策略。"
+            if strategies
+            else "目前沒有可公開的已驗證策略；今日維持現金，等待下一個檢查日。"
+        ),
+        "action_detail": (
+            "；".join(strategy["action"] for strategy in strategies)
+            if strategies
+            else "不建立新倉，保留現金並等待下一個完成交易日的正式驗證。"
+        ),
+        "strategies": strategies,
+        "policy": "首頁只顯示已驗證、可執行的策略；完整研究記錄與機器收據另存於 GitHub。",
+        "disclaimer": "研究與教育用途，不構成投資建議；不保證未來跑贏 SPY 或任何 ETF。",
+    }
+
+
 def _clean_v25_forward_account(state: dict[str, Any]) -> dict[str, Any]:
     summary = paper_metrics(state)
     return {
