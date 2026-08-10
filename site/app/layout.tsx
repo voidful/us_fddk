@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import data from "../data/trading-data.json";
+import publicDecision from "../data/public-decision.json";
 import "./globals.css";
 import "./public-decision.css";
 
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html
       lang="zh-Hant-HK"
       data-signal-freshness="checking"
-      data-refresh-due={data.freshness.refresh_due_at_utc}
+      data-refresh-due={publicDecision.refresh_due_at_utc}
       suppressHydrationWarning
     >
       <body>

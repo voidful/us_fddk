@@ -46,10 +46,13 @@ test("public home renders only the fail-closed action when no strategy is promot
 
 test("public page imports only the success-only decision contract", async () => {
   const source = await readFile(new URL("../app/PublicDecisionPage.tsx", import.meta.url), "utf8");
+  const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   const decision = JSON.parse(
     await readFile(new URL("../data/public-decision.json", import.meta.url), "utf8"),
   );
   assert.doesNotMatch(source, /trading-data|formal-backtest-readiness|qqq-replacement-overlay/);
+  assert.doesNotMatch(layout, /trading-data|short-term-|formal-backtest-readiness/);
+  assert.match(layout, /public-decision\.json/);
   assert.equal(decision.surface, "hold-cash");
   assert.deepEqual(decision.strategies, []);
   const rendered = JSON.stringify(decision);
