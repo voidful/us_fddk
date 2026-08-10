@@ -51,7 +51,7 @@ adjusted close 離場，候選及 QQQ 同時計扣 20 bps round-trip。使用 20
 
 為避免單季結果主導判讀，另外事前固定 2024 Q1 至 2026 Q2 十個 SEC quarterly
 packages，再用同一 20-session cluster 及同一價格時計重算。共解析 65,591 筆事件，
-產生 5,798 個候選列；Yahoo exploratory snapshot 覆蓋 1,329／1,465 個候選 ticker，
+產生 5,798 個候選列；Yahoo exploratory snapshot 覆蓋 1,328／1,465 個候選 ticker，
 20 日窗口有 4,915 列完整，缺口全部保留。
 
 | 固定樣本 | 5 日超額 | 10 日超額 | **20 日超額** | 20 日 bootstrap 95% 區間 |
