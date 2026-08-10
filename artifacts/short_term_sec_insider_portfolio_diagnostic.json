@@ -1,0 +1,223 @@
+{
+  "decision": {
+    "formal_backtest_completed": false,
+    "paper_authorized": false,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "The fixed portfolio check uses exploratory prices and no point-in-time universe, delisting returns, corporate actions, or formal risk-free package.",
+    "strategy_status": "research_candidate_only"
+  },
+  "diagnostic": {
+    "all_period": {
+      "QQQ": {
+        "cagr": 0.2321224687592105,
+        "max_drawdown": -0.2276830844704013,
+        "sharpe": 1.1043337596723783,
+        "total_return": 0.7082852528071686
+      },
+      "annualized_turnover": 38.03414053308758,
+      "average_active_positions": 70.48211508553655,
+      "comparison": {
+        "cagr_difference": 0.10410318346701786,
+        "total_return_difference": 0.39514344632042864
+      },
+      "period": {
+        "end": "2026-07-28",
+        "start": "2024-01-03"
+      },
+      "portfolio": {
+        "cagr": 0.33622565222622836,
+        "max_drawdown": -0.23284307366052404,
+        "sharpe": 1.4920050247017937,
+        "total_return": 1.1034286991275972
+      },
+      "signal_count": 2266,
+      "terminal_liquidation_cost": 0.001
+    },
+    "fixed_halves": {
+      "2024Q1_2025Q1": {
+        "QQQ": {
+          "cagr": 0.13949804627746554,
+          "max_drawdown": -0.2276830844704013,
+          "sharpe": 0.6776112117135707,
+          "total_return": 0.18764453100320044
+        },
+        "annualized_turnover": 38.880401520389114,
+        "average_active_positions": 63.27272727272727,
+        "comparison": {
+          "cagr_difference": 0.1069090630805789,
+          "total_return_difference": 0.14887448162043282
+        },
+        "period": {
+          "end": "2025-04-28",
+          "start": "2024-01-03"
+        },
+        "portfolio": {
+          "cagr": 0.24640710935804444,
+          "max_drawdown": -0.24160561419860704,
+          "sharpe": 1.0911077997160294,
+          "total_return": 0.33651901262363326
+        },
+        "signal_count": 1044,
+        "terminal_liquidation_cost": 0.001
+      },
+      "2025Q2_2026Q2": {
+        "QQQ": {
+          "cagr": 0.3285763083924029,
+          "max_drawdown": -0.1261997285799954,
+          "sharpe": 1.360719346767682,
+          "total_return": 0.4548769693827368
+        },
+        "annualized_turnover": 40.96348956114382,
+        "average_active_positions": 74.74320241691844,
+        "comparison": {
+          "cagr_difference": 0.13382596471550623,
+          "total_return_difference": 0.19643639542321067
+        },
+        "period": {
+          "end": "2026-07-28",
+          "start": "2025-04-02"
+        },
+        "portfolio": {
+          "cagr": 0.46240227310790916,
+          "max_drawdown": -0.11914197581409025,
+          "sharpe": 1.9067350901196607,
+          "total_return": 0.6513133648059475
+        },
+        "signal_count": 1237,
+        "terminal_liquidation_cost": 0.001
+      }
+    }
+  },
+  "price_source": {
+    "client": "yfinance 1.5.2",
+    "filename": "yahoo_prices.csv",
+    "row_count": 764643,
+    "sha256": "49551c38c970670ea2c55739990bf50b5313c70e86ada10797c739c454211aec",
+    "symbol_count": 1329,
+    "url": "https://finance.yahoo.com/"
+  },
+  "protocol": {
+    "holding_sessions": 20,
+    "one_way_cost_bps": 10.0,
+    "path": "docs/SHORT_TERM_SEC_INSIDER_PORTFOLIO_PROTOCOL.md",
+    "sha256": "1ef49252ff54a8054d0b8256b7c8f0336d0fa17ea7aa4359ef33c1b0b42e8019"
+  },
+  "schema_version": 1,
+  "sec_input_counts": {
+    "candidate_count": 5798,
+    "candidate_issuer_count": 1465,
+    "package_count": 10,
+    "raw_event_count": 65591
+  },
+  "sec_sources": [
+    {
+      "as_of": "2024-03-31",
+      "event_count": 6856,
+      "filename": "2024Q1_form345.zip",
+      "label": "2024Q1",
+      "sha256": "8e9bb34335416829a88e4ca7d09bb8aaceca689da9718fef22c298d6f18c9b04",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q1_form345.zip"
+    },
+    {
+      "as_of": "2024-06-30",
+      "event_count": 6438,
+      "filename": "2024Q2_form345.zip",
+      "label": "2024Q2",
+      "sha256": "782abee663e466b243f953625ae319da93c3e896816007d5a375e558c94dc7c1",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q2_form345.zip"
+    },
+    {
+      "as_of": "2024-09-30",
+      "event_count": 6859,
+      "filename": "2024Q3_form345.zip",
+      "label": "2024Q3",
+      "sha256": "8b55b4ffd91e56770fc0e71f9b73e6886f3c60fac8b7266e4b3e5586d2857910",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q3_form345.zip"
+    },
+    {
+      "as_of": "2024-12-31",
+      "event_count": 8160,
+      "filename": "2024Q4_form345.zip",
+      "label": "2024Q4",
+      "sha256": "44763a00aa8a2077747bc015f12c6a4c09ba7cae4a2d031bf24398f9db9e52f3",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q4_form345.zip"
+    },
+    {
+      "as_of": "2025-03-31",
+      "event_count": 6284,
+      "filename": "2025Q1_form345.zip",
+      "label": "2025Q1",
+      "sha256": "37f6b4287df129b88acf0782498540640d055b1c893320877e329945b534a8c2",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q1_form345.zip"
+    },
+    {
+      "as_of": "2025-06-30",
+      "event_count": 7170,
+      "filename": "2025Q2_form345.zip",
+      "label": "2025Q2",
+      "sha256": "64e7f81328933b1281bd8737961048d76d2ab3d5d1d2d7149a32ec061b0e3ff2",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q2_form345.zip"
+    },
+    {
+      "as_of": "2025-09-30",
+      "event_count": 5434,
+      "filename": "2025Q3_form345.zip",
+      "label": "2025Q3",
+      "sha256": "9c57f272b7230500771f661bc1fe181527ed6b76a6f45d23a910c7fc7e9fcfa4",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q3_form345.zip"
+    },
+    {
+      "as_of": "2025-12-31",
+      "event_count": 6388,
+      "filename": "2025Q4_form345.zip",
+      "label": "2025Q4",
+      "sha256": "6af26a68f5834eab96dff2c568530d9213638d3e6c9d1256e4f6c9f8af1d2d28",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q4_form345.zip"
+    },
+    {
+      "as_of": "2026-03-31",
+      "event_count": 5844,
+      "filename": "2026Q1_form345.zip",
+      "label": "2026Q1",
+      "sha256": "3dcb680593f5829bc951cb0969e858b60fc21a6835b094838218093a849592d6",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q1_form345.zip"
+    },
+    {
+      "as_of": "2026-06-30",
+      "event_count": 6158,
+      "filename": "2026q2_form345.zip",
+      "label": "2026Q2",
+      "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
+      "url": "https://www.sec.gov/files/datastandardsinnovation/data/insider-transactions-data-sets/2026q2_form345.zip"
+    }
+  ],
+  "signal_filter": {
+    "accepted_count": 2266,
+    "fixed_half_accepted_counts": {
+      "2024Q1_2025Q1": 1044,
+      "2025Q2_2026Q2": 1237
+    },
+    "fixed_half_skipped": {
+      "2024Q1_2025Q1": {
+        "accepted": 1044,
+        "missing_price_window": 654,
+        "missing_session": 0,
+        "overlapping_issuer_signal": 1319
+      },
+      "2025Q2_2026Q2": {
+        "accepted": 1237,
+        "missing_price_window": 229,
+        "missing_session": 0,
+        "overlapping_issuer_signal": 1315
+      }
+    },
+    "skipped": {
+      "accepted": 2266,
+      "missing_price_window": 883,
+      "missing_session": 0,
+      "overlapping_issuer_signal": 2649
+    }
+  },
+  "status": "post_hoc_fixed_event_portfolio_diagnostic"
+}

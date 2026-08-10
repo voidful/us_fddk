@@ -70,6 +70,25 @@ packages，再用同一 20-session cluster 及同一價格時計重算。共解�
 十季結果只是「值得向合格資料申請重測」的研究線索；它不是十季正式回測，也沒有把
 候選列轉成資金等權組合。
 
+## 固定 equal-weight portfolio 可實作性檢查
+
+最後把同一批候選套入事前固定的組合時計：每個 issuer 只取第一個未重疊訊號，持有
+20 個交易日，所有 active issuer 等權，不設 Top-K；目標權重變動按單邊 10 bps 計成本，
+QQQ 使用相同期間及 20 bps round-trip。這只檢查事件平均數字能否落地，不是另一輪參數
+搜尋。
+
+| 固定期間 | 組合 CAGR | QQQ CAGR | 組合最大回撤 | QQQ 最大回撤 | Sharpe | 年化 turnover |
+|---|---:|---:|---:|---:|---:|---:|
+| 全期 | 33.62% | 23.21% | -23.28% | -22.77% | 1.49 | 38.0x |
+| 前五季 | 24.64% | 13.95% | -24.16% | -22.77% | 1.09 | 38.9x |
+| 後五季 | 46.24% | 32.86% | -11.91% | -12.62% | 1.91 | 41.0x |
+
+這個表面優勢不能升級為可交易策略：5,798 個候選列只有 2,266 列進入組合，2,649
+列因 issuer 持倉重疊被跳過，883 列因缺價格或不足 20 日被跳過；平均約 70 個 active
+issuer，亦未有逐筆 spread、流動性、退市／收購回報。接受「有完整價格者」本身已形成
+可疑的存活／可得性偏差，故這是 **exploratory upper-bound diagnostic**，不是公平的
+20 年個股回測。正式 Paper、網站及實金動作維持零。
+
 ## 固定規則
 
 - 只取 Form 4／4-A 的 `NONDERIV_TRANS`，不把 Form 3、Form 5、衍生工具或持倉列
@@ -98,12 +117,14 @@ risk-free provider package。
 - Universe audit：`artifacts/short_term_sec_insider_universe_audit.json`
 - 事件後診斷：`artifacts/short_term_sec_insider_forward_diagnostic.json`
 - 十季診斷：`artifacts/short_term_sec_insider_multi_quarter_diagnostic.json`
+- 組合檢查：`artifacts/short_term_sec_insider_portfolio_diagnostic.json`
 - 下載 URL：SEC 2026 Q2 Form 345 ZIP
 - SHA-256：`11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27`
 - 重建：`python scripts/build_short_term_sec_insider_signal.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - Universe audit 重建：`python scripts/audit_short_term_sec_insider_universe.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - 事件後診斷重建：`python scripts/build_short_term_sec_insider_forward_diagnostic.py --sec-zip <external-zip> --prices <prepared-long-csv> --as-of 2026-06-30 --price-client <client-version>`
 - 十季診斷重建：`python scripts/build_short_term_sec_insider_multi_quarter.py --manifest <quarter-manifest> --prices <prepared-long-csv> --price-client <client-version>`
+- 組合檢查重建：`python scripts/build_short_term_sec_insider_portfolio.py --manifest <quarter-manifest> --prices <prepared-long-csv> --price-client <client-version>`
 - 單元測試：`tests/test_sec_insider.py`
 
 下一個有效動作是取得覆蓋完整歷史的價格、退市及 point-in-time 成分資料，先把這條
