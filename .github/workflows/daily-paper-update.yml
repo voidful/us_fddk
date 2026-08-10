@@ -253,6 +253,9 @@ jobs:
           ./.venv/bin/pytest tests/test_form4_admission_feasibility.py
           ./.venv/bin/pytest tests/test_form4_admission_collection.py
           ./.venv/bin/pytest tests/test_form4_admission_feasibility_report.py
+          ./.venv/bin/pytest tests/test_form4_multipath_reconciliation_v2.py
+          ./.venv/bin/pytest tests/test_form4_forward_admission_contract.py
+          ./.venv/bin/pytest tests/test_form4_multipath_forward_protocol_amendment_v1_1.py
           ./.venv/bin/pytest tests/test_global_trial_ledger.py
           ./.venv/bin/pytest tests/test_sec_edgar_client.py
           ./.venv/bin/pytest tests/test_multi_window_resonance.py
