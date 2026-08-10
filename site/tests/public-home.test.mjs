@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -19,11 +20,12 @@ function assertPublicDecisionSurface(html) {
   assert.match(html, /data-promotion-gate="fail-closed"/);
   assert.match(html, /今天不下單/);
   assert.match(html, /0(?:<!-- -->)? 個策略獲准公開/);
-  assert.match(html, /暫時沒有策略同時通過全部事前、成本、風險及前瞻驗證/);
+  assert.match(html, /目前沒有可公開的已驗證策略；今日維持現金/);
   assert.match(html, /不建立新倉，保留現金/);
   assert.match(html, /不把 Paper 持倉當成落盤訊號/);
-  assert.match(html, /沒有完整通過，就沒有交易建議/);
+  assert.match(html, /只有已驗證策略才會提供交易建議/);
   assert.match(html, /研究日誌與機器收據/);
+  assert.doesNotMatch(html, /失敗|淘汰|攻擊測試|負結果|未通過項目/);
 
   assert.doesNotMatch(html, /data-promoted-strategy=/);
   assert.doesNotMatch(html, /role="tablist"/);
@@ -40,4 +42,19 @@ test("public home renders only the fail-closed action when no strategy is promot
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   assertPublicDecisionSurface(await response.text());
+});
+
+test("public page imports only the success-only decision contract", async () => {
+  const source = await readFile(new URL("../app/PublicDecisionPage.tsx", import.meta.url), "utf8");
+  const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+  const decision = JSON.parse(
+    await readFile(new URL("../data/public-decision.json", import.meta.url), "utf8"),
+  );
+  assert.doesNotMatch(source, /trading-data|formal-backtest-readiness|qqq-replacement-overlay/);
+  assert.doesNotMatch(layout, /trading-data|short-term-|formal-backtest-readiness/);
+  assert.match(layout, /public-decision\.json/);
+  assert.equal(decision.surface, "hold-cash");
+  assert.deepEqual(decision.strategies, []);
+  const rendered = JSON.stringify(decision);
+  assert.doesNotMatch(rendered, /失敗|淘汰|攻擊測試|負結果|未通過項目/);
 });

@@ -1,0 +1,188 @@
+{
+  "complete_event_counts": {
+    "10": 204,
+    "20": 204,
+    "5": 204
+  },
+  "gate_summary": {
+    "gates": {
+      "at_least_30_complete_events": true,
+      "bootstrap_low_positive": true,
+      "both_fixed_halves_positive": true,
+      "mean_difference_positive": true,
+      "newey_west_t_at_least_1_96": true,
+      "win_fraction_over_50_percent": true
+    },
+    "passed": 6,
+    "primary_horizon_sessions": 20,
+    "required": 6
+  },
+  "horizons": {
+    "10": {
+      "QQQ_mean": 0.009547307362695321,
+      "SPY_mean": 0.006171570505681274,
+      "complete_cohort_mean": 0.01401144868208831,
+      "eligible_pool_mean": 0.012629883528733073,
+      "events": 204,
+      "fixed_halves_vs_eligible_pool": {
+        "first": {
+          "events": 100,
+          "mean_difference": 0.010652388937670579,
+          "win_fraction": 0.59
+        },
+        "second": {
+          "events": 104,
+          "mean_difference": 0.013170621759255272,
+          "win_fraction": 0.6442307692307693
+        }
+      },
+      "holding_sessions": 10,
+      "mean_complete_count": 28.529411764705884,
+      "mean_difference_vs_complete_cohort": 0.010554628752182042,
+      "mean_difference_vs_eligible_pool": 0.011936193905537282,
+      "mean_eligible_count": 26.294117647058822,
+      "mean_selected_count": 5.0,
+      "median_difference_vs_eligible_pool": 0.00877839605062914,
+      "moving_block_bootstrap_vs_eligible_pool": {
+        "high": 0.019457591756718247,
+        "low": 0.003969080229450014,
+        "median": 0.011317089870867927,
+        "p_below_or_equal_zero": 0.002
+      },
+      "newey_west_vs_eligible_pool": {
+        "annualized": 0.3007920864195395,
+        "lag": 2.0,
+        "mean_daily": 0.011936193905537282,
+        "t_stat": 2.9764550289524174
+      },
+      "selected_mean": 0.024566077434270354,
+      "win_fraction_vs_eligible_pool": 0.6176470588235294
+    },
+    "20": {
+      "QQQ_mean": 0.02049304761514123,
+      "SPY_mean": 0.015489387054076788,
+      "complete_cohort_mean": 0.02720555580403665,
+      "eligible_pool_mean": 0.02476434580847704,
+      "events": 204,
+      "fixed_halves_vs_eligible_pool": {
+        "first": {
+          "events": 100,
+          "mean_difference": 0.006598913603984705,
+          "win_fraction": 0.5
+        },
+        "second": {
+          "events": 104,
+          "mean_difference": 0.020237431655182624,
+          "win_fraction": 0.5769230769230769
+        }
+      },
+      "holding_sessions": 20,
+      "mean_complete_count": 28.529411764705884,
+      "mean_difference_vs_complete_cohort": 0.011110673595310306,
+      "mean_difference_vs_eligible_pool": 0.013551883590869918,
+      "mean_eligible_count": 26.294117647058822,
+      "mean_selected_count": 5.0,
+      "median_difference_vs_eligible_pool": 0.007857325678010355,
+      "moving_block_bootstrap_vs_eligible_pool": {
+        "high": 0.024197051233439928,
+        "low": 0.0033687528414769645,
+        "median": 0.013169671582299104,
+        "p_below_or_equal_zero": 0.0025
+      },
+      "newey_west_vs_eligible_pool": {
+        "annualized": 0.17075373324496096,
+        "lag": 4.0,
+        "mean_daily": 0.013551883590869918,
+        "t_stat": 2.532853255062056
+      },
+      "selected_mean": 0.03831622939934696,
+      "win_fraction_vs_eligible_pool": 0.5392156862745098
+    },
+    "5": {
+      "QQQ_mean": 0.00578583251757142,
+      "SPY_mean": 0.0034044696794569462,
+      "complete_cohort_mean": 0.0074878321118729005,
+      "eligible_pool_mean": 0.006697398701916206,
+      "events": 204,
+      "fixed_halves_vs_eligible_pool": {
+        "first": {
+          "events": 100,
+          "mean_difference": 0.008492153632441992,
+          "win_fraction": 0.56
+        },
+        "second": {
+          "events": 104,
+          "mean_difference": 0.012038946711750143,
+          "win_fraction": 0.6057692307692307
+        }
+      },
+      "holding_sessions": 5,
+      "mean_complete_count": 28.529411764705884,
+      "mean_difference_vs_complete_cohort": 0.009509889243309063,
+      "mean_difference_vs_eligible_pool": 0.010300322653265756,
+      "mean_eligible_count": 26.294117647058822,
+      "mean_selected_count": 5.0,
+      "median_difference_vs_eligible_pool": 0.004092524263488225,
+      "moving_block_bootstrap_vs_eligible_pool": {
+        "high": 0.017359839162439144,
+        "low": 0.0029744666020833487,
+        "median": 0.009551933933536028,
+        "p_below_or_equal_zero": 0.0
+      },
+      "newey_west_vs_eligible_pool": {
+        "annualized": 0.5191362617245942,
+        "lag": 1.0,
+        "mean_daily": 0.010300322653265756,
+        "t_stat": 3.3375074305167303
+      },
+      "selected_mean": 0.01699772135518196,
+      "win_fraction_vs_eligible_pool": 0.5833333333333334
+    }
+  },
+  "limitations": [
+    "current_watchlist_is_survivorship_biased",
+    "adjusted_ohlcv_is_not_raw_execution_or_complete_total_return_ledger",
+    "market_shock_and_return_have_no_intraday_public_timestamp",
+    "daily_events_can_overlap",
+    "no_strategy_or_paper_authorization"
+  ],
+  "multiplicity": {
+    "current_lower_bound": 6305,
+    "family_id": "round57_market_stress_laggard_reversal_three_horizons",
+    "increment": 3,
+    "prior_lower_bound": 6302
+  },
+  "receipt_sha256": "b268cefef7bcdcf68b5f1ebdf48e386ec3beb879b28bbbd091f50594041e6444",
+  "research_round": 57,
+  "schema_version": "usfddk.short_term_market_stress_laggard_reversal.v1",
+  "signal_definition": {
+    "frequency": "daily_completed_xnys",
+    "lookback_return_sessions": 5,
+    "market_shock_asset": "SPY",
+    "market_shock_threshold": -0.015,
+    "round_trip_cost_bps": 20.0,
+    "selection_count": 5,
+    "stock_return_threshold": -0.05
+  },
+  "source": {
+    "period": {
+      "end": "2026-07-31",
+      "start": "2006-08-01"
+    },
+    "protocol_sha256": "783a99b8d3da32824760c5162d52e2d964874b8720d4e4c783b15d53b82b5e5d",
+    "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+    "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "watchlist_count": 30,
+    "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+  },
+  "state_boundary": {
+    "paper_authorized": false,
+    "performance_present": false,
+    "real_money_action_usd": 0,
+    "real_money_authorized": false,
+    "strategy_run_count": 0,
+    "today_action": "今天不下單"
+  },
+  "status": "market_stress_laggard_reversal_diagnostic_positive_survivorship_biased"
+}

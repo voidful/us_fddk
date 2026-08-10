@@ -1,0 +1,402 @@
+{
+  "capital_gate_summary": {
+    "gates": {
+      "at_least_30_accepted_events": true,
+      "cagr_above_event_schedule_eligible_pool": true,
+      "cagr_above_passive_QQQ": true,
+      "cagr_above_passive_SPY": true,
+      "final_equity_above_start": true,
+      "max_drawdown_not_deeper_than_passive_QQQ": true,
+      "max_drawdown_not_deeper_than_passive_SPY": true
+    },
+    "passed": 7,
+    "required": 7
+  },
+  "fixed_schedule": {
+    "accepted_events": 132,
+    "candidate_events": 356,
+    "frequency": "weekly_completed_xnys",
+    "holding_sessions": 20,
+    "ignored_overlapping_events": 224,
+    "market_filter": "SPY_close_above_60_session_SMA",
+    "overlap_policy": "ignore_signals_until_exit_then_resume",
+    "selection_count": 10
+  },
+  "full_period": {
+    "20_bps": {
+      "QQQ": {
+        "cagr": 0.08936506130903066,
+        "daily_sharpe_zero_rate": 0.7275693764507317,
+        "events": 132,
+        "final_equity_usd": 5522.569904177031,
+        "max_drawdown": -0.1899299508078962,
+        "mean_event_return": 0.013757885426688782,
+        "total_return": 4.522569904177031,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6742424242424242
+      },
+      "SPY": {
+        "cagr": 0.052654671417885046,
+        "daily_sharpe_zero_rate": 0.5589507814946263,
+        "events": 132,
+        "final_equity_usd": 2785.624131728056,
+        "max_drawdown": -0.15922349582268225,
+        "mean_event_return": 0.008228073892502954,
+        "total_return": 1.785624131728056,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6590909090909091
+      },
+      "complete_cohort": {
+        "cagr": 0.1270807007403627,
+        "daily_sharpe_zero_rate": 1.0454008321252322,
+        "events": 132,
+        "final_equity_usd": 10895.438917463198,
+        "max_drawdown": -0.20055369924017385,
+        "mean_event_return": 0.018957417086452412,
+        "total_return": 9.895438917463197,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.7045454545454546
+      },
+      "eligible_pool": {
+        "cagr": 0.12460864373366909,
+        "daily_sharpe_zero_rate": 1.0150300055544519,
+        "events": 132,
+        "final_equity_usd": 10428.140268724252,
+        "max_drawdown": -0.1818674852164499,
+        "mean_event_return": 0.018619457414122225,
+        "total_return": 9.42814026872425,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.7121212121212122
+      },
+      "passive_QQQ": {
+        "cagr": 0.16702748649296195,
+        "daily_sharpe_zero_rate": 0.8120630900695297,
+        "events": 1,
+        "final_equity_usd": 21838.657905045322,
+        "max_drawdown": -0.5340398872163579,
+        "mean_event_return": null,
+        "total_return": 20.838657905045324,
+        "utilization_fraction": 1.0,
+        "win_fraction": null
+      },
+      "passive_SPY": {
+        "cagr": 0.11285564237355339,
+        "daily_sharpe_zero_rate": 0.6482478515358079,
+        "events": 1,
+        "final_equity_usd": 8455.087611546674,
+        "max_drawdown": -0.5518944601686687,
+        "mean_event_return": null,
+        "total_return": 7.455087611546675,
+        "utilization_fraction": 1.0,
+        "win_fraction": null
+      },
+      "selected": {
+        "cagr": 0.17411179981597735,
+        "daily_sharpe_zero_rate": 0.8411531120553972,
+        "events": 132,
+        "final_equity_usd": 24643.332188284294,
+        "max_drawdown": -0.3877852536924954,
+        "mean_event_return": 0.028308952277074757,
+        "total_return": 23.643332188284294,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6212121212121212
+      }
+    },
+    "50_bps": {
+      "QQQ": {
+        "cagr": 0.06793279975828881,
+        "daily_sharpe_zero_rate": 0.5735356165621144,
+        "events": 132,
+        "final_equity_usd": 3714.1469356235266,
+        "max_drawdown": -0.19960953860972475,
+        "mean_event_return": 0.010715852976439257,
+        "total_return": 2.7141469356235266,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6590909090909091
+      },
+      "SPY": {
+        "cagr": 0.031944653223132224,
+        "daily_sharpe_zero_rate": 0.3619085321683928,
+        "events": 132,
+        "final_equity_usd": 1873.4425298684391,
+        "max_drawdown": -0.16599967410353667,
+        "mean_event_return": 0.005202635015899167,
+        "total_return": 0.8734425298684392,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6212121212121212
+      },
+      "complete_cohort": {
+        "cagr": 0.10490641846805104,
+        "daily_sharpe_zero_rate": 0.8818034172888468,
+        "events": 132,
+        "final_equity_usd": 7327.614094474693,
+        "max_drawdown": -0.21247661527803674,
+        "mean_event_return": 0.015899782149393697,
+        "total_return": 6.3276140944746935,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.696969696969697
+      },
+      "eligible_pool": {
+        "cagr": 0.1024829969227079,
+        "daily_sharpe_zero_rate": 0.8540873130558639,
+        "events": 132,
+        "final_equity_usd": 7013.337249753891,
+        "max_drawdown": -0.18901166148605741,
+        "mean_event_return": 0.015562836609042044,
+        "total_return": 6.013337249753891,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.6893939393939394
+      },
+      "passive_QQQ": {
+        "cagr": 0.16685182497199036,
+        "daily_sharpe_zero_rate": 0.811725784689368,
+        "events": 1,
+        "final_equity_usd": 21773.125585176767,
+        "max_drawdown": -0.5340398872163574,
+        "mean_event_return": null,
+        "total_return": 20.773125585176768,
+        "utilization_fraction": 1.0,
+        "win_fraction": null
+      },
+      "passive_SPY": {
+        "cagr": 0.11268813482379669,
+        "daily_sharpe_zero_rate": 0.6478647301983385,
+        "events": 1,
+        "final_equity_usd": 8429.716020110716,
+        "max_drawdown": -0.5518944601686693,
+        "mean_event_return": null,
+        "total_return": 7.429716020110716,
+        "utilization_fraction": 1.0,
+        "win_fraction": null
+      },
+      "selected": {
+        "cagr": 0.15101222367092415,
+        "daily_sharpe_zero_rate": 0.7506286434937604,
+        "events": 132,
+        "final_equity_usd": 16573.616689114217,
+        "max_drawdown": -0.40591018244761323,
+        "mean_event_return": 0.02522325573485516,
+        "total_return": 15.573616689114218,
+        "utilization_fraction": 0.5509838998211091,
+        "win_fraction": 0.5833333333333334
+      }
+    },
+    "accepted_events": 132,
+    "candidate_events": 356,
+    "sessions": 5031
+  },
+  "half_periods": {
+    "first_half": {
+      "20_bps": {
+        "passive_QQQ": {
+          "cagr": 0.13078230591213225,
+          "daily_sharpe_zero_rate": 0.6796355410731131,
+          "events": 1,
+          "final_equity_usd": 3413.143732811005,
+          "max_drawdown": -0.5340398872163579,
+          "mean_event_return": null,
+          "total_return": 2.413143732811005,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "passive_SPY": {
+          "cagr": 0.07676431890399038,
+          "daily_sharpe_zero_rate": 0.4604537492361165,
+          "events": 1,
+          "final_equity_usd": 2093.2647920065247,
+          "max_drawdown": -0.5518944601686687,
+          "mean_event_return": null,
+          "total_return": 1.0932647920065248,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "selected": {
+          "cagr": 0.058558515716235826,
+          "daily_sharpe_zero_rate": 0.4280504836515394,
+          "events": 57,
+          "final_equity_usd": 1765.4461607083765,
+          "max_drawdown": -0.3299074899799542,
+          "mean_event_return": 0.012076984997540955,
+          "total_return": 0.7654461607083765,
+          "utilization_fraction": 0.4755661501787843,
+          "win_fraction": 0.5964912280701754
+        }
+      },
+      "50_bps": {
+        "passive_QQQ": {
+          "cagr": 0.13044212259436416,
+          "daily_sharpe_zero_rate": 0.6789408533405075,
+          "events": 1,
+          "final_equity_usd": 3402.901746887314,
+          "max_drawdown": -0.5340398872163574,
+          "mean_event_return": null,
+          "total_return": 2.4029017468873137,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "passive_SPY": {
+          "cagr": 0.07644038629862071,
+          "daily_sharpe_zero_rate": 0.4597298512959833,
+          "events": 1,
+          "final_equity_usd": 2086.9834308296595,
+          "max_drawdown": -0.5518944601686693,
+          "mean_event_return": null,
+          "total_return": 1.0869834308296595,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "selected": {
+          "cagr": 0.040558610023214925,
+          "daily_sharpe_zero_rate": 0.32426275428389595,
+          "events": 57,
+          "final_equity_usd": 1487.5100784975853,
+          "max_drawdown": -0.3536425620512439,
+          "mean_event_return": 0.009039996506726537,
+          "total_return": 0.4875100784975852,
+          "utilization_fraction": 0.4755661501787843,
+          "win_fraction": 0.5614035087719298
+        }
+      },
+      "accepted_events": 57,
+      "period": {
+        "end": "2016-07-31",
+        "start": "2006-08-01"
+      },
+      "sessions": 2517
+    },
+    "second_half": {
+      "20_bps": {
+        "passive_QQQ": {
+          "cagr": 0.20415442801396333,
+          "daily_sharpe_zero_rate": 0.9373978129616669,
+          "events": 1,
+          "final_equity_usd": 6381.178097561402,
+          "max_drawdown": -0.35118722274497194,
+          "mean_event_return": null,
+          "total_return": 5.381178097561402,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "passive_SPY": {
+          "cagr": 0.14993410363541004,
+          "daily_sharpe_zero_rate": 0.8700400825893452,
+          "events": 1,
+          "final_equity_usd": 4029.8134901436274,
+          "max_drawdown": -0.3371726274868585,
+          "mean_event_return": null,
+          "total_return": 3.0298134901436278,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "selected": {
+          "cagr": 0.2710362614901456,
+          "daily_sharpe_zero_rate": 1.0662537692385565,
+          "events": 74,
+          "final_equity_usd": 10942.069187863506,
+          "max_drawdown": -0.38778525369249495,
+          "mean_event_return": 0.03746895324236228,
+          "total_return": 9.942069187863506,
+          "utilization_fraction": 0.6181384248210023,
+          "win_fraction": 0.6351351351351351
+        }
+      },
+      "50_bps": {
+        "passive_QQQ": {
+          "cagr": 0.20379173928497307,
+          "daily_sharpe_zero_rate": 0.9367358547507644,
+          "events": 1,
+          "final_equity_usd": 6362.029786980867,
+          "max_drawdown": -0.3511872227449724,
+          "mean_event_return": null,
+          "total_return": 5.362029786980868,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "passive_SPY": {
+          "cagr": 0.14958774595173874,
+          "daily_sharpe_zero_rate": 0.8692157151144024,
+          "events": 1,
+          "final_equity_usd": 4017.7210333729513,
+          "max_drawdown": -0.3371726274868586,
+          "mean_event_return": null,
+          "total_return": 3.0177210333729514,
+          "utilization_fraction": 1.0,
+          "win_fraction": null
+        },
+        "selected": {
+          "cagr": 0.24301579948033547,
+          "daily_sharpe_zero_rate": 0.9787310939917842,
+          "events": 74,
+          "final_equity_usd": 8760.260972242835,
+          "max_drawdown": -0.4059101824476138,
+          "mean_event_return": 0.03435576984102054,
+          "total_return": 7.760260972242834,
+          "utilization_fraction": 0.6181384248210023,
+          "win_fraction": 0.5945945945945946
+        }
+      },
+      "accepted_events": 74,
+      "period": {
+        "end": "2026-07-31",
+        "start": "2016-08-01"
+      },
+      "sessions": 2514
+    }
+  },
+  "independent_first_seen_evidence": false,
+  "limitations": [
+    "current_watchlist_is_survivorship_biased",
+    "posthoc_robustness_diagnostic_is_not_independent_first_seen_evidence",
+    "adjusted_ohlcv_is_not_raw_execution_or_complete_total_return_ledger",
+    "volume_has_no_intraday_public_timestamp",
+    "no_point_in_time_universe_or_delisting_economics",
+    "fractional_equal_weight_is_a_research_convention"
+  ],
+  "multiplicity": {
+    "current_lower_bound": 6316,
+    "family_id": "round64_volume_breakout_top10_spy60_robustness",
+    "increment": 1,
+    "prior_lower_bound": 6315
+  },
+  "receipt_sha256": "a543b38c7c66bfe6f0d4b9ca45ff6b4ee56c9649b8219a5cded7fdb72664e1c5",
+  "research_role": "robustness_stress_diagnostic",
+  "research_round": 64,
+  "robustness_gate_summary": {
+    "gates": {
+      "first_half_20bps_cagr_above_passive_QQQ": false,
+      "first_half_50bps_cagr_above_passive_QQQ": false,
+      "full_period_20bps_capital_gates_preserved": true,
+      "full_period_50bps_cagr_above_passive_QQQ": false,
+      "second_half_20bps_cagr_above_passive_QQQ": true,
+      "second_half_50bps_cagr_above_passive_QQQ": true
+    },
+    "passed": 3,
+    "required": 6
+  },
+  "schema_version": "usfddk.short_term_volume_breakout_top10_spy60_robustness.v1",
+  "source": {
+    "period": {
+      "end": "2026-07-31",
+      "start": "2006-08-01"
+    },
+    "predecessor_protocol_receipt_sha256": "acae6bfa93dacb38734a04a2010c0053e28e6924cb9b5f81d3819953b53e7f95",
+    "predecessor_protocol_sha256": "dc5ef0d794677a0845250fc2c74001f975f5ba493dca170a4cd872127350de5f",
+    "predecessor_validation_sha256": "3e6f71ecb3b2deddc4309fd0621900f6da837e327852960c1a5e94ee63111588",
+    "protocol_sha256": "4822b3ebfaf5eeea899cc482938c00e8f15caee07a8c0861feb5a10928013ed4",
+    "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+    "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "watchlist_count": 30,
+    "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+  },
+  "state_boundary": {
+    "paper_authorized": false,
+    "performance_present": false,
+    "real_money_action_usd": 0,
+    "real_money_authorized": false,
+    "strategy_run_count": 0,
+    "today_action": "今天不下單"
+  },
+  "status": "volume_breakout_top10_spy60_robustness_negative_survivorship_biased",
+  "strategy_rule_changed": false
+}

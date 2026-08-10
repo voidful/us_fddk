@@ -1,0 +1,82 @@
+name: Short-term formal point-in-time signal engine CI
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/short-term-formal-signal-engine-ci.yml"
+      - "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md"
+      - "usfddk/formal_signal_engine.py"
+      - "usfddk/formal_execution_schedule.py"
+      - "usfddk/formal_raw_accounting.py"
+      - "usfddk/formal_baseline_schedule.py"
+      - "usfddk/formal_performance.py"
+      - "usfddk/formal_backtest_runner.py"
+      - "usfddk/formal_benchmark_actions.py"
+      - "usfddk/formal_report.py"
+      - "tests/test_formal_signal_engine.py"
+      - "tests/test_formal_execution_schedule.py"
+      - "tests/test_formal_raw_accounting.py"
+      - "tests/test_formal_baseline_schedule.py"
+      - "tests/test_formal_performance.py"
+      - "tests/test_formal_backtest_runner.py"
+      - "tests/test_formal_benchmark_actions.py"
+      - "tests/test_formal_report.py"
+      - "scripts/run_short_term_formal_backtest.py"
+      - "scripts/build_short_term_formal_backtest_report.py"
+      - "docs/SHORT_TERM_FORMAL_PERFORMANCE.md"
+      - "docs/SHORT_TERM_FORMAL_BACKTEST_RUNNER.md"
+      - "docs/SHORT_TERM_FORMAL_BENCHMARK_ACTION_BRIDGE.md"
+      - "docs/SHORT_TERM_FORMAL_RESEARCH_REPORT.md"
+      - "docs/SHORT_TERM_FORMAL_RAW_ACCOUNTING.md"
+      - "pyproject.toml"
+      - "uv.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify the frozen point-in-time signal contract
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          uv sync --locked --extra dev
+          uv run pytest -q \
+            tests/test_formal_signal_engine.py \
+            tests/test_formal_execution_schedule.py \
+            tests/test_formal_raw_accounting.py \
+            tests/test_formal_baseline_schedule.py \
+            tests/test_formal_performance.py \
+            tests/test_formal_backtest_runner.py \
+            tests/test_formal_benchmark_actions.py \
+            tests/test_formal_report.py
+          uv run ruff check \
+            usfddk/formal_signal_engine.py \
+            usfddk/formal_execution_schedule.py \
+            usfddk/formal_raw_accounting.py \
+            usfddk/formal_baseline_schedule.py \
+            usfddk/formal_performance.py \
+            usfddk/formal_backtest_runner.py \
+            usfddk/formal_benchmark_actions.py \
+            usfddk/formal_report.py \
+            scripts/run_short_term_formal_backtest.py \
+            scripts/build_short_term_formal_backtest_report.py \
+            tests/test_formal_signal_engine.py \
+            tests/test_formal_execution_schedule.py \
+            tests/test_formal_raw_accounting.py \
+            tests/test_formal_baseline_schedule.py \
+            tests/test_formal_performance.py \
+            tests/test_formal_backtest_runner.py \
+            tests/test_formal_benchmark_actions.py \
+            tests/test_formal_report.py
+          git diff --check

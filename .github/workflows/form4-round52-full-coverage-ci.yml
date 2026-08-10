@@ -1,0 +1,45 @@
+name: Form 4 Round52 full coverage CI
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/form4-round52-full-coverage-ci.yml"
+      - "docs/SHORT_TERM_FORM4_FULL_COVERAGE_PROTOCOL.md"
+      - "artifacts/short_term_form4_full_coverage_protocol_receipt.json"
+      - "artifacts/short_term_form4_full_coverage_source_manifest.json"
+      - "artifacts/short_term_form4_full_coverage_validation.json"
+      - "docs/SHORT_TERM_FORM4_FULL_COVERAGE_REPORT.md"
+      - "scripts/audit_short_term_form4_full_coverage.py"
+      - "scripts/fetch_short_term_form4_full_coverage.py"
+      - "tests/test_form4_full_coverage.py"
+      - "usfddk/form4_full_coverage.py"
+      - "pyproject.toml"
+      - "uv.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify the frozen Round52 coverage contract
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          uv sync --locked --extra dev
+          uv run pytest -q tests/test_form4_full_coverage.py
+          uv run ruff check \
+            usfddk/form4_full_coverage.py \
+            scripts/fetch_short_term_form4_full_coverage.py \
+            scripts/audit_short_term_form4_full_coverage.py \
+            tests/test_form4_full_coverage.py
+          git diff --check

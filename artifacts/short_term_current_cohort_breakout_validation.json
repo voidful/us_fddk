@@ -1,0 +1,851 @@
+{
+  "adjusted_ohlcv_only": true,
+  "complete_current_cohort_count": 25,
+  "data_boundary": {
+    "corporate_action_ledger": false,
+    "delisted_and_acquired_returns": false,
+    "formal_backtest_authorized": false,
+    "historical_sector_classification": false,
+    "paper_authorized": false,
+    "point_in_time_membership": false,
+    "raw_execution_ohlcv": false,
+    "real_money_action_usd": 0
+  },
+  "global_trial_ledger_extension": {
+    "base_ledger_path": "artifacts/short_term_global_trial_ledger.json",
+    "base_ledger_sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49",
+    "family_id": "round51_current_cohort_breakout_three_horizons",
+    "minimum_increment": 3,
+    "post_result_lower_bound": 6290,
+    "prior_lower_bound": 6287,
+    "result_seen": true,
+    "result_state": "result_seen"
+  },
+  "has_follow_up_research_value": false,
+  "horizons": {
+    "10": {
+      "comparison_vs_eligible_equal": {
+        "mean_difference": 0.0018844366697017409,
+        "median_difference": 0.0,
+        "newey_west": {
+          "annualized": 0.09799070682449053,
+          "lag": 2.0,
+          "mean_daily": 0.0018844366697017409,
+          "t_stat": 2.5375908247846257
+        },
+        "win_fraction": 0.4444444444444444
+      },
+      "event_series": [
+        {
+          "complete_cohort_equal_return": 0.03849627187593128,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.00383743012695002,
+          "entry_date": "2007-04-23",
+          "exit_date": "2007-05-04",
+          "qqq_return": 0.023737004601706913,
+          "selected_count": 5,
+          "signal_date": "2007-04-20",
+          "spy_return": 0.015186513073335075,
+          "top5_return": 0.002363471556080056
+        },
+        {
+          "complete_cohort_equal_return": 0.025684489703225066,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.005112603587496946,
+          "entry_date": "2012-07-30",
+          "exit_date": "2012-08-10",
+          "qqq_return": 0.026140742992589283,
+          "selected_count": 5,
+          "signal_date": "2012-07-27",
+          "spy_return": 0.014748530025565866,
+          "top5_return": 0.005112603587496946
+        },
+        {
+          "complete_cohort_equal_return": 0.014309359434219878,
+          "eligible_count": 7,
+          "eligible_equal_return": 0.02543745298245429,
+          "entry_date": "2012-09-10",
+          "exit_date": "2012-09-21",
+          "qqq_return": 0.01388550205738537,
+          "selected_count": 5,
+          "signal_date": "2012-09-07",
+          "spy_return": 0.015051776645092831,
+          "top5_return": 0.024994299599584678
+        },
+        {
+          "complete_cohort_equal_return": -0.024211192957534752,
+          "eligible_count": 8,
+          "eligible_equal_return": -0.02553730751778975,
+          "entry_date": "2012-09-17",
+          "exit_date": "2012-09-28",
+          "qqq_return": -0.02271282759509685,
+          "selected_count": 5,
+          "signal_date": "2012-09-14",
+          "spy_return": -0.01698208108652799,
+          "top5_return": -0.023639856149585012
+        },
+        {
+          "complete_cohort_equal_return": -0.0022460867334222617,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.03128912893622545,
+          "entry_date": "2012-09-24",
+          "exit_date": "2012-10-05",
+          "qqq_return": -0.01048047693744669,
+          "selected_count": 5,
+          "signal_date": "2012-09-21",
+          "spy_return": 0.004820730010250742,
+          "top5_return": 0.03571110181560679
+        },
+        {
+          "complete_cohort_equal_return": -0.0005136121887475502,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.01757316822793438,
+          "entry_date": "2013-10-21",
+          "exit_date": "2013-11-01",
+          "qqq_return": 0.0037075677907116873,
+          "selected_count": 5,
+          "signal_date": "2013-10-18",
+          "spy_return": 0.008089055999093821,
+          "top5_return": 0.01757316822793438
+        },
+        {
+          "complete_cohort_equal_return": 0.01245216262490162,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.008561883737961186,
+          "entry_date": "2013-12-23",
+          "exit_date": "2014-01-07",
+          "qqq_return": -0.0030319343953174576,
+          "selected_count": 5,
+          "signal_date": "2013-12-20",
+          "spy_return": 0.0036446399257215063,
+          "top5_return": 0.008561883737961186
+        },
+        {
+          "complete_cohort_equal_return": 0.015344784188559323,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.00016139860197320814,
+          "entry_date": "2014-06-23",
+          "exit_date": "2014-07-07",
+          "qqq_return": 0.02656844835557637,
+          "selected_count": 5,
+          "signal_date": "2014-06-20",
+          "spy_return": 0.0057551949349574655,
+          "top5_return": 0.0030111184499637365
+        },
+        {
+          "complete_cohort_equal_return": 0.010242408708122623,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.012825703855639805,
+          "entry_date": "2017-10-30",
+          "exit_date": "2017-11-10",
+          "qqq_return": 0.014873083286673696,
+          "selected_count": 5,
+          "signal_date": "2017-10-27",
+          "spy_return": 0.004316528491728812,
+          "top5_return": 0.015796587431106124
+        },
+        {
+          "complete_cohort_equal_return": 0.0018009403399099505,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.005515848930890257,
+          "entry_date": "2017-12-04",
+          "exit_date": "2017-12-15",
+          "qqq_return": 0.01208685251170505,
+          "selected_count": 5,
+          "signal_date": "2017-12-01",
+          "spy_return": 0.0038661849675074595,
+          "top5_return": 0.005515848930890257
+        },
+        {
+          "complete_cohort_equal_return": -0.008243386149754072,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.014109804385098344,
+          "entry_date": "2018-09-24",
+          "exit_date": "2018-10-05",
+          "qqq_return": -0.012436928343014018,
+          "selected_count": 5,
+          "signal_date": "2018-09-21",
+          "spy_return": -0.014082142935117335,
+          "top5_return": -0.014109804385098344
+        },
+        {
+          "complete_cohort_equal_return": 0.005281843637588801,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.006077017650269632,
+          "entry_date": "2019-03-18",
+          "exit_date": "2019-03-29",
+          "qqq_return": 0.007609485033455822,
+          "selected_count": 5,
+          "signal_date": "2019-03-15",
+          "spy_return": 0.0013035122807454353,
+          "top5_return": -0.005010832424111954
+        },
+        {
+          "complete_cohort_equal_return": 0.01090603122422679,
+          "eligible_count": 9,
+          "eligible_equal_return": 0.011637666430242668,
+          "entry_date": "2019-12-23",
+          "exit_date": "2020-01-07",
+          "qqq_return": 0.014650857653644158,
+          "selected_count": 5,
+          "signal_date": "2019-12-20",
+          "spy_return": 0.00154472546062512,
+          "top5_return": 0.0237297359596969
+        },
+        {
+          "complete_cohort_equal_return": -0.021809465696325553,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.005121611736739752,
+          "entry_date": "2020-01-21",
+          "exit_date": "2020-02-03",
+          "qqq_return": -0.003705776307307616,
+          "selected_count": 5,
+          "signal_date": "2020-01-17",
+          "spy_return": -0.022489587517923515,
+          "top5_return": 0.012097384796013523
+        },
+        {
+          "complete_cohort_equal_return": 0.005940030628126728,
+          "eligible_count": 8,
+          "eligible_equal_return": 0.007001128743313214,
+          "entry_date": "2023-12-18",
+          "exit_date": "2024-01-02",
+          "qqq_return": -0.007255866188252245,
+          "selected_count": 5,
+          "signal_date": "2023-12-15",
+          "spy_return": 0.0015456610972615099,
+          "top5_return": 0.0022729957972452714
+        },
+        {
+          "complete_cohort_equal_return": 0.03788188316719951,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.0354614408752012,
+          "entry_date": "2025-06-23",
+          "exit_date": "2025-07-07",
+          "qqq_return": 0.04587316142930131,
+          "selected_count": 5,
+          "signal_date": "2025-06-20",
+          "spy_return": 0.04108958290188669,
+          "top5_return": 0.0354614408752012
+        },
+        {
+          "complete_cohort_equal_return": 0.03654002378308602,
+          "eligible_count": 7,
+          "eligible_equal_return": 0.007472719177413689,
+          "entry_date": "2025-09-22",
+          "exit_date": "2025-10-03",
+          "qqq_return": 0.007100995521826194,
+          "selected_count": 5,
+          "signal_date": "2025-09-19",
+          "spy_return": 0.008585945844702405,
+          "top5_return": 0.015440971441977517
+        },
+        {
+          "complete_cohort_equal_return": -0.0037800171101521566,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.05503971171313175,
+          "entry_date": "2026-06-22",
+          "exit_date": "2026-07-06",
+          "qqq_return": -0.02787532909548396,
+          "selected_count": 5,
+          "signal_date": "2026-06-18",
+          "spy_return": 0.002788039376201647,
+          "top5_return": -0.05503971171313175
+        }
+      ],
+      "events": 18,
+      "first_signal_date": "2007-04-20",
+      "fixed_halves_vs_eligible_equal": {
+        "first": {
+          "events": 8,
+          "mean_difference": 0.0009468536682229311,
+          "median_difference": 0.0,
+          "win_fraction": 0.375
+        },
+        "second": {
+          "events": 10,
+          "mean_difference": 0.0026345030708847888,
+          "median_difference": 0.0005330926130788392,
+          "win_fraction": 0.5
+        }
+      },
+      "holding_sessions": 10,
+      "last_signal_date": "2026-06-18",
+      "mean_complete_cohort_equal_return": 0.008559803804397848,
+      "mean_eligible_count": 6.111111111111111,
+      "mean_eligible_equal_return": 0.004217919304455564,
+      "mean_qqq_return": 0.006040809020703166,
+      "mean_selected_return": 0.0061023559741573054,
+      "mean_spy_return": 0.004376822749728196,
+      "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+        "high": 0.002934671812644859,
+        "low": 0.001112587521455614,
+        "median": 0.002041864271587118,
+        "p_below_or_equal_zero": 0.0
+      }
+    },
+    "20": {
+      "comparison_vs_eligible_equal": {
+        "mean_difference": 0.0025905935862989395,
+        "median_difference": 0.0,
+        "newey_west": {
+          "annualized": 0.13471086648754485,
+          "lag": 4.0,
+          "mean_daily": 0.0025905935862989395,
+          "t_stat": 2.2550925074324533
+        },
+        "win_fraction": 0.4444444444444444
+      },
+      "event_series": [
+        {
+          "complete_cohort_equal_return": 0.0490659782870169,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.02951215224945699,
+          "entry_date": "2007-04-23",
+          "exit_date": "2007-05-18",
+          "qqq_return": 0.02549676640077969,
+          "selected_count": 5,
+          "signal_date": "2007-04-20",
+          "spy_return": 0.026644377237513783,
+          "top5_return": 0.025451172417878663
+        },
+        {
+          "complete_cohort_equal_return": 0.03108695963219179,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.03532508684742406,
+          "entry_date": "2012-07-30",
+          "exit_date": "2012-08-24",
+          "qqq_return": 0.04813116955175123,
+          "selected_count": 5,
+          "signal_date": "2012-07-27",
+          "spy_return": 0.019584910731864413,
+          "top5_return": 0.03532508684742406
+        },
+        {
+          "complete_cohort_equal_return": 0.007214106043537083,
+          "eligible_count": 7,
+          "eligible_equal_return": 0.04955222368975985,
+          "entry_date": "2012-09-10",
+          "exit_date": "2012-10-05",
+          "qqq_return": -0.0030581313729445263,
+          "selected_count": 5,
+          "signal_date": "2012-09-07",
+          "spy_return": 0.016934407735846202,
+          "top5_return": 0.055320253628845587
+        },
+        {
+          "complete_cohort_equal_return": -0.03921610949797769,
+          "eligible_count": 8,
+          "eligible_equal_return": -0.03101436289680655,
+          "entry_date": "2012-09-17",
+          "exit_date": "2012-10-12",
+          "qqq_return": -0.04970445101408749,
+          "selected_count": 5,
+          "signal_date": "2012-09-14",
+          "spy_return": -0.02437159827053037,
+          "top5_return": -0.020359338893927846
+        },
+        {
+          "complete_cohort_equal_return": -0.04027003249315757,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.014698439184423946,
+          "entry_date": "2012-09-24",
+          "exit_date": "2012-10-19",
+          "qqq_return": -0.057914732323907425,
+          "selected_count": 5,
+          "signal_date": "2012-09-21",
+          "spy_return": -0.01412510591040128,
+          "top5_return": -0.025890900839997164
+        },
+        {
+          "complete_cohort_equal_return": 0.02748001532485208,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.031761717518068375,
+          "entry_date": "2013-10-21",
+          "exit_date": "2013-11-15",
+          "qqq_return": 0.01767419594257058,
+          "selected_count": 5,
+          "signal_date": "2013-10-18",
+          "spy_return": 0.03010131508098901,
+          "top5_return": 0.031761717518068375
+        },
+        {
+          "complete_cohort_equal_return": 0.011480943978874213,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.010761108111986451,
+          "entry_date": "2013-12-23",
+          "exit_date": "2014-01-22",
+          "qqq_return": 0.016002638923034107,
+          "selected_count": 5,
+          "signal_date": "2013-12-20",
+          "spy_return": 0.008139248715463678,
+          "top5_return": 0.010761108111986451
+        },
+        {
+          "complete_cohort_equal_return": 0.024634283555562436,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.0031336642088382587,
+          "entry_date": "2014-06-23",
+          "exit_date": "2014-07-21",
+          "qqq_return": 0.0329290135957625,
+          "selected_count": 5,
+          "signal_date": "2014-06-20",
+          "spy_return": 0.004888243183425402,
+          "top5_return": -0.0013816751047888358
+        },
+        {
+          "complete_cohort_equal_return": 0.02219958108921795,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.025414484582234352,
+          "entry_date": "2017-10-30",
+          "exit_date": "2017-11-27",
+          "qqq_return": 0.031481406102513265,
+          "selected_count": 5,
+          "signal_date": "2017-10-27",
+          "spy_return": 0.012660562740481886,
+          "top5_return": 0.03531582979719872
+        },
+        {
+          "complete_cohort_equal_return": 0.01665814947423743,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.02275134252960722,
+          "entry_date": "2017-12-04",
+          "exit_date": "2018-01-02",
+          "qqq_return": 0.0196224748017384,
+          "selected_count": 5,
+          "signal_date": "2017-12-01",
+          "spy_return": 0.012395875094838972,
+          "top5_return": 0.02275134252960722
+        },
+        {
+          "complete_cohort_equal_return": -0.05780049196996699,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.04909525932265404,
+          "entry_date": "2018-09-24",
+          "exit_date": "2018-10-19",
+          "qqq_return": -0.05160190982602797,
+          "selected_count": 5,
+          "signal_date": "2018-09-21",
+          "spy_return": -0.05379505907706661,
+          "top5_return": -0.04909525932265404
+        },
+        {
+          "complete_cohort_equal_return": 0.031862512003716564,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.040842288993037344,
+          "entry_date": "2019-03-18",
+          "exit_date": "2019-04-12",
+          "qqq_return": 0.042282146141154,
+          "selected_count": 5,
+          "signal_date": "2019-03-15",
+          "spy_return": 0.028580907898660524,
+          "top5_return": 0.034613664407705504
+        },
+        {
+          "complete_cohort_equal_return": 0.0377656337520825,
+          "eligible_count": 9,
+          "eligible_equal_return": 0.06376758225218923,
+          "entry_date": "2019-12-23",
+          "exit_date": "2020-01-22",
+          "qqq_return": 0.053990325585897336,
+          "selected_count": 5,
+          "signal_date": "2019-12-20",
+          "spy_return": 0.028318024907799444,
+          "top5_return": 0.07351315699592731
+        },
+        {
+          "complete_cohort_equal_return": 0.03232261650643752,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.035803502282656774,
+          "entry_date": "2020-01-21",
+          "exit_date": "2020-02-18",
+          "qqq_return": 0.05173514567922677,
+          "selected_count": 5,
+          "signal_date": "2020-01-17",
+          "spy_return": 0.015618407989081541,
+          "top5_return": 0.04604421293562901
+        },
+        {
+          "complete_cohort_equal_return": 0.016879528453512704,
+          "eligible_count": 8,
+          "eligible_equal_return": 0.022013062423755295,
+          "entry_date": "2023-12-18",
+          "exit_date": "2024-01-17",
+          "qqq_return": 0.004159383840057542,
+          "selected_count": 5,
+          "signal_date": "2023-12-15",
+          "spy_return": 0.0007813000609964166,
+          "top5_return": 0.02996321591657567
+        },
+        {
+          "complete_cohort_equal_return": 0.05695665419830189,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.05094495305859832,
+          "entry_date": "2025-06-23",
+          "exit_date": "2025-07-21",
+          "qqq_return": 0.06891747701442585,
+          "selected_count": 5,
+          "signal_date": "2025-06-20",
+          "spy_return": 0.05468541179314457,
+          "top5_return": 0.05094495305859832
+        },
+        {
+          "complete_cohort_equal_return": 0.059723195032454594,
+          "eligible_count": 7,
+          "eligible_equal_return": 0.006193291772758229,
+          "entry_date": "2025-09-22",
+          "exit_date": "2025-10-17",
+          "qqq_return": 0.008355693224658014,
+          "selected_count": 5,
+          "signal_date": "2025-09-19",
+          "spy_return": 0.001307177312431575,
+          "top5_return": 0.018293215248113608
+        },
+        {
+          "complete_cohort_equal_return": -0.028383935885292033,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.17616399148781062,
+          "entry_date": "2026-06-22",
+          "exit_date": "2026-07-20",
+          "qqq_return": -0.06393905917925169,
+          "selected_count": 5,
+          "signal_date": "2026-06-18",
+          "spy_return": -0.009502989445584474,
+          "top5_return": -0.17616399148781062
+        }
+      ],
+      "events": 18,
+      "first_signal_date": "2007-04-20",
+      "fixed_halves_vs_eligible_equal": {
+        "first": {
+          "events": 8,
+          "mean_difference": 0.0003652001948577894,
+          "median_difference": 0.0,
+          "win_fraction": 0.375
+        },
+        "second": {
+          "events": 10,
+          "mean_difference": 0.00437090829945186,
+          "median_difference": 0.003975076746410188,
+          "win_fraction": 0.5
+        }
+      },
+      "holding_sessions": 20,
+      "last_signal_date": "2026-06-18",
+      "mean_complete_cohort_equal_return": 0.014425532638088968,
+      "mean_eligible_count": 6.111111111111111,
+      "mean_eligible_equal_return": 0.008363171067277728,
+      "mean_qqq_return": 0.010808864060408343,
+      "mean_selected_return": 0.010953764653576665,
+      "mean_spy_return": 0.008824745432164148,
+      "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+        "high": 0.004306490043004045,
+        "low": -4.23816511441574e-06,
+        "median": 0.0024260665792096873,
+        "p_below_or_equal_zero": 0.027
+      }
+    },
+    "5": {
+      "comparison_vs_eligible_equal": {
+        "mean_difference": -0.0004261955604340919,
+        "median_difference": 0.0,
+        "newey_west": {
+          "annualized": -0.02216216914257278,
+          "lag": 1.0,
+          "mean_daily": -0.0004261955604340919,
+          "t_stat": -0.5264754440593323
+        },
+        "win_fraction": 0.3333333333333333
+      },
+      "event_series": [
+        {
+          "complete_cohort_equal_return": 0.026926228150595026,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.0012120677536801958,
+          "entry_date": "2007-04-23",
+          "exit_date": "2007-04-27",
+          "qqq_return": 0.022416914357520135,
+          "selected_count": 5,
+          "signal_date": "2007-04-20",
+          "spy_return": 0.005818267413723934,
+          "top5_return": -0.00030907989049111344
+        },
+        {
+          "complete_cohort_equal_return": 0.004142054462731012,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.0018615299416874249,
+          "entry_date": "2012-07-30",
+          "exit_date": "2012-08-03",
+          "qqq_return": 0.006765597590429719,
+          "selected_count": 5,
+          "signal_date": "2012-07-27",
+          "spy_return": 0.003991435334327777,
+          "top5_return": 0.0018615299416874249
+        },
+        {
+          "complete_cohort_equal_return": 0.021947116438827692,
+          "eligible_count": 7,
+          "eligible_equal_return": 0.026589552094627468,
+          "entry_date": "2012-09-10",
+          "exit_date": "2012-09-14",
+          "qqq_return": 0.011429655389827877,
+          "selected_count": 5,
+          "signal_date": "2012-09-07",
+          "spy_return": 0.019152778706891027,
+          "top5_return": 0.027700626229291835
+        },
+        {
+          "complete_cohort_equal_return": -0.006563169820560327,
+          "eligible_count": 8,
+          "eligible_equal_return": -0.007220019523103289,
+          "entry_date": "2012-09-17",
+          "exit_date": "2012-09-21",
+          "qqq_return": -0.00014731691999258882,
+          "selected_count": 5,
+          "signal_date": "2012-09-14",
+          "spy_return": -0.003983122501252765,
+          "top5_return": -0.0041335116816061815
+        },
+        {
+          "complete_cohort_equal_return": -0.013257540990739216,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.0075153627848355015,
+          "entry_date": "2012-09-24",
+          "exit_date": "2012-09-28",
+          "qqq_return": -0.016374306129862015,
+          "selected_count": 5,
+          "signal_date": "2012-09-21",
+          "spy_return": -0.010128916827841448,
+          "top5_return": 0.009331322138783916
+        },
+        {
+          "complete_cohort_equal_return": -0.004082381853169127,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.013140239978699888,
+          "entry_date": "2013-10-21",
+          "exit_date": "2013-10-25",
+          "qqq_return": 0.00480080394162097,
+          "selected_count": 5,
+          "signal_date": "2013-10-18",
+          "spy_return": 0.006598487640547159,
+          "top5_return": 0.013140239978699888
+        },
+        {
+          "complete_cohort_equal_return": 0.005586564575971204,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.001176337354412536,
+          "entry_date": "2013-12-23",
+          "exit_date": "2013-12-30",
+          "qqq_return": 6.410642546805963e-05,
+          "selected_count": 5,
+          "signal_date": "2013-12-20",
+          "spy_return": 0.005508816753161396,
+          "top5_return": -0.001176337354412536
+        },
+        {
+          "complete_cohort_equal_return": -0.0009515547060511614,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.009846755819094387,
+          "entry_date": "2014-06-23",
+          "exit_date": "2014-06-27",
+          "qqq_return": 0.008672709298888083,
+          "selected_count": 5,
+          "signal_date": "2014-06-20",
+          "spy_return": -0.00286804564932208,
+          "top5_return": -0.005845066078442483
+        },
+        {
+          "complete_cohort_equal_return": 0.008925371147405829,
+          "eligible_count": 6,
+          "eligible_equal_return": 0.013726270587517726,
+          "entry_date": "2017-10-30",
+          "exit_date": "2017-11-03",
+          "qqq_return": 0.012160187682014769,
+          "selected_count": 5,
+          "signal_date": "2017-10-27",
+          "spy_return": 0.005720472161058645,
+          "top5_return": 0.018137785117907826
+        },
+        {
+          "complete_cohort_equal_return": -0.009973607304700647,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.006031253331219098,
+          "entry_date": "2017-12-04",
+          "exit_date": "2017-12-08",
+          "qqq_return": -0.00688912294483268,
+          "selected_count": 5,
+          "signal_date": "2017-12-01",
+          "spy_return": -0.005004162322213677,
+          "top5_return": -0.006031253331219098
+        },
+        {
+          "complete_cohort_equal_return": -0.0010998508410141944,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.003133676717603205,
+          "entry_date": "2018-09-24",
+          "exit_date": "2018-09-28",
+          "qqq_return": 0.018543687529502195,
+          "selected_count": 5,
+          "signal_date": "2018-09-21",
+          "spy_return": -0.0041277673674447995,
+          "top5_return": -0.003133676717603205
+        },
+        {
+          "complete_cohort_equal_return": 0.001283596067418135,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.012291399764946382,
+          "entry_date": "2019-03-18",
+          "exit_date": "2019-03-22",
+          "qqq_return": 0.0014280553816277148,
+          "selected_count": 5,
+          "signal_date": "2019-03-15",
+          "spy_return": -0.010168884649252473,
+          "top5_return": -0.012955082320611886
+        },
+        {
+          "complete_cohort_equal_return": -0.003687819973308784,
+          "eligible_count": 9,
+          "eligible_equal_return": -0.010632145736789646,
+          "entry_date": "2019-12-23",
+          "exit_date": "2019-12-30",
+          "qqq_return": -0.0010093403314286303,
+          "selected_count": 5,
+          "signal_date": "2019-12-20",
+          "spy_return": -0.003585999450603781,
+          "top5_return": -0.017477233218055763
+        },
+        {
+          "complete_cohort_equal_return": -0.027316167517711584,
+          "eligible_count": 6,
+          "eligible_equal_return": -0.025429412641686813,
+          "entry_date": "2020-01-21",
+          "exit_date": "2020-01-27",
+          "qqq_return": -0.022919437449140045,
+          "selected_count": 5,
+          "signal_date": "2020-01-17",
+          "spy_return": -0.02436330826538191,
+          "top5_return": -0.023676305390941454
+        },
+        {
+          "complete_cohort_equal_return": 0.010524924075829271,
+          "eligible_count": 8,
+          "eligible_equal_return": 0.013578270254062082,
+          "entry_date": "2023-12-18",
+          "exit_date": "2023-12-22",
+          "qqq_return": 0.006519997630417997,
+          "selected_count": 5,
+          "signal_date": "2023-12-15",
+          "spy_return": 0.003669064169953053,
+          "top5_return": 0.00622477660605463
+        },
+        {
+          "complete_cohort_equal_return": 0.03418520007261152,
+          "eligible_count": 5,
+          "eligible_equal_return": 0.04348362574751978,
+          "entry_date": "2025-06-23",
+          "exit_date": "2025-06-27",
+          "qqq_return": 0.03839413167349237,
+          "selected_count": 5,
+          "signal_date": "2025-06-20",
+          "spy_return": 0.03139272167235818,
+          "top5_return": 0.04348362574751978
+        },
+        {
+          "complete_cohort_equal_return": 0.005830969221028314,
+          "eligible_count": 7,
+          "eligible_equal_return": -0.006219621189523396,
+          "entry_date": "2025-09-22",
+          "exit_date": "2025-09-26",
+          "qqq_return": -0.0049611336600599,
+          "selected_count": 5,
+          "signal_date": "2025-09-19",
+          "spy_return": -0.002573835147982149,
+          "top5_return": -0.013687582800123919
+        },
+        {
+          "complete_cohort_equal_return": -0.012071056259871316,
+          "eligible_count": 5,
+          "eligible_equal_return": -0.021026639397486856,
+          "entry_date": "2026-06-22",
+          "exit_date": "2026-06-26",
+          "qqq_return": -0.04984237495899535,
+          "selected_count": 5,
+          "signal_date": "2026-06-18",
+          "spy_return": -0.027023434124266554,
+          "top5_return": -0.021026639397486856
+        }
+      ],
+      "events": 18,
+      "first_signal_date": "2007-04-20",
+      "fixed_halves_vs_eligible_equal": {
+        "first": {
+          "events": 8,
+          "mean_difference": 0.0010617604283238104,
+          "median_difference": 0.0005555370673321833,
+          "win_fraction": 0.5
+        },
+        "second": {
+          "events": 10,
+          "mean_difference": -0.0016165603514404138,
+          "median_difference": 0.0,
+          "win_fraction": 0.2
+        }
+      },
+      "holding_sessions": 5,
+      "last_signal_date": "2026-06-18",
+      "mean_complete_cohort_equal_return": 0.0022416041636273134,
+      "mean_eligible_count": 6.111111111111111,
+      "mean_eligible_equal_return": 0.0010055365370424698,
+      "mean_qqq_return": 0.0016140452503610365,
+      "mean_selected_return": 0.0005793409766083778,
+      "mean_spy_return": -0.0006653018029744709,
+      "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+        "high": 0.0017863295332238621,
+        "low": -0.002053147450745944,
+        "median": 0.000256557197926884,
+        "p_below_or_equal_zero": 0.4315
+      }
+    }
+  },
+  "paper_effect": "none_current_cohort_diagnostic_only",
+  "passed_primary_gate_count": 4,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "primary_gates": {
+    "bootstrap_95pct_low_positive": true,
+    "both_fixed_halves_positive": true,
+    "mean_difference_positive": true,
+    "newey_west_t_at_least_1_96": true,
+    "paired_win_fraction_above_50pct": false
+  },
+  "primary_horizon": 10,
+  "real_money_action_usd": 0,
+  "receipt_sha256": "25bd4ce6729fcd33d42d6a99d3b708f03028dddf297013d49cf8d11ad87fa7e0",
+  "required_primary_gate_count": 5,
+  "research_round": 51,
+  "schema_version": "usfddk.short_term_current_cohort_breakout.v1",
+  "skipped": {
+    "missing_execution": {
+      "10": 0,
+      "20": 0,
+      "5": 0
+    },
+    "no_signal": 1025
+  },
+  "snapshot": {
+    "archive_bytes": 5821773,
+    "archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "complete_current_cohort_count": 25,
+    "filename": "snapshot_20260731_6a7ca6b8.zip",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "rows": 5680,
+    "watchlist_count": 30,
+    "watchlist_mapped_count": 30
+  },
+  "status": "current_cohort_breakout_diagnostic_negative_survivorship_biased",
+  "survivorship_bias_warning": true,
+  "today_action": "今天不下單",
+  "valid_for_investment_decision": false
+}

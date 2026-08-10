@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "research_round": 55,
+  "status": "preregistered_oversold_reversal_diagnostic_only",
+  "protocol_sha256": "39dfb053e8163263f9650d9c53945543bdc393b89492c6aaf01c551814f321e0",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014",
+  "period": {
+    "start": "2006-08-01",
+    "end": "2026-07-31"
+  },
+  "signal": {
+    "frequency": "weekly_completed_xnys",
+    "dollar_volume_threshold_usd": 20000000.0,
+    "lookback_low_sessions": 20,
+    "selection_count": 5,
+    "short_return_sessions": 5,
+    "short_return_threshold": -0.08,
+    "price_threshold_usd": 5.0
+  },
+  "horizons": [5, 10, 20],
+  "primary_horizon_sessions": 20,
+  "cost_round_trip_bps": 20.0,
+  "performance_authorized": false,
+  "paper_authorized": false,
+  "real_money_authorized": false,
+  "today_action": "今天不下單",
+  "global_trial_ledger": {
+    "prior_lower_bound": 6296,
+    "minimum_increment": 3,
+    "new_family_id": "round55_oversold_reversal_three_horizons"
+  },
+  "receipt_sha256": "bd4a03c9967f8742ceebd27574235459717e2aad657173d8eafb856d136cf78d"
+}

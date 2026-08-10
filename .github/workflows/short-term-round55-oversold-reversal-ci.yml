@@ -1,0 +1,45 @@
+name: Short-term Round55 oversold reversal diagnostic CI
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/short-term-round55-oversold-reversal-ci.yml"
+      - "docs/SHORT_TERM_OVERSOLD_REVERSAL_DIAGNOSTIC_PROTOCOL.md"
+      - "docs/SHORT_TERM_OVERSOLD_REVERSAL_DIAGNOSTIC_REPORT.md"
+      - "artifacts/short_term_oversold_reversal_diagnostic_protocol_receipt.json"
+      - "artifacts/short_term_oversold_reversal_diagnostic_validation.json"
+      - "artifacts/short_term_global_trial_ledger_round55_extension.json"
+      - "scripts/audit_short_term_oversold_reversal_diagnostic.py"
+      - "tests/test_oversold_reversal_diagnostic.py"
+      - "usfddk/global_trial_ledger_round55_extension.py"
+      - "usfddk/short_term_oversold_reversal_diagnostic.py"
+      - "pyproject.toml"
+      - "uv.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify the frozen Round55 oversold reversal contract
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          uv sync --locked --extra dev
+          uv run pytest -q tests/test_oversold_reversal_diagnostic.py
+          uv run ruff check \
+            usfddk/short_term_oversold_reversal_diagnostic.py \
+            usfddk/global_trial_ledger_round55_extension.py \
+            scripts/audit_short_term_oversold_reversal_diagnostic.py \
+            tests/test_oversold_reversal_diagnostic.py
+          git diff --check

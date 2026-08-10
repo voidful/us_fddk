@@ -1,0 +1,301 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+import pandas as pd
+
+from .data import load_snapshot, panel_fingerprint
+from .short_term_laggard_reversal_nonoverlap import (
+    _canonical_sha256,
+    _privacy_scan,
+    _sha256_file,
+    _simulate_passive,
+    _simulate_schedule,
+)
+from .short_term_volume_breakout_diagnostic import (
+    BREAKOUT_LOOKBACK,
+    DOLLAR_VOLUME_THRESHOLD,
+    END,
+    MOMENTUM_SESSIONS,
+    PRICE_THRESHOLD,
+    SNAPSHOT_ARCHIVE_SHA256,
+    SNAPSHOT_FILENAME,
+    SNAPSHOT_PANEL_SHA256,
+    START,
+    TREND_SMA_SESSIONS,
+    VOLUME_MULTIPLE,
+    WATCHLIST_COUNT,
+    WATCHLIST_PATH,
+    WATCHLIST_SHA256,
+)
+from .short_term_volume_breakout_top10_nonoverlap import _accepted_events, _candidate_events
+from .universe import load_stock_watchlist
+
+SCHEMA_VERSION = "usfddk.short_term_volume_breakout_top10_spy60.v1"
+PROTOCOL_PATH = Path("docs/SHORT_TERM_VOLUME_BREAKOUT_TOP10_SPY60_PROTOCOL.md")
+PROTOCOL_RECEIPT_PATH = Path(
+    "artifacts/short_term_volume_breakout_top10_spy60_protocol_receipt.json"
+)
+VALIDATION_PATH = Path(
+    "artifacts/short_term_volume_breakout_top10_spy60_validation.json"
+)
+EXPECTED_PROTOCOL_SHA256 = (
+    "dc5ef0d794677a0845250fc2c74001f975f5ba493dca170a4cd872127350de5f"
+)
+EXPECTED_PROTOCOL_RECEIPT_SHA256 = (
+    "5ed116762bc7dddf664e7114e8735b311fd37ed2cc978d753ceb82f993908cec"
+)
+ROUND_TRIP_COST_BPS = 20.0
+STARTING_CAPITAL_USD = 1_000.0
+HORIZON = 20
+SELECTION_COUNT = 10
+REGIME_SMA_SESSIONS = 60
+GLOBAL_TRIAL_PRIOR_LOWER_BOUND = 6314
+GLOBAL_TRIAL_INCREMENT = 1
+GLOBAL_TRIAL_FAMILY_ID = "round63_volume_breakout_top10_spy60_regime"
+
+
+class VolumeBreakoutTop10Spy60Error(RuntimeError):
+    def __init__(self, code: str, detail: str):
+        self.code = code
+        self.detail = detail
+        super().__init__(f"{code}: {detail}")
+
+
+def _fail(code: str, detail: str) -> None:
+    raise VolumeBreakoutTop10Spy60Error(code, detail)
+
+
+def _load_protocol(root: Path) -> dict[str, Any]:
+    if _sha256_file(root / PROTOCOL_PATH) != EXPECTED_PROTOCOL_SHA256:
+        _fail("volume_spy60_protocol_drift", "protocol bytes drifted")
+    try:
+        receipt = json.loads((root / PROTOCOL_RECEIPT_PATH).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        _fail("volume_spy60_protocol_drift", type(exc).__name__)
+    if not isinstance(receipt, dict):
+        _fail("volume_spy60_protocol_drift", "receipt is not an object")
+    claimed = receipt.get("receipt_sha256")
+    unsigned = dict(receipt)
+    unsigned.pop("receipt_sha256", None)
+    if claimed != EXPECTED_PROTOCOL_RECEIPT_SHA256 or _canonical_sha256(unsigned) != claimed:
+        _fail("volume_spy60_protocol_drift", "receipt hash drifted")
+    expected = {
+        "schema_version": 1,
+        "research_round": 63,
+        "status": "posthoc_volume_breakout_top10_spy60_regime_diagnostic_only",
+        "research_role": "market_regime_overlay_diagnostic",
+        "independent_first_seen_evidence": False,
+        "strategy_rule_changed": True,
+        "protocol_sha256": EXPECTED_PROTOCOL_SHA256,
+        "snapshot_filename": SNAPSHOT_FILENAME,
+        "snapshot_archive_sha256": SNAPSHOT_ARCHIVE_SHA256,
+        "snapshot_panel_sha256": SNAPSHOT_PANEL_SHA256,
+        "watchlist_count": WATCHLIST_COUNT,
+        "watchlist_sha256": WATCHLIST_SHA256,
+        "period": {"start": START, "end": END},
+        "frequency": "weekly_completed_xnys",
+        "holding_sessions": HORIZON,
+        "selection_count": SELECTION_COUNT,
+        "starting_capital_usd": STARTING_CAPITAL_USD,
+        "cost_round_trip_bps": ROUND_TRIP_COST_BPS,
+        "performance_authorized": False,
+        "paper_authorized": False,
+        "real_money_authorized": False,
+        "today_action": "今天不下單",
+        "global_trial_ledger": {
+            "prior_lower_bound": GLOBAL_TRIAL_PRIOR_LOWER_BOUND,
+            "minimum_increment": GLOBAL_TRIAL_INCREMENT,
+            "new_family_id": GLOBAL_TRIAL_FAMILY_ID,
+        },
+    }
+    if any(receipt.get(key) != value for key, value in expected.items()):
+        _fail("volume_spy60_protocol_drift", "fixed receipt field drifted")
+    if receipt.get("signal") != {
+        "breakout_lookback_sessions": BREAKOUT_LOOKBACK,
+        "dollar_volume_threshold_usd": DOLLAR_VOLUME_THRESHOLD,
+        "momentum_sessions": MOMENTUM_SESSIONS,
+        "price_threshold_usd": PRICE_THRESHOLD,
+        "selection_count": SELECTION_COUNT,
+        "trend_sma_sessions": TREND_SMA_SESSIONS,
+        "volume_multiple": VOLUME_MULTIPLE,
+        "market_filter": "SPY_close_above_60_session_SMA",
+    }:
+        _fail("volume_spy60_protocol_drift", "signal contract drifted")
+    if receipt.get("execution") != {
+        "entry": "next_session_adjusted_open",
+        "exit": "session_{holding_sessions}_adjusted_close",
+        "overlap_policy": "ignore_signals_until_exit_then_resume",
+        "cost_allocation": "10_bps_entry_plus_10_bps_exit",
+    }:
+        _fail("volume_spy60_protocol_drift", "execution contract drifted")
+    if receipt.get("baselines") != {
+        "event_schedule": ["eligible_pool", "complete_cohort", "SPY", "QQQ"],
+        "passive": ["SPY", "QQQ"],
+    }:
+        _fail("volume_spy60_protocol_drift", "baseline contract drifted")
+    if receipt.get("gate_names") != [
+        "at_least_30_accepted_events",
+        "final_equity_above_start",
+        "cagr_above_event_schedule_eligible_pool",
+        "cagr_above_passive_SPY",
+        "cagr_above_passive_QQQ",
+        "max_drawdown_not_deeper_than_passive_SPY",
+        "max_drawdown_not_deeper_than_passive_QQQ",
+    ]:
+        _fail("volume_spy60_protocol_drift", "gate contract drifted")
+    return receipt
+
+
+def _regime_filtered_events(panel: Any, stocks: list[str]) -> list[dict[str, Any]]:
+    candidates = _candidate_events(panel, stocks)
+    spy = panel.close["SPY"]
+    sma = spy.rolling(REGIME_SMA_SESSIONS, min_periods=REGIME_SMA_SESSIONS).mean()
+    return [
+        event
+        for event in candidates
+        if pd.notna(sma.loc[event["signal_date"]])
+        and spy.loc[event["signal_date"]] > sma.loc[event["signal_date"]]
+    ]
+
+
+def audit_volume_breakout_top10_spy60(
+    *, repository_root: Path, snapshot_path: Path
+) -> dict[str, Any]:
+    root = repository_root.resolve()
+    _load_protocol(root)
+    snapshot = snapshot_path.resolve()
+    if snapshot.name != SNAPSHOT_FILENAME or not snapshot.is_file() or snapshot.is_symlink():
+        _fail("volume_spy60_snapshot_invalid", "snapshot path is not fixed")
+    if _sha256_file(snapshot) != SNAPSHOT_ARCHIVE_SHA256:
+        _fail("volume_spy60_snapshot_invalid", "snapshot archive hash drifted")
+    panel, manifest = load_snapshot(snapshot)
+    if (
+        manifest.get("panel_sha256") != SNAPSHOT_PANEL_SHA256
+        or panel_fingerprint(panel) != SNAPSHOT_PANEL_SHA256
+    ):
+        _fail("volume_spy60_snapshot_invalid", "snapshot panel hash drifted")
+    if _sha256_file(root / WATCHLIST_PATH) != WATCHLIST_SHA256:
+        _fail("volume_spy60_source_invalid", "watchlist hash drifted")
+    records = load_stock_watchlist()
+    stocks = [record.symbol for record in records if record.symbol in panel.close.columns]
+    if len(records) != WATCHLIST_COUNT or len(stocks) != WATCHLIST_COUNT:
+        _fail("volume_spy60_source_invalid", "watchlist coverage drifted")
+    index = pd.DatetimeIndex(panel.close.index).normalize()
+    index = index[(index >= pd.Timestamp(START)) & (index <= pd.Timestamp(END))]
+    candidates = _regime_filtered_events(panel, stocks)
+    accepted = _accepted_events(candidates)
+    if not accepted:
+        _fail("volume_spy60_no_events", "no accepted events")
+    scheduled = {
+        "selected": _simulate_schedule(panel, index, accepted, lambda event: event["selected"]),
+        "eligible_pool": _simulate_schedule(
+            panel, index, accepted, lambda event: event["eligible"]
+        ),
+        "complete_cohort": _simulate_schedule(
+            panel, index, accepted, lambda event: event["complete"]
+        ),
+        "SPY": _simulate_schedule(panel, index, accepted, lambda event: ["SPY"]),
+        "QQQ": _simulate_schedule(panel, index, accepted, lambda event: ["QQQ"]),
+    }
+    passive = {
+        "SPY": _simulate_passive(panel, index, "SPY"),
+        "QQQ": _simulate_passive(panel, index, "QQQ"),
+    }
+    selected = scheduled["selected"]
+    gates = {
+        "at_least_30_accepted_events": selected["events"] >= 30,
+        "final_equity_above_start": selected["final_equity_usd"] > STARTING_CAPITAL_USD,
+        "cagr_above_event_schedule_eligible_pool": selected["cagr"]
+        > scheduled["eligible_pool"]["cagr"],
+        "cagr_above_passive_SPY": selected["cagr"] > passive["SPY"]["cagr"],
+        "cagr_above_passive_QQQ": selected["cagr"] > passive["QQQ"]["cagr"],
+        "max_drawdown_not_deeper_than_passive_SPY": selected["max_drawdown"]
+        >= passive["SPY"]["max_drawdown"],
+        "max_drawdown_not_deeper_than_passive_QQQ": selected["max_drawdown"]
+        >= passive["QQQ"]["max_drawdown"],
+    }
+    result: dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "research_round": 63,
+        "status": (
+            "volume_breakout_top10_spy60_regime_positive_survivorship_biased"
+            if all(gates.values())
+            else "volume_breakout_top10_spy60_regime_negative_survivorship_biased"
+        ),
+        "research_role": "market_regime_overlay_diagnostic",
+        "independent_first_seen_evidence": False,
+        "strategy_rule_changed": True,
+        "source": {
+            "protocol_sha256": EXPECTED_PROTOCOL_SHA256,
+            "snapshot_filename": SNAPSHOT_FILENAME,
+            "snapshot_archive_sha256": SNAPSHOT_ARCHIVE_SHA256,
+            "snapshot_panel_sha256": SNAPSHOT_PANEL_SHA256,
+            "watchlist_count": WATCHLIST_COUNT,
+            "watchlist_sha256": WATCHLIST_SHA256,
+            "period": {"start": START, "end": END},
+        },
+        "signal_definition": {
+            "frequency": "weekly_completed_xnys",
+            "market_filter": "SPY_close_above_60_session_SMA",
+            "breakout_lookback_sessions": BREAKOUT_LOOKBACK,
+            "trend_sma_sessions": TREND_SMA_SESSIONS,
+            "market_regime_sma_sessions": REGIME_SMA_SESSIONS,
+            "momentum_sessions": MOMENTUM_SESSIONS,
+            "volume_multiple": VOLUME_MULTIPLE,
+            "selection_count": SELECTION_COUNT,
+            "round_trip_cost_bps": ROUND_TRIP_COST_BPS,
+        },
+        "capital_policy": {
+            "starting_capital_usd": STARTING_CAPITAL_USD,
+            "holding_sessions": HORIZON,
+            "overlap_policy": "ignore_signals_until_exit_then_resume",
+            "candidate_events": len(candidates),
+            "accepted_events": len(accepted),
+            "ignored_overlapping_events": len(candidates) - len(accepted),
+        },
+        "scheduled_baselines": scheduled,
+        "passive_baselines": passive,
+        "gate_summary": {
+            "gates": gates,
+            "passed": int(sum(bool(value) for value in gates.values())),
+            "required": len(gates),
+        },
+        "multiplicity": {
+            "prior_lower_bound": GLOBAL_TRIAL_PRIOR_LOWER_BOUND,
+            "increment": GLOBAL_TRIAL_INCREMENT,
+            "current_lower_bound": GLOBAL_TRIAL_PRIOR_LOWER_BOUND + GLOBAL_TRIAL_INCREMENT,
+            "family_id": GLOBAL_TRIAL_FAMILY_ID,
+        },
+        "state_boundary": {
+            "performance_present": False,
+            "strategy_run_count": 0,
+            "paper_authorized": False,
+            "real_money_authorized": False,
+            "real_money_action_usd": 0,
+            "today_action": "今天不下單",
+        },
+        "limitations": [
+            "current_watchlist_is_survivorship_biased",
+            "posthoc_market_regime_overlay_is_not_independent_first_seen_evidence",
+            "adjusted_ohlcv_is_not_raw_execution_or_complete_total_return_ledger",
+            "volume_has_no_intraday_public_timestamp",
+            "no_point_in_time_universe_or_delisting_economics",
+            "fractional_equal_weight_is_a_research_convention",
+        ],
+    }
+    _privacy_scan(result)
+    result["receipt_sha256"] = _canonical_sha256(result)
+    return result
+
+
+def write_validation_receipt(result: dict[str, Any], *, repository_root: Path) -> Path:
+    path = repository_root / VALIDATION_PATH
+    path.write_text(
+        json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False)
+        + "\n",
+        encoding="utf-8",
+    )
+    return path

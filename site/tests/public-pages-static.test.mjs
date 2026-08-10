@@ -12,7 +12,8 @@ test("GitHub Pages artifact contains only the promoted-strategy decision surface
   assert.match(html, /今天不下單/);
   assert.match(html, /0(?:<!-- -->)? 個策略獲准公開/);
   assert.match(html, /不建立新倉，保留現金/);
-  assert.match(html, /沒有完整通過，就沒有交易建議/);
+  assert.match(html, /只有已驗證策略才會提供交易建議/);
+  assert.doesNotMatch(html, /失敗|淘汰|攻擊測試|負結果|未通過結果|未通過項目/);
 
   assert.doesNotMatch(html, /data-promoted-strategy=/);
   assert.doesNotMatch(html, /role="tablist"/);

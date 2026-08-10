@@ -1,0 +1,47 @@
+{
+  "anchor_sources": [
+    {
+      "bytes": 17306804,
+      "quarter": "2006Q1",
+      "sha256": "62becdadbe5eaff68f03edefe2ba2357c8bb498a1f825b697003e087cf98e6ce"
+    },
+    {
+      "bytes": 8704557,
+      "quarter": "2016Q3",
+      "sha256": "5a25d3c6cb8748759044b2be0059bb4784e4da28b315af30b15568fd250bd0dde"
+    },
+    {
+      "bytes": 11498860,
+      "quarter": "2026Q2",
+      "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27"
+    }
+  ],
+  "current_global_trial_lower_bound": 6290,
+  "global_trial_extension_path": "artifacts/short_term_global_trial_ledger_round51_extension.json",
+  "global_trial_extension_sha256": "f6563a533f017e573a0f9b05fe0f73edfc8ac173f67918ab307a1c12c8bb1522",
+  "mapping_modes": ["current_cik_exact", "as_filed_trading_symbol_exact"],
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "quarter_count": 82,
+  "quarter_end": "2026Q2",
+  "quarter_start": "2006Q1",
+  "real_money_authorized": false,
+  "research_round": 52,
+  "schema_version": 1,
+  "sec_mapping": {
+    "bytes": 795627,
+    "sha256": "6dd9c4363c5a95d43f4d8e8f8279f9ae6538d10d295bbdeebe5a433ec954bf6d",
+    "source_url": "https://www.sec.gov/files/company_tickers.json"
+  },
+  "snapshot": {
+    "archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "filename": "snapshot_20260731_6a7ca6b8.zip",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66"
+  },
+  "status": "preregistered_full_quarter_form4_coverage_only",
+  "today_action": "今天不下單",
+  "url_template": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/{yyyy}q{q}_form345.zip",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014",
+  "receipt_sha256": "32eabfd42688eac10a73447ca53e7e886710cf9757e90fea49be9955926ff553"
+}

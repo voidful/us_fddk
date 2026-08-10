@@ -1,0 +1,57 @@
+{
+  "base_extension": {
+    "chain_head_sha256": "9f9f252d2149973f431245ab3f5ae26f60b6cff02b1077a81e794d8ae93a22a7",
+    "current_lower_bound": 6311,
+    "path": "artifacts/short_term_global_trial_ledger_round59_extension.json",
+    "sha256": "4f95d35e7ef72826cf884a2256502d05cf9d315cf27e6a9fa8cd8690ce855957"
+  },
+  "chain_head_sha256": "e522f24e64ce9c19e85e9e9e85506a2e9b8e5075e30d372616a85030237708b4",
+  "current_lower_bound": 6312,
+  "entry": {
+    "current_lower_bound": 6312,
+    "entry_sha256": "e522f24e64ce9c19e85e9e9e85506a2e9b8e5075e30d372616a85030237708b4",
+    "exact_increment_claimed": false,
+    "family_id": "round60_laggard_reversal_nonoverlap_capital",
+    "minimum_increment": 1,
+    "previous_entry_sha256": "9f9f252d2149973f431245ab3f5ae26f60b6cff02b1077a81e794d8ae93a22a7",
+    "previous_lower_bound": 6311,
+    "publication_state": "tracked",
+    "result_state": "result_seen",
+    "seen_result": true,
+    "sequence": 20,
+    "source_bindings": [
+      {
+        "label": "protocol_receipt",
+        "path": "artifacts/short_term_laggard_reversal_nonoverlap_protocol_receipt.json",
+        "sha256": "1c2daabf7d1767932137dd3a3ac2db6c6ee520cd623228f8eaf801e66ab48b61"
+      },
+      {
+        "label": "result",
+        "path": "artifacts/short_term_laggard_reversal_nonoverlap_validation.json",
+        "sha256": "294096576a14de03177a247ceec18c8c7488f7aa53b4801cf4df036e86e758c1"
+      },
+      {
+        "label": "report",
+        "path": "docs/SHORT_TERM_LAGGARD_REVERSAL_NONOVERLAP_REPORT.md",
+        "sha256": "78f425a6a11f45946cac3200d7b0e5d64a7c4b49beb132e930c16e2c1983ec2b"
+      },
+      {
+        "label": "predecessor",
+        "path": "artifacts/short_term_global_trial_ledger_round59_extension.json",
+        "sha256": "4f95d35e7ef72826cf884a2256502d05cf9d315cf27e6a9fa8cd8690ce855957"
+      }
+    ]
+  },
+  "extension_protocol_path": "docs/SHORT_TERM_LAGGARD_REVERSAL_NONOVERLAP_PROTOCOL.md",
+  "extension_protocol_sha256": "02102596400c9be51d76a1b93928a9d4309c02ffe5d2e4f3ff81cfd0bc424cd9",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "receipt_sha256": "4a671ff0860b09c7df676748c77c8517a907521740430c10221e46a3ad26c305",
+  "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
+  "status": "append_only_global_trial_lower_bound_extension"
+}

@@ -1,0 +1,41 @@
+{
+  "cost_round_trip_bps": 20.0,
+  "global_trial_ledger": {
+    "minimum_increment": 3,
+    "new_family_id": "round56_gap_reversal_three_horizons",
+    "prior_lower_bound": 6299
+  },
+  "horizons": [
+    5,
+    10,
+    20
+  ],
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "primary_horizon_sessions": 20,
+  "protocol_sha256": "f0eea2d718a3e1631c883006b77ec6ad6c0a20453eb60eb6542b55abaac1e561",
+  "real_money_authorized": false,
+  "receipt_sha256": "b006ecb70487929e5e88e75acc035f156a1281e1ea92922ea29960201f127efb",
+  "research_round": 56,
+  "schema_version": 1,
+  "signal": {
+    "close_strength_threshold": 0.75,
+    "dollar_volume_threshold_usd": 20000000.0,
+    "frequency": "daily_completed_xnys",
+    "gap_return_threshold": -0.02,
+    "intraday_recovery_threshold": 0.005,
+    "price_threshold_usd": 5.0,
+    "selection_count": 5
+  },
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "status": "preregistered_gap_reversal_diagnostic_only",
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}

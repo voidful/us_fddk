@@ -1,0 +1,57 @@
+{
+  "base_extension": {
+    "chain_head_sha256": "24c166caa077af5ef4e813697c925b8f499044274bd8863b099b9f1a1793752c",
+    "current_lower_bound": 6315,
+    "path": "artifacts/short_term_global_trial_ledger_round63_extension.json",
+    "sha256": "02c1eb4a9504a4c28b664b008183e0ba17b01db48b4e25e3cc03263815ebe3ce"
+  },
+  "chain_head_sha256": "dc574c2a0258a40c3ee435a23e83a19cbb73e2933be025351c1ddd0b7c0950fc",
+  "current_lower_bound": 6316,
+  "entry": {
+    "current_lower_bound": 6316,
+    "entry_sha256": "dc574c2a0258a40c3ee435a23e83a19cbb73e2933be025351c1ddd0b7c0950fc",
+    "exact_increment_claimed": false,
+    "family_id": "round64_volume_breakout_top10_spy60_robustness",
+    "minimum_increment": 1,
+    "previous_entry_sha256": "24c166caa077af5ef4e813697c925b8f499044274bd8863b099b9f1a1793752c",
+    "previous_lower_bound": 6315,
+    "publication_state": "tracked",
+    "result_state": "result_seen",
+    "seen_result": true,
+    "sequence": 24,
+    "source_bindings": [
+      {
+        "label": "protocol_receipt",
+        "path": "artifacts/short_term_volume_breakout_top10_spy60_robustness_protocol_receipt.json",
+        "sha256": "54255eb22e9e890fa6ea9ec8a34156a99cef48854b946fd050ff0f00fccdc6a7"
+      },
+      {
+        "label": "result",
+        "path": "artifacts/short_term_volume_breakout_top10_spy60_robustness_validation.json",
+        "sha256": "1199cb00de5f3a4e37946f0dee4c713fd3aae34ba6c09e9df66e951e3ef7c5dc"
+      },
+      {
+        "label": "report",
+        "path": "docs/SHORT_TERM_VOLUME_BREAKOUT_TOP10_SPY60_ROBUSTNESS_REPORT.md",
+        "sha256": "9ca5d90b8439316b0c93e27c05595eeb77a5e0e01186a7c8ae024511f4a1f4e3"
+      },
+      {
+        "label": "predecessor",
+        "path": "artifacts/short_term_global_trial_ledger_round63_extension.json",
+        "sha256": "02c1eb4a9504a4c28b664b008183e0ba17b01db48b4e25e3cc03263815ebe3ce"
+      }
+    ]
+  },
+  "extension_protocol_path": "docs/SHORT_TERM_VOLUME_BREAKOUT_TOP10_SPY60_ROBUSTNESS_PROTOCOL.md",
+  "extension_protocol_sha256": "4822b3ebfaf5eeea899cc482938c00e8f15caee07a8c0861feb5a10928013ed4",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "receipt_sha256": "d6149de85f379ca740ae517f009b0ac204b7e9ee557cb2cde4ba37982819fcce",
+  "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
+  "status": "append_only_global_trial_lower_bound_extension"
+}

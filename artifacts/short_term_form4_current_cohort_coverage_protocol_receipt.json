@@ -1,0 +1,27 @@
+{
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "minimum_mapped_issuers": 10,
+  "minimum_mapped_primary_clusters": 30,
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "real_money_authorized": false,
+  "recent_quarters": [
+    "2016Q3",
+    "2026Q2"
+  ],
+  "schema_version": 1,
+  "receipt_sha256": "d0fa259feaf82cb3e53b39fdbe0e528f04f9c89ebed1c98d0eb5346041407b58",
+  "sec_mapping_bytes": 795627,
+  "sec_mapping_sha256": "6dd9c4363c5a95d43f4d8e8f8279f9ae6538d10d295bbdeebe5a433ec954bf6d",
+  "sec_mapping_url": "https://www.sec.gov/files/company_tickers.json",
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "status": "post_readout_current_cohort_coverage_diagnostic",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -8,6 +9,8 @@ from usfddk.paper import load_paper_state
 from usfddk.site_export import (
     _localize_hk_finance_copy,
     _preserve_idempotent_generation_time,
+    build_public_decision_audit_log,
+    build_public_decision_payload,
     refresh_v25_site_data,
 )
 from usfddk.v25_live import audit_v25_live_reference
@@ -105,3 +108,139 @@ def test_daily_v25_export_preserves_research_and_passes_live_audit(tmp_path) -> 
     )
     assert audit["integrity_ok"] is True
     assert audit["decision"] == "paper_only"
+
+
+def test_public_decision_payload_is_success_only_and_fail_closed() -> None:
+    source = json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    formal = json.loads(
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    overlay = json.loads(
+        (ROOT / "site/data/short-term-qqq-replacement-overlay.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    public = build_public_decision_payload(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+    )
+    rendered = json.dumps(public, ensure_ascii=False)
+    assert public["surface"] == "hold-cash"
+    assert public["today_action"] == "今天不下單"
+    assert public["strategies"] == []
+    assert "limitations" not in public
+    assert "failed" not in rendered.lower()
+    for forbidden in ("失敗", "淘汰", "攻擊測試", "負結果", "未通過項目"):
+        assert forbidden not in rendered
+
+
+def test_public_decision_audit_log_keeps_withheld_results_outside_public_surface() -> None:
+    source = json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    formal = json.loads(
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    overlay = json.loads(
+        (ROOT / "site/data/short-term-qqq-replacement-overlay.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    public = build_public_decision_payload(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+    )
+    audit_log = build_public_decision_audit_log(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+        public_payload=public,
+    )
+
+    assert audit_log["visibility"] == "internal-research-log"
+    assert audit_log["not_for_public_decision_page"] is True
+    assert all(
+        candidate["status"] == "not_promoted"
+        for candidate in audit_log["candidate_audit"]
+    )
+    assert "formal_readiness_incomplete" in audit_log["candidate_audit"][1]["reason_codes"]
+    public_rendered = json.dumps(public, ensure_ascii=False)
+    log_rendered = json.dumps(audit_log, ensure_ascii=False)
+    assert "formal_readiness_incomplete" not in public_rendered
+    assert "not_promoted" in log_rendered
+
+
+def test_round64_negative_research_log_cannot_leak_into_public_surface() -> None:
+    source = deepcopy(
+        json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    )
+    round64 = json.loads(
+        (
+            ROOT
+            / "artifacts/short_term_volume_breakout_top10_spy60_robustness_validation.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert round64["status"] == (
+        "volume_breakout_top10_spy60_robustness_negative_survivorship_biased"
+    )
+    source.setdefault("research_pipeline", {})["round64_robustness_diagnostic"] = round64
+
+    formal = json.loads(
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    overlay = json.loads(
+        (ROOT / "site/data/short-term-qqq-replacement-overlay.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    public = build_public_decision_payload(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+    )
+    rendered = json.dumps(public, ensure_ascii=False)
+    assert public["surface"] == "hold-cash"
+    assert public["today_action"] == "今天不下單"
+    assert public["strategies"] == []
+    assert "round64_robustness_diagnostic" not in rendered
+    assert "robustness_negative" not in rendered
+
+
+def test_public_decision_payload_can_publish_only_a_fully_verified_strategy() -> None:
+    source = json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    source = deepcopy(source)
+    source["readiness"]["selected_strategy_key"] = "growth_gold_diversification"
+    source["readiness"]["trade_ready"] = True
+    source["readiness"]["allocation_visible"] = True
+    source["readiness"]["passed_gate_count"] = 11
+    source["readiness"]["required_gate_count"] = 11
+    source["readiness"]["gates"] = {
+        key: True for key in source["readiness"]["gates"]
+    }
+    latest = source["research_pipeline"]["growth_gold_diversification"]
+    latest["trade_ready"] = True
+    latest["real_money_signal_display_allowed"] = True
+    forward = latest["paper"]["forward_evidence"]
+    forward["live_confirmed"] = True
+    forward["integrity_violations"] = 0
+    forward["gates"] = {
+        key: True for key in forward["gates"]
+    }
+
+    public = build_public_decision_payload(source)
+    assert public["surface"] == "verified-strategy"
+    assert public["today_action"] == "今天不下單"
+    assert len(public["strategies"]) == 1
+    strategy = public["strategies"][0]
+    assert strategy["verified"] is True
+    assert strategy["key"] == "long-term"
+    assert strategy["allocation"] == "VUG 80%／GLD 20%"
+    assert strategy["amount_example"] == "US$800／US$200"

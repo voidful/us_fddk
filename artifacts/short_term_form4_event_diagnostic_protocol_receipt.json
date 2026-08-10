@@ -1,0 +1,44 @@
+{
+  "current_global_trial_lower_bound": 6290,
+  "event_contract": {
+    "cluster_min_accessions": 2,
+    "cluster_min_notional_usd": "100000",
+    "entry": "first_xnys_session_after_filing_date_adjusted_open",
+    "exit_horizons_sessions": [
+      5,
+      10,
+      20
+    ],
+    "purchase_filter": "round52_form4_purchase_gate",
+    "round_trip_cost_bps": 20,
+    "symbol_mapping": "as_filed_exact_preferred_or_unique_current_cik_exact"
+  },
+  "global_trial_increment": 3,
+  "mapping": {
+    "bytes": 795627,
+    "sha256": "6dd9c4363c5a95d43f4d8e8f8279f9ae6538d10d295bbdeebe5a433ec954bf6d",
+    "source_url": "https://www.sec.gov/files/company_tickers.json"
+  },
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "protocol_path": "docs/SHORT_TERM_FORM4_EVENT_DIAGNOSTIC_PROTOCOL.md",
+  "protocol_sha256": "692d0d32036ae2f5a42fdae54bf3f825df0c761cdadb29bc6133bebaeb235b74",
+  "quarter_source_manifest": {
+    "path": "artifacts/short_term_form4_full_coverage_source_manifest.json",
+    "sha256": "b7e1b42923cee0ef2079494f2004c56f41976899e98d1f4352b990517bb9af85"
+  },
+  "real_money_authorized": false,
+  "receipt_sha256": "576e93d969c0d53b3b7067f1afbf7e9ef3794c60a8585be3f5e566ef70750c6d",
+  "research_round": 53,
+  "schema_version": 1,
+  "snapshot": {
+    "archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "filename": "snapshot_20260731_6a7ca6b8.zip",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66"
+  },
+  "source_validation_sha256": "36768ac8cd6f5b4435d9b2a90c9c2c6761bb4c3498e6eb58a6dead54977e23f0",
+  "status": "preregistered_form4_event_diagnostic_only",
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}
