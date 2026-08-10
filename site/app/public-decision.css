@@ -1,0 +1,210 @@
+/* Public decision surface: the detailed research report is local-only. */
+.public-decision-main {
+  min-height: calc(100vh - 148px);
+}
+.public-status-hero {
+  display: flex;
+  min-height: 610px;
+  align-items: center;
+  padding-block: 84px;
+}
+.public-status-copy {
+  width: min(850px, 100%);
+}
+.status-chip.verified {
+  color: var(--green);
+  background: var(--green-soft);
+}
+.public-status-copy h1 {
+  max-width: 780px;
+  margin: 24px 0 21px;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: clamp(4rem, 8vw, 7.2rem);
+  font-weight: 540;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+.public-status-lead {
+  max-width: 720px;
+  margin: 0;
+  color: #4a5552;
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+}
+.public-as-of {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 22px;
+  width: fit-content;
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.public-as-of span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 760;
+}
+.public-as-of strong {
+  font-size: 0.78rem;
+}
+.public-strategy-section {
+  padding-block: 76px 96px;
+  border-top: 1px solid var(--line);
+}
+.public-section-heading span {
+  color: var(--green-2);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+.public-section-heading h2 {
+  margin: 7px 0 30px;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 550;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+.public-strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+.public-strategy-card {
+  padding: 28px;
+  border: 1px solid #cbd5d0;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 12px 40px rgba(26, 45, 40, 0.07);
+}
+.public-strategy-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.public-strategy-title span {
+  color: var(--green-2);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+.public-strategy-title b {
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: var(--green);
+  background: var(--green-soft);
+  font-size: 0.62rem;
+}
+.public-strategy-card h3 {
+  margin: 14px 0 8px;
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: 2rem;
+  font-weight: 550;
+}
+.public-strategy-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.public-strategy-card dl {
+  margin: 24px 0 0;
+  border-top: 1px solid var(--line);
+}
+.public-strategy-card dl div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.public-strategy-card dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+.public-strategy-card dd {
+  margin: 0;
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 820;
+}
+.public-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+}
+.public-metric-grid div {
+  padding: 14px;
+  border-radius: 10px;
+  background: #efefe9;
+}
+.public-metric-grid span,
+.public-metric-grid small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+.public-metric-grid strong {
+  display: block;
+  margin: 4px 0 1px;
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 560;
+}
+.public-footer {
+  margin-top: 0;
+}
+.public-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 74px;
+}
+.public-footer-inner span {
+  color: #a9bdb6;
+  font-size: 0.68rem;
+}
+.public-footer-inner b {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .public-status-hero {
+    min-height: auto;
+    padding-block: 68px;
+  }
+}
+
+@media (max-width: 620px) {
+  .public-status-hero {
+    padding-block: 50px;
+  }
+  .public-status-copy h1 {
+    font-size: clamp(3.7rem, 19vw, 5rem);
+  }
+  .public-as-of,
+  .public-footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .public-as-of {
+    gap: 2px;
+  }
+  .public-as-of strong + span {
+    margin-top: 10px;
+  }
+  .public-strategy-card dl div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .public-strategy-card dd {
+    text-align: left;
+  }
+  .public-footer-inner {
+    gap: 5px;
+    padding-block: 22px;
+  }
+}
