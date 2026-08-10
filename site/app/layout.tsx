@@ -13,17 +13,17 @@ export const metadata: Metadata = {
     default: "美股交易參考｜只顯示已驗證策略",
     template: "%s｜US FDDK",
   },
-  description: "只呈列完整通過事前、成本、風險及前瞻驗證的美股策略與今日行動；未通過結果保留在研究日誌。",
+  description: "首頁只呈列已驗證、可執行的美股策略與今日行動；完整研究記錄另存於 GitHub。",
   openGraph: {
     title: "美股交易參考｜只顯示已驗證策略",
-    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
+    description: "只有已驗證且可執行的策略才會公開；沒有可行策略時，明確顯示今天不下單。",
     locale: "zh_HK",
     type: "website",
   },
   twitter: {
     card: "summary",
     title: "美股交易參考｜只顯示已驗證策略",
-    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
+    description: "只有已驗證且可執行的策略才會公開；沒有可行策略時，明確顯示今天不下單。",
   },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };

@@ -196,8 +196,8 @@ export default function PublicDecisionPage() {
             <h1>{todayAction}</h1>
             <p className="public-status-lead">
               {hasPromotedStrategy
-                ? "以下只列出已完整通過事前、成本、風險及前瞻驗證的策略。"
-                : "暫時沒有策略同時通過全部事前、成本、風險及前瞻驗證；未通過項目不會包裝成可行策略。"}
+                ? "以下只列出已完整通過驗證、並有明確執行規則的策略。"
+                : "目前沒有可公開的已驗證策略；今日維持現金，等待下一個檢查日。"}
             </p>
             <div className="public-as-of">
               <span>資料截至</span>
@@ -218,7 +218,7 @@ export default function PublicDecisionPage() {
                 <ul>
                   <li>不把 Paper 持倉當成落盤訊號</li>
                   <li>不照抄歷史最後權重或單次回測</li>
-                  <li>沒有完整通過，就沒有交易建議</li>
+                  <li>只有已驗證策略才會提供交易建議</li>
                 </ul>
               </>
             )}
@@ -263,7 +263,7 @@ export default function PublicDecisionPage() {
         <section className="public-policy-strip" aria-label="公開策略規則">
           <div className="wrap">
             <strong>公開原則</strong>
-            <p>只顯示完整通過且有明確行動的策略。負結果、攻擊測試與淘汰原因保留在研究日誌，不在決策頁展開。</p>
+            <p>首頁只顯示已驗證、可執行的策略；完整研究記錄與機器收據另存於 GitHub。</p>
           </div>
         </section>
       </main>
