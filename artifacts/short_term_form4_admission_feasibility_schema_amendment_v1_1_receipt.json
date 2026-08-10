@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "research_round": 42,
+  "status": "v1_1_schema_amendment_frozen_after_complete_eight_table_diff_before_root_real_fetch_selection_or_performance",
+  "frozen_at": "2026-08-09T23:39:35Z",
+  "amendment": {
+    "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_SCHEMA_AMENDMENT_V1_1.md",
+    "sha256": "2d5f2e27a28151a032ebd440271d2bb325d210df8628de1baea00677ab926b2c"
+  },
+  "parent_v1_0_protocol": {
+    "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_PROTOCOL.md",
+    "sha256": "ddce1e7152a3d23f39dae4f8d7bb812166941952d7611523ca5796f11b4b1186"
+  },
+  "parent_v1_0_receipt": {
+    "path": "artifacts/short_term_form4_admission_feasibility_protocol_receipt.json",
+    "sha256": "75f81c0149abc003fa0438e9498f0884a0e7020b31c07bbeaef122cc15f912db"
+  },
+  "parent_freeze_git": {
+    "commit": "c1acb5615403ab58905406d3a90f81c5f49c253c",
+    "short_commit": "c1acb56",
+    "subject": "research: freeze Form 4 admission feasibility protocol",
+    "committed_at": "2026-08-09T23:35:39Z",
+    "remote_ref": "origin/codex/round42-form4-admission",
+    "remote_tip_verified_before_freeze": true
+  },
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "metadata_to_physical_policy": {
+    "policy_kind": "closed_exact_transform_not_subset_alias_or_fuzzy_matching",
+    "submission_contact_omission": {
+      "role": "SUBMISSION.tsv",
+      "metadata_only_columns": [
+        "CONTACT_NAME",
+        "CONTACT_PHONE_NUMBER",
+        "CONTACT_EMAIL_ADDRESS",
+        "NOTIFICATION_EMAIL_ADDRESS"
+      ],
+      "metadata_left_anchor": "ISSUERTRADINGSYMBOL",
+      "metadata_right_anchor": "REMARKS",
+      "required_contiguous_order": true,
+      "physical_omission_allowed": true,
+      "legacy_metadata_columns": 17,
+      "legacy_physical_columns": 13,
+      "q2026_metadata_columns": 18,
+      "q2026_physical_columns": 14,
+      "q2026_common_column_preserved": "AFF10B5ONE"
+    },
+    "swap_footnote_aliases": [
+      {
+        "role": "NONDERIV_TRANS.tsv",
+        "one_based_position": 12,
+        "metadata_name": "EQUITY_SWAP_INVOLVED_FN",
+        "physical_name": "EQUITY_SWAP_TRANS_CD_FN",
+        "metadata_columns": 28,
+        "physical_columns": 28
+      },
+      {
+        "role": "DERIV_TRANS.tsv",
+        "one_based_position": 14,
+        "metadata_name": "EQUITY_SWAP_INVOLVED_FN",
+        "physical_name": "EQUITY_SWAP_TRANS_CD_FN",
+        "metadata_columns": 42,
+        "physical_columns": 42
+      }
+    ],
+    "exact_match_roles": {
+      "REPORTINGOWNER.tsv": 13,
+      "NONDERIV_HOLDING.tsv": 14,
+      "DERIV_HOLDING.tsv": 26,
+      "FOOTNOTES.tsv": 3,
+      "OWNER_SIGNATURE.tsv": 3
+    },
+    "required_v1_0_anchors_preserved": true,
+    "any_other_difference_allowed": false
+  },
+  "physical_header_profiles": {
+    "hash_basis": "physical_header_utf8_no_bom_no_line_terminator_sha256",
+    "DERIV_HOLDING.tsv": {
+      "columns": 26,
+      "sha256": "180196c439a7a44ae2247e8b2d08dc06b95db6f6792d1c1c0ad367675b182912"
+    },
+    "DERIV_TRANS.tsv": {
+      "columns": 42,
+      "sha256": "64ef5f035ba21fb584ae90cf546a2afc8a991b14b96656ac66e610a1f4bd4b47"
+    },
+    "FOOTNOTES.tsv": {
+      "columns": 3,
+      "sha256": "4c358cdc3d7456a66e132cdd8740cdcd1c19f97d3b90889ad6bff2ce9a97dd59"
+    },
+    "NONDERIV_HOLDING.tsv": {
+      "columns": 14,
+      "sha256": "691699ed184faed63867f73cba35d61db8f2dd21f6779097033ca26f5ee4f0e6"
+    },
+    "NONDERIV_TRANS.tsv": {
+      "columns": 28,
+      "sha256": "f5f4cfa029702a8ff657882a49eb38b57f6433d2719c2526b92537ca22b16699"
+    },
+    "OWNER_SIGNATURE.tsv": {
+      "columns": 3,
+      "sha256": "d236922d787c52488d3a3830828b78080cfb0e284f16237b2be22d87f79ce4ed"
+    },
+    "REPORTINGOWNER.tsv": {
+      "columns": 13,
+      "sha256": "51771f82d1594503ad7c77e775f617a331bfadf32a0852989aba3f59b4867e31"
+    },
+    "SUBMISSION.tsv@2006Q1": {
+      "columns": 13,
+      "sha256": "a7c83d3cb724ad0e9e11511039782ae5fc4398abc876ba5572eda171dff26399"
+    },
+    "SUBMISSION.tsv@2016Q3": {
+      "columns": 13,
+      "sha256": "a7c83d3cb724ad0e9e11511039782ae5fc4398abc876ba5572eda171dff26399"
+    },
+    "SUBMISSION.tsv@2026Q2": {
+      "columns": 14,
+      "sha256": "5e9bc2a969fe9a9b4100a4740e49f241faad5d3342d03c670d17eb7a7c979ca3"
+    }
+  },
+  "new_stable_error_codes": [
+    "form4_feasibility_contact_omission_mismatch",
+    "form4_feasibility_swap_footnote_alias_mismatch",
+    "form4_feasibility_physical_header_profile_mismatch",
+    "form4_feasibility_unexpected_metadata_physical_drift"
+  ],
+  "stop_policy": {
+    "on_any_unlisted_difference": "stopped_no_admission_claim",
+    "arbitrary_metadata_subset_allowed": false,
+    "arbitrary_alias_allowed": false,
+    "column_reordering_allowed": false,
+    "required_anchor_relaxation_allowed": false,
+    "quarter_substitution_allowed": false,
+    "resampling_allowed": false
+  },
+  "global_trial_state": {
+    "lower_bound_before": 6287,
+    "round42_schema_amendment_increment": 0,
+    "lower_bound_after": 6287,
+    "ledger_append_authorized": false
+  },
+  "state_at_freeze": {
+    "form4_specific_admission_passed": 0,
+    "form4_specific_admission_total": 16,
+    "root_sec_real_fetch_count": 0,
+    "authorized_real_form4_rows": 0,
+    "root_real_sample_selection_count": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false,
+    "paper_authorized": false,
+    "real_money_authorized": false,
+    "real_money_action_usd": 0
+  },
+  "permission": {
+    "append_only_schema_amendment": true,
+    "root_sec_real_fetch": false,
+    "real_sample_selection": false,
+    "admission_claim": false,
+    "candidate_selection": false,
+    "backtest": false,
+    "paper": false,
+    "real_money": false
+  },
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "today_action": "今天不下單"
+}

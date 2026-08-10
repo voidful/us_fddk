@@ -76,19 +76,26 @@ test("GitHub Pages output is self-contained under the repository base path", asy
     html.indexOf("LEADER PULLBACK–REBOUND · ROUND 39")
       < html.indexOf("MULTI-WINDOW RESONANCE · ROUND 38"),
   );
-  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1 \+ FORM 4 ROUND 41/);
-  assert.match(html, /公開披露總體 2\/20；Form 4 動態候選規格已凍結，但專屬 admission 仍為 0\/16/);
-  assert.match(html, /20 年 known-at 未驗證；事件／run (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?0/);
+  assert.match(html, /DISCLOSURE SOURCE READINESS · PHASE 1 \+ FORM 4 ROUND 42/);
+  assert.match(html, /公開披露總體 2\/20；Form 4 固定細樣本 (?:<!-- -->)?12(?:<!-- -->)? 份，准入門檻 (?:<!-- -->)?2(?:<!-- -->)?\/(?:<!-- -->)?16/);
+  assert.match(html, /這不是 20 年 known-at 覆蓋、選股或表現測試/);
+  assert.match(html, /5 個 HTTP request 完成後發生 1 次 post-fetch 本地驗證失敗/);
+  assert.match(html, /complete-submission request 0、cold replay 未完成/);
   assert.match(html, /Congress PTR · 與 Form 4 分離/);
-  assert.match(html, /candidate specification 已 result-blind 凍結/);
+  assert.match(html, /候選規格已事前凍結/);
   assert.match(html, /策略運行 0/);
-  assert.match(html, /觀察來源 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?6(?:<!-- -->)?；文件 (?:<!-- -->)?0(?:<!-- -->)?，事件 (?:<!-- -->)?0/);
+  assert.match(html, /Phase 1 觀察來源 (?:<!-- -->)?0(?:<!-- -->)?\/(?:<!-- -->)?6(?:<!-- -->)?；文件 (?:<!-- -->)?0(?:<!-- -->)?，事件 (?:<!-- -->)?0/);
   assert.match(html, /已知時間、延遲與落盤時鐘不可互換/);
   assert.match(html, /今天不下單；Paper 全現金、持倉 0、實金 US\$0/);
   assert.match(html, /data-sanitized-disclosure="true"/);
   assert.match(html, /data-dynamic-selection="disabled"/);
   assert.match(html, /data-form4-specification="frozen-unexecuted"/);
-  assert.match(html, /data-form4-admission="0\/16"/);
+  assert.match(html, /data-form4-admission="2\/16"/);
+  assert.match(html, /data-form4-feasibility-status="stopped_no_admission_claim"/);
+  assert.match(html, /data-form4-sample-count="12"/);
+  assert.match(html, /data-form4-identifiers-published="0"/);
+  assert.match(html, /data-form4-performance="absent"/);
+  assert.match(html, /data-form4-paper="not-authorized"/);
   assert.match(html, /data-congress-selection="disabled"/);
   const disclosurePanel = html.match(
     /<section[^>]*id="disclosure-readiness"[\s\S]*?<\/section>/,
@@ -97,6 +104,8 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.doesNotMatch(disclosurePanel, /20\/20 也只可開始另一份事前凍結研究/);
   assert.doesNotMatch(disclosurePanel, /<table|data-actor|data-ticker/);
   assert.doesNotMatch(disclosurePanel, /(?:^|[>\s])(?:AAPL|MSFT|NVDA|AMD|META)(?:[<\s]|$)/);
+  assert.doesNotMatch(disclosurePanel, /\d{10}-\d{2}-\d{6}|https?:\/\/|CAGR|Sharpe|最大跌幅|期末值/);
+  assert.match(disclosurePanel, /form4_feasibility_daily_index_missing_or_ambiguous/);
   assert.match(html, /MULTI-WINDOW RESONANCE · ROUND 38/);
   assert.match(html, /四窗共振只過 11\/20；沒有勝過原 Top-7 或同持倉比率 20 日排名/);
   assert.match(html, /共振候選終值 (?:<!-- -->)?US\$22,654(?:<!-- -->)?；原 Top-7 為 (?:<!-- -->)?US\$27,067/);
