@@ -20,9 +20,10 @@
 
 - 只納入 `form=10-Q`、`fp=Q1/Q2/Q3`、期間長度 70–120 日的季度觀察；排除 10-K、
   10-Q/A、8-K 及自訂 taxonomy。
-- diluted EPS 只用 `us-gaap:EarningsPerShareDiluted` 的 `USD/shares` unit；營收按
-  固定優先次序使用 `us-gaap:Revenues`，若該公司沒有此 tag 才用
-  `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax` 的 `USD` unit。
+- diluted EPS 只用 `us-gaap:EarningsPerShareDiluted` 的 `USD/shares` unit；營收按每個
+  accession 的固定優先次序使用 `us-gaap:Revenues`，若該 accession 沒有合資格的
+  `Revenues` observation 才用 `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax`
+  的 `USD` unit。
 - 同一公司／財政年度／`fp` 只取最早的原始 10-Q accession；修訂列拒收。當期必須同一
   accession 同時有 EPS 及營收，並能找到相同 `fp` 的上年同期，兩者 prior 值均為正。
 - 事件只有在 `eps_current > eps_prior` 且 `revenue_current > revenue_prior` 時成立；
