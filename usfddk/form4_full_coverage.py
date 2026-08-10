@@ -1,14 +1,24 @@
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
 import json
 import re
+import zipfile
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
 from decimal import Decimal
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
+from urllib.parse import unquote
 
+from .form4_admission_feasibility import (
+    REQUIRED_TABLES as ROUND42_REQUIRED_TABLES,
+)
+from .form4_admission_feasibility import (
+    _metadata_contract,
+)
 from .form4_historical_feasibility import (
     _CIK,
     ALLOWED_DOCUMENT_TYPES,
@@ -17,7 +27,6 @@ from .form4_historical_feasibility import (
     _load_protocol_binding,
     _parse_sec_date,
     _positive_decimal,
-    _safe_zip,
 )
 from .universe import load_stock_watchlist
 
@@ -230,18 +239,208 @@ def _validate_sources(*, staging_dir: Path, manifest: dict[str, Any]) -> None:
             _fail("form4_full_coverage_anchor_drift", f"anchor drifted {quarter}")
 
 
+def _project_full_coverage_header(
+    metadata_header: tuple[str, ...],
+    *,
+    table_name: str,
+    amendment_receipt: Mapping[str, Any],
+) -> tuple[str, ...]:
+    """Project SEC metadata headers without using the fixed-quarter profiles."""
+
+    policy = amendment_receipt.get("metadata_to_physical_policy", {})
+    projected = list(metadata_header)
+    if table_name == "SUBMISSION.tsv":
+        contract = policy.get("submission_contact_omission", {})
+        contacts = contract.get("metadata_only_columns")
+        left = contract.get("metadata_left_anchor")
+        right = contract.get("metadata_right_anchor")
+        if not isinstance(contacts, list) or not all(
+            isinstance(item, str) for item in contacts
+        ):
+            _fail("form4_full_coverage_schema_invalid", "submission omission policy is invalid")
+        try:
+            left_index = projected.index(str(left))
+            right_index = projected.index(str(right))
+        except ValueError:
+            _fail("form4_full_coverage_schema_invalid", "submission anchors are missing")
+        if (
+            right_index <= left_index
+            or projected[left_index + 1 : right_index] != contacts
+            or any(projected.count(item) != 1 for item in contacts)
+        ):
+            _fail("form4_full_coverage_schema_invalid", "submission omission is not contiguous")
+        del projected[left_index + 1 : right_index]
+    elif table_name in {"NONDERIV_TRANS.tsv", "DERIV_TRANS.tsv"}:
+        aliases = policy.get("swap_footnote_aliases", ())
+        alias = next(
+            (
+                item
+                for item in aliases
+                if isinstance(item, Mapping) and item.get("role") == table_name
+            ),
+            None,
+        )
+        if alias is None:
+            _fail("form4_full_coverage_schema_invalid", f"{table_name} alias is missing")
+        try:
+            index = int(alias.get("one_based_position", 0)) - 1
+        except (TypeError, ValueError):
+            _fail("form4_full_coverage_schema_invalid", f"{table_name} alias position is invalid")
+        metadata_name = alias.get("metadata_name")
+        physical_name = alias.get("physical_name")
+        if (
+            index < 0
+            or len(projected) != alias.get("metadata_columns")
+            or index >= len(projected)
+            or projected[index] != metadata_name
+            or projected.count(str(metadata_name)) != 1
+        ):
+            _fail("form4_full_coverage_schema_invalid", f"{table_name} alias metadata drifted")
+        projected[index] = str(physical_name)
+        if len(projected) != alias.get("physical_columns"):
+            _fail("form4_full_coverage_schema_invalid", f"{table_name} alias width drifted")
+    else:
+        exact_roles = policy.get("exact_match_roles", {})
+        if exact_roles.get(table_name) != len(projected):
+            _fail("form4_full_coverage_schema_invalid", f"{table_name} metadata width drifted")
+    if any(anchor not in projected for anchor in ROUND42_REQUIRED_TABLES[table_name]):
+        _fail("form4_full_coverage_schema_invalid", f"{table_name} required anchor is missing")
+    return tuple(projected)
+
+
+def _read_full_coverage_rows(
+    raw: bytes,
+    *,
+    table_name: str,
+    expected_header: tuple[str, ...],
+    known_accessions: set[str] | None = None,
+) -> list[dict[str, str]]:
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        _fail("form4_full_coverage_schema_invalid", f"{table_name} is not UTF-8")
+    reader = csv.DictReader(io.StringIO(text, newline=""), delimiter="\t")
+    header = tuple(reader.fieldnames or ())
+    if header != expected_header or len(set(header)) != len(header):
+        _fail("form4_full_coverage_schema_invalid", f"{table_name} physical header drifted")
+    rows: list[dict[str, str]] = []
+    try:
+        for row in reader:
+            if None in row or any(value is None for value in row.values()):
+                _fail("form4_full_coverage_schema_invalid", f"{table_name} row width drifted")
+            item = {str(key): str(value) for key, value in row.items()}
+            accession = item.get("ACCESSION_NUMBER", "")
+            if known_accessions is not None and accession and accession not in known_accessions:
+                _fail("form4_full_coverage_reference_invalid", f"{table_name} accession reference drifted")
+            rows.append(item)
+    except csv.Error:
+        _fail("form4_full_coverage_schema_invalid", f"{table_name} is not valid TSV")
+    return rows
+
+
+def _safe_full_coverage_zip(
+    body: bytes,
+    *,
+    quarter: str,
+    amendment_receipt: Mapping[str, Any],
+) -> tuple[list[dict[str, str]], list[dict[str, str]], list[dict[str, str]]]:
+    """Validate and read one full-coverage ZIP with quarter-variable headers."""
+
+    try:
+        archive = zipfile.ZipFile(io.BytesIO(body))
+    except zipfile.BadZipFile:
+        _fail("form4_full_coverage_zip_invalid", "source is not a ZIP")
+    with archive:
+        infos = [info for info in archive.infolist() if not info.is_dir()]
+        names = [info.filename for info in infos]
+        if len(names) != len(set(names)) or any(
+            PurePosixPath(name).is_absolute()
+            or ".." in PurePosixPath(name).parts
+            or "\\" in name
+            or unquote(name) != name
+            for name in names
+        ):
+            _fail("form4_full_coverage_zip_invalid", "ZIP member is unsafe or duplicated")
+        total_size = sum(info.file_size for info in infos)
+        compressed_size = sum(info.compress_size for info in infos)
+        if (
+            total_size <= 0
+            or total_size > 1_000_000_000
+            or compressed_size <= 0
+            or total_size / compressed_size > 200
+            or any(info.file_size > 500_000_000 for info in infos)
+        ):
+            _fail("form4_full_coverage_zip_invalid", "ZIP expansion limit exceeded")
+        try:
+            corrupt = archive.testzip()
+        except (OSError, RuntimeError, zipfile.BadZipFile):
+            _fail("form4_full_coverage_zip_invalid", "ZIP CRC replay failed")
+        if corrupt is not None:
+            _fail("form4_full_coverage_zip_invalid", "ZIP member CRC is invalid")
+        metadata_candidates: list[dict[str, tuple[str, ...]]] = []
+        for info in infos:
+            if info.file_size > 2_000_000:
+                continue
+            try:
+                value = json.loads(archive.read(info).decode("utf-8-sig"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                continue
+            contract = _metadata_contract(value)
+            if contract is not None:
+                metadata_candidates.append(contract)
+        if len(metadata_candidates) != 1:
+            _fail("form4_full_coverage_schema_invalid", "exactly one metadata object is required")
+        metadata = metadata_candidates[0]
+        if set(metadata) != set(ROUND42_REQUIRED_TABLES):
+            _fail("form4_full_coverage_schema_invalid", "metadata table roles drifted")
+        physical_headers: dict[str, tuple[str, ...]] = {}
+        for table_name in ROUND42_REQUIRED_TABLES:
+            if names.count(table_name) != 1:
+                _fail("form4_full_coverage_schema_invalid", f"{table_name} is missing")
+            physical_headers[table_name] = _project_full_coverage_header(
+                metadata[table_name],
+                table_name=table_name,
+                amendment_receipt=amendment_receipt,
+            )
+            try:
+                raw_header = tuple(
+                    archive.read(table_name).decode("utf-8-sig").splitlines()[0].split("\t")
+                )
+            except (IndexError, UnicodeDecodeError):
+                _fail("form4_full_coverage_schema_invalid", f"{table_name} has no header")
+            if raw_header != physical_headers[table_name]:
+                _fail("form4_full_coverage_schema_invalid", f"{table_name} physical header drifted")
+        submissions = _read_full_coverage_rows(
+            archive.read("SUBMISSION.tsv"),
+            table_name="SUBMISSION.tsv",
+            expected_header=physical_headers["SUBMISSION.tsv"],
+        )
+        known_accessions = {row.get("ACCESSION_NUMBER", "") for row in submissions}
+        owners = _read_full_coverage_rows(
+            archive.read("REPORTINGOWNER.tsv"),
+            table_name="REPORTINGOWNER.tsv",
+            expected_header=physical_headers["REPORTINGOWNER.tsv"],
+            known_accessions=known_accessions,
+        )
+        transactions = _read_full_coverage_rows(
+            archive.read("NONDERIV_TRANS.tsv"),
+            table_name="NONDERIV_TRANS.tsv",
+            expected_header=physical_headers["NONDERIV_TRANS.tsv"],
+            known_accessions=known_accessions,
+        )
+    return submissions, owners, transactions
+
+
 def _parse_purchase_aggregates(
     body: bytes,
     *,
     quarter: str,
     amendment_receipt: Mapping[str, Any],
 ) -> dict[str, Any]:
-    submissions, owners, transactions = _safe_zip(
+    submissions, owners, transactions = _safe_full_coverage_zip(
         body,
         quarter=quarter,
         amendment_receipt=amendment_receipt,
-        validate_physical_profiles=False,
-        allow_variable_submission_profile=True,
     )
     by_accession: dict[str, dict[str, Any]] = {}
     submission_types: Counter[str] = Counter()

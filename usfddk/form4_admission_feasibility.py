@@ -427,7 +427,6 @@ def _physical_header_projection(
     table_name: str,
     quarter_id: str,
     amendment_receipt: Mapping[str, Any],
-    allow_variable_submission_profile: bool = False,
 ) -> tuple[str, ...]:
     policy = amendment_receipt.get("metadata_to_physical_policy", {})
     projected = list(metadata_header)
@@ -463,19 +462,13 @@ def _physical_header_projection(
         del projected[left_index + 1 : right_index]
         expected_columns = 14 if quarter_id == "2026Q2" else 13
         expected_metadata_columns = expected_columns + len(contacts)
-        if (
-            not allow_variable_submission_profile
-            and (
-                len(metadata_header) != expected_metadata_columns
-                or len(projected) != expected_columns
-            )
-        ):
+        if len(metadata_header) != expected_metadata_columns or len(projected) != expected_columns:
             _fail(
                 "form4_feasibility_contact_omission_mismatch",
                 "submission column count differs from its fixed quarter profile",
             )
         aff_present = "AFF10B5ONE" in projected
-        if not allow_variable_submission_profile and aff_present != (quarter_id == "2026Q2"):
+        if aff_present != (quarter_id == "2026Q2"):
             _fail(
                 "form4_feasibility_contact_omission_mismatch",
                 "AFF10B5ONE quarter profile drifted",
@@ -563,7 +556,6 @@ def _read_tsv(
     amendment_receipt: Mapping[str, Any],
     keep_accessions: set[str] | None = None,
     known_accessions: set[str] | None = None,
-    validate_physical_profile: bool = True,
 ) -> list[dict[str, str]]:
     try:
         text = raw.decode("utf-8-sig")
@@ -576,13 +568,12 @@ def _read_tsv(
             "form4_feasibility_unexpected_metadata_physical_drift",
             f"{table_name} differs from the sole v1.1 metadata projection",
         )
-    if validate_physical_profile:
-        _validate_physical_header_profile(
-            header,
-            table_name=table_name,
-            quarter_id=quarter_id,
-            amendment_receipt=amendment_receipt,
-        )
+    _validate_physical_header_profile(
+        header,
+        table_name=table_name,
+        quarter_id=quarter_id,
+        amendment_receipt=amendment_receipt,
+    )
     if any(anchor not in header for anchor in REQUIRED_TABLES[table_name]):
         _fail("form4_feasibility_header_mismatch", f"{table_name} anchor missing")
     rows: list[dict[str, str]] = []

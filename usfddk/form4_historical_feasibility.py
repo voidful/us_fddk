@@ -265,8 +265,6 @@ def _safe_zip(
     *,
     quarter: str,
     amendment_receipt: Mapping[str, Any],
-    validate_physical_profiles: bool = True,
-    allow_variable_submission_profile: bool = False,
 ) -> tuple[list[dict[str, str]], list[dict[str, str]], list[dict[str, str]]]:
     try:
         archive = zipfile.ZipFile(io.BytesIO(body))
@@ -334,7 +332,6 @@ def _safe_zip(
                     table_name=table_name,
                     quarter_id=quarter,
                     amendment_receipt=amendment_receipt,
-                    allow_variable_submission_profile=allow_variable_submission_profile,
                 )
             submissions = _read_tsv(
                 archive.read("SUBMISSION.tsv"),
@@ -342,7 +339,6 @@ def _safe_zip(
                 expected_header=physical_headers["SUBMISSION.tsv"],
                 quarter_id=quarter,
                 amendment_receipt=amendment_receipt,
-                validate_physical_profile=validate_physical_profiles,
             )
             known_accessions = {
                 row.get("ACCESSION_NUMBER", "") for row in submissions
@@ -354,7 +350,6 @@ def _safe_zip(
                 quarter_id=quarter,
                 amendment_receipt=amendment_receipt,
                 known_accessions=known_accessions,
-                validate_physical_profile=validate_physical_profiles,
             )
             transactions = _read_tsv(
                 archive.read("NONDERIV_TRANS.tsv"),
@@ -363,7 +358,6 @@ def _safe_zip(
                 quarter_id=quarter,
                 amendment_receipt=amendment_receipt,
                 known_accessions=known_accessions,
-                validate_physical_profile=validate_physical_profiles,
             )
         except Form4AdmissionFeasibilityError as exc:
             _fail("form4_history_schema_invalid", exc.code)
