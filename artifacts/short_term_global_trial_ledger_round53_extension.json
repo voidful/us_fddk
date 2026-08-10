@@ -5,11 +5,11 @@
     "path": "artifacts/short_term_global_trial_ledger_round51_extension.json",
     "sha256": "f6563a533f017e573a0f9b05fe0f73edfc8ac173f67918ab307a1c12c8bb1522"
   },
-  "chain_head_sha256": "9d1e252e549673f141fba8629d0768460914ff43b1ae35d7d1f366e4f66fa136",
+  "chain_head_sha256": "be2c054437c6533f353d244265deb5f6b399a1a657e42dab6df41bd3c8347aea",
   "current_lower_bound": 6293,
   "entry": {
     "current_lower_bound": 6293,
-    "entry_sha256": "9d1e252e549673f141fba8629d0768460914ff43b1ae35d7d1f366e4f66fa136",
+    "entry_sha256": "be2c054437c6533f353d244265deb5f6b399a1a657e42dab6df41bd3c8347aea",
     "exact_increment_claimed": false,
     "family_id": "round53_form4_event_three_horizons",
     "minimum_increment": 3,
@@ -33,7 +33,7 @@
       {
         "label": "report",
         "path": "docs/SHORT_TERM_FORM4_EVENT_DIAGNOSTIC_REPORT.md",
-        "sha256": "5693b9f917a8c13bbf7e11bc6621ff66165ec36a0f343ff5a983e7ab3fc7209b"
+        "sha256": "ba115319f9ade300eb6002995c0b17c0dd179ca92312f8c85b01b0a769bb0951"
       },
       {
         "label": "round52_manifest",
@@ -51,7 +51,7 @@
     "state": "all_cash"
   },
   "real_money_action_usd": 0,
-  "receipt_sha256": "3c026ac851c61a9cfdcea06bafec26f3a2fc44c492fc48d85aa9780ed25b156c",
+  "receipt_sha256": "67dcbd0c435d55f7253677f6fb43843db758d1ba8bc3728258261a7cd72e30c3",
   "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
   "status": "append_only_global_trial_lower_bound_extension"
 }
