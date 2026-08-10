@@ -266,8 +266,6 @@ jobs:
           ./.venv/bin/pytest tests/test_daily_momentum_regime.py
           ./.venv/bin/pytest tests/test_site_export.py
           ./.venv/bin/pytest tests/test_v25_live.py -k audit
-      - name: Build the success-only public decision contract
-        run: ./.venv/bin/python scripts/build_public_decision_data.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
@@ -328,8 +326,7 @@ jobs:
               artifacts/v25_live_refresh_status.json \
               artifacts/v25_live_update_status.json \
               artifacts/v25_reference_readiness.json \
-              site/data/trading-data.json \
-              site/data/public-decision.json
+              site/data/trading-data.json
           fi
           git diff --cached --check
           if git diff --cached --quiet; then

@@ -77,9 +77,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
           ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
           ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
-          ./.venv/bin/python scripts/build_public_decision_data.py
           git diff --exit-code -- \
-            site/data/public-decision.json \
             artifacts/short_term_french_prior_return_schema_repair_validation.json \
             site/data/short-term-french-prior-return-schema-repair.json \
             artifacts/short_term_french_size_prior_validation.json \
