@@ -7,8 +7,11 @@ on:
       - "docs/SHORT_TERM_HIGH_RETURN_PROTOCOL.md"
       - "usfddk/formal_signal_engine.py"
       - "usfddk/formal_execution_schedule.py"
+      - "usfddk/formal_raw_accounting.py"
       - "tests/test_formal_signal_engine.py"
       - "tests/test_formal_execution_schedule.py"
+      - "tests/test_formal_raw_accounting.py"
+      - "docs/SHORT_TERM_FORMAL_RAW_ACCOUNTING.md"
       - "pyproject.toml"
       - "uv.lock"
   workflow_dispatch:
@@ -32,10 +35,15 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           uv sync --locked --extra dev
-          uv run pytest -q tests/test_formal_signal_engine.py tests/test_formal_execution_schedule.py
+          uv run pytest -q \
+            tests/test_formal_signal_engine.py \
+            tests/test_formal_execution_schedule.py \
+            tests/test_formal_raw_accounting.py
           uv run ruff check \
             usfddk/formal_signal_engine.py \
             usfddk/formal_execution_schedule.py \
+            usfddk/formal_raw_accounting.py \
             tests/test_formal_signal_engine.py \
-            tests/test_formal_execution_schedule.py
+            tests/test_formal_execution_schedule.py \
+            tests/test_formal_raw_accounting.py
           git diff --check

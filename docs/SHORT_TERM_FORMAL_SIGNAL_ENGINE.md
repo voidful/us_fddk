@@ -38,6 +38,9 @@ targets, audit = build_monthly_target_weights(inputs)
 XNYS 開市日；最後一個 session、重複 execution、缺失 target 或權重不等於 100% 都會
 拒收。這層仍不做估值，避免把「有 target」誤稱為「已完成回測」。
 
+下一層 `usfddk/formal_raw_accounting.py` 只在內部以 raw open／raw close 重播該 schedule，
+並把派息應收、拆股、分拆及退出條款逐一對賬；它同樣不建立 Paper、不寫公開決策資料。
+
 正式執行前仍必須先通過 Round 17 provider intake、point-in-time 20/20、execution
 extension 16/16、RF 及 release firewall。資料包尚未到位時，網站維持成功-only
 allow-list 與「今天不下單」。
