@@ -1,0 +1,159 @@
+{
+  "admission_controls": {
+    "all_passed": false,
+    "candidate_selection_authorized": false,
+    "gates": [
+      {
+        "id": "01",
+        "name": "versioned_parent_lineage_verified",
+        "passed": true,
+        "reason": "frozen_parent_lineage_hashes_verified"
+      },
+      {
+        "id": "02",
+        "name": "sec_exact_use_terms_verified",
+        "passed": false,
+        "reason": "project_wide_exact_use_and_complete_attempt_ledger_not_established"
+      },
+      {
+        "id": "03",
+        "name": "encrypted_private_quarantine_verified",
+        "passed": false,
+        "reason": "independent_encrypted_quarantine_evidence_not_established"
+      },
+      {
+        "id": "04",
+        "name": "source_scope_exact",
+        "passed": true,
+        "reason": "source_scope_sec_form_4_and_exact_form_types_verified"
+      },
+      {
+        "id": "05",
+        "name": "filing_denominator_complete",
+        "passed": false,
+        "reason": "full_filing_denominator_not_replayed"
+      },
+      {
+        "id": "06",
+        "name": "as_filed_content_complete",
+        "passed": false,
+        "reason": "full_denominator_as_filed_content_not_replayed"
+      },
+      {
+        "id": "07",
+        "name": "fixed_period_coverage_verified",
+        "passed": false,
+        "reason": "fixed_2005q4_through_2026q2_coverage_not_replayed"
+      },
+      {
+        "id": "08",
+        "name": "known_at_evidence_complete",
+        "passed": false,
+        "reason": "external_historical_known_at_evidence_absent"
+      },
+      {
+        "id": "09",
+        "name": "known_at_clock_verified",
+        "passed": false,
+        "reason": "decision_and_trade_clock_mapping_not_executed"
+      },
+      {
+        "id": "10",
+        "name": "version_amendment_chain_verified",
+        "passed": false,
+        "reason": "full_denominator_version_chain_not_replayed"
+      },
+      {
+        "id": "11",
+        "name": "form4_semantics_verified",
+        "passed": false,
+        "reason": "full_denominator_semantics_not_replayed"
+      },
+      {
+        "id": "12",
+        "name": "economic_event_dedupe_verified",
+        "passed": false,
+        "reason": "economic_event_deduplication_not_replayed"
+      },
+      {
+        "id": "13",
+        "name": "pit_security_universe_verified",
+        "passed": false,
+        "reason": "pit_security_universe_not_replayed"
+      },
+      {
+        "id": "14",
+        "name": "pit_market_execution_verified",
+        "passed": false,
+        "reason": "pit_market_execution_inputs_not_replayed"
+      },
+      {
+        "id": "15",
+        "name": "independent_mutation_attacks_passed",
+        "passed": false,
+        "reason": "local_fixture_attacks_are_not_full_independent_admission_attacks"
+      },
+      {
+        "id": "16",
+        "name": "authorized_real_sample_independently_replayed",
+        "passed": false,
+        "reason": "real_sample_not_authorized_or_replayed"
+      }
+    ],
+    "passed": 2,
+    "strategy_run_authorized": false,
+    "total": 16
+  },
+  "attack_results": {
+    "collection_stop_receipt": {
+      "admission_core_sha256": "75350c3e047cd78b46595d70b7c571651ff779baa562acb7f8c8d41d83e620f4",
+      "canonicalization": "json_utf8_sort_keys_compact_no_nan_v1",
+      "cold_replay_completed": false,
+      "complete_submission_requests": 0,
+      "completed_http_requests": 5,
+      "failure_phase": "post_fetch_validation_failed",
+      "post_fetch_local_validation_failures": 1,
+      "private_manifest_sha256": "3919e075c9c1deffd2ceabee641c4520d69b50c298dcf2f68ae918e5de1fa053",
+      "receipt_sha256": "614950cd00151095bbcc28e5eb87b3b5bdb8ac13f089f791300bfd499d72a1f0",
+      "schema_version": "us_fddk.short_term_form4_collection_stop.v1",
+      "stop_reason": "form4_feasibility_daily_index_missing_or_ambiguous"
+    },
+    "error_code": "form4_feasibility_daily_index_missing_or_ambiguous",
+    "identifier_detail_included": false
+  },
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "frozen_at": "2026-08-09T23:39:35Z",
+  "private_manifest_sha256": "3919e075c9c1deffd2ceabee641c4520d69b50c298dcf2f68ae918e5de1fa053",
+  "protocol_receipt_sha256": "c8811f20a4a5369a442f297bb34870baf62bf76aa74538ef9ea68f4d98f83558",
+  "protocol_sha256": "2d5f2e27a28151a032ebd440271d2bb325d210df8628de1baea00677ab926b2c",
+  "sample_count": 12,
+  "schema_version": "us_fddk.short_term_form4_admission_feasibility.v1_1",
+  "state_boundary": {
+    "authorized_real_form4_rows": 0,
+    "candidate_selection_count": 0,
+    "evidence_mode": "authorized_real_sample",
+    "form4_specific_admission": {
+      "all_passed": false,
+      "passed": 2,
+      "total": 16
+    },
+    "paper": {
+      "authorized": false,
+      "backfilled_trades": 0,
+      "positions": [],
+      "state": "all_cash"
+    },
+    "performance_present": false,
+    "real_money_action_usd": 0,
+    "strategy_run_count": 0,
+    "today_action": "今天不下單"
+  },
+  "status": "stopped_no_admission_claim",
+  "stop_reasons": [
+    "form4_feasibility_daily_index_missing_or_ambiguous"
+  ]
+}
