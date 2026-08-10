@@ -1,0 +1,162 @@
+{
+  "capital_policy": {
+    "accepted_events": 146,
+    "candidate_events": 403,
+    "holding_sessions": 20,
+    "ignored_overlapping_events": 257,
+    "overlap_policy": "ignore_signals_until_exit_then_resume",
+    "starting_capital_usd": 1000.0
+  },
+  "gate_summary": {
+    "gates": {
+      "at_least_30_accepted_events": true,
+      "cagr_above_event_schedule_eligible_pool": true,
+      "cagr_above_passive_QQQ": false,
+      "cagr_above_passive_SPY": true,
+      "final_equity_above_start": true,
+      "max_drawdown_not_deeper_than_passive_QQQ": false,
+      "max_drawdown_not_deeper_than_passive_SPY": true
+    },
+    "passed": 5,
+    "required": 7
+  },
+  "independent_first_seen_evidence": false,
+  "limitations": [
+    "current_watchlist_is_survivorship_biased",
+    "posthoc_capital_accounting_is_not_independent_first_seen_evidence",
+    "adjusted_ohlcv_is_not_raw_execution_or_complete_total_return_ledger",
+    "volume_has_no_intraday_public_timestamp",
+    "no_point_in_time_universe_or_delisting_economics",
+    "fractional_equal_weight_is_a_research_convention"
+  ],
+  "multiplicity": {
+    "current_lower_bound": 6313,
+    "family_id": "round61_volume_breakout_nonoverlap_capital",
+    "increment": 1,
+    "prior_lower_bound": 6312
+  },
+  "passive_baselines": {
+    "QQQ": {
+      "busy_sessions": 5031,
+      "cagr": 0.16702748649296195,
+      "daily_sharpe_zero_rate": 0.8120630900695297,
+      "events": 1,
+      "final_equity_usd": 21838.657905045322,
+      "max_drawdown": -0.5340398872163579,
+      "mean_event_return": null,
+      "total_return": 20.838657905045324,
+      "utilization_fraction": 1.0,
+      "win_fraction": null
+    },
+    "SPY": {
+      "busy_sessions": 5031,
+      "cagr": 0.11285564237355339,
+      "daily_sharpe_zero_rate": 0.6482478515358079,
+      "events": 1,
+      "final_equity_usd": 8455.087611546674,
+      "max_drawdown": -0.5518944601686687,
+      "mean_event_return": null,
+      "total_return": 7.455087611546675,
+      "utilization_fraction": 1.0,
+      "win_fraction": null
+    }
+  },
+  "receipt_sha256": "8a7183a9b40829ec88e8efbb3f2ae5306a90f34e081ee1ee317d0fe4758ee477",
+  "research_role": "capital_accounting_diagnostic",
+  "research_round": 61,
+  "scheduled_baselines": {
+    "QQQ": {
+      "busy_sessions": 3066,
+      "cagr": 0.052328871430994406,
+      "daily_sharpe_zero_rate": 0.4088082809781185,
+      "events": 146,
+      "final_equity_usd": 2768.4621522688426,
+      "max_drawdown": -0.48247263603950286,
+      "mean_event_return": 0.008248349331983625,
+      "total_return": 1.7684621522688424,
+      "utilization_fraction": 0.6094215861657722,
+      "win_fraction": 0.6506849315068494
+    },
+    "SPY": {
+      "busy_sessions": 3066,
+      "cagr": 0.013788595074522902,
+      "daily_sharpe_zero_rate": 0.1707309186027863,
+      "events": 146,
+      "final_equity_usd": 1314.4244124458678,
+      "max_drawdown": -0.5355767936545055,
+      "mean_event_return": 0.0027530722772296694,
+      "total_return": 0.3144244124458677,
+      "utilization_fraction": 0.6094215861657722,
+      "win_fraction": 0.6506849315068494
+    },
+    "complete_cohort": {
+      "busy_sessions": 3066,
+      "cagr": 0.09382237952797912,
+      "daily_sharpe_zero_rate": 0.6687038453601408,
+      "events": 146,
+      "final_equity_usd": 5991.632088016258,
+      "max_drawdown": -0.49080676472460116,
+      "mean_event_return": 0.013464420794323573,
+      "total_return": 4.991632088016258,
+      "utilization_fraction": 0.6094215861657722,
+      "win_fraction": 0.684931506849315
+    },
+    "eligible_pool": {
+      "busy_sessions": 3066,
+      "cagr": 0.08235330797935947,
+      "daily_sharpe_zero_rate": 0.6085933561452683,
+      "events": 146,
+      "final_equity_usd": 4854.600655432383,
+      "max_drawdown": -0.5073199715609585,
+      "mean_event_return": 0.011974213682382679,
+      "total_return": 3.8546006554323835,
+      "utilization_fraction": 0.6094215861657722,
+      "win_fraction": 0.678082191780822
+    },
+    "selected": {
+      "busy_sessions": 3066,
+      "cagr": 0.15071915465773844,
+      "daily_sharpe_zero_rate": 0.7026560910921469,
+      "events": 146,
+      "final_equity_usd": 16489.571504347354,
+      "max_drawdown": -0.5498993556165696,
+      "mean_event_return": 0.023367757903185328,
+      "total_return": 15.489571504347353,
+      "utilization_fraction": 0.6094215861657722,
+      "win_fraction": 0.5958904109589042
+    }
+  },
+  "schema_version": "usfddk.short_term_volume_breakout_nonoverlap.v1",
+  "signal_definition": {
+    "breakout_lookback_sessions": 60,
+    "frequency": "weekly_completed_xnys",
+    "market_filter": "none",
+    "momentum_sessions": 20,
+    "round_trip_cost_bps": 20.0,
+    "selection_count": 5,
+    "trend_sma_sessions": 60,
+    "volume_multiple": 1.5
+  },
+  "source": {
+    "period": {
+      "end": "2026-07-31",
+      "start": "2006-08-01"
+    },
+    "protocol_sha256": "127d958369d1a277b252a101f00dbf5cc0ffd1d80fc01b4a00baf99cc797f20c",
+    "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+    "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "watchlist_count": 30,
+    "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+  },
+  "state_boundary": {
+    "paper_authorized": false,
+    "performance_present": false,
+    "real_money_action_usd": 0,
+    "real_money_authorized": false,
+    "strategy_run_count": 0,
+    "today_action": "今天不下單"
+  },
+  "status": "volume_breakout_nonoverlap_capital_negative_survivorship_biased",
+  "strategy_rule_changed": false
+}

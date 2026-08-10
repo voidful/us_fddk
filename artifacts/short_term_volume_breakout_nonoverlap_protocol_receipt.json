@@ -1,0 +1,70 @@
+{
+  "baselines": {
+    "event_schedule": [
+      "eligible_pool",
+      "complete_cohort",
+      "SPY",
+      "QQQ"
+    ],
+    "passive": [
+      "SPY",
+      "QQQ"
+    ]
+  },
+  "cost_round_trip_bps": 20.0,
+  "execution": {
+    "cost_allocation": "10_bps_entry_plus_10_bps_exit",
+    "entry": "next_session_adjusted_open",
+    "exit": "session_{holding_sessions}_adjusted_close",
+    "overlap_policy": "ignore_signals_until_exit_then_resume"
+  },
+  "frequency": "weekly_completed_xnys",
+  "gate_names": [
+    "at_least_30_accepted_events",
+    "final_equity_above_start",
+    "cagr_above_event_schedule_eligible_pool",
+    "cagr_above_passive_SPY",
+    "cagr_above_passive_QQQ",
+    "max_drawdown_not_deeper_than_passive_SPY",
+    "max_drawdown_not_deeper_than_passive_QQQ"
+  ],
+  "global_trial_ledger": {
+    "minimum_increment": 1,
+    "new_family_id": "round61_volume_breakout_nonoverlap_capital",
+    "prior_lower_bound": 6312
+  },
+  "holding_sessions": 20,
+  "independent_first_seen_evidence": false,
+  "paper_authorized": false,
+  "performance_authorized": false,
+  "period": {
+    "end": "2026-07-31",
+    "start": "2006-08-01"
+  },
+  "protocol_sha256": "127d958369d1a277b252a101f00dbf5cc0ffd1d80fc01b4a00baf99cc797f20c",
+  "real_money_authorized": false,
+  "receipt_sha256": "ca66206a32870fd670182fe3d418b7adf438282c4164d57d4bf7921a4973c4b3",
+  "research_role": "capital_accounting_diagnostic",
+  "research_round": 61,
+  "schema_version": 1,
+  "selection_count": 5,
+  "signal": {
+    "breakout_lookback_sessions": 60,
+    "dollar_volume_threshold_usd": 20000000.0,
+    "market_filter": "none",
+    "momentum_sessions": 20,
+    "price_threshold_usd": 5.0,
+    "selection_count": 5,
+    "trend_sma_sessions": 60,
+    "volume_multiple": 1.5
+  },
+  "snapshot_archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+  "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+  "snapshot_panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+  "starting_capital_usd": 1000.0,
+  "status": "posthoc_volume_breakout_nonoverlap_capital_diagnostic_only",
+  "strategy_rule_changed": false,
+  "today_action": "今天不下單",
+  "watchlist_count": 30,
+  "watchlist_sha256": "b6002e4e151bd298884f8cdd6272b5cbfde8aedca47cb58b92830d4d92028014"
+}
