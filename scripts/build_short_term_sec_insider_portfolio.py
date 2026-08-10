@@ -9,6 +9,7 @@ from usfddk.sec_insider import parse_insider_purchases, sha256_file
 from usfddk.sec_insider_forward import load_long_total_return_prices
 from usfddk.sec_insider_multi import EXPECTED_QUARTERS, build_quarter_candidates
 from usfddk.sec_insider_portfolio import (
+    PORTFOLIO_COST_SCENARIOS,
     PORTFOLIO_HOLDING_SESSIONS,
     PORTFOLIO_ONE_WAY_COST_BPS,
     prepare_portfolio_signals,
@@ -101,6 +102,21 @@ def main() -> int:
             "2025Q2_2026Q2": simulate_event_portfolio(late_accepted, prices),
         },
     }
+    cost_scenarios = {}
+    for cost_bps in PORTFOLIO_COST_SCENARIOS:
+        cost_scenarios[str(int(cost_bps))] = {
+            "all_period": simulate_event_portfolio(
+                accepted, prices, one_way_cost_bps=cost_bps
+            ),
+            "fixed_halves": {
+                "2024Q1_2025Q1": simulate_event_portfolio(
+                    early_accepted, prices, one_way_cost_bps=cost_bps
+                ),
+                "2025Q2_2026Q2": simulate_event_portfolio(
+                    late_accepted, prices, one_way_cost_bps=cost_bps
+                ),
+            },
+        }
     payload = {
         "schema_version": 1,
         "status": "post_hoc_fixed_event_portfolio_diagnostic",
@@ -138,6 +154,7 @@ def main() -> int:
             },
         },
         "diagnostic": diagnostic,
+        "cost_scenarios": cost_scenarios,
         "decision": {
             "strategy_status": "research_candidate_only",
             "formal_backtest_completed": False,

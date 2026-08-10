@@ -13,6 +13,7 @@ PORTFOLIO_SCHEMA_VERSION = 1
 PORTFOLIO_HOLDING_SESSIONS = 20
 PORTFOLIO_ONE_WAY_COST_BPS = 10.0
 PORTFOLIO_ROUND_TRIP_COST_BPS = 20.0
+PORTFOLIO_COST_SCENARIOS = (10.0, 25.0, 50.0)
 
 
 def _price_maps(
@@ -158,8 +159,8 @@ def simulate_event_portfolio(
 ) -> dict[str, Any]:
     """Simulate all eligible signals with equal active-position weights."""
 
-    if one_way_cost_bps != PORTFOLIO_ONE_WAY_COST_BPS:
-        raise ValueError("portfolio transaction cost is frozen at 10 bps one way")
+    if one_way_cost_bps not in PORTFOLIO_COST_SCENARIOS:
+        raise ValueError("portfolio transaction cost must be one of frozen 10/25/50 bps scenarios")
     if not signals:
         return {
             "signal_count": 0,
