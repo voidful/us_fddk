@@ -388,7 +388,7 @@
   "source": {
     "as_filed": true,
     "as_of": "2026-06-30",
-    "path": "/private/tmp/usfddk-sec-insider.LHb1sX/2026q2_form345.zip",
+    "filename": "2026q2_form345.zip",
     "provider": "SEC Insider Transactions Data Sets",
     "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
     "universe_label": "external_csv:usfddk/resources/us_large_cap_watchlist_v1.csv",

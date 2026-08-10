@@ -354,7 +354,10 @@ def build_insider_receipt(
         "schema_version": SIGNAL_SCHEMA_VERSION,
         "source": {
             "provider": "SEC Insider Transactions Data Sets",
-            "path": str(Path(path)),
+            # Keep the receipt portable: absolute download paths are local
+            # execution details and would make the committed evidence
+            # irreproducible on another machine.
+            "filename": Path(path).name,
             "sha256": sha256_file(path),
             "url": source_url,
             "as_of": as_of.isoformat(),

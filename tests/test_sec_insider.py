@@ -180,6 +180,8 @@ def test_signal_window_is_frozen_and_receipt_is_not_a_trade(tmp_path) -> None:
         source_url="https://example.invalid/2026q2_form345.zip",
     )
     assert receipt["decision"]["strategy_status"] == "research_candidate_only"
+    assert receipt["source"]["filename"] == "insider.zip"
+    assert "/" not in receipt["source"]["filename"]
     assert receipt["source"]["url"].endswith("2026q2_form345.zip")
     assert receipt["decision"]["formal_backtest_completed"] is False
     assert receipt["decision"]["paper_authorized"] is False
