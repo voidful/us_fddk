@@ -34,4 +34,6 @@ artifacts/*
 !artifacts/short_term_form4_current_cohort_coverage_protocol_receipt.json
 !artifacts/short_term_form4_current_cohort_coverage_validation.json
 !artifacts/short_term_current_cohort_breakout_protocol_receipt.json
+!artifacts/short_term_current_cohort_breakout_validation.json
+!artifacts/short_term_global_trial_ledger_round51_extension.json
 .site-git-backup/

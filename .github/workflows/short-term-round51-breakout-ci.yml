@@ -7,9 +7,13 @@ on:
       - "docs/SHORT_TERM_CURRENT_COHORT_BREAKOUT_DIAGNOSTIC_PROTOCOL.md"
       - "artifacts/short_term_current_cohort_breakout_protocol_receipt.json"
       - "artifacts/short_term_current_cohort_breakout_validation.json"
+      - "artifacts/short_term_global_trial_ledger_round51_extension.json"
+      - "docs/SHORT_TERM_CURRENT_COHORT_BREAKOUT_DIAGNOSTIC_REPORT.md"
+      - "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_AMENDMENT_V1_1.md"
       - "scripts/audit_short_term_current_cohort_breakout.py"
       - "tests/test_current_cohort_breakout.py"
       - "usfddk/short_term_current_cohort_breakout.py"
+      - "usfddk/global_trial_ledger_round51_extension.py"
       - "usfddk/short_term_high_return.py"
       - "artifacts/short_term_global_trial_ledger.json"
       - "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md"
@@ -39,6 +43,7 @@ jobs:
           uv run pytest -q tests/test_current_cohort_breakout.py
           uv run ruff check \
             usfddk/short_term_current_cohort_breakout.py \
+            usfddk/global_trial_ledger_round51_extension.py \
             scripts/audit_short_term_current_cohort_breakout.py \
             tests/test_current_cohort_breakout.py
           git diff --check
