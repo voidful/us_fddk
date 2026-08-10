@@ -13,6 +13,8 @@
   倖存者偏差宣稱。
 - 每個 CIK 只從 SEC `data.sec.gov/api/xbrl/companyfacts/` 取得 facts；所有觀察只准
   使用 `filed <= 2026-06-30` 的資料，之後才出現的修訂或申報不能回填本輪。
+- 因本輪凍結價格快照由 2023-01-03 開始，事件 filing date 固定限制在
+  2023-01-01 至 2026-06-30；更早的 facts 只作同比配對，不進入交易事件。
 - 收據保留 API URL、下載時間、User-Agent 描述及 SHA-256；缺資料不補值、不用 Yahoo
   估算值代替。
 
@@ -39,8 +41,9 @@
   adjusted open，之後 close-to-close，到期日收市後離場。
 - 成本固定為單邊 10／25／50 bps；QQQ、SPY、IWM 用同一 evaluation period、同一
   時計及同一成本情境（20／50／100 bps round-trip）。
-- 報告全期及事前固定前後半段、CAGR、total return、Sharpe、最大回撤、平均持倉及
-  年化 turnover；不依結果改變 fact、持有期、成本或 universe。
+- 事前固定前半段為 filing date `2023-01-01` 至 `2024-12-31`，後半段為
+  `2025-01-01` 至 `2026-06-30`；報告全期及這兩段的 CAGR、total return、Sharpe、
+  最大回撤、平均持倉及年化 turnover，不依結果改變 fact、持有期、成本或 universe。
 
 ## 升格邊界
 
