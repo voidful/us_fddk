@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
 
 from usfddk.site_export import (  # noqa: E402
     _preserve_idempotent_generation_time,
+    build_public_decision_audit_log,
     build_public_decision_payload,
 )
 
@@ -58,6 +59,12 @@ def main() -> int:
         type=Path,
         default=ROOT / "site/data/public-decision.json",
     )
+    parser.add_argument(
+        "--log-output",
+        type=Path,
+        default=ROOT / "artifacts/public_decision_build_log.json",
+        help="內部決策建置日誌；不會被網站載入",
+    )
     args = parser.parse_args()
 
     source = _load(args.source)
@@ -68,10 +75,18 @@ def main() -> int:
         formal_readiness=formal,
         short_term_overlay=overlay,
     )
+    audit_log = build_public_decision_audit_log(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+        public_payload=public,
+    )
     _write(args.output, public, preserve_from=[args.source])
+    _write(args.log_output, audit_log, preserve_from=[args.source, args.output])
     print(
         f"公開決策資料：{args.output}｜"
-        f"{len(public['strategies'])} 個已驗證策略｜{public['today_action']}"
+        f"{len(public['strategies'])} 個已驗證策略｜{public['today_action']}｜"
+        f"內部日誌：{args.log_output}"
     )
     return 0
 

@@ -22,6 +22,7 @@ artifacts/*
 !artifacts/v25_live_refresh_status.json
 !artifacts/v25_live_update_status.json
 !artifacts/v25_reference_readiness.json
+!artifacts/public_decision_build_log.json
 !artifacts/short_term_high_return_validation.json
 !artifacts/short_term_form4_cluster_protocol_receipt.json
 !artifacts/short_term_form4_cluster_v1_draft_supersession_seal.json

@@ -9,6 +9,7 @@ from usfddk.paper import load_paper_state
 from usfddk.site_export import (
     _localize_hk_finance_copy,
     _preserve_idempotent_generation_time,
+    build_public_decision_audit_log,
     build_public_decision_payload,
     refresh_v25_site_data,
 )
@@ -135,6 +136,44 @@ def test_public_decision_payload_is_success_only_and_fail_closed() -> None:
     assert "failed" not in rendered.lower()
     for forbidden in ("失敗", "淘汰", "攻擊測試", "負結果", "未通過項目"):
         assert forbidden not in rendered
+
+
+def test_public_decision_audit_log_keeps_withheld_results_outside_public_surface() -> None:
+    source = json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    formal = json.loads(
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    overlay = json.loads(
+        (ROOT / "site/data/short-term-qqq-replacement-overlay.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    public = build_public_decision_payload(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+    )
+    audit_log = build_public_decision_audit_log(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+        public_payload=public,
+    )
+
+    assert audit_log["visibility"] == "internal-research-log"
+    assert audit_log["not_for_public_decision_page"] is True
+    assert all(
+        candidate["status"] == "not_promoted"
+        for candidate in audit_log["candidate_audit"]
+    )
+    assert "formal_readiness_incomplete" in audit_log["candidate_audit"][1]["reason_codes"]
+    public_rendered = json.dumps(public, ensure_ascii=False)
+    log_rendered = json.dumps(audit_log, ensure_ascii=False)
+    assert "formal_readiness_incomplete" not in public_rendered
+    assert "not_promoted" in log_rendered
 
 
 def test_round64_negative_research_log_cannot_leak_into_public_surface() -> None:

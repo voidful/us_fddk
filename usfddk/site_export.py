@@ -358,6 +358,135 @@ def build_public_decision_payload(
     }
 
 
+def _public_long_term_log_entry(payload: dict[str, Any]) -> dict[str, Any]:
+    readiness = payload.get("readiness")
+    pipeline = payload.get("research_pipeline")
+    if not isinstance(readiness, dict):
+        return {
+            "key": "long-term",
+            "status": "not_evaluated",
+            "reason_codes": ["readiness_missing"],
+        }
+
+    required = readiness.get("required_gate_count")
+    passed = readiness.get("passed_gate_count")
+    reasons: list[str] = []
+    if readiness.get("trade_ready") is not True:
+        reasons.append("trade_readiness_incomplete")
+    if not (
+        isinstance(required, int)
+        and isinstance(passed, int)
+        and passed == required == 11
+    ):
+        reasons.append("readiness_gates_incomplete")
+    if readiness.get("allocation_visible") is not True:
+        reasons.append("allocation_hidden")
+    if readiness.get("selected_strategy_key") != "growth_gold_diversification":
+        reasons.append("no_selected_strategy")
+
+    latest = pipeline.get("growth_gold_diversification") if isinstance(pipeline, dict) else None
+    if not isinstance(latest, dict):
+        reasons.append("strategy_record_missing")
+    else:
+        if latest.get("trade_ready") is not True:
+            reasons.append("strategy_trade_readiness_incomplete")
+        if latest.get("real_money_signal_display_allowed") is not True:
+            reasons.append("real_money_signal_hidden")
+        paper = latest.get("paper")
+        forward = paper.get("forward_evidence") if isinstance(paper, dict) else None
+        if not isinstance(forward, dict) or forward.get("live_confirmed") is not True:
+            reasons.append("forward_evidence_not_confirmed")
+
+    return {
+        "key": "long-term",
+        "status": "not_promoted" if reasons else "promotable",
+        "reason_codes": sorted(set(reasons)),
+        "gate_counts": {
+            "passed": passed,
+            "required": required,
+        },
+        "trade_ready": readiness.get("trade_ready") is True,
+    }
+
+
+def _public_short_term_log_entry(
+    formal_readiness: dict[str, Any] | None,
+    overlay: dict[str, Any] | None,
+) -> dict[str, Any]:
+    reasons: list[str] = []
+    actual = formal_readiness.get("actual_formal_readiness") if isinstance(formal_readiness, dict) else None
+    point_in_time = formal_readiness.get("actual_point_in_time_readiness") if isinstance(formal_readiness, dict) else None
+    summary = overlay.get("gate_summary") if isinstance(overlay, dict) else None
+    decision = overlay.get("decision") if isinstance(overlay, dict) else None
+    if not isinstance(actual, dict) or actual.get("all_passed") is not True:
+        reasons.append("formal_readiness_incomplete")
+    if not isinstance(point_in_time, dict) or point_in_time.get("all_passed") is not True:
+        reasons.append("point_in_time_readiness_incomplete")
+    if not isinstance(summary, dict) or summary.get("all_passed") is not True:
+        reasons.append("overlay_gates_incomplete")
+    if not isinstance(decision, dict) or decision.get("can_promote_from_this_round") is not True:
+        reasons.append("promotion_not_allowed")
+    if not isinstance(decision, dict) or int(decision.get("formal_strategy_runs", 0)) <= 0:
+        reasons.append("formal_backtest_not_completed")
+    if not isinstance(formal_readiness, dict) or formal_readiness.get("authorized_provider_package_received") is not True:
+        reasons.append("provider_package_missing")
+
+    entry: dict[str, Any] = {
+        "key": "short-term",
+        "status": "not_promoted" if reasons else "promotable",
+        "reason_codes": sorted(set(reasons)),
+        "formal_gate_counts": {
+            "passed": actual.get("passed") if isinstance(actual, dict) else None,
+            "total": actual.get("total") if isinstance(actual, dict) else None,
+        },
+        "point_in_time_gate_counts": {
+            "passed": point_in_time.get("passed") if isinstance(point_in_time, dict) else None,
+            "total": point_in_time.get("total") if isinstance(point_in_time, dict) else None,
+        },
+        "formal_strategy_runs": int(decision.get("formal_strategy_runs", 0)) if isinstance(decision, dict) else 0,
+        "paper_status": decision.get("paper_status") if isinstance(decision, dict) else "unknown",
+    }
+    return entry
+
+
+def build_public_decision_audit_log(
+    payload: dict[str, Any],
+    *,
+    formal_readiness: dict[str, Any] | None = None,
+    short_term_overlay: dict[str, Any] | None = None,
+    public_payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build an internal audit log without widening the public decision contract.
+
+    The public page consumes only ``build_public_decision_payload``.  This log keeps
+    compact promotion diagnostics for research review and CI, including candidates
+    that were deliberately withheld.  It is never imported by the site bundle.
+    """
+    public = public_payload or build_public_decision_payload(
+        payload,
+        formal_readiness=formal_readiness,
+        short_term_overlay=short_term_overlay,
+    )
+    long_term = _public_long_term_log_entry(payload)
+    short_term = _public_short_term_log_entry(formal_readiness, short_term_overlay)
+    return {
+        "schema_version": 1,
+        "generated_at_utc": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        "visibility": "internal-research-log",
+        "not_for_public_decision_page": True,
+        "data_through": str(payload.get("data_through", "")),
+        "public_surface": public.get("surface"),
+        "public_today_action": public.get("today_action"),
+        "promoted_strategy_keys": [
+            strategy.get("key")
+            for strategy in public.get("strategies", [])
+            if isinstance(strategy, dict) and isinstance(strategy.get("key"), str)
+        ],
+        "candidate_audit": [long_term, short_term],
+        "policy": "失敗、未完成及未獲准公開的研究結果只保留在此內部日誌；公開頁面只讀成功白名單。",
+    }
+
+
 def _clean_v25_forward_account(state: dict[str, Any]) -> dict[str, Any]:
     summary = paper_metrics(state)
     return {

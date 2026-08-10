@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-10T17:57:08.320422Z",
+  "visibility": "internal-research-log",
+  "not_for_public_decision_page": true,
+  "data_through": "2026-08-07",
+  "public_surface": "hold-cash",
+  "public_today_action": "今天不下單",
+  "promoted_strategy_keys": [],
+  "candidate_audit": [
+    {
+      "key": "long-term",
+      "status": "not_promoted",
+      "reason_codes": [
+        "allocation_hidden",
+        "forward_evidence_not_confirmed",
+        "no_selected_strategy",
+        "readiness_gates_incomplete",
+        "real_money_signal_hidden",
+        "strategy_trade_readiness_incomplete",
+        "trade_readiness_incomplete"
+      ],
+      "gate_counts": {
+        "passed": 2,
+        "required": 11
+      },
+      "trade_ready": false
+    },
+    {
+      "key": "short-term",
+      "status": "not_promoted",
+      "reason_codes": [
+        "formal_backtest_not_completed",
+        "formal_readiness_incomplete",
+        "overlay_gates_incomplete",
+        "point_in_time_readiness_incomplete",
+        "promotion_not_allowed",
+        "provider_package_missing"
+      ],
+      "formal_gate_counts": {
+        "passed": 1,
+        "total": 18
+      },
+      "point_in_time_gate_counts": {
+        "passed": 1,
+        "total": 20
+      },
+      "formal_strategy_runs": 0,
+      "paper_status": "all_cash_not_started"
+    }
+  ],
+  "policy": "失敗、未完成及未獲准公開的研究結果只保留在此內部日誌；公開頁面只讀成功白名單。"
+}

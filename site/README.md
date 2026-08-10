@@ -25,6 +25,7 @@ This starter does not use `wrangler.jsonc`.
 
 - 完整研究與 Paper 輸出仍由上層 Python 專案產生，作為日誌及稽核輸入。
 - `scripts/build_public_decision_data.py` 只把成功白名單寫入 `data/public-decision.json`，首頁不直接載入研究失敗結果。
+- `artifacts/public_decision_build_log.json` 只供研究稽核，記錄未獲公開的候選與門檻狀態；不會被網站打包或載入。
 - 每次更新必須保留行情快照 SHA-256，並先推進 LIVE paper 狀態再部署。
 - GitHub Action 以 `us-fddk v25-live-update` 與 `v25-site-export` 只推進凍結候選的
   三個 LIVE Paper 帳戶；不會用新數據重選 20 年研究結果。
