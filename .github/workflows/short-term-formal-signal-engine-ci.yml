@@ -9,10 +9,13 @@ on:
       - "usfddk/formal_execution_schedule.py"
       - "usfddk/formal_raw_accounting.py"
       - "usfddk/formal_baseline_schedule.py"
+      - "usfddk/formal_performance.py"
       - "tests/test_formal_signal_engine.py"
       - "tests/test_formal_execution_schedule.py"
       - "tests/test_formal_raw_accounting.py"
       - "tests/test_formal_baseline_schedule.py"
+      - "tests/test_formal_performance.py"
+      - "docs/SHORT_TERM_FORMAL_PERFORMANCE.md"
       - "docs/SHORT_TERM_FORMAL_RAW_ACCOUNTING.md"
       - "pyproject.toml"
       - "uv.lock"
@@ -41,14 +44,17 @@ jobs:
             tests/test_formal_signal_engine.py \
             tests/test_formal_execution_schedule.py \
             tests/test_formal_raw_accounting.py \
-            tests/test_formal_baseline_schedule.py
+            tests/test_formal_baseline_schedule.py \
+            tests/test_formal_performance.py
           uv run ruff check \
             usfddk/formal_signal_engine.py \
             usfddk/formal_execution_schedule.py \
             usfddk/formal_raw_accounting.py \
             usfddk/formal_baseline_schedule.py \
+            usfddk/formal_performance.py \
             tests/test_formal_signal_engine.py \
             tests/test_formal_execution_schedule.py \
             tests/test_formal_raw_accounting.py \
-            tests/test_formal_baseline_schedule.py
+            tests/test_formal_baseline_schedule.py \
+            tests/test_formal_performance.py
           git diff --check
