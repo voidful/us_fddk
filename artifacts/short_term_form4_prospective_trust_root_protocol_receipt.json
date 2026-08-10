@@ -1,0 +1,283 @@
+{
+  "bindings": {
+    "actor_dynamic_selection_design": {
+      "path": "docs/SHORT_TERM_ACTOR_DISCLOSURE_DYNAMIC_SELECTION_DESIGN.md",
+      "sha256": "e70177c9868a4ae92056de9be9823240c1f9881477076df7c6a43fa08577ee11"
+    },
+    "ci_runtime_tests": {
+      "path": "tests/test_ci_runtime_contract.py",
+      "sha256": "69d2a3cbb2e3a57d1c816532c935d3a43057c5d937defd3dce9c43a22e262727"
+    },
+    "dependency_lock": {
+      "path": "uv.lock",
+      "sha256": "0d19dff67466afb284dd89f4119b5ae4eecd1309538a2466ba6b619db250dba2"
+    },
+    "disclosure_known_at_protocol_v1": {
+      "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md",
+      "sha256": "ffe2d6df0fce9a305a5a361bc4ce0d377cc9d9afb20246f212031ce57a3949b7"
+    },
+    "disclosure_known_at_protocol_v1_1": {
+      "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL_AMENDMENT_V1_1.md",
+      "sha256": "cd2422c3f74aa79ab062aaf02fbdce7c20ba9d0455b4f7219c3954521614ac76"
+    },
+    "disclosure_known_at_protocol_v1_1_receipt": {
+      "path": "artifacts/short_term_disclosure_known_at_protocol_amendment_v1_1_receipt.json",
+      "sha256": "09cc69ec9f4bcf896f7b527f7b14b51b36e4d634d7f6fd5d3e0905e7d78de7aa"
+    },
+    "disclosure_known_at_protocol_v1_receipt": {
+      "path": "artifacts/short_term_disclosure_known_at_protocol_receipt.json",
+      "sha256": "87f4c322333c8bdf8be12ee9682d49ea22ecce8c6569139a192cebd4892374e7"
+    },
+    "form4_cluster_protocol_v1": {
+      "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL.md",
+      "sha256": "c0b8370f5139d7076d9b4bc52fd8514c3b57a4bb4917b9890720d15d78d8c28e"
+    },
+    "form4_cluster_protocol_v1_1": {
+      "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md",
+      "sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd"
+    },
+    "form4_cluster_protocol_v1_1_receipt": {
+      "path": "artifacts/short_term_form4_cluster_protocol_amendment_v1_1_receipt.json",
+      "sha256": "90440b0ae74dbbe91c45ab885f9ad5e1e1457392b4eaff9265c5f7588bdc883c"
+    },
+    "form4_cluster_protocol_v1_receipt": {
+      "path": "artifacts/short_term_form4_cluster_protocol_receipt.json",
+      "sha256": "077b877f7b04acf5aa9fcbcb2efcd4e99bc894f6a85846a616f549745126b383"
+    },
+    "legacy_form4_contract_workflow": {
+      "path": ".github/workflows/form4-contract-ci.yml",
+      "sha256": "cc9bded4ef3cde57bab10ea81fefdcfd32a6fa3c0ccf9838091c47028614c467"
+    },
+    "global_trial_ledger": {
+      "path": "artifacts/short_term_global_trial_ledger.json",
+      "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49"
+    },
+    "global_trial_ledger_protocol": {
+      "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+      "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+    },
+    "legacy_sec_engineering_client": {
+      "path": "usfddk/sec_edgar_client.py",
+      "sha256": "0420755b05bd6f5430f187986d31086b999b90a12e8669c64db7bc273f5ef93f"
+    },
+    "predata_protocol": {
+      "path": "docs/SHORT_TERM_FORM4_PROSPECTIVE_TRUST_ROOT_PROTOCOL.md",
+      "sha256": "c5290d0ed9ba35c9a596106786cee3412cec3ce15fb66faac01afaefcdf5e81c"
+    },
+    "predata_tests": {
+      "path": "tests/test_form4_prospective_trust_root.py",
+      "sha256": "5f0a76ef7e3420d6d5bb83ac31ca14a9ffdb50961bdedb107364a9a35afa959a"
+    },
+    "predata_verifier": {
+      "path": "usfddk/form4_prospective_trust_root.py",
+      "sha256": "ada8fca25aec7c95404f4049fdd1759659668164f0224145797d0d348fa1e800"
+    },
+    "project_metadata": {
+      "path": "pyproject.toml",
+      "sha256": "86f5c8cd960de45c3e1ae9aafb13c19d18462be57a483d598a8c57f8fc788834"
+    },
+    "round42_collection_authorization": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_COLLECTION_AUTHORIZATION.md",
+      "sha256": "b3ac9dc96cc3aa54281d88bbe387649be76f936270b94beae1735a628c5353a7"
+    },
+    "round42_collection_authorization_receipt": {
+      "path": "artifacts/short_term_form4_admission_collection_authorization_receipt.json",
+      "sha256": "28d2a4eca39205c16a58845f5d817d6e6b5a2f964242704c53941c858b089789"
+    },
+    "round42_feasibility_protocol": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_PROTOCOL.md",
+      "sha256": "ddce1e7152a3d23f39dae4f8d7bb812166941952d7611523ca5796f11b4b1186"
+    },
+    "round42_feasibility_protocol_receipt": {
+      "path": "artifacts/short_term_form4_admission_feasibility_protocol_receipt.json",
+      "sha256": "75f81c0149abc003fa0438e9498f0884a0e7020b31c07bbeaef122cc15f912db"
+    },
+    "round42_schema_amendment_v1_1": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_SCHEMA_AMENDMENT_V1_1.md",
+      "sha256": "2d5f2e27a28151a032ebd440271d2bb325d210df8628de1baea00677ab926b2c"
+    },
+    "round42_schema_amendment_v1_1_receipt": {
+      "path": "artifacts/short_term_form4_admission_feasibility_schema_amendment_v1_1_receipt.json",
+      "sha256": "c8811f20a4a5369a442f297bb34870baf62bf76aa74538ef9ea68f4d98f83558"
+    },
+    "round42_stop_validation": {
+      "path": "artifacts/short_term_form4_admission_feasibility_validation.json",
+      "sha256": "44fc7bcf41b336406633338e306458184b999ff90cff86cac80238ecffc38ddf"
+    },
+    "round43_multipath_amendment_v1_1": {
+      "path": "docs/SHORT_TERM_FORM4_MULTIPATH_FORWARD_PROTOCOL_AMENDMENT_V1_1.md",
+      "sha256": "2a642f22ca113286241062343ecfc788eaee82ca7bb394790ff4ab8ede7eb0e3"
+    },
+    "round43_multipath_amendment_v1_1_receipt": {
+      "path": "artifacts/short_term_form4_multipath_forward_protocol_amendment_v1_1_receipt.json",
+      "sha256": "05e10445cd9eb95d2b4b94d8c610c4c16ed5e4795e67c39e1c28ac716fe5fdfb"
+    },
+    "round43_multipath_protocol_v1": {
+      "path": "docs/SHORT_TERM_FORM4_MULTIPATH_FORWARD_PROTOCOL.md",
+      "sha256": "845b13b1c01a0edef887ac490764ef8359cb382184430f483ab7093ca2b013eb"
+    },
+    "round43_multipath_protocol_v1_receipt": {
+      "path": "artifacts/short_term_form4_multipath_forward_protocol_receipt.json",
+      "sha256": "f4c413217145fc2fff422a8291957565e690a1f4a734dab1b75482a9e1be4e85"
+    },
+    "round44_predata_workflow": {
+      "path": ".github/workflows/form4-round44-predata-ci.yml",
+      "sha256": "68e326137d8ee41be236be899cfff3a6f6808fbb7653dcc7cfc22bc84884e179"
+    },
+    "sec_client_tests": {
+      "path": "tests/test_sec_edgar_client.py",
+      "sha256": "8919d6375800dcb90fbfe0b6009d2168e3422d9382b54e0830d802f7b96e79dc"
+    }
+  },
+  "evidence_boundary": {
+    "complete_submission_is_primary_content": true,
+    "d0_or_d1_can_rewrite_known_at": false,
+    "daily_index_is_discovery_and_reconciliation_only": true,
+    "etag_or_last_modified_is_external_trust_root": false,
+    "historical_backfill_allowed": false,
+    "known_at_basis_after_future_start": "max(local_full_body_completed_at, independent_anchor_received_at)",
+    "legacy_sec_client_is_round44_production_transport": false,
+    "legacy_sec_client_receipt_is_round44_admission": false,
+    "local_sha256_alone_is_external_trust_root": false,
+    "prospective_collector_implemented": false,
+    "prospective_real_row_admitted": false,
+    "real_evidence_admission_authorized": false,
+    "sec_http_200_alone_is_external_trust_root": false
+  },
+  "frozen_at": "2026-08-10T05:14:47Z",
+  "lineage_state": {
+    "global_trial_lower_bound": 6287,
+    "round41_historical_admission_required": 16,
+    "round42_observed_admission_passed": 2,
+    "round42_observed_admission_total": 16,
+    "round42_restart_or_reuse_allowed": false,
+    "round42_status": "stopped_no_admission_claim",
+    "round43_evidence_mode": "synthetic_fixture_only",
+    "round43_performance_readout_authorized": false,
+    "round43_real_evidence_admission_authorized": false,
+    "round44_trial_increment": 0
+  },
+  "monitor_start_boundary": {
+    "actual_account_and_ledger_zero_state_required": true,
+    "create_once_no_overwrite_required": true,
+    "empty_attempt_chain_genesis_required": true,
+    "external_time_anchor_required": true,
+    "monitor_start_receipt_created": false,
+    "sec_collection_capability_issued": false,
+    "sec_collection_enabled": false,
+    "repository_external_owner_only_start_receipt_required": true
+  },
+  "official_source_contract": {
+    "acceptance_time_is_known_at": false,
+    "accessing_edgar_data_url": "https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data",
+    "allowed_hosts_after_future_authorization": [
+      "www.sec.gov"
+    ],
+    "complete_submission_path_template": "/Archives/edgar/data/{archive_cik}/{accession_no_dashes}/{accession_with_dashes}.txt",
+    "daily_index_directory_template": "https://www.sec.gov/Archives/edgar/daily-index/{year}/QTR{quarter}/",
+    "developer_resources_url": "https://www.sec.gov/about/developer-resources",
+    "filing_date_is_known_at": false,
+    "http_headers_are_known_at": false,
+    "index_filename_date_is_known_at": false,
+    "ownership_xml_effective_date": "2026-03-18",
+    "ownership_xml_version": "5.5",
+    "sec_policy_requests_per_second_ceiling": 10,
+    "sec_public_content_signature_exists": false,
+    "sec_public_first_available_timestamp_exists": false,
+    "technical_specifications_url": "https://www.sec.gov/submit-filings/technical-specifications"
+  },
+  "parent_code_commit": "d42b444651a3ccde0f26882c803b58f0daf386a2",
+  "parent_remote_ref": "origin/codex/round43-form4-multipath",
+  "permission": {
+    "candidate_allocation": false,
+    "candidate_selection": false,
+    "congress_collection": false,
+    "historical_collection": false,
+    "monitor_start_creation": false,
+    "paper": false,
+    "performance_readout": false,
+    "predata_protocol_freeze": true,
+    "real_money": false,
+    "remote_gate_evaluation": true,
+    "sec_network_collection": false
+  },
+  "phase": "predata_protocol_freeze",
+  "receipt_sha256": "499d2f5e08e2e5c5281f8b7381fead577a55dd68a0fd288c4b9165a71514fb80",
+  "remote_gate": {
+    "accepted_events_after_exact_checkout": [
+      "pull_request"
+    ],
+    "authorization_commit_must_be_derived_from_repository_head": true,
+    "authorization_commit_self_embedded": false,
+    "checkout_action_commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "ci_sec_collection_authorized": false,
+    "current_exact_suite_sec_request_count": 0,
+    "github_actions_app_proof_required": true,
+    "launch_remote_branch_current_head_recheck_required": true,
+    "pages_or_daily_workflow_can_authorize": false,
+    "pull_request_checkout_must_use_exact_head_sha": true,
+    "remote_gate_passed_in_this_receipt": false,
+    "required_conclusion": "success",
+    "required_job_name": "predata",
+    "required_python_version": "3.12.12",
+    "required_runner": "ubuntu-24.04",
+    "required_workflow_name": "Form 4 Round44 pre-data CI",
+    "required_workflow_path": ".github/workflows/form4-round44-predata-ci.yml",
+    "same_repository_pull_request_required": true,
+    "same_repository_remote_head_must_equal_authorization_commit": true,
+    "setup_python_action_commit": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+    "setup_uv_action_commit": "c771a70e6277c0a99b617c7a806ffedaca235ff9"
+  },
+  "request_policy": {
+    "future_403_or_429_stops_all_sec_access": true,
+    "future_attempt_ledger_append_only_required": true,
+    "future_automatic_retries": 0,
+    "future_fallback_path_allowed": false,
+    "future_full_body_eof_required": true,
+    "future_initial_http_status_required": 200,
+    "future_project_requests_per_second_max": 1,
+    "future_raw_entity_body_sha256_required": true,
+    "future_redirect_chain_receipt_required": true,
+    "future_response_receipt_append_only_required": true,
+    "future_saved_request_reuse_allowed": false,
+    "future_single_designated_collector_required": true,
+    "predata_sec_request_limit": 0
+  },
+  "research_round": 44,
+  "schema_version": "us_fddk.short_term_form4_prospective_predata.v1",
+  "stable_codes": {
+    "already_started": "form4_round44_already_started",
+    "attempt_ledger": "form4_round44_attempt_ledger_invalid",
+    "authorization": "form4_round44_authorization_invalid",
+    "cold_replay": "form4_round44_cold_replay_required",
+    "congress": "form4_forward_congress_field_injection",
+    "external_anchor": "form4_round44_external_anchor_invalid",
+    "live_network": "sec_live_network_authorization_missing",
+    "non_engineering": "form4_forward_non_engineering_action_forbidden",
+    "private_boundary": "form4_round44_private_boundary_invalid",
+    "public_boundary": "form4_round44_public_boundary_breached",
+    "remote_gate": "form4_round44_remote_gate_invalid",
+    "request_plan": "form4_round44_request_plan_drifted",
+    "response_incomplete": "form4_round44_response_incomplete",
+    "start_receipt": "form4_round44_start_receipt_invalid"
+  },
+  "state_boundary": {
+    "candidate_allocation_count": 0,
+    "candidate_selection_count": 0,
+    "congress_field_count": 0,
+    "congress_request_count": 0,
+    "congress_row_count": 0,
+    "new_sec_request_count": 0,
+    "paper_authorized": false,
+    "paper_backfilled_trades": 0,
+    "paper_positions": [],
+    "paper_state": "all_cash",
+    "performance_result_present": false,
+    "real_filing_count": 0,
+    "real_identifier_count": 0,
+    "real_money_action_usd": 0,
+    "strategy_run_count": 0
+  },
+  "status": "protocol_frozen_sec_collection_unauthorized_exact_head_remote_gate_required",
+  "today_action": "今天不下單"
+}
