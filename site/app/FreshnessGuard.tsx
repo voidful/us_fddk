@@ -25,10 +25,10 @@ export default function FreshnessGuard({
   }, [refreshDueAtUtc]);
 
   if (status === "stale") {
-    return <span className="data-date stale-date">訊號已停用 · Paper 只到 {dataThrough}</span>;
+    return <span className="data-date stale-date">資料已逾期 · 暫停行動</span>;
   }
   if (status === "fresh") {
-    return <span className="data-date">LIVE Paper 截至 {dataThrough}</span>;
+    return <span className="data-date">資料截至 {dataThrough}</span>;
   }
   return <span className="data-date">正在核對數據鮮度…</span>;
 }

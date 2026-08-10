@@ -18,12 +18,9 @@ function assertPublicDecisionSurface(html) {
   assert.match(html, /data-public-action="hold-cash"/);
   assert.match(html, /data-promotion-gate="fail-closed"/);
   assert.match(html, /今天不下單/);
-  assert.match(html, /0(?:<!-- -->)? 個策略獲准公開/);
-  assert.match(html, /暫時沒有策略同時通過全部事前、成本、風險及前瞻驗證/);
-  assert.match(html, /不建立新倉，保留現金/);
-  assert.match(html, /不把 Paper 持倉當成落盤訊號/);
-  assert.match(html, /沒有完整通過，就沒有交易建議/);
-  assert.match(html, /研究日誌與機器收據/);
+  assert.match(html, /保持現金/);
+  assert.match(html, /暫時沒有合格交易訊號/);
+  assert.match(html, /不建立新倉/);
 
   assert.doesNotMatch(html, /data-promoted-strategy=/);
   assert.doesNotMatch(html, /role="tablist"/);
@@ -33,6 +30,8 @@ function assertPublicDecisionSurface(html) {
   assert.doesNotMatch(html, /VUG 80%|GLD 20%|Paper 目標/);
   assert.doesNotMatch(html, /QQQ REPLACEMENT OVERLAY|ROUND 30|13\/20/);
   assert.doesNotMatch(html, /短窗贏家策略|攻擊全拒收|舊策略研究/);
+  assert.doesNotMatch(html, /Paper|未通過項目|淘汰原因|研究日誌|機器收據/);
+  assert.doesNotMatch(html, /public-action-card|public-policy-strip/);
 }
 
 test("public home renders only the fail-closed action when no strategy is promoted", async () => {

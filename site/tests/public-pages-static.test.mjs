@@ -10,9 +10,9 @@ test("GitHub Pages artifact contains only the promoted-strategy decision surface
   assert.match(html, /data-public-action="hold-cash"/);
   assert.match(html, /data-promotion-gate="fail-closed"/);
   assert.match(html, /今天不下單/);
-  assert.match(html, /0(?:<!-- -->)? 個策略獲准公開/);
-  assert.match(html, /不建立新倉，保留現金/);
-  assert.match(html, /沒有完整通過，就沒有交易建議/);
+  assert.match(html, /保持現金/);
+  assert.match(html, /暫時沒有合格交易訊號/);
+  assert.match(html, /不建立新倉/);
 
   assert.doesNotMatch(html, /data-promoted-strategy=/);
   assert.doesNotMatch(html, /role="tablist"/);
@@ -21,6 +21,8 @@ test("GitHub Pages artifact contains only the promoted-strategy decision surface
   assert.doesNotMatch(html, /US\$(?:1,000|800|200)/);
   assert.doesNotMatch(html, /VUG 80%|GLD 20%|Paper 目標/);
   assert.doesNotMatch(html, /QQQ REPLACEMENT OVERLAY|ROUND 30|13\/20/);
+  assert.doesNotMatch(html, /Paper|未通過項目|淘汰原因|研究日誌|機器收據/);
+  assert.doesNotMatch(html, /public-action-card|public-policy-strip/);
   assert.doesNotMatch(html, /href="\/assets\/|src="\/assets\//);
 
   const assets = await readdir(new URL("../pages-dist/assets/", import.meta.url));

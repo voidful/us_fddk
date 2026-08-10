@@ -167,10 +167,6 @@ export default function PublicDecisionPage() {
             <span>US FDDK</span>
             <b>美股交易參考</b>
           </a>
-          <nav aria-label="公開頁面導覽">
-            <a href="#today-action">今日行動</a>
-            {hasPromotedStrategy ? <a href="#promoted-strategies">可行策略</a> : null}
-          </nav>
           <FreshnessGuard
             dataThrough={data.data_through}
             refreshDueAtUtc={data.freshness.refresh_due_at_utc}
@@ -188,16 +184,16 @@ export default function PublicDecisionPage() {
         <section className="public-status-hero wrap" id="today-action">
           <div className="public-status-copy">
             <div className="eyebrow-row">
-              <span className="eyebrow">VERIFIED STRATEGIES ONLY</span>
+              <span className="eyebrow">今日交易參考</span>
               <span className={`status-chip ${hasPromotedStrategy ? "verified" : "warning"}`}>
-                <i /> {publicStrategies.length} 個策略獲准公開
+                <i /> {hasPromotedStrategy ? "合格策略已上線" : "保持現金"}
               </span>
             </div>
             <h1>{todayAction}</h1>
             <p className="public-status-lead">
               {hasPromotedStrategy
-                ? "以下只列出已完整通過事前、成本、風險及前瞻驗證的策略。"
-                : "暫時沒有策略同時通過全部事前、成本、風險及前瞻驗證；未通過項目不會包裝成可行策略。"}
+                ? "以下是目前合格策略及對應行動。"
+                : "暫時沒有合格交易訊號。不建立新倉，等待下一個完成交易日。"}
             </p>
             <div className="public-as-of">
               <span>資料截至</span>
@@ -206,23 +202,6 @@ export default function PublicDecisionPage() {
               <strong>{shortDate(data.freshness.next_expected_session)}</strong>
             </div>
           </div>
-
-          <aside className="public-action-card" aria-label="今日行動建議">
-            <span>今日行動</span>
-            <strong>{todayAction}</strong>
-            {hasPromotedStrategy ? (
-              <p>{publicStrategies.map((strategy) => strategy.action).join("；")}</p>
-            ) : (
-              <>
-                <p>不建立新倉，保留現金並等待下一個完成交易日的正式驗證。</p>
-                <ul>
-                  <li>不把 Paper 持倉當成落盤訊號</li>
-                  <li>不照抄歷史最後權重或單次回測</li>
-                  <li>沒有完整通過，就沒有交易建議</li>
-                </ul>
-              </>
-            )}
-          </aside>
         </section>
 
         {hasPromotedStrategy ? (
@@ -260,20 +239,12 @@ export default function PublicDecisionPage() {
           </section>
         ) : null}
 
-        <section className="public-policy-strip" aria-label="公開策略規則">
-          <div className="wrap">
-            <strong>公開原則</strong>
-            <p>只顯示完整通過且有明確行動的策略。負結果、攻擊測試與淘汰原因保留在研究日誌，不在決策頁展開。</p>
-          </div>
-        </section>
       </main>
 
       <footer className="public-footer">
         <div className="wrap public-footer-inner">
-          <div><span>狀態</span><b>{todayAction}</b></div>
-          <div><span>已驗證策略</span><b>{publicStrategies.length}</b></div>
-          <div><span>用途</span><b>研究與教育參考</b></div>
-          <a href="https://github.com/voidful/us_fddk" target="_blank" rel="noreferrer">研究日誌與機器收據</a>
+          <b>{todayAction}</b>
+          <span>研究與教育參考，不構成個人投資建議。</span>
         </div>
       </footer>
     </>
