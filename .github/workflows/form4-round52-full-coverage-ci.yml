@@ -8,10 +8,13 @@ on:
       - "artifacts/short_term_form4_full_coverage_protocol_receipt.json"
       - "artifacts/short_term_form4_full_coverage_source_manifest.json"
       - "artifacts/short_term_form4_full_coverage_validation.json"
+      - "docs/SHORT_TERM_FORM4_FULL_COVERAGE_REPORT.md"
       - "scripts/audit_short_term_form4_full_coverage.py"
       - "scripts/fetch_short_term_form4_full_coverage.py"
       - "tests/test_form4_full_coverage.py"
+      - "usfddk/form4_admission_feasibility.py"
       - "usfddk/form4_full_coverage.py"
+      - "usfddk/form4_historical_feasibility.py"
       - "pyproject.toml"
       - "uv.lock"
   workflow_dispatch:
@@ -38,6 +41,8 @@ jobs:
           uv run pytest -q tests/test_form4_full_coverage.py
           uv run ruff check \
             usfddk/form4_full_coverage.py \
+            usfddk/form4_admission_feasibility.py \
+            usfddk/form4_historical_feasibility.py \
             scripts/fetch_short_term_form4_full_coverage.py \
             scripts/audit_short_term_form4_full_coverage.py \
             tests/test_form4_full_coverage.py

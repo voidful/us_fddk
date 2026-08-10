@@ -57,7 +57,7 @@ SEC_MAPPING_SHA256 = (
 )
 ANCHOR_HASHES = {
     "2006Q1": (17306804, "62becdadbe5eaff68f03edefe2ba2357c8bb498a1f825b697003e087cf98e6ce"),
-    "2016Q3": (8704557, "5a25d3c6cb8748759044b2be0059bb4784e4da28b315af30b15568fd250bd0dde"),
+    "2016Q3": (8704557, "5a25d3c6cb874875904b2be0059bb4784e4da28b315af30b15568fd250bd0dde"),
     "2026Q2": (11498860, "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27"),
 }
 GLOBAL_TRIAL_LOWER_BOUND = 6290
@@ -151,7 +151,7 @@ def _normalize_symbol(value: object) -> str | None:
     return cleaned
 
 
-def _load_sec_mapping(path: Path) -> dict[str, str]:
+def _load_sec_mapping(path: Path) -> dict[str, frozenset[str]]:
     if not path.is_file() or path.is_symlink():
         _fail("form4_full_coverage_mapping_invalid", "mapping is not a regular file")
     body = path.read_bytes()
@@ -163,21 +163,24 @@ def _load_sec_mapping(path: Path) -> dict[str, str]:
         _fail("form4_full_coverage_mapping_invalid", type(exc).__name__)
     if not isinstance(payload, dict) or not payload:
         _fail("form4_full_coverage_mapping_invalid", "mapping is not an object")
-    by_cik: dict[str, str] = {}
+    by_cik: dict[str, set[str]] = defaultdict(set)
     seen_symbols: set[str] = set()
     for item in payload.values():
         if not isinstance(item, Mapping):
             _fail("form4_full_coverage_mapping_invalid", "mapping row is not an object")
         ticker = _normalize_symbol(item.get("ticker"))
         cik_value = item.get("cik_str")
-        if ticker is None or isinstance(cik_value, bool) or not isinstance(cik_value, int) or cik_value <= 0:
+        if isinstance(cik_value, bool) or not isinstance(cik_value, int) or cik_value <= 0:
             _fail("form4_full_coverage_mapping_invalid", "mapping row is invalid")
         cik = f"{cik_value:010d}"
-        if _CIK.fullmatch(cik) is None or cik in by_cik or ticker in seen_symbols:
-            _fail("form4_full_coverage_mapping_invalid", "CIK is duplicated or invalid")
-        by_cik[cik] = ticker
-        seen_symbols.add(ticker)
-    return by_cik
+        if _CIK.fullmatch(cik) is None or (ticker is not None and ticker in seen_symbols):
+            _fail("form4_full_coverage_mapping_invalid", "CIK or ticker is invalid/duplicated")
+        if ticker is not None:
+            by_cik[cik].add(ticker)
+            seen_symbols.add(ticker)
+        else:
+            by_cik.setdefault(cik, set())
+    return {cik: frozenset(symbols) for cik, symbols in by_cik.items()}
 
 
 def _load_manifest(root: Path, manifest_path: Path) -> dict[str, Any]:
@@ -237,6 +240,8 @@ def _parse_purchase_aggregates(
         body,
         quarter=quarter,
         amendment_receipt=amendment_receipt,
+        validate_physical_profiles=False,
+        allow_variable_submission_profile=True,
     )
     by_accession: dict[str, dict[str, Any]] = {}
     submission_types: Counter[str] = Counter()
@@ -318,10 +323,14 @@ def _parse_purchase_aggregates(
 def _aggregate_mapping(
     purchases: Sequence[Mapping[str, Any]],
     *,
-    cik_to_symbol: Mapping[str, str],
+    cik_to_symbols: Mapping[str, frozenset[str]],
     watchlist_symbols: set[str],
 ) -> dict[str, int]:
-    cik_mapped = [item for item in purchases if cik_to_symbol.get(item["issuer_cik"]) in watchlist_symbols]
+    cik_mapped = [
+        item
+        for item in purchases
+        if cik_to_symbols.get(item["issuer_cik"], frozenset()) & watchlist_symbols
+    ]
     symbol_mapped = [item for item in purchases if item.get("issuer_symbol") in watchlist_symbols]
     union = {id(item): item for item in [*cik_mapped, *symbol_mapped]}
     return {
@@ -400,7 +409,7 @@ def audit_full_coverage(
         )
         mapping = _aggregate_mapping(
             parsed["purchases"],
-            cik_to_symbol=cik_to_symbol,
+            cik_to_symbols=cik_to_symbol,
             watchlist_symbols=watchlist_symbols,
         )
         for key, value in parsed.items():
