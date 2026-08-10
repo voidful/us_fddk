@@ -137,6 +137,44 @@ def test_public_decision_payload_is_success_only_and_fail_closed() -> None:
         assert forbidden not in rendered
 
 
+def test_round64_negative_research_log_cannot_leak_into_public_surface() -> None:
+    source = deepcopy(
+        json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
+    )
+    round64 = json.loads(
+        (
+            ROOT
+            / "artifacts/short_term_volume_breakout_top10_spy60_robustness_validation.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert round64["status"] == (
+        "volume_breakout_top10_spy60_robustness_negative_survivorship_biased"
+    )
+    source.setdefault("research_pipeline", {})["round64_robustness_diagnostic"] = round64
+
+    formal = json.loads(
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    overlay = json.loads(
+        (ROOT / "site/data/short-term-qqq-replacement-overlay.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    public = build_public_decision_payload(
+        source,
+        formal_readiness=formal,
+        short_term_overlay=overlay,
+    )
+    rendered = json.dumps(public, ensure_ascii=False)
+    assert public["surface"] == "hold-cash"
+    assert public["today_action"] == "今天不下單"
+    assert public["strategies"] == []
+    assert "round64_robustness_diagnostic" not in rendered
+    assert "robustness_negative" not in rendered
+
+
 def test_public_decision_payload_can_publish_only_a_fully_verified_strategy() -> None:
     source = json.loads((ROOT / "site/data/trading-data.json").read_text(encoding="utf-8"))
     source = deepcopy(source)

@@ -17,6 +17,7 @@ on:
       - "usfddk/short_term_volume_breakout_top10_nonoverlap.py"
       - "tests/test_volume_breakout_top10_spy60.py"
       - "tests/test_volume_breakout_top10_nonoverlap.py"
+      - "tests/test_site_export.py"
       - "pyproject.toml"
       - "uv.lock"
   workflow_dispatch:
@@ -43,7 +44,8 @@ jobs:
           uv run pytest -q \
             tests/test_volume_breakout_top10_spy60_robustness.py \
             tests/test_volume_breakout_top10_spy60.py \
-            tests/test_volume_breakout_top10_nonoverlap.py
+            tests/test_volume_breakout_top10_nonoverlap.py \
+            tests/test_site_export.py
           uv run ruff check \
             usfddk/short_term_volume_breakout_top10_spy60_robustness.py \
             usfddk/global_trial_ledger_round64_extension.py \
@@ -52,5 +54,6 @@ jobs:
             scripts/audit_short_term_volume_breakout_top10_spy60_robustness.py \
             tests/test_volume_breakout_top10_spy60_robustness.py \
             tests/test_volume_breakout_top10_spy60.py \
-            tests/test_volume_breakout_top10_nonoverlap.py
+            tests/test_volume_breakout_top10_nonoverlap.py \
+            tests/test_site_export.py
           git diff --check
