@@ -400,8 +400,20 @@ def audit_form4_event_diagnostic(
     if _sha256_file(mapping_path) != SEC_MAPPING_SHA256 or mapping_path.stat().st_size != SEC_MAPPING_BYTES:
         _fail("form4_event_source_invalid", "SEC mapping hash drifted")
     validation_path = root / FULL_COVERAGE_VALIDATION_PATH
-    if _sha256_file(validation_path) != FULL_COVERAGE_VALIDATION_SHA256:
-        _fail("form4_event_source_invalid", "Round52 validation hash drifted")
+    try:
+        validation = json.loads(validation_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        _fail("form4_event_source_invalid", type(exc).__name__)
+    if not isinstance(validation, dict):
+        _fail("form4_event_source_invalid", "Round52 validation is not an object")
+    validation_claim = validation.get("receipt_sha256")
+    validation_unsigned = dict(validation)
+    validation_unsigned.pop("receipt_sha256", None)
+    if (
+        validation_claim != FULL_COVERAGE_VALIDATION_SHA256
+        or _canonical_sha256(validation_unsigned) != validation_claim
+    ):
+        _fail("form4_event_source_invalid", "Round52 validation receipt hash drifted")
     events, coverage, manifest_sha = _collect_cluster_events(
         repository_root=root,
         staging_dir=staging_dir,
