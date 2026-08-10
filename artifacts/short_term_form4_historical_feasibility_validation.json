@@ -1,0 +1,217 @@
+{
+  "aggregate_event_gate": {
+    "minimum_primary_clusters": 30,
+    "observed_primary_clusters": 805,
+    "parameters_reselected_after_result": false,
+    "passed": true
+  },
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "implementation_validation": {
+    "reason": "deterministic_data_receipt_cannot_attest_external_test_process",
+    "required_test": "uv run pytest -q tests/test_form4_historical_feasibility.py",
+    "test_execution_claimed_in_this_data_receipt": false
+  },
+  "limitations": [
+    "three_noncontiguous_schema_anchor_quarters_not_twenty_year_coverage",
+    "quarterly_as_filed_data_not_contemporaneous_intraday_known_at",
+    "reporting_owner_cik_count_not_verified_independent_capital_group",
+    "no_point_in_time_security_master_delisting_or_market_execution_data",
+    "no_return_baseline_cost_statistical_or_performance_readout",
+    "cannot_promote_or_modify_round46_forward_only_family"
+  ],
+  "privacy": {
+    "identifier_detail_included": false,
+    "low_entropy_identifier_hashes_included": false,
+    "raw_rows_persisted": false
+  },
+  "protocol_receipt_sha256": "257cee937e2ceb5a68b591b078be60d83468089fe92cefcab1122bfa7d450a88",
+  "protocol_sha256": "08dcc931d7a2ec4a4efef7868fcd5b770d05c8c8b3c04a4f21bda473bf6143b3",
+  "quarter_results": [
+    {
+      "accessions_below_minimum": 1805,
+      "amendment_submission_count": 3159,
+      "cooldown_suppressed_filing_date_count": 268,
+      "eligible_purchase_accession_count": 4927,
+      "eligible_transaction_rows": 11718,
+      "form4_submission_count": 68520,
+      "left_boundary_excluded": 46,
+      "primary_cluster_buckets": {
+        "distinct_accession_count": {
+          "2": 161,
+          "3": 61,
+          "4_plus": 45
+        },
+        "distinct_owner_count": {
+          "2": 164,
+          "3": 42,
+          "4_plus": 61
+        },
+        "reported_notional": {
+          "100k_to_250k": 109,
+          "1m_plus": 86,
+          "250k_to_1m": 72
+        }
+      },
+      "primary_cluster_count": 267,
+      "quarter": "2006Q1",
+      "raw_gate_crossings": 313,
+      "row_counts": {
+        "nonderivative_transaction": 171549,
+        "reporting_owner": 87790,
+        "submission": 83657
+      },
+      "source_bytes": 17306804,
+      "source_filename": "2006q1_form345.zip",
+      "source_sha256": "62becdadbe5eaff68f03edefe2ba2357c8bb498a1f825b697003e087cf98e6ce",
+      "submission_type_counts": {
+        "3": 5694,
+        "3/A": 534,
+        "4": 68520,
+        "4/A": 3159,
+        "5": 5539,
+        "5/A": 211
+      },
+      "transaction_exclusion_counts": {
+        "non_primary_form4_submission": 14491,
+        "not_acquired": 123,
+        "not_purchase_code": 140299,
+        "price_not_positive_finite": 179,
+        "relationship_not_eligible": 799,
+        "shares_not_positive_finite": 83,
+        "swap_not_proven_false": 7,
+        "wrong_transaction_form": 3850
+      }
+    },
+    {
+      "accessions_below_minimum": 1065,
+      "amendment_submission_count": 771,
+      "cooldown_suppressed_filing_date_count": 298,
+      "eligible_purchase_accession_count": 3245,
+      "eligible_transaction_rows": 6096,
+      "form4_submission_count": 35714,
+      "left_boundary_excluded": 23,
+      "primary_cluster_buckets": {
+        "distinct_accession_count": {
+          "2": 139,
+          "3": 38,
+          "4_plus": 62
+        },
+        "distinct_owner_count": {
+          "2": 129,
+          "3": 29,
+          "4_plus": 81
+        },
+        "reported_notional": {
+          "100k_to_250k": 71,
+          "1m_plus": 91,
+          "250k_to_1m": 77
+        }
+      },
+      "primary_cluster_count": 239,
+      "quarter": "2016Q3",
+      "raw_gate_crossings": 262,
+      "row_counts": {
+        "nonderivative_transaction": 58453,
+        "reporting_owner": 44726,
+        "submission": 40073
+      },
+      "source_bytes": 8704557,
+      "source_filename": "2016q3_form345.zip",
+      "source_sha256": "5a25d3c6cb874875904b2be0059bb4784e4da28b315af30b15568fd250bd0dde",
+      "submission_type_counts": {
+        "3": 3314,
+        "3/A": 118,
+        "4": 35714,
+        "4/A": 771,
+        "5": 151,
+        "5/A": 5
+      },
+      "transaction_exclusion_counts": {
+        "non_primary_form4_submission": 1310,
+        "not_acquired": 14,
+        "not_purchase_code": 48017,
+        "price_not_positive_finite": 87,
+        "relationship_not_eligible": 1158,
+        "shares_not_positive_finite": 21,
+        "wrong_transaction_form": 1750
+      }
+    },
+    {
+      "accessions_below_minimum": 567,
+      "amendment_submission_count": 713,
+      "cooldown_suppressed_filing_date_count": 259,
+      "eligible_purchase_accession_count": 2998,
+      "eligible_transaction_rows": 4818,
+      "form4_submission_count": 49832,
+      "left_boundary_excluded": 33,
+      "primary_cluster_buckets": {
+        "distinct_accession_count": {
+          "2": 177,
+          "3": 60,
+          "4_plus": 62
+        },
+        "distinct_owner_count": {
+          "2": 174,
+          "3": 50,
+          "4_plus": 75
+        },
+        "reported_notional": {
+          "100k_to_250k": 85,
+          "1m_plus": 119,
+          "250k_to_1m": 95
+        }
+      },
+      "primary_cluster_count": 299,
+      "quarter": "2026Q2",
+      "raw_gate_crossings": 332,
+      "row_counts": {
+        "nonderivative_transaction": 78328,
+        "reporting_owner": 60153,
+        "submission": 56102
+      },
+      "source_bytes": 11498860,
+      "source_filename": "2026q2_form345.zip",
+      "source_sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
+      "submission_type_counts": {
+        "3": 5284,
+        "3/A": 212,
+        "4": 49832,
+        "4/A": 713,
+        "5": 58,
+        "5/A": 3
+      },
+      "transaction_exclusion_counts": {
+        "non_primary_form4_submission": 1071,
+        "not_acquired": 35,
+        "not_purchase_code": 71599,
+        "price_not_positive_finite": 82,
+        "relationship_not_eligible": 151,
+        "shares_not_positive_finite": 14,
+        "wrong_transaction_form": 558
+      }
+    }
+  ],
+  "receipt_sha256": "5077fc02ecfa1143570854efc81241f6324ef2e0558a6fe66471b02813adebd8",
+  "research_round": 49,
+  "schema_version": "us_fddk.short_term_form4_historical_feasibility.v1",
+  "state_boundary": {
+    "backfilled_trades": 0,
+    "candidate_selection_count": 0,
+    "historical_replay_only": true,
+    "paper_authorized": false,
+    "paper_positions": [],
+    "performance_present": false,
+    "promotion_authorized": false,
+    "real_money_action_usd": 0,
+    "sec_requests_this_round": 0,
+    "strategy_runs": 0,
+    "today_action": "今天不下單",
+    "website_publication_authorized": false
+  },
+  "status": "historical_backtest_preregistration_warranted",
+  "validation_scope": "historical_event_rate_only_no_market_returns"
+}

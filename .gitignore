@@ -29,4 +29,6 @@ artifacts/*
 !artifacts/short_term_form4_cluster_protocol_amendment_v1_1_receipt.json
 !artifacts/short_term_global_trial_ledger.json
 !artifacts/short_term_form4_cluster_ledger_append_seal.json
+!artifacts/short_term_form4_historical_feasibility_protocol_receipt.json
+!artifacts/short_term_form4_historical_feasibility_validation.json
 .site-git-backup/
