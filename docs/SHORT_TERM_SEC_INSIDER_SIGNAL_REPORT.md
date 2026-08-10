@@ -17,6 +17,18 @@ Form 4 事件層。資料是 2026 Q2 的 as-filed 345 ZIP，解析出 6,158 筆�
 
 因此本輪不建立交易策略、不開 Paper、不產生網站行動建議，實金動作維持 US$0。
 
+## Universe 敏感度 audit
+
+同一批資料及同一條固定規則若不限制於大型股 watchlist，而改用所有有有效 ticker 的
+事件，會得到 589 個候選列、277 個 issuer，其中 130 個 issuer 在 20-session 窗口內
+重複出現訊號；123 列的名義金額至少 US$10m，37 列至少 US$100m。這與大型股清單的
+0 個候選形成鮮明對比，證明候選數高度依賴 universe，而不是策略已找到可交易優勢。
+
+這個 audit 是事後資料品質診斷，不是新策略或參數搜尋。所有列仍標記
+`research_only=true`；不會從 589 列挑選股票、不會用名義金額門檻救援結果，也不會把
+小型股、私募交易或申報分類不明的 `P` 交易當作可執行買入。網站只讀取已通過正式
+promotion 閘門的資料，這份 audit 只保留在內部 log。
+
 ## 固定規則
 
 - 只取 Form 4／4-A 的 `NONDERIV_TRANS`，不把 Form 3、Form 5、衍生工具或持倉列
@@ -42,9 +54,11 @@ risk-free provider package。
 ## 收據與可重現性
 
 - 機器收據：`artifacts/short_term_sec_insider_signal.json`
+- Universe audit：`artifacts/short_term_sec_insider_universe_audit.json`
 - 下載 URL：SEC 2026 Q2 Form 345 ZIP
 - SHA-256：`11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27`
 - 重建：`python scripts/build_short_term_sec_insider_signal.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
+- Universe audit 重建：`python scripts/audit_short_term_sec_insider_universe.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - 單元測試：`tests/test_sec_insider.py`
 
 下一個有效動作是取得覆蓋完整歷史的價格、退市及 point-in-time 成分資料，先把這條

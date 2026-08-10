@@ -13,6 +13,7 @@ import hashlib
 import math
 import re
 import zipfile
+from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import date, timedelta
 from pathlib import Path
@@ -24,6 +25,7 @@ SIGNAL_SCHEMA_VERSION = 1
 SIGNAL_WINDOW_SESSIONS = 20
 MIN_CLUSTER_OWNERS = 2
 MIN_CLUSTER_NOTIONAL_USD = 250_000.0
+UNIVERSE_AUDIT_SCHEMA_VERSION = 1
 
 
 @dataclass(frozen=True)
@@ -334,6 +336,50 @@ def rank_insider_clusters(
         unique.values(),
         key=lambda row: (-float(row["score"]), row["ticker"], row["available_session"]),
     )
+
+
+def summarize_insider_scope(
+    events: list[InsiderPurchase],
+    candidates: list[dict[str, Any]],
+    *,
+    universe_label: str,
+    universe_symbols: set[str] | None = None,
+) -> dict[str, Any]:
+    """Summarise universe sensitivity without introducing a new signal rule.
+
+    This is a post-hoc data-quality diagnostic.  It reports how the frozen
+    cluster rule changes when the candidate universe changes; it does not
+    filter, rank, or turn any row into a trading instruction.
+    """
+
+    issuer_counts = Counter(row["ticker"] for row in candidates)
+    relationship_counts = Counter(
+        event.owner_relationship or "(missing)" for event in events
+    )
+    return {
+        "universe_label": universe_label,
+        "universe_symbol_count": (
+            len(universe_symbols) if universe_symbols is not None else None
+        ),
+        "event_count": len(events),
+        "issuer_count": len({event.issuer_ticker for event in events}),
+        "owner_count": len({event.owner_cik for event in events}),
+        "owner_relationship_counts": dict(sorted(relationship_counts.items())),
+        "candidate_count": len(candidates),
+        "candidate_issuer_count": len(issuer_counts),
+        "candidate_issuers_with_repeated_signals": sum(
+            count >= 2 for count in issuer_counts.values()
+        ),
+        "candidate_rows_notional_at_least_usd_10m": sum(
+            float(row["notional_usd"]) >= 10_000_000.0 for row in candidates
+        ),
+        "candidate_rows_notional_at_least_usd_100m": sum(
+            float(row["notional_usd"]) >= 100_000_000.0 for row in candidates
+        ),
+        "candidate_rows_with_research_only_flag": sum(
+            row.get("research_only") is True for row in candidates
+        ),
+    }
 
 
 def build_insider_receipt(

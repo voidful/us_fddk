@@ -12,6 +12,7 @@ from usfddk.sec_insider import (
     build_insider_receipt,
     parse_insider_purchases,
     rank_insider_clusters,
+    summarize_insider_scope,
 )
 
 
@@ -186,3 +187,23 @@ def test_signal_window_is_frozen_and_receipt_is_not_a_trade(tmp_path) -> None:
     assert receipt["decision"]["formal_backtest_completed"] is False
     assert receipt["decision"]["paper_authorized"] is False
     assert receipt["decision"]["real_money_action_usd"] == 0
+
+
+def test_universe_summary_is_diagnostic_only(tmp_path) -> None:
+    package = tmp_path / "insider.zip"
+    _write_zip(package)
+    events = parse_insider_purchases(package)
+    candidates = rank_insider_clusters(events, as_of=date(2026, 6, 2))
+
+    summary = summarize_insider_scope(
+        events,
+        candidates,
+        universe_label="all_valid_tickers",
+    )
+
+    assert summary["event_count"] == 2
+    assert summary["candidate_count"] == 1
+    assert summary["candidate_issuer_count"] == 1
+    assert summary["candidate_issuers_with_repeated_signals"] == 0
+    assert summary["candidate_rows_with_research_only_flag"] == 1
+    assert summary["candidate_rows_notional_at_least_usd_10m"] == 0
