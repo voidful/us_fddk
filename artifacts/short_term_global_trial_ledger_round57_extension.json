@@ -1,0 +1,57 @@
+{
+  "base_extension": {
+    "chain_head_sha256": "d5af5ae92f812039d007ef69f6714a55a0b9cff5bd750e9d897f35825e5ea024",
+    "current_lower_bound": 6302,
+    "path": "artifacts/short_term_global_trial_ledger_round56_extension.json",
+    "sha256": "4caa5aa92f64786e1f79975b20e89e205289e157d1b85ffeed2ddedfaaf3c77a"
+  },
+  "chain_head_sha256": "d96352cab0264815d6eff976d3d1644f307c4a5455dba360ff979d6264b0b778",
+  "current_lower_bound": 6305,
+  "entry": {
+    "current_lower_bound": 6305,
+    "entry_sha256": "d96352cab0264815d6eff976d3d1644f307c4a5455dba360ff979d6264b0b778",
+    "exact_increment_claimed": false,
+    "family_id": "round57_market_stress_laggard_reversal_three_horizons",
+    "minimum_increment": 3,
+    "previous_entry_sha256": "d5af5ae92f812039d007ef69f6714a55a0b9cff5bd750e9d897f35825e5ea024",
+    "previous_lower_bound": 6302,
+    "publication_state": "tracked",
+    "result_state": "result_seen",
+    "seen_result": true,
+    "sequence": 17,
+    "source_bindings": [
+      {
+        "label": "protocol_receipt",
+        "path": "artifacts/short_term_market_stress_laggard_reversal_protocol_receipt.json",
+        "sha256": "547cf4ff1b6d0018142aa3b859967027414ad56d0f46c1af0769fbab1073492a"
+      },
+      {
+        "label": "result",
+        "path": "artifacts/short_term_market_stress_laggard_reversal_validation.json",
+        "sha256": "8074e45dcd56641e031c7b965ed1e30065554778e5404e96bd43a3302c0281eb"
+      },
+      {
+        "label": "report",
+        "path": "docs/SHORT_TERM_MARKET_STRESS_LAGGARD_REVERSAL_REPORT.md",
+        "sha256": "cce9c3522d979a82790456adb523ff36b5cf5104d1d9593ce421fb81c6d27309"
+      },
+      {
+        "label": "predecessor",
+        "path": "artifacts/short_term_global_trial_ledger_round56_extension.json",
+        "sha256": "4caa5aa92f64786e1f79975b20e89e205289e157d1b85ffeed2ddedfaaf3c77a"
+      }
+    ]
+  },
+  "extension_protocol_path": "docs/SHORT_TERM_MARKET_STRESS_LAGGARD_REVERSAL_PROTOCOL.md",
+  "extension_protocol_sha256": "783a99b8d3da32824760c5162d52e2d964874b8720d4e4c783b15d53b82b5e5d",
+  "paper": {
+    "authorized": false,
+    "backfilled_trades": 0,
+    "positions": [],
+    "state": "all_cash"
+  },
+  "real_money_action_usd": 0,
+  "receipt_sha256": "79a9ffc620b3b38d2dfdfdcbfd5004f31adf10391e98153a50bed0de5cde51bd",
+  "schema_version": "usfddk.short_term_global_trial_ledger.v1.1",
+  "status": "append_only_global_trial_lower_bound_extension"
+}
