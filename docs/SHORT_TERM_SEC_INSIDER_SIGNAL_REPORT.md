@@ -29,6 +29,24 @@ Form 4 事件層。資料是 2026 Q2 的 as-filed 345 ZIP，解析出 6,158 筆�
 小型股、私募交易或申報分類不明的 `P` 交易當作可執行買入。網站只讀取已通過正式
 promotion 閘門的資料，這份 audit 只保留在內部 log。
 
+## 事件後價格診斷（非正式回測）
+
+為了確認這條事件線是否值得以合格資料重測，另凍結 5／10／20 個交易日的事件後
+診斷：申報後下一個 XNYS session 開市進場，以 adjusted open 計算，於第 N 個 session
+adjusted close 離場，候選及 QQQ 同時計扣 20 bps round-trip。使用 2026-04-01 至
+2026-07-31 的 Yahoo exploratory snapshot；274／278 個候選 ticker 有價格，589 個
+候選列中 569 列完成 20 日窗口。
+
+| 持有期 | 候選平均淨回報 | QQQ 平均淨回報 | 平均超額 | 勝出比例 | moving-block bootstrap 95% 區間 |
+|---|---:|---:|---:|---:|---:|
+| 5 日 | 0.86% | 0.80% | +0.06pp | 48.3% | -0.78pp 至 +1.00pp |
+| 10 日 | 1.70% | 1.69% | +0.01pp | 44.5% | -1.22pp 至 +1.30pp |
+| **20 日（主要）** | **2.58%** | **1.86%** | **+0.71pp** | **50.4%** | **-0.85pp 至 +2.54pp** |
+
+20 日結果的 bootstrap 零點以下比例為 17.85%，區間仍跨零；事件列互相重疊，亦不是
+資金等權組合。這是值得用 CRSP／WRDS／Norgate 逐期成分及退市回報重測的線索，並非
+可執行 alpha、買入名單或盈利證據。正面數字也不會改變正式 readiness 或 Paper 狀態。
+
 ## 固定規則
 
 - 只取 Form 4／4-A 的 `NONDERIV_TRANS`，不把 Form 3、Form 5、衍生工具或持倉列
@@ -55,10 +73,12 @@ risk-free provider package。
 
 - 機器收據：`artifacts/short_term_sec_insider_signal.json`
 - Universe audit：`artifacts/short_term_sec_insider_universe_audit.json`
+- 事件後診斷：`artifacts/short_term_sec_insider_forward_diagnostic.json`
 - 下載 URL：SEC 2026 Q2 Form 345 ZIP
 - SHA-256：`11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27`
 - 重建：`python scripts/build_short_term_sec_insider_signal.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
 - Universe audit 重建：`python scripts/audit_short_term_sec_insider_universe.py --zip <external-zip> --as-of 2026-06-30 --universe-file usfddk/resources/us_large_cap_watchlist_v1.csv`
+- 事件後診斷重建：`python scripts/build_short_term_sec_insider_forward_diagnostic.py --sec-zip <external-zip> --prices <prepared-long-csv> --as-of 2026-06-30 --price-client <client-version>`
 - 單元測試：`tests/test_sec_insider.py`
 
 下一個有效動作是取得覆蓋完整歷史的價格、退市及 point-in-time 成分資料，先把這條
