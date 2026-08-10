@@ -41,6 +41,11 @@ XNYS 開市日；最後一個 session、重複 execution、缺失 target 或權�
 下一層 `usfddk/formal_raw_accounting.py` 只在內部以 raw open／raw close 重播該 schedule，
 並把派息應收、拆股、分拆及退出條款逐一對賬；它同樣不建立 Paper、不寫公開決策資料。
 
+`usfddk/formal_baseline_schedule.py` 以同一批 signal dates 建立四個事前 baseline：QQQ／SPY
+買入並持有、逐期合資格池等權，以及只在首個訊號買入後漂移的首輪 Top-10。買入並持有及
+漂移 baseline 只有一個 target row，避免被誤當成每月重新選股；四者之後都必須通過同一
+D+1 schedule 及 raw accounting。
+
 正式執行前仍必須先通過 Round 17 provider intake、point-in-time 20/20、execution
 extension 16/16、RF 及 release firewall。資料包尚未到位時，網站維持成功-only
 allow-list 與「今天不下單」。
