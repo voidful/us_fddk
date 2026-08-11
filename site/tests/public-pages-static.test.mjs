@@ -25,5 +25,8 @@ test("GitHub Pages artifact contains only the promoted-strategy decision surface
 
   const assets = await readdir(new URL("../pages-dist/assets/", import.meta.url));
   assert.equal(assets.some((name) => /PaperAllocationLab|StrategyTabs/.test(name)), false);
-  await assert.rejects(access(new URL("../pages-dist/og.png", import.meta.url)));
+  await assert.rejects(
+    access(new URL("../pages-dist/data", import.meta.url)),
+    "research data must not be copied into the public Pages artifact",
+  );
 });

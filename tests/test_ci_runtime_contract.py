@@ -10,6 +10,7 @@ WORKFLOWS = (
     ROOT / ".github/workflows/pages.yml",
     ROOT / ".github/workflows/daily-paper-update.yml",
 )
+RESEARCH_WORKFLOWS = (ROOT / ".github/workflows/daily-paper-update.yml",)
 
 
 @pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
@@ -48,14 +49,25 @@ def test_pages_deploys_only_from_main_while_branch_builds_remain_available() -> 
     ) in text
 
 
-@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+def test_pages_workflow_only_rebuilds_the_public_decision_contract() -> None:
+    text = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+    assert "scripts/build_public_decision_data.py" in text
+    assert "artifacts/public_decision_build_log.json" in text
+    assert "site/data/public-decision.json" in text
+    assert "tests/test_public_decision.py" in text
+    assert "scripts/build_short_term_" not in text
+    assert "tests/test_short_term_" not in text
+    assert "timeout-minutes: 30" in text
+
+
+@pytest.mark.parametrize("workflow", RESEARCH_WORKFLOWS, ids=lambda path: path.name)
 def test_research_workflow_keeps_the_frozen_output_diff_guard(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
     assert "git diff --exit-code" in text
     assert "artifacts/short_term_formal_backtest_readiness_validation.json" in text
 
 
-@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+@pytest.mark.parametrize("workflow", RESEARCH_WORKFLOWS, ids=lambda path: path.name)
 def test_full_research_jobs_keep_the_verified_sixty_minute_budget(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
     assert len(re.findall(r"^\s{4}timeout-minutes: 60$", text, re.MULTILINE)) == 1
@@ -72,7 +84,7 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
 
 
 def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
-    for workflow in WORKFLOWS:
+    for workflow in RESEARCH_WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
         round39 = text.index("scripts/build_short_term_leader_pullback_rebound_report.py")
         disclosure = text.index("scripts/build_short_term_disclosure_readiness_report.py")
@@ -122,7 +134,7 @@ def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
         assert "docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md" in text
 
 
-@pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
+@pytest.mark.parametrize("workflow", RESEARCH_WORKFLOWS, ids=lambda path: path.name)
 def test_numerical_receipt_rebuild_uses_the_frozen_execution_contract(workflow: Path) -> None:
     text = workflow.read_text(encoding="utf-8")
     expected = {
@@ -141,7 +153,7 @@ def test_numerical_receipt_rebuild_uses_the_frozen_execution_contract(workflow: 
 
 
 def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
-    for workflow in WORKFLOWS:
+    for workflow in RESEARCH_WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
         assert "scripts/build_short_term_restatement_firewall.py" in text
         assert "scripts/build_short_term_formal_release_integration.py" in text
@@ -152,7 +164,7 @@ def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
 
 
 def test_provider_evidence_refresh_receipt_is_rebuilt_and_tested() -> None:
-    for workflow in WORKFLOWS:
+    for workflow in RESEARCH_WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
         assert "scripts/build_short_term_provider_evidence_refresh_report.py" in text
         assert "tests/test_provider_evidence_refresh.py" in text
@@ -163,7 +175,7 @@ def test_provider_evidence_refresh_receipt_is_rebuilt_and_tested() -> None:
 
 
 def test_treasury_bridge_report_is_deterministic_and_locked() -> None:
-    for workflow in WORKFLOWS:
+    for workflow in RESEARCH_WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
         assert "scripts/build_short_term_rf_treasury_bridge_report.py" in text
         assert "tests/test_risk_free_treasury_bridge.py" in text
