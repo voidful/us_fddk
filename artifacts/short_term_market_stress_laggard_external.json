@@ -1,0 +1,4545 @@
+{
+  "calculation_performed": true,
+  "decision": {
+    "best_variant_selection_allowed": false,
+    "diagnostic_status": "positive_or_negative_external_replication_only",
+    "formal_backtest_completed": false,
+    "gate_summary": {
+      "all_passed": false,
+      "passed": 1,
+      "total": 6
+    },
+    "gates": {
+      "at_least_30_complete_events": false,
+      "bootstrap_95pct_low_positive": false,
+      "both_fixed_halves_positive": false,
+      "mean_difference_positive": true,
+      "newey_west_t_at_least_1_96": false,
+      "paired_win_fraction_above_50pct": false
+    },
+    "paper_authorized": false,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "ETF 外部面板只作機制驗證；不能替代個股 point-in-time 研究，因此不升格網站或 Paper。",
+    "strategy_status": "research_candidate_only"
+  },
+  "horizons": {
+    "10": {
+      "10": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.007255172490052287,
+            "median_difference": -0.006001549228018942,
+            "newey_west": {
+              "annualized": -0.007255172490052287,
+              "lag": 5.0,
+              "mean_daily": -0.007255172490052287,
+              "t_stat": -0.6253544953433259
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "SPY": {
+            "mean_difference": 0.003395840616826414,
+            "median_difference": 0.0025497055178670854,
+            "newey_west": {
+              "annualized": 0.003395840616826414,
+              "lag": 5.0,
+              "mean_daily": 0.003395840616826414,
+              "t_stat": 0.8948206166733805
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "VTI": {
+            "mean_difference": 0.002583015124836695,
+            "median_difference": 0.0008980602254698867,
+            "newey_west": {
+              "annualized": 0.002583015124836695,
+              "lag": 5.0,
+              "mean_daily": 0.002583015124836695,
+              "t_stat": 0.8075697062805298
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.005046372925964924,
+            "median_difference": 0.004892353593170355,
+            "newey_west": {
+              "annualized": 0.005046372925964924,
+              "lag": 5.0,
+              "mean_daily": 0.005046372925964924,
+              "t_stat": 2.827882394475809
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "eligible_equal": {
+            "mean_difference": 0.0016707508254269828,
+            "median_difference": 9.940997357619358e-05,
+            "newey_west": {
+              "annualized": 0.0016707508254269828,
+              "lag": 5.0,
+              "mean_daily": 0.0016707508254269828,
+              "t_stat": 1.6415932773411075
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 10.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-20",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.059843324287602306,
+              "SPY": 0.04308704441358635,
+              "VTI": 0.04410010748885351,
+              "all_sector_equal": 0.035594987643359645,
+              "candidate_top5": 0.04092207157015173,
+              "eligible_equal": 0.04092207157015173
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-23",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.07964513595939404,
+              "SPY": 0.05233583318666846,
+              "VTI": 0.050979303032006595,
+              "all_sector_equal": 0.043956800082802984,
+              "candidate_top5": 0.051464590460971384,
+              "eligible_equal": 0.05160960536587922
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-08",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.09100396794619814,
+              "SPY": 0.07317159178271371,
+              "VTI": 0.0780810061401499,
+              "all_sector_equal": 0.07759197295909606,
+              "candidate_top5": 0.08320023055108405,
+              "eligible_equal": 0.08300141060393167
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-09",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.10749212226156846,
+              "SPY": 0.09223241323407672,
+              "VTI": 0.09722184412981016,
+              "all_sector_equal": 0.0970728540713182,
+              "candidate_top5": 0.10630648409358281,
+              "eligible_equal": 0.09228991105359213
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-23",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.1515978921229184,
+              "SPY": -0.21312402666993968,
+              "VTI": -0.22573143308669807,
+              "all_sector_equal": -0.24192110425498828,
+              "candidate_top5": -0.23662719124599094,
+              "eligible_equal": -0.2366271912459909
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-25",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": 0.0022867101779567864,
+              "SPY": -0.03130804168099244,
+              "VTI": -0.03939619448608023,
+              "all_sector_equal": -0.04065943813311164,
+              "candidate_top5": -0.05263536152003585,
+              "eligible_equal": -0.044170745737946604
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-26",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.02700514028412926,
+              "SPY": -0.002345407913905805,
+              "VTI": -0.0028085696456985323,
+              "all_sector_equal": -0.00956238471347529,
+              "candidate_top5": -0.019463036696174153,
+              "eligible_equal": -0.00997076481539172
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-30",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.09576420980737665,
+              "SPY": 0.07306392164440945,
+              "VTI": 0.0744409357165624,
+              "all_sector_equal": 0.0743183445968767,
+              "candidate_top5": 0.06963272330298739,
+              "eligible_equal": 0.07213420276117055
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-01",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03889121582163424,
+              "SPY": 0.03389024044714917,
+              "VTI": 0.051472457105345426,
+              "all_sector_equal": 0.052249094092792533,
+              "candidate_top5": 0.08062415376619662,
+              "eligible_equal": 0.058778998939997926
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-03",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.0718413165922257,
+              "SPY": 0.08664603807913929,
+              "VTI": 0.09000610040230328,
+              "all_sector_equal": 0.08774913944537568,
+              "candidate_top5": 0.09371544916670452,
+              "eligible_equal": 0.09011552880315414
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-06",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.0911015044712783,
+              "SPY": 0.1288524110674235,
+              "VTI": 0.12682232750587985,
+              "all_sector_equal": 0.1361512631039305,
+              "candidate_top5": 0.16137998607192355,
+              "eligible_equal": 0.16112061679942824
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-10",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.05294807299242599,
+              "SPY": -0.04449993714333267,
+              "VTI": -0.0524652803255935,
+              "all_sector_equal": -0.04235435243401157,
+              "candidate_top5": -0.042376887551857687,
+              "eligible_equal": -0.04412455995377668
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-25",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.012254436913959998,
+              "SPY": 0.01954576868558522,
+              "VTI": 0.023734812053865517,
+              "all_sector_equal": 0.030073981507318402,
+              "candidate_top5": 0.024583464169134882,
+              "eligible_equal": 0.040449702245252475
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-28",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.022140042807550997,
+              "SPY": 0.013446724791695508,
+              "VTI": 0.014022015211723082,
+              "all_sector_equal": 0.0014403335260891668,
+              "candidate_top5": 0.02550470843422008,
+              "eligible_equal": 0.006087413835977012
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-01",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.037549430383909344,
+              "SPY": 0.042035816320803554,
+              "VTI": 0.04326453975249611,
+              "all_sector_equal": 0.038121738939703054,
+              "candidate_top5": 0.03192843101988137,
+              "eligible_equal": 0.041079367951195614
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-17",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.012602924909120294,
+              "SPY": 0.004232299639398752,
+              "VTI": 0.005926778715512283,
+              "all_sector_equal": 0.0016876964728873242,
+              "candidate_top5": 0.005474919051295913,
+              "eligible_equal": 0.005474919051295913
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-21",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.05882965116518679,
+              "SPY": 0.049471190628917694,
+              "VTI": 0.051500083737506475,
+              "all_sector_equal": 0.048227441321263845,
+              "candidate_top5": 0.05244755207317688,
+              "eligible_equal": 0.0453945904151876
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-23",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.09282304171356304,
+              "SPY": 0.08407609395009652,
+              "VTI": 0.08826999987136397,
+              "all_sector_equal": 0.08536202467177281,
+              "candidate_top5": 0.08985281884911618,
+              "eligible_equal": 0.08229651306557476
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.0016707508254269828,
+            "median_difference": 9.940997357619358e-05,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 10,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0033554451599348573,
+          "low": -0.0007363019831896874,
+          "median": 0.0014702558514334005,
+          "p_below_or_equal_zero": 0.0895
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.03869601168818389,
+          "SPY_mean": 0.028044998581305183,
+          "VTI_mean": 0.028857824073294902,
+          "all_sector_equal_mean": 0.026394466272166676,
+          "candidate_top5_mean": 0.03144083919813159,
+          "eligible_equal_mean": 0.029770088372704617
+        }
+      },
+      "20": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.007255172490052287,
+            "median_difference": -0.006001549228018942,
+            "newey_west": {
+              "annualized": -0.007255172490052287,
+              "lag": 5.0,
+              "mean_daily": -0.007255172490052287,
+              "t_stat": -0.6253544953433259
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "SPY": {
+            "mean_difference": 0.003395840616826415,
+            "median_difference": 0.0025497055178670854,
+            "newey_west": {
+              "annualized": 0.003395840616826415,
+              "lag": 5.0,
+              "mean_daily": 0.003395840616826415,
+              "t_stat": 0.8948206166733806
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "VTI": {
+            "mean_difference": 0.002583015124836696,
+            "median_difference": 0.0008980602254698884,
+            "newey_west": {
+              "annualized": 0.002583015124836696,
+              "lag": 5.0,
+              "mean_daily": 0.002583015124836696,
+              "t_stat": 0.80756970628053
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.005046372925964924,
+            "median_difference": 0.004892353593170355,
+            "newey_west": {
+              "annualized": 0.005046372925964924,
+              "lag": 5.0,
+              "mean_daily": 0.005046372925964924,
+              "t_stat": 2.8278823944758096
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "eligible_equal": {
+            "mean_difference": 0.0016707508254269832,
+            "median_difference": 9.940997357619358e-05,
+            "newey_west": {
+              "annualized": 0.0016707508254269832,
+              "lag": 5.0,
+              "mean_daily": 0.0016707508254269832,
+              "t_stat": 1.6415932773411086
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 20.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-20",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.058843324287602305,
+              "SPY": 0.04208704441358635,
+              "VTI": 0.04310010748885351,
+              "all_sector_equal": 0.034594987643359644,
+              "candidate_top5": 0.03992207157015173,
+              "eligible_equal": 0.03992207157015173
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-23",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.07864513595939404,
+              "SPY": 0.051335833186668456,
+              "VTI": 0.049979303032006595,
+              "all_sector_equal": 0.04295680008280298,
+              "candidate_top5": 0.05046459046097138,
+              "eligible_equal": 0.05060960536587922
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-08",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.09000396794619814,
+              "SPY": 0.0721715917827137,
+              "VTI": 0.0770810061401499,
+              "all_sector_equal": 0.07659197295909606,
+              "candidate_top5": 0.08220023055108405,
+              "eligible_equal": 0.08200141060393167
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-09",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.10649212226156846,
+              "SPY": 0.09123241323407671,
+              "VTI": 0.09622184412981016,
+              "all_sector_equal": 0.0960728540713182,
+              "candidate_top5": 0.10530648409358281,
+              "eligible_equal": 0.09128991105359213
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-23",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.1525978921229184,
+              "SPY": -0.21412402666993968,
+              "VTI": -0.22673143308669808,
+              "all_sector_equal": -0.24292110425498828,
+              "candidate_top5": -0.23762719124599094,
+              "eligible_equal": -0.2376271912459909
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-25",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": 0.0012867101779567864,
+              "SPY": -0.03230804168099244,
+              "VTI": -0.04039619448608023,
+              "all_sector_equal": -0.04165943813311164,
+              "candidate_top5": -0.053635361520035854,
+              "eligible_equal": -0.045170745737946605
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-26",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.026005140284129258,
+              "SPY": -0.003345407913905805,
+              "VTI": -0.0038085696456985323,
+              "all_sector_equal": -0.01056238471347529,
+              "candidate_top5": -0.02046303669617415,
+              "eligible_equal": -0.010970764815391719
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-30",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.09476420980737665,
+              "SPY": 0.07206392164440945,
+              "VTI": 0.0734409357165624,
+              "all_sector_equal": 0.0733183445968767,
+              "candidate_top5": 0.06863272330298739,
+              "eligible_equal": 0.07113420276117055
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-01",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03789121582163424,
+              "SPY": 0.032890240447149166,
+              "VTI": 0.050472457105345425,
+              "all_sector_equal": 0.05124909409279253,
+              "candidate_top5": 0.07962415376619662,
+              "eligible_equal": 0.057778998939997925
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-03",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.0708413165922257,
+              "SPY": 0.08564603807913929,
+              "VTI": 0.08900610040230328,
+              "all_sector_equal": 0.08674913944537568,
+              "candidate_top5": 0.09271544916670452,
+              "eligible_equal": 0.08911552880315414
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-06",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.0901015044712783,
+              "SPY": 0.1278524110674235,
+              "VTI": 0.12582232750587985,
+              "all_sector_equal": 0.1351512631039305,
+              "candidate_top5": 0.16037998607192355,
+              "eligible_equal": 0.16012061679942824
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-10",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.05394807299242599,
+              "SPY": -0.04549993714333267,
+              "VTI": -0.0534652803255935,
+              "all_sector_equal": -0.04335435243401157,
+              "candidate_top5": -0.04337688755185769,
+              "eligible_equal": -0.045124559953776684
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-25",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.01125443691396,
+              "SPY": 0.018545768685585218,
+              "VTI": 0.022734812053865516,
+              "all_sector_equal": 0.0290739815073184,
+              "candidate_top5": 0.023583464169134885,
+              "eligible_equal": 0.039449702245252474
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-28",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.021140042807550996,
+              "SPY": 0.012446724791695509,
+              "VTI": 0.013022015211723083,
+              "all_sector_equal": 0.0004403335260891668,
+              "candidate_top5": 0.024504708434220084,
+              "eligible_equal": 0.005087413835977012
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-01",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.03654943038390934,
+              "SPY": 0.04103581632080355,
+              "VTI": 0.04226453975249611,
+              "all_sector_equal": 0.03712173893970305,
+              "candidate_top5": 0.030928431019881367,
+              "eligible_equal": 0.04007936795119561
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-17",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.011602924909120295,
+              "SPY": 0.003232299639398752,
+              "VTI": 0.004926778715512283,
+              "all_sector_equal": 0.0006876964728873241,
+              "candidate_top5": 0.004474919051295913,
+              "eligible_equal": 0.004474919051295913
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-21",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.05782965116518679,
+              "SPY": 0.04847119062891769,
+              "VTI": 0.050500083737506474,
+              "all_sector_equal": 0.047227441321263844,
+              "candidate_top5": 0.05144755207317688,
+              "eligible_equal": 0.0443945904151876
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-23",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.09182304171356304,
+              "SPY": 0.08307609395009652,
+              "VTI": 0.08726999987136397,
+              "all_sector_equal": 0.08436202467177281,
+              "candidate_top5": 0.08885281884911618,
+              "eligible_equal": 0.08129651306557475
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.0016707508254269832,
+            "median_difference": 9.940997357619358e-05,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 10,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0033554451599348578,
+          "low": -0.0007363019831896869,
+          "median": 0.0014702558514334012,
+          "p_below_or_equal_zero": 0.0895
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.037696011688183886,
+          "SPY_mean": 0.02704499858130518,
+          "VTI_mean": 0.0278578240732949,
+          "all_sector_equal_mean": 0.025394466272166676,
+          "candidate_top5_mean": 0.030440839198131595,
+          "eligible_equal_mean": 0.028770088372704616
+        }
+      },
+      "50": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.007255172490052287,
+            "median_difference": -0.006001549228018944,
+            "newey_west": {
+              "annualized": -0.007255172490052287,
+              "lag": 5.0,
+              "mean_daily": -0.007255172490052287,
+              "t_stat": -0.6253544953433259
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "SPY": {
+            "mean_difference": 0.003395840616826414,
+            "median_difference": 0.0025497055178670854,
+            "newey_west": {
+              "annualized": 0.003395840616826414,
+              "lag": 5.0,
+              "mean_daily": 0.003395840616826414,
+              "t_stat": 0.8948206166733805
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "VTI": {
+            "mean_difference": 0.002583015124836695,
+            "median_difference": 0.0008980602254698867,
+            "newey_west": {
+              "annualized": 0.002583015124836695,
+              "lag": 5.0,
+              "mean_daily": 0.002583015124836695,
+              "t_stat": 0.8075697062805298
+            },
+            "win_fraction": 0.6111111111111112
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.005046372925964922,
+            "median_difference": 0.004892353593170355,
+            "newey_west": {
+              "annualized": 0.005046372925964922,
+              "lag": 5.0,
+              "mean_daily": 0.005046372925964922,
+              "t_stat": 2.8278823944758087
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "eligible_equal": {
+            "mean_difference": 0.001670750825426982,
+            "median_difference": 9.940997357619358e-05,
+            "newey_west": {
+              "annualized": 0.001670750825426982,
+              "lag": 5.0,
+              "mean_daily": 0.001670750825426982,
+              "t_stat": 1.6415932773411062
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 50.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-20",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.05584332428760231,
+              "SPY": 0.039087044413586354,
+              "VTI": 0.040100107488853516,
+              "all_sector_equal": 0.03159498764335965,
+              "candidate_top5": 0.03692207157015173,
+              "eligible_equal": 0.03692207157015173
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-23",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.07564513595939404,
+              "SPY": 0.04833583318666846,
+              "VTI": 0.0469793030320066,
+              "all_sector_equal": 0.03995680008280299,
+              "candidate_top5": 0.04746459046097139,
+              "eligible_equal": 0.04760960536587922
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-08",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.08700396794619814,
+              "SPY": 0.0691715917827137,
+              "VTI": 0.0740810061401499,
+              "all_sector_equal": 0.07359197295909606,
+              "candidate_top5": 0.07920023055108405,
+              "eligible_equal": 0.07900141060393166
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-09",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.10349212226156845,
+              "SPY": 0.08823241323407671,
+              "VTI": 0.09322184412981016,
+              "all_sector_equal": 0.0930728540713182,
+              "candidate_top5": 0.10230648409358281,
+              "eligible_equal": 0.08828991105359213
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-23",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.1555978921229184,
+              "SPY": -0.21712402666993968,
+              "VTI": -0.22973143308669808,
+              "all_sector_equal": -0.24592110425498828,
+              "candidate_top5": -0.24062719124599094,
+              "eligible_equal": -0.2406271912459909
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-25",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": -0.0017132898220432137,
+              "SPY": -0.035308041680992434,
+              "VTI": -0.043396194486080224,
+              "all_sector_equal": -0.044659438133111636,
+              "candidate_top5": -0.05663536152003585,
+              "eligible_equal": -0.0481707457379466
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-26",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.02300514028412926,
+              "SPY": -0.006345407913905805,
+              "VTI": -0.006808569645698532,
+              "all_sector_equal": -0.01356238471347529,
+              "candidate_top5": -0.023463036696174153,
+              "eligible_equal": -0.01397076481539172
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-30",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.09176420980737665,
+              "SPY": 0.06906392164440944,
+              "VTI": 0.0704409357165624,
+              "all_sector_equal": 0.07031834459687669,
+              "candidate_top5": 0.06563272330298739,
+              "eligible_equal": 0.06813420276117055
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-01",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03489121582163424,
+              "SPY": 0.029890240447149167,
+              "VTI": 0.04747245710534543,
+              "all_sector_equal": 0.04824909409279254,
+              "candidate_top5": 0.07662415376619662,
+              "eligible_equal": 0.05477899893999793
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-03",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.0678413165922257,
+              "SPY": 0.08264603807913928,
+              "VTI": 0.08600610040230328,
+              "all_sector_equal": 0.08374913944537568,
+              "candidate_top5": 0.08971544916670451,
+              "eligible_equal": 0.08611552880315414
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-06",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.08710150447127829,
+              "SPY": 0.12485241106742351,
+              "VTI": 0.12282232750587985,
+              "all_sector_equal": 0.1321512631039305,
+              "candidate_top5": 0.15737998607192355,
+              "eligible_equal": 0.15712061679942824
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-10",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.056948072992425984,
+              "SPY": -0.048499937143332665,
+              "VTI": -0.056465280325593496,
+              "all_sector_equal": -0.046354352434011564,
+              "candidate_top5": -0.04637688755185768,
+              "eligible_equal": -0.04812455995377668
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-25",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.008254436913959998,
+              "SPY": 0.015545768685585219,
+              "VTI": 0.019734812053865517,
+              "all_sector_equal": 0.026073981507318402,
+              "candidate_top5": 0.020583464169134882,
+              "eligible_equal": 0.03644970224525248
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-28",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.018140042807550997,
+              "SPY": 0.009446724791695508,
+              "VTI": 0.010022015211723082,
+              "all_sector_equal": -0.0025596664739108333,
+              "candidate_top5": 0.02150470843422008,
+              "eligible_equal": 0.002087413835977012
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-01",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.03354943038390935,
+              "SPY": 0.03803581632080356,
+              "VTI": 0.039264539752496115,
+              "all_sector_equal": 0.03412173893970306,
+              "candidate_top5": 0.027928431019881367,
+              "eligible_equal": 0.03707936795119562
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-17",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.008602924909120294,
+              "SPY": 0.00023229963939875187,
+              "VTI": 0.0019267787155122828,
+              "all_sector_equal": -0.002312303527112676,
+              "candidate_top5": 0.0014749190512959127,
+              "eligible_equal": 0.0014749190512959127
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-21",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.054829651165186795,
+              "SPY": 0.0454711906289177,
+              "VTI": 0.04750008373750648,
+              "all_sector_equal": 0.04422744132126385,
+              "candidate_top5": 0.048447552073176886,
+              "eligible_equal": 0.0413945904151876
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-23",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.08882304171356303,
+              "SPY": 0.08007609395009652,
+              "VTI": 0.08426999987136397,
+              "all_sector_equal": 0.08136202467177281,
+              "candidate_top5": 0.08585281884911618,
+              "eligible_equal": 0.07829651306557475
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.001670750825426982,
+            "median_difference": 9.940997357619358e-05,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 10,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0033554451599348556,
+          "low": -0.000736301983189688,
+          "median": 0.0014702558514333992,
+          "p_below_or_equal_zero": 0.0895
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.034696011688183884,
+          "SPY_mean": 0.02404499858130518,
+          "VTI_mean": 0.0248578240732949,
+          "all_sector_equal_mean": 0.022394466272166673,
+          "candidate_top5_mean": 0.027440839198131596,
+          "eligible_equal_mean": 0.025770088372704614
+        }
+      }
+    },
+    "20": {
+      "10": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.016143860640497904,
+            "median_difference": -0.021384926632205058,
+            "newey_west": {
+              "annualized": -0.016143860640497904,
+              "lag": 5.0,
+              "mean_daily": -0.016143860640497904,
+              "t_stat": -1.7289880153245467
+            },
+            "win_fraction": 0.16666666666666666
+          },
+          "SPY": {
+            "mean_difference": 0.003660240247522584,
+            "median_difference": 0.001694926341191852,
+            "newey_west": {
+              "annualized": 0.003660240247522584,
+              "lag": 5.0,
+              "mean_daily": 0.003660240247522584,
+              "t_stat": 0.9165183567487951
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "VTI": {
+            "mean_difference": 0.002058502311387163,
+            "median_difference": -0.0009196392544453258,
+            "newey_west": {
+              "annualized": 0.002058502311387163,
+              "lag": 5.0,
+              "mean_daily": 0.002058502311387163,
+              "t_stat": 0.721297873696832
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.008423240210215854,
+            "median_difference": 0.00719325060571184,
+            "newey_west": {
+              "annualized": 0.008423240210215854,
+              "lag": 5.0,
+              "mean_daily": 0.008423240210215854,
+              "t_stat": 2.36496604050196
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.0023263626597618704,
+            "median_difference": 0.0,
+            "newey_west": {
+              "annualized": 0.0023263626597618704,
+              "lag": 5.0,
+              "mean_daily": 0.0023263626597618704,
+              "t_stat": 0.9870085571982443
+            },
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "cost_bps": 10.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-03-06",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.0807021301010783,
+              "SPY": 0.048780880261473425,
+              "VTI": 0.05190416241792606,
+              "all_sector_equal": 0.03999288260326894,
+              "candidate_top5": 0.04781503561369151,
+              "eligible_equal": 0.04781503561369151
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-03-09",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.11171034911028321,
+              "SPY": 0.06828643137471946,
+              "VTI": 0.06920180301166157,
+              "all_sector_equal": 0.05450932685571881,
+              "candidate_top5": 0.0699982550072615,
+              "eligible_equal": 0.06373868156386193
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-23",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.109008255853828,
+              "SPY": 0.1009498379915249,
+              "VTI": 0.10580890078760585,
+              "all_sector_equal": 0.09993718785113817,
+              "candidate_top5": 0.10051709091905218,
+              "eligible_equal": 0.10783027220353554
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-24",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.12389680862384378,
+              "SPY": 0.11587929562701615,
+              "VTI": 0.12248368881351668,
+              "all_sector_equal": 0.11717964120467277,
+              "candidate_top5": 0.12197798280548693,
+              "eligible_equal": 0.11544875643867653
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-04-06",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.021940247618137176,
+              "SPY": -0.06501977069855358,
+              "VTI": -0.08194409217031884,
+              "all_sector_equal": -0.09207439923608512,
+              "candidate_top5": -0.08295223958253928,
+              "eligible_equal": -0.08295223958253928
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-04-08",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": 0.10283563067190926,
+              "SPY": 0.07572378562758464,
+              "VTI": 0.06324757712842921,
+              "all_sector_equal": 0.06902122079269161,
+              "candidate_top5": 0.055897936948709884,
+              "eligible_equal": 0.06900442939214252
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-04-09",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.07500373091905821,
+              "SPY": 0.06265103088611534,
+              "VTI": 0.06000171856188208,
+              "all_sector_equal": 0.06307145845670903,
+              "candidate_top5": 0.05438815600045428,
+              "eligible_equal": 0.057825991065250805
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-04-14",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.2089587718592939,
+              "SPY": 0.16394777491624601,
+              "VTI": 0.16571969032470724,
+              "all_sector_equal": 0.17073934666402918,
+              "candidate_top5": 0.1653716555321492,
+              "eligible_equal": 0.1662055888630565
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-16",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.2153718830077308,
+              "SPY": 0.1724222600847346,
+              "VTI": 0.19047804022953752,
+              "all_sector_equal": 0.18390919693786661,
+              "candidate_top5": 0.20866743605968197,
+              "eligible_equal": 0.19370515212324282
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-20",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.24367596593032992,
+              "SPY": 0.2330152308394121,
+              "VTI": 0.24422171760853606,
+              "all_sector_equal": 0.2345158228375484,
+              "candidate_top5": 0.24206522557744178,
+              "eligible_equal": 0.2359114968282243
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-21",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.1378472839676229,
+              "SPY": 0.16374698904606977,
+              "VTI": 0.1647553762616888,
+              "all_sector_equal": 0.17583304781814837,
+              "candidate_top5": 0.18267014628967868,
+              "eligible_equal": 0.19199822910667344
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-24",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.09556577956488732,
+              "SPY": -0.05696273820905107,
+              "VTI": -0.06380694463102188,
+              "all_sector_equal": -0.039411611846475035,
+              "candidate_top5": -0.04390864802970662,
+              "eligible_equal": -0.03909896594185886
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-06-09",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.04057241913336884,
+              "SPY": 0.029998531685607177,
+              "VTI": 0.03687495949827968,
+              "all_sector_equal": 0.04233702428496518,
+              "candidate_top5": 0.0440355008687441,
+              "eligible_equal": 0.05972797803277065
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-07-13",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.029753658605123356,
+              "SPY": 0.008596336664560833,
+              "VTI": 0.009228497726939566,
+              "all_sector_equal": -0.010176563297243525,
+              "candidate_top5": 0.027103553354514708,
+              "eligible_equal": -0.0031713266424579886
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-18",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.06431096315960272,
+              "SPY": 0.0439784304993599,
+              "VTI": 0.046387216928026276,
+              "all_sector_equal": 0.030984754224885516,
+              "candidate_top5": 0.03226310040319715,
+              "eligible_equal": 0.03797548601338642
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-05-02",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.1146935149147924,
+              "SPY": 0.0812846092534546,
+              "VTI": 0.08395180110784228,
+              "all_sector_equal": 0.05836780542433444,
+              "candidate_top5": 0.08196865806992026,
+              "eligible_equal": 0.08196865806992026
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-05-05",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.18808138911896755,
+              "SPY": 0.15092463972307268,
+              "VTI": 0.1540832283037753,
+              "all_sector_equal": 0.12707227561162068,
+              "candidate_top5": 0.15260266877291434,
+              "eligible_equal": 0.13705402712893147
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-05-07",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.16198092144109622,
+              "SPY": 0.13622027767718914,
+              "VTI": 0.14065777419196024,
+              "all_sector_equal": 0.1228814167342632,
+              "candidate_top5": 0.13982664309529003,
+              "eligible_equal": 0.11744637955372036
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.0023263626597618704,
+            "median_difference": 0.0,
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "holding_sessions": 20,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0030903736580500793,
+          "low": -0.0022046122667628253,
+          "median": 0.0005146087445657027,
+          "p_below_or_equal_zero": 0.3505
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.10504986940193915,
+          "SPY_mean": 0.08524576851391867,
+          "VTI_mean": 0.08684750645005411,
+          "all_sector_equal_mean": 0.0804827685512254,
+          "candidate_top5_mean": 0.08890600876144125,
+          "eligible_equal_mean": 0.0865796461016794
+        }
+      },
+      "20": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.016143860640497904,
+            "median_difference": -0.021384926632205058,
+            "newey_west": {
+              "annualized": -0.016143860640497904,
+              "lag": 5.0,
+              "mean_daily": -0.016143860640497904,
+              "t_stat": -1.7289880153245467
+            },
+            "win_fraction": 0.16666666666666666
+          },
+          "SPY": {
+            "mean_difference": 0.003660240247522584,
+            "median_difference": 0.001694926341191852,
+            "newey_west": {
+              "annualized": 0.003660240247522584,
+              "lag": 5.0,
+              "mean_daily": 0.003660240247522584,
+              "t_stat": 0.9165183567487951
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "VTI": {
+            "mean_difference": 0.0020585023113871633,
+            "median_difference": -0.0009196392544453258,
+            "newey_west": {
+              "annualized": 0.0020585023113871633,
+              "lag": 5.0,
+              "mean_daily": 0.0020585023113871633,
+              "t_stat": 0.7212978736968322
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.008423240210215854,
+            "median_difference": 0.00719325060571184,
+            "newey_west": {
+              "annualized": 0.008423240210215854,
+              "lag": 5.0,
+              "mean_daily": 0.008423240210215854,
+              "t_stat": 2.36496604050196
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.002326362659761871,
+            "median_difference": 0.0,
+            "newey_west": {
+              "annualized": 0.002326362659761871,
+              "lag": 5.0,
+              "mean_daily": 0.002326362659761871,
+              "t_stat": 0.9870085571982445
+            },
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "cost_bps": 20.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-03-06",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.0797021301010783,
+              "SPY": 0.047780880261473424,
+              "VTI": 0.05090416241792606,
+              "all_sector_equal": 0.03899288260326894,
+              "candidate_top5": 0.04681503561369151,
+              "eligible_equal": 0.04681503561369151
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-03-09",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.11071034911028321,
+              "SPY": 0.06728643137471946,
+              "VTI": 0.06820180301166157,
+              "all_sector_equal": 0.05350932685571881,
+              "candidate_top5": 0.0689982550072615,
+              "eligible_equal": 0.06273868156386193
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-23",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.108008255853828,
+              "SPY": 0.0999498379915249,
+              "VTI": 0.10480890078760585,
+              "all_sector_equal": 0.09893718785113817,
+              "candidate_top5": 0.09951709091905218,
+              "eligible_equal": 0.10683027220353554
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-24",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.12289680862384378,
+              "SPY": 0.11487929562701615,
+              "VTI": 0.12148368881351668,
+              "all_sector_equal": 0.11617964120467277,
+              "candidate_top5": 0.12097798280548692,
+              "eligible_equal": 0.11444875643867652
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-04-06",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.022940247618137177,
+              "SPY": -0.06601977069855358,
+              "VTI": -0.08294409217031884,
+              "all_sector_equal": -0.09307439923608513,
+              "candidate_top5": -0.08395223958253928,
+              "eligible_equal": -0.08395223958253928
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-04-08",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": 0.10183563067190926,
+              "SPY": 0.07472378562758464,
+              "VTI": 0.06224757712842921,
+              "all_sector_equal": 0.06802122079269161,
+              "candidate_top5": 0.05489793694870988,
+              "eligible_equal": 0.06800442939214252
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-04-09",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.07400373091905821,
+              "SPY": 0.06165103088611534,
+              "VTI": 0.05900171856188208,
+              "all_sector_equal": 0.06207145845670903,
+              "candidate_top5": 0.05338815600045428,
+              "eligible_equal": 0.056825991065250804
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-04-14",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.2079587718592939,
+              "SPY": 0.162947774916246,
+              "VTI": 0.16471969032470724,
+              "all_sector_equal": 0.16973934666402918,
+              "candidate_top5": 0.1643716555321492,
+              "eligible_equal": 0.1652055888630565
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-16",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.2143718830077308,
+              "SPY": 0.1714222600847346,
+              "VTI": 0.18947804022953751,
+              "all_sector_equal": 0.1829091969378666,
+              "candidate_top5": 0.20766743605968196,
+              "eligible_equal": 0.19270515212324282
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-20",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.24267596593032992,
+              "SPY": 0.2320152308394121,
+              "VTI": 0.24322171760853606,
+              "all_sector_equal": 0.2335158228375484,
+              "candidate_top5": 0.24106522557744178,
+              "eligible_equal": 0.2349114968282243
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-21",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.1368472839676229,
+              "SPY": 0.16274698904606977,
+              "VTI": 0.1637553762616888,
+              "all_sector_equal": 0.17483304781814837,
+              "candidate_top5": 0.18167014628967867,
+              "eligible_equal": 0.19099822910667344
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-24",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.09656577956488732,
+              "SPY": -0.05796273820905107,
+              "VTI": -0.06480694463102188,
+              "all_sector_equal": -0.040411611846475036,
+              "candidate_top5": -0.04490864802970662,
+              "eligible_equal": -0.04009896594185886
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-06-09",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.03957241913336884,
+              "SPY": 0.028998531685607176,
+              "VTI": 0.03587495949827968,
+              "all_sector_equal": 0.041337024284965176,
+              "candidate_top5": 0.0430355008687441,
+              "eligible_equal": 0.05872797803277065
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-07-13",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.028753658605123356,
+              "SPY": 0.007596336664560834,
+              "VTI": 0.008228497726939567,
+              "all_sector_equal": -0.011176563297243524,
+              "candidate_top5": 0.02610355335451471,
+              "eligible_equal": -0.004171326642457989
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-18",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.06331096315960272,
+              "SPY": 0.0429784304993599,
+              "VTI": 0.045387216928026275,
+              "all_sector_equal": 0.029984754224885515,
+              "candidate_top5": 0.03126310040319715,
+              "eligible_equal": 0.03697548601338642
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-05-02",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.1136935149147924,
+              "SPY": 0.0802846092534546,
+              "VTI": 0.08295180110784228,
+              "all_sector_equal": 0.057367805424334437,
+              "candidate_top5": 0.08096865806992026,
+              "eligible_equal": 0.08096865806992026
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-05-05",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.18708138911896754,
+              "SPY": 0.14992463972307268,
+              "VTI": 0.1530832283037753,
+              "all_sector_equal": 0.12607227561162068,
+              "candidate_top5": 0.15160266877291434,
+              "eligible_equal": 0.13605402712893147
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-05-07",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.16098092144109621,
+              "SPY": 0.13522027767718914,
+              "VTI": 0.13965777419196024,
+              "all_sector_equal": 0.1218814167342632,
+              "candidate_top5": 0.13882664309529003,
+              "eligible_equal": 0.11644637955372036
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.002326362659761871,
+            "median_difference": 0.0,
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "holding_sessions": 20,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0030903736580500806,
+          "low": -0.0022046122667628253,
+          "median": 0.0005146087445657028,
+          "p_below_or_equal_zero": 0.3505
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.10404986940193915,
+          "SPY_mean": 0.08424576851391868,
+          "VTI_mean": 0.0858475064500541,
+          "all_sector_equal_mean": 0.0794827685512254,
+          "candidate_top5_mean": 0.08790600876144125,
+          "eligible_equal_mean": 0.08557964610167938
+        }
+      },
+      "50": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.016143860640497904,
+            "median_difference": -0.021384926632205054,
+            "newey_west": {
+              "annualized": -0.016143860640497904,
+              "lag": 5.0,
+              "mean_daily": -0.016143860640497904,
+              "t_stat": -1.7289880153245467
+            },
+            "win_fraction": 0.16666666666666666
+          },
+          "SPY": {
+            "mean_difference": 0.003660240247522584,
+            "median_difference": 0.001694926341191852,
+            "newey_west": {
+              "annualized": 0.003660240247522584,
+              "lag": 5.0,
+              "mean_daily": 0.003660240247522584,
+              "t_stat": 0.9165183567487951
+            },
+            "win_fraction": 0.6666666666666666
+          },
+          "VTI": {
+            "mean_difference": 0.0020585023113871633,
+            "median_difference": -0.0009196392544453258,
+            "newey_west": {
+              "annualized": 0.0020585023113871633,
+              "lag": 5.0,
+              "mean_daily": 0.0020585023113871633,
+              "t_stat": 0.7212978736968321
+            },
+            "win_fraction": 0.3333333333333333
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.008423240210215854,
+            "median_difference": 0.00719325060571184,
+            "newey_west": {
+              "annualized": 0.008423240210215854,
+              "lag": 5.0,
+              "mean_daily": 0.008423240210215854,
+              "t_stat": 2.36496604050196
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.0023263626597618704,
+            "median_difference": 0.0,
+            "newey_west": {
+              "annualized": 0.0023263626597618704,
+              "lag": 5.0,
+              "mean_daily": 0.0023263626597618704,
+              "t_stat": 0.9870085571982443
+            },
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "cost_bps": 50.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-03-06",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.07670213010107829,
+              "SPY": 0.04478088026147343,
+              "VTI": 0.04790416241792606,
+              "all_sector_equal": 0.035992882603268946,
+              "candidate_top5": 0.043815035613691516,
+              "eligible_equal": 0.043815035613691516
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-03-09",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.10771034911028321,
+              "SPY": 0.06428643137471945,
+              "VTI": 0.06520180301166156,
+              "all_sector_equal": 0.050509326855718815,
+              "candidate_top5": 0.0659982550072615,
+              "eligible_equal": 0.05973868156386194
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2019-01-23",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.105008255853828,
+              "SPY": 0.0969498379915249,
+              "VTI": 0.10180890078760585,
+              "all_sector_equal": 0.09593718785113817,
+              "candidate_top5": 0.09651709091905218,
+              "eligible_equal": 0.10383027220353554
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-24",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.11989680862384378,
+              "SPY": 0.11187929562701615,
+              "VTI": 0.11848368881351667,
+              "all_sector_equal": 0.11317964120467276,
+              "candidate_top5": 0.11797798280548692,
+              "eligible_equal": 0.11144875643867652
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-04-06",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.025940247618137176,
+              "SPY": -0.06901977069855358,
+              "VTI": -0.08594409217031884,
+              "all_sector_equal": -0.09607439923608513,
+              "candidate_top5": -0.08695223958253928,
+              "eligible_equal": -0.08695223958253928
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-04-08",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": 0.09883563067190926,
+              "SPY": 0.07172378562758464,
+              "VTI": 0.059247577128429214,
+              "all_sector_equal": 0.06502122079269161,
+              "candidate_top5": 0.05189793694870989,
+              "eligible_equal": 0.06500442939214252
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-04-09",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": 0.0710037309190582,
+              "SPY": 0.05865103088611535,
+              "VTI": 0.05600171856188208,
+              "all_sector_equal": 0.05907145845670903,
+              "candidate_top5": 0.050388156000454286,
+              "eligible_equal": 0.05382599106525081
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-04-14",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": 0.2049587718592939,
+              "SPY": 0.159947774916246,
+              "VTI": 0.16171969032470723,
+              "all_sector_equal": 0.16673934666402918,
+              "candidate_top5": 0.1613716555321492,
+              "eligible_equal": 0.1622055888630565
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-04-16",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.2113718830077308,
+              "SPY": 0.1684222600847346,
+              "VTI": 0.1864780402295375,
+              "all_sector_equal": 0.1799091969378666,
+              "candidate_top5": 0.20466743605968196,
+              "eligible_equal": 0.18970515212324282
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-04-20",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.23967596593032992,
+              "SPY": 0.2290152308394121,
+              "VTI": 0.24022171760853606,
+              "all_sector_equal": 0.2305158228375484,
+              "candidate_top5": 0.23806522557744178,
+              "eligible_equal": 0.2319114968282243
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-04-21",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.1338472839676229,
+              "SPY": 0.15974698904606977,
+              "VTI": 0.1607553762616888,
+              "all_sector_equal": 0.17183304781814837,
+              "candidate_top5": 0.17867014628967867,
+              "eligible_equal": 0.18799822910667344
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-24",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -0.09956577956488732,
+              "SPY": -0.060962738209051064,
+              "VTI": -0.06780694463102188,
+              "all_sector_equal": -0.04341161184647503,
+              "candidate_top5": -0.04790864802970662,
+              "eligible_equal": -0.04309896594185886
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-06-09",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.036572419133368846,
+              "SPY": 0.025998531685607177,
+              "VTI": 0.032874959498279684,
+              "all_sector_equal": 0.03833702428496518,
+              "candidate_top5": 0.040035500868744106,
+              "eligible_equal": 0.05572797803277065
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-07-13",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.025753658605123356,
+              "SPY": 0.004596336664560834,
+              "VTI": 0.005228497726939567,
+              "all_sector_equal": -0.014176563297243525,
+              "candidate_top5": 0.023103553354514708,
+              "eligible_equal": -0.007171326642457988
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-07-18",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.06031096315960272,
+              "SPY": 0.0399784304993599,
+              "VTI": 0.04238721692802628,
+              "all_sector_equal": 0.026984754224885516,
+              "candidate_top5": 0.028263100403197152,
+              "eligible_equal": 0.03397548601338642
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-05-02",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.1106935149147924,
+              "SPY": 0.0772846092534546,
+              "VTI": 0.07995180110784228,
+              "all_sector_equal": 0.05436780542433444,
+              "candidate_top5": 0.07796865806992026,
+              "eligible_equal": 0.07796865806992026
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-05-05",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.18408138911896754,
+              "SPY": 0.14692463972307268,
+              "VTI": 0.1500832283037753,
+              "all_sector_equal": 0.12307227561162068,
+              "candidate_top5": 0.14860266877291434,
+              "eligible_equal": 0.13305402712893147
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-05-07",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.1579809214410962,
+              "SPY": 0.13222027767718914,
+              "VTI": 0.13665777419196024,
+              "all_sector_equal": 0.1188814167342632,
+              "candidate_top5": 0.13582664309529002,
+              "eligible_equal": 0.11344637955372036
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.0023263626597618704,
+            "median_difference": 0.0,
+            "win_fraction": 0.3888888888888889
+          }
+        },
+        "holding_sessions": 20,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.0030903736580500793,
+          "low": -0.002204612266762824,
+          "median": 0.0005146087445657027,
+          "p_below_or_equal_zero": 0.3505
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.10104986940193915,
+          "SPY_mean": 0.08124576851391867,
+          "VTI_mean": 0.0828475064500541,
+          "all_sector_equal_mean": 0.07648276855122539,
+          "candidate_top5_mean": 0.08490600876144125,
+          "eligible_equal_mean": 0.0825796461016794
+        }
+      }
+    },
+    "5": {
+      "10": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.010828361784619274,
+            "median_difference": -0.016597295604822503,
+            "newey_west": {
+              "annualized": -0.010828361784619274,
+              "lag": 5.0,
+              "mean_daily": -0.010828361784619274,
+              "t_stat": -0.8842074905170538
+            },
+            "win_fraction": 0.2777777777777778
+          },
+          "SPY": {
+            "mean_difference": -0.0007129161514946318,
+            "median_difference": -0.0025576119099033016,
+            "newey_west": {
+              "annualized": -0.0007129161514946318,
+              "lag": 5.0,
+              "mean_daily": -0.0007129161514946318,
+              "t_stat": -0.09265376901367947
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "VTI": {
+            "mean_difference": -0.0014709208629910334,
+            "median_difference": -0.002790976087397678,
+            "newey_west": {
+              "annualized": -0.0014709208629910334,
+              "lag": 5.0,
+              "mean_daily": -0.0014709208629910334,
+              "t_stat": -0.24171561256282573
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.00473109112286409,
+            "median_difference": 0.003833515751594291,
+            "newey_west": {
+              "annualized": 0.00473109112286409,
+              "lag": 5.0,
+              "mean_daily": 0.00473109112286409,
+              "t_stat": 0.9478011279462278
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "newey_west": {
+              "annualized": 0.00024516431229126216,
+              "lag": 5.0,
+              "mean_daily": 0.00024516431229126216,
+              "t_stat": 0.06515465821247643
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 10.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-12",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.018639579861814082,
+              "SPY": 0.019774173368790726,
+              "VTI": 0.019711840734406016,
+              "all_sector_equal": 0.016286604092225522,
+              "candidate_top5": 0.01684155914044432,
+              "eligible_equal": 0.01684155914044432
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-15",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.06377305032894454,
+              "SPY": 0.04589396062059248,
+              "VTI": 0.04492958662361535,
+              "all_sector_equal": 0.040187865725178115,
+              "candidate_top5": 0.04371135102913228,
+              "eligible_equal": 0.04298552240211858
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2018-12-31",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.05499626683223269,
+              "SPY": 0.04451552376965584,
+              "VTI": 0.0460056518374693,
+              "all_sector_equal": 0.0409904166996299,
+              "candidate_top5": 0.04329398125663564,
+              "eligible_equal": 0.04509519569732967
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-02",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.06654914339526907,
+              "SPY": 0.0592196488415998,
+              "VTI": 0.06040936901215288,
+              "all_sector_equal": 0.058536605530871165,
+              "candidate_top5": 0.0634318886283537,
+              "eligible_equal": 0.05600667704947812
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-16",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.15917192696822424,
+              "SPY": -0.1583568610058287,
+              "VTI": -0.1665005384404945,
+              "all_sector_equal": -0.18068114796563364,
+              "candidate_top5": -0.17817157767871383,
+              "eligible_equal": -0.17817157767871383
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-18",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": -0.031149947953002632,
+              "SPY": -0.06350020377203869,
+              "VTI": -0.07817934935155424,
+              "all_sector_equal": -0.08499328941035497,
+              "candidate_top5": -0.11672538234992125,
+              "eligible_equal": -0.08075218465379343
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-19",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": -0.05130190157684966,
+              "SPY": -0.08682615045325548,
+              "VTI": -0.09122719484403707,
+              "all_sector_equal": -0.09992868886876136,
+              "candidate_top5": -0.1335754053135283,
+              "eligible_equal": -0.10051329434026429
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-23",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": -0.027481910794163733,
+              "SPY": -0.08579811407771698,
+              "VTI": -0.08528098840394827,
+              "all_sector_equal": -0.0935288174454002,
+              "candidate_top5": -0.11651223395474146,
+              "eligible_equal": -0.09446829128266696
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-03-25",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03883401721673996,
+              "SPY": 0.03658087735227877,
+              "VTI": 0.057001560442560106,
+              "all_sector_equal": 0.06193959827670062,
+              "candidate_top5": 0.11375603018941785,
+              "eligible_equal": 0.07370484667284606
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-03-27",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.08313331888778908,
+              "SPY": 0.10956550052017999,
+              "VTI": 0.12139758409312196,
+              "all_sector_equal": 0.11735335524883037,
+              "candidate_top5": 0.14254566624881548,
+              "eligible_equal": 0.11830044616703163
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-03-30",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.06642258173233595,
+              "SPY": 0.11515914115283443,
+              "VTI": 0.11631406443182313,
+              "all_sector_equal": 0.1234077402925953,
+              "candidate_top5": 0.14688764598488052,
+              "eligible_equal": 0.14442349819359734
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-03",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": 0.003980555090607464,
+              "SPY": -0.003061030597800828,
+              "VTI": -0.003001473803822651,
+              "all_sector_equal": -0.000772736357639924,
+              "candidate_top5": 0.015194686741470332,
+              "eligible_equal": 0.0073481789616137725
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-18",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.01183707754201102,
+              "SPY": 0.005394895364352227,
+              "VTI": 0.009975990381518751,
+              "all_sector_equal": 0.011997478721196043,
+              "candidate_top5": 0.016141024920430458,
+              "eligible_equal": 0.022396661058108606
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-21",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.013263377489815098,
+              "SPY": -0.0014240402872188742,
+              "VTI": -0.002856571171268806,
+              "all_sector_equal": -0.01595432078797876,
+              "candidate_top5": -0.0009315630093403185,
+              "eligible_equal": -0.014819426489664705
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-06-24",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.08348954179331891,
+              "SPY": 0.0662212083156174,
+              "VTI": 0.06835615051412736,
+              "all_sector_equal": 0.05212514441417413,
+              "candidate_top5": 0.050002506832260776,
+              "eligible_equal": 0.056008978083468004
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-10",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.01735021970033579,
+              "SPY": 0.0007378194029222804,
+              "VTI": 0.0007900927558722745,
+              "all_sector_equal": -0.01420806733915777,
+              "candidate_top5": -0.003735882458296546,
+              "eligible_equal": -0.003735882458296546
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-11",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.11092674555474791,
+              "SPY": 0.09047780213245982,
+              "VTI": 0.08958307716614333,
+              "all_sector_equal": 0.072452631849387,
+              "candidate_top5": 0.08624550636945624,
+              "eligible_equal": 0.07871144124738301
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-15",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.10107668898288191,
+              "SPY": 0.08851430507293545,
+              "VTI": 0.08930368854961002,
+              "all_sector_equal": 0.07988595210604121,
+              "candidate_top5": 0.08185616241670043,
+              "eligible_equal": 0.07648065960219425
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 5,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.007962847543687427,
+          "low": -0.0079697918742564,
+          "median": 0.0001513707314280233,
+          "p_below_or_equal_zero": 0.491
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.02584258206203351,
+          "SPY_mean": 0.01572713642890887,
+          "VTI_mean": 0.016485141140405273,
+          "all_sector_equal_mean": 0.010283129154550149,
+          "candidate_top5_mean": 0.015014220277414241,
+          "eligible_equal_mean": 0.014769055965122976
+        }
+      },
+      "20": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.01082836178461927,
+            "median_difference": -0.016597295604822503,
+            "newey_west": {
+              "annualized": -0.01082836178461927,
+              "lag": 5.0,
+              "mean_daily": -0.01082836178461927,
+              "t_stat": -0.8842074905170536
+            },
+            "win_fraction": 0.2777777777777778
+          },
+          "SPY": {
+            "mean_difference": -0.0007129161514946288,
+            "median_difference": -0.0025576119099033,
+            "newey_west": {
+              "annualized": -0.0007129161514946288,
+              "lag": 5.0,
+              "mean_daily": -0.0007129161514946288,
+              "t_stat": -0.09265376901367908
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "VTI": {
+            "mean_difference": -0.0014709208629910325,
+            "median_difference": -0.0027909760873976765,
+            "newey_west": {
+              "annualized": -0.0014709208629910325,
+              "lag": 5.0,
+              "mean_daily": -0.0014709208629910325,
+              "t_stat": -0.2417156125628256
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.00473109112286409,
+            "median_difference": 0.003833515751594291,
+            "newey_west": {
+              "annualized": 0.00473109112286409,
+              "lag": 5.0,
+              "mean_daily": 0.00473109112286409,
+              "t_stat": 0.9478011279462278
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "newey_west": {
+              "annualized": 0.00024516431229126216,
+              "lag": 5.0,
+              "mean_daily": 0.00024516431229126216,
+              "t_stat": 0.06515465821247643
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 20.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-12",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.01763957986181408,
+              "SPY": 0.018774173368790725,
+              "VTI": 0.018711840734406016,
+              "all_sector_equal": 0.015286604092225523,
+              "candidate_top5": 0.01584155914044432,
+              "eligible_equal": 0.01584155914044432
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-15",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.06277305032894454,
+              "SPY": 0.04489396062059248,
+              "VTI": 0.043929586623615346,
+              "all_sector_equal": 0.039187865725178114,
+              "candidate_top5": 0.04271135102913228,
+              "eligible_equal": 0.04198552240211858
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2018-12-31",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.05399626683223269,
+              "SPY": 0.04351552376965584,
+              "VTI": 0.045005651837469296,
+              "all_sector_equal": 0.0399904166996299,
+              "candidate_top5": 0.04229398125663564,
+              "eligible_equal": 0.04409519569732967
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-02",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.06554914339526907,
+              "SPY": 0.0582196488415998,
+              "VTI": 0.05940936901215288,
+              "all_sector_equal": 0.057536605530871164,
+              "candidate_top5": 0.06243188862835369,
+              "eligible_equal": 0.05500667704947812
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-16",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.16017192696822424,
+              "SPY": -0.1593568610058287,
+              "VTI": -0.1675005384404945,
+              "all_sector_equal": -0.18168114796563364,
+              "candidate_top5": -0.17917157767871383,
+              "eligible_equal": -0.17917157767871383
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-18",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": -0.03214994795300263,
+              "SPY": -0.06450020377203869,
+              "VTI": -0.07917934935155424,
+              "all_sector_equal": -0.08599328941035497,
+              "candidate_top5": -0.11772538234992125,
+              "eligible_equal": -0.08175218465379343
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-19",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": -0.05230190157684966,
+              "SPY": -0.08782615045325548,
+              "VTI": -0.09222719484403707,
+              "all_sector_equal": -0.10092868886876136,
+              "candidate_top5": -0.1345754053135283,
+              "eligible_equal": -0.10151329434026429
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-23",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": -0.028481910794163734,
+              "SPY": -0.08679811407771698,
+              "VTI": -0.08628098840394827,
+              "all_sector_equal": -0.0945288174454002,
+              "candidate_top5": -0.11751223395474146,
+              "eligible_equal": -0.09546829128266696
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-03-25",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03783401721673996,
+              "SPY": 0.03558087735227877,
+              "VTI": 0.056001560442560105,
+              "all_sector_equal": 0.06093959827670062,
+              "candidate_top5": 0.11275603018941785,
+              "eligible_equal": 0.07270484667284606
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-03-27",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.08213331888778908,
+              "SPY": 0.10856550052017999,
+              "VTI": 0.12039758409312196,
+              "all_sector_equal": 0.11635335524883036,
+              "candidate_top5": 0.14154566624881548,
+              "eligible_equal": 0.11730044616703163
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-03-30",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.06542258173233595,
+              "SPY": 0.11415914115283443,
+              "VTI": 0.11531406443182313,
+              "all_sector_equal": 0.1224077402925953,
+              "candidate_top5": 0.14588764598488052,
+              "eligible_equal": 0.14342349819359734
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-03",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": 0.0029805550906074636,
+              "SPY": -0.004061030597800828,
+              "VTI": -0.004001473803822651,
+              "all_sector_equal": -0.001772736357639924,
+              "candidate_top5": 0.014194686741470333,
+              "eligible_equal": 0.0063481789616137724
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-18",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.010837077542011022,
+              "SPY": 0.0043948953643522266,
+              "VTI": 0.008975990381518752,
+              "all_sector_equal": 0.010997478721196044,
+              "candidate_top5": 0.015141024920430459,
+              "eligible_equal": 0.021396661058108606
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-21",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.012263377489815099,
+              "SPY": -0.0024240402872188743,
+              "VTI": -0.003856571171268806,
+              "all_sector_equal": -0.01695432078797876,
+              "candidate_top5": -0.0019315630093403185,
+              "eligible_equal": -0.015819426489664706
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-06-24",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.08248954179331891,
+              "SPY": 0.0652212083156174,
+              "VTI": 0.06735615051412736,
+              "all_sector_equal": 0.05112514441417413,
+              "candidate_top5": 0.049002506832260775,
+              "eligible_equal": 0.055008978083468
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-10",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.01635021970033579,
+              "SPY": -0.0002621805970777196,
+              "VTI": -0.00020990724412772548,
+              "all_sector_equal": -0.01520806733915777,
+              "candidate_top5": -0.004735882458296546,
+              "eligible_equal": -0.004735882458296546
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-11",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.1099267455547479,
+              "SPY": 0.08947780213245982,
+              "VTI": 0.08858307716614333,
+              "all_sector_equal": 0.071452631849387,
+              "candidate_top5": 0.08524550636945624,
+              "eligible_equal": 0.07771144124738301
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-15",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.10007668898288191,
+              "SPY": 0.08751430507293545,
+              "VTI": 0.08830368854961002,
+              "all_sector_equal": 0.07888595210604121,
+              "candidate_top5": 0.08085616241670043,
+              "eligible_equal": 0.07548065960219424
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 5,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.007962847543687429,
+          "low": -0.0079697918742564,
+          "median": 0.0001513707314280233,
+          "p_below_or_equal_zero": 0.491
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.02484258206203351,
+          "SPY_mean": 0.01472713642890887,
+          "VTI_mean": 0.015485141140405272,
+          "all_sector_equal_mean": 0.009283129154550148,
+          "candidate_top5_mean": 0.01401422027741424,
+          "eligible_equal_mean": 0.013769055965122975
+        }
+      },
+      "50": {
+        "comparisons": {
+          "QQQ": {
+            "mean_difference": -0.010828361784619272,
+            "median_difference": -0.016597295604822503,
+            "newey_west": {
+              "annualized": -0.010828361784619272,
+              "lag": 5.0,
+              "mean_daily": -0.010828361784619272,
+              "t_stat": -0.8842074905170537
+            },
+            "win_fraction": 0.2777777777777778
+          },
+          "SPY": {
+            "mean_difference": -0.0007129161514946318,
+            "median_difference": -0.0025576119099033016,
+            "newey_west": {
+              "annualized": -0.0007129161514946318,
+              "lag": 5.0,
+              "mean_daily": -0.0007129161514946318,
+              "t_stat": -0.09265376901367947
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "VTI": {
+            "mean_difference": -0.0014709208629910318,
+            "median_difference": -0.002790976087397678,
+            "newey_west": {
+              "annualized": -0.0014709208629910318,
+              "lag": 5.0,
+              "mean_daily": -0.0014709208629910318,
+              "t_stat": -0.24171561256282548
+            },
+            "win_fraction": 0.3888888888888889
+          },
+          "all_sector_equal": {
+            "mean_difference": 0.0047310911228640885,
+            "median_difference": 0.003833515751594291,
+            "newey_west": {
+              "annualized": 0.0047310911228640885,
+              "lag": 5.0,
+              "mean_daily": 0.0047310911228640885,
+              "t_stat": 0.9478011279462275
+            },
+            "win_fraction": 0.7777777777777778
+          },
+          "eligible_equal": {
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "newey_west": {
+              "annualized": 0.00024516431229126216,
+              "lag": 5.0,
+              "mean_daily": 0.00024516431229126216,
+              "t_stat": 0.06515465821247643
+            },
+            "win_fraction": 0.5
+          }
+        },
+        "cost_bps": 50.0,
+        "event_series": [
+          {
+            "eligible_count": 5,
+            "entry_date": "2018-02-06",
+            "exit_date": "2018-02-12",
+            "market_return": -0.04182238447569275,
+            "returns": {
+              "QQQ": 0.014639579861814082,
+              "SPY": 0.015774173368790726,
+              "VTI": 0.015711840734406016,
+              "all_sector_equal": 0.012286604092225522,
+              "candidate_top5": 0.012841559140444318,
+              "eligible_equal": 0.012841559140444318
+            },
+            "selected": [
+              "VDE",
+              "VHT",
+              "VIS",
+              "VGT",
+              "VFH"
+            ],
+            "signal_date": "2018-02-05"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-02-09",
+            "exit_date": "2018-02-15",
+            "market_return": -0.03750889432976623,
+            "returns": {
+              "QQQ": 0.05977305032894454,
+              "SPY": 0.04189396062059248,
+              "VTI": 0.04092958662361535,
+              "all_sector_equal": 0.03618786572517812,
+              "candidate_top5": 0.039711351029132286,
+              "eligible_equal": 0.03898552240211858
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VIS",
+              "VHT"
+            ],
+            "signal_date": "2018-02-08"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2018-12-24",
+            "exit_date": "2018-12-31",
+            "market_return": -0.020489770412781882,
+            "returns": {
+              "QQQ": 0.05099626683223269,
+              "SPY": 0.040515523769655844,
+              "VTI": 0.0420056518374693,
+              "all_sector_equal": 0.0369904166996299,
+              "candidate_top5": 0.03929398125663564,
+              "eligible_equal": 0.041095195697329674
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VHT",
+              "VDC"
+            ],
+            "signal_date": "2018-12-21"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2018-12-26",
+            "exit_date": "2019-01-02",
+            "market_return": -0.026422807001834414,
+            "returns": {
+              "QQQ": 0.06254914339526907,
+              "SPY": 0.05521964884159981,
+              "VTI": 0.056409369012152884,
+              "all_sector_equal": 0.05453660553087117,
+              "candidate_top5": 0.0594318886283537,
+              "eligible_equal": 0.052006677049478124
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VOX",
+              "VIS",
+              "VDC"
+            ],
+            "signal_date": "2018-12-24"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2020-03-10",
+            "exit_date": "2020-03-16",
+            "market_return": -0.07809437341675163,
+            "returns": {
+              "QQQ": -0.16317192696822425,
+              "SPY": -0.1623568610058287,
+              "VTI": -0.1705005384404945,
+              "all_sector_equal": -0.18468114796563365,
+              "candidate_top5": -0.18217157767871384,
+              "eligible_equal": -0.18217157767871384
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VGT",
+              "VOX",
+              "VHT"
+            ],
+            "signal_date": "2020-03-09"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-12",
+            "exit_date": "2020-03-18",
+            "market_return": -0.04874840996707208,
+            "returns": {
+              "QQQ": -0.03514994795300263,
+              "SPY": -0.06750020377203869,
+              "VTI": -0.08217934935155424,
+              "all_sector_equal": -0.08899328941035498,
+              "candidate_top5": -0.12072538234992125,
+              "eligible_equal": -0.08475218465379343
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VCR",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2020-03-11"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-13",
+            "exit_date": "2020-03-19",
+            "market_return": -0.095677144373146,
+            "returns": {
+              "QQQ": -0.05530190157684966,
+              "SPY": -0.09082615045325548,
+              "VTI": -0.09522719484403708,
+              "all_sector_equal": -0.10392868886876136,
+              "candidate_top5": -0.1375754053135283,
+              "eligible_equal": -0.1045132943402643
+            },
+            "selected": [
+              "VDE",
+              "VFH",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-12"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-17",
+            "exit_date": "2020-03-23",
+            "market_return": -0.10942367591918978,
+            "returns": {
+              "QQQ": -0.03148191079416373,
+              "SPY": -0.08979811407771698,
+              "VTI": -0.08928098840394827,
+              "all_sector_equal": -0.0975288174454002,
+              "candidate_top5": -0.12051223395474146,
+              "eligible_equal": -0.09846829128266696
+            },
+            "selected": [
+              "VPU",
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH"
+            ],
+            "signal_date": "2020-03-16"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2020-03-19",
+            "exit_date": "2020-03-25",
+            "market_return": -0.05063292291176624,
+            "returns": {
+              "QQQ": 0.03483401721673996,
+              "SPY": 0.03258087735227878,
+              "VTI": 0.05300156044256011,
+              "all_sector_equal": 0.05793959827670062,
+              "candidate_top5": 0.10975603018941785,
+              "eligible_equal": 0.06970484667284606
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VIS",
+              "VFH",
+              "VOX"
+            ],
+            "signal_date": "2020-03-18"
+          },
+          {
+            "eligible_count": 9,
+            "entry_date": "2020-03-23",
+            "exit_date": "2020-03-27",
+            "market_return": -0.04309394947062428,
+            "returns": {
+              "QQQ": 0.07913331888778907,
+              "SPY": 0.10556550052017999,
+              "VTI": 0.11739758409312195,
+              "all_sector_equal": 0.11335335524883036,
+              "candidate_top5": 0.13854566624881548,
+              "eligible_equal": 0.11430044616703162
+            },
+            "selected": [
+              "VFH",
+              "VDE",
+              "VIS",
+              "VPU",
+              "VCR"
+            ],
+            "signal_date": "2020-03-20"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2020-03-24",
+            "exit_date": "2020-03-30",
+            "market_return": -0.025568081962092815,
+            "returns": {
+              "QQQ": 0.062422581732335954,
+              "SPY": 0.11115914115283443,
+              "VTI": 0.11231406443182312,
+              "all_sector_equal": 0.1194077402925953,
+              "candidate_top5": 0.14288764598488052,
+              "eligible_equal": 0.14042349819359734
+            },
+            "selected": [
+              "VDE",
+              "VIS",
+              "VFH",
+              "VPU",
+              "VDC"
+            ],
+            "signal_date": "2020-03-23"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-04-27",
+            "exit_date": "2022-05-03",
+            "market_return": -0.028960950458210233,
+            "returns": {
+              "QQQ": -1.9444909392536507e-05,
+              "SPY": -0.007061030597800828,
+              "VTI": -0.007001473803822651,
+              "all_sector_equal": -0.004772736357639924,
+              "candidate_top5": 0.011194686741470332,
+              "eligible_equal": 0.0033481789616137724
+            },
+            "selected": [
+              "VOX",
+              "VCR",
+              "VDE",
+              "VGT",
+              "VAW"
+            ],
+            "signal_date": "2022-04-26"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-05-12",
+            "exit_date": "2022-05-18",
+            "market_return": -0.015886108445476,
+            "returns": {
+              "QQQ": 0.00783707754201102,
+              "SPY": 0.0013948953643522265,
+              "VTI": 0.005975990381518752,
+              "all_sector_equal": 0.007997478721196043,
+              "candidate_top5": 0.012141024920430458,
+              "eligible_equal": 0.018396661058108606
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VOX",
+              "VAW",
+              "VFH"
+            ],
+            "signal_date": "2022-05-11"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-14",
+            "exit_date": "2022-06-21",
+            "market_return": -0.037968128633140474,
+            "returns": {
+              "QQQ": 0.009263377489815098,
+              "SPY": -0.005424040287218874,
+              "VTI": -0.006856571171268806,
+              "all_sector_equal": -0.01995432078797876,
+              "candidate_top5": -0.004931563009340318,
+              "eligible_equal": -0.018819426489664705
+            },
+            "selected": [
+              "VCR",
+              "VGT",
+              "VFH",
+              "VPU",
+              "VHT"
+            ],
+            "signal_date": "2022-06-13"
+          },
+          {
+            "eligible_count": 7,
+            "entry_date": "2022-06-17",
+            "exit_date": "2022-06-24",
+            "market_return": -0.033096227854543914,
+            "returns": {
+              "QQQ": 0.07948954179331891,
+              "SPY": 0.0622212083156174,
+              "VTI": 0.06435615051412735,
+              "all_sector_equal": 0.048125144414174134,
+              "candidate_top5": 0.04600250683226078,
+              "eligible_equal": 0.05200897808346801
+            },
+            "selected": [
+              "VDE",
+              "VCR",
+              "VGT",
+              "VOX",
+              "VPU"
+            ],
+            "signal_date": "2022-06-16"
+          },
+          {
+            "eligible_count": 5,
+            "entry_date": "2025-04-04",
+            "exit_date": "2025-04-10",
+            "market_return": -0.04928080109486821,
+            "returns": {
+              "QQQ": 0.01335021970033579,
+              "SPY": -0.0032621805970777197,
+              "VTI": -0.0032099072441277255,
+              "all_sector_equal": -0.01820806733915777,
+              "candidate_top5": -0.007735882458296546,
+              "eligible_equal": -0.007735882458296546
+            },
+            "selected": [
+              "VGT",
+              "VOX",
+              "VDE",
+              "VCR",
+              "VFH"
+            ],
+            "signal_date": "2025-04-03"
+          },
+          {
+            "eligible_count": 6,
+            "entry_date": "2025-04-07",
+            "exit_date": "2025-04-11",
+            "market_return": -0.058542992653013215,
+            "returns": {
+              "QQQ": 0.1069267455547479,
+              "SPY": 0.08647780213245981,
+              "VTI": 0.08558307716614333,
+              "all_sector_equal": 0.06845263184938699,
+              "candidate_top5": 0.08224550636945624,
+              "eligible_equal": 0.074711441247383
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VOX",
+              "VCR"
+            ],
+            "signal_date": "2025-04-04"
+          },
+          {
+            "eligible_count": 8,
+            "entry_date": "2025-04-09",
+            "exit_date": "2025-04-15",
+            "market_return": -0.015662693844959996,
+            "returns": {
+              "QQQ": 0.09707668898288191,
+              "SPY": 0.08451430507293545,
+              "VTI": 0.08530368854961001,
+              "all_sector_equal": 0.07588595210604121,
+              "candidate_top5": 0.07785616241670043,
+              "eligible_equal": 0.07248065960219424
+            },
+            "selected": [
+              "VDE",
+              "VGT",
+              "VFH",
+              "VCR",
+              "VOX"
+            ],
+            "signal_date": "2025-04-08"
+          }
+        ],
+        "events": 18,
+        "first_signal_date": "2018-02-05",
+        "fixed_halves_vs_eligible_equal": {
+          "first": {
+            "events": 0,
+            "mean_difference": null,
+            "median_difference": null,
+            "win_fraction": null
+          },
+          "second": {
+            "events": 18,
+            "mean_difference": 0.00024516431229126216,
+            "median_difference": 0.0003629143135068513,
+            "win_fraction": 0.5
+          }
+        },
+        "holding_sessions": 5,
+        "last_signal_date": "2025-04-08",
+        "mean_eligible_count": 7.0,
+        "mean_market_drop": -0.04538223984582945,
+        "moving_block_bootstrap_mean_difference_vs_eligible_equal": {
+          "high": 0.007962847543687427,
+          "low": -0.0079697918742564,
+          "median": 0.0001513707314280233,
+          "p_below_or_equal_zero": 0.491
+        },
+        "net_return_summary": {
+          "QQQ_mean": 0.021842582062033506,
+          "SPY_mean": 0.011727136428908868,
+          "VTI_mean": 0.012485141140405269,
+          "all_sector_equal_mean": 0.006283129154550152,
+          "candidate_top5_mean": 0.011014220277414243,
+          "eligible_equal_mean": 0.010769055965122978
+        }
+      }
+    }
+  },
+  "paper_authorized": false,
+  "paper_eligible": false,
+  "protocol": {
+    "bootstrap_block": 8,
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 20260803,
+    "cost_scenarios_bps": [
+      10.0,
+      20.0,
+      50.0
+    ],
+    "horizons": [
+      5,
+      10,
+      20
+    ],
+    "laggard_threshold": -0.05,
+    "market_drop_threshold": -0.015,
+    "min_median_dollar_volume": 20000000.0,
+    "min_price": 5.0,
+    "path": "docs/SHORT_TERM_MARKET_STRESS_LAGGARD_EXTERNAL_PROTOCOL.md",
+    "primary_cost_bps": 20.0,
+    "primary_horizon": 20,
+    "sha256": "1fbdbc19202580a8c289e9b44f9452673b975ccebe9392b909b9245f4ab01c19",
+    "top_k": 5
+  },
+  "public_strategy_allowed": false,
+  "real_money_action_usd": 0,
+  "research_role": "fixed_external_market_stress_mechanism_diagnostic",
+  "schedule": {
+    "complete_events_by_horizon": {
+      "10": 18,
+      "20": 18,
+      "5": 18
+    },
+    "first_signal_date": "2018-02-05",
+    "last_signal_date": "2025-04-08",
+    "raw_event_rows": 54
+  },
+  "schema_version": 1,
+  "source": {
+    "archive_sha256": "5f9a020e33399705ac52b9bdd2f5cda1d569909cd3577f80de4bf3f92a935105",
+    "baseline_tickers": [
+      "SPY",
+      "QQQ",
+      "VTI"
+    ],
+    "corporate_actions_complete": false,
+    "data_checks": {
+      "contract_ok": true,
+      "first_joint_download_only": true,
+      "formal_period_all_ohlcv_complete": true,
+      "formal_period_has_at_least_5000_sessions": true,
+      "latest_all_positive_volume": true,
+      "maximum_adjusted_daily_move_not_above_65pct": true,
+      "snapshot_created_after_freeze": true
+    },
+    "data_receipt_status": "short_term_sector_etf_first_external_download_contract_passed",
+    "delisted_returns_complete": false,
+    "formal_period": {
+      "end": "2026-07-31",
+      "start": "2006-08-01"
+    },
+    "manifest_end": "2026-07-31",
+    "manifest_start": "2004-09-23",
+    "panel_sha256": "7a13b864f5e4aeaec08c1c78e2ed3f5fd64a7586acf7818e16c0ca945870d392",
+    "point_in_time_stock_membership": false,
+    "snapshot_filename": "snapshot_short_term_sector_vanguard_20040923_20260731_7a13b864.zip",
+    "tickers": [
+      "VAW",
+      "VCR",
+      "VDC",
+      "VDE",
+      "VFH",
+      "VGT",
+      "VHT",
+      "VIS",
+      "VOX",
+      "VPU"
+    ]
+  },
+  "status": "external_market_stress_laggard_validation_failed",
+  "trade_ready": false
+}
