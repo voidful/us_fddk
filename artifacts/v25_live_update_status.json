@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-12T06:00:53.625249Z",
-  "previous_data_through": "2026-08-07",
-  "data_through": "2026-08-11",
-  "expected_session": "2026-08-11",
+  "generated_at_utc": "2026-08-13T05:57:29.918838Z",
+  "previous_data_through": "2026-08-11",
+  "data_through": "2026-08-12",
+  "expected_session": "2026-08-12",
   "data_advanced": true,
   "idempotent_no_new_session": false,
   "state_changed_without_new_session": false,
@@ -13,12 +13,12 @@
   "private_deploy_candidate": true,
   "reference_trade_allowed": false,
   "snapshot": {
-    "path": "/home/runner/work/us_fddk/us_fddk/artifacts/snapshot_v25_live_20260811_c86dddae.zip",
-    "panel_sha256": "c86dddae1e1f5aa94903a64919400101b9084dbeef2c78815f3f21ff9f5459bc",
-    "archive_sha256": "a8931f1e02d93aff156de92de193619ab4124eb06f0804e35417938cd6310ceb",
-    "rows": 29,
+    "path": "/home/runner/work/us_fddk/us_fddk/artifacts/snapshot_v25_live_20260812_041ac276.zip",
+    "panel_sha256": "041ac27655caebe4da61e5a4368f4eb20705a2af31194caa22e0e20c517327b2",
+    "archive_sha256": "858bbfd22e8dfce31c2bae0a3a299d3d0b8955ea63a11f67f61de0cd2f375d9c",
+    "rows": 30,
     "start": "2026-07-01",
-    "end": "2026-08-11",
+    "end": "2026-08-12",
     "tickers": [
       "GLD",
       "SHY",
@@ -28,13 +28,17 @@
     "contract": {
       "ok": true,
       "errors": [],
-      "warnings": [],
+      "warnings": [
+        "歷史覆蓋不足：SHY=93%"
+      ],
       "stats": {
-        "last_session": "2026-08-11",
-        "expected_session": "2026-08-11",
+        "last_session": "2026-08-12",
+        "expected_session": "2026-08-12",
         "last_close_coverage": 1.0,
-        "thin_tickers": {},
-        "positive_price_fraction": 1.0,
+        "thin_tickers": {
+          "SHY": 0.9333
+        },
+        "positive_price_fraction": 0.9833333333333334,
         "suspicious_last_moves": {},
         "ohlc_violations": 0,
         "latest_positive_volume": 1.0
@@ -43,31 +47,31 @@
   },
   "accounts": {
     "candidate": {
-      "as_of": "2026-08-11",
+      "as_of": "2026-08-12",
       "started_at": "2026-07-31",
       "mode": "live",
       "transactions": 2,
-      "snapshot_sha256": "a8931f1e02d93aff156de92de193619ab4124eb06f0804e35417938cd6310ceb",
-      "performance_state_sha256": "007a8757523f159a73412e9c3aa895ea2212e39b0b84a9f798b38b7446cf8842",
-      "proposed_performance_state_sha256": "007a8757523f159a73412e9c3aa895ea2212e39b0b84a9f798b38b7446cf8842"
+      "snapshot_sha256": "858bbfd22e8dfce31c2bae0a3a299d3d0b8955ea63a11f67f61de0cd2f375d9c",
+      "performance_state_sha256": "c16a08bccf147b1d1817d378904d30fe17a2ff46047509e927664508aeff11f9",
+      "proposed_performance_state_sha256": "c16a08bccf147b1d1817d378904d30fe17a2ff46047509e927664508aeff11f9"
     },
     "SPY": {
-      "as_of": "2026-08-11",
+      "as_of": "2026-08-12",
       "started_at": "2026-07-31",
       "mode": "live",
       "transactions": 1,
-      "snapshot_sha256": "a8931f1e02d93aff156de92de193619ab4124eb06f0804e35417938cd6310ceb",
-      "performance_state_sha256": "2ef1b04dcbf4c1e2062f165705dd97e8970c371a3d25ff2092275b8b19370e77",
-      "proposed_performance_state_sha256": "2ef1b04dcbf4c1e2062f165705dd97e8970c371a3d25ff2092275b8b19370e77"
+      "snapshot_sha256": "858bbfd22e8dfce31c2bae0a3a299d3d0b8955ea63a11f67f61de0cd2f375d9c",
+      "performance_state_sha256": "1e632851059336d94502724185d9b649647612a8810233abf18ae977ee014f6d",
+      "proposed_performance_state_sha256": "1e632851059336d94502724185d9b649647612a8810233abf18ae977ee014f6d"
     },
     "matched": {
-      "as_of": "2026-08-11",
+      "as_of": "2026-08-12",
       "started_at": "2026-07-31",
       "mode": "live",
       "transactions": 2,
-      "snapshot_sha256": "a8931f1e02d93aff156de92de193619ab4124eb06f0804e35417938cd6310ceb",
-      "performance_state_sha256": "d2f301480689e891185874ca0eacb9970544d613544794610de808d8c1699250",
-      "proposed_performance_state_sha256": "d2f301480689e891185874ca0eacb9970544d613544794610de808d8c1699250"
+      "snapshot_sha256": "858bbfd22e8dfce31c2bae0a3a299d3d0b8955ea63a11f67f61de0cd2f375d9c",
+      "performance_state_sha256": "b8d09ca0bb8671fee148182d5344552eda09475fc601866a9e7f60a2d42ccb62",
+      "proposed_performance_state_sha256": "b8d09ca0bb8671fee148182d5344552eda09475fc601866a9e7f60a2d42ccb62"
     }
   },
   "forward_evidence": {
@@ -87,11 +91,11 @@
       ]
     },
     "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-    "as_of": "2026-08-11",
+    "as_of": "2026-08-12",
     "started_at": "2026-07-31",
-    "forward_sessions": 7,
+    "forward_sessions": 8,
     "minimum_sessions": 252,
-    "remaining_sessions": 245,
+    "remaining_sessions": 244,
     "filled_orders_including_initial_allocation": 1,
     "initial_allocations": 1,
     "account_fill_counts": {
@@ -116,44 +120,44 @@
     "remaining_filled_rebalances": 6,
     "integrity_violations": 0,
     "candidate": {
-      "equity": 104386.68617896321,
-      "return": 0.04386686178963206,
+      "equity": 104861.98825665996,
+      "return": 0.04861988256659955,
       "max_drawdown": -0.006059107127781016
     },
     "SPY": {
-      "equity": 102715.3881356136,
-      "return": 0.027153881356136056,
+      "equity": 102972.6555092378,
+      "return": 0.029726555092377982,
       "max_drawdown": -0.003591224858201403
     },
     "matched_80_VUG_20_SHY": {
-      "equity": 102742.68485151388,
-      "return": 0.02742684851513877,
+      "equity": 103016.41790640488,
+      "return": 0.03016417906404878,
       "max_drawdown": -0.007426597487323772
     },
-    "return_difference_vs_SPY": 0.016712980433496005,
-    "return_difference_vs_matched": 0.016440013274493293,
+    "return_difference_vs_SPY": 0.018893327474221566,
+    "return_difference_vs_matched": 0.01845570350255077,
     "forward_diagnostics": {
       "SPY": {
-        "annualized_return_difference": 2.067068404242605,
+        "annualized_return_difference": 1.9452141439068709,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
         "active_newey_west": {
-          "mean_daily": 0.002326352523239396,
-          "annualized": 0.5862408358563278,
-          "t_stat": 2.4452518848071745,
+          "mean_daily": 0.002291635974137382,
+          "annualized": 0.5774922654826202,
+          "t_stat": 2.682552117077067,
           "lag": 5.0
         }
       },
       "matched_80_VUG_20_SHY": {
-        "annualized_return_difference": 2.041852361018936,
+        "annualized_return_difference": 1.9113104247108161,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
         "active_newey_west": {
-          "mean_daily": 0.0022788630846825348,
-          "annualized": 0.5742734973399988,
-          "t_stat": 4.473947404896608,
+          "mean_daily": 0.0022301332267434387,
+          "annualized": 0.5619935731393466,
+          "t_stat": 4.719243834825394,
           "lag": 5.0
         }
       }
