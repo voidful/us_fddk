@@ -4,16 +4,16 @@
   "strategy": "v25 SPY 基準（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-08-02T22:37:29.379761+00:00",
-  "updated_at": "2026-08-13T05:57:29.893743+00:00",
+  "updated_at": "2026-08-14T05:56:43.906738+00:00",
   "initial_cash": 100000.0,
   "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-08-12",
+  "as_of": "2026-08-13",
   "holdings": {
     "SPY": {
       "shares": 133.29966318139046,
-      "last_price": 772.489990234375,
-      "market_value": 102972.6555092378
+      "last_price": 777.8800048828125,
+      "market_value": 103691.14264641727
     }
   },
   "pending_order": null,
@@ -115,10 +115,18 @@
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": -0.0009958093287190106
+    },
+    {
+      "date": "2026-08-13",
+      "equity": 103691.14264641727,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": 0.0
     }
   ],
   "adjustment_rebases": [],
   "total_costs": 99.9000999000999,
-  "snapshot_sha256": "858bbfd22e8dfce31c2bae0a3a299d3d0b8955ea63a11f67f61de0cd2f375d9c",
+  "snapshot_sha256": "b1349a7d9cb08c97e8ebc2a428858704b6b119005bde3e0c9d48df675bd8adb5",
   "started_at": "2026-07-31"
 }
