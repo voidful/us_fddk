@@ -9,20 +9,20 @@ const publicSiteRoot = publicSiteUrl.replace(/\/$/, "");
 export const metadata: Metadata = {
   metadataBase: new URL(publicSiteUrl),
   title: {
-    default: "美股交易參考｜只顯示已驗證策略",
+    default: "美股策略狀態",
     template: "%s｜US FDDK",
   },
-  description: "只呈列完整通過事前、成本、風險及前瞻驗證的美股策略與今日行動；未通過結果保留在研究日誌。",
+  description: "只顯示完整驗證後的策略；未通過時明確顯示今天不下單。",
   openGraph: {
-    title: "美股交易參考｜只顯示已驗證策略",
-    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
+    title: "美股策略狀態",
+    description: "只有完整驗證通過的策略才會公開；否則明確顯示今天不下單。",
     locale: "zh_HK",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "美股交易參考｜只顯示已驗證策略",
-    description: "只有完整通過全部門檻的策略才會公開；沒有通過時，明確顯示今天不下單。",
+    title: "美股策略狀態",
+    description: "只有完整驗證通過的策略才會公開；否則明確顯示今天不下單。",
   },
   icons: { icon: `${publicSiteRoot}/favicon.svg` },
 };
