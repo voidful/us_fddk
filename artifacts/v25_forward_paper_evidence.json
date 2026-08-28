@@ -15,11 +15,11 @@
     ]
   },
   "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-  "as_of": "2026-08-26",
+  "as_of": "2026-08-27",
   "started_at": "2026-07-31",
-  "forward_sessions": 18,
+  "forward_sessions": 19,
   "minimum_sessions": 252,
-  "remaining_sessions": 234,
+  "remaining_sessions": 233,
   "filled_orders_including_initial_allocation": 1,
   "initial_allocations": 1,
   "account_fill_counts": {
@@ -44,44 +44,44 @@
   "remaining_filled_rebalances": 6,
   "integrity_violations": 0,
   "candidate": {
-    "equity": 104383.74960554387,
-    "return": 0.04383749605543863,
+    "equity": 105844.46889087891,
+    "return": 0.058444688908789066,
     "max_drawdown": -0.016789525351776136
   },
   "SPY": {
-    "equity": 102118.20824807002,
-    "return": 0.021182082480700082,
+    "equity": 102787.36702478387,
+    "return": 0.027873670247838822,
     "max_drawdown": -0.019643170156015244
   },
   "matched_80_VUG_20_SHY": {
-    "equity": 101684.58004760102,
-    "return": 0.016845800476010142,
+    "equity": 103073.75434238474,
+    "return": 0.03073754342384749,
     "max_drawdown": -0.025253200367637563
   },
-  "return_difference_vs_SPY": 0.022655413574738548,
-  "return_difference_vs_matched": 0.026991695579428487,
+  "return_difference_vs_SPY": 0.030571018660950244,
+  "return_difference_vs_matched": 0.027707145484941575,
   "forward_diagnostics": {
     "SPY": {
-      "annualized_return_difference": 0.4822610906480398,
+      "annualized_return_difference": 0.6841265872266251,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,
       "active_newey_west": {
-        "mean_daily": 0.0012320982986000423,
-        "annualized": 0.31048877124721064,
-        "t_stat": 1.7387626989726725,
+        "mean_daily": 0.0015588802893127544,
+        "annualized": 0.3928378329068141,
+        "t_stat": 2.3753935005292286,
         "lag": 5.0
       }
     },
     "matched_80_VUG_20_SHY": {
-      "annualized_return_difference": 0.5598211807887987,
+      "annualized_return_difference": 0.6299946868980251,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,
       "active_newey_west": {
-        "mean_daily": 0.001463263574079215,
-        "annualized": 0.36874242066796215,
-        "t_stat": 2.591097703785312,
+        "mean_daily": 0.0014037307497822779,
+        "annualized": 0.353740148945134,
+        "t_stat": 2.503714158025178,
         "lag": 5.0
       }
     }
