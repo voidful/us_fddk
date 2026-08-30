@@ -4,14 +4,14 @@
   "integrity_ok": true,
   "safe_to_publish_paper_status": true,
   "status": "fresh",
-  "checked_at_utc": "2026-08-28T16:50:25.688463Z",
-  "refresh_due_at_utc": "2026-08-29T02:00:00Z",
-  "data_through": "2026-08-27",
-  "paper_as_of": "2026-08-27",
-  "snapshot_sha256": "592bee9fde2a8192aeed55bd0e9b9e7065acc236925ea2a8b5757b03c22ad1a1",
+  "checked_at_utc": "2026-08-30T10:03:20.794032Z",
+  "refresh_due_at_utc": "2026-09-01T02:00:00Z",
+  "data_through": "2026-08-28",
+  "paper_as_of": "2026-08-28",
+  "snapshot_sha256": "69ae46385dd1e7cf41f63008ce40717a4ed50bb467fac3c64b2eb99d083dba67",
   "paper_eligible": true,
   "all_paths_passed": true,
-  "forward_sessions": 19,
+  "forward_sessions": 20,
   "filled_rebalances": 0,
   "live_confirmed": false,
   "reference_trade_allowed": false,
@@ -19,8 +19,8 @@
   "errors": [],
   "receipt": {
     "ledger": "artifacts/v25_live_evidence_ledger.jsonl",
-    "sequence": 14,
-    "receipt_sha256": "dbd3be55fbb98b05227cf2a18e64d10b9e67d2d794d5b3f0bef39aa23c87bd5a",
+    "sequence": 15,
+    "receipt_sha256": "056e74236d6c12ebc693ab4fd5aab8c8914c4adc792e6db03497b966eb526684",
     "appended": true
   }
 }
