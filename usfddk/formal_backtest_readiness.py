@@ -14,6 +14,13 @@ from .formal_release_integration import (
     FormalReleaseIntegrationError,
     audit_release_firewall,
 )
+from .global_trial_ledger import (
+    GLOBAL_TRIAL_CURRENT_LOWER_BOUND,
+    GLOBAL_TRIAL_LEDGER_PROTOCOL_SHA256,
+    GLOBAL_TRIAL_ORIGINAL_PREREGISTRATION,
+    GlobalTrialLedgerError,
+    audit_global_trial_ledger,
+)
 from .local_quarantine_intake import (
     LocalQuarantineIntakeError,
     audit_local_quarantine_package,
@@ -27,7 +34,8 @@ FORMAL_PREREGISTRATION_PROTOCOL_SHA256 = (
 FORMAL_PREREGISTRATION_RECEIPT_PATH = (
     "artifacts/short_term_formal_backtest_preregistration_receipt.json"
 )
-FORMAL_GLOBAL_SEARCH_TRIALS = 6_208
+FORMAL_PREREGISTRATION_GLOBAL_SEARCH_TRIALS = GLOBAL_TRIAL_ORIGINAL_PREREGISTRATION
+FORMAL_GLOBAL_SEARCH_TRIALS = GLOBAL_TRIAL_CURRENT_LOWER_BOUND
 FORMAL_PBO_SLICES = 10
 FORMAL_PBO_PATHS = (
     "frozen_composite_monthly_top10",
@@ -117,9 +125,7 @@ def _read_json(path: Path, code: str) -> dict[str, Any]:
 
 def _timestamp(value: object, field: str, code: str) -> datetime:
     raw = str(value)
-    if not raw.endswith("Z") and not (
-        len(raw) >= 6 and raw[-6] in {"+", "-"} and raw[-3] == ":"
-    ):
+    if not raw.endswith("Z") and not (len(raw) >= 6 and raw[-6] in {"+", "-"} and raw[-3] == ":"):
         _fail(code, f"{field} 缺 UTC offset")
     try:
         parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
@@ -140,8 +146,7 @@ def _protocol_integrity(root: Path) -> dict[str, Any]:
             if isinstance(value, dict) and set(value) == {"path", "sha256"}
         ]
         hash_checks = {
-            item["path"]: _sha256_file(root / item["path"]) == item["sha256"]
-            for item in tracked
+            item["path"]: _sha256_file(root / item["path"]) == item["sha256"] for item in tracked
         }
         frozen_at = _timestamp(
             receipt["frozen_at"],
@@ -156,7 +161,7 @@ def _protocol_integrity(root: Path) -> dict[str, Any]:
             and receipt["frozen_control_gate_count"] == 18
             and receipt["frozen_attack_count"] == 18
             and receipt["frozen_global_search_trials"]
-            == FORMAL_GLOBAL_SEARCH_TRIALS
+            == FORMAL_PREREGISTRATION_GLOBAL_SEARCH_TRIALS
             and receipt["frozen_pbo_path_count"] == len(FORMAL_PBO_PATHS)
             and receipt["frozen_prerequisite_hash_count"] == 12
             and receipt["frozen_risk_free_output_file_count"] == 2
@@ -184,10 +189,21 @@ def _protocol_integrity(root: Path) -> dict[str, Any]:
             "formal_protocol_integrity_failed",
             "Round 18 事前登記、收據或前置雜湊不完整",
         )
+    try:
+        trial_ledger = audit_global_trial_ledger(root=root)
+    except GlobalTrialLedgerError as exc:
+        _fail(
+            "formal_global_trial_ledger_invalid",
+            f"{exc.code}: 全域試驗下限帳本不完整",
+        )
     return {
         "passed": True,
         "frozen_at": frozen_at.isoformat().replace("+00:00", "Z"),
         "hash_checks": hash_checks,
+        "original_preregistered_global_search_trials": (
+            FORMAL_PREREGISTRATION_GLOBAL_SEARCH_TRIALS
+        ),
+        "global_trial_ledger": trial_ledger,
     }
 
 
@@ -239,9 +255,10 @@ def _private_tree_ok(path: Path) -> bool:
 
 def _validate_package_receipt(package: Path, source_mode: str) -> dict[str, Any]:
     receipt = _read_json(package / "intake_receipt.json", "formal_input_binding_mismatch")
-    if receipt.get("strategy_run_count") != 0 or receipt.get(
-        "formal_stock_backtest_completed"
-    ) is not False:
+    if (
+        receipt.get("strategy_run_count") != 0
+        or receipt.get("formal_stock_backtest_completed") is not False
+    ):
         _fail("formal_prior_run_detected", "Round 17 receipt 已記錄正式策略執行")
     manifests = receipt.get("manifest_receipts")
     if not isinstance(manifests, dict):
@@ -251,8 +268,7 @@ def _validate_package_receipt(package: Path, source_mode: str) -> dict[str, Any]
         "execution/execution_manifest.json",
     }
     if any(
-        manifests.get(relative) != _sha256_file(package / relative)
-        for relative in expected_paths
+        manifests.get(relative) != _sha256_file(package / relative) for relative in expected_paths
     ):
         _fail("formal_input_binding_mismatch", "Round 17 衍生 manifest SHA-256 漂移")
     if source_mode == "provider":
@@ -265,8 +281,7 @@ def _validate_package_receipt(package: Path, source_mode: str) -> dict[str, Any]
     elif source_mode == "synthetic_control":
         if (
             receipt.get("source_mode") != "synthetic_control"
-            or receipt.get("status")
-            != "synthetic_control_local_quarantine_intake_passed"
+            or receipt.get("status") != "synthetic_control_local_quarantine_intake_passed"
             or receipt.get("formal_stock_backtest_input_ready") is not False
         ):
             _fail(
@@ -355,21 +370,14 @@ def _read_risk_free_bundle(
         or not str(manifest.get("source_vintage", "")).strip()
     ):
         _fail("risk_free_provenance_invalid", "risk-free 模式、來源或研究口徑不符")
-    if manifest.get("unit") != FORMAL_RF_UNIT or not frame["unit"].eq(
-        FORMAL_RF_UNIT
-    ).all():
+    if manifest.get("unit") != FORMAL_RF_UNIT or not frame["unit"].eq(FORMAL_RF_UNIT).all():
         _fail("risk_free_unit_invalid", "risk-free 必須是 decimal simple daily return")
     if not frame["source_series"].eq(FORMAL_RF_SERIES).all():
         _fail("risk_free_provenance_invalid", "risk-free economic series 漂移")
-    if (
-        frame["source_record_id"].eq("").any()
-        or not frame["source_record_id"].is_unique
-    ):
+    if frame["source_record_id"].eq("").any() or not frame["source_record_id"].is_unique:
         _fail("risk_free_provenance_invalid", "risk-free source record 缺失或重複")
 
-    parsed_sessions = pd.to_datetime(
-        frame["session"], format="%Y-%m-%d", errors="coerce"
-    )
+    parsed_sessions = pd.to_datetime(frame["session"], format="%Y-%m-%d", errors="coerce")
     expected = pd.DatetimeIndex(expected_sessions).tz_localize(None).normalize()
     actual = pd.DatetimeIndex(parsed_sessions.dropna()).normalize()
     if (
@@ -437,9 +445,10 @@ def _validate_policy(payload: dict[str, Any]) -> None:
         _fail("formal_statistics_policy_mismatch", "NW／DSR／PBO 政策漂移")
     if payload.get("baselines") != expected["baselines"]:
         _fail("formal_baseline_policy_mismatch", "baseline 名稱、次序或語義漂移")
-    if payload.get("execution") != expected["execution"] or payload.get(
-        "strategy"
-    ) != expected["strategy"]:
+    if (
+        payload.get("execution") != expected["execution"]
+        or payload.get("strategy") != expected["strategy"]
+    ):
         _fail("formal_execution_policy_mismatch", "訊號、時鐘或成本政策漂移")
 
 
@@ -448,17 +457,27 @@ def _compute_run_id(
     package: Path,
     risk_free: Path,
     policy: dict[str, Any],
+    audited_trial_ledger: dict[str, Any],
 ) -> tuple[str, dict[str, str]]:
+    ledger_sha256 = audited_trial_ledger.get("ledger_sha256")
+    protocol_sha256 = audited_trial_ledger.get("protocol_sha256")
+    if (
+        not isinstance(ledger_sha256, str)
+        or len(ledger_sha256) != 64
+        or protocol_sha256 != GLOBAL_TRIAL_LEDGER_PROTOCOL_SHA256
+    ):
+        _fail(
+            "formal_global_trial_ledger_invalid",
+            "run ID 必須使用同一次審計已綁定的帳本及協議 digest",
+        )
     bindings = {
         "formal_protocol_sha256": FORMAL_PREREGISTRATION_PROTOCOL_SHA256,
         "intake_receipt_sha256": _sha256_file(package / "intake_receipt.json"),
         "ledger_manifest_sha256": _sha256_file(package / "ledger/manifest.json"),
-        "execution_manifest_sha256": _sha256_file(
-            package / "execution/execution_manifest.json"
-        ),
-        "risk_free_manifest_sha256": _sha256_file(
-            risk_free / "risk_free_manifest.json"
-        ),
+        "execution_manifest_sha256": _sha256_file(package / "execution/execution_manifest.json"),
+        "risk_free_manifest_sha256": _sha256_file(risk_free / "risk_free_manifest.json"),
+        "global_trial_ledger_sha256": ledger_sha256,
+        "global_trial_ledger_protocol_sha256": protocol_sha256,
         "policy_sha256": hashlib.sha256(
             json.dumps(
                 policy,
@@ -636,6 +655,7 @@ def audit_formal_backtest_readiness(
         package=package_path,
         risk_free=risk_free_path,
         policy=policy,
+        audited_trial_ledger=protocol["global_trial_ledger"],
     )
     if expected_run_id is not None:
         _require_run_id(run_id, expected_run_id)
@@ -668,7 +688,7 @@ def audit_formal_backtest_readiness(
         "派息、拆股、退市、現金及 successor 只計一次",
         "四個 baseline 名稱、次序及漂移語義固定",
         "固定兩半、滾動窗口、危機段及 US$1,000",
-        "NW／PSR／6,208-trial DSR／四路十段 PBO 固定",
+        (f"NW／PSR／{FORMAL_GLOBAL_SEARCH_TRIALS:,}-trial 下限 DSR／四路十段 PBO 固定"),
         "預留輸出不存在；正式執行須原子建立且只可一次",
         (
             "合成只通過形狀控制；正式／Paper／實金均未升級"
@@ -734,9 +754,7 @@ def audit_formal_backtest_readiness(
         ],
         "upstream": {
             "round17_status": upstream_audit["status"],
-            "point_in_time_gate_summary": upstream_audit[
-                "point_in_time_gate_summary"
-            ],
+            "point_in_time_gate_summary": upstream_audit["point_in_time_gate_summary"],
             "extension_gate_summary": upstream_audit["extension_gate_summary"],
             "strategy_run_count": receipt["strategy_run_count"],
         },

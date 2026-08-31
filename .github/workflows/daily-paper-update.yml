@@ -242,6 +242,9 @@ jobs:
           ./.venv/bin/pytest tests/test_disclosure_known_at_protocol.py
           ./.venv/bin/pytest tests/test_disclosure_known_at.py
           ./.venv/bin/pytest tests/test_disclosure_readiness_report.py
+          ./.venv/bin/pytest tests/test_form4_cluster_protocol.py
+          ./.venv/bin/pytest tests/test_global_trial_ledger.py
+          ./.venv/bin/pytest tests/test_sec_edgar_client.py
           ./.venv/bin/pytest tests/test_multi_window_resonance.py
           ./.venv/bin/pytest tests/test_multi_window_resonance_report.py
           ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py

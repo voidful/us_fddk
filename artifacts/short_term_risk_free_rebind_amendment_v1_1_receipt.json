@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "research_round": 41,
+  "status": "frozen_after_ci_rejected_formal_validator_drift_before_rebind_implementation",
+  "frozen_at": "2026-08-09T22:17:30Z",
+  "git_head_at_freeze": "cf733a2495a27fa94bbf7c32da65dfd3924602a5",
+  "ci_failure": {
+    "provider": "github_actions",
+    "run_id": 31338931902,
+    "run_url": "https://github.com/voidful/us_fddk/actions/runs/31338931902",
+    "conclusion": "failure",
+    "error_code": "rf_staging_rebind_integrity_failed"
+  },
+  "amendment": {
+    "path": "docs/SHORT_TERM_RISK_FREE_REBIND_AMENDMENT_V1_1.md",
+    "sha256": "3739d072a8cd755a50e47bee61023c68c48e71df95c2e0f3228badd51d64fcec"
+  },
+  "historical_round36_protocol": {
+    "path": "docs/SHORT_TERM_RISK_FREE_REBIND_PROTOCOL.md",
+    "sha256": "807919e88a60c364cbcf48f0bd3eb06bf006d9956b1a121ef2cf2b8b58b05b9b"
+  },
+  "historical_round36_receipt": {
+    "path": "artifacts/short_term_risk_free_rebind_receipt.json",
+    "sha256": "f208061b579951ad514366af277e5349428e0dc45d84b58da4f5a5b7d3b18adb"
+  },
+  "historical_formal_validator": {
+    "path": "usfddk/formal_backtest_readiness.py",
+    "sha256": "f1c98d5fee063dac34d73359b2c3c8a08f92eed10a195caeb0302306032ccbf0"
+  },
+  "current_formal_validator": {
+    "path": "usfddk/formal_backtest_readiness.py",
+    "sha256": "dd8e4f56a3f8528917a1ac17451040c71d758eb89cd5869d0736d4f22423aa66"
+  },
+  "current_formal_release_integration": {
+    "path": "usfddk/formal_release_integration.py",
+    "sha256": "b27037b8eebbe4ce83064523b4c8d3db99f3ad5edb342b682cc71cdcab770fa5"
+  },
+  "global_trial_ledger_protocol": {
+    "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+  },
+  "global_trial_ledger": {
+    "path": "artifacts/short_term_global_trial_ledger.json",
+    "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49"
+  },
+  "historical_round36_receipt_immutable": true,
+  "rebind_implementation_present_at_freeze": false,
+  "risk_free_data_changed_at_freeze": false,
+  "provider_release_receipt_present_at_freeze": false,
+  "formal_provider_run_present_at_freeze": false,
+  "formal_backtest_authorized": false,
+  "strategy_run_count": 0,
+  "paper_authorized": false,
+  "paper_state": "all_cash",
+  "paper_trade_count": 0,
+  "paper_position_count": 0,
+  "real_money_action_usd": 0,
+  "frozen_control_count": 8,
+  "frozen_attack_count": 8
+}

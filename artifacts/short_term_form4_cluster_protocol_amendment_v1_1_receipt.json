@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "research_round": 41,
+  "status": "v1_1_frozen_before_authorized_form4_data_candidate_selection_strategy_run_or_performance_result",
+  "frozen_at": "2026-08-09T21:58:03Z",
+  "historical_v1_protocol": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL.md",
+    "sha256": "c0b8370f5139d7076d9b4bc52fd8514c3b57a4bb4917b9890720d15d78d8c28e"
+  },
+  "historical_v1_draft_receipt": {
+    "path": "artifacts/short_term_form4_cluster_protocol_receipt.json",
+    "sha256": "077b877f7b04acf5aa9fcbcb2efcd4e99bc894f6a85846a616f549745126b383"
+  },
+  "historical_v1_draft_supersession_seal": {
+    "path": "artifacts/short_term_form4_cluster_v1_draft_supersession_seal.json",
+    "sha256": "36ec97665ba060b16f46e2383964e03e8fca45e51eb0d5e4f13bebaf10c40f0a"
+  },
+  "disclosure_v1_1_amendment": {
+    "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL_AMENDMENT_V1_1.md",
+    "sha256": "cd2422c3f74aa79ab062aaf02fbdce7c20ba9d0455b4f7219c3954521614ac76"
+  },
+  "disclosure_v1_1_amendment_receipt": {
+    "path": "artifacts/short_term_disclosure_known_at_protocol_amendment_v1_1_receipt.json",
+    "sha256": "09cc69ec9f4bcf896f7b527f7b14b51b36e4d634d7f6fd5d3e0905e7d78de7aa"
+  },
+  "form4_v1_1_amendment": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md",
+    "sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd"
+  },
+  "global_trial_ledger_protocol": {
+    "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+  },
+  "candidate_id": "form4_cluster_confirmed_10d",
+  "source_scope": [
+    "sec_form_4"
+  ],
+  "comparison_family": [
+    "qqq_buy_hold",
+    "spy_buy_hold",
+    "pit_eligible_equal_weight_monthly",
+    "form4_cluster_unconfirmed",
+    "price_volume_only_matched",
+    "single_actor_purchase_confirmed",
+    "non_signal_code_confirmed",
+    "issuer_month_actor_permutation"
+  ],
+  "global_trial_correction": {
+    "historical_v1_draft_lower_bound_before": 6240,
+    "omitted_seen_round24_to_round28_minimum": 39,
+    "corrected_lower_bound_before": 6279,
+    "reserved_trial_increment": 8,
+    "current_lower_bound_after": 6287,
+    "exact_global_count_claimed": false
+  },
+  "ledger_before_round41": {
+    "prefix_entry_count": 11,
+    "current_lower_bound": 6279,
+    "chain_head_sha256": "65dcb20b84a27a8120d998f6e1426d5e7fb150bafaa82f8c0f402f98aa9618dc"
+  },
+  "data_state_at_freeze": {
+    "global_disclosure_readiness_passed": 2,
+    "global_disclosure_readiness_total": 20,
+    "form4_specific_admission_passed": 0,
+    "form4_specific_admission_total": 16,
+    "authorized_real_form4_rows": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false,
+    "twenty_year_form4_coverage_validated": false
+  },
+  "permission": {
+    "candidate_specification_frozen": true,
+    "authorized_data_intake": false,
+    "backtest": false,
+    "paper": false,
+    "real_money": false
+  },
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "today_action": "今天不下單"
+}

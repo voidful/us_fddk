@@ -41,7 +41,7 @@ import sizePriorResearch from "../data/short-term-french-size-prior.json";
 export const metadata: Metadata = {
   title: "美股雙策略研究｜長線穩定與短線高回報",
   description:
-    "長線 ETF 分散策略與短線研究分頁呈列；短線第三十九輪龍頭回調—回升只過 8/22，公開披露 Phase 1 就緒只過 2/20，動態選擇停用，Paper 維持全現金。",
+    "長線 ETF 分散策略與短線研究分頁呈列；Form 4 動態候選規格已凍結，但專屬 admission 仍為 0/16，Congress PTR 分離停用，Paper 維持全現金。",
 };
 
 const latest = data.research_pipeline.growth_gold_diversification;
@@ -304,9 +304,15 @@ const resonanceControlRows = multiWindowResonance.controls;
 const resonanceAttackRows = multiWindowResonance.attacks;
 const disclosureCoverage = disclosureReadiness.coverage;
 const disclosureSourceRows = disclosureReadiness.source_catalog;
-const disclosureKnownAt = disclosureReadiness.known_at;
 const disclosureLag = disclosureReadiness.lag;
 const disclosureLegal = disclosureReadiness.legal;
+const form4Admission = {
+  passed: 0,
+  total: 16,
+  authorizedEvents: 0,
+  strategyRuns: 0,
+  twentyYearKnownAtValidated: false,
+} as const;
 const resonanceGateLabels: Record<string, string> = {
   exact_inputs: "固定輸入與父收據精確",
   parent_event_reconstruction: "905 宗父事件逐列重播",
@@ -950,7 +956,7 @@ export default function Home() {
               </p>
               <div className="hero-actions">
                 <a className="primary-button aggressive-button" href="#leader-pullback-rebound">查看第 39 輪 8/22 回調反證</a>
-                <a className="primary-button aggressive-button" href="#disclosure-readiness">查看公開披露就緒 2/20</a>
+                <a className="primary-button aggressive-button" href="#disclosure-readiness">查看披露 2/20／Form 4 0/16</a>
                 <a className="primary-button aggressive-button" href="#multi-window-resonance">查看第 38 輪 11/20 共振反證</a>
                 <a className="primary-button aggressive-button" href="#qqq-replacement-overlay">查看第 30 輪 13/20 QQQ 疊加</a>
                 <a className="primary-button aggressive-button" href="#calendar-capital-accounting">查看第 29 輪 13/18 資金回測</a>
@@ -978,7 +984,7 @@ export default function Home() {
             <aside className="decision-card aggressive-card" aria-label="短線高回報研究摘要">
               <div className="decision-head">
                 <span>最新研究決策</span>
-                <b>披露就緒 {disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · dynamic selection disabled</b>
+                <b>披露 {disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · Form 4 {form4Admission.passed}/{form4Admission.total} · selection disabled</b>
               </div>
               <div className="capital-number"><small>讀者動作</small><strong>今天不下單</strong></div>
               <div className="research-lock" aria-label="短線策略尚未開放配置">
@@ -994,8 +1000,9 @@ export default function Home() {
                 <div><dt>候選預期／實際委託</dt><dd>{lprCandidate.order_receipt.expected_total_orders} · {lprCandidate.order_receipt.actual_total_orders}</dd></div>
                 <div><dt>回調控制與攻擊</dt><dd>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</dd></div>
                 <div><dt>公開披露 Phase 1</dt><dd>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total} · 未通過</dd></div>
+                <div><dt>Form 4 候選規格／admission</dt><dd>已凍結 · {form4Admission.passed}/{form4Admission.total}</dd></div>
                 <div><dt>觀察來源／文件／事件</dt><dd>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required} · {disclosureCoverage.documents_observed} · {disclosureCoverage.events_observed}</dd></div>
-                <div><dt>Congress 精確用途法律准許</dt><dd>{disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</dd></div>
+                <div><dt>Congress PTR（與 Form 4 分離）</dt><dd>書面准許 {disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</dd></div>
                 <div><dt>動態選擇／策略運行</dt><dd>停用 · {disclosureReadiness.decision.strategy_runs}</dd></div>
                 <div><dt>第 38 輪四窗共振</dt><dd>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total} · 未通過</dd></div>
                 <div><dt>共振候選終值／CAGR</dt><dd>{money(resonanceCandidate.terminal_usd)} · {pct(resonanceCandidate.cagr)}</dd></div>
@@ -1074,9 +1081,10 @@ export default function Home() {
               <article><span>候選子委託</span><strong>{lprCandidate.order_receipt.actual_total_orders}/{lprCandidate.order_receipt.expected_total_orders}</strong><small>實際／預期 · 期末全現金</small></article>
               <article><span>回調控制／攻擊</span><strong>{leaderPullbackRebound.control_summary.passed}/{leaderPullbackRebound.control_summary.total} · {leaderPullbackRebound.attack_summary.rejected}/{leaderPullbackRebound.attack_summary.total}</strong><small>日曆矛盾如實保留</small></article>
               <article><span>披露數據就緒</span><strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong><small>只固定協議與來源語意</small></article>
+              <article><span>Form 4 專屬 admission</span><strong>{form4Admission.passed}/{form4Admission.total}</strong><small>候選規格已凍結 · 執行未授權</small></article>
               <article><span>實際觀察來源</span><strong>{disclosureCoverage.source_types_observed}/{disclosureCoverage.source_types_required}</strong><small>原始包未配置 · 不擷取</small></article>
-              <article><span>動態選擇</span><strong>停用</strong><small>策略未定義 · 運行 0</small></article>
-              <article><span>法律／授權硬門檻</span><strong>未通過</strong><small>Congress 精確用途未獲書面准許</small></article>
+              <article><span>動態選擇</span><strong>停用</strong><small>規格已凍結 · 策略運行 0</small></article>
+              <article><span>Congress PTR</span><strong>分離停用</strong><small>精確用途未獲書面准許</small></article>
               <article><span>第 38 輪共振門檻</span><strong>{multiWindowResonance.gate_summary.passed}/{multiWindowResonance.gate_summary.total}</strong><small>九項未通過 · 不升格</small></article>
               <article><span>四窗共振終值</span><strong>{money(resonanceCandidate.terminal_usd)}</strong><small>20 bp／資產 · CAGR {pct(resonanceCandidate.cagr)}</small></article>
               <article><span>原 Top-7 終值</span><strong>{money(resonanceOriginal.terminal_usd)}</strong><small>CAGR {pct(resonanceOriginal.cagr)} · 較簡單規則勝出</small></article>
@@ -1338,10 +1346,13 @@ export default function Home() {
             id="disclosure-readiness"
             data-sanitized-disclosure="true"
             data-dynamic-selection="disabled"
+            data-form4-specification="frozen-unexecuted"
+            data-form4-admission={`${form4Admission.passed}/${form4Admission.total}`}
+            data-congress-selection="disabled"
           >
             <div className="section-heading">
-              <div><span>DISCLOSURE SOURCE READINESS · PHASE 1</span><h2>來源就緒 2/20；公開披露不是即時名人跟單訊號</h2></div>
-              <p>六種披露來源只固定語意，不產生選股名單；公開輸出不呈列人物、股票代號、原始列或逐文件賬本。</p>
+              <div><span>DISCLOSURE SOURCE READINESS · PHASE 1 + FORM 4 ROUND 41</span><h2>公開披露總體 2/20；Form 4 動態候選規格已凍結，但專屬 admission 仍為 0/16</h2></div>
+              <p>第 41 輪只事前固定「多名 Section 16 申報人購買 × 公開後量價確認」的可否證規格；未取得 2006–2026 完整 filing／known-at 證據前，不會產生標的、回測或 Paper 訊號。</p>
             </div>
 
             <div className="aggressive-overview-grid">
@@ -1351,19 +1362,20 @@ export default function Home() {
                 <p>現存收據只證明二十道門檻已事前定義，不是數據覆蓋、回測或策略質素證明。不聲稱任何 20 年完整披露歷史。</p>
               </article>
               <div className="aggressive-risk-stack">
-                <article><span>known-at 與延遲</span><strong>{disclosureKnownAt.events_validated} 宗通過</strong><p>延遲固定為 known_at 減 event_at；缺精確時間就標記未解，不補 0。</p></article>
-                <article><span>Congress 法律／授權</span><strong>{disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</strong><p>未就本專案精確用途取得有效書面准許前，兩個 Congress 來源均不收集任何一列。</p></article>
+                <article><span>SEC Form 4</span><strong>規格已凍結 · {form4Admission.passed}/{form4Admission.total}</strong><p>20 年 known-at 未驗證；事件／run {form4Admission.authorizedEvents}/{form4Admission.strategyRuns}，執行未授權。</p></article>
+                <article><span>Congress PTR · 與 Form 4 分離</span><strong>書面准許 {disclosureLegal.congress_exact_use_written_clearance ? "通過" : "未通過"}</strong><p>未就本專案精確用途取得有效書面准許前，眾議院及參議院 PTR 均不收集、不選股。</p></article>
               </div>
             </div>
 
             <div className="comparison-caveat">
               <b>今天不下單；Paper 全現金、持倉 0、實金 US$0</b>
-              <p>動態選擇停用，策略未定義且運行 0。20/20 也只可開始另一份事前凍結研究，不會自動開啟 Paper 或實金。</p>
+              <p>Form 4 candidate specification 已 result-blind 凍結，但 executable admission 0/16、20 年 known-at 未驗證、策略運行 0；Congress PTR 是另一條來源路徑，未取得精確用途書面准許前不收集、不選股。</p>
             </div>
 
             <div className="evidence-stat-grid">
               <article><span>數據就緒</span><strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong><p>只通過協議／schema／收據一致與官方來源語意固定。</p></article>
-              <article><span>20 年覆蓋</span><strong>未驗證</strong><p>逐來源、逐年份分母、延遲、修訂與缺失尚未對數。</p></article>
+              <article><span>Form 4 admission</span><strong>{form4Admission.passed}/{form4Admission.total}</strong><p>規格已凍結，不等於 SEC client、真實數據或可執行 selector 已通過。</p></article>
+              <article><span>20 年 known-at</span><strong>{form4Admission.twentyYearKnownAtValidated ? "已驗證" : "未驗證"}</strong><p>逐 accession 分母、公開時間、4/A、共同持有、公司行動及缺失尚未完整重播。</p></article>
               <article><span>decision_at</span><strong>已定義</strong><p>嚴格晚於 known_at 的第一個官方 XNYS 收市。</p></article>
               <article><span>trade_at</span><strong>已定義</strong><p>再下一個官方 XNYS 開市；目前通過事件 {disclosureLag.events_with_valid_trade_clock}。</p></article>
             </div>
@@ -1388,13 +1400,15 @@ export default function Home() {
             </div>
 
             <div className="decision-banner negative-banner">
-              <div><span>PHASE 1 DECISION</span><b>法律、known-at、覆蓋與真實小樣本未封口；動態選擇停用</b></div>
-              <strong>{disclosureReadiness.readiness.passed}/{disclosureReadiness.readiness.total}</strong>
+              <div><span>DISCLOSURE DECISION</span><b>Form 4：frozen specification · admission 0/16 · no selection；Congress：separate · disabled</b></div>
+              <strong>{form4Admission.passed}/{form4Admission.total}</strong>
             </div>
             <div className="source-line">
               <span>公開輸出</span><code>SANITIZED · NO SELECTION</code>
               <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_DISCLOSURE_READINESS_REPORT.md" target="_blank" rel="noreferrer">完整就緒報告</a>
               <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md" target="_blank" rel="noreferrer">known-at 協議</a>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL_AMENDMENT_V1_1.md" target="_blank" rel="noreferrer">known-at v1.1 修訂</a>
+              <a href="https://github.com/voidful/us_fddk/blob/main/docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md" target="_blank" rel="noreferrer">Form 4 v1.1 規格</a>
             </div>
           </section>
 
@@ -3091,7 +3105,7 @@ export default function Home() {
             <div className="comparison-caveat"><b>漂移 baseline 已消除歧義：</b><p>{formalBacktestReadiness.gap_closed.drift_baseline} 若公司退出，仍按退市／現金／換股條款只結算一次，現金退出款不假設賺取 RF。</p></div>
 
             <div className="subsection-heading stock-heading">
-              <div><span>FROZEN ACCOUNTING &amp; STATISTICS</span><h3>US$1,000、下一開市、6,208 trials 及四路 PBO 不可事後改</h3></div>
+              <div><span>FROZEN ACCOUNTING &amp; STATISTICS</span><h3>US$1,000、下一開市、{formalReadinessControl.global_search_trials.toLocaleString("zh-HK")} trials 及四路 PBO 不可事後改</h3></div>
               <p>組合中的零碎現金固定 0% 回報；RF 只用於風險免費超額 Sharpe、PSR／DSR，QQQ 補位仍是風險資產。</p>
             </div>
             <div className="short-evidence-grid">
