@@ -1,0 +1,25 @@
+{
+  "candidate_audit": [
+    {
+      "key": "long-term",
+      "reason_codes": [
+        "long_term_readiness_incomplete"
+      ],
+      "status": "not_promoted"
+    },
+    {
+      "key": "short-term",
+      "reason_codes": [
+        "formal_readiness_incomplete"
+      ],
+      "status": "not_promoted"
+    }
+  ],
+  "data_through": "2026-08-07",
+  "not_for_public_decision_page": true,
+  "paper_authorized": false,
+  "public_strategy_count": 0,
+  "real_money_action_usd": 0,
+  "schema_version": 1,
+  "visibility": "internal-research-log"
+}

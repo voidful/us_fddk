@@ -120,7 +120,7 @@ def test_formal_paper_and_real_money_boundaries_remain_closed() -> None:
     assert result["real_money_action_usd"] == 0
 
 
-def test_live_source_probe_matches_identities_but_never_qualifies() -> None:
+def test_live_source_probe_is_review_only_and_never_qualifies() -> None:
     artifact = json.loads(
         (ROOT / "artifacts/short_term_provider_gap_source_probe.json").read_text(encoding="utf-8")
     )
@@ -129,7 +129,14 @@ def test_live_source_probe_matches_identities_but_never_qualifies() -> None:
     )
 
     assert artifact == site_data
-    assert artifact["all_match_frozen_identities"] is True
+    # A live official page can change its URL, host, or identity marker.  The
+    # probe records that drift for review; it must not turn a research-source
+    # observation into a CI failure or a public/paper promotion.
+    assert artifact["all_match_frozen_identities"] in {True, False}
+    if artifact["all_match_frozen_identities"]:
+        assert artifact["status"] == "matches_frozen_primary_source_identities"
+    else:
+        assert artifact["status"] == "manual_review_required"
     assert artifact["source_identity_count"] == 5
     assert artifact["new_source_qualified"] is False
     assert artifact["provider_package_qualified"] is False

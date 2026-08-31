@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v9.0.0
@@ -29,184 +29,18 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - name: Verify frozen short-term research output
+      - name: Verify the success-only public contract
         env:
-          OPENBLAS_CORETYPE: "HASWELL"
-          OPENBLAS_NUM_THREADS: "1"
-          OMP_NUM_THREADS: "1"
-          MKL_NUM_THREADS: "1"
-          NUMEXPR_NUM_THREADS: "1"
           PYTHONHASHSEED: "0"
         run: |
           uv sync --locked --extra dev
           export PATH="$GITHUB_WORKSPACE/.venv/bin:$PATH"
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
-          ./.venv/bin/pytest tests/test_ci_runtime_contract.py
-          ./.venv/bin/python scripts/build_short_term_french_prior_return_schema_repair_report.py
-          ./.venv/bin/python scripts/build_short_term_french_size_prior_report.py
-          ./.venv/bin/python scripts/build_short_term_french_size_momentum_tilt_report.py
-          ./.venv/bin/python scripts/audit_short_term_point_in_time_data.py
-          ./.venv/bin/python scripts/build_short_term_provider_qualification_report.py
-          ./.venv/bin/python scripts/build_short_term_crsp_sample_acceptance_report.py
-          ./.venv/bin/python scripts/build_short_term_crsp_ciz_mapping_report.py
-          ./.venv/bin/python scripts/build_short_term_ciz_execution_accounting_report.py
-          ./.venv/bin/python scripts/build_short_term_ciz_execution_extension_report.py
-          ./.venv/bin/python scripts/build_short_term_authorized_data_handoff_report.py
-          ./.venv/bin/python scripts/build_short_term_local_quarantine_intake_report.py
-          ./.venv/bin/python scripts/build_short_term_formal_backtest_readiness_report.py
-          ./.venv/bin/python scripts/build_short_term_restatement_firewall.py
-          ./.venv/bin/python scripts/build_short_term_formal_release_integration.py
-          ./.venv/bin/python scripts/build_short_term_risk_free_staging_report.py
-          ./.venv/bin/python scripts/build_short_term_provider_convergence_report.py
-          ./.venv/bin/python scripts/build_short_term_provider_gap_closure_report.py
-          ./.venv/bin/python scripts/build_short_term_provider_evidence_refresh_report.py
-          ./.venv/bin/python scripts/build_short_term_rf_treasury_bridge_report.py
-          ./.venv/bin/python scripts/build_short_term_survivorship_contamination_report.py
-          ./.venv/bin/python scripts/build_short_term_temporal_tail_robustness_report.py
-          ./.venv/bin/python scripts/build_short_term_baseline_multiplicity_report.py
-          ./.venv/bin/python scripts/build_short_term_correlation_crowding_report.py
-          ./.venv/bin/python scripts/build_short_term_common_risk_residual_report.py
-          ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
-          ./.venv/bin/python scripts/build_short_term_leader_pullback_rebound_report.py
-          ./.venv/bin/python scripts/build_short_term_disclosure_readiness_report.py
-          ./.venv/bin/python scripts/build_short_term_multi_window_resonance_report.py
-          ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
-          ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
-          ./.venv/bin/python scripts/build_short_term_reversal_volatility_attribution_report.py
-          ./.venv/bin/python scripts/build_short_term_daily_momentum_regime_report.py
+          ./.venv/bin/python scripts/build_public_decision_data.py
           git diff --exit-code -- \
-            artifacts/short_term_french_prior_return_schema_repair_validation.json \
-            site/data/short-term-french-prior-return-schema-repair.json \
-            artifacts/short_term_french_size_prior_validation.json \
-            site/data/short-term-french-size-prior.json \
-            docs/SHORT_TERM_FRENCH_SIZE_PRIOR_RESEARCH_REPORT.md \
-            artifacts/short_term_french_size_momentum_tilt_validation.json \
-            site/data/short-term-french-size-momentum-tilt.json \
-            docs/SHORT_TERM_FRENCH_SIZE_MOMENTUM_TILT_RESEARCH_REPORT.md \
-            artifacts/short_term_point_in_time_readiness.json \
-            site/data/short-term-point-in-time-readiness.json \
-            artifacts/short_term_provider_qualification.json \
-            site/data/short-term-provider-qualification.json \
-            docs/SHORT_TERM_PROVIDER_QUALIFICATION_REPORT.md \
-            artifacts/short_term_crsp_sample_acceptance.json \
-            site/data/short-term-crsp-sample-acceptance.json \
-            docs/SHORT_TERM_CRSP_SAMPLE_ACCEPTANCE_REPORT.md \
-            artifacts/short_term_crsp_ciz_mapping_validation.json \
-            site/data/short-term-crsp-ciz-mapping.json \
-            docs/SHORT_TERM_CRSP_CIZ_MAPPING_REPORT.md \
-            artifacts/short_term_ciz_execution_accounting_validation.json \
-            site/data/short-term-ciz-execution-accounting.json \
-            docs/SHORT_TERM_CIZ_EXECUTION_ACCOUNTING_REPORT.md \
-            artifacts/short_term_ciz_execution_extension_validation.json \
-            site/data/short-term-ciz-execution-extension.json \
-            docs/SHORT_TERM_CIZ_EXECUTION_EXTENSION_REPORT.md \
-            artifacts/short_term_authorized_data_handoff.json \
-            site/data/short-term-authorized-data-handoff.json \
-            docs/SHORT_TERM_AUTHORIZED_DATA_HANDOFF.md \
-            artifacts/short_term_local_quarantine_intake_validation.json \
-            site/data/short-term-local-quarantine-intake.json \
-            docs/SHORT_TERM_LOCAL_QUARANTINE_INTAKE_REPORT.md \
-            artifacts/short_term_formal_backtest_readiness_validation.json \
-            site/data/short-term-formal-backtest-readiness.json \
-            docs/SHORT_TERM_FORMAL_BACKTEST_READINESS_REPORT.md \
-            artifacts/short_term_restatement_firewall_validation.json \
-            site/data/short-term-restatement-firewall.json \
-            docs/SHORT_TERM_RESTATEMENT_FIREWALL_PROTOCOL.md \
-            artifacts/short_term_formal_release_integration_validation.json \
-            site/data/short-term-formal-release-integration.json \
-            docs/SHORT_TERM_FORMAL_RELEASE_INTEGRATION_PROTOCOL.md \
-            artifacts/short_term_risk_free_staging_validation.json \
-            site/data/short-term-risk-free-staging.json \
-            docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md \
-            artifacts/short_term_provider_convergence_validation.json \
-            site/data/short-term-provider-convergence.json \
-            docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md \
-            artifacts/short_term_provider_gap_closure_validation.json \
-            site/data/short-term-provider-gap-closure.json \
-            docs/SHORT_TERM_PROVIDER_GAP_CLOSURE_REPORT.md \
-            artifacts/short_term_provider_evidence_refresh.json \
-            site/data/short-term-provider-evidence-refresh.json \
-            docs/SHORT_TERM_PROVIDER_EVIDENCE_REFRESH_REPORT.md \
-            artifacts/short_term_rf_treasury_bridge.json \
-            site/data/short-term-rf-treasury-bridge.json \
-            docs/SHORT_TERM_RF_TREASURY_BRIDGE_REPORT.md \
-            artifacts/short_term_survivorship_contamination_validation.json \
-            site/data/short-term-survivorship-contamination.json \
-            docs/SHORT_TERM_SURVIVORSHIP_CONTAMINATION_RESEARCH_REPORT.md \
-            artifacts/short_term_temporal_tail_robustness_validation.json \
-            site/data/short-term-temporal-tail-robustness.json \
-            docs/SHORT_TERM_TEMPORAL_TAIL_ROBUSTNESS_RESEARCH_REPORT.md \
-            artifacts/short_term_baseline_multiplicity_validation.json \
-            site/data/short-term-baseline-multiplicity.json \
-            docs/SHORT_TERM_BASELINE_MULTIPLICITY_RESEARCH_REPORT.md \
-            artifacts/short_term_correlation_crowding_validation.json \
-            site/data/short-term-correlation-crowding.json \
-            docs/SHORT_TERM_CORRELATION_CROWDING_RESEARCH_REPORT.md \
-            artifacts/short_term_common_risk_residual_validation.json \
-            site/data/short-term-common-risk-residual.json \
-            docs/SHORT_TERM_COMMON_RISK_RESIDUAL_RESEARCH_REPORT.md \
-            artifacts/short_term_rank_monotonicity_placebo_validation.json \
-            site/data/short-term-rank-monotonicity-placebo.json \
-            docs/SHORT_TERM_RANK_MONOTONICITY_PLACEBO_RESEARCH_REPORT.md \
-            artifacts/short_term_leader_pullback_rebound_validation.json \
-            site/data/short-term-leader-pullback-rebound.json \
-            docs/SHORT_TERM_LEADER_PULLBACK_REBOUND_RESEARCH_REPORT.md \
-            artifacts/short_term_disclosure_readiness.json \
-            site/data/short-term-disclosure-readiness.json \
-            docs/SHORT_TERM_DISCLOSURE_READINESS_REPORT.md \
-            artifacts/short_term_multi_window_resonance_validation.json \
-            site/data/short-term-multi-window-resonance.json \
-            docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md \
-            artifacts/short_term_qqq_replacement_overlay_validation.json \
-            site/data/short-term-qqq-replacement-overlay.json \
-            docs/SHORT_TERM_QQQ_REPLACEMENT_OVERLAY_RESEARCH_REPORT.md \
-            artifacts/short_term_calendar_capital_accounting_validation.json \
-            site/data/short-term-calendar-capital-accounting.json \
-            docs/SHORT_TERM_CALENDAR_CAPITAL_ACCOUNTING_RESEARCH_REPORT.md \
-            artifacts/short_term_reversal_volatility_attribution_validation.json \
-            site/data/short-term-reversal-volatility-attribution.json \
-            docs/SHORT_TERM_REVERSAL_VOLATILITY_ATTRIBUTION_RESEARCH_REPORT.md \
-            artifacts/short_term_daily_momentum_regime_validation.json \
-            site/data/short-term-daily-momentum-regime.json \
-            docs/SHORT_TERM_DAILY_MOMENTUM_REGIME_RESEARCH_REPORT.md
-          ./.venv/bin/pytest tests/test_french_prior_return_research.py
-          ./.venv/bin/pytest tests/test_french_size_prior.py
-          ./.venv/bin/pytest tests/test_french_size_momentum_tilt.py
-          ./.venv/bin/pytest tests/test_point_in_time_ledger.py
-          ./.venv/bin/pytest tests/test_provider_qualification.py
-          ./.venv/bin/pytest tests/test_crsp_sample_acceptance.py
-          ./.venv/bin/pytest tests/test_crsp_ciz_mapping.py
-          ./.venv/bin/pytest tests/test_ciz_execution_accounting.py
-          ./.venv/bin/pytest tests/test_ciz_execution_extension.py
-          ./.venv/bin/pytest tests/test_authorized_data_handoff.py
-          ./.venv/bin/pytest tests/test_local_quarantine_intake.py
-          ./.venv/bin/pytest tests/test_formal_backtest_readiness.py
-          ./.venv/bin/pytest tests/test_restatement_firewall.py
-          ./.venv/bin/pytest tests/test_formal_release_integration.py
-          ./.venv/bin/pytest tests/test_risk_free_staging.py
-          ./.venv/bin/pytest tests/test_provider_convergence.py
-          ./.venv/bin/pytest tests/test_provider_gap_closure.py
-          ./.venv/bin/pytest tests/test_provider_evidence_refresh.py
-          ./.venv/bin/pytest tests/test_provider_evidence_refresh_report.py
-          ./.venv/bin/pytest tests/test_risk_free_treasury_bridge.py
-          ./.venv/bin/pytest tests/test_risk_free_treasury_bridge_report.py
-          ./.venv/bin/pytest tests/test_survivorship_contamination.py
-          ./.venv/bin/pytest tests/test_temporal_tail_robustness.py
-          ./.venv/bin/pytest tests/test_baseline_multiplicity.py
-          ./.venv/bin/pytest tests/test_correlation_crowding.py
-          ./.venv/bin/pytest tests/test_common_risk_residual.py
-          ./.venv/bin/pytest tests/test_rank_monotonicity_placebo.py
-          ./.venv/bin/pytest tests/test_leader_pullback_rebound.py
-          ./.venv/bin/pytest tests/test_leader_pullback_rebound_report.py
-          ./.venv/bin/pytest tests/test_disclosure_known_at_protocol.py
-          ./.venv/bin/pytest tests/test_disclosure_known_at.py
-          ./.venv/bin/pytest tests/test_disclosure_readiness_report.py
-          ./.venv/bin/pytest tests/test_multi_window_resonance.py
-          ./.venv/bin/pytest tests/test_multi_window_resonance_report.py
-          ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py
-          ./.venv/bin/pytest tests/test_calendar_capital_accounting.py
-          ./.venv/bin/pytest tests/test_reversal_volatility_attribution.py
-          ./.venv/bin/pytest tests/test_daily_momentum_regime.py
+            artifacts/public_decision_build_log.json \
+            site/data/public-decision.json
+          ./.venv/bin/pytest tests/test_ci_runtime_contract.py tests/test_public_decision.py
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
