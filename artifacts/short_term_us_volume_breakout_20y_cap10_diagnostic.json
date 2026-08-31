@@ -1,0 +1,611 @@
+{
+  "cost_scenarios": {
+    "10": {
+      "all_period": {
+        "QQQ": {
+          "cagr": 0.1538205220916089,
+          "max_drawdown": -0.534039887216358,
+          "sharpe": 0.7738733889009675,
+          "total_return": 22.415773995762294
+        },
+        "annualized_turnover": 13.007428777497294,
+        "average_active_positions": 0.9556437071763433,
+        "baselines": {
+          "IWM": {
+            "cagr": 0.09289081782205821,
+            "max_drawdown": -0.5863997336625291,
+            "sharpe": 0.49211588446472465,
+            "total_return": 6.083053962020969
+          },
+          "QQQ": {
+            "cagr": 0.1538205220916089,
+            "max_drawdown": -0.534039887216358,
+            "sharpe": 0.7738733889009675,
+            "total_return": 22.415773995762294
+          },
+          "SPY": {
+            "cagr": 0.10900189796958726,
+            "max_drawdown": -0.5518944601686687,
+            "sharpe": 0.6456042760670669,
+            "total_return": 8.778992806126466
+          }
+        },
+        "comparison": {
+          "cagr_difference": 0.009760865360336268,
+          "total_return_difference": 4.777200618415556
+        },
+        "period": {
+          "end": "2026-06-29",
+          "start": "2004-06-14"
+        },
+        "portfolio": {
+          "cagr": 0.16358138745194517,
+          "max_drawdown": -0.45249621972772935,
+          "sharpe": 0.8039851915858555,
+          "total_return": 27.19297461417785
+        },
+        "signal_count": 265,
+        "terminal_liquidation_cost": 0.001
+      },
+      "fixed_halves": {
+        "2004-01-01_2014-12-31": {
+          "QQQ": {
+            "cagr": 0.10865176827399536,
+            "max_drawdown": -0.534039887216358,
+            "sharpe": 0.5956573674097565,
+            "total_return": 1.972723821131615
+          },
+          "annualized_turnover": 11.174746335963922,
+          "average_active_positions": 0.8342728297632469,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.08449012810436818,
+              "max_drawdown": -0.5863997336625291,
+              "sharpe": 0.4467561215132885,
+              "total_return": 1.3554557677732286
+            },
+            "QQQ": {
+              "cagr": 0.10865176827399536,
+              "max_drawdown": -0.534039887216358,
+              "sharpe": 0.5956573674097565,
+              "total_return": 1.972723821131615
+            },
+            "SPY": {
+              "cagr": 0.0764881515337541,
+              "max_drawdown": -0.5518944601686687,
+              "sharpe": 0.4692316433955081,
+              "total_return": 1.1782205661884189
+            }
+          },
+          "comparison": {
+            "cagr_difference": 0.03210902261329296,
+            "total_return_difference": 1.0463422960287647
+          },
+          "period": {
+            "end": "2015-01-06",
+            "start": "2004-06-14"
+          },
+          "portfolio": {
+            "cagr": 0.14076079088728832,
+            "max_drawdown": -0.2910702643663643,
+            "sharpe": 0.8507306267267626,
+            "total_return": 3.0190661171603796
+          },
+          "signal_count": 111,
+          "terminal_liquidation_cost": 0.001
+        },
+        "2015-01-01_2026-06-30": {
+          "QQQ": {
+            "cagr": 0.19102551306244897,
+            "max_drawdown": -0.3511872227449717,
+            "sharpe": 0.9059069937218497,
+            "total_return": 6.243009940720711
+          },
+          "annualized_turnover": 14.795085995085994,
+          "average_active_positions": 1.0810810810810811,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.09598136512538535,
+              "max_drawdown": -0.41133278345308966,
+              "sharpe": 0.5209554093781363,
+              "total_return": 1.823775428348506
+            },
+            "QQQ": {
+              "cagr": 0.19102551306244897,
+              "max_drawdown": -0.3511872227449717,
+              "sharpe": 0.9059069937218497,
+              "total_return": 6.243009940720711
+            },
+            "SPY": {
+              "cagr": 0.13620576758496372,
+              "max_drawdown": -0.3371726274868586,
+              "sharpe": 0.8117693469006215,
+              "total_return": 3.2474958704229557
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.0033616054094296466,
+            "total_return_difference": -0.228202571963811
+          },
+          "period": {
+            "end": "2026-06-29",
+            "start": "2015-03-02"
+          },
+          "portfolio": {
+            "cagr": 0.18766390765301932,
+            "max_drawdown": -0.45249621972772935,
+            "sharpe": 0.802649935087585,
+            "total_return": 6.0148073687569
+          },
+          "signal_count": 154,
+          "terminal_liquidation_cost": 0.001
+        }
+      }
+    },
+    "25": {
+      "all_period": {
+        "QQQ": {
+          "cagr": 0.1536632017025319,
+          "max_drawdown": -0.5340398872163571,
+          "sharpe": 0.7732488637331149,
+          "total_return": 22.345509147156015
+        },
+        "annualized_turnover": 13.007428777497294,
+        "average_active_positions": 0.9556437071763433,
+        "baselines": {
+          "IWM": {
+            "cagr": 0.09274180503767271,
+            "max_drawdown": -0.5863997336625284,
+            "sharpe": 0.491538506497119,
+            "total_return": 6.06179949849563
+          },
+          "QQQ": {
+            "cagr": 0.1536632017025319,
+            "max_drawdown": -0.5340398872163571,
+            "sharpe": 0.7732488637331149,
+            "total_return": 22.345509147156015
+          },
+          "SPY": {
+            "cagr": 0.10885068848185919,
+            "max_drawdown": -0.551894460168669,
+            "sharpe": 0.6448833425630287,
+            "total_return": 8.749648508168683
+          }
+        },
+        "comparison": {
+          "cagr_difference": -0.012653611740225834,
+          "total_return_difference": -5.037597857765899
+        },
+        "period": {
+          "end": "2026-06-29",
+          "start": "2004-06-14"
+        },
+        "portfolio": {
+          "cagr": 0.14100958996230606,
+          "max_drawdown": -0.4763157169486715,
+          "sharpe": 0.7135280076852544,
+          "total_return": 17.307911289390116
+        },
+        "signal_count": 265,
+        "terminal_liquidation_cost": 0.0025
+      },
+      "fixed_halves": {
+        "2004-01-01_2014-12-31": {
+          "QQQ": {
+            "cagr": 0.1083363815616234,
+            "max_drawdown": -0.5340398872163571,
+            "sharpe": 0.594272548481504,
+            "total_return": 1.9638034245955902
+          },
+          "annualized_turnover": 11.174746335963922,
+          "average_active_positions": 0.8342728297632469,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.0841816148399781,
+              "max_drawdown": -0.5863997336625284,
+              "sharpe": 0.4456211851027463,
+              "total_return": 1.348387637420116
+            },
+            "QQQ": {
+              "cagr": 0.1083363815616234,
+              "max_drawdown": -0.5340398872163571,
+              "sharpe": 0.594272548481504,
+              "total_return": 1.9638034245955902
+            },
+            "SPY": {
+              "cagr": 0.07618191465330626,
+              "max_drawdown": -0.551894460168669,
+              "sharpe": 0.4677866823237925,
+              "total_return": 1.1716842740999378
+            }
+          },
+          "comparison": {
+            "cagr_difference": 0.01327128218504936,
+            "total_return_difference": 0.3970658618638261
+          },
+          "period": {
+            "end": "2015-01-06",
+            "start": "2004-06-14"
+          },
+          "portfolio": {
+            "cagr": 0.12160766374667276,
+            "max_drawdown": -0.307911152311252,
+            "sharpe": 0.7515422631970368,
+            "total_return": 2.3608692864594163
+          },
+          "signal_count": 111,
+          "terminal_liquidation_cost": 0.0025
+        },
+        "2015-01-01_2026-06-30": {
+          "QQQ": {
+            "cagr": 0.19070953991848172,
+            "max_drawdown": -0.3511872227449718,
+            "sharpe": 0.9047505264888939,
+            "total_return": 6.221275489532801
+          },
+          "annualized_turnover": 14.795085995085994,
+          "average_active_positions": 1.0810810810810811,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.09569060672107743,
+              "max_drawdown": -0.41133278345308977,
+              "sharpe": 0.5197746362574472,
+              "total_return": 1.8153019884781543
+            },
+            "QQQ": {
+              "cagr": 0.19070953991848172,
+              "max_drawdown": -0.3511872227449718,
+              "sharpe": 0.9047505264888939,
+              "total_return": 6.221275489532801
+            },
+            "SPY": {
+              "cagr": 0.1359043378467757,
+              "max_drawdown": -0.3371726274868587,
+              "sharpe": 0.8103143614680435,
+              "total_return": 3.2347502035769677
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.029269092829072196,
+            "total_return_difference": -1.7739016915839185
+          },
+          "period": {
+            "end": "2026-06-29",
+            "start": "2015-03-02"
+          },
+          "portfolio": {
+            "cagr": 0.16144044708940952,
+            "max_drawdown": -0.47631571694867036,
+            "sharpe": 0.7144224087434339,
+            "total_return": 4.447373797948883
+          },
+          "signal_count": 154,
+          "terminal_liquidation_cost": 0.0025
+        }
+      }
+    },
+    "50": {
+      "all_period": {
+        "QQQ": {
+          "cagr": 0.15340052241178026,
+          "max_drawdown": -0.5340398872163575,
+          "sharpe": 0.7722002250640879,
+          "total_return": 22.22863569290461
+        },
+        "annualized_turnover": 13.007428777497294,
+        "average_active_positions": 0.9556437071763433,
+        "baselines": {
+          "IWM": {
+            "cagr": 0.09249299703036273,
+            "max_drawdown": -0.5863997336625293,
+            "sharpe": 0.4905724334748852,
+            "total_return": 6.026446365033509
+          },
+          "QQQ": {
+            "cagr": 0.15340052241178026,
+            "max_drawdown": -0.5340398872163575,
+            "sharpe": 0.7722002250640879,
+            "total_return": 22.22863569290461
+          },
+          "SPY": {
+            "cagr": 0.108598212618912,
+            "max_drawdown": -0.5518944601686698,
+            "sharpe": 0.6436733639895836,
+            "total_return": 8.700839330707366
+          }
+        },
+        "comparison": {
+          "cagr_difference": -0.04912226605361347,
+          "total_return_difference": -14.327659786006857
+        },
+        "period": {
+          "end": "2026-06-29",
+          "start": "2004-06-14"
+        },
+        "portfolio": {
+          "cagr": 0.10427825635816679,
+          "max_drawdown": -0.5138091150256373,
+          "sharpe": 0.5622879755820905,
+          "total_return": 7.900975906897754
+        },
+        "signal_count": 265,
+        "terminal_liquidation_cost": 0.005
+      },
+      "fixed_halves": {
+        "2004-01-01_2014-12-31": {
+          "QQQ": {
+            "cagr": 0.10780988163468752,
+            "max_drawdown": -0.5340398872163575,
+            "sharpe": 0.5919526400222233,
+            "total_return": 1.948965883817575
+          },
+          "annualized_turnover": 11.174746335963922,
+          "average_active_positions": 0.8342728297632469,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.08366658930215798,
+              "max_drawdown": -0.5863997336625293,
+              "sharpe": 0.44372369414863094,
+              "total_return": 1.3366310219024666
+            },
+            "QQQ": {
+              "cagr": 0.10780988163468752,
+              "max_drawdown": -0.5340398872163575,
+              "sharpe": 0.5919526400222233,
+              "total_return": 1.948965883817575
+            },
+            "SPY": {
+              "cagr": 0.07567068926283649,
+              "max_drawdown": -0.5518944601686698,
+              "sharpe": 0.46536794550857613,
+              "total_return": 1.1608122797879727
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.017481270610808952,
+            "total_return_difference": -0.456065372583327
+          },
+          "period": {
+            "end": "2015-01-06",
+            "start": "2004-06-14"
+          },
+          "portfolio": {
+            "cagr": 0.09032861102387857,
+            "max_drawdown": -0.33514846884847804,
+            "sharpe": 0.5856210793888322,
+            "total_return": 1.492900511234248
+          },
+          "signal_count": 111,
+          "terminal_liquidation_cost": 0.005
+        },
+        "2015-01-01_2026-06-30": {
+          "QQQ": {
+            "cagr": 0.19018204750332401,
+            "max_drawdown": -0.3511872227449716,
+            "sharpe": 0.9028057059903952,
+            "total_return": 6.185123979396852
+          },
+          "annualized_turnover": 14.795085995085994,
+          "average_active_positions": 1.0810810810810811,
+          "baselines": {
+            "IWM": {
+              "cagr": 0.09520520833882817,
+              "max_drawdown": -0.4113327834530903,
+              "sharpe": 0.5177976065718252,
+              "total_return": 1.8012078830088627
+            },
+            "QQQ": {
+              "cagr": 0.19018204750332401,
+              "max_drawdown": -0.3511872227449716,
+              "sharpe": 0.9028057059903952,
+              "total_return": 6.185123979396852
+            },
+            "SPY": {
+              "cagr": 0.13540112450844943,
+              "max_drawdown": -0.3371726274868585,
+              "sharpe": 0.8078655813069915,
+              "total_return": 3.213549985536564
+            }
+          },
+          "comparison": {
+            "cagr_difference": -0.0712595587328897,
+            "total_return_difference": -3.6145940417657716
+          },
+          "period": {
+            "end": "2026-06-29",
+            "start": "2015-03-02"
+          },
+          "portfolio": {
+            "cagr": 0.11892248877043432,
+            "max_drawdown": -0.5138091150256374,
+            "sharpe": 0.5669727375050324,
+            "total_return": 2.570529937631081
+          },
+          "signal_count": 154,
+          "terminal_liquidation_cost": 0.005
+        }
+      }
+    }
+  },
+  "decision": {
+    "diagnostic_status": "volume_breakout_cap10_cost_and_survivorship_diagnostic",
+    "formal_stock_backtest_completed": false,
+    "gate_summary": {
+      "all_passed": false,
+      "passed": 3,
+      "total": 6
+    },
+    "gates": {
+      "both_fixed_halves_beat_qqq_at_50bps": false,
+      "cagr_beats_qqq_at_10bps": true,
+      "cagr_beats_qqq_at_25bps": false,
+      "cagr_beats_qqq_at_50bps": false,
+      "max_drawdown_no_worse_than_qqq_at_10bps": true,
+      "minimum_30_accepted_events": true
+    },
+    "paper_authorized": false,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "Source-aligned cap-10 semantics still use a current-watchlist survivor snapshot and are not a promotion authorization.",
+    "strategy_status": "research_candidate_only"
+  },
+  "protocol": {
+    "baseline_symbols": [
+      "QQQ",
+      "SPY",
+      "IWM"
+    ],
+    "breakout_lookback_sessions": 60,
+    "cost_scenarios_bps": [
+      10.0,
+      25.0,
+      50.0
+    ],
+    "frequency": "weekly_completed_xnys",
+    "holding_sessions": 20,
+    "market_regime": "SPY_close_above_60_session_SMA",
+    "min_base_eligible": 10,
+    "min_breakout_candidates": 1,
+    "min_median_dollar_volume_usd": 20000000.0,
+    "min_price_usd": 5.0,
+    "momentum_sessions": 20,
+    "overlap_policy": "first_event_wins",
+    "path": "docs/SHORT_TERM_US_VOLUME_BREAKOUT_20Y_CAP10_PROTOCOL.md",
+    "sha256": "b9b7c7bc81dab0f9f7448365697fd7e3cfe133ce3a432cacf917b60a5630e919",
+    "top_k_cap": 10,
+    "trend_sessions": 60,
+    "volume_lookback": 20,
+    "volume_multiple": 1.5
+  },
+  "schedule": {
+    "accepted_events": 146,
+    "accepted_signals": 265,
+    "candidate_events": 376,
+    "candidate_signals": 757,
+    "incomplete_forward_window": 0,
+    "insufficient_base_pool": 86,
+    "insufficient_history": 13,
+    "no_breakout_pool": 379,
+    "overlapping_events_skipped": 204,
+    "overlapping_signals_skipped": 399,
+    "prepare_skipped": {
+      "accepted": 664,
+      "below_liquidity_threshold": 0,
+      "insufficient_liquidity_history": 0,
+      "missing_price_window": 0,
+      "missing_session": 0,
+      "overlapping_issuer_signal": 93
+    },
+    "spy_regime_off": 321,
+    "weekly_signal_sessions": 1175
+  },
+  "schema_version": 1,
+  "source": {
+    "archive_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
+    "contract": {
+      "errors": [],
+      "ok": true,
+      "stats": {
+        "expected_session": "2026-07-31",
+        "last_close_coverage": 1.0,
+        "last_session": "2026-07-31",
+        "latest_positive_volume": 0.9761904761904762,
+        "ohlc_violations": 0,
+        "positive_price_fraction": 0.9567027162977867,
+        "suspicious_last_moves": {},
+        "thin_tickers": {
+          "ABBV": 0.6012,
+          "META": 0.6285
+        }
+      },
+      "warnings": [
+        "歷史覆蓋不足：ABBV=60%, META=63%"
+      ]
+    },
+    "manifest_end": "2026-07-31",
+    "manifest_start": "2004-01-02",
+    "panel_sha256": "6a7ca6b83b1570007424daa46b0ff4e8fb4a655d39298a0f4f6d74c3b7ea3a66",
+    "rows": 5680,
+    "snapshot_filename": "snapshot_20260731_6a7ca6b8.zip",
+    "tickers": [
+      "AAPL",
+      "ABBV",
+      "AMAT",
+      "AMD",
+      "AMZN",
+      "AVGO",
+      "BAC",
+      "BRK-B",
+      "CAT",
+      "COST",
+      "CSCO",
+      "CVX",
+      "DBC",
+      "EEM",
+      "EFA",
+      "GE",
+      "GLD",
+      "GOOG",
+      "GOOGL",
+      "IEF",
+      "INTC",
+      "IWM",
+      "JNJ",
+      "JPM",
+      "LLY",
+      "LRCX",
+      "MA",
+      "META",
+      "MSFT",
+      "MU",
+      "NVDA",
+      "QQQ",
+      "SHY",
+      "SPY",
+      "TLT",
+      "TSLA",
+      "UNH",
+      "V",
+      "VNQ",
+      "WMT",
+      "XOM",
+      "^VIX"
+    ]
+  },
+  "status": "post_hoc_us_volume_breakout_20y_cap10_diagnostic",
+  "universe": {
+    "stock_symbol_count": 30,
+    "stock_symbols": [
+      "AAPL",
+      "ABBV",
+      "AMAT",
+      "AMD",
+      "AMZN",
+      "AVGO",
+      "BAC",
+      "BRK-B",
+      "CAT",
+      "COST",
+      "CSCO",
+      "CVX",
+      "GE",
+      "GOOG",
+      "GOOGL",
+      "INTC",
+      "JNJ",
+      "JPM",
+      "LLY",
+      "LRCX",
+      "MA",
+      "META",
+      "MSFT",
+      "MU",
+      "NVDA",
+      "TSLA",
+      "UNH",
+      "V",
+      "WMT",
+      "XOM"
+    ]
+  }
+}

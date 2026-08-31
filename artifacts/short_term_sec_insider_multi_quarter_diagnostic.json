@@ -1,0 +1,987 @@
+{
+  "decision": {
+    "formal_backtest_completed": false,
+    "paper_authorized": false,
+    "post_hoc_diagnostic": true,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "SEC as-filed events and exploratory prices do not repair point-in-time universe, delisting returns, corporate actions, or formal backtest gates.",
+    "strategy_status": "research_candidate_only"
+  },
+  "diagnostic": {
+    "all_period": {
+      "baseline_symbol": "QQQ",
+      "candidate_issuers": 1465,
+      "candidate_rows": 5798,
+      "horizons": {
+        "10": {
+          "baseline_mean_net_return": 0.006866483222059521,
+          "baseline_median_net_return": 0.009102423037473219,
+          "candidate_mean_net_return": 0.013924531434094048,
+          "candidate_median_net_return": 0.00396124614390825,
+          "complete_rows": 4915,
+          "mean_excess_vs_baseline": 0.007058048212034525,
+          "median_excess_vs_baseline": -0.005393261321344434,
+          "missing_baseline_rows": 0,
+          "missing_candidate_rows": 883,
+          "moving_block_bootstrap_excess": {
+            "high": 0.011091657863408256,
+            "low": 0.0028194625392335697,
+            "median": 0.006905273163270731,
+            "p_mean_le_zero": 0.0
+          },
+          "win_fraction_vs_baseline": 0.46775178026449643
+        },
+        "20": {
+          "baseline_mean_net_return": 0.014591645414495796,
+          "baseline_median_net_return": 0.016499595782132337,
+          "candidate_mean_net_return": 0.018190205982593043,
+          "candidate_median_net_return": 0.004702907692735627,
+          "complete_rows": 4915,
+          "mean_excess_vs_baseline": 0.003598560568097244,
+          "median_excess_vs_baseline": -0.011511410271785594,
+          "missing_baseline_rows": 0,
+          "missing_candidate_rows": 883,
+          "moving_block_bootstrap_excess": {
+            "high": 0.009937252992862388,
+            "low": -0.0027929742726238906,
+            "median": 0.0034932243979766825,
+            "p_mean_le_zero": 0.149
+          },
+          "win_fraction_vs_baseline": 0.4496439471007121
+        },
+        "5": {
+          "baseline_mean_net_return": 0.0020617233007879272,
+          "baseline_median_net_return": 0.003953265753949832,
+          "candidate_mean_net_return": 0.008701052319838703,
+          "candidate_median_net_return": 0.0009325484491360409,
+          "complete_rows": 4915,
+          "mean_excess_vs_baseline": 0.006639329019050776,
+          "median_excess_vs_baseline": -0.0005794316221547913,
+          "missing_baseline_rows": 0,
+          "missing_candidate_rows": 883,
+          "moving_block_bootstrap_excess": {
+            "high": 0.009553121045341421,
+            "low": 0.003670677918256674,
+            "median": 0.006521841698194128,
+            "p_mean_le_zero": 0.0
+          },
+          "win_fraction_vs_baseline": 0.4948118006103764
+        }
+      },
+      "round_trip_cost_bps": 20.0
+    },
+    "by_quarter": {
+      "2024Q1": {
+        "candidate_count": 594,
+        "candidate_issuer_count": 205,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 205,
+          "candidate_rows": 594,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.010306835218036093,
+              "baseline_median_net_return": 0.01077612457338373,
+              "candidate_mean_net_return": 0.023786455331227346,
+              "candidate_median_net_return": 0.004606112687427723,
+              "complete_rows": 441,
+              "mean_excess_vs_baseline": 0.013479620113191251,
+              "median_excess_vs_baseline": -0.005004943865068556,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 153,
+              "moving_block_bootstrap_excess": {
+                "high": 0.022473209018811335,
+                "low": -0.0024460297392276545,
+                "median": 0.009613877822921828,
+                "p_mean_le_zero": 0.0525
+              },
+              "win_fraction_vs_baseline": 0.4399092970521542
+            },
+            "20": {
+              "baseline_mean_net_return": 0.009494196384089174,
+              "baseline_median_net_return": 0.010029782912156284,
+              "candidate_mean_net_return": 0.01764529011635707,
+              "candidate_median_net_return": 0.0016444957174122105,
+              "complete_rows": 441,
+              "mean_excess_vs_baseline": 0.008151093732267899,
+              "median_excess_vs_baseline": -0.010193933916541775,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 153,
+              "moving_block_bootstrap_excess": {
+                "high": 0.024522181616830133,
+                "low": -0.01469976782626371,
+                "median": 0.0039338436676199,
+                "p_mean_le_zero": 0.3485
+              },
+              "win_fraction_vs_baseline": 0.40816326530612246
+            },
+            "5": {
+              "baseline_mean_net_return": 0.004644390868214753,
+              "baseline_median_net_return": 0.0011608690376989656,
+              "candidate_mean_net_return": 0.011837645161677273,
+              "candidate_median_net_return": 0.0008957395875102154,
+              "complete_rows": 441,
+              "mean_excess_vs_baseline": 0.007193254293462521,
+              "median_excess_vs_baseline": -0.002519983908841006,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 153,
+              "moving_block_bootstrap_excess": {
+                "high": 0.014762237054694682,
+                "low": -0.0029263143469299095,
+                "median": 0.005417760956347914,
+                "p_mean_le_zero": 0.111
+              },
+              "win_fraction_vs_baseline": 0.47165532879818595
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2024Q2": {
+        "candidate_count": 619,
+        "candidate_issuer_count": 223,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 223,
+          "candidate_rows": 619,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.018933280242997477,
+              "baseline_median_net_return": 0.023724994310426517,
+              "candidate_mean_net_return": -0.00586734715354495,
+              "candidate_median_net_return": -0.002,
+              "complete_rows": 513,
+              "mean_excess_vs_baseline": -0.024800627396542426,
+              "median_excess_vs_baseline": -0.022694556747502648,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 106,
+              "moving_block_bootstrap_excess": {
+                "high": -0.016597914071646642,
+                "low": -0.03287157299080005,
+                "median": -0.024595689342964612,
+                "p_mean_le_zero": 1.0
+              },
+              "win_fraction_vs_baseline": 0.3235867446393762
+            },
+            "20": {
+              "baseline_mean_net_return": 0.038286636953152514,
+              "baseline_median_net_return": 0.05032441578475022,
+              "candidate_mean_net_return": -0.0043289575007381354,
+              "candidate_median_net_return": -0.002,
+              "complete_rows": 513,
+              "mean_excess_vs_baseline": -0.042615594453890654,
+              "median_excess_vs_baseline": -0.0397891030765658,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 106,
+              "moving_block_bootstrap_excess": {
+                "high": -0.02996848676099636,
+                "low": -0.05423505303518303,
+                "median": -0.04202296687816193,
+                "p_mean_le_zero": 1.0
+              },
+              "win_fraction_vs_baseline": 0.32943469785575047
+            },
+            "5": {
+              "baseline_mean_net_return": 0.006452687121371168,
+              "baseline_median_net_return": 0.01120850326838019,
+              "candidate_mean_net_return": -0.0037609542195969244,
+              "candidate_median_net_return": -5.080437696092059e-05,
+              "complete_rows": 513,
+              "mean_excess_vs_baseline": -0.010213641340968091,
+              "median_excess_vs_baseline": -0.006877412496299253,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 106,
+              "moving_block_bootstrap_excess": {
+                "high": -0.004265605538267939,
+                "low": -0.01541963183252451,
+                "median": -0.009811985960251766,
+                "p_mean_le_zero": 0.999
+              },
+              "win_fraction_vs_baseline": 0.42105263157894735
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2024Q3": {
+        "candidate_count": 581,
+        "candidate_issuer_count": 211,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 211,
+          "candidate_rows": 581,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.002759920102742237,
+              "baseline_median_net_return": -0.0005267852671895206,
+              "candidate_mean_net_return": 0.030737231851607743,
+              "candidate_median_net_return": 0.01155246246306141,
+              "complete_rows": 458,
+              "mean_excess_vs_baseline": 0.0279773117488655,
+              "median_excess_vs_baseline": 0.006279616556762901,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 123,
+              "moving_block_bootstrap_excess": {
+                "high": 0.04738073185104178,
+                "low": 0.011767653850669137,
+                "median": 0.02800012049638874,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.537117903930131
+            },
+            "20": {
+              "baseline_mean_net_return": 0.010283646982855428,
+              "baseline_median_net_return": 0.019442085829728173,
+              "candidate_mean_net_return": 0.02914558517442074,
+              "candidate_median_net_return": 0.013522231967403877,
+              "complete_rows": 458,
+              "mean_excess_vs_baseline": 0.018861938191565304,
+              "median_excess_vs_baseline": -0.000714976076094942,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 123,
+              "moving_block_bootstrap_excess": {
+                "high": 0.04102103780135778,
+                "low": 0.00018728961776751373,
+                "median": 0.01902398793650691,
+                "p_mean_le_zero": 0.024
+              },
+              "win_fraction_vs_baseline": 0.4978165938864629
+            },
+            "5": {
+              "baseline_mean_net_return": -5.684423038736721e-06,
+              "baseline_median_net_return": 0.002718518320928622,
+              "candidate_mean_net_return": 0.01933490470053705,
+              "candidate_median_net_return": 0.00757610090497063,
+              "complete_rows": 458,
+              "mean_excess_vs_baseline": 0.019340589123575783,
+              "median_excess_vs_baseline": 0.007325591178105162,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 123,
+              "moving_block_bootstrap_excess": {
+                "high": 0.03148733984900131,
+                "low": 0.007329450780480467,
+                "median": 0.019070480329925296,
+                "p_mean_le_zero": 0.0005
+              },
+              "win_fraction_vs_baseline": 0.5458515283842795
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2024Q4": {
+        "candidate_count": 625,
+        "candidate_issuer_count": 238,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 238,
+          "candidate_rows": 625,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.005213438613022783,
+              "baseline_median_net_return": 0.009075467659293015,
+              "candidate_mean_net_return": 0.0007169020659816234,
+              "candidate_median_net_return": -0.0004334795075938685,
+              "complete_rows": 454,
+              "mean_excess_vs_baseline": -0.0044965365470411595,
+              "median_excess_vs_baseline": -0.008648645747974191,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 171,
+              "moving_block_bootstrap_excess": {
+                "high": 0.00557376446056537,
+                "low": -0.014692430165504537,
+                "median": -0.004405195304663259,
+                "p_mean_le_zero": 0.808
+              },
+              "win_fraction_vs_baseline": 0.45594713656387664
+            },
+            "20": {
+              "baseline_mean_net_return": 0.011464070930423181,
+              "baseline_median_net_return": 0.013664649798397212,
+              "candidate_mean_net_return": 0.007240533769470106,
+              "candidate_median_net_return": -0.004905447997576971,
+              "complete_rows": 454,
+              "mean_excess_vs_baseline": -0.004223537160953075,
+              "median_excess_vs_baseline": -0.023551432972573172,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 171,
+              "moving_block_bootstrap_excess": {
+                "high": 0.014031006256234234,
+                "low": -0.020188279834026334,
+                "median": -0.0037619332165256406,
+                "p_mean_le_zero": 0.673
+              },
+              "win_fraction_vs_baseline": 0.41629955947136565
+            },
+            "5": {
+              "baseline_mean_net_return": 0.0024968500253870706,
+              "baseline_median_net_return": 0.007731556622468274,
+              "candidate_mean_net_return": 0.0009248999099108093,
+              "candidate_median_net_return": -0.002,
+              "complete_rows": 454,
+              "mean_excess_vs_baseline": -0.0015719501154762613,
+              "median_excess_vs_baseline": -0.004397470473088472,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 171,
+              "moving_block_bootstrap_excess": {
+                "high": 0.0052896571331708464,
+                "low": -0.009040784771585887,
+                "median": -0.001593999715184119,
+                "p_mean_le_zero": 0.6805
+              },
+              "win_fraction_vs_baseline": 0.460352422907489
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2025Q1": {
+        "candidate_count": 598,
+        "candidate_issuer_count": 257,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 257,
+          "candidate_rows": 598,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": -0.024272393666577637,
+              "baseline_median_net_return": -0.018216434345239563,
+              "candidate_mean_net_return": -0.015295652722888672,
+              "candidate_median_net_return": -0.005868468207228859,
+              "complete_rows": 497,
+              "mean_excess_vs_baseline": 0.008976740943688964,
+              "median_excess_vs_baseline": 0.0031259358606295917,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 101,
+              "moving_block_bootstrap_excess": {
+                "high": 0.020857214242275338,
+                "low": -8.821585096277698e-05,
+                "median": 0.010297214517698237,
+                "p_mean_le_zero": 0.026
+              },
+              "win_fraction_vs_baseline": 0.5191146881287726
+            },
+            "20": {
+              "baseline_mean_net_return": -0.05555900661153434,
+              "baseline_median_net_return": -0.05315053886558152,
+              "candidate_mean_net_return": -0.06051919683893103,
+              "candidate_median_net_return": -0.06677111544727343,
+              "complete_rows": 497,
+              "mean_excess_vs_baseline": -0.004960190227396699,
+              "median_excess_vs_baseline": -0.0006047604676121532,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 101,
+              "moving_block_bootstrap_excess": {
+                "high": 0.010014725738832346,
+                "low": -0.015520294789622822,
+                "median": -0.0037464492598493085,
+                "p_mean_le_zero": 0.727
+              },
+              "win_fraction_vs_baseline": 0.49899396378269617
+            },
+            "5": {
+              "baseline_mean_net_return": -0.014449347925459039,
+              "baseline_median_net_return": -0.011641819528267925,
+              "candidate_mean_net_return": -0.003734109308724161,
+              "candidate_median_net_return": -0.002,
+              "complete_rows": 497,
+              "mean_excess_vs_baseline": 0.010715238616734875,
+              "median_excess_vs_baseline": 0.009588877160661147,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 101,
+              "moving_block_bootstrap_excess": {
+                "high": 0.01830475190635822,
+                "low": 0.005247475767226845,
+                "median": 0.01157301012486972,
+                "p_mean_le_zero": 0.0005
+              },
+              "win_fraction_vs_baseline": 0.5674044265593562
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2025Q2": {
+        "candidate_count": 686,
+        "candidate_issuer_count": 271,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 271,
+          "candidate_rows": 686,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.02952696236631926,
+              "baseline_median_net_return": 0.021686018021994213,
+              "candidate_mean_net_return": 0.029260235914586923,
+              "candidate_median_net_return": 0.016658640476900688,
+              "complete_rows": 547,
+              "mean_excess_vs_baseline": -0.00026672645173234116,
+              "median_excess_vs_baseline": -0.010884199024797647,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 139,
+              "moving_block_bootstrap_excess": {
+                "high": 0.008539190374770913,
+                "low": -0.008318352797567308,
+                "median": 9.091965613267845e-05,
+                "p_mean_le_zero": 0.493
+              },
+              "win_fraction_vs_baseline": 0.4351005484460695
+            },
+            "20": {
+              "baseline_mean_net_return": 0.06234203652440527,
+              "baseline_median_net_return": 0.04829358244265758,
+              "candidate_mean_net_return": 0.04849440011552835,
+              "candidate_median_net_return": 0.033967853719793384,
+              "complete_rows": 547,
+              "mean_excess_vs_baseline": -0.013847636408876924,
+              "median_excess_vs_baseline": -0.02471810013455844,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 139,
+              "moving_block_bootstrap_excess": {
+                "high": -0.0035426615563050163,
+                "low": -0.024988573660693347,
+                "median": -0.01427721464223994,
+                "p_mean_le_zero": 0.9955
+              },
+              "win_fraction_vs_baseline": 0.37842778793418647
+            },
+            "5": {
+              "baseline_mean_net_return": 0.014699480970140415,
+              "baseline_median_net_return": 0.00974219176851965,
+              "candidate_mean_net_return": 0.01650570491530069,
+              "candidate_median_net_return": 0.008630245498302049,
+              "complete_rows": 547,
+              "mean_excess_vs_baseline": 0.0018062239451602728,
+              "median_excess_vs_baseline": -0.006857096265636686,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 139,
+              "moving_block_bootstrap_excess": {
+                "high": 0.009066088817379659,
+                "low": -0.005195305747204199,
+                "median": 0.0016152983758133694,
+                "p_mean_le_zero": 0.324
+              },
+              "win_fraction_vs_baseline": 0.4405850091407678
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2025Q3": {
+        "candidate_count": 454,
+        "candidate_issuer_count": 204,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 204,
+          "candidate_rows": 454,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.009285503217284505,
+              "baseline_median_net_return": 0.013021744957386174,
+              "candidate_mean_net_return": 0.03555430923213206,
+              "candidate_median_net_return": 0.011848714321034516,
+              "complete_rows": 430,
+              "mean_excess_vs_baseline": 0.026268806014847563,
+              "median_excess_vs_baseline": 0.004456240916320519,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 24,
+              "moving_block_bootstrap_excess": {
+                "high": 0.045135494632979355,
+                "low": 0.009901684511094945,
+                "median": 0.02616294821039044,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.513953488372093
+            },
+            "20": {
+              "baseline_mean_net_return": 0.02557055927497432,
+              "baseline_median_net_return": 0.023659868652410765,
+              "candidate_mean_net_return": 0.05809486922827591,
+              "candidate_median_net_return": 0.0066331604460065936,
+              "complete_rows": 430,
+              "mean_excess_vs_baseline": 0.032524309953301585,
+              "median_excess_vs_baseline": -0.01220976350362174,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 24,
+              "moving_block_bootstrap_excess": {
+                "high": 0.060835346621553876,
+                "low": 0.007221447085377075,
+                "median": 0.03216215482105441,
+                "p_mean_le_zero": 0.006
+              },
+              "win_fraction_vs_baseline": 0.43488372093023253
+            },
+            "5": {
+              "baseline_mean_net_return": 0.0026231813982558016,
+              "baseline_median_net_return": 0.0031140472667658976,
+              "candidate_mean_net_return": 0.021471237226065424,
+              "candidate_median_net_return": 0.008692329429607739,
+              "complete_rows": 430,
+              "mean_excess_vs_baseline": 0.018848055827809622,
+              "median_excess_vs_baseline": 0.004351629005343249,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 24,
+              "moving_block_bootstrap_excess": {
+                "high": 0.03234283656345173,
+                "low": 0.007877011890422479,
+                "median": 0.01930136891198858,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.5581395348837209
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2025Q4": {
+        "candidate_count": 518,
+        "candidate_issuer_count": 261,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 261,
+          "candidate_rows": 518,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.005049587736839691,
+              "baseline_median_net_return": 0.002201591499117585,
+              "candidate_mean_net_return": 0.03847017371539261,
+              "candidate_median_net_return": 0.012100691054949044,
+              "complete_rows": 491,
+              "mean_excess_vs_baseline": 0.03342058597855292,
+              "median_excess_vs_baseline": 0.008514650380578859,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 27,
+              "moving_block_bootstrap_excess": {
+                "high": 0.05100426890449418,
+                "low": 0.018392769172630306,
+                "median": 0.03376697888665931,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.5580448065173116
+            },
+            "20": {
+              "baseline_mean_net_return": 0.00836768759376367,
+              "baseline_median_net_return": 0.007481025138496912,
+              "candidate_mean_net_return": 0.06922705252230237,
+              "candidate_median_net_return": 0.02759318556750845,
+              "complete_rows": 491,
+              "mean_excess_vs_baseline": 0.060859364928538696,
+              "median_excess_vs_baseline": 0.020102062311280644,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 27,
+              "moving_block_bootstrap_excess": {
+                "high": 0.09644510044349931,
+                "low": 0.03769224842419515,
+                "median": 0.061006455026683004,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.5723014256619144
+            },
+            "5": {
+              "baseline_mean_net_return": 0.00043129977564872597,
+              "baseline_median_net_return": 0.0023327301697384523,
+              "candidate_mean_net_return": 0.023777055113321125,
+              "candidate_median_net_return": 0.0059536229993963925,
+              "complete_rows": 491,
+              "mean_excess_vs_baseline": 0.023345755337672403,
+              "median_excess_vs_baseline": 0.0071513517805239495,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 27,
+              "moving_block_bootstrap_excess": {
+                "high": 0.03704947675195156,
+                "low": 0.01302329337837673,
+                "median": 0.0233873258062539,
+                "p_mean_le_zero": 0.0
+              },
+              "win_fraction_vs_baseline": 0.5539714867617108
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2026Q1": {
+        "candidate_count": 517,
+        "candidate_issuer_count": 251,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 251,
+          "candidate_rows": 517,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": -0.011932923195927333,
+              "baseline_median_net_return": -0.012089906164343798,
+              "candidate_mean_net_return": -0.013402864440675672,
+              "candidate_median_net_return": -0.01246488227697534,
+              "complete_rows": 498,
+              "mean_excess_vs_baseline": -0.0014699412447483375,
+              "median_excess_vs_baseline": -0.003309562404261057,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 19,
+              "moving_block_bootstrap_excess": {
+                "high": 0.011695607564450558,
+                "low": -0.01299142046743319,
+                "median": -0.0010705099081064831,
+                "p_mean_le_zero": 0.5715
+              },
+              "win_fraction_vs_baseline": 0.4799196787148594
+            },
+            "20": {
+              "baseline_mean_net_return": 0.006620606682968957,
+              "baseline_median_net_return": -0.010393884168675148,
+              "candidate_mean_net_return": -0.006955043207545184,
+              "candidate_median_net_return": -0.003923973891255371,
+              "complete_rows": 498,
+              "mean_excess_vs_baseline": -0.013575649890514139,
+              "median_excess_vs_baseline": -0.009355686448895617,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 19,
+              "moving_block_bootstrap_excess": {
+                "high": 0.006586929269247542,
+                "low": -0.030164415951503345,
+                "median": -0.011811551693198263,
+                "p_mean_le_zero": 0.9015
+              },
+              "win_fraction_vs_baseline": 0.4678714859437751
+            },
+            "5": {
+              "baseline_mean_net_return": -0.007808457380308688,
+              "baseline_median_net_return": -0.007080596659348902,
+              "candidate_mean_net_return": -0.005760789418514045,
+              "candidate_median_net_return": -0.011019830402478224,
+              "complete_rows": 498,
+              "mean_excess_vs_baseline": 0.0020476679617946426,
+              "median_excess_vs_baseline": -0.0039360783892380975,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 19,
+              "moving_block_bootstrap_excess": {
+                "high": 0.009597147020676336,
+                "low": -0.005535526739094505,
+                "median": 0.0021404614780773136,
+                "p_mean_le_zero": 0.2965
+              },
+              "win_fraction_vs_baseline": 0.4718875502008032
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      },
+      "2026Q2": {
+        "candidate_count": 606,
+        "candidate_issuer_count": 288,
+        "diagnostic": {
+          "baseline_symbol": "QQQ",
+          "candidate_issuers": 288,
+          "candidate_rows": 606,
+          "horizons": {
+            "10": {
+              "baseline_mean_net_return": 0.019184891519635275,
+              "baseline_median_net_return": 0.021787703807962577,
+              "candidate_mean_net_return": 0.018174193083030865,
+              "candidate_median_net_return": 0.007376676938281148,
+              "complete_rows": 586,
+              "mean_excess_vs_baseline": -0.0010106984366044095,
+              "median_excess_vs_baseline": -0.01540108088460046,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 20,
+              "moving_block_bootstrap_excess": {
+                "high": 0.011541712512074415,
+                "low": -0.013052863941180133,
+                "median": -0.0010356195232614875,
+                "p_mean_le_zero": 0.568
+              },
+              "win_fraction_vs_baseline": 0.43686006825938567
+            },
+            "20": {
+              "baseline_mean_net_return": 0.022331311282463795,
+              "baseline_median_net_return": 0.0014983609275403004,
+              "candidate_mean_net_return": 0.02602747994247268,
+              "candidate_median_net_return": 0.012014904260027938,
+              "complete_rows": 586,
+              "mean_excess_vs_baseline": 0.003696168660008877,
+              "median_excess_vs_baseline": -0.003397870336971587,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 20,
+              "moving_block_bootstrap_excess": {
+                "high": 0.022459075285081398,
+                "low": -0.013018438912103122,
+                "median": 0.004706226308125772,
+                "p_mean_le_zero": 0.298
+              },
+              "win_fraction_vs_baseline": 0.49146757679180886
+            },
+            "5": {
+              "baseline_mean_net_return": 0.009101679392558192,
+              "baseline_median_net_return": 0.01600906154997106,
+              "candidate_mean_net_return": 0.008512436926199522,
+              "candidate_median_net_return": -0.0017612089617193832,
+              "complete_rows": 586,
+              "mean_excess_vs_baseline": -0.0005892424663586709,
+              "median_excess_vs_baseline": -0.004455070357104685,
+              "missing_baseline_rows": 0,
+              "missing_candidate_rows": 20,
+              "moving_block_bootstrap_excess": {
+                "high": 0.00898840120462425,
+                "low": -0.008477004945857528,
+                "median": -0.00041289409100131317,
+                "p_mean_le_zero": 0.5305
+              },
+              "win_fraction_vs_baseline": 0.4761092150170648
+            }
+          },
+          "round_trip_cost_bps": 20.0
+        }
+      }
+    },
+    "candidate_count": 5798,
+    "candidate_issuer_count": 1465,
+    "fixed_halves": {
+      "2024Q1_2025Q1": {
+        "baseline_symbol": "QQQ",
+        "candidate_issuers": 806,
+        "candidate_rows": 3017,
+        "horizons": {
+          "10": {
+            "baseline_mean_net_return": 0.002465362666479401,
+            "baseline_median_net_return": 0.007298308500069741,
+            "candidate_mean_net_return": 0.006043615757096501,
+            "candidate_median_net_return": 0.0013256179944833874,
+            "complete_rows": 2363,
+            "mean_excess_vs_baseline": 0.003578253090617099,
+            "median_excess_vs_baseline": -0.007356372312814276,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 654,
+            "moving_block_bootstrap_excess": {
+              "high": 0.00943160128888367,
+              "low": -0.0024830492634534723,
+              "median": 0.0031253568181220373,
+              "p_mean_le_zero": 0.14
+            },
+            "win_fraction_vs_baseline": 0.45323741007194246
+          },
+          "20": {
+            "baseline_mean_net_return": 0.0025940573834015716,
+            "baseline_median_net_return": 0.0115915717119941,
+            "candidate_mean_net_return": -0.0033353122066397765,
+            "candidate_median_net_return": -0.007102035851341613,
+            "complete_rows": 2363,
+            "mean_excess_vs_baseline": -0.005929369590041346,
+            "median_excess_vs_baseline": -0.015181259799187607,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 654,
+            "moving_block_bootstrap_excess": {
+              "high": 0.0018695711871173964,
+              "low": -0.014017850209381148,
+              "median": -0.006389292946556919,
+              "p_mean_le_zero": 0.9425
+            },
+            "win_fraction_vs_baseline": 0.42911553110452816
+          },
+          "5": {
+            "baseline_mean_net_return": -0.00029282886459290684,
+            "baseline_median_net_return": 0.003953265753949832,
+            "candidate_mean_net_return": 0.004532573248902252,
+            "candidate_median_net_return": -7.696344360108402e-05,
+            "complete_rows": 2363,
+            "mean_excess_vs_baseline": 0.004825402113495158,
+            "median_excess_vs_baseline": -0.0007221699894426337,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 654,
+            "moving_block_bootstrap_excess": {
+              "high": 0.00875402486680936,
+              "low": 0.0007768193402814249,
+              "median": 0.004616177702943469,
+              "p_mean_le_zero": 0.007
+            },
+            "win_fraction_vs_baseline": 0.4930173508252222
+          }
+        },
+        "round_trip_cost_bps": 20.0
+      },
+      "2025Q2_2026Q2": {
+        "baseline_symbol": "QQQ",
+        "candidate_issuers": 947,
+        "candidate_rows": 2781,
+        "horizons": {
+          "10": {
+            "baseline_mean_net_return": 0.010941658720819638,
+            "baseline_median_net_return": 0.009551644456069932,
+            "candidate_mean_net_return": 0.02122178995476223,
+            "candidate_median_net_return": 0.007543372280589657,
+            "complete_rows": 2552,
+            "mean_excess_vs_baseline": 0.010280131233942589,
+            "median_excess_vs_baseline": -0.002847032209271294,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 229,
+            "moving_block_bootstrap_excess": {
+              "high": 0.01684657272794329,
+              "low": 0.004492394981213652,
+              "median": 0.01037952569751269,
+              "p_mean_le_zero": 0.001
+            },
+            "win_fraction_vs_baseline": 0.48119122257053293
+          },
+          "20": {
+            "baseline_mean_net_return": 0.025700697341406318,
+            "baseline_median_net_return": 0.018105587855453464,
+            "candidate_mean_net_return": 0.038121553741667154,
+            "candidate_median_net_return": 0.016149450997084536,
+            "complete_rows": 2552,
+            "mean_excess_vs_baseline": 0.01242085640026084,
+            "median_excess_vs_baseline": -0.007377480749730657,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 229,
+            "moving_block_bootstrap_excess": {
+              "high": 0.022847079417241897,
+              "low": 0.0028078580277074694,
+              "median": 0.01247730218483503,
+              "p_mean_le_zero": 0.003
+            },
+            "win_fraction_vs_baseline": 0.46865203761755486
+          },
+          "5": {
+            "baseline_mean_net_return": 0.0042418983661464335,
+            "baseline_median_net_return": 0.0038739024250076266,
+            "candidate_mean_net_return": 0.012560815660208152,
+            "candidate_median_net_return": 0.0017986456806233803,
+            "complete_rows": 2552,
+            "mean_excess_vs_baseline": 0.00831891729406172,
+            "median_excess_vs_baseline": -0.00031311559289332047,
+            "missing_baseline_rows": 0,
+            "missing_candidate_rows": 229,
+            "moving_block_bootstrap_excess": {
+              "high": 0.012852819429634166,
+              "low": 0.004133859363250574,
+              "median": 0.00826467639565932,
+              "p_mean_le_zero": 0.0
+            },
+            "win_fraction_vs_baseline": 0.4964733542319749
+          }
+        },
+        "round_trip_cost_bps": 20.0
+      }
+    }
+  },
+  "price_source": {
+    "adjusted_total_return_columns": [
+      "adj_open",
+      "adj_close"
+    ],
+    "candidate_symbol_count": 1465,
+    "covered_candidate_symbol_count": 1328,
+    "filename": "yahoo_prices.csv",
+    "missing_candidate_symbol_count": 137,
+    "row_count": 764643,
+    "sha256": "49551c38c970670ea2c55739990bf50b5313c70e86ada10797c739c454211aec",
+    "symbol_count": 1329,
+    "url": "https://finance.yahoo.com/"
+  },
+  "protocol": {
+    "path": "docs/SHORT_TERM_SEC_INSIDER_MULTI_QUARTER_PROTOCOL.md",
+    "price_client": "yfinance 1.5.2",
+    "price_first_date": "2024-01-02",
+    "price_last_date": "2026-07-31",
+    "quarters": [
+      "2024Q1",
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4",
+      "2026Q1",
+      "2026Q2"
+    ],
+    "sha256": "4556b81af894d3bf3e2a7cbda6bbc9db94e0102f4d6d8bc8caf3957e9d726557"
+  },
+  "schema_version": 1,
+  "sec_input_counts": {
+    "deduplicated_event_count": 65591,
+    "package_count": 10,
+    "raw_event_count": 65591
+  },
+  "sec_sources": [
+    {
+      "as_of": "2024-03-31",
+      "event_count": 6856,
+      "filename": "2024Q1_form345.zip",
+      "label": "2024Q1",
+      "sha256": "8e9bb34335416829a88e4ca7d09bb8aaceca689da9718fef22c298d6f18c9b04",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q1_form345.zip"
+    },
+    {
+      "as_of": "2024-06-30",
+      "event_count": 6438,
+      "filename": "2024Q2_form345.zip",
+      "label": "2024Q2",
+      "sha256": "782abee663e466b243f953625ae319da93c3e896816007d5a375e558c94dc7c1",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q2_form345.zip"
+    },
+    {
+      "as_of": "2024-09-30",
+      "event_count": 6859,
+      "filename": "2024Q3_form345.zip",
+      "label": "2024Q3",
+      "sha256": "8b55b4ffd91e56770fc0e71f9b73e6886f3c60fac8b7266e4b3e5586d2857910",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q3_form345.zip"
+    },
+    {
+      "as_of": "2024-12-31",
+      "event_count": 8160,
+      "filename": "2024Q4_form345.zip",
+      "label": "2024Q4",
+      "sha256": "44763a00aa8a2077747bc015f12c6a4c09ba7cae4a2d031bf24398f9db9e52f3",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2024q4_form345.zip"
+    },
+    {
+      "as_of": "2025-03-31",
+      "event_count": 6284,
+      "filename": "2025Q1_form345.zip",
+      "label": "2025Q1",
+      "sha256": "37f6b4287df129b88acf0782498540640d055b1c893320877e329945b534a8c2",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q1_form345.zip"
+    },
+    {
+      "as_of": "2025-06-30",
+      "event_count": 7170,
+      "filename": "2025Q2_form345.zip",
+      "label": "2025Q2",
+      "sha256": "64e7f81328933b1281bd8737961048d76d2ab3d5d1d2d7149a32ec061b0e3ff2",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q2_form345.zip"
+    },
+    {
+      "as_of": "2025-09-30",
+      "event_count": 5434,
+      "filename": "2025Q3_form345.zip",
+      "label": "2025Q3",
+      "sha256": "9c57f272b7230500771f661bc1fe181527ed6b76a6f45d23a910c7fc7e9fcfa4",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q3_form345.zip"
+    },
+    {
+      "as_of": "2025-12-31",
+      "event_count": 6388,
+      "filename": "2025Q4_form345.zip",
+      "label": "2025Q4",
+      "sha256": "6af26a68f5834eab96dff2c568530d9213638d3e6c9d1256e4f6c9f8af1d2d28",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2025q4_form345.zip"
+    },
+    {
+      "as_of": "2026-03-31",
+      "event_count": 5844,
+      "filename": "2026Q1_form345.zip",
+      "label": "2026Q1",
+      "sha256": "3dcb680593f5829bc951cb0969e858b60fc21a6835b094838218093a849592d6",
+      "url": "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/2026q1_form345.zip"
+    },
+    {
+      "as_of": "2026-06-30",
+      "event_count": 6158,
+      "filename": "2026q2_form345.zip",
+      "label": "2026Q2",
+      "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
+      "url": "https://www.sec.gov/files/datastandardsinnovation/data/insider-transactions-data-sets/2026q2_form345.zip"
+    }
+  ],
+  "status": "post_hoc_multi_quarter_forward_diagnostic"
+}
