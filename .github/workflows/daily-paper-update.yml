@@ -109,6 +109,7 @@ jobs:
           ./.venv/bin/python scripts/build_short_term_rank_monotonicity_placebo_report.py
           ./.venv/bin/python scripts/build_short_term_leader_pullback_rebound_report.py
           ./.venv/bin/python scripts/build_short_term_disclosure_readiness_report.py
+          ./.venv/bin/python scripts/build_short_term_form4_admission_feasibility_report.py
           ./.venv/bin/python scripts/build_short_term_multi_window_resonance_report.py
           ./.venv/bin/python scripts/build_short_term_qqq_replacement_overlay_report.py
           ./.venv/bin/python scripts/build_short_term_calendar_capital_accounting_report.py
@@ -194,6 +195,9 @@ jobs:
             artifacts/short_term_disclosure_readiness.json \
             site/data/short-term-disclosure-readiness.json \
             docs/SHORT_TERM_DISCLOSURE_READINESS_REPORT.md \
+            artifacts/short_term_form4_admission_feasibility_validation.json \
+            site/data/short-term-form4-admission-feasibility.json \
+            docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_REPORT.md \
             artifacts/short_term_multi_window_resonance_validation.json \
             site/data/short-term-multi-window-resonance.json \
             docs/SHORT_TERM_MULTI_WINDOW_RESONANCE_RESEARCH_REPORT.md \
@@ -242,6 +246,18 @@ jobs:
           ./.venv/bin/pytest tests/test_disclosure_known_at_protocol.py
           ./.venv/bin/pytest tests/test_disclosure_known_at.py
           ./.venv/bin/pytest tests/test_disclosure_readiness_report.py
+          ./.venv/bin/pytest tests/test_form4_cluster_protocol.py
+          ./.venv/bin/pytest tests/test_form4_admission_feasibility_protocol.py
+          ./.venv/bin/pytest tests/test_form4_admission_feasibility_schema_amendment.py
+          ./.venv/bin/pytest tests/test_form4_admission_collection_authorization.py
+          ./.venv/bin/pytest tests/test_form4_admission_feasibility.py
+          ./.venv/bin/pytest tests/test_form4_admission_collection.py
+          ./.venv/bin/pytest tests/test_form4_admission_feasibility_report.py
+          ./.venv/bin/pytest tests/test_form4_multipath_reconciliation_v2.py
+          ./.venv/bin/pytest tests/test_form4_forward_admission_contract.py
+          ./.venv/bin/pytest tests/test_form4_multipath_forward_protocol_amendment_v1_1.py
+          ./.venv/bin/pytest tests/test_global_trial_ledger.py
+          ./.venv/bin/pytest tests/test_sec_edgar_client.py
           ./.venv/bin/pytest tests/test_multi_window_resonance.py
           ./.venv/bin/pytest tests/test_multi_window_resonance_report.py
           ./.venv/bin/pytest tests/test_qqq_replacement_overlay.py

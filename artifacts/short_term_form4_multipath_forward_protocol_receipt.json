@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "research_round": 43,
+  "status": "result_blind_forward_protocol_frozen_before_new_sec_request_candidate_or_performance",
+  "frozen_at": "2026-08-10T02:21:51Z",
+  "parent_code_commit": {
+    "sha": "c4cee8a7e317b4afd132abbaa5f410dde0f8f60d",
+    "branch": "codex/round42-form4-admission"
+  },
+  "protocol": {
+    "path": "docs/SHORT_TERM_FORM4_MULTIPATH_FORWARD_PROTOCOL.md",
+    "sha256": "845b13b1c01a0edef887ac490764ef8359cb382184430f483ab7093ca2b013eb"
+  },
+  "dynamic_selection_design": {
+    "path": "docs/SHORT_TERM_ACTOR_DISCLOSURE_DYNAMIC_SELECTION_DESIGN.md",
+    "sha256": "e70177c9868a4ae92056de9be9823240c1f9881477076df7c6a43fa08577ee11",
+    "protocol_or_strategy_result": false
+  },
+  "parent_round42_stop": {
+    "validation": {
+      "path": "artifacts/short_term_form4_admission_feasibility_validation.json",
+      "sha256": "44fc7bcf41b336406633338e306458184b999ff90cff86cac80238ecffc38ddf"
+    },
+    "report": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_REPORT.md",
+      "sha256": "307d8f2bb8b01a300194a9cbc1770f008c78b9a856f36f3391f176a001d3fab3"
+    },
+    "status": "stopped_no_admission_claim",
+    "stop_code": "form4_feasibility_daily_index_missing_or_ambiguous",
+    "admission_passed": 2,
+    "admission_total": 16,
+    "reuse_or_restart_allowed": false
+  },
+  "parent_round41_candidate": {
+    "protocol_v1_1": {
+      "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md",
+      "sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd"
+    },
+    "receipt_v1_1": {
+      "path": "artifacts/short_term_form4_cluster_protocol_amendment_v1_1_receipt.json",
+      "sha256": "90440b0ae74dbbe91c45ab885f9ad5e1e1457392b4eaff9265c5f7588bdc883c"
+    },
+    "candidate_rules_changed": false,
+    "reserved_comparisons": 8
+  },
+  "global_trial_ledger": {
+    "protocol": {
+      "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+      "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+    },
+    "artifact": {
+      "path": "artifacts/short_term_global_trial_ledger.json",
+      "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49"
+    },
+    "entry_count": 12,
+    "chain_head_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085",
+    "lower_bound_before": 6287,
+    "round43_increment": 0,
+    "lower_bound_after": 6287,
+    "ledger_append_authorized": false
+  },
+  "offline_implementation": {
+    "multipath_resolver": {
+      "path": "usfddk/form4_multipath_index.py",
+      "sha256": "0537e2b6a33be490185bf115995f613c39833ea74e62bce077e8c8ca03f2c2ba"
+    },
+    "multipath_tests": {
+      "path": "tests/test_form4_multipath_index.py",
+      "sha256": "23b64801261569743a8cff235d5b9b0479717ec8719adde7c6d039188d507e7a"
+    },
+    "forward_contract": {
+      "path": "usfddk/form4_forward_contract.py",
+      "sha256": "f700c03f5e9e51e8a7fd19183a4635e65a718dd9ee321e335a1179cc5f710640"
+    },
+    "forward_contract_tests": {
+      "path": "tests/test_form4_forward_contract.py",
+      "sha256": "b17ecaed80cdfbcca9c1a0de1acb04a1d47a4822ab9cf8fd2b593f8ba702659a"
+    },
+    "protocol_tests": {
+      "path": "tests/test_form4_multipath_forward_protocol.py",
+      "sha256": "844bb46896d0c26f7574db310e61ca2d8511e6e3b81a1c884ec0e86f304cab79"
+    },
+    "network_used": false,
+    "real_identifier_fixture_used": false,
+    "round42_bound_files_modified": false
+  },
+  "multipath_contract": {
+    "minimum_paths": 1,
+    "maximum_paths": 10,
+    "identity": [
+      "normalized_cik",
+      "exact_archive_path"
+    ],
+    "canonical_sort": [
+      "cik_zero_padded_to_10",
+      "exact_path_bytes"
+    ],
+    "carrier_rule": "d0_xor_d1",
+    "d1_max_calendar_days_after_d0": 4,
+    "row_filing_date_remains_bulk_filing_date": true,
+    "path_count_is_actor_count": false,
+    "fallback_path_allowed": false
+  },
+  "prospective_clock": {
+    "known_at_basis": "prospective_first_observed",
+    "known_at_formula": "max(index_pair_first_observed_at,canonical_submission_first_observed_at)",
+    "historical_backfill_allowed": false,
+    "accepted_at_allowed_as_known_at": false,
+    "decision_session": "first_full_XNYS_close_strictly_after_known_at",
+    "trade_session": "next_XNYS_raw_open_after_decision_session"
+  },
+  "readout_contract": {
+    "fixed_session": 504,
+    "minimum_candidate_allocations": 100,
+    "minimum_distinct_issuers": 50,
+    "interim_performance_allowed": false,
+    "extend_if_underpowered": false,
+    "underpowered_status": "insufficient_power_no_performance_readout",
+    "comparison_family_reused_from_round41": true
+  },
+  "source_boundary": {
+    "allowed": [
+      "sec_form_4",
+      "sec_form_4_a"
+    ],
+    "congress_ptr_collection_allowed": false,
+    "congress_ptr_strategy_allowed": false,
+    "celebrity_or_name_weight_allowed": false,
+    "entrepreneur_is_sec_role": false
+  },
+  "state_at_freeze": {
+    "round43_sec_requests": 0,
+    "prospective_accessions": 0,
+    "candidate_allocations": 0,
+    "strategy_run_count": 0,
+    "performance_present": false,
+    "form4_admission_passed": 2,
+    "form4_admission_total": 16
+  },
+  "permission": {
+    "protocol_freeze": true,
+    "network_collection": false,
+    "historical_backfill": false,
+    "candidate_selection": false,
+    "performance_readout": false,
+    "paper": false,
+    "real_money": false
+  },
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "today_action": "今天不下單",
+  "receipt_sha256": "7cf6131367baa8c8cda2a4e2a9ba32c6e8582866efc5c5bf809cbcbc2335b707"
+}

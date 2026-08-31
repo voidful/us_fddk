@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "status": "result_blind_preregistration_ordering_amendment_frozen_before_authorized_data_or_result",
+  "effective_at": "2026-08-09T21:29:36Z",
+  "amends_protocol": {
+    "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md",
+    "sha256": "ffe2d6df0fce9a305a5a361bc4ce0d377cc9d9afb20246f212031ce57a3949b7"
+  },
+  "amends_receipt": {
+    "path": "artifacts/short_term_disclosure_known_at_protocol_receipt.json",
+    "sha256": "87f4c322333c8bdf8be12ee9682d49ea22ecce8c6569139a192cebd4892374e7"
+  },
+  "amendment": {
+    "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL_AMENDMENT_V1_1.md",
+    "sha256": "cd2422c3f74aa79ab062aaf02fbdce7c20ba9d0455b4f7219c3954521614ac76"
+  },
+  "state_at_freeze": {
+    "authorized_real_rows": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false,
+    "paper_authorized": false,
+    "real_money_action_usd": 0
+  },
+  "permission": {
+    "result_blind_preregistration": true,
+    "data_intake": false,
+    "backtest": false,
+    "paper": false,
+    "real_money": false
+  },
+  "today_action": "今天不下單"
+}

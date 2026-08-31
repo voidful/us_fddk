@@ -94,11 +94,73 @@ def test_all_eight_controls_pass_and_all_attacks_hit_exact_codes() -> None:
     ] is True
 
 
-def test_round36_rebind_rejects_current_formal_entry_drift() -> None:
+def test_round41_rebind_preserves_round36_bytes_and_binds_effective_entry() -> None:
+    result = run_risk_free_staging_validation(ROOT, SOURCE)
+    rebind = result["protocol_integrity"]["rebind"]
+    amendment = json.loads(
+        (ROOT / risk_free_staging.REBIND_AMENDMENT_RECEIPT_PATH).read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert rebind["effective_version"] == "round41-v1.1"
+    assert rebind["historical_round36"]["passed"] is True
+    assert rebind["historical_round36"]["frozen_formal_validator_sha256"] == (
+        risk_free_staging.HISTORICAL_FORMAL_VALIDATOR_SHA256
+    )
+    assert risk_free_staging._sha256_file(
+        ROOT / risk_free_staging.REBIND_PROTOCOL_RECEIPT_PATH
+    ) == risk_free_staging.REBIND_PROTOCOL_RECEIPT_SHA256
+    assert risk_free_staging._sha256_file(
+        ROOT / risk_free_staging.REBIND_AMENDMENT_RECEIPT_PATH
+    ) == risk_free_staging.REBIND_AMENDMENT_RECEIPT_SHA256
+    assert amendment["historical_formal_validator"]["sha256"] == (
+        risk_free_staging.HISTORICAL_FORMAL_VALIDATOR_SHA256
+    )
+    assert amendment["current_formal_validator"]["sha256"] == (
+        risk_free_staging.CURRENT_FORMAL_VALIDATOR_SHA256
+    )
+    assert rebind["hash_checks"][risk_free_staging.GLOBAL_TRIAL_LEDGER_PATH] is True
+
+
+def test_round41_rebind_rejects_current_formal_entry_drift() -> None:
     original = risk_free_staging._sha256_file
 
     def drifted_hash(path: Path) -> str:
         if path.resolve() == (ROOT / "usfddk/formal_backtest_readiness.py").resolve():
+            return "0" * 64
+        return original(path)
+
+    with patch.object(risk_free_staging, "_sha256_file", drifted_hash):
+        with pytest.raises(risk_free_staging.RiskFreeStagingError) as error:
+            risk_free_staging._protocol_integrity(ROOT)
+    assert error.value.code == "rf_staging_rebind_integrity_failed"
+
+
+def test_round41_rebind_rejects_rollback_to_round19_formal_entry() -> None:
+    original = risk_free_staging._sha256_file
+    round19_validator_sha256 = json.loads(
+        (ROOT / risk_free_staging.PROTOCOL_RECEIPT_PATH).read_text(encoding="utf-8")
+    )["parent_formal_validator"]["sha256"]
+
+    def rolled_back_hash(path: Path) -> str:
+        if path.resolve() == (ROOT / "usfddk/formal_backtest_readiness.py").resolve():
+            return round19_validator_sha256
+        return original(path)
+
+    with patch.object(risk_free_staging, "_sha256_file", rolled_back_hash):
+        with pytest.raises(risk_free_staging.RiskFreeStagingError) as error:
+            risk_free_staging._protocol_integrity(ROOT)
+    assert error.value.code == "rf_staging_rebind_integrity_failed"
+
+
+def test_round41_rebind_rejects_historical_round36_receipt_drift() -> None:
+    original = risk_free_staging._sha256_file
+
+    def drifted_hash(path: Path) -> str:
+        if path.resolve() == (
+            ROOT / risk_free_staging.REBIND_PROTOCOL_RECEIPT_PATH
+        ).resolve():
             return "0" * 64
         return original(path)
 

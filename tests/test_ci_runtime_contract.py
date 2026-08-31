@@ -10,6 +10,7 @@ WORKFLOWS = (
     ROOT / ".github/workflows/pages.yml",
     ROOT / ".github/workflows/daily-paper-update.yml",
 )
+FORM4_CONTRACT_CI = ROOT / ".github/workflows/form4-contract-ci.yml"
 
 
 @pytest.mark.parametrize("workflow", WORKFLOWS, ids=lambda path: path.name)
@@ -149,6 +150,46 @@ def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
         assert "tests/test_formal_release_integration.py" in text
         assert "site/data/short-term-restatement-firewall.json" in text
         assert "site/data/short-term-formal-release-integration.json" in text
+
+
+def test_effective_form4_v1_1_supersession_suite_is_mandatory_in_both_workflows() -> None:
+    required = (
+        "tests/test_form4_multipath_reconciliation_v2.py",
+        "tests/test_form4_forward_admission_contract.py",
+        "tests/test_form4_multipath_forward_protocol_amendment_v1_1.py",
+    )
+    for workflow in WORKFLOWS:
+        text = workflow.read_text(encoding="utf-8")
+        positions = [text.index(path) for path in required]
+        assert positions[0] < positions[1] < positions[2], workflow.name
+        for forbidden in (
+            "tests/test_form4_multipath_index.py",
+            "tests/test_form4_forward_contract.py",
+            "tests/test_form4_multipath_forward_protocol.py",
+        ):
+            assert forbidden not in text, workflow.name
+
+
+def test_form4_contract_has_read_only_pull_request_ci() -> None:
+    text = FORM4_CONTRACT_CI.read_text(encoding="utf-8")
+    assert "  pull_request:\n" in text
+    assert "    paths:\n" not in text
+    assert "permissions:\n  contents: read\n" in text
+    assert "write" not in text
+    assert "uv sync --locked --extra dev" in text
+    assert "git diff --exit-code" in text
+    assert "tests/test_form4_forward_contract.py" not in text
+    assert (
+        "--deselect=tests/test_form4_admission_collection_authorization.py::"
+        "test_authorization_drift_fails_even_with_recomputed_receipt_hash"
+    ) in text
+    for required in (
+        "tests/test_ci_runtime_contract.py",
+        "tests/test_form4_multipath_reconciliation_v2.py",
+        "tests/test_form4_forward_admission_contract.py",
+        "tests/test_form4_multipath_forward_protocol_amendment_v1_1.py",
+    ):
+        assert required in text
 
 
 def test_provider_evidence_refresh_receipt_is_rebuilt_and_tested() -> None:
