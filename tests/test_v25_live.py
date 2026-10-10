@@ -240,6 +240,99 @@ def test_v25_live_update_executes_all_first_orders_on_same_new_open(
     assert candidate["pending_order"] is None
 
 
+def test_v25_live_update_keeps_the_spy_baseline_on_monthly_audit_path(
+    tmp_path: Path,
+) -> None:
+    frozen, _ = load_snapshot(SNAPSHOT)
+    added_days = pd.bdate_range("2026-08-03", "2026-09-01")
+
+    def extended(frame: pd.DataFrame, multiplier: float) -> pd.DataFrame:
+        result = frame.copy()
+        for day in added_days:
+            result.loc[day] = result.iloc[-1] * multiplier
+        return result
+
+    open_prices = extended(frozen.open, 1.0004)
+    close_prices = extended(frozen.close, 1.0005)
+    high_prices = pd.concat([open_prices, close_prices], axis=0).groupby(level=0).max() * 1.001
+    low_prices = pd.concat([open_prices, close_prices], axis=0).groupby(level=0).min() * 0.999
+    panel = MarketPanel(
+        open=open_prices,
+        high=high_prices,
+        low=low_prices,
+        close=close_prices,
+        volume=extended(frozen.volume, 1.0),
+        metadata={"provider": "test monthly common audit path"},
+    )
+    contract = validate_panel(
+        panel,
+        as_of="2026-09-01",
+        required=("GLD", "SHY", "SPY", "VUG"),
+        min_last_coverage=1.0,
+        min_history_coverage=0.999,
+        require_fresh=True,
+    )
+    contract.require()
+    snapshot = tmp_path / "monthly-audit-path.zip"
+    save_snapshot(panel, snapshot, contract=contract)
+
+    copied = _initialize_frozen_states(tmp_path)
+    status = run_v25_live_update(
+        snapshot=snapshot,
+        as_of="2026-09-01",
+        output_dir=tmp_path,
+        eligibility_receipt=VALIDATION,
+        candidate_state_path=copied["candidate"],
+        spy_state_path=copied["SPY"],
+        matched_state_path=copied["matched"],
+        evidence_path=tmp_path / "evidence-monthly.json",
+        status_path=tmp_path / "status-monthly.json",
+        max_new_sessions=None,
+    )
+
+    forward = status["forward_evidence"]
+    assert status["data_advanced"] is True
+    assert forward["gates"]["all_accounts_same_order_path"] is True
+    assert forward["gates"]["all_accounts_same_fill_counts"] is True
+    assert forward["account_fill_counts"] == {
+        "candidate": {"filled_orders": 2, "initial_allocations": 1, "completed_rebalances": 1},
+        "SPY": {"filled_orders": 2, "initial_allocations": 1, "completed_rebalances": 1},
+        "matched_80_VUG_20_SHY": {
+            "filled_orders": 2,
+            "initial_allocations": 1,
+            "completed_rebalances": 1,
+        },
+    }
+    spy = json.loads(copied["SPY"].read_text(encoding="utf-8"))
+    assert len(spy["transactions"]) == 1
+    assert spy["order_history"][-1]["turnover"] == pytest.approx(0.0)
+    assert spy["order_history"][-1]["cost"] == pytest.approx(0.0)
+
+
+def test_v25_live_update_rejects_historical_gap_before_writing_any_account(
+    tmp_path: Path,
+) -> None:
+    copied = _initialize_frozen_states(tmp_path)
+    before = {label: path.read_bytes() for label, path in copied.items()}
+
+    with pytest.raises(RuntimeError, match="v25_live_continuity_gap"):
+        run_v25_live_update(
+            snapshot=SNAPSHOT,
+            as_of="2026-08-04",
+            output_dir=tmp_path,
+            eligibility_receipt=VALIDATION,
+            candidate_state_path=copied["candidate"],
+            spy_state_path=copied["SPY"],
+            matched_state_path=copied["matched"],
+            evidence_path=tmp_path / "evidence-gap.json",
+            status_path=tmp_path / "status-gap.json",
+        )
+
+    assert {label: path.read_bytes() for label, path in copied.items()} == before
+    assert not (tmp_path / "evidence-gap.json").exists()
+    assert not (tmp_path / "status-gap.json").exists()
+
+
 def test_v25_live_update_rejects_drift_before_writing_any_account(
     tmp_path: Path,
 ) -> None:

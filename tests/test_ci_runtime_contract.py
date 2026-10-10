@@ -71,6 +71,15 @@ def test_live_refresh_skips_rebuild_when_no_session_is_added() -> None:
     assert "Invalid v25 LIVE data_advanced value" in text
 
 
+def test_daily_v25_workflow_reports_a_continuity_gap_without_publishing() -> None:
+    text = (ROOT / ".github/workflows/daily-paper-update.yml").read_text(encoding="utf-8")
+    assert "id: live_update" in text
+    assert "v25_live_continuity_gap" in text
+    assert "outcome=continuity_blocked" in text
+    assert "Manual continuity review is required" in text
+    assert text.count("if: steps.live_update.outputs.outcome != 'continuity_blocked'") == 6
+
+
 def test_frozen_parent_receipt_is_validated_before_dependent_rebuild() -> None:
     for workflow in WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")
