@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from usfddk.risk_free_staging import probe_official_rf_zip
+from usfddk.source_probe_evidence import publish_source_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / "artifacts/french_ff_factors_daily_39f9ae1d.zip"
@@ -12,7 +13,7 @@ ARTIFACT = ROOT / "artifacts/short_term_risk_free_source_probe.json"
 SITE_DATA = ROOT / "site/data/short-term-risk-free-source-probe.json"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Probe the current official Fama/French daily factors ZIP without "
@@ -20,19 +21,18 @@ def main() -> int:
         )
     )
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
-    args = parser.parse_args()
+    parser.add_argument("--output-root", type=Path, default=ROOT)
+    args = parser.parse_args(argv)
     result = probe_official_rf_zip(args.source, root=ROOT)
-    payload = json.dumps(
+    published = publish_source_probe(
         result,
-        ensure_ascii=False,
-        indent=2,
-        sort_keys=True,
-        allow_nan=False,
-    ) + "\n"
-    ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
-    SITE_DATA.parent.mkdir(parents=True, exist_ok=True)
-    ARTIFACT.write_text(payload, encoding="utf-8")
-    SITE_DATA.write_text(payload, encoding="utf-8")
+        {"source.zip": args.source.read_bytes()},
+        kind="risk_free",
+        root=ROOT,
+        output_root=args.output_root,
+        artifact=ARTIFACT.relative_to(ROOT),
+        site_data=SITE_DATA.relative_to(ROOT),
+    )
     print(
         json.dumps(
             {
@@ -46,6 +46,7 @@ def main() -> int:
                 "formal_backtest_authorized": False,
                 "paper_authorized": False,
                 "real_money_action_usd": 0,
+                "probe_receipt_sha256": published.get("probe_evidence", {}).get("receipt_sha256"),
             },
             ensure_ascii=False,
             indent=2,

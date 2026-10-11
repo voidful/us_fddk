@@ -2,7 +2,7 @@ name: v25 repair CI
 
 on:
   push:
-    branches: [main, codex/fix-v25-monthly-baseline-sync]
+    branches: [main, codex/fix-v25-monthly-baseline-sync, codex/fix-daily-source-probe-validation]
   pull_request:
     branches: [main]
     paths:
@@ -10,10 +10,13 @@ on:
       - "usfddk/**"
       - "tests/**"
       - "scripts/prepare_v25_live_segment.py"
+      - "scripts/probe_short_term*.py"
       - "site/**"
       - "artifacts/snapshot_v25_vanguard_20060701_20260731_6cf44e63.zip"
+      - "artifacts/source_probe_inputs/**"
       - "pyproject.toml"
       - "uv.lock"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -58,8 +61,12 @@ jobs:
           ./.venv/bin/pytest tests/test_v25_live.py tests/test_v25_recovery.py \
             tests/test_paper.py tests/test_data.py tests/test_strategies.py \
             tests/test_ci_runtime_contract.py tests/test_daily_workflow.py tests/test_site_export.py \
+            tests/test_risk_free_staging.py tests/test_provider_convergence.py \
+            tests/test_provider_gap_closure.py tests/test_source_probe_evidence.py \
             tests/test_growth_gold_diversification.py::test_v25_forward_promotion_contract_is_machine_frozen_before_first_fill
-          ./.venv/bin/ruff check usfddk tests scripts/prepare_v25_live_segment.py
+          ./.venv/bin/ruff check usfddk tests scripts/prepare_v25_live_segment.py \
+            scripts/probe_short_term_risk_free_source.py scripts/probe_short_term_provider_guides.py \
+            scripts/probe_short_term_provider_gap_sources.py
       - name: Confirm that tests changed no authoritative records
         run: git diff --exit-code -- artifacts site/data docs
       - uses: actions/setup-node@v7

@@ -17,19 +17,18 @@ from usfddk.provider_convergence import (
 from usfddk.provider_convergence_validation import (
     run_provider_convergence_validation,
 )
+from usfddk.source_probe_evidence import validate_source_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_protocol_and_frozen_record_integrity() -> None:
     receipt = json.loads(
-        (
-            ROOT / "artifacts/short_term_provider_convergence_protocol_receipt.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "artifacts/short_term_provider_convergence_protocol_receipt.json").read_text(
+            encoding="utf-8"
+        )
     )
-    validation = validate_provider_convergence(
-        frozen_convergence_record(), root=ROOT
-    )
+    validation = validate_provider_convergence(frozen_convergence_record(), root=ROOT)
 
     assert receipt["protocol"]["sha256"] == PROTOCOL_SHA256
     assert receipt["status"] == (
@@ -52,9 +51,7 @@ def test_capability_matrix_preserves_five_direct_and_five_overlay_inputs() -> No
     assert matrix["overlay_required_count"] == 5
     assert matrix["direct"] == DIRECT_STOCK_CAPABILITIES
     assert matrix["overlay_required"] == OVERLAY_CAPABILITIES
-    assert matrix["direct"]["stk_ind_membership.csv"] == (
-        "direct_effective_interval_only"
-    )
+    assert matrix["direct"]["stk_ind_membership.csv"] == ("direct_effective_interval_only")
     assert matrix["overlay_required"]["membership_announcements.csv"] == (
         "evidence_overlay_required"
     )
@@ -74,8 +71,7 @@ def test_all_twelve_controls_and_attacks_hit_exact_codes() -> None:
         "all_rejected": True,
     }
     assert all(
-        row["observed_error_code"] == row["expected_error_code"]
-        for row in result["attacks"]
+        row["observed_error_code"] == row["expected_error_code"] for row in result["attacks"]
     )
 
 
@@ -121,27 +117,16 @@ def test_formal_paper_and_real_money_boundaries_remain_closed() -> None:
     assert result["real_money_action_usd"] == 0
 
 
-def test_live_guide_probe_matches_frozen_identity_but_never_self_qualifies() -> None:
+def test_live_guide_probe_reproduces_its_observed_identity_but_never_self_qualifies() -> None:
     artifact = json.loads(
-        (
-            ROOT / "artifacts/short_term_provider_guide_probe.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "artifacts/short_term_provider_guide_probe.json").read_text(encoding="utf-8")
     )
     site_data = json.loads(
-        (
-            ROOT / "site/data/short-term-provider-guide-probe.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "site/data/short-term-provider-guide-probe.json").read_text(encoding="utf-8")
     )
 
     assert artifact == site_data
-    assert artifact["status"] == "matches_frozen_guides"
-    assert artifact["all_match_frozen_guides"] is True
-    assert artifact["observations"]["stock_ciz"]["pdf_sha256"] == (
-        STOCK_GUIDE["pdf_sha256"]
-    )
-    assert artifact["observations"]["treasury"]["pdf_sha256"] == (
-        TREASURY_GUIDE["pdf_sha256"]
-    )
+    validate_source_probe(artifact, root=ROOT, kind="provider_guides")
     assert artifact["new_guide_qualified"] is False
     assert artifact["provider_package_qualified"] is False
     assert artifact["formal_rf_input_ready"] is False
@@ -152,17 +137,20 @@ def test_live_guide_probe_matches_frozen_identity_but_never_self_qualifies() -> 
     assert artifact["real_money_action_usd"] == 0
 
 
+def test_frozen_guide_probe_fixture_retains_the_exact_frozen_identity() -> None:
+    artifact = json.loads((ROOT / "tests/fixtures/source_probes/provider_guides.json").read_text())
+    validate_source_probe(artifact, root=ROOT, kind="provider_guides")
+    assert artifact["status"] == "matches_frozen_guides"
+    assert artifact["all_match_frozen_guides"] is True
+    assert artifact["observations"]["stock_ciz"]["pdf_sha256"] == STOCK_GUIDE["pdf_sha256"]
+    assert artifact["observations"]["treasury"]["pdf_sha256"] == TREASURY_GUIDE["pdf_sha256"]
+
+
 def test_changed_guide_is_unqualified_and_cannot_open_any_gate() -> None:
     result = inspect_provider_guides(
-        stock_landing_html=(
-            f"{STOCK_GUIDE['title']} 2026-07-28 "
-            "6a70fc12f1246457e16fbfad"
-        ),
+        stock_landing_html=(f"{STOCK_GUIDE['title']} 2026-07-28 6a70fc12f1246457e16fbfad"),
         stock_pdf_bytes=b"%PDF-1.7\n/Type/Page>>\n",
-        treasury_landing_html=(
-            f"{TREASURY_GUIDE['title']} 2026-06-30 "
-            "6a454eb24453862570c90c07"
-        ),
+        treasury_landing_html=(f"{TREASURY_GUIDE['title']} 2026-06-30 6a454eb24453862570c90c07"),
         treasury_pdf_bytes=b"%PDF-1.7\n/Type/Page>>\n",
     )
 
@@ -178,14 +166,12 @@ def test_changed_guide_is_unqualified_and_cannot_open_any_gate() -> None:
 def test_published_outputs_match_reproducible_builder() -> None:
     result = run_provider_convergence_validation(ROOT)
     artifact = json.loads(
-        (
-            ROOT / "artifacts/short_term_provider_convergence_validation.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "artifacts/short_term_provider_convergence_validation.json").read_text(
+            encoding="utf-8"
+        )
     )
     site_data = json.loads(
-        (
-            ROOT / "site/data/short-term-provider-convergence.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "site/data/short-term-provider-convergence.json").read_text(encoding="utf-8")
     )
 
     assert artifact == result
@@ -193,9 +179,7 @@ def test_published_outputs_match_reproducible_builder() -> None:
 
 
 def test_report_is_conclusion_first_and_non_promotional() -> None:
-    report = (
-        ROOT / "docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md"
-    ).read_text(encoding="utf-8")
+    report = (ROOT / "docs/SHORT_TERM_PROVIDER_CONVERGENCE_REPORT.md").read_text(encoding="utf-8")
 
     assert "**5/10 份有直接資料字典能力**" in report
     assert "**5/10 份仍須供應商或獨立" in report

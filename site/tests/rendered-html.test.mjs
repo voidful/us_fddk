@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { assertCurrentSourceProbeDisclosures } from "./source-probe-disclosures.mjs";
 
 const publicSiteRoot = (
   process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
@@ -238,7 +239,6 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /Stock CIZ 直接支持 5\/10；其餘 5\/10 仍須逐列證據層/);
   assert.match(html, /同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口/);
   assert.match(html, /十份正式輸入，不用相近欄位補洞/);
-  assert.match(html, /兩份均與凍結版本一致/);
   assert.match(html, /精確 1 個月系列/);
   assert.match(html, /有效區間 ≠ 公布時間/);
   assert.match(html, /十二道指南、欄位、年期、單位及決策控制/);
@@ -249,7 +249,7 @@ test("latest report exposes expanded baselines and stock diagnostics", async () 
   assert.match(html, /官方 RF 已覆蓋 5,009\/5,031；仍欠最後 22 個 XNYS session/);
   assert.match(html, /99\.56%/);
   assert.match(html, /每日來源掃描/);
-  assert.match(html, /與凍結 snapshot 一致/);
+  await assertCurrentSourceProbeDisclosures(html);
   assert.match(html, /經濟定義正確、轉換可重現；正式時間軸仍缺一整個月/);
   assert.match(html, /2026-07-01(?:<!-- -->)? 至 (?:<!-- -->)?2026-07-31/);
   assert.match(html, /八道官方來源、單位、session、權限及決策控制/);

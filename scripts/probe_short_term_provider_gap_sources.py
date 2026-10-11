@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import urllib.parse
@@ -8,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from usfddk.provider_gap_closure import PRIMARY_SOURCES, PROBE_VERSION
+from usfddk.source_probe_evidence import publish_source_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/short_term_provider_gap_source_probe.json"
@@ -107,16 +109,25 @@ def inspect_current_sources(downloaded: dict[str, tuple[str, str]]) -> dict[str,
     }
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Probe official source identities without qualification."
+    )
+    parser.add_argument("--output-root", type=Path, default=ROOT)
+    args = parser.parse_args(argv)
     downloaded = {
         source_id: _download(PRIMARY_SOURCES[source_id]["url"]) for source_id in PROBE_IDENTITIES
     }
     result = inspect_current_sources(downloaded)
-    payload = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
-    ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
-    SITE_DATA.parent.mkdir(parents=True, exist_ok=True)
-    ARTIFACT.write_text(payload, encoding="utf-8")
-    SITE_DATA.write_text(payload, encoding="utf-8")
+    published = publish_source_probe(
+        result,
+        {"sources.json": json.dumps(downloaded, ensure_ascii=False, sort_keys=True).encode()},
+        kind="provider_gap_sources",
+        root=ROOT,
+        output_root=args.output_root,
+        artifact=ARTIFACT.relative_to(ROOT),
+        site_data=SITE_DATA.relative_to(ROOT),
+    )
     print(
         json.dumps(
             {
@@ -126,6 +137,7 @@ def main() -> int:
                 "formal_backtest_authorized": False,
                 "paper_state": "all_cash",
                 "real_money_action_usd": 0,
+                "probe_receipt_sha256": published.get("probe_evidence", {}).get("receipt_sha256"),
             },
             ensure_ascii=False,
             indent=2,
