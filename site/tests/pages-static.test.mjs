@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readdir, readFile } from "node:fs/promises";
 import test from "node:test";
+import { assertCurrentSourceProbeDisclosures } from "./source-probe-disclosures.mjs";
 
 const publicSiteRoot = (
   process.env.PUBLIC_SITE_URL ?? "https://voidful.github.io/us_fddk"
@@ -242,14 +243,13 @@ test("GitHub Pages output is self-contained under the repository base path", asy
   assert.match(html, /Stock CIZ 直接支持 5\/10；其餘 5\/10 仍須逐列證據層/);
   assert.match(html, /同一 CRSP／WRDS 路徑最接近完整；時間證據及精確 RF 仍未封口/);
   assert.match(html, /十份正式輸入，不用相近欄位補洞/);
-  assert.match(html, /兩份均與凍結版本一致/);
   assert.match(html, /十二道指南、欄位、年期、單位及決策控制/);
   assert.match(html, /十二項協議、版本、時間、退市及 RF 替代攻擊全拒收/);
   assert.match(html, /risk_free_tenor_substitution/);
   assert.match(html, /OFFICIAL RISK-FREE STAGING · ROUND 19/);
   assert.match(html, /官方 RF 已覆蓋 5,009\/5,031；仍欠最後 22 個 XNYS session/);
   assert.match(html, /99\.56%/);
-  assert.match(html, /與凍結 snapshot 一致/);
+  await assertCurrentSourceProbeDisclosures(html);
   assert.match(html, /rf_decision_boundary_violation/);
   assert.match(html, /FORMAL BACKTEST READINESS · ROUND 18/);
   assert.match(html, /合成就緒 18\/18、攻擊 18\/18；真實正式就緒仍只有 1\/18/);
