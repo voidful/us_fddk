@@ -1204,6 +1204,7 @@ test("v24 separates academic factor success from failed investable ETF bridges",
 });
 
 test("v25 passes three frozen product paths but remains gated by forward Paper evidence", async () => {
+  const html = await (await render()).text();
   const payload = JSON.parse(
     await readFile(new URL("../data/trading-data.json", import.meta.url), "utf8"),
   );
@@ -1260,6 +1261,14 @@ test("v25 passes three frozen product paths but remains gated by forward Paper e
   assert.ok(v25.paper.transactions >= 0);
   assert.equal(v25.paper.initial_cash, 100000);
   assert.equal(v25.paper.cost_bps, 10);
+  if (v25.paper.observation_segment) {
+    assert.equal(v25.paper.observation_segment.inherited_forward_sessions, 0);
+    assert.equal(v25.paper.observation_segment.backfilled_forward_sessions, 0);
+    assert.equal(v25.paper.observation_segment.preserved_receipts, 15);
+    assert.ok(html.includes("前瞻紀錄於"));
+    assert.ok(html.includes("重新開始"));
+    assert.ok(html.includes("舊回報不計入本段"));
+  }
   assert.ok(v25.paper.total_costs >= 0);
   assert.ok(v25.paper.recent_transactions.length <= v25.paper.transactions);
   assert.ok(v25.paper.recent_filled_orders.length <= 12);

@@ -27,3 +27,6 @@ artifacts/*
 
 # Immutable v25 starting snapshot required by the non-deployment CI regression suite.
 !artifacts/snapshot_v25_vanguard_20060701_20260731_6cf44e63.zip
+!artifacts/v25_live_segments/
+!artifacts/v25_live_segments/**
+!artifacts/v25_live_segment.json

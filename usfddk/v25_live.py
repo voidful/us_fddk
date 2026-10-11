@@ -102,7 +102,7 @@ def write_json_atomic(path: str | Path, payload: dict[str, Any]) -> Path:
 
 def _paper_performance_state(state: dict[str, Any]) -> dict[str, Any]:
     """Retain every economic field while excluding wall-clock-only metadata."""
-    return {
+    performance = {
         key: state.get(key)
         for key in (
             "schema_version",
@@ -123,6 +123,10 @@ def _paper_performance_state(state: dict[str, Any]) -> dict[str, Any]:
             "total_costs",
         )
     }
+    # Legacy receipts keep their original hash; new receipts bind the restart provenance.
+    if "observation_segment" in state:
+        performance["observation_segment"] = state["observation_segment"]
+    return performance
 
 
 def _strategy_targets(
@@ -295,6 +299,12 @@ def run_v25_live_update(
     }
     if len(existing_dates) > 1:
         raise ValueError("v25 LIVE 三帳戶更新前日期已不同步，拒絕繼續")
+    segments = {
+        _canonical_sha256(state.get("observation_segment"))
+        for state in existing_states.values() if state is not None
+    }
+    if len(segments) > 1:
+        raise ValueError("v25 LIVE 三帳戶觀察段不同步，拒絕繼續")
     previous_data_through = next(iter(existing_dates), None)
     observation_time = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="UTC")
     expected_session = most_recent_us_session(observation_time)
@@ -513,6 +523,9 @@ def audit_v25_live_reference(
         "SPY": spy_state,
         "matched": matched_state,
     }
+    for label, state in states.items():
+        if site_paper.get("observation_segment") != state.get("observation_segment"):
+            errors.append(f"網站 v25 {label} 觀察段與權威帳戶不同")
     for label, state in states.items():
         if state.get("mode") != "live":
             errors.append(f"v25 {label} 不是 LIVE Paper")

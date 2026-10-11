@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-11T11:16:40.938195Z",
+  "previous_data_through": null,
+  "data_through": "2026-10-09",
+  "expected_session": "2026-10-09",
+  "data_advanced": true,
+  "idempotent_no_new_session": false,
+  "state_changed_without_new_session": false,
+  "manual_review_required": false,
+  "state_write_applied": true,
+  "site_rebuild_required": true,
+  "private_deploy_candidate": true,
+  "reference_trade_allowed": false,
+  "snapshot": {
+    "path": "artifacts/v25_live_segments/2026-10-09/snapshot_v25_live_20261009_9e17deed.zip",
+    "panel_sha256": "9e17deed6215dcd748345308554f8beafd5e007580c8196a250140f835d8ae55",
+    "archive_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+    "rows": 71,
+    "start": "2026-07-01",
+    "end": "2026-10-09",
+    "tickers": [
+      "GLD",
+      "SHY",
+      "SPY",
+      "VUG"
+    ],
+    "contract": {
+      "errors": [],
+      "ok": true,
+      "stats": {
+        "expected_session": "2026-10-09",
+        "last_close_coverage": 1.0,
+        "last_session": "2026-10-09",
+        "latest_positive_volume": 1.0,
+        "ohlc_violations": 0,
+        "positive_price_fraction": 1.0,
+        "suspicious_last_moves": {},
+        "thin_tickers": {}
+      },
+      "warnings": []
+    }
+  },
+  "accounts": {
+    "candidate": {
+      "as_of": "2026-10-09",
+      "started_at": "2026-10-09",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+      "performance_state_sha256": "ec994eb6c43ee9aac077d4b61dbdef177782928af10bb82a2fe541436240b6ce",
+      "proposed_performance_state_sha256": "ec994eb6c43ee9aac077d4b61dbdef177782928af10bb82a2fe541436240b6ce"
+    },
+    "SPY": {
+      "as_of": "2026-10-09",
+      "started_at": "2026-10-09",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+      "performance_state_sha256": "60f9bf0fd1e4f4a3b6d384919bcb0befbab6be244a0612b2decb23f9d4e8a22d",
+      "proposed_performance_state_sha256": "60f9bf0fd1e4f4a3b6d384919bcb0befbab6be244a0612b2decb23f9d4e8a22d"
+    },
+    "matched": {
+      "as_of": "2026-10-09",
+      "started_at": "2026-10-09",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+      "performance_state_sha256": "951cedbfc5377d24cf9449d953e344a932715858847e189d4d014f1b76fee14a",
+      "proposed_performance_state_sha256": "951cedbfc5377d24cf9449d953e344a932715858847e189d4d014f1b76fee14a"
+    }
+  },
+  "forward_evidence": {
+    "promotion_protocol": {
+      "schema_version": 2,
+      "frozen_at_utc": "2026-08-03T00:00:24Z",
+      "frozen_before_first_forward_fill": true,
+      "minimum_new_sessions": 252,
+      "minimum_completed_monthly_rebalances_excluding_initial_allocation": 6,
+      "minimum_annualized_edge": 0.001,
+      "require_positive_edge_in_both_fixed_halves": true,
+      "minimum_active_newey_west_t": 1.96,
+      "require_drawdown_not_worse_than_both_benchmarks": true,
+      "benchmarks": [
+        "SPY",
+        "matched_80_VUG_20_SHY"
+      ]
+    },
+    "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
+    "as_of": "2026-10-09",
+    "started_at": "2026-10-09",
+    "forward_sessions": 0,
+    "minimum_sessions": 252,
+    "remaining_sessions": 252,
+    "filled_orders_including_initial_allocation": 0,
+    "initial_allocations": 0,
+    "account_fill_counts": {
+      "candidate": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      },
+      "SPY": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      },
+      "matched_80_VUG_20_SHY": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      }
+    },
+    "filled_rebalances": 0,
+    "minimum_filled_rebalances": 6,
+    "remaining_filled_rebalances": 6,
+    "integrity_violations": 0,
+    "candidate": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "SPY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "matched_80_VUG_20_SHY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "return_difference_vs_SPY": 0.0,
+    "return_difference_vs_matched": 0.0,
+    "forward_diagnostics": {
+      "SPY": {
+        "annualized_return_difference": 0.0,
+        "persistence_available": false,
+        "first_half_annualized_difference": null,
+        "second_half_annualized_difference": null,
+        "active_newey_west": {
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
+        }
+      },
+      "matched_80_VUG_20_SHY": {
+        "annualized_return_difference": 0.0,
+        "persistence_available": false,
+        "first_half_annualized_difference": null,
+        "second_half_annualized_difference": null,
+        "active_newey_west": {
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
+        }
+      }
+    },
+    "gates": {
+      "all_accounts_live_and_same_start": true,
+      "all_accounts_same_as_of": true,
+      "all_accounts_same_snapshot": true,
+      "all_accounts_same_cost_and_cash": true,
+      "all_accounts_same_session_path": true,
+      "all_accounts_same_execution_clock": true,
+      "all_accounts_same_order_path": true,
+      "all_accounts_same_fill_counts": true,
+      "at_least_252_new_sessions": false,
+      "at_least_6_filled_rebalances": false,
+      "zero_integrity_violations": true,
+      "all_accounts_exactly_one_initial_allocation": false,
+      "candidate_return_above_SPY": false,
+      "candidate_return_above_matched": false,
+      "candidate_drawdown_not_worse_than_SPY": false,
+      "candidate_drawdown_not_worse_than_matched": false,
+      "candidate_annualized_edge_at_least_10bp_vs_SPY": false,
+      "candidate_annualized_edge_at_least_10bp_vs_matched": false,
+      "candidate_outperforms_SPY_in_both_halves": false,
+      "candidate_outperforms_matched_in_both_halves": false,
+      "candidate_active_newey_west_t_at_least_1_96_vs_SPY": false,
+      "candidate_active_newey_west_t_at_least_1_96_vs_matched": false
+    },
+    "live_confirmed": false
+  },
+  "decision": "new_segment_activated_rebuild_and_audit",
+  "new_observation_segment": true,
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-10-09",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-07-31",
+    "prior_data_through": "2026-08-28",
+    "prior_forward_sessions": 20,
+    "missed_sessions": 29,
+    "preserved_receipts": 15,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-10-09",
+    "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
+    "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+  }
+}

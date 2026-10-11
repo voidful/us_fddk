@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "reason": "missed_live_sessions",
+  "continuity_failure": "v25_live_continuity_gap: 上次 v25 Paper 資料日 2026-08-28 與最近完成 XNYS session 2026-10-09 相隔 29 個交易日；自動流程拒絕歷史補填，需人工覆核",
+  "observed_at_utc": "2026-10-11T11:16:40.513635Z",
+  "prior_started_at": "2026-07-31",
+  "prior_data_through": "2026-08-28",
+  "prior_forward_sessions": 20,
+  "prior_ledger": {
+    "ok": true,
+    "receipts": 15,
+    "head_sha256": "056e74236d6c12ebc693ab4fd5aab8c8914c4adc792e6db03497b966eb526684"
+  },
+  "prior_files": {
+    "candidate": {
+      "original_path": "artifacts/paper_v25_state.json",
+      "preserved_path": "prior/paper_v25_state.json",
+      "sha256": "52e384155fb26eca584b11df1b1e012743c2a013bded0e18a80259ac336a8166"
+    },
+    "SPY": {
+      "original_path": "artifacts/paper_v25_spy_state.json",
+      "preserved_path": "prior/paper_v25_spy_state.json",
+      "sha256": "6a9e450fe7ea53fa6b74c4f74d58be0cae3a672abfd4d9fd490d1a7654cab795"
+    },
+    "matched": {
+      "original_path": "artifacts/paper_v25_matched_state.json",
+      "preserved_path": "prior/paper_v25_matched_state.json",
+      "sha256": "c49870f7e91502feab0990af127876c6eb23e3abaca993ce8b5fee7d8ccbf149"
+    },
+    "ledger": {
+      "original_path": "artifacts/v25_live_evidence_ledger.jsonl",
+      "preserved_path": "prior/v25_live_evidence_ledger.jsonl",
+      "sha256": "af35829dedbf0b0d979abd61295cdf37bd841e56ebe0d599754600a720965a7b"
+    },
+    "v25_forward_paper_evidence.json": {
+      "original_path": "artifacts/v25_forward_paper_evidence.json",
+      "preserved_path": "prior/v25_forward_paper_evidence.json",
+      "sha256": "f428432728edc8002f5e288cc8d8e9ddc26226d82565dd5d18d2f1712bfd579a"
+    },
+    "v25_live_update_status.json": {
+      "original_path": "artifacts/v25_live_update_status.json",
+      "preserved_path": "prior/v25_live_update_status.json",
+      "sha256": "ef06388a276bfc9112c883288a7fdf474fa7dba2d858bed5d3b5e80a527f7852"
+    },
+    "v25_live_refresh_status.json": {
+      "original_path": "artifacts/v25_live_refresh_status.json",
+      "preserved_path": "prior/v25_live_refresh_status.json",
+      "sha256": "64801d25d48552cee768a60d5355d56d39aa49c59d9a3229db59c303d73f89db"
+    },
+    "v25_reference_readiness.json": {
+      "original_path": "artifacts/v25_reference_readiness.json",
+      "preserved_path": "prior/v25_reference_readiness.json",
+      "sha256": "1f82ee083171877a17fc71dc30fc3a908fa7b82f5112b9778f01aa442578caaf"
+    },
+    "site_data.json": {
+      "original_path": "artifacts/site_data.json",
+      "preserved_path": "prior/site_data.json",
+      "sha256": "7c7fde0bfb66f75a938f9251f9568aee1c8d04618f0d796914d36e043aca5a48"
+    },
+    "site-trading-data": {
+      "original_path": "site/data/trading-data.json",
+      "preserved_path": "prior/site-trading-data.json",
+      "sha256": "7c7fde0bfb66f75a938f9251f9568aee1c8d04618f0d796914d36e043aca5a48"
+    }
+  },
+  "new_started_at": "2026-10-09",
+  "new_forward_sessions": 0,
+  "new_filled_rebalances": 0,
+  "inherited_forward_sessions": 0,
+  "backfilled_forward_sessions": 0,
+  "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
+  "minimum_new_sessions": 252,
+  "minimum_completed_rebalances": 6,
+  "live_confirmed": false,
+  "activation_applied": true,
+  "deployment_applied": false,
+  "activated_at_utc": "2026-10-11T11:34:01.770524Z",
+  "snapshot_path": "artifacts/v25_live_segments/2026-10-09/snapshot_v25_live_20261009_9e17deed.zip",
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-10-09",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-07-31",
+    "prior_data_through": "2026-08-28",
+    "prior_forward_sessions": 20,
+    "missed_sessions": 29,
+    "preserved_receipts": 15,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-10-09",
+    "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
+    "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+  },
+  "initial_receipt_sha256": "2327264f2c96e647c3763e36766b7cac9e9298aa58dcf3f37ddcce15af92f71a",
+  "initial_receipt_path": "v25_initial_evidence_ledger.jsonl"
+}

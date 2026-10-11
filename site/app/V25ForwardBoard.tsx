@@ -66,6 +66,11 @@ type ForwardEvidence = {
 };
 type PaperBundle = {
   started_at: string | null;
+  observation_segment?: {
+    prior_data_through: string;
+    preserved_receipts: number;
+    missed_sessions: number;
+  } | null;
   as_of: string;
   initial_cash: number;
   cost_bps: number;
@@ -188,6 +193,14 @@ export default function V25ForwardBoard({
           {paper.cost_bps.toFixed(0)} bps 成本、同一份快照與同一交易日序列。升級合約 v{forward.promotion_protocol.schema_version} 已在第一筆成交前凍結。
         </p>
       </div>
+
+      {paper.observation_segment && (
+        <p className="forward-segment-note">
+          前瞻紀錄於 {paper.started_at} 重新開始。前段截至 {paper.observation_segment.prior_data_through}，
+          已保留 {paper.observation_segment.preserved_receipts} 筆收據；中斷的
+          {paper.observation_segment.missed_sessions} 個交易日不回填，舊回報不計入本段。
+        </p>
+      )}
 
       <div className="forward-score-grid">
         {accounts.map(({ key, name, note }) => {

@@ -10,6 +10,7 @@ on:
       - "usfddk/**"
       - "tests/**"
       - "scripts/prepare_v25_live_segment.py"
+      - "site/**"
       - "artifacts/snapshot_v25_vanguard_20060701_20260731_6cf44e63.zip"
       - "pyproject.toml"
       - "uv.lock"
@@ -56,7 +57,21 @@ jobs:
         run: |
           ./.venv/bin/pytest tests/test_v25_live.py tests/test_v25_recovery.py \
             tests/test_paper.py tests/test_data.py tests/test_strategies.py \
-            tests/test_ci_runtime_contract.py tests/test_daily_workflow.py
+            tests/test_ci_runtime_contract.py tests/test_daily_workflow.py tests/test_site_export.py \
+            tests/test_growth_gold_diversification.py::test_v25_forward_promotion_contract_is_machine_frozen_before_first_fill
           ./.venv/bin/ruff check usfddk tests scripts/prepare_v25_live_segment.py
       - name: Confirm that tests changed no authoritative records
         run: git diff --exit-code -- artifacts site/data docs
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Verify the published segment notice and static website
+        working-directory: site
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm run pages:test
+          npm audit --omit=dev --audit-level=high

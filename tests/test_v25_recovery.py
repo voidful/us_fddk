@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -13,6 +14,7 @@ from usfddk.data import load_snapshot, save_snapshot
 from usfddk.models import MarketPanel
 from usfddk.v25_live import (
     V25_LIVE_TICKERS,
+    audit_v25_live_reference,
     run_v25_live_update,
     verify_v25_reference_ledger,
 )
@@ -23,6 +25,7 @@ VALIDATION = ROOT / "artifacts/v25_growth_gold_diversification_validation.json"
 NOW = datetime(2026, 10, 11, 11, tzinfo=UTC)
 STATE_NAMES = ("paper_v25_state.json", "paper_v25_spy_state.json", "paper_v25_matched_state.json")
 LEDGER_NAME = "v25_live_evidence_ledger.jsonl"
+ARCHIVED_PRIOR = ROOT / "artifacts/v25_live_segments/2026-10-09/prior"
 
 
 @pytest.fixture
@@ -46,7 +49,8 @@ def old_chain(tmp_path: Path) -> dict[str, Path]:
     previous = tmp_path / "previous"
     previous.mkdir()
     for name in (*STATE_NAMES, LEDGER_NAME):
-        (previous / name).write_bytes((ROOT / "artifacts" / name).read_bytes())
+        source = ARCHIVED_PRIOR if ARCHIVED_PRIOR.exists() else ROOT / "artifacts"
+        (previous / name).write_bytes((source / name).read_bytes())
     return {
         "candidate_state_path": previous / STATE_NAMES[0],
         "spy_state_path": previous / STATE_NAMES[1],
@@ -138,6 +142,57 @@ def test_segment_rejects_an_existing_destination(tmp_path, old_chain) -> None:
     with pytest.raises(ValueError, match="拒絕覆寫"):
         prepare_v25_live_segment(destination, **old_chain, observed_at=NOW)
     assert (destination / "keep").read_bytes() == b"unchanged"
+
+
+def test_activated_segment_keeps_the_original_chain_and_zero_count_initial_state() -> None:
+    expected = {
+        "paper_v25_state.json": "52e384155fb26eca584b11df1b1e012743c2a013bded0e18a80259ac336a8166",
+        "paper_v25_spy_state.json": "6a9e450fe7ea53fa6b74c4f74d58be0cae3a672abfd4d9fd490d1a7654cab795",
+        "paper_v25_matched_state.json": "c49870f7e91502feab0990af127876c6eb23e3abaca993ce8b5fee7d8ccbf149",
+        LEDGER_NAME: "af35829dedbf0b0d979abd61295cdf37bd841e56ebe0d599754600a720965a7b",
+    }
+    for name, digest in expected.items():
+        assert hashlib.sha256((ARCHIVED_PRIOR / name).read_bytes()).hexdigest() == digest
+    assert verify_v25_reference_ledger(ARCHIVED_PRIOR / LEDGER_NAME)["receipts"] == 15
+    initial = ARCHIVED_PRIOR.parent
+    for name in STATE_NAMES:
+        state = json.loads((initial / name).read_text())
+        assert state["as_of"] == state["started_at"] == "2026-10-09"
+        assert len(state["equity_curve"]) == 1
+        assert state["cash"] == state["initial_cash"] == 100_000.0
+        assert not state["order_history"] and not state["transactions"] and not state["holdings"]
+        assert state["observation_segment"]["inherited_forward_sessions"] == 0
+        assert state["observation_segment"]["backfilled_forward_sessions"] == 0
+    active = json.loads((ROOT / "artifacts/paper_v25_state.json").read_text())
+    assert active["equity_curve"][0]["date"] == "2026-10-09"
+    assert active["observation_segment"] == json.loads((ROOT / "artifacts/v25_live_segment.json").read_text())
+
+
+def test_live_update_rejects_segment_metadata_drift_before_fetch_or_write(tmp_path) -> None:
+    copied = {}
+    for name in STATE_NAMES:
+        copied[name] = tmp_path / name
+        copied[name].write_bytes((ROOT / "artifacts" / name).read_bytes())
+    spy = json.loads(copied[STATE_NAMES[1]].read_text())
+    spy["observation_segment"]["id"] = "another-segment"
+    copied[STATE_NAMES[1]].write_text(json.dumps(spy))
+    before = {name: path.read_bytes() for name, path in copied.items()}
+    with pytest.raises(ValueError, match="觀察段不同步"):
+        run_v25_live_update(
+            snapshot="must-not-be-read.zip", as_of=NOW, eligibility_receipt=VALIDATION,
+            candidate_state_path=copied[STATE_NAMES[0]], spy_state_path=copied[STATE_NAMES[1]],
+            matched_state_path=copied[STATE_NAMES[2]],
+        )
+    assert {name: path.read_bytes() for name, path in copied.items()} == before
+
+
+def test_live_audit_rejects_a_hidden_segment_restart() -> None:
+    site = json.loads((ROOT / "artifacts/site_data.json").read_text())
+    states = [json.loads((ROOT / "artifacts" / name).read_text()) for name in STATE_NAMES]
+    site["research_pipeline"]["growth_gold_diversification"]["paper"].pop("observation_segment")
+    audit = audit_v25_live_reference(site, *states, now=NOW)
+    assert not audit["integrity_ok"]
+    assert any("觀察段" in error for error in audit["errors"])
 
 
 @pytest.mark.parametrize("always_missing", [False, True])

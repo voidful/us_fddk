@@ -1,0 +1,114 @@
+{
+  "promotion_protocol": {
+    "schema_version": 2,
+    "frozen_at_utc": "2026-08-03T00:00:24Z",
+    "frozen_before_first_forward_fill": true,
+    "minimum_new_sessions": 252,
+    "minimum_completed_monthly_rebalances_excluding_initial_allocation": 6,
+    "minimum_annualized_edge": 0.001,
+    "require_positive_edge_in_both_fixed_halves": true,
+    "minimum_active_newey_west_t": 1.96,
+    "require_drawdown_not_worse_than_both_benchmarks": true,
+    "benchmarks": [
+      "SPY",
+      "matched_80_VUG_20_SHY"
+    ]
+  },
+  "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
+  "as_of": "2026-08-28",
+  "started_at": "2026-07-31",
+  "forward_sessions": 20,
+  "minimum_sessions": 252,
+  "remaining_sessions": 232,
+  "filled_orders_including_initial_allocation": 1,
+  "initial_allocations": 1,
+  "account_fill_counts": {
+    "candidate": {
+      "filled_orders": 1,
+      "initial_allocations": 1,
+      "completed_rebalances": 0
+    },
+    "SPY": {
+      "filled_orders": 1,
+      "initial_allocations": 1,
+      "completed_rebalances": 0
+    },
+    "matched_80_VUG_20_SHY": {
+      "filled_orders": 1,
+      "initial_allocations": 1,
+      "completed_rebalances": 0
+    }
+  },
+  "filled_rebalances": 0,
+  "minimum_filled_rebalances": 6,
+  "remaining_filled_rebalances": 6,
+  "integrity_violations": 0,
+  "candidate": {
+    "equity": 104768.09776744699,
+    "return": 0.04768097767446999,
+    "max_drawdown": -0.016789525351776136
+  },
+  "SPY": {
+    "equity": 102554.09261421644,
+    "return": 0.02554092614216441,
+    "max_drawdown": -0.019643170156015244
+  },
+  "matched_80_VUG_20_SHY": {
+    "equity": 102700.87593578924,
+    "return": 0.027008759357892487,
+    "max_drawdown": -0.025253200367637563
+  },
+  "return_difference_vs_SPY": 0.022140051532305582,
+  "return_difference_vs_matched": 0.020672218316577506,
+  "forward_diagnostics": {
+    "SPY": {
+      "annualized_return_difference": 0.424332850332646,
+      "persistence_available": false,
+      "first_half_annualized_difference": null,
+      "second_half_annualized_difference": null,
+      "active_newey_west": {
+        "mean_daily": 0.0010859422453450118,
+        "annualized": 0.27365744582694296,
+        "t_stat": 1.5325286953688146,
+        "lag": 5.0
+      }
+    },
+    "matched_80_VUG_20_SHY": {
+      "annualized_return_difference": 0.3993460565926592,
+      "persistence_available": false,
+      "first_half_annualized_difference": null,
+      "second_half_annualized_difference": null,
+      "active_newey_west": {
+        "mean_daily": 0.0010059553360860286,
+        "annualized": 0.2535007446936792,
+        "t_stat": 1.3065384568168747,
+        "lag": 5.0
+      }
+    }
+  },
+  "gates": {
+    "all_accounts_live_and_same_start": true,
+    "all_accounts_same_as_of": true,
+    "all_accounts_same_snapshot": true,
+    "all_accounts_same_cost_and_cash": true,
+    "all_accounts_same_session_path": true,
+    "all_accounts_same_execution_clock": true,
+    "all_accounts_same_order_path": true,
+    "all_accounts_same_fill_counts": true,
+    "at_least_252_new_sessions": false,
+    "at_least_6_filled_rebalances": false,
+    "zero_integrity_violations": true,
+    "all_accounts_exactly_one_initial_allocation": false,
+    "candidate_return_above_SPY": false,
+    "candidate_return_above_matched": false,
+    "candidate_drawdown_not_worse_than_SPY": false,
+    "candidate_drawdown_not_worse_than_matched": false,
+    "candidate_annualized_edge_at_least_10bp_vs_SPY": false,
+    "candidate_annualized_edge_at_least_10bp_vs_matched": false,
+    "candidate_outperforms_SPY_in_both_halves": false,
+    "candidate_outperforms_matched_in_both_halves": false,
+    "candidate_active_newey_west_t_at_least_1_96_vs_SPY": false,
+    "candidate_active_newey_west_t_at_least_1_96_vs_matched": false
+  },
+  "live_confirmed": false
+}
