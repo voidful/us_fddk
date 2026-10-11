@@ -273,22 +273,26 @@ def test_v25_live_update_keeps_the_spy_baseline_on_monthly_audit_path(
         require_fresh=True,
     )
     contract.require()
-    snapshot = tmp_path / "monthly-audit-path.zip"
-    save_snapshot(panel, snapshot, contract=contract)
-
     copied = _initialize_frozen_states(tmp_path)
-    status = run_v25_live_update(
-        snapshot=snapshot,
-        as_of="2026-09-01",
-        output_dir=tmp_path,
-        eligibility_receipt=VALIDATION,
-        candidate_state_path=copied["candidate"],
-        spy_state_path=copied["SPY"],
-        matched_state_path=copied["matched"],
-        evidence_path=tmp_path / "evidence-monthly.json",
-        status_path=tmp_path / "status-monthly.json",
-        max_new_sessions=None,
-    )
+    # Exercise actual one-session updates; a test must not add a LIVE replay bypass.
+    for day in added_days:
+        daily = MarketPanel(
+            **{field.lower(): frame.loc[:day] for field, frame in panel.field_map().items()},
+            metadata={"provider": "offline one-session regression fixture"},
+        )
+        snapshot = tmp_path / "monthly-audit-path.zip"
+        save_snapshot(daily, snapshot)
+        status = run_v25_live_update(
+            snapshot=snapshot,
+            as_of=day,
+            output_dir=tmp_path,
+            eligibility_receipt=VALIDATION,
+            candidate_state_path=copied["candidate"],
+            spy_state_path=copied["SPY"],
+            matched_state_path=copied["matched"],
+            evidence_path=tmp_path / "evidence-monthly.json",
+            status_path=tmp_path / "status-monthly.json",
+        )
 
     forward = status["forward_evidence"]
     assert status["data_advanced"] is True

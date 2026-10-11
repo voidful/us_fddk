@@ -80,14 +80,11 @@ jobs:
               echo "No state, snapshot, evidence ledger, website artifact, commit, or Pages deployment was created."
               echo "Manual continuity review is required; the workflow will not backfill missed sessions."
             } >> "$GITHUB_STEP_SUMMARY"
-            exit 0
           fi
           exit "$update_exit"
       - name: Export only the frozen v25 LIVE contract
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         run: ./.venv/bin/python -m usfddk v25-site-export
       - name: Audit website and append the evidence chain
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         run: |
           ./.venv/bin/python -m usfddk v25-reference-check --receipt-ledger ""
           if [ "$(jq -r '.data_advanced' artifacts/v25_live_update_status.json)" = "true" ]; then
@@ -97,7 +94,6 @@ jobs:
           fi
           ./.venv/bin/python -m usfddk v25-refresh-status
       - name: Verify research code
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         env:
           OPENBLAS_CORETYPE: "HASWELL"
           OPENBLAS_NUM_THREADS: "1"
@@ -276,13 +272,11 @@ jobs:
           ./.venv/bin/pytest tests/test_site_export.py
           ./.venv/bin/pytest tests/test_v25_live.py -k audit
       - uses: actions/setup-node@v7
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: site/package-lock.json
       - name: Verify website
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         working-directory: site
         run: |
           npm ci
@@ -291,7 +285,6 @@ jobs:
           npm audit --omit=dev --audit-level=high
       - name: Commit genuinely advanced market or source evidence
         id: commit_update
-        if: steps.live_update.outputs.outcome != 'continuity_blocked'
         run: |
           echo "pushed=false" >> "$GITHUB_OUTPUT"
           paper_advanced="$(jq -r '.public_paper_status_deploy_allowed' artifacts/v25_live_refresh_status.json)"

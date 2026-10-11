@@ -1,0 +1,62 @@
+name: v25 repair CI
+
+on:
+  push:
+    branches: [main, codex/fix-v25-monthly-baseline-sync]
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/**"
+      - "usfddk/**"
+      - "tests/**"
+      - "scripts/prepare_v25_live_segment.py"
+      - "artifacts/snapshot_v25_vanguard_20060701_20260731_6cf44e63.zip"
+      - "pyproject.toml"
+      - "uv.lock"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v25-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_CORETYPE: "HASWELL"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install the locked runtime
+        run: uv sync --locked --extra dev
+      - name: Verify the immutable v25 snapshot
+        run: |
+          ./.venv/bin/python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          from usfddk.growth_gold_diversification import V25_ARCHIVE_HASHES
+          path = Path("artifacts/snapshot_v25_vanguard_20060701_20260731_6cf44e63.zip")
+          assert hashlib.sha256(path.read_bytes()).hexdigest() == V25_ARCHIVE_HASHES["vanguard"]
+          PY
+      - name: Test LIVE progression, recovery isolation and publication guards
+        run: |
+          ./.venv/bin/pytest tests/test_v25_live.py tests/test_v25_recovery.py \
+            tests/test_paper.py tests/test_data.py tests/test_strategies.py \
+            tests/test_ci_runtime_contract.py tests/test_daily_workflow.py
+          ./.venv/bin/ruff check usfddk tests scripts/prepare_v25_live_segment.py
+      - name: Confirm that tests changed no authoritative records
+        run: git diff --exit-code -- artifacts site/data docs

@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from usfddk.data import (
@@ -61,14 +62,10 @@ def _canonical_sha256(value: Any) -> str:
 def _require_contiguous_v25_session(
     previous_data_through: str | None,
     expected_session: pd.Timestamp,
-    *,
-    max_new_sessions: int | None,
 ) -> None:
-    """Refuse automatic history repair while leaving manual recovery explicit."""
-    if max_new_sessions is None or previous_data_through is None:
+    """Reject historical replay into LIVE accounts, including manual bypasses."""
+    if previous_data_through is None:
         return
-    if max_new_sessions < 1:
-        raise ValueError("v25 LIVE 每次自動更新至少要容許一個新交易日")
     previous = pd.Timestamp(previous_data_through).normalize()
     expected = pd.Timestamp(expected_session).normalize()
     if expected <= previous:
@@ -76,14 +73,13 @@ def _require_contiguous_v25_session(
     try:
         import exchange_calendars as xcals
 
-        sessions = pd.DatetimeIndex(xcals.get_calendar("XNYS").sessions)
-        if sessions.tz is not None:
-            sessions = sessions.tz_localize(None)
-        normalized_sessions = sessions.normalize()
-        new_sessions = int(((normalized_sessions > previous) & (normalized_sessions <= expected)).sum())
+        calendar = xcals.get_calendar("XNYS")
+        if not calendar.is_session(previous) or not calendar.is_session(expected):
+            raise ValueError("v25 Paper 日期不是有效 XNYS session")
+        new_sessions = len(calendar.sessions_in_range(previous, expected)) - 1
     except Exception as exc:
         raise RuntimeError("無法確認 XNYS 連續交易日，拒絕自動更新") from exc
-    if new_sessions > max_new_sessions:
+    if new_sessions > 1:
         raise V25LiveContinuityGapError(
             "v25_live_continuity_gap: 上次 v25 Paper 資料日 "
             f"{previous.strftime('%Y-%m-%d')} 與最近完成 XNYS session "
@@ -170,17 +166,42 @@ def _load_or_fetch_live_panel(
 ) -> tuple[MarketPanel, dict[str, Any], Path, pd.Timestamp]:
     observation_time = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="UTC")
     expected_session = most_recent_us_session(observation_time)
+
+    def checked_contract(panel: MarketPanel):
+        contract = validate_panel(
+            panel,
+            as_of=observation_time,
+            required=V25_LIVE_TICKERS,
+            min_last_coverage=1.0,
+            min_history_coverage=0.999,
+            require_fresh=True,
+        )
+        contract.require()
+        _require_complete_v25_bars(panel)
+        return contract
+
     if snapshot is not None:
         snapshot_path = Path(snapshot).resolve()
         panel, manifest = load_snapshot(snapshot_path)
+        contract = checked_contract(panel)
     else:
         requested_end = end or expected_session.strftime("%Y-%m-%d")
-        panel = fetch_yfinance(
-            V25_LIVE_TICKERS,
-            fetch_start,
-            requested_end,
-            threads=False,
-        )
+        # A partial Yahoo download can have a valid last row while a held ETF's
+        # earlier adjusted price is missing. Retry a whole, independently valid
+        # panel; never carry forward a price or merge inconsistent downloads.
+        for attempt in range(3):
+            try:
+                panel = fetch_yfinance(
+                    V25_LIVE_TICKERS,
+                    fetch_start,
+                    requested_end,
+                    threads=False,
+                )
+                contract = checked_contract(panel)
+                break
+            except (ValueError, RuntimeError, OSError):
+                if attempt == 2:
+                    raise
         fingerprint = panel_fingerprint(panel)
         snapshot_path = (
             Path(output_dir).resolve()
@@ -194,21 +215,38 @@ def _load_or_fetch_live_panel(
         else:
             manifest = {}
 
-    contract = validate_panel(
-        panel,
-        as_of=observation_time,
-        required=V25_LIVE_TICKERS,
-        min_last_coverage=1.0,
-        min_history_coverage=0.999,
-        require_fresh=True,
-    )
-    contract.require()
     if not manifest:
         manifest = save_snapshot(panel, snapshot_path, contract=contract)
     actual_fingerprint = panel_fingerprint(panel)
     if manifest.get("panel_sha256") != actual_fingerprint:
         raise ValueError("v25 LIVE 快照面板與 manifest 雜湊不同")
     return panel, manifest, snapshot_path, expected_session
+
+
+def _require_complete_v25_bars(panel: MarketPanel) -> None:
+    """Require real, positive OHLCV on every XNYS session in a LIVE panel."""
+    import exchange_calendars as xcals
+
+    sessions = pd.DatetimeIndex(
+        xcals.get_calendar("XNYS", start=panel.start, end=panel.end).sessions_in_range(
+            panel.start, panel.end
+        )
+    )
+    if sessions.tz is not None:
+        sessions = sessions.tz_localize(None)
+    if not panel.close.index.equals(sessions):
+        missing = sessions.difference(panel.close.index).strftime("%Y-%m-%d").tolist()
+        extra = panel.close.index.difference(sessions).strftime("%Y-%m-%d").tolist()
+        raise ValueError(f"v25 LIVE XNYS bar 路徑不完整：missing={missing}, extra={extra}")
+    for field, frame in panel.field_map().items():
+        values = frame.reindex(columns=V25_LIVE_TICKERS)
+        bad = ~np.isfinite(values) | (values <= 0)
+        if bool(bad.to_numpy().any()):
+            row, column = np.argwhere(bad.to_numpy())[0]
+            raise ValueError(
+                f"v25 LIVE {values.columns[column]} 在 "
+                f"{values.index[row].strftime('%Y-%m-%d')} 缺少有效的 {field}；拒絕補值"
+            )
 
 
 def run_v25_live_update(
@@ -226,7 +264,6 @@ def run_v25_live_update(
     status_path: str | Path = "artifacts/v25_live_update_status.json",
     initial_cash: float = 100_000.0,
     cost_bps: float = 10.0,
-    max_new_sessions: int | None = 1,
 ) -> dict[str, Any]:
     """Advance at most one newly completed XNYS session in all v25 accounts."""
     eligibility = json.loads(Path(eligibility_receipt).read_text(encoding="utf-8"))
@@ -264,7 +301,6 @@ def run_v25_live_update(
     _require_contiguous_v25_session(
         previous_data_through,
         expected_session,
-        max_new_sessions=max_new_sessions,
     )
 
     panel, manifest, resolved_snapshot, fetched_expected_session = _load_or_fetch_live_panel(
@@ -316,8 +352,8 @@ def run_v25_live_update(
         staged["SPY"][0],
         staged["matched"][0],
     )
-    if not all(
-        proposed_evidence["gates"][key]
+    failed_identity_gates = [
+        key
         for key in (
             "all_accounts_live_and_same_start",
             "all_accounts_same_as_of",
@@ -329,8 +365,12 @@ def run_v25_live_update(
             "all_accounts_same_fill_counts",
             "zero_integrity_violations",
         )
-    ):
-        raise RuntimeError("v25 LIVE 同步完整性門檻未通過")
+        if not proposed_evidence["gates"][key]
+    ]
+    if failed_identity_gates:
+        raise RuntimeError(
+            "v25 LIVE 同步完整性門檻未通過：" + ", ".join(failed_identity_gates)
+        )
 
     after_hashes = {
         label: _canonical_sha256(_paper_performance_state(item[0]))
