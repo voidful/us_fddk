@@ -11,6 +11,7 @@ import pytest
 
 import usfddk.risk_free_staging as risk_free_staging
 from scripts.build_short_term_risk_free_staging_report import _site_summary
+from scripts.probe_short_term_risk_free_source import main as probe_main
 from usfddk.risk_free_staging import (
     EXPECTED_MISSING_SESSION_COUNT,
     EXPECTED_SOURCE_SHA256,
@@ -23,6 +24,7 @@ from usfddk.risk_free_staging import (
 from usfddk.risk_free_staging_validation import (
     run_risk_free_staging_validation,
 )
+from usfddk.source_probe_evidence import validate_source_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "artifacts/french_ff_factors_daily_39f9ae1d.zip"
@@ -85,13 +87,13 @@ def test_all_eight_controls_pass_and_all_attacks_hit_exact_codes() -> None:
         "all_rejected": True,
     }
     assert all(
-        row["observed_error_code"] == row["expected_error_code"]
-        for row in result["attacks"]
+        row["observed_error_code"] == row["expected_error_code"] for row in result["attacks"]
     )
     assert result["protocol_integrity"]["rebind"]["passed"] is True
-    assert result["protocol_integrity"]["rebind"]["hash_checks"][
-        "usfddk/formal_backtest_readiness.py"
-    ] is True
+    assert (
+        result["protocol_integrity"]["rebind"]["hash_checks"]["usfddk/formal_backtest_readiness.py"]
+        is True
+    )
 
 
 def test_round36_rebind_rejects_current_formal_entry_drift() -> None:
@@ -132,21 +134,30 @@ def test_formal_paper_and_real_money_boundaries_remain_closed() -> None:
     assert result["real_money_action_usd"] == 0
 
 
-def test_daily_source_probe_is_deterministic_and_never_self_qualifies() -> None:
+def test_daily_source_probe_is_deterministic_and_never_self_qualifies(tmp_path: Path) -> None:
     expected = probe_official_rf_zip(SOURCE, root=ROOT)
+    assert probe_main(["--source", str(SOURCE), "--output-root", str(tmp_path)]) == 0
     artifact = json.loads(
-        (ROOT / "artifacts/short_term_risk_free_source_probe.json").read_text(
-            encoding="utf-8"
-        )
+        (tmp_path / "artifacts/short_term_risk_free_source_probe.json").read_text(encoding="utf-8")
     )
     site_data = json.loads(
-        (ROOT / "site/data/short-term-risk-free-source-probe.json").read_text(
-            encoding="utf-8"
-        )
+        (tmp_path / "site/data/short-term-risk-free-source-probe.json").read_text(encoding="utf-8")
     )
 
-    assert artifact == expected
-    assert site_data == expected
+    assert artifact == site_data
+    assert (
+        validate_source_probe(
+            artifact,
+            root=tmp_path,
+            kind="risk_free",
+            protocol_root=ROOT,
+        )
+        == expected
+    )
+    assert (
+        json.loads((ROOT / "tests/fixtures/source_probes/risk_free.json").read_text()) == expected
+    )
+    assert probe_official_rf_zip(SOURCE, root=ROOT) == expected
     assert expected["status"] == "matches_frozen_source"
     assert expected["matches_frozen_source"] is True
     assert expected["new_source_qualified"] is False
@@ -158,6 +169,13 @@ def test_daily_source_probe_is_deterministic_and_never_self_qualifies() -> None:
     assert expected["real_money_action_usd"] == 0
 
 
+def test_published_daily_source_probe_reproduces_its_own_source() -> None:
+    artifact = json.loads((ROOT / "artifacts/short_term_risk_free_source_probe.json").read_text())
+    site_data = json.loads((ROOT / "site/data/short-term-risk-free-source-probe.json").read_text())
+    assert artifact == site_data
+    validate_source_probe(artifact, root=ROOT, kind="risk_free")
+
+
 def test_published_outputs_match_reproducible_builder() -> None:
     result = run_risk_free_staging_validation(ROOT, SOURCE)
     artifact = json.loads(
@@ -166,9 +184,7 @@ def test_published_outputs_match_reproducible_builder() -> None:
         )
     )
     site_data = json.loads(
-        (ROOT / "site/data/short-term-risk-free-staging.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "site/data/short-term-risk-free-staging.json").read_text(encoding="utf-8")
     )
 
     assert artifact == result
@@ -176,9 +192,7 @@ def test_published_outputs_match_reproducible_builder() -> None:
 
 
 def test_report_discloses_partial_coverage_without_promotion() -> None:
-    report = (ROOT / "docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md").read_text(
-        encoding="utf-8"
-    )
+    report = (ROOT / "docs/SHORT_TERM_RISK_FREE_STAGING_REPORT.md").read_text(encoding="utf-8")
 
     assert "5,009/5,031 個 XNYS session" in report
     assert "精確欠最後 **22 日**" in report
@@ -187,8 +201,11 @@ def test_report_discloses_partial_coverage_without_promotion() -> None:
     assert "短線 Paper 全現金" in report
     assert "實金動作\n**US$0**" in report
     assert "不會生成" in report
-    assert PROTOCOL_SHA256 == json.loads(
-        (
-            ROOT / "artifacts/short_term_risk_free_staging_protocol_receipt.json"
-        ).read_text(encoding="utf-8")
-    )["protocol"]["sha256"]
+    assert (
+        PROTOCOL_SHA256
+        == json.loads(
+            (ROOT / "artifacts/short_term_risk_free_staging_protocol_receipt.json").read_text(
+                encoding="utf-8"
+            )
+        )["protocol"]["sha256"]
+    )

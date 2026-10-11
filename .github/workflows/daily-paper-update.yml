@@ -56,7 +56,7 @@ jobs:
       - name: Probe the five current official provider source identities
         run: |
           if ! ./.venv/bin/python scripts/probe_short_term_provider_gap_sources.py; then
-            echo "One or more official provider source identities were unavailable or changed; preserving the last verified probe without qualifying any source." \
+            echo "Official source probe needs review or was unavailable; any recorded identity change remains unqualified and frozen research inputs are preserved." \
               >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Fetch the latest completed U.S. session
@@ -320,6 +320,9 @@ jobs:
             site/data/short-term-provider-guide-probe.json \
             artifacts/short_term_provider_gap_source_probe.json \
             site/data/short-term-provider-gap-source-probe.json
+          if [ -d artifacts/source_probe_inputs ]; then
+            git add -f artifacts/source_probe_inputs
+          fi
           if [ "$paper_advanced" = "true" ]; then
             git add \
               artifacts/paper_v25_state.json \

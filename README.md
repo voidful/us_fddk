@@ -7,6 +7,7 @@
 - GitHub Pages 顯示凍結的 20 年研究與 v25 LIVE Paper，清楚分開研究快照日與前瞻資料日。
 - GitHub Actions 每天 04:30 UTC（台北 12:30）檢查最近完成的 XNYS session；週末與休市日不建立假版本。
 - 同一每日 Action 亦下載官方 Fama/French 日度 factors 只作來源 probe；hash、data cut 或覆蓋有變才提交公開狀態，任何新 snapshot 均須另行凍結及授權核對，不能自動升級正式 RF。
+- 已變更的 RF、CRSP guide 與 provider 身份 probe 會保存公開原始來源於 `artifacts/source_probe_inputs/`，以輸入 archive hash 和輸出收據驗證完整重算；這些未核准探測證據維持人工審閱狀態。
 - 日更只推進事前鎖定的 v25、SPY 與 80% VUG／20% SHY 三個同起點 Paper 帳戶，不用新資料重選歷史冠軍。
 - 同日行情改寫、三帳戶不同步、前瞻收據鏈或網站契約不一致時會 fail closed，不推送也不部署。
 - 公開頁與所有 Paper 結果只供研究教育；在 252 個新增交易日與完整升級合約通過前，實金訊號維持關閉。

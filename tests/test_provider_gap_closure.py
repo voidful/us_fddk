@@ -120,7 +120,9 @@ def test_formal_paper_and_real_money_boundaries_remain_closed() -> None:
     assert result["real_money_action_usd"] == 0
 
 
-def test_live_source_probe_matches_identities_but_never_qualifies() -> None:
+def test_live_source_probe_reproduces_identities_but_never_qualifies() -> None:
+    from usfddk.source_probe_evidence import validate_source_probe
+
     artifact = json.loads(
         (ROOT / "artifacts/short_term_provider_gap_source_probe.json").read_text(encoding="utf-8")
     )
@@ -129,7 +131,7 @@ def test_live_source_probe_matches_identities_but_never_qualifies() -> None:
     )
 
     assert artifact == site_data
-    assert artifact["all_match_frozen_identities"] is True
+    validate_source_probe(artifact, root=ROOT, kind="provider_gap_sources")
     assert artifact["source_identity_count"] == 5
     assert artifact["new_source_qualified"] is False
     assert artifact["provider_package_qualified"] is False
@@ -137,6 +139,17 @@ def test_live_source_probe_matches_identities_but_never_qualifies() -> None:
     assert artifact["paper_authorized"] is False
     assert artifact["paper_state"] == "all_cash"
     assert artifact["real_money_action_usd"] == 0
+
+
+def test_frozen_source_probe_fixture_retains_all_five_identities() -> None:
+    from usfddk.source_probe_evidence import validate_source_probe
+
+    artifact = json.loads(
+        (ROOT / "tests/fixtures/source_probes/provider_gap_sources.json").read_text()
+    )
+    validate_source_probe(artifact, root=ROOT, kind="provider_gap_sources")
+    assert artifact["all_match_frozen_identities"] is True
+    assert artifact["source_identity_count"] == 5
 
 
 def test_changed_source_identity_requires_review_and_opens_no_gate() -> None:

@@ -10,6 +10,7 @@ from usfddk.provider_convergence import (
     TREASURY_GUIDE,
     inspect_provider_guides,
 )
+from usfddk.source_probe_evidence import publish_source_probe
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/short_term_provider_guide_probe.json"
@@ -29,7 +30,7 @@ def _read_or_download(path: Path | None, url: str) -> bytes:
     return path.read_bytes() if path is not None else _download(url)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Probe current official CRSP Stock CIZ and Treasury guide identities "
@@ -40,30 +41,31 @@ def main() -> int:
     parser.add_argument("--stock-pdf", type=Path)
     parser.add_argument("--treasury-landing", type=Path)
     parser.add_argument("--treasury-pdf", type=Path)
-    args = parser.parse_args()
-    result = inspect_provider_guides(
-        stock_landing_html=_read_or_download(
-            args.stock_landing, STOCK_GUIDE["landing_url"]
-        ).decode("utf-8", errors="replace"),
-        stock_pdf_bytes=_read_or_download(args.stock_pdf, STOCK_GUIDE["pdf_url"]),
-        treasury_landing_html=_read_or_download(
+    parser.add_argument("--output-root", type=Path, default=ROOT)
+    args = parser.parse_args(argv)
+    inputs = {
+        "stock-landing.html": _read_or_download(args.stock_landing, STOCK_GUIDE["landing_url"]),
+        "stock.pdf": _read_or_download(args.stock_pdf, STOCK_GUIDE["pdf_url"]),
+        "treasury-landing.html": _read_or_download(
             args.treasury_landing, TREASURY_GUIDE["landing_url"]
-        ).decode("utf-8", errors="replace"),
-        treasury_pdf_bytes=_read_or_download(
-            args.treasury_pdf, TREASURY_GUIDE["pdf_url"]
         ),
+        "treasury.pdf": _read_or_download(args.treasury_pdf, TREASURY_GUIDE["pdf_url"]),
+    }
+    result = inspect_provider_guides(
+        stock_landing_html=inputs["stock-landing.html"].decode("utf-8", errors="replace"),
+        stock_pdf_bytes=inputs["stock.pdf"],
+        treasury_landing_html=inputs["treasury-landing.html"].decode("utf-8", errors="replace"),
+        treasury_pdf_bytes=inputs["treasury.pdf"],
     )
-    payload = json.dumps(
+    published = publish_source_probe(
         result,
-        ensure_ascii=False,
-        indent=2,
-        sort_keys=True,
-        allow_nan=False,
-    ) + "\n"
-    ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
-    SITE_DATA.parent.mkdir(parents=True, exist_ok=True)
-    ARTIFACT.write_text(payload, encoding="utf-8")
-    SITE_DATA.write_text(payload, encoding="utf-8")
+        inputs,
+        kind="provider_guides",
+        root=ROOT,
+        output_root=args.output_root,
+        artifact=ARTIFACT.relative_to(ROOT),
+        site_data=SITE_DATA.relative_to(ROOT),
+    )
     print(
         json.dumps(
             {
@@ -73,6 +75,7 @@ def main() -> int:
                 "formal_backtest_authorized": False,
                 "paper_authorized": False,
                 "real_money_action_usd": 0,
+                "probe_receipt_sha256": published.get("probe_evidence", {}).get("receipt_sha256"),
             },
             ensure_ascii=False,
             indent=2,

@@ -30,3 +30,5 @@ artifacts/*
 !artifacts/v25_live_segments/
 !artifacts/v25_live_segments/**
 !artifacts/v25_live_segment.json
+!artifacts/source_probe_inputs/
+!artifacts/source_probe_inputs/**
