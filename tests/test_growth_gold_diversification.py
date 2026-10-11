@@ -107,7 +107,9 @@ def test_v25_forward_promotion_contract_is_machine_frozen_before_first_fill() ->
     sha256 = contract.pop("sha256")
     assert contract == V25_FORWARD_PROMOTION_PROTOCOL
     assert sha256 == V25_FORWARD_PROMOTION_PROTOCOL_SHA256
-    candidate = json.loads((ROOT / "artifacts/paper_v25_state.json").read_text(encoding="utf-8"))
+    original = ROOT / "artifacts/v25_live_segments/2026-10-09/prior/paper_v25_state.json"
+    candidate_path = original if original.exists() else ROOT / "artifacts/paper_v25_state.json"
+    candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
     first_fill = min(order["filled_at"] for order in candidate["order_history"])
     assert pd.Timestamp(contract["frozen_at_utc"]).date() <= pd.Timestamp(first_fill).date()
     assert contract["frozen_before_first_forward_fill"] is True

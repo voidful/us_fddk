@@ -348,6 +348,7 @@ button, input { font: inherit; }
 .paper-lab-heading h3 { margin: 5px 0 0; font-family: Georgia, serif; font-size: 1.85rem; font-weight: 560; letter-spacing: -0.03em; }
 .paper-lab-heading > p { max-width: 500px; margin: 0; color: var(--muted); font-size: 0.77rem; }
 .forward-score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+.forward-segment-note { margin-top: 18px; padding: 14px; border-left: 3px solid var(--green); background: var(--green-soft); font-size: 0.85rem; line-height: 1.7; }
 .forward-score-grid article { padding: 18px; border: 1px solid var(--line); border-radius: 11px; background: #f7f6f1; }
 .forward-score-grid article.candidate { border-color: #9ebbb0; background: var(--green-soft); }
 .forward-score-grid article > div:first-child { display: flex; justify-content: space-between; gap: 10px; }

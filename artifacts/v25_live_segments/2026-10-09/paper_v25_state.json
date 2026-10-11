@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "mode": "live",
+  "strategy": "v25 80% VUG／20% GLD（隔離候選 Paper）",
+  "execution_clock": "signal at close t; rebalance at adjusted open t+1",
+  "created_at": "2026-10-11T11:16:40.919603+00:00",
+  "updated_at": "2026-10-11T11:16:40.920771+00:00",
+  "initial_cash": 100000.0,
+  "cash": 100000.0,
+  "cost_bps": 10.0,
+  "as_of": "2026-10-09",
+  "holdings": {},
+  "pending_order": {
+    "signal_date": "2026-09-30",
+    "queued_at": "2026-10-09",
+    "execute_after": "2026-10-09",
+    "target_weights": {
+      "VUG": 0.8,
+      "GLD": 0.2
+    },
+    "status": "pending"
+  },
+  "order_history": [],
+  "transactions": [],
+  "equity_curve": [
+    {
+      "date": "2026-10-09",
+      "equity": 100000.0,
+      "cash": 100000.0,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": 0.0
+    }
+  ],
+  "adjustment_rebases": [],
+  "total_costs": 0.0,
+  "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+  "started_at": "2026-10-09",
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-10-09",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-07-31",
+    "prior_data_through": "2026-08-28",
+    "prior_forward_sessions": 20,
+    "missed_sessions": 29,
+    "preserved_receipts": 15,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-10-09",
+    "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
+    "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+  }
+}

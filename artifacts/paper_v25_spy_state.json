@@ -3,218 +3,51 @@
   "mode": "live",
   "strategy": "v25 SPY 基準（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
-  "created_at": "2026-08-02T22:37:29.379761+00:00",
-  "updated_at": "2026-08-30T10:03:19.032682+00:00",
+  "created_at": "2026-10-11T11:16:40.921512+00:00",
+  "updated_at": "2026-10-11T11:16:40.922470+00:00",
   "initial_cash": 100000.0,
-  "cash": 1.2789769243681803e-13,
+  "cash": 100000.0,
   "cost_bps": 10.0,
-  "as_of": "2026-08-28",
-  "holdings": {
-    "SPY": {
-      "shares": 133.29966318139046,
-      "last_price": 769.3499755859375,
-      "market_value": 102554.09261421644
-    }
+  "as_of": "2026-10-09",
+  "holdings": {},
+  "pending_order": {
+    "signal_date": "2026-09-30",
+    "queued_at": "2026-10-09",
+    "execute_after": "2026-10-09",
+    "target_weights": {
+      "SPY": 1.0
+    },
+    "status": "pending"
   },
-  "pending_order": null,
-  "order_history": [
-    {
-      "signal_date": "2026-07-31",
-      "queued_at": "2026-07-31",
-      "execute_after": "2026-07-31",
-      "target_weights": {
-        "SPY": 1.0
-      },
-      "status": "filled",
-      "filled_at": "2026-08-03",
-      "turnover": 0.999000999000999,
-      "cost": 99.9000999000999
-    }
-  ],
-  "transactions": [
-    {
-      "date": "2026-08-03",
-      "signal_date": "2026-07-31",
-      "ticker": "SPY",
-      "side": "BUY",
-      "shares": 133.29966318139046,
-      "price": 749.4400024414062,
-      "notional": 99900.0999000999,
-      "cost": 99.9000999000999
-    }
-  ],
+  "order_history": [],
+  "transactions": [],
   "equity_curve": [
     {
-      "date": "2026-07-31",
+      "date": "2026-10-09",
       "equity": 100000.0,
       "cash": 100000.0,
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": 0.0
-    },
-    {
-      "date": "2026-08-03",
-      "equity": 100997.15352457369,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.999000999000999,
-      "cost": 99.9000999000999,
-      "drawdown": 0.0
-    },
-    {
-      "date": "2026-08-04",
-      "equity": 102818.03147977231,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": 0.0
-    },
-    {
-      "date": "2026-08-05",
-      "equity": 102612.74479145488,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.0019966020100065096
-    },
-    {
-      "date": "2026-08-06",
-      "equity": 102448.78880925082,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.003591224858201403
-    },
-    {
-      "date": "2026-08-07",
-      "equity": 103075.29885339651,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": 0.0
-    },
-    {
-      "date": "2026-08-10",
-      "equity": 103044.64253437384,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.00029741673673222557
-    },
-    {
-      "date": "2026-08-11",
-      "equity": 102715.3881356136,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.003491726163169395
-    },
-    {
-      "date": "2026-08-12",
-      "equity": 102972.6555092378,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.0009958093287190106
-    },
-    {
-      "date": "2026-08-13",
-      "equity": 103691.14264641727,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": 0.0
-    },
-    {
-      "date": "2026-08-14",
-      "equity": 103485.8640940656,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.0019797115463531245
-    },
-    {
-      "date": "2026-08-17",
-      "equity": 102996.64847229455,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.006697719365393873
-    },
-    {
-      "date": "2026-08-18",
-      "equity": 102300.82813575126,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.013408228274684242
-    },
-    {
-      "date": "2026-08-19",
-      "equity": 102515.43864084152,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.01133851914029782
-    },
-    {
-      "date": "2026-08-20",
-      "equity": 101654.31988774205,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.019643170156015244
-    },
-    {
-      "date": "2026-08-21",
-      "equity": 102070.21418599073,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.015632275033884424
-    },
-    {
-      "date": "2026-08-24",
-      "equity": 101770.2899438326,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.018524752004466793
-    },
-    {
-      "date": "2026-08-25",
-      "equity": 102095.54144743383,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.015388018284496874
-    },
-    {
-      "date": "2026-08-26",
-      "equity": 102118.20824807002,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.015169419086362046
-    },
-    {
-      "date": "2026-08-27",
-      "equity": 102787.36702478387,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.008716034933815231
-    },
-    {
-      "date": "2026-08-28",
-      "equity": 102554.09261421644,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.010965739244268247
     }
   ],
   "adjustment_rebases": [],
-  "total_costs": 99.9000999000999,
-  "snapshot_sha256": "69ae46385dd1e7cf41f63008ce40717a4ed50bb467fac3c64b2eb99d083dba67",
-  "started_at": "2026-07-31"
+  "total_costs": 0.0,
+  "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+  "started_at": "2026-10-09",
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-10-09",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-07-31",
+    "prior_data_through": "2026-08-28",
+    "prior_forward_sessions": 20,
+    "missed_sessions": 29,
+    "preserved_receipts": 15,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-10-09",
+    "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
+    "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+  }
 }

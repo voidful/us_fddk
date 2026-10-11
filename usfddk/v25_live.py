@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from usfddk.data import (
@@ -31,13 +32,17 @@ from usfddk.paper import (
     update_paper_state,
     write_paper_state,
 )
-from usfddk.strategies import buy_and_hold_targets, fixed_weight_targets
+from usfddk.strategies import fixed_weight_targets
 
 V25_LIVE_TICKERS = ("GLD", "SHY", "SPY", "VUG")
 V25_LIVE_FETCH_START = "2026-07-01"
 V25_LIVE_STATUS_SCHEMA_VERSION = 1
 V25_LIVE_AUDIT_SCHEMA_VERSION = 1
 V25_LIVE_LEDGER_SCHEMA_VERSION = 1
+
+
+class V25LiveContinuityGapError(RuntimeError):
+    """Signal that an automated refresh would have to backfill missed sessions."""
 
 
 def _sha256_file(path: str | Path) -> str:
@@ -54,6 +59,35 @@ def _canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _require_contiguous_v25_session(
+    previous_data_through: str | None,
+    expected_session: pd.Timestamp,
+) -> None:
+    """Reject historical replay into LIVE accounts, including manual bypasses."""
+    if previous_data_through is None:
+        return
+    previous = pd.Timestamp(previous_data_through).normalize()
+    expected = pd.Timestamp(expected_session).normalize()
+    if expected <= previous:
+        return
+    try:
+        import exchange_calendars as xcals
+
+        calendar = xcals.get_calendar("XNYS")
+        if not calendar.is_session(previous) or not calendar.is_session(expected):
+            raise ValueError("v25 Paper 日期不是有效 XNYS session")
+        new_sessions = len(calendar.sessions_in_range(previous, expected)) - 1
+    except Exception as exc:
+        raise RuntimeError("無法確認 XNYS 連續交易日，拒絕自動更新") from exc
+    if new_sessions > 1:
+        raise V25LiveContinuityGapError(
+            "v25_live_continuity_gap: 上次 v25 Paper 資料日 "
+            f"{previous.strftime('%Y-%m-%d')} 與最近完成 XNYS session "
+            f"{expected.strftime('%Y-%m-%d')} 相隔 {new_sessions} 個交易日；"
+            "自動流程拒絕歷史補填，需人工覆核"
+        )
+
+
 def write_json_atomic(path: str | Path, payload: dict[str, Any]) -> Path:
     destination = Path(path)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -68,7 +102,7 @@ def write_json_atomic(path: str | Path, payload: dict[str, Any]) -> Path:
 
 def _paper_performance_state(state: dict[str, Any]) -> dict[str, Any]:
     """Retain every economic field while excluding wall-clock-only metadata."""
-    return {
+    performance = {
         key: state.get(key)
         for key in (
             "schema_version",
@@ -89,6 +123,10 @@ def _paper_performance_state(state: dict[str, Any]) -> dict[str, Any]:
             "total_costs",
         )
     }
+    # Legacy receipts keep their original hash; new receipts bind the restart provenance.
+    if "observation_segment" in state:
+        performance["observation_segment"] = state["observation_segment"]
+    return performance
 
 
 def _strategy_targets(
@@ -104,10 +142,14 @@ def _strategy_targets(
             signal_on=signal_on,
         )
     if strategy_key == "v25_spy":
-        return "v25 SPY 基準（隔離 Paper）", buy_and_hold_targets(
+        # SPY remains economically buy-and-hold, but it must receive the same
+        # month-end signal and next-open execution schedule as the two 80/20
+        # accounts.  Subsequent 100% SPY orders have zero turnover, so they
+        # preserve the frozen common audit path without inventing trades.
+        return "v25 SPY 基準（隔離 Paper）", fixed_weight_targets(
             close,
-            "SPY",
-            signal_on=signal_on or close.index[-1].strftime("%Y-%m-%d"),
+            {"SPY": 1.0},
+            signal_on=signal_on,
         )
     if strategy_key == "v25_matched":
         return "v25 公平基準 80% VUG／20% SHY（隔離 Paper）", fixed_weight_targets(
@@ -128,17 +170,42 @@ def _load_or_fetch_live_panel(
 ) -> tuple[MarketPanel, dict[str, Any], Path, pd.Timestamp]:
     observation_time = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="UTC")
     expected_session = most_recent_us_session(observation_time)
+
+    def checked_contract(panel: MarketPanel):
+        contract = validate_panel(
+            panel,
+            as_of=observation_time,
+            required=V25_LIVE_TICKERS,
+            min_last_coverage=1.0,
+            min_history_coverage=0.999,
+            require_fresh=True,
+        )
+        contract.require()
+        _require_complete_v25_bars(panel)
+        return contract
+
     if snapshot is not None:
         snapshot_path = Path(snapshot).resolve()
         panel, manifest = load_snapshot(snapshot_path)
+        contract = checked_contract(panel)
     else:
         requested_end = end or expected_session.strftime("%Y-%m-%d")
-        panel = fetch_yfinance(
-            V25_LIVE_TICKERS,
-            fetch_start,
-            requested_end,
-            threads=False,
-        )
+        # A partial Yahoo download can have a valid last row while a held ETF's
+        # earlier adjusted price is missing. Retry a whole, independently valid
+        # panel; never carry forward a price or merge inconsistent downloads.
+        for attempt in range(3):
+            try:
+                panel = fetch_yfinance(
+                    V25_LIVE_TICKERS,
+                    fetch_start,
+                    requested_end,
+                    threads=False,
+                )
+                contract = checked_contract(panel)
+                break
+            except (ValueError, RuntimeError, OSError):
+                if attempt == 2:
+                    raise
         fingerprint = panel_fingerprint(panel)
         snapshot_path = (
             Path(output_dir).resolve()
@@ -152,21 +219,38 @@ def _load_or_fetch_live_panel(
         else:
             manifest = {}
 
-    contract = validate_panel(
-        panel,
-        as_of=observation_time,
-        required=V25_LIVE_TICKERS,
-        min_last_coverage=1.0,
-        min_history_coverage=0.999,
-        require_fresh=True,
-    )
-    contract.require()
     if not manifest:
         manifest = save_snapshot(panel, snapshot_path, contract=contract)
     actual_fingerprint = panel_fingerprint(panel)
     if manifest.get("panel_sha256") != actual_fingerprint:
         raise ValueError("v25 LIVE 快照面板與 manifest 雜湊不同")
     return panel, manifest, snapshot_path, expected_session
+
+
+def _require_complete_v25_bars(panel: MarketPanel) -> None:
+    """Require real, positive OHLCV on every XNYS session in a LIVE panel."""
+    import exchange_calendars as xcals
+
+    sessions = pd.DatetimeIndex(
+        xcals.get_calendar("XNYS", start=panel.start, end=panel.end).sessions_in_range(
+            panel.start, panel.end
+        )
+    )
+    if sessions.tz is not None:
+        sessions = sessions.tz_localize(None)
+    if not panel.close.index.equals(sessions):
+        missing = sessions.difference(panel.close.index).strftime("%Y-%m-%d").tolist()
+        extra = panel.close.index.difference(sessions).strftime("%Y-%m-%d").tolist()
+        raise ValueError(f"v25 LIVE XNYS bar 路徑不完整：missing={missing}, extra={extra}")
+    for field, frame in panel.field_map().items():
+        values = frame.reindex(columns=V25_LIVE_TICKERS)
+        bad = ~np.isfinite(values) | (values <= 0)
+        if bool(bad.to_numpy().any()):
+            row, column = np.argwhere(bad.to_numpy())[0]
+            raise ValueError(
+                f"v25 LIVE {values.columns[column]} 在 "
+                f"{values.index[row].strftime('%Y-%m-%d')} 缺少有效的 {field}；拒絕補值"
+            )
 
 
 def run_v25_live_update(
@@ -185,14 +269,7 @@ def run_v25_live_update(
     initial_cash: float = 100_000.0,
     cost_bps: float = 10.0,
 ) -> dict[str, Any]:
-    """Fetch one completed session and advance all v25 accounts in lockstep."""
-    panel, manifest, resolved_snapshot, expected_session = _load_or_fetch_live_panel(
-        snapshot=snapshot,
-        fetch_start=fetch_start,
-        end=end,
-        as_of=as_of,
-        output_dir=output_dir,
-    )
+    """Advance at most one newly completed XNYS session in all v25 accounts."""
     eligibility = json.loads(Path(eligibility_receipt).read_text(encoding="utf-8"))
     if eligibility.get("protocol", {}).get("sha256") != V25_PROTOCOL_SHA256:
         raise ValueError("v25 LIVE 更新的歷史入口協議雜湊不符")
@@ -205,7 +282,6 @@ def run_v25_live_update(
     ):
         raise ValueError("v25 歷史產品入口未通過，拒絕推進 LIVE Paper")
 
-    archive_sha256 = _sha256_file(resolved_snapshot)
     configurations = {
         "candidate": ("v25", Path(candidate_state_path).resolve()),
         "SPY": ("v25_spy", Path(spy_state_path).resolve()),
@@ -223,7 +299,30 @@ def run_v25_live_update(
     }
     if len(existing_dates) > 1:
         raise ValueError("v25 LIVE 三帳戶更新前日期已不同步，拒絕繼續")
+    segments = {
+        _canonical_sha256(state.get("observation_segment"))
+        for state in existing_states.values() if state is not None
+    }
+    if len(segments) > 1:
+        raise ValueError("v25 LIVE 三帳戶觀察段不同步，拒絕繼續")
     previous_data_through = next(iter(existing_dates), None)
+    observation_time = pd.Timestamp(as_of) if as_of is not None else pd.Timestamp.now(tz="UTC")
+    expected_session = most_recent_us_session(observation_time)
+    _require_contiguous_v25_session(
+        previous_data_through,
+        expected_session,
+    )
+
+    panel, manifest, resolved_snapshot, fetched_expected_session = _load_or_fetch_live_panel(
+        snapshot=snapshot,
+        fetch_start=fetch_start,
+        end=end,
+        as_of=observation_time,
+        output_dir=output_dir,
+    )
+    if fetched_expected_session != expected_session:
+        raise RuntimeError("v25 LIVE XNYS 交易日判定在同一輪更新中漂移")
+    archive_sha256 = _sha256_file(resolved_snapshot)
     before_hashes = {
         label: _canonical_sha256(_paper_performance_state(state))
         for label, state in existing_states.items()
@@ -263,8 +362,8 @@ def run_v25_live_update(
         staged["SPY"][0],
         staged["matched"][0],
     )
-    if not all(
-        proposed_evidence["gates"][key]
+    failed_identity_gates = [
+        key
         for key in (
             "all_accounts_live_and_same_start",
             "all_accounts_same_as_of",
@@ -276,8 +375,12 @@ def run_v25_live_update(
             "all_accounts_same_fill_counts",
             "zero_integrity_violations",
         )
-    ):
-        raise RuntimeError("v25 LIVE 同步完整性門檻未通過")
+        if not proposed_evidence["gates"][key]
+    ]
+    if failed_identity_gates:
+        raise RuntimeError(
+            "v25 LIVE 同步完整性門檻未通過：" + ", ".join(failed_identity_gates)
+        )
 
     after_hashes = {
         label: _canonical_sha256(_paper_performance_state(item[0]))
@@ -420,6 +523,9 @@ def audit_v25_live_reference(
         "SPY": spy_state,
         "matched": matched_state,
     }
+    for label, state in states.items():
+        if site_paper.get("observation_segment") != state.get("observation_segment"):
+            errors.append(f"網站 v25 {label} 觀察段與權威帳戶不同")
     for label, state in states.items():
         if state.get("mode") != "live":
             errors.append(f"v25 {label} 不是 LIVE Paper")

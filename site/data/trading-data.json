@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-30T10:03:19.875681Z",
-  "data_through": "2026-08-28",
+  "generated_at_utc": "2026-10-11T11:34:02.147491Z",
+  "data_through": "2026-10-09",
   "freshness": {
-    "last_session": "2026-08-28",
-    "next_expected_session": "2026-08-31",
-    "next_session_close_utc": "2026-08-31T20:00:00Z",
-    "refresh_due_at_utc": "2026-09-01T02:00:00Z",
+    "last_session": "2026-10-09",
+    "next_expected_session": "2026-10-12",
+    "next_session_close_utc": "2026-10-12T20:00:00Z",
+    "refresh_due_at_utc": "2026-10-13T02:00:00Z",
     "vendor_grace_hours": 6.0
   },
   "research_start": "2006-07-31",
@@ -8045,415 +8045,95 @@
       "evidence_classification": "theory_fixed_product_definition_sensitivity_with_seen_summaries_but_post_freeze_joint_paths",
       "paper": {
         "mode": "live",
-        "as_of": "2026-08-28",
-        "started_at": "2026-07-31",
-        "snapshot_sha256": "69ae46385dd1e7cf41f63008ce40717a4ed50bb467fac3c64b2eb99d083dba67",
+        "as_of": "2026-10-09",
+        "started_at": "2026-10-09",
+        "observation_segment": {
+          "schema_version": 1,
+          "id": "2026-10-09",
+          "reason": "missed_live_sessions",
+          "prior_started_at": "2026-07-31",
+          "prior_data_through": "2026-08-28",
+          "prior_forward_sessions": 20,
+          "missed_sessions": 29,
+          "preserved_receipts": 15,
+          "inherited_forward_sessions": 0,
+          "backfilled_forward_sessions": 0,
+          "archive_path": "artifacts/v25_live_segments/2026-10-09",
+          "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
+          "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+        },
+        "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
         "initial_cash": 100000.0,
         "cost_bps": 10.0,
-        "total_costs": 99.9000999000999,
+        "total_costs": 0.0,
         "execution_clock": "signal at close t; rebalance at adjusted open t+1",
-        "equity": 104768.09776744699,
-        "return": 0.04768097767446999,
-        "cash": 1.2789769243681803e-13,
-        "transactions": 2,
-        "status": "invested",
-        "holdings": {
-          "VUG": {
-            "market_value": 82693.98123792328,
-            "weight": 0.7893049792836606
+        "equity": 100000.0,
+        "return": 0.0,
+        "cash": 100000.0,
+        "transactions": 0,
+        "status": "awaiting_fill",
+        "holdings": {},
+        "pending_order": {
+          "signal_date": "2026-09-30",
+          "queued_at": "2026-10-09",
+          "execute_after": "2026-10-09",
+          "target_weights": {
+            "VUG": 0.8,
+            "GLD": 0.2
           },
-          "GLD": {
-            "market_value": 22074.11652952372,
-            "weight": 0.21069502071633944
-          }
+          "status": "pending"
         },
-        "pending_order": null,
-        "recent_transactions": [
-          {
-            "date": "2026-08-03",
-            "signal_date": "2026-07-31",
-            "ticker": "VUG",
-            "side": "BUY",
-            "shares": 933.9731238179958,
-            "price": 85.56999969482422,
-            "notional": 79920.07992007992,
-            "cost": 79.92007992007993
-          },
-          {
-            "date": "2026-08-03",
-            "signal_date": "2026-07-31",
-            "ticker": "GLD",
-            "side": "BUY",
-            "shares": 53.98546244398505,
-            "price": 370.1000061035156,
-            "notional": 19980.01998001998,
-            "cost": 19.980019980019982
-          }
-        ],
-        "recent_filled_orders": [
-          {
-            "signal_date": "2026-07-31",
-            "queued_at": "2026-07-31",
-            "execute_after": "2026-07-31",
-            "target_weights": {
-              "VUG": 0.8,
-              "GLD": 0.2
-            },
-            "status": "filled",
-            "filled_at": "2026-08-03",
-            "turnover": 0.999000999000999,
-            "cost": 99.9000999000999
-          }
-        ],
+        "recent_transactions": [],
+        "recent_filled_orders": [],
         "accounts": {
           "candidate": {
-            "as_of": "2026-08-28",
-            "equity": 104768.09776744699,
-            "return": 0.04768097767446999,
-            "max_drawdown": -0.016789525351776136,
-            "cash": 1.2789769243681803e-13,
-            "total_costs": 99.9000999000999,
-            "transactions": 2,
+            "as_of": "2026-10-09",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
             "filled_rebalances": 0,
             "equity_curve": [
               {
-                "date": "2026-07-31",
+                "date": "2026-10-09",
                 "equity": 100000.0,
                 "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-03",
-                "equity": 101397.31711597907,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-04",
-                "equity": 103406.86300637563,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-05",
-                "equity": 103906.33478913353,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-06",
-                "equity": 103861.25278065595,
-                "drawdown": -0.0004338716072419535
-              },
-              {
-                "date": "2026-08-07",
-                "equity": 105008.78598041365,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-10",
-                "equity": 105023.03198061815,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-11",
-                "equity": 104386.68617896321,
-                "drawdown": -0.006059107127781016
-              },
-              {
-                "date": "2026-08-12",
-                "equity": 104861.98825665996,
-                "drawdown": -0.00153341339438684
-              },
-              {
-                "date": "2026-08-13",
-                "equity": 105343.45117082522,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-14",
-                "equity": 105115.23951670114,
-                "drawdown": -0.002166358246171507
-              },
-              {
-                "date": "2026-08-17",
-                "equity": 104892.75871814879,
-                "drawdown": -0.004278314861220878
-              },
-              {
-                "date": "2026-08-18",
-                "equity": 103574.78462674907,
-                "drawdown": -0.016789525351776136
-              },
-              {
-                "date": "2026-08-19",
-                "equity": 104465.60064246046,
-                "drawdown": -0.008333223552181135
-              },
-              {
-                "date": "2026-08-20",
-                "equity": 103832.43915474985,
-                "drawdown": -0.014343672998002654
-              },
-              {
-                "date": "2026-08-21",
-                "equity": 104577.93292355747,
-                "drawdown": -0.007266880273614662
-              },
-              {
-                "date": "2026-08-24",
-                "equity": 104225.34104054878,
-                "drawdown": -0.010613950063809052
-              },
-              {
-                "date": "2026-08-25",
-                "equity": 104738.80975062074,
-                "drawdown": -0.005739715316749883
-              },
-              {
-                "date": "2026-08-26",
-                "equity": 104383.74960554387,
-                "drawdown": -0.00911021572404247
-              },
-              {
-                "date": "2026-08-27",
-                "equity": 105844.46889087891,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-28",
-                "equity": 104768.09776744699,
-                "drawdown": -0.010169365812979891
               }
             ]
           },
           "SPY": {
-            "as_of": "2026-08-28",
-            "equity": 102554.09261421644,
-            "return": 0.02554092614216441,
-            "max_drawdown": -0.019643170156015244,
-            "cash": 1.2789769243681803e-13,
-            "total_costs": 99.9000999000999,
-            "transactions": 1,
+            "as_of": "2026-10-09",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
             "filled_rebalances": 0,
             "equity_curve": [
               {
-                "date": "2026-07-31",
+                "date": "2026-10-09",
                 "equity": 100000.0,
                 "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-03",
-                "equity": 100997.15352457369,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-04",
-                "equity": 102818.03147977231,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-05",
-                "equity": 102612.74479145488,
-                "drawdown": -0.0019966020100065096
-              },
-              {
-                "date": "2026-08-06",
-                "equity": 102448.78880925082,
-                "drawdown": -0.003591224858201403
-              },
-              {
-                "date": "2026-08-07",
-                "equity": 103075.29885339651,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-10",
-                "equity": 103044.64253437384,
-                "drawdown": -0.00029741673673222557
-              },
-              {
-                "date": "2026-08-11",
-                "equity": 102715.3881356136,
-                "drawdown": -0.003491726163169395
-              },
-              {
-                "date": "2026-08-12",
-                "equity": 102972.6555092378,
-                "drawdown": -0.0009958093287190106
-              },
-              {
-                "date": "2026-08-13",
-                "equity": 103691.14264641727,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-14",
-                "equity": 103485.8640940656,
-                "drawdown": -0.0019797115463531245
-              },
-              {
-                "date": "2026-08-17",
-                "equity": 102996.64847229455,
-                "drawdown": -0.006697719365393873
-              },
-              {
-                "date": "2026-08-18",
-                "equity": 102300.82813575126,
-                "drawdown": -0.013408228274684242
-              },
-              {
-                "date": "2026-08-19",
-                "equity": 102515.43864084152,
-                "drawdown": -0.01133851914029782
-              },
-              {
-                "date": "2026-08-20",
-                "equity": 101654.31988774205,
-                "drawdown": -0.019643170156015244
-              },
-              {
-                "date": "2026-08-21",
-                "equity": 102070.21418599073,
-                "drawdown": -0.015632275033884424
-              },
-              {
-                "date": "2026-08-24",
-                "equity": 101770.2899438326,
-                "drawdown": -0.018524752004466793
-              },
-              {
-                "date": "2026-08-25",
-                "equity": 102095.54144743383,
-                "drawdown": -0.015388018284496874
-              },
-              {
-                "date": "2026-08-26",
-                "equity": 102118.20824807002,
-                "drawdown": -0.015169419086362046
-              },
-              {
-                "date": "2026-08-27",
-                "equity": 102787.36702478387,
-                "drawdown": -0.008716034933815231
-              },
-              {
-                "date": "2026-08-28",
-                "equity": 102554.09261421644,
-                "drawdown": -0.010965739244268247
               }
             ]
           },
           "matched_80_VUG_20_SHY": {
-            "as_of": "2026-08-28",
-            "equity": 102700.87593578924,
-            "return": 0.027008759357892487,
-            "max_drawdown": -0.025253200367637563,
-            "cash": 1.2789769243681803e-13,
-            "total_costs": 99.9000999000999,
-            "transactions": 2,
+            "as_of": "2026-10-09",
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0,
+            "cash": 100000.0,
+            "total_costs": 0.0,
+            "transactions": 0,
             "filled_rebalances": 0,
             "equity_curve": [
               {
-                "date": "2026-07-31",
+                "date": "2026-10-09",
                 "equity": 100000.0,
                 "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-03",
-                "equity": 101307.95764772368,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-04",
-                "equity": 103209.67141342288,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-05",
-                "equity": 102880.77677404572,
-                "drawdown": -0.003186664920768134
-              },
-              {
-                "date": "2026-08-06",
-                "equity": 102809.64421427231,
-                "drawdown": -0.003875869321860348
-              },
-              {
-                "date": "2026-08-07",
-                "equity": 103511.42252192451,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-10",
-                "equity": 103291.28903538098,
-                "drawdown": -0.002126658886336008
-              },
-              {
-                "date": "2026-08-11",
-                "equity": 102742.68485151388,
-                "drawdown": -0.007426597487323772
-              },
-              {
-                "date": "2026-08-12",
-                "equity": 103016.41790640488,
-                "drawdown": -0.004782125522570069
-              },
-              {
-                "date": "2026-08-13",
-                "equity": 103846.5100807863,
-                "drawdown": 0.0
-              },
-              {
-                "date": "2026-08-14",
-                "equity": 103474.92487729997,
-                "drawdown": -0.003578215610686053
-              },
-              {
-                "date": "2026-08-17",
-                "equity": 103035.96349465103,
-                "drawdown": -0.007805236646900471
-              },
-              {
-                "date": "2026-08-18",
-                "equity": 102097.5341094896,
-                "drawdown": -0.016841933060014358
-              },
-              {
-                "date": "2026-08-19",
-                "equity": 102172.68473725398,
-                "drawdown": -0.016118262830693064
-              },
-              {
-                "date": "2026-08-20",
-                "equity": 101453.09037384737,
-                "drawdown": -0.02304766626318977
-              },
-              {
-                "date": "2026-08-21",
-                "equity": 101756.41774978659,
-                "drawdown": -0.0201267459963147
-              },
-              {
-                "date": "2026-08-24",
-                "equity": 101224.05335423631,
-                "drawdown": -0.025253200367637563
-              },
-              {
-                "date": "2026-08-25",
-                "equity": 101682.56745078083,
-                "drawdown": -0.020837894584248007
-              },
-              {
-                "date": "2026-08-26",
-                "equity": 101684.58004760102,
-                "drawdown": -0.02081851408875879
-              },
-              {
-                "date": "2026-08-27",
-                "equity": 103073.75434238474,
-                "drawdown": -0.007441326028196915
-              },
-              {
-                "date": "2026-08-28",
-                "equity": 102700.87593578924,
-                "drawdown": -0.011031994663141087
               }
             ]
           }
@@ -8475,27 +8155,27 @@
             ]
           },
           "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-          "as_of": "2026-08-28",
-          "started_at": "2026-07-31",
-          "forward_sessions": 20,
+          "as_of": "2026-10-09",
+          "started_at": "2026-10-09",
+          "forward_sessions": 0,
           "minimum_sessions": 252,
-          "remaining_sessions": 232,
-          "filled_orders_including_initial_allocation": 1,
-          "initial_allocations": 1,
+          "remaining_sessions": 252,
+          "filled_orders_including_initial_allocation": 0,
+          "initial_allocations": 0,
           "account_fill_counts": {
             "candidate": {
-              "filled_orders": 1,
-              "initial_allocations": 1,
+              "filled_orders": 0,
+              "initial_allocations": 0,
               "completed_rebalances": 0
             },
             "SPY": {
-              "filled_orders": 1,
-              "initial_allocations": 1,
+              "filled_orders": 0,
+              "initial_allocations": 0,
               "completed_rebalances": 0
             },
             "matched_80_VUG_20_SHY": {
-              "filled_orders": 1,
-              "initial_allocations": 1,
+              "filled_orders": 0,
+              "initial_allocations": 0,
               "completed_rebalances": 0
             }
           },
@@ -8504,45 +8184,45 @@
           "remaining_filled_rebalances": 6,
           "integrity_violations": 0,
           "candidate": {
-            "equity": 104768.09776744699,
-            "return": 0.04768097767446999,
-            "max_drawdown": -0.016789525351776136
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0
           },
           "SPY": {
-            "equity": 102554.09261421644,
-            "return": 0.02554092614216441,
-            "max_drawdown": -0.019643170156015244
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0
           },
           "matched_80_VUG_20_SHY": {
-            "equity": 102700.87593578924,
-            "return": 0.027008759357892487,
-            "max_drawdown": -0.025253200367637563
+            "equity": 100000.0,
+            "return": 0.0,
+            "max_drawdown": 0.0
           },
-          "return_difference_vs_SPY": 0.022140051532305582,
-          "return_difference_vs_matched": 0.020672218316577506,
+          "return_difference_vs_SPY": 0.0,
+          "return_difference_vs_matched": 0.0,
           "forward_diagnostics": {
             "SPY": {
-              "annualized_return_difference": 0.424332850332646,
+              "annualized_return_difference": 0.0,
               "persistence_available": false,
               "first_half_annualized_difference": null,
               "second_half_annualized_difference": null,
               "active_newey_west": {
-                "mean_daily": 0.0010859422453450118,
-                "annualized": 0.27365744582694296,
-                "t_stat": 1.5325286953688146,
-                "lag": 5.0
+                "mean_daily": 0.0,
+                "annualized": 0.0,
+                "t_stat": 0.0,
+                "lag": 0.0
               }
             },
             "matched_80_VUG_20_SHY": {
-              "annualized_return_difference": 0.3993460565926592,
+              "annualized_return_difference": 0.0,
               "persistence_available": false,
               "first_half_annualized_difference": null,
               "second_half_annualized_difference": null,
               "active_newey_west": {
-                "mean_daily": 0.0010059553360860286,
-                "annualized": 0.2535007446936792,
-                "t_stat": 1.3065384568168747,
-                "lag": 5.0
+                "mean_daily": 0.0,
+                "annualized": 0.0,
+                "t_stat": 0.0,
+                "lag": 0.0
               }
             }
           },
@@ -9296,5 +8976,5 @@
   },
   "research_snapshot_data_through": "2026-07-31",
   "research_snapshot_sha256": "d480fb82e712f06aabe0a98461e222344656b87022b8bda2cd7ccaa4c29ae88b",
-  "live_snapshot_sha256": "69ae46385dd1e7cf41f63008ce40717a4ed50bb467fac3c64b2eb99d083dba67"
+  "live_snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f"
 }

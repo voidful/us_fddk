@@ -143,6 +143,7 @@ def build_v25_paper_bundle(
         "mode": candidate_state["mode"],
         "as_of": candidate_state["as_of"],
         "started_at": candidate_state.get("started_at"),
+        "observation_segment": candidate_state.get("observation_segment"),
         "snapshot_sha256": candidate_state.get("snapshot_sha256"),
         "initial_cash": float(candidate_state["initial_cash"]),
         "cost_bps": float(candidate_state["cost_bps"]),

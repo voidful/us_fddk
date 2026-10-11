@@ -60,7 +60,28 @@ jobs:
               >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Fetch the latest completed U.S. session
-        run: ./.venv/bin/python -m usfddk v25-live-update
+        id: live_update
+        shell: bash
+        run: |
+          set +e
+          ./.venv/bin/python -m usfddk v25-live-update > "$RUNNER_TEMP/v25-live-update.log" 2>&1
+          update_exit=$?
+          sed -n '1,240p' "$RUNNER_TEMP/v25-live-update.log"
+          if [ "$update_exit" -eq 0 ]; then
+            echo "outcome=updated_or_idempotent" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if grep -Fq "v25_live_continuity_gap" "$RUNNER_TEMP/v25-live-update.log"; then
+            echo "outcome=continuity_blocked" >> "$GITHUB_OUTPUT"
+            {
+              echo "## v25 LIVE update blocked"
+              echo
+              echo "The stored Paper date is more than one completed XNYS session behind."
+              echo "No state, snapshot, evidence ledger, website artifact, commit, or Pages deployment was created."
+              echo "Manual continuity review is required; the workflow will not backfill missed sessions."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$update_exit"
       - name: Export only the frozen v25 LIVE contract
         run: ./.venv/bin/python -m usfddk v25-site-export
       - name: Audit website and append the evidence chain
