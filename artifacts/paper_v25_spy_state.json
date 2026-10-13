@@ -4,23 +4,45 @@
   "strategy": "v25 SPY 基準（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-10-11T11:16:40.921512+00:00",
-  "updated_at": "2026-10-11T11:16:40.922470+00:00",
+  "updated_at": "2026-10-13T12:03:07.139963+00:00",
   "initial_cash": 100000.0,
-  "cash": 100000.0,
+  "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-10-09",
-  "holdings": {},
-  "pending_order": {
-    "signal_date": "2026-09-30",
-    "queued_at": "2026-10-09",
-    "execute_after": "2026-10-09",
-    "target_weights": {
-      "SPY": 1.0
-    },
-    "status": "pending"
+  "as_of": "2026-10-12",
+  "holdings": {
+    "SPY": {
+      "shares": 128.27768579311817,
+      "last_price": 778.0999755859375,
+      "market_value": 99812.86418384581
+    }
   },
-  "order_history": [],
-  "transactions": [],
+  "pending_order": null,
+  "order_history": [
+    {
+      "signal_date": "2026-09-30",
+      "queued_at": "2026-10-09",
+      "execute_after": "2026-10-09",
+      "target_weights": {
+        "SPY": 1.0
+      },
+      "status": "filled",
+      "filled_at": "2026-10-12",
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-10-12",
+      "signal_date": "2026-09-30",
+      "ticker": "SPY",
+      "side": "BUY",
+      "shares": 128.27768579311817,
+      "price": 778.780029296875,
+      "notional": 99900.0999000999,
+      "cost": 99.9000999000999
+    }
+  ],
   "equity_curve": [
     {
       "date": "2026-10-09",
@@ -29,11 +51,19 @@
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": 0.0
+    },
+    {
+      "date": "2026-10-12",
+      "equity": 99812.86418384581,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999,
+      "drawdown": -0.001871358161541825
     }
   ],
   "adjustment_rebases": [],
-  "total_costs": 0.0,
-  "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+  "total_costs": 99.9000999000999,
+  "snapshot_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
   "started_at": "2026-10-09",
   "observation_segment": {
     "schema_version": 1,

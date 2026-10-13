@@ -15,27 +15,27 @@
     ]
   },
   "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-  "as_of": "2026-10-09",
+  "as_of": "2026-10-12",
   "started_at": "2026-10-09",
-  "forward_sessions": 0,
+  "forward_sessions": 1,
   "minimum_sessions": 252,
-  "remaining_sessions": 252,
-  "filled_orders_including_initial_allocation": 0,
-  "initial_allocations": 0,
+  "remaining_sessions": 251,
+  "filled_orders_including_initial_allocation": 1,
+  "initial_allocations": 1,
   "account_fill_counts": {
     "candidate": {
-      "filled_orders": 0,
-      "initial_allocations": 0,
+      "filled_orders": 1,
+      "initial_allocations": 1,
       "completed_rebalances": 0
     },
     "SPY": {
-      "filled_orders": 0,
-      "initial_allocations": 0,
+      "filled_orders": 1,
+      "initial_allocations": 1,
       "completed_rebalances": 0
     },
     "matched_80_VUG_20_SHY": {
-      "filled_orders": 0,
-      "initial_allocations": 0,
+      "filled_orders": 1,
+      "initial_allocations": 1,
       "completed_rebalances": 0
     }
   },
@@ -44,25 +44,25 @@
   "remaining_filled_rebalances": 6,
   "integrity_violations": 0,
   "candidate": {
-    "equity": 100000.0,
-    "return": 0.0,
-    "max_drawdown": 0.0
+    "equity": 99554.69383614109,
+    "return": -0.004453061638589162,
+    "max_drawdown": -0.004453061638589162
   },
   "SPY": {
-    "equity": 100000.0,
-    "return": 0.0,
-    "max_drawdown": 0.0
+    "equity": 99812.86418384581,
+    "return": -0.001871358161541825,
+    "max_drawdown": -0.001871358161541825
   },
   "matched_80_VUG_20_SHY": {
-    "equity": 100000.0,
-    "return": 0.0,
-    "max_drawdown": 0.0
+    "equity": 99576.25301650328,
+    "return": -0.0042374698349672,
+    "max_drawdown": -0.0042374698349672
   },
-  "return_difference_vs_SPY": 0.0,
-  "return_difference_vs_matched": 0.0,
+  "return_difference_vs_SPY": -0.002581703477047337,
+  "return_difference_vs_matched": -0.00021559180362196173,
   "forward_diagnostics": {
     "SPY": {
-      "annualized_return_difference": 0.0,
+      "annualized_return_difference": -0.29898133044428665,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,
@@ -74,7 +74,7 @@
       }
     },
     "matched_80_VUG_20_SHY": {
-      "annualized_return_difference": 0.0,
+      "annualized_return_difference": -0.018213171140234907,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,

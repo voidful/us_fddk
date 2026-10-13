@@ -4,24 +4,61 @@
   "strategy": "v25 公平基準 80% VUG／20% SHY（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-10-11T11:16:40.923169+00:00",
-  "updated_at": "2026-10-11T11:16:40.924097+00:00",
+  "updated_at": "2026-10-13T12:03:07.146223+00:00",
   "initial_cash": 100000.0,
-  "cash": 100000.0,
+  "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-10-09",
-  "holdings": {},
-  "pending_order": {
-    "signal_date": "2026-09-30",
-    "queued_at": "2026-10-09",
-    "execute_after": "2026-10-09",
-    "target_weights": {
-      "VUG": 0.8,
-      "SHY": 0.2
+  "as_of": "2026-10-12",
+  "holdings": {
+    "VUG": {
+      "shares": 868.6020874312105,
+      "last_price": 91.63999938964844,
+      "market_value": 79598.6947620435
     },
-    "status": "pending"
+    "SHY": {
+      "shares": 246.1199791193659,
+      "last_price": 81.16999816894531,
+      "market_value": 19977.55825445979
+    }
   },
-  "order_history": [],
-  "transactions": [],
+  "pending_order": null,
+  "order_history": [
+    {
+      "signal_date": "2026-09-30",
+      "queued_at": "2026-10-09",
+      "execute_after": "2026-10-09",
+      "target_weights": {
+        "VUG": 0.8,
+        "SHY": 0.2
+      },
+      "status": "filled",
+      "filled_at": "2026-10-12",
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-10-12",
+      "signal_date": "2026-09-30",
+      "ticker": "VUG",
+      "side": "BUY",
+      "shares": 868.6020874312105,
+      "price": 92.01000213623047,
+      "notional": 79920.07992007992,
+      "cost": 79.92007992007993
+    },
+    {
+      "date": "2026-10-12",
+      "signal_date": "2026-09-30",
+      "ticker": "SHY",
+      "side": "BUY",
+      "shares": 246.1199791193659,
+      "price": 81.18000030517578,
+      "notional": 19980.01998001998,
+      "cost": 19.980019980019982
+    }
+  ],
   "equity_curve": [
     {
       "date": "2026-10-09",
@@ -30,11 +67,19 @@
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": 0.0
+    },
+    {
+      "date": "2026-10-12",
+      "equity": 99576.25301650328,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.999000999000999,
+      "cost": 99.9000999000999,
+      "drawdown": -0.0042374698349672
     }
   ],
   "adjustment_rebases": [],
-  "total_costs": 0.0,
-  "snapshot_sha256": "e626801b2a3cc4675fa755f05b0f6314838755e373db7566b8e75ff896d6c49f",
+  "total_costs": 99.9000999000999,
+  "snapshot_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
   "started_at": "2026-10-09",
   "observation_segment": {
     "schema_version": 1,
