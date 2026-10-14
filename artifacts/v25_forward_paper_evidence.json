@@ -15,11 +15,11 @@
     ]
   },
   "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-  "as_of": "2026-10-12",
+  "as_of": "2026-10-13",
   "started_at": "2026-10-09",
-  "forward_sessions": 1,
+  "forward_sessions": 2,
   "minimum_sessions": 252,
-  "remaining_sessions": 251,
+  "remaining_sessions": 250,
   "filled_orders_including_initial_allocation": 1,
   "initial_allocations": 1,
   "account_fill_counts": {
@@ -44,25 +44,25 @@
   "remaining_filled_rebalances": 6,
   "integrity_violations": 0,
   "candidate": {
-    "equity": 99554.69383614109,
-    "return": -0.004453061638589162,
+    "equity": 99625.17585708362,
+    "return": -0.0037482414291637456,
     "max_drawdown": -0.004453061638589162
   },
   "SPY": {
-    "equity": 99812.86418384581,
-    "return": -0.001871358161541825,
-    "max_drawdown": -0.001871358161541825
+    "equity": 99801.32357661564,
+    "return": -0.0019867642338435854,
+    "max_drawdown": -0.0019867642338435854
   },
   "matched_80_VUG_20_SHY": {
-    "equity": 99576.25301650328,
-    "return": -0.0042374698349672,
+    "equity": 99676.72322739374,
+    "return": -0.003232767726062624,
     "max_drawdown": -0.0042374698349672
   },
-  "return_difference_vs_SPY": -0.002581703477047337,
-  "return_difference_vs_matched": -0.00021559180362196173,
+  "return_difference_vs_SPY": -0.0017614771953201602,
+  "return_difference_vs_matched": -0.0005154737031011214,
   "forward_diagnostics": {
     "SPY": {
-      "annualized_return_difference": -0.29898133044428665,
+      "annualized_return_difference": -0.1553213993871615,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,
@@ -74,7 +74,7 @@
       }
     },
     "matched_80_VUG_20_SHY": {
-      "annualized_return_difference": -0.018213171140234907,
+      "annualized_return_difference": -0.041959690060108246,
       "persistence_available": false,
       "first_half_annualized_difference": null,
       "second_half_annualized_difference": null,

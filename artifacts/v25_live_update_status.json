@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-10-13T12:03:07.167097Z",
-  "previous_data_through": "2026-10-09",
-  "data_through": "2026-10-12",
-  "expected_session": "2026-10-12",
+  "generated_at_utc": "2026-10-14T09:39:37.253421Z",
+  "previous_data_through": "2026-10-12",
+  "data_through": "2026-10-13",
+  "expected_session": "2026-10-13",
   "data_advanced": true,
   "idempotent_no_new_session": false,
   "state_changed_without_new_session": false,
@@ -13,12 +13,12 @@
   "private_deploy_candidate": true,
   "reference_trade_allowed": false,
   "snapshot": {
-    "path": "/home/runner/work/us_fddk/us_fddk/artifacts/snapshot_v25_live_20261012_67581eef.zip",
-    "panel_sha256": "67581eef1b0a2fc0656998bfa2001c4d517f1e8c306a2099a3901bcd412f0133",
-    "archive_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
-    "rows": 72,
+    "path": "/home/runner/work/us_fddk/us_fddk/artifacts/snapshot_v25_live_20261013_a102ea93.zip",
+    "panel_sha256": "a102ea935f35bab1d465e05614e3a687301e4afb899cd6ef77f46654bde5a519",
+    "archive_sha256": "b5518a9545e2f6bc8f3a44d5f93efb7f3f5b1f137379f9b7740f30f8944a24a1",
+    "rows": 73,
     "start": "2026-07-01",
-    "end": "2026-10-12",
+    "end": "2026-10-13",
     "tickers": [
       "GLD",
       "SHY",
@@ -30,8 +30,8 @@
       "errors": [],
       "warnings": [],
       "stats": {
-        "last_session": "2026-10-12",
-        "expected_session": "2026-10-12",
+        "last_session": "2026-10-13",
+        "expected_session": "2026-10-13",
         "last_close_coverage": 1.0,
         "thin_tickers": {},
         "positive_price_fraction": 1.0,
@@ -43,31 +43,31 @@
   },
   "accounts": {
     "candidate": {
-      "as_of": "2026-10-12",
+      "as_of": "2026-10-13",
       "started_at": "2026-10-09",
       "mode": "live",
       "transactions": 2,
-      "snapshot_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
-      "performance_state_sha256": "f049b6da7a3973a171a0478e280c252aea98d45bd57cc4eb519833b8b1c210f1",
-      "proposed_performance_state_sha256": "f049b6da7a3973a171a0478e280c252aea98d45bd57cc4eb519833b8b1c210f1"
+      "snapshot_sha256": "b5518a9545e2f6bc8f3a44d5f93efb7f3f5b1f137379f9b7740f30f8944a24a1",
+      "performance_state_sha256": "548fbdb3da89e80f1634a7ca3eddd436468ae7615049492b5783c9f56b2a3fdd",
+      "proposed_performance_state_sha256": "548fbdb3da89e80f1634a7ca3eddd436468ae7615049492b5783c9f56b2a3fdd"
     },
     "SPY": {
-      "as_of": "2026-10-12",
+      "as_of": "2026-10-13",
       "started_at": "2026-10-09",
       "mode": "live",
       "transactions": 1,
-      "snapshot_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
-      "performance_state_sha256": "1e9ac299dc42f4ab322b6788c9f09849eddb7013405cd5be77051485a7e674b3",
-      "proposed_performance_state_sha256": "1e9ac299dc42f4ab322b6788c9f09849eddb7013405cd5be77051485a7e674b3"
+      "snapshot_sha256": "b5518a9545e2f6bc8f3a44d5f93efb7f3f5b1f137379f9b7740f30f8944a24a1",
+      "performance_state_sha256": "9a33db8259157e1bccfe23bcf02f213dbc5f16cea10ea1caac01d76afb2b103e",
+      "proposed_performance_state_sha256": "9a33db8259157e1bccfe23bcf02f213dbc5f16cea10ea1caac01d76afb2b103e"
     },
     "matched": {
-      "as_of": "2026-10-12",
+      "as_of": "2026-10-13",
       "started_at": "2026-10-09",
       "mode": "live",
       "transactions": 2,
-      "snapshot_sha256": "0c000a3ea854da11212e04256c397de56ec5fe9225726810951a1953cc26fe99",
-      "performance_state_sha256": "9e91bf0235e080813e5480960c20ff3bb6dcdcd497f7af06aca398a7e783578c",
-      "proposed_performance_state_sha256": "9e91bf0235e080813e5480960c20ff3bb6dcdcd497f7af06aca398a7e783578c"
+      "snapshot_sha256": "b5518a9545e2f6bc8f3a44d5f93efb7f3f5b1f137379f9b7740f30f8944a24a1",
+      "performance_state_sha256": "d99ba9a2044b6be0709e6b931b83e1f3daaee26fa5401f24a3cea137ba3b7996",
+      "proposed_performance_state_sha256": "d99ba9a2044b6be0709e6b931b83e1f3daaee26fa5401f24a3cea137ba3b7996"
     }
   },
   "forward_evidence": {
@@ -87,11 +87,11 @@
       ]
     },
     "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-    "as_of": "2026-10-12",
+    "as_of": "2026-10-13",
     "started_at": "2026-10-09",
-    "forward_sessions": 1,
+    "forward_sessions": 2,
     "minimum_sessions": 252,
-    "remaining_sessions": 251,
+    "remaining_sessions": 250,
     "filled_orders_including_initial_allocation": 1,
     "initial_allocations": 1,
     "account_fill_counts": {
@@ -116,25 +116,25 @@
     "remaining_filled_rebalances": 6,
     "integrity_violations": 0,
     "candidate": {
-      "equity": 99554.69383614109,
-      "return": -0.004453061638589162,
+      "equity": 99625.17585708362,
+      "return": -0.0037482414291637456,
       "max_drawdown": -0.004453061638589162
     },
     "SPY": {
-      "equity": 99812.86418384581,
-      "return": -0.001871358161541825,
-      "max_drawdown": -0.001871358161541825
+      "equity": 99801.32357661564,
+      "return": -0.0019867642338435854,
+      "max_drawdown": -0.0019867642338435854
     },
     "matched_80_VUG_20_SHY": {
-      "equity": 99576.25301650328,
-      "return": -0.0042374698349672,
+      "equity": 99676.72322739374,
+      "return": -0.003232767726062624,
       "max_drawdown": -0.0042374698349672
     },
-    "return_difference_vs_SPY": -0.002581703477047337,
-    "return_difference_vs_matched": -0.00021559180362196173,
+    "return_difference_vs_SPY": -0.0017614771953201602,
+    "return_difference_vs_matched": -0.0005154737031011214,
     "forward_diagnostics": {
       "SPY": {
-        "annualized_return_difference": -0.29898133044428665,
+        "annualized_return_difference": -0.1553213993871615,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
@@ -146,7 +146,7 @@
         }
       },
       "matched_80_VUG_20_SHY": {
-        "annualized_return_difference": -0.018213171140234907,
+        "annualized_return_difference": -0.041959690060108246,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
