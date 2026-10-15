@@ -4,21 +4,21 @@
   "strategy": "v25 公平基準 80% VUG／20% SHY（隔離 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-10-11T11:16:40.923169+00:00",
-  "updated_at": "2026-10-14T09:39:37.232868+00:00",
+  "updated_at": "2026-10-15T09:18:02.891014+00:00",
   "initial_cash": 100000.0,
   "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-10-13",
+  "as_of": "2026-10-14",
   "holdings": {
     "VUG": {
       "shares": 868.6020874312105,
-      "last_price": 91.75,
-      "market_value": 79694.24152181357
+      "last_price": 89.87000274658203,
+      "market_value": 78061.27198312977
     },
     "SHY": {
       "shares": 246.1199791193659,
-      "last_price": 81.19000244140625,
-      "market_value": 19982.481705580172
+      "last_price": 81.16999816894531,
+      "market_value": 19977.55825445979
     }
   },
   "pending_order": null,
@@ -83,11 +83,19 @@
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": -0.003232767726062624
+    },
+    {
+      "date": "2026-10-14",
+      "equity": 98038.83023758956,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": -0.01961169762410442
     }
   ],
   "adjustment_rebases": [],
   "total_costs": 99.9000999000999,
-  "snapshot_sha256": "b5518a9545e2f6bc8f3a44d5f93efb7f3f5b1f137379f9b7740f30f8944a24a1",
+  "snapshot_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
   "started_at": "2026-10-09",
   "observation_segment": {
     "schema_version": 1,
