@@ -72,7 +72,7 @@ def test_v25_live_audit_accepts_synchronized_site_and_states() -> None:
         matched,
         now=datetime(2026, 8, 3, tzinfo=UTC),
     )
-    assert audit["integrity_ok"] is True
+    assert audit["integrity_ok"] is True, audit["errors"]
     assert audit["status"] == "fresh"
     assert audit["decision"] == "paper_only"
     assert audit["reference_trade_allowed"] is False

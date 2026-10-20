@@ -150,6 +150,24 @@ def test_numerical_receipt_rebuild_uses_the_frozen_execution_contract(workflow: 
         )
 
 
+def test_daily_live_production_and_verification_share_the_numeric_runtime() -> None:
+    text = (ROOT / ".github/workflows/daily-paper-update.yml").read_text(encoding="utf-8")
+    job = text.split("  refresh:\n", 1)[1].split("    steps:\n", 1)[0]
+    live_and_checks = text.split("      - name: Fetch the latest completed U.S. session\n", 1)[1]
+    live_and_checks = live_and_checks.split("      - name: Commit genuinely advanced", 1)[0]
+    expected = {
+        "OPENBLAS_CORETYPE": "HASWELL",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "PYTHONHASHSEED": "0",
+    }
+    for name, value in expected.items():
+        assert re.search(rf"^      {name}: [\"']?{value}[\"']?\s*$", job, re.MULTILINE), name
+        assert not re.search(rf"^\s+{name}:", live_and_checks, re.MULTILINE), name
+
+
 def test_formal_release_firewall_is_rebuilt_and_diff_guarded() -> None:
     for workflow in WORKFLOWS:
         text = workflow.read_text(encoding="utf-8")

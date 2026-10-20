@@ -17,6 +17,13 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      OPENBLAS_CORETYPE: "HASWELL"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
     steps:
       - uses: actions/checkout@v7
         with:
@@ -68,7 +75,11 @@ jobs:
           update_exit=$?
           sed -n '1,240p' "$RUNNER_TEMP/v25-live-update.log"
           if [ "$update_exit" -eq 0 ]; then
+            if ! data_advanced="$(jq -er '.data_advanced | select(type == "boolean") | tostring' artifacts/v25_live_update_status.json)"; then
+              exit 1
+            fi
             echo "outcome=updated_or_idempotent" >> "$GITHUB_OUTPUT"
+            echo "data_advanced=$data_advanced" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if grep -Fq "v25_live_continuity_gap" "$RUNNER_TEMP/v25-live-update.log"; then
@@ -93,14 +104,25 @@ jobs:
             echo "No new U.S. session; the formal append-only ledger remains untouched."
           fi
           ./.venv/bin/python -m usfddk v25-refresh-status
+      - name: Preserve audited LIVE observation
+        if: steps.live_update.outputs.data_advanced == 'true'
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: v25-observation-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          path: |
+            artifacts/snapshot_v25_live_*.zip
+            artifacts/paper_v25_state.json
+            artifacts/paper_v25_spy_state.json
+            artifacts/paper_v25_matched_state.json
+            artifacts/v25_live_update_status.json
+            artifacts/v25_reference_readiness.json
+            artifacts/v25_live_refresh_status.json
+            artifacts/v25_forward_paper_evidence.json
+            artifacts/v25_live_evidence_ledger.jsonl
+            artifacts/site_data.json
+            site/data/trading-data.json
       - name: Verify research code
-        env:
-          OPENBLAS_CORETYPE: "HASWELL"
-          OPENBLAS_NUM_THREADS: "1"
-          OMP_NUM_THREADS: "1"
-          MKL_NUM_THREADS: "1"
-          NUMEXPR_NUM_THREADS: "1"
-          PYTHONHASHSEED: "0"
         run: |
           ./.venv/bin/pytest tests/test_ci_runtime_contract.py
           ./.venv/bin/python scripts/build_short_term_french_prior_return_schema_repair_report.py
