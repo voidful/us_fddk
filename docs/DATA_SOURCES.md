@@ -3,6 +3,8 @@
 | 資料 | 本版用途 | 時間／真實性邊界 |
 |---|---|---|
 | Yahoo Finance via yfinance | 日 OHLCV、調整收盤、ETF、個股、VIX | 便利但非官方；可能回溯修訂，因此每次凍結快照。 |
+| SEC Insider Transactions Data Sets | Round 42 固定季度 Form 4／4-A 細樣本的 as-filed 八表交叉核對 | 季度扁平檔不是完整 filing 分母，也不提供歷史公開時間；不能單獨建立 known-at 或交易訊號。 |
+| SEC EDGAR daily Form index／complete submission | Round 42 accession 路徑與完整 as-filed 內容的准入證據 | daily index 只是日級 archive evidence，不是精確公開時間；本輪在唯一匹配驗證停止，complete-submission request 及 cold replay 均為 0。 |
 | [SEC Company Facts API](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) | 下一階段的申報日可用基本面 | 官方、免 API key；必須遵守 SEC fair-access 與 User-Agent，且只能在 filing date 後使用。 |
 | [FINRA OTC Transparency](https://www.finra.org/filing-reporting/otc-transparency/finra-developer-api-service-available-otc-transparency-data) | 下一階段的 ATS／Non-ATS 彙總研究 | 週／月彙總且延遲；不是逐筆內外盤，不能宣稱即時買賣方向。 |
 | [French Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | 因子定義與未來外部基準 | 官方研究資料會因 CRSP 修訂而重建歷史；其頁面也明示歷史報酬可能改變。 |

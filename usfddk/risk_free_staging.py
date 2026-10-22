@@ -35,6 +35,35 @@ REBIND_PROTOCOL_SHA256 = (
 REBIND_PROTOCOL_RECEIPT_SHA256 = (
     "f208061b579951ad514366af277e5349428e0dc45d84b58da4f5a5b7d3b18adb"
 )
+REBIND_AMENDMENT_PATH = "docs/SHORT_TERM_RISK_FREE_REBIND_AMENDMENT_V1_1.md"
+REBIND_AMENDMENT_RECEIPT_PATH = (
+    "artifacts/short_term_risk_free_rebind_amendment_v1_1_receipt.json"
+)
+REBIND_AMENDMENT_SHA256 = (
+    "3739d072a8cd755a50e47bee61023c68c48e71df95c2e0f3228badd51d64fcec"
+)
+REBIND_AMENDMENT_RECEIPT_SHA256 = (
+    "a96ec8743f97b8b16dfd3f695d116d75ff4b7983fa44827b88c16ef703324ea8"
+)
+HISTORICAL_FORMAL_VALIDATOR_PATH = "usfddk/formal_backtest_readiness.py"
+HISTORICAL_FORMAL_VALIDATOR_SHA256 = (
+    "f1c98d5fee063dac34d73359b2c3c8a08f92eed10a195caeb0302306032ccbf0"
+)
+CURRENT_FORMAL_VALIDATOR_SHA256 = (
+    "dd8e4f56a3f8528917a1ac17451040c71d758eb89cd5869d0736d4f22423aa66"
+)
+CURRENT_FORMAL_RELEASE_INTEGRATION_PATH = "usfddk/formal_release_integration.py"
+CURRENT_FORMAL_RELEASE_INTEGRATION_SHA256 = (
+    "b27037b8eebbe4ce83064523b4c8d3db99f3ad5edb342b682cc71cdcab770fa5"
+)
+GLOBAL_TRIAL_LEDGER_PROTOCOL_PATH = "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md"
+GLOBAL_TRIAL_LEDGER_PROTOCOL_SHA256 = (
+    "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+)
+GLOBAL_TRIAL_LEDGER_PATH = "artifacts/short_term_global_trial_ledger.json"
+GLOBAL_TRIAL_LEDGER_SHA256 = (
+    "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49"
+)
 PARENT_PROTOCOL_PATH = "docs/SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md"
 PARENT_PROTOCOL_SHA256 = (
     "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
@@ -103,77 +132,185 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def _rebind_integrity(root: Path) -> dict[str, Any]:
-    """Validate the versioned parent-chain rebind without mutating Round 19."""
+    """Validate immutable Round 36 lineage plus the effective Round 41 rebind."""
 
-    receipt_path = root / REBIND_PROTOCOL_RECEIPT_PATH
+    historical_receipt_path = root / REBIND_PROTOCOL_RECEIPT_PATH
+    amendment_receipt_path = root / REBIND_AMENDMENT_RECEIPT_PATH
     try:
-        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-        checks = {
+        historical = json.loads(historical_receipt_path.read_text(encoding="utf-8"))
+        amendment = json.loads(amendment_receipt_path.read_text(encoding="utf-8"))
+        historical_checks = {
             REBIND_PROTOCOL_PATH: _sha256_file(root / REBIND_PROTOCOL_PATH)
             == REBIND_PROTOCOL_SHA256,
-            REBIND_PROTOCOL_RECEIPT_PATH: _sha256_file(receipt_path)
+            REBIND_PROTOCOL_RECEIPT_PATH: _sha256_file(historical_receipt_path)
             == REBIND_PROTOCOL_RECEIPT_SHA256,
-            receipt["parent_round19_protocol"]["path"]: _sha256_file(
-                root / receipt["parent_round19_protocol"]["path"]
+            historical["parent_round19_protocol"]["path"]: _sha256_file(
+                root / historical["parent_round19_protocol"]["path"]
             )
-            == receipt["parent_round19_protocol"]["sha256"],
-            receipt["parent_round19_receipt"]["path"]: _sha256_file(
-                root / receipt["parent_round19_receipt"]["path"]
+            == historical["parent_round19_protocol"]["sha256"],
+            historical["parent_round19_receipt"]["path"]: _sha256_file(
+                root / historical["parent_round19_receipt"]["path"]
             )
-            == receipt["parent_round19_receipt"]["sha256"],
-            receipt["parent_round35_protocol"]["path"]: _sha256_file(
-                root / receipt["parent_round35_protocol"]["path"]
+            == historical["parent_round19_receipt"]["sha256"],
+            historical["parent_round35_protocol"]["path"]: _sha256_file(
+                root / historical["parent_round35_protocol"]["path"]
             )
-            == receipt["parent_round35_protocol"]["sha256"],
-            receipt["parent_round35_receipt"]["path"]: _sha256_file(
-                root / receipt["parent_round35_receipt"]["path"]
+            == historical["parent_round35_protocol"]["sha256"],
+            historical["parent_round35_receipt"]["path"]: _sha256_file(
+                root / historical["parent_round35_receipt"]["path"]
             )
-            == receipt["parent_round35_receipt"]["sha256"],
-            receipt["current_formal_validator"]["path"]: _sha256_file(
-                root / receipt["current_formal_validator"]["path"]
-            )
-            == receipt["current_formal_validator"]["sha256"],
-            receipt["current_formal_release_integration"]["path"]: _sha256_file(
-                root / receipt["current_formal_release_integration"]["path"]
-            )
-            == receipt["current_formal_release_integration"]["sha256"],
+            == historical["parent_round35_receipt"]["sha256"],
         }
-        passed = bool(
-            receipt["schema_version"] == 1
-            and receipt["research_round"] == 36
-            and receipt["status"]
+        historical_passed = bool(
+            historical["schema_version"] == 1
+            and historical["research_round"] == 36
+            and historical["status"]
             == "frozen_after_formal_release_integration_before_risk_free_rebind"
-            and receipt["protocol"]
+            and historical["protocol"]
             == {
                 "path": REBIND_PROTOCOL_PATH,
                 "sha256": REBIND_PROTOCOL_SHA256,
             }
-            and receipt["provider_release_receipt_present_at_freeze"] is False
-            and receipt["formal_provider_run_present_at_freeze"] is False
-            and receipt["formal_backtest_authorized"] is False
-            and receipt["strategy_run_count"] == 0
-            and receipt["paper_authorized"] is False
-            and receipt["paper_state"] == "all_cash"
-            and receipt["real_money_action_usd"] == 0
-            and receipt["frozen_control_count"] == 8
-            and receipt["frozen_attack_count"] == 8
+            and historical["current_formal_validator"]
+            == {
+                "path": HISTORICAL_FORMAL_VALIDATOR_PATH,
+                "sha256": HISTORICAL_FORMAL_VALIDATOR_SHA256,
+            }
+            and historical["current_formal_release_integration"]
+            == {
+                "path": CURRENT_FORMAL_RELEASE_INTEGRATION_PATH,
+                "sha256": CURRENT_FORMAL_RELEASE_INTEGRATION_SHA256,
+            }
+            and historical["provider_release_receipt_present_at_freeze"] is False
+            and historical["formal_provider_run_present_at_freeze"] is False
+            and historical["formal_backtest_authorized"] is False
+            and historical["strategy_run_count"] == 0
+            and historical["paper_authorized"] is False
+            and historical["paper_state"] == "all_cash"
+            and historical["real_money_action_usd"] == 0
+            and historical["frozen_control_count"] == 8
+            and historical["frozen_attack_count"] == 8
+            and all(historical_checks.values())
+        )
+        checks = {
+            REBIND_AMENDMENT_PATH: _sha256_file(root / REBIND_AMENDMENT_PATH)
+            == REBIND_AMENDMENT_SHA256,
+            REBIND_AMENDMENT_RECEIPT_PATH: _sha256_file(amendment_receipt_path)
+            == REBIND_AMENDMENT_RECEIPT_SHA256,
+            amendment["historical_round36_protocol"]["path"]: _sha256_file(
+                root / amendment["historical_round36_protocol"]["path"]
+            )
+            == amendment["historical_round36_protocol"]["sha256"],
+            amendment["historical_round36_receipt"]["path"]: _sha256_file(
+                root / amendment["historical_round36_receipt"]["path"]
+            )
+            == amendment["historical_round36_receipt"]["sha256"],
+            amendment["current_formal_validator"]["path"]: _sha256_file(
+                root / amendment["current_formal_validator"]["path"]
+            )
+            == amendment["current_formal_validator"]["sha256"],
+            amendment["current_formal_release_integration"]["path"]: _sha256_file(
+                root / amendment["current_formal_release_integration"]["path"]
+            )
+            == amendment["current_formal_release_integration"]["sha256"],
+            amendment["global_trial_ledger_protocol"]["path"]: _sha256_file(
+                root / amendment["global_trial_ledger_protocol"]["path"]
+            )
+            == amendment["global_trial_ledger_protocol"]["sha256"],
+            amendment["global_trial_ledger"]["path"]: _sha256_file(
+                root / amendment["global_trial_ledger"]["path"]
+            )
+            == amendment["global_trial_ledger"]["sha256"],
+        }
+        passed = bool(
+            historical_passed
+            and amendment["schema_version"] == 1
+            and amendment["research_round"] == 41
+            and amendment["status"]
+            == "frozen_after_ci_rejected_formal_validator_drift_before_rebind_implementation"
+            and amendment["ci_failure"]
+            == {
+                "provider": "github_actions",
+                "run_id": 31338931902,
+                "run_url": "https://github.com/voidful/us_fddk/actions/runs/31338931902",
+                "conclusion": "failure",
+                "error_code": "rf_staging_rebind_integrity_failed",
+            }
+            and amendment["amendment"]
+            == {
+                "path": REBIND_AMENDMENT_PATH,
+                "sha256": REBIND_AMENDMENT_SHA256,
+            }
+            and amendment["historical_round36_protocol"]
+            == {
+                "path": REBIND_PROTOCOL_PATH,
+                "sha256": REBIND_PROTOCOL_SHA256,
+            }
+            and amendment["historical_round36_receipt"]
+            == {
+                "path": REBIND_PROTOCOL_RECEIPT_PATH,
+                "sha256": REBIND_PROTOCOL_RECEIPT_SHA256,
+            }
+            and amendment["historical_formal_validator"]
+            == historical["current_formal_validator"]
+            and amendment["current_formal_validator"]
+            == {
+                "path": HISTORICAL_FORMAL_VALIDATOR_PATH,
+                "sha256": CURRENT_FORMAL_VALIDATOR_SHA256,
+            }
+            and amendment["current_formal_release_integration"]
+            == {
+                "path": CURRENT_FORMAL_RELEASE_INTEGRATION_PATH,
+                "sha256": CURRENT_FORMAL_RELEASE_INTEGRATION_SHA256,
+            }
+            and amendment["global_trial_ledger_protocol"]
+            == {
+                "path": GLOBAL_TRIAL_LEDGER_PROTOCOL_PATH,
+                "sha256": GLOBAL_TRIAL_LEDGER_PROTOCOL_SHA256,
+            }
+            and amendment["global_trial_ledger"]
+            == {
+                "path": GLOBAL_TRIAL_LEDGER_PATH,
+                "sha256": GLOBAL_TRIAL_LEDGER_SHA256,
+            }
+            and amendment["historical_round36_receipt_immutable"] is True
+            and amendment["rebind_implementation_present_at_freeze"] is False
+            and amendment["risk_free_data_changed_at_freeze"] is False
+            and amendment["provider_release_receipt_present_at_freeze"] is False
+            and amendment["formal_provider_run_present_at_freeze"] is False
+            and amendment["formal_backtest_authorized"] is False
+            and amendment["strategy_run_count"] == 0
+            and amendment["paper_authorized"] is False
+            and amendment["paper_state"] == "all_cash"
+            and amendment["paper_trade_count"] == 0
+            and amendment["paper_position_count"] == 0
+            and amendment["real_money_action_usd"] == 0
+            and amendment["frozen_control_count"] == 8
+            and amendment["frozen_attack_count"] == 8
             and all(checks.values())
         )
     except RiskFreeStagingError:
         raise
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
-        receipt = {}
         checks = {}
         passed = False
     if not passed:
         _fail(
             "rf_staging_rebind_integrity_failed",
-            "第三十六輪 rebind 協議、父鏈或目前正式入口 SHA-256 不完整",
+            "第三十六輪歷史鏈或第四十一輪有效 rebind SHA-256 不完整",
         )
     return {
         "passed": True,
-        "frozen_at": receipt["frozen_at"],
-        "git_head_at_freeze": receipt["git_head_at_freeze"],
+        "effective_version": "round41-v1.1",
+        "frozen_at": amendment["frozen_at"],
+        "git_head_at_freeze": amendment["git_head_at_freeze"],
+        "historical_round36": {
+            "passed": True,
+            "frozen_at": historical["frozen_at"],
+            "git_head_at_freeze": historical["git_head_at_freeze"],
+            "frozen_formal_validator_sha256": HISTORICAL_FORMAL_VALIDATOR_SHA256,
+            "hash_checks": historical_checks,
+        },
         "hash_checks": checks,
     }
 
@@ -198,9 +335,6 @@ def _protocol_integrity(root: str | Path) -> dict[str, Any]:
             )
             == receipt["parent_formal_validator"]["sha256"],
         }
-        historical_parent_validator_ok = checks[
-            receipt["parent_formal_validator"]["path"]
-        ]
         base_checks = {
             key: value
             for key, value in checks.items()
@@ -238,7 +372,7 @@ def _protocol_integrity(root: str | Path) -> dict[str, Any]:
             and receipt["frozen_attack_count"] == 8
             and all(base_checks.values())
         )
-        if passed and not historical_parent_validator_ok:
+        if passed:
             rebind = _rebind_integrity(root_path)
             passed = rebind["passed"]
     except RiskFreeStagingError:

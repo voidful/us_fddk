@@ -377,8 +377,8 @@ ACTOR_ROLES = {
     "sec_form_13f": {"institutional_investment_manager"},
 }
 FORM4_SEMANTICS = {
-    "P": "open_market_purchase",
-    "S": "open_market_sale",
+    "P": "open_or_private_purchase",
+    "S": "open_or_private_sale",
     "A": "grant_or_other_acquisition_non_signal",
     "D": "disposition_to_issuer_or_other_non_signal",
     "F": "tax_or_exercise_price_withholding_non_signal",

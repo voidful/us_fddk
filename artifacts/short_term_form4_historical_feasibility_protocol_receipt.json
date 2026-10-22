@@ -1,0 +1,127 @@
+{
+  "schema_version": "us_fddk.short_term_form4_historical_feasibility_protocol.v1",
+  "research_round": 49,
+  "status": "frozen_before_event_count_readout",
+  "frozen_at": "2026-08-10T11:17:30Z",
+  "canonicalization": "json_utf8_sort_keys_compact_no_nan_excluding_receipt_sha256_v1",
+  "parent": {
+    "commit": "87ca94ba2943825064a3c852aea91582f83ed258",
+    "branch": "codex/round49-sec-form4-history",
+    "stack_base_pr": 11,
+    "round46_commit": "d4e546bd9f47073307cd8139c0e414a37a475fc5"
+  },
+  "protocol": {
+    "path": "docs/SHORT_TERM_FORM4_HISTORICAL_FEASIBILITY_PROTOCOL.md",
+    "bytes": 8774,
+    "sha256": "08dcc931d7a2ec4a4efef7868fcd5b770d05c8c8b3c04a4f21bda473bf6143b3"
+  },
+  "reference_repositories": [
+    {
+      "repository": "appr1ciat1/tst_wocker",
+      "commit": "a5def06a5c6105c2ca7c786d95681886ef670922",
+      "borrowed_mechanisms": [
+        "event_driven_clock",
+        "explicit_costs",
+        "cooldown",
+        "negative_result_retention",
+        "pbo_dsr_walk_forward_release_gates"
+      ]
+    },
+    {
+      "repository": "appr1ciat1/tw-block-warrant",
+      "commit": "5ba80c7736a69effeabf564225d679ddf75f8ba0",
+      "borrowed_mechanisms": [
+        "independent_signal_resonance",
+        "d_plus_one_execution",
+        "fixed_holding_period",
+        "cost_inclusive_baseline"
+      ]
+    },
+    {
+      "repository": "appr1ciat1/tst_wocker_filter_lab",
+      "commit": "06c87b7a1735877c9ccbab3a339c1742814a5058",
+      "borrowed_mechanisms": [
+        "point_in_time_dynamic_pool_requirement",
+        "nested_walk_forward",
+        "pbo_dsr_release_gate"
+      ]
+    }
+  ],
+  "fixed_offline_sources": [
+    {
+      "quarter": "2006Q1",
+      "filename": "2006q1_form345.zip",
+      "bytes": 17306804,
+      "sha256": "62becdadbe5eaff68f03edefe2ba2357c8bb498a1f825b697003e087cf98e6ce"
+    },
+    {
+      "quarter": "2016Q3",
+      "filename": "2016q3_form345.zip",
+      "bytes": 8704557,
+      "sha256": "5a25d3c6cb874875904b2be0059bb4784e4da28b315af30b15568fd250bd0dde"
+    },
+    {
+      "quarter": "2026Q2",
+      "filename": "2026q2_form345.zip",
+      "bytes": 11498860,
+      "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27"
+    }
+  ],
+  "fixed_event_contract": {
+    "document_type": "4",
+    "transaction_form_type": "4",
+    "transaction_code": "P",
+    "acquired_disposed": "A",
+    "equity_swap_false_values": [
+      "0",
+      "false"
+    ],
+    "allowed_relationship_tokens": [
+      "Director",
+      "Officer",
+      "TenPercentOwner"
+    ],
+    "window_calendar_days_inclusive": 20,
+    "minimum_distinct_accessions": 2,
+    "minimum_distinct_reporting_owner_ciks": 2,
+    "minimum_purchase_dollars_per_accession": "10000",
+    "minimum_cluster_purchase_dollars": "100000",
+    "diagnostic_cooldown_calendar_days_inclusive": 20,
+    "left_boundary_days_excluded": 19
+  },
+  "diagnostic_success_contract": {
+    "all_three_archives_parse": true,
+    "all_attacks_rejected": true,
+    "privacy_scan_passes": true,
+    "minimum_primary_clusters_across_fixed_quarters": 30,
+    "success_status": "historical_backtest_preregistration_warranted",
+    "failure_status": "insufficient_event_rate_no_historical_backtest"
+  },
+  "trial_accounting": {
+    "performance_trial_created": false,
+    "combined_lower_bound_before": 6295,
+    "minimum_increment_this_round": 0,
+    "reason": "event_rate_and_parser_feasibility_only_no_market_returns_or_parameter_comparison"
+  },
+  "permissions": {
+    "new_sec_requests_authorized": false,
+    "offline_fixed_archive_read_authorized": true,
+    "identifier_persistence_authorized": false,
+    "performance_readout_authorized": false,
+    "candidate_selection_authorized": false,
+    "promotion_authorized": false,
+    "paper_authorized": false,
+    "website_publication_authorized": false,
+    "real_money_action_usd": 0
+  },
+  "state_boundary": {
+    "sec_requests_this_round": 0,
+    "strategy_runs": 0,
+    "performance_results": 0,
+    "candidate_selections": 0,
+    "paper_positions": [],
+    "backfilled_trades": 0,
+    "today_action": "今天不下單"
+  },
+  "receipt_sha256": "257cee937e2ceb5a68b591b078be60d83468089fe92cefcab1122bfa7d450a88"
+}

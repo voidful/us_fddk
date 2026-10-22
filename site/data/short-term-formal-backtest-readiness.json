@@ -116,7 +116,7 @@
     {
       "expected_error_code": "formal_statistics_policy_mismatch",
       "id": "14",
-      "label": "DSR trials 改為 6,207",
+      "label": "DSR trials 改為 6,286",
       "observed_error_code": "formal_statistics_policy_mismatch",
       "rejected": true
     },
@@ -156,10 +156,11 @@
   "gap_closed": {
     "drift_baseline": "固定為首個正式訊號 Top-10 只買一次後漂移，不再混用今日完整股池。",
     "formal_strategy_results_generated": false,
-    "global_search_trials": 6208,
+    "global_search_trials": 6287,
     "pbo_paths": 4,
     "risk_free_proxy": "新增同步 US 1M T-bill 日回報；禁止用 0 或 SHY 代替超額統計。"
   },
+  "governance_as_of": "2026-08-10",
   "next_action": "取得合法 provider package 與同日 US 1M T-bill RF 包後，先通過 18/18，再以 immutable run ID 只跑一次凍結正式回測。",
   "paper": {
     "authorized": false,
@@ -278,7 +279,7 @@
         "passed": true
       },
       {
-        "detail": "NW／PSR／6,208-trial DSR／四路十段 PBO 固定",
+        "detail": "NW／PSR／6,287-trial 下限 DSR／四路十段 PBO 固定",
         "id": "16",
         "label": "固定統計及多重測試",
         "passed": true
@@ -296,7 +297,14 @@
         "passed": true
       }
     ],
-    "global_search_trials": 6208,
+    "global_search_trials": 6287,
+    "global_trial_ledger": {
+      "current_lower_bound": 6287,
+      "entry_count": 12,
+      "exact_global_count_claimed": false,
+      "original_preregistration_trials": 6208,
+      "reserved_unrun_family_count": 1
+    },
     "pbo_paths": 4,
     "risk_free_sessions": 22
   }

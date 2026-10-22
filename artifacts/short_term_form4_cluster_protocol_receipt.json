@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "research_round": 41,
+  "status": "frozen_after_official_documentation_and_isolated_semantic_review_before_authorized_form4_bundle_candidate_selection_or_performance_result",
+  "frozen_at": "2026-08-09T21:01:50Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL.md",
+    "sha256": "c0b8370f5139d7076d9b4bc52fd8514c3b57a4bb4917b9890720d15d78d8c28e"
+  },
+  "global_trial_ledger_protocol": {
+    "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "sha256": "8ba3436b6fc75b1f4d77a8769f4afcdd75e2b07926ac6b85384330feb4808802"
+  },
+  "disclosure_known_at_protocol": {
+    "path": "docs/SHORT_TERM_DISCLOSURE_KNOWN_AT_PROTOCOL.md",
+    "sha256": "ffe2d6df0fce9a305a5a361bc4ce0d377cc9d9afb20246f212031ce57a3949b7"
+  },
+  "disclosure_known_at_protocol_receipt": {
+    "path": "artifacts/short_term_disclosure_known_at_protocol_receipt.json",
+    "sha256": "87f4c322333c8bdf8be12ee9682d49ea22ecce8c6569139a192cebd4892374e7"
+  },
+  "candidate_id": "form4_cluster_confirmed_10d",
+  "source_types": [
+    "sec_form_4"
+  ],
+  "comparison_family": [
+    "qqq_buy_hold",
+    "spy_buy_hold",
+    "pit_eligible_equal_weight_monthly",
+    "form4_cluster_unconfirmed",
+    "price_volume_only_matched",
+    "single_actor_purchase_confirmed",
+    "non_signal_code_confirmed",
+    "issuer_month_actor_permutation"
+  ],
+  "global_trial_lower_bound_before": 6240,
+  "reserved_trial_increment": 8,
+  "global_trial_lower_bound_after": 6248,
+  "data_state_at_freeze": {
+    "disclosure_readiness_passed": 2,
+    "disclosure_readiness_total": 20,
+    "authorized_real_form4_rows": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false
+  },
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "today_action": "今天不下單"
+}

@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "research_round": 42,
+  "status": "result_blind_protocol_frozen_before_sec_fetch_real_sample_selection_admission_replay_or_result",
+  "frozen_at": "2026-08-09T23:30:18Z",
+  "protocol": {
+    "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_PROTOCOL.md",
+    "sha256": "ddce1e7152a3d23f39dae4f8d7bb812166941952d7611523ca5796f11b4b1186"
+  },
+  "parent_form4_v1_1_protocol": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md",
+    "sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd"
+  },
+  "parent_form4_v1_1_receipt": {
+    "path": "artifacts/short_term_form4_cluster_protocol_amendment_v1_1_receipt.json",
+    "sha256": "90440b0ae74dbbe91c45ab885f9ad5e1e1457392b4eaff9265c5f7588bdc883c"
+  },
+  "global_trial_ledger_protocol": {
+    "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+  },
+  "global_trial_ledger": {
+    "path": "artifacts/short_term_global_trial_ledger.json",
+    "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49",
+    "entry_count": 12,
+    "current_lower_bound": 6287,
+    "chain_head_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085"
+  },
+  "sec_client": {
+    "contract_version": "round41-sec-edgar-isolated-fetch-prototype-v1",
+    "implementation": {
+      "path": "usfddk/sec_edgar_client.py",
+      "sha256": "0420755b05bd6f5430f187986d31086b999b90a12e8669c64db7bc273f5ef93f"
+    },
+    "isolated_tests": {
+      "path": "tests/test_sec_edgar_client.py",
+      "sha256": "8919d6375800dcb90fbfe0b6009d2168e3422d9382b54e0830d802f7b96e79dc"
+    },
+    "network_used_by_this_freeze": false
+  },
+  "source_scope": [
+    "sec_form_4"
+  ],
+  "fixed_quarters": [
+    "2006Q1",
+    "2016Q3",
+    "2026Q2"
+  ],
+  "quarterly_zip_contract": {
+    "metadata": {
+      "kind": "W3C_Table_Group_JSON",
+      "required_count": 1,
+      "recognition": "parseable_content_and_schema_not_filename_or_extension",
+      "table_url_policy": "pure_unencoded_basename_without_directory_or_traversal",
+      "table_roles_unique": true
+    },
+    "required_tables": {
+      "SUBMISSION.tsv": [
+        "ACCESSION_NUMBER",
+        "FILING_DATE",
+        "DATE_OF_ORIG_SUB",
+        "DOCUMENT_TYPE",
+        "ISSUERCIK"
+      ],
+      "REPORTINGOWNER.tsv": [
+        "ACCESSION_NUMBER",
+        "RPTOWNERCIK",
+        "RPTOWNERNAME"
+      ],
+      "NONDERIV_TRANS.tsv": [
+        "ACCESSION_NUMBER",
+        "NONDERIV_TRANS_SK",
+        "TRANS_FORM_TYPE",
+        "TRANS_CODE",
+        "TRANS_ACQUIRED_DISP_CD"
+      ],
+      "NONDERIV_HOLDING.tsv": [
+        "ACCESSION_NUMBER",
+        "NONDERIV_HOLDING_SK"
+      ],
+      "DERIV_TRANS.tsv": [
+        "ACCESSION_NUMBER",
+        "DERIV_TRANS_SK",
+        "TRANS_FORM_TYPE",
+        "TRANS_CODE",
+        "TRANS_ACQUIRED_DISP_CD"
+      ],
+      "DERIV_HOLDING.tsv": [
+        "ACCESSION_NUMBER",
+        "DERIV_HOLDING_SK"
+      ],
+      "FOOTNOTES.tsv": [
+        "ACCESSION_NUMBER",
+        "FOOTNOTE_ID",
+        "FOOTNOTE_TXT"
+      ],
+      "OWNER_SIGNATURE.tsv": [
+        "ACCESSION_NUMBER",
+        "OWNERSIGNATURENAME",
+        "OWNERSIGNATUREDATE"
+      ]
+    },
+    "header_policy": "exact_name_and_order_match_to_metadata_tableSchema_columns_with_required_anchors_present",
+    "filing_date_raw_format": "DD-MON-YYYY",
+    "filing_date_month_tokens": [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC"
+    ],
+    "filing_date_normalization": "strict_parse_then_ISO_8601_date"
+  },
+  "sample_selector": {
+    "source_table": "SUBMISSION.tsv",
+    "allowed_document_types": [
+      "4",
+      "4/A"
+    ],
+    "unique_key": "ACCESSION_NUMBER",
+    "sort_keys": [
+      "normalized_FILING_DATE",
+      "ACCESSION_NUMBER"
+    ],
+    "sort_direction": "ascending",
+    "base_positions": [
+      {
+        "label": "first",
+        "zero_based_index": "0"
+      },
+      {
+        "label": "median",
+        "zero_based_index": "floor((n-1)/2)",
+        "even_policy": "lower_median"
+      },
+      {
+        "label": "last",
+        "zero_based_index": "n-1"
+      }
+    ],
+    "amendment_specimen": "first_sorted_4/A_not_already_in_base_else_covered_by_base",
+    "quarter_without_4/A": "form4_feasibility_amendment_sample_missing",
+    "samples_per_quarter_min": 3,
+    "samples_per_quarter_max": 4,
+    "total_sample_min": 9,
+    "total_sample_max": 12,
+    "real_selection_executed": false
+  },
+  "amendment_lineage_policy": {
+    "quarterly_anchor": "SUBMISSION.DATE_OF_ORIG_SUB",
+    "target_evidence": "explicit_as_filed_original_accession_reference_only",
+    "fuzzy_match_allowed": false,
+    "unresolved_status": "amendment_target_unresolved",
+    "form4_gate_10_claimed": false
+  },
+  "archive_known_at_contract": {
+    "required_pair": [
+      "complete_daily_form_index_raw_sha256_and_unique_row",
+      "complete_as_filed_submission_txt_raw_sha256"
+    ],
+    "index_update_boundary": "approximately_22:00_America/New_York_on_index_date",
+    "accepted_at_is_known_at": false,
+    "local_first_observed_is_historical_public_time": false,
+    "decision_session_if_future_authorized": "next_full_XNYS_session_close_after_nightly_index_boundary",
+    "trade_session_if_future_authorized": "XNYS_session_open_after_decision_session_close",
+    "clock_mapping_executed": false
+  },
+  "future_public_validation": {
+    "path": "artifacts/short_term_form4_admission_feasibility_validation.json",
+    "exact_top_level_keys": [
+      "schema_version",
+      "protocol_sha256",
+      "protocol_receipt_sha256",
+      "frozen_at",
+      "status",
+      "fixed_quarters",
+      "sample_count",
+      "admission_controls",
+      "attack_results",
+      "stop_reasons",
+      "state_boundary",
+      "private_manifest_sha256"
+    ],
+    "identifier_fields_allowed": false,
+    "created_by_this_freeze": false
+  },
+  "fixed_attack_codes": [
+    "form4_feasibility_quarter_set_mismatch",
+    "form4_feasibility_zip_member_mismatch",
+    "form4_feasibility_header_mismatch",
+    "form4_feasibility_form_type_invalid",
+    "form4_feasibility_accession_invalid",
+    "form4_feasibility_accession_duplicate",
+    "form4_feasibility_filing_date_invalid",
+    "form4_feasibility_sample_too_small",
+    "form4_feasibility_amendment_sample_missing",
+    "form4_feasibility_sample_not_deterministic",
+    "form4_feasibility_daily_index_missing_or_ambiguous",
+    "form4_feasibility_complete_submission_mismatch",
+    "form4_feasibility_content_hash_mismatch",
+    "form4_feasibility_historical_time_invented",
+    "form4_feasibility_amendment_target_unresolved",
+    "form4_feasibility_private_boundary_breached",
+    "form4_feasibility_result_boundary_breached",
+    "form4_feasibility_parent_hash_mismatch",
+    "form4_feasibility_global_trial_drift"
+  ],
+  "stop_policy": {
+    "on_any_failure": "stopped_no_admission_claim",
+    "quarter_substitution_allowed": false,
+    "resampling_allowed": false,
+    "threshold_relaxation_allowed": false,
+    "observed_only_result_allowed": false
+  },
+  "global_trial_state": {
+    "lower_bound_before": 6287,
+    "round42_increment": 0,
+    "lower_bound_after": 6287,
+    "ledger_append_authorized": false
+  },
+  "state_at_freeze": {
+    "form4_specific_admission_passed": 0,
+    "form4_specific_admission_total": 16,
+    "authorized_real_form4_rows": 0,
+    "real_sample_selection_count": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false
+  },
+  "future_admission_scoring": {
+    "individual_gate_pass_fail_allowed_with_exact_evidence": true,
+    "public_progress_denominator": 16,
+    "admission_requires_passed": 16,
+    "below_16_candidate_selection_count": 0,
+    "below_16_strategy_run_count": 0,
+    "below_16_paper_authorized": false
+  },
+  "permission": {
+    "result_blind_protocol_freeze": true,
+    "sec_fetch": false,
+    "real_sample_selection": false,
+    "admission_claim": false,
+    "candidate_selection": false,
+    "backtest": false,
+    "paper": false,
+    "real_money": false
+  },
+  "paper": {
+    "authorized": false,
+    "state": "all_cash",
+    "backfilled_trades": 0,
+    "positions": []
+  },
+  "real_money_action_usd": 0,
+  "today_action": "今天不下單"
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "us_fddk.short_term_form4_collection_authorization.v1",
+  "research_round": 42,
+  "status": "authorized_once_before_sec_fetch",
+  "frozen_at": "2026-08-10T00:07:33Z",
+  "authorization_id": "round42-form4-admission-one-shot-v1",
+  "user_scope": "one-shot fixed SEC Form 4 admission-feasibility collection and offline cold replay only; no strategy authorization",
+  "parent_code_commit": "0145969e19f2524d3eddc77702865425767aefac",
+  "remote_ref": "origin/codex/round42-form4-admission",
+  "bindings": {
+    "protocol_v1": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_PROTOCOL.md",
+      "sha256": "ddce1e7152a3d23f39dae4f8d7bb812166941952d7611523ca5796f11b4b1186"
+    },
+    "protocol_receipt_v1": {
+      "path": "artifacts/short_term_form4_admission_feasibility_protocol_receipt.json",
+      "sha256": "75f81c0149abc003fa0438e9498f0884a0e7020b31c07bbeaef122cc15f912db"
+    },
+    "schema_amendment_v1_1": {
+      "path": "docs/SHORT_TERM_FORM4_ADMISSION_FEASIBILITY_SCHEMA_AMENDMENT_V1_1.md",
+      "sha256": "2d5f2e27a28151a032ebd440271d2bb325d210df8628de1baea00677ab926b2c"
+    },
+    "schema_amendment_receipt_v1_1": {
+      "path": "artifacts/short_term_form4_admission_feasibility_schema_amendment_v1_1_receipt.json",
+      "sha256": "c8811f20a4a5369a442f297bb34870baf62bf76aa74538ef9ea68f4d98f83558"
+    },
+    "sec_client": {
+      "path": "usfddk/sec_edgar_client.py",
+      "sha256": "0420755b05bd6f5430f187986d31086b999b90a12e8669c64db7bc273f5ef93f"
+    },
+    "feasibility_verifier": {
+      "path": "usfddk/form4_admission_feasibility.py",
+      "sha256": "c1ceadf7f84f51d66d7a1dc55d0def8f6e49e71fd263f1b45754cc5f845c5d7e"
+    },
+    "collection_implementation": {
+      "path": "usfddk/form4_admission_collection.py",
+      "sha256": "9d496954c3be0feccc543c9f67cc91b653288480614651f0fe5fc3133d730e95"
+    },
+    "collection_runner": {
+      "path": "scripts/run_form4_admission_feasibility.py",
+      "sha256": "d73ac69174716663a3636039651a70ed6bdd8ebb820652d265370cde95c682f0"
+    },
+    "collection_tests": {
+      "path": "tests/test_form4_admission_collection.py",
+      "sha256": "ac30b7584f4d8584da77aac0a70d1e47c542692eda475374a98b5dcbade9c797"
+    }
+  },
+  "fixed_collection": {
+    "fixed_quarters": [
+      "2006Q1",
+      "2016Q3",
+      "2026Q2"
+    ],
+    "catalog_requests": 1,
+    "quarter_zip_requests": 3,
+    "daily_index_requests_max": 12,
+    "complete_submission_requests_max": 12,
+    "total_requests_max": 28,
+    "automatic_retries": 0,
+    "resampling_allowed": false,
+    "next_day_index_fallback_allowed": false
+  },
+  "privacy": {
+    "quarantine_repository_external": true,
+    "filevault_required": true,
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "public_identifiers_allowed": false
+  },
+  "state_boundary": {
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false,
+    "paper_authorized": false,
+    "real_money_action_usd": 0
+  },
+  "receipt_sha256": "a7a2eadbe057a9511d7de0165a5c62bbb5aa45868e64415c8a4a7d62d82ea721"
+}

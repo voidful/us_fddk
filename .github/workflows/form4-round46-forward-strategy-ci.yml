@@ -1,0 +1,114 @@
+name: Form 4 Round46 forward-strategy CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  forward-strategy:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.base.repo.full_name == github.repository &&
+      github.event.pull_request.base.ref == 'codex/round45-form4-monitor-start' &&
+      github.event.pull_request.base.sha == '568ccc5c695e3f0546d48617f95a19a59f99c3d9'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify exact authorization head checkout
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EXPECTED_BASE_SHA: 568ccc5c695e3f0546d48617f95a19a59f99c3d9
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD_SHA"
+          test "$(git rev-parse HEAD^)" = "$EXPECTED_BASE_SHA"
+          set -- $(git rev-list --parents -n 1 "$EXPECTED_HEAD_SHA")
+          test "$#" -eq 2
+          test "$2" = "$EXPECTED_BASE_SHA"
+          test "$(git rev-list --count "${EXPECTED_BASE_SHA}..${EXPECTED_HEAD_SHA}")" = "1"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12.12"
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify result-blind Round46 forward-strategy contract
+        env:
+          PYTHONHASHSEED: "0"
+          UV_PYTHON: "3.12.12"
+          UV_PYTHON_DOWNLOADS: "never"
+        run: |
+          uv sync --locked --extra dev --python 3.12.12
+          ./.venv/bin/python - <<'PY'
+          import socket
+
+          import pytest
+
+          original_connect = socket.socket.connect
+          original_connect_ex = socket.socket.connect_ex
+          original_getaddrinfo = socket.getaddrinfo
+
+
+          def deny_inet_connect(sock, address):
+              if sock.family in {socket.AF_INET, socket.AF_INET6}:
+                  raise AssertionError("Round46 CI forbids network sockets during tests")
+              return original_connect(sock, address)
+
+
+          def deny_inet_connect_ex(sock, address):
+              if sock.family in {socket.AF_INET, socket.AF_INET6}:
+                  raise AssertionError("Round46 CI forbids network sockets during tests")
+              return original_connect_ex(sock, address)
+
+
+          def deny_create_connection(*_args, **_kwargs):
+              raise AssertionError("Round46 CI forbids network sockets during tests")
+
+
+          def local_getaddrinfo(host, *args, **kwargs):
+              if host not in {None, "localhost", "127.0.0.1", "::1"}:
+                  raise AssertionError("Round46 CI forbids external DNS during tests")
+              return original_getaddrinfo(host, *args, **kwargs)
+
+
+          socket.socket.connect = deny_inet_connect
+          socket.socket.connect_ex = deny_inet_connect_ex
+          socket.create_connection = deny_create_connection
+          socket.getaddrinfo = local_getaddrinfo
+
+          raise SystemExit(
+              pytest.main(
+                  [
+                      "tests/test_ci_runtime_contract.py",
+                      "tests/test_disclosure_known_at_protocol.py",
+                      "tests/test_disclosure_known_at.py",
+                      "tests/test_form4_cluster_protocol.py",
+                      "tests/test_form4_multipath_reconciliation_v2.py",
+                      "tests/test_form4_forward_admission_contract.py",
+                      "tests/test_form4_multipath_forward_protocol_amendment_v1_1.py",
+                      "tests/test_form4_prospective_trust_root.py",
+                      "tests/test_form4_monitor_start.py",
+                      "tests/test_form4_forward_strategy_kernel.py",
+                      "tests/test_form4_forward_strategy_trial_ledger.py",
+                      "tests/test_form4_forward_strategy_protocol.py",
+                      "tests/test_global_trial_ledger.py",
+                      "tests/test_sec_edgar_client.py",
+                  ]
+              )
+          )
+          PY
+          ./.venv/bin/ruff check \
+            usfddk/form4_forward_strategy_kernel.py \
+            usfddk/form4_forward_strategy_trial_ledger.py \
+            tests/test_form4_forward_strategy_kernel.py \
+            tests/test_form4_forward_strategy_trial_ledger.py \
+            tests/test_form4_forward_strategy_protocol.py \
+            tests/test_ci_runtime_contract.py
+          git diff --exit-code
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"

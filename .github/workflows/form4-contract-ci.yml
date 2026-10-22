@@ -1,0 +1,51 @@
+name: Form 4 contract CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify effective append-only Form 4 contract
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          uv sync --locked --extra dev
+          ./.venv/bin/pytest \
+            --deselect=tests/test_form4_admission_collection_authorization.py::test_authorization_drift_fails_even_with_recomputed_receipt_hash \
+            tests/test_ci_runtime_contract.py \
+            tests/test_disclosure_known_at_protocol.py \
+            tests/test_disclosure_known_at.py \
+            tests/test_disclosure_readiness_report.py \
+            tests/test_form4_cluster_protocol.py \
+            tests/test_form4_admission_feasibility_protocol.py \
+            tests/test_form4_admission_feasibility_schema_amendment.py \
+            tests/test_form4_admission_collection_authorization.py \
+            tests/test_form4_admission_feasibility.py \
+            tests/test_form4_admission_collection.py \
+            tests/test_form4_admission_feasibility_report.py \
+            tests/test_form4_multipath_reconciliation_v2.py \
+            tests/test_form4_forward_admission_contract.py \
+            tests/test_form4_multipath_forward_protocol_amendment_v1_1.py \
+            tests/test_global_trial_ledger.py \
+            tests/test_sec_edgar_client.py
+          ./.venv/bin/ruff check \
+            usfddk/form4_multipath_reconciliation_v2.py \
+            usfddk/form4_forward_admission_contract.py \
+            tests/test_form4_multipath_reconciliation_v2.py \
+            tests/test_form4_forward_admission_contract.py \
+            tests/test_form4_multipath_forward_protocol_amendment_v1_1.py \
+            tests/test_ci_runtime_contract.py
+          git diff --exit-code

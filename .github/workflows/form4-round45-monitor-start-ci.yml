@@ -1,0 +1,68 @@
+name: Form 4 Round45 monitor-start CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  monitor-start:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify exact authorization head checkout
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD_SHA"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12.12"
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+      - name: Verify result-blind Round45 monitor-start contract
+        env:
+          PYTHONHASHSEED: "0"
+          UV_PYTHON: "3.12.12"
+          UV_PYTHON_DOWNLOADS: "never"
+        run: |
+          uv sync --locked --extra dev --python 3.12.12
+          ./.venv/bin/pytest \
+            --deselect=tests/test_form4_admission_collection_authorization.py::test_authorization_drift_fails_even_with_recomputed_receipt_hash \
+            tests/test_ci_runtime_contract.py \
+            tests/test_disclosure_known_at_protocol.py \
+            tests/test_disclosure_known_at.py \
+            tests/test_disclosure_readiness_report.py \
+            tests/test_form4_cluster_protocol.py \
+            tests/test_form4_admission_feasibility_protocol.py \
+            tests/test_form4_admission_feasibility_schema_amendment.py \
+            tests/test_form4_admission_collection_authorization.py \
+            tests/test_form4_admission_feasibility.py \
+            tests/test_form4_admission_collection.py \
+            tests/test_form4_admission_feasibility_report.py \
+            tests/test_form4_multipath_reconciliation_v2.py \
+            tests/test_form4_forward_admission_contract.py \
+            tests/test_form4_multipath_forward_protocol_amendment_v1_1.py \
+            tests/test_form4_prospective_trust_root.py \
+            tests/test_form4_monitor_start.py \
+            tests/test_global_trial_ledger.py \
+            tests/test_sec_edgar_client.py
+          ./.venv/bin/ruff check \
+            usfddk/form4_multipath_reconciliation_v2.py \
+            usfddk/form4_forward_admission_contract.py \
+            usfddk/form4_prospective_trust_root.py \
+            usfddk/form4_monitor_start.py \
+            tests/test_form4_multipath_reconciliation_v2.py \
+            tests/test_form4_forward_admission_contract.py \
+            tests/test_form4_multipath_forward_protocol_amendment_v1_1.py \
+            tests/test_form4_prospective_trust_root.py \
+            tests/test_form4_monitor_start.py \
+            tests/test_ci_runtime_contract.py
+          git diff --exit-code

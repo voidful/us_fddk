@@ -95,8 +95,7 @@ def _write_risk_free_control(package: Path, destination: Path) -> Path:
         "status": "synthetic_risk_free_control",
         "source_name": "authorized-synthetic-control-only",
         "source_url": (
-            "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/"
-            "data_library/f-f_factors.html"
+            "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library/f-f_factors.html"
         ),
         "source_vintage": "synthetic-round18-shape-control-no-provider-rows",
         "downloaded_at": "2026-08-04T00:30:00Z",
@@ -212,9 +211,7 @@ def _run_attack(
         _owner_only(package)
     elif attack_id == "05":
         manifest_path = package / "execution/execution_manifest.json"
-        manifest_path.write_text(
-            manifest_path.read_text(encoding="utf-8") + " ", encoding="utf-8"
-        )
+        manifest_path.write_text(manifest_path.read_text(encoding="utf-8") + " ", encoding="utf-8")
         _owner_only(package)
     elif attack_id == "06":
         extra = risk_free / "extra.csv"
@@ -307,7 +304,11 @@ def run_formal_backtest_readiness_validation(root: str | Path) -> dict[str, Any]
             ("11", "RF 日回報量級 2%", "risk_free_value_invalid"),
             ("12", "RF source record 重複", "risk_free_provenance_invalid"),
             ("13", "run ID 未綁定輸入", "formal_run_id_mismatch"),
-            ("14", "DSR trials 改為 6,207", "formal_statistics_policy_mismatch"),
+            (
+                "14",
+                f"DSR trials 改為 {FORMAL_GLOBAL_SEARCH_TRIALS - 1:,}",
+                "formal_statistics_policy_mismatch",
+            ),
             ("15", "漂移 baseline 改名／改義", "formal_baseline_policy_mismatch"),
             ("16", "成本由 50 改 40 bps", "formal_execution_policy_mismatch"),
             ("17", "輸出目錄已存在", "formal_run_already_exists"),
@@ -338,10 +339,9 @@ def run_formal_backtest_readiness_validation(root: str | Path) -> dict[str, Any]
         )
     )
     local_intake = json.loads(
-        (
-            root_path
-            / "artifacts/short_term_local_quarantine_intake_validation.json"
-        ).read_text(encoding="utf-8")
+        (root_path / "artifacts/short_term_local_quarantine_intake_validation.json").read_text(
+            encoding="utf-8"
+        )
     )
     if readiness["gate_summary"] != EXPECTED_TRUE_READINESS:
         raise ValueError("真實 point-in-time readiness 已漂移；不得沿用 Round 18 結論")
@@ -364,14 +364,11 @@ def run_formal_backtest_readiness_validation(root: str | Path) -> dict[str, Any]
             else "formal_readiness_control_incomplete_or_failed"
         ),
         "evidence_as_of": "2026-08-04",
+        "governance_as_of": "2026-08-10",
         "protocol_integrity": protocol,
         "gap_closed": {
-            "risk_free_proxy": (
-                "新增同步 US 1M T-bill 日回報；禁止用 0 或 SHY 代替超額統計。"
-            ),
-            "drift_baseline": (
-                "固定為首個正式訊號 Top-10 只買一次後漂移，不再混用今日完整股池。"
-            ),
+            "risk_free_proxy": ("新增同步 US 1M T-bill 日回報；禁止用 0 或 SHY 代替超額統計。"),
+            "drift_baseline": ("固定為首個正式訊號 Top-10 只買一次後漂移，不再混用今日完整股池。"),
             "global_search_trials": FORMAL_GLOBAL_SEARCH_TRIALS,
             "pbo_paths": 4,
             "formal_strategy_results_generated": False,
@@ -382,9 +379,8 @@ def run_formal_backtest_readiness_validation(root: str | Path) -> dict[str, Any]
             "risk_free_sessions": control["risk_free"]["sessions"],
             "policy": control["policy"],
             "run_id_bound": len(control["run_id"]) == 64,
-            "formal_stock_backtest_authorized": control[
-                "formal_stock_backtest_authorized"
-            ],
+            "input_bindings": control["input_bindings"],
+            "formal_stock_backtest_authorized": control["formal_stock_backtest_authorized"],
             "contains_provider_rows": False,
         },
         "attacks": attacks,
