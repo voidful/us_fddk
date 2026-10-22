@@ -1,0 +1,117 @@
+{
+  "decision": {
+    "formal_backtest_completed": false,
+    "paper_authorized": false,
+    "post_hoc_diagnostic": true,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "Public exploratory prices do not repair point-in-time universe, delisting returns, corporate actions, or formal backtest gates.",
+    "strategy_status": "research_candidate_only"
+  },
+  "diagnostic": {
+    "baseline_symbol": "QQQ",
+    "candidate_issuers": 277,
+    "candidate_rows": 589,
+    "horizons": {
+      "10": {
+        "baseline_mean_net_return": 0.016910129352619662,
+        "baseline_median_net_return": 0.01884527778999945,
+        "candidate_mean_net_return": 0.01701688337273736,
+        "candidate_median_net_return": 0.006974319629807992,
+        "complete_rows": 569,
+        "mean_excess_vs_baseline": 0.00010675402011769725,
+        "median_excess_vs_baseline": -0.012299636350576291,
+        "missing_baseline_rows": 0,
+        "missing_candidate_rows": 20,
+        "moving_block_bootstrap_excess": {
+          "high": 0.01296084873524044,
+          "low": -0.01215749863033626,
+          "median": -0.0001701960040041618,
+          "p_mean_le_zero": 0.5135
+        },
+        "win_fraction_vs_baseline": 0.4446397188049209
+      },
+      "20": {
+        "baseline_mean_net_return": 0.018649210630697542,
+        "baseline_median_net_return": 0.0014983609275403004,
+        "candidate_mean_net_return": 0.025782685353619827,
+        "candidate_median_net_return": 0.012140903363606627,
+        "complete_rows": 569,
+        "mean_excess_vs_baseline": 0.007133474722922284,
+        "median_excess_vs_baseline": 0.002033359784013533,
+        "missing_baseline_rows": 0,
+        "missing_candidate_rows": 20,
+        "moving_block_bootstrap_excess": {
+          "high": 0.025387320690226457,
+          "low": -0.008509593844337748,
+          "median": 0.007935532451355042,
+          "p_mean_le_zero": 0.1785
+        },
+        "win_fraction_vs_baseline": 0.5043936731107206
+      },
+      "5": {
+        "baseline_mean_net_return": 0.007986352936609294,
+        "baseline_median_net_return": 0.014204346570542816,
+        "candidate_mean_net_return": 0.008614723695125275,
+        "candidate_median_net_return": -0.0016763679933562408,
+        "complete_rows": 569,
+        "mean_excess_vs_baseline": 0.0006283707585159806,
+        "median_excess_vs_baseline": -0.0023355524279911055,
+        "missing_baseline_rows": 0,
+        "missing_candidate_rows": 20,
+        "moving_block_bootstrap_excess": {
+          "high": 0.010010291914679621,
+          "low": -0.007817005532787054,
+          "median": 0.0006241853518351113,
+          "p_mean_le_zero": 0.435
+        },
+        "win_fraction_vs_baseline": 0.4833040421792619
+      }
+    },
+    "round_trip_cost_bps": 20.0
+  },
+  "input_counts": {
+    "candidate_count": 589,
+    "candidate_issuer_count": 277,
+    "event_count": 6158
+  },
+  "price_source": {
+    "adjusted_total_return_columns": [
+      "adj_open",
+      "adj_close"
+    ],
+    "download_client": "yfinance 1.5.2",
+    "filename": "yahoo_ohlc.csv",
+    "first_date": "2026-04-01",
+    "last_date": "2026-07-31",
+    "provider": "Yahoo Finance exploratory snapshot",
+    "row_count": 21628,
+    "sha256": "cafe323d6e352dff280cf20a7c88e3709898501d8d5a647d7b159a8d74180327",
+    "symbol_count": 274,
+    "url": "https://finance.yahoo.com/"
+  },
+  "protocol": {
+    "cluster_window_xnys_sessions": 20,
+    "horizons_sessions": [
+      5,
+      10,
+      20
+    ],
+    "minimum_distinct_owners": 2,
+    "minimum_notional_usd": 250000.0,
+    "path": "docs/SHORT_TERM_SEC_INSIDER_FORWARD_DIAGNOSTIC_PROTOCOL.md",
+    "primary_horizon_sessions": 20,
+    "round_trip_cost_bps": 20.0,
+    "sha256": "af31594ded3bbf8d05b4922a80df35279da2a531740316240f04f43059cf4a4d"
+  },
+  "schema_version": 1,
+  "sec_source": {
+    "as_filed": true,
+    "as_of": "2026-06-30",
+    "filename": "2026q2_form345.zip",
+    "provider": "SEC Insider Transactions Data Sets",
+    "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
+    "url": "https://www.sec.gov/files/datastandardsinnovation/data/insider-transactions-data-sets/2026q2_form345.zip"
+  },
+  "status": "post_hoc_forward_event_diagnostic"
+}

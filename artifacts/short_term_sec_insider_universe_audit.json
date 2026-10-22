@@ -1,0 +1,90 @@
+{
+  "decision": {
+    "formal_backtest_completed": false,
+    "paper_authorized": false,
+    "post_hoc_diagnostic": true,
+    "public_strategy_allowed": false,
+    "real_money_action_usd": 0,
+    "reason": "Universe sensitivity does not establish investable alpha; the SEC event stream still lacks point-in-time prices, delisting returns, and the frozen formal backtest package.",
+    "strategy_status": "research_candidate_only"
+  },
+  "frozen_rule": {
+    "availability": "next_XNYS_session_after_filing_date",
+    "minimum_distinct_owners": 2,
+    "minimum_notional_usd": 250000.0,
+    "window_xnys_sessions": 20
+  },
+  "schema_version": 1,
+  "scopes": {
+    "all_valid_tickers": {
+      "candidate_count": 589,
+      "candidate_issuer_count": 277,
+      "candidate_issuers_with_repeated_signals": 130,
+      "candidate_rows_notional_at_least_usd_100m": 37,
+      "candidate_rows_notional_at_least_usd_10m": 123,
+      "candidate_rows_with_research_only_flag": 589,
+      "event_count": 6158,
+      "issuer_count": 1064,
+      "owner_count": 2140,
+      "owner_relationship_counts": {
+        "Director": 1582,
+        "Director,Officer": 598,
+        "Director,Officer,Other": 38,
+        "Director,Officer,TenPercentOwner": 381,
+        "Director,Officer,TenPercentOwner,Other": 4,
+        "Director,Other": 16,
+        "Director,TenPercentOwner": 634,
+        "Director,TenPercentOwner,Other": 8,
+        "Officer": 659,
+        "Officer,Other": 3,
+        "Officer,TenPercentOwner": 38,
+        "Officer,TenPercentOwner,Other": 1,
+        "Other": 148,
+        "TenPercentOwner": 2040,
+        "TenPercentOwner,Other": 8
+      },
+      "universe_label": "all_valid_tickers",
+      "universe_symbol_count": null
+    },
+    "current_watchlist": {
+      "candidate_count": 0,
+      "candidate_issuer_count": 0,
+      "candidate_issuers_with_repeated_signals": 0,
+      "candidate_rows_notional_at_least_usd_100m": 0,
+      "candidate_rows_notional_at_least_usd_10m": 0,
+      "candidate_rows_with_research_only_flag": 0,
+      "event_count": 6158,
+      "issuer_count": 1064,
+      "owner_count": 2140,
+      "owner_relationship_counts": {
+        "Director": 1582,
+        "Director,Officer": 598,
+        "Director,Officer,Other": 38,
+        "Director,Officer,TenPercentOwner": 381,
+        "Director,Officer,TenPercentOwner,Other": 4,
+        "Director,Other": 16,
+        "Director,TenPercentOwner": 634,
+        "Director,TenPercentOwner,Other": 8,
+        "Officer": 659,
+        "Officer,Other": 3,
+        "Officer,TenPercentOwner": 38,
+        "Officer,TenPercentOwner,Other": 1,
+        "Other": 148,
+        "TenPercentOwner": 2040,
+        "TenPercentOwner,Other": 8
+      },
+      "universe_label": "external_csv:us_large_cap_watchlist_v1.csv",
+      "universe_symbol_count": 30
+    }
+  },
+  "source": {
+    "as_filed": true,
+    "as_of": "2026-06-30",
+    "filename": "2026q2_form345.zip",
+    "provider": "SEC Insider Transactions Data Sets",
+    "sha256": "11f1b2bbbdcbe6347a34437c02d04202fda0eca1dbb023726e4b56504b802e27",
+    "universe_file": "us_large_cap_watchlist_v1.csv",
+    "url": "https://www.sec.gov/files/datastandardsinnovation/data/insider-transactions-data-sets/2026q2_form345.zip"
+  },
+  "status": "post_hoc_universe_sensitivity_audit"
+}

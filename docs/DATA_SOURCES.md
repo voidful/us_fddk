@@ -4,6 +4,7 @@
 |---|---|---|
 | Yahoo Finance via yfinance | 日 OHLCV、調整收盤、ETF、個股、VIX | 便利但非官方；可能回溯修訂，因此每次凍結快照。 |
 | [SEC Company Facts API](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) | 下一階段的申報日可用基本面 | 官方、免 API key；必須遵守 SEC fair-access 與 User-Agent，且只能在 filing date 後使用。 |
+| [SEC Insider Transactions Data Sets](https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets) | Form 4 內部人士買入事件研究候選 | 2006 年起、按季發布、as-filed；只作披露事件層，不能取代逐期成分、退市回報、公司行動或價格資料。 |
 | [FINRA OTC Transparency](https://www.finra.org/filing-reporting/otc-transparency/finra-developer-api-service-available-otc-transparency-data) | 下一階段的 ATS／Non-ATS 彙總研究 | 週／月彙總且延遲；不是逐筆內外盤，不能宣稱即時買賣方向。 |
 | [French Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html) | 因子定義與未來外部基準 | 官方研究資料會因 CRSP 修訂而重建歷史；其頁面也明示歷史報酬可能改變。 |
 | [S&P DJI](https://www.spglobal.com/spdji/en/indices/equity/sp-total-market-index-tmi/)／[IVV 持股頁](https://www.ishares.com/us/products/239726/ishares-core-sp-500-etfIVV) | 當期大型股觀察池的來源脈絡 | 當期成分不是逐期成分；不可回填成歷史母體。 |
