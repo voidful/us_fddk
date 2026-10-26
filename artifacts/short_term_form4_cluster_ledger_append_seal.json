@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "round41_entry_appended_after_v1_1_preregistration_without_data_or_result",
+  "sealed_at": "2026-08-09T21:59:01Z",
+  "preregistration_receipt_v1_1": {
+    "path": "artifacts/short_term_form4_cluster_protocol_amendment_v1_1_receipt.json",
+    "sha256": "90440b0ae74dbbe91c45ab885f9ad5e1e1457392b4eaff9265c5f7588bdc883c"
+  },
+  "global_trial_ledger_protocol": {
+    "path": "docs/SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md",
+    "sha256": "8c9fb4d515741283143192612d8017a86333086ed641ea0e45c2eb5c492c4451"
+  },
+  "ledger_before_round41": {
+    "entry_count": 11,
+    "current_lower_bound": 6279,
+    "chain_head_sha256": "65dcb20b84a27a8120d998f6e1426d5e7fb150bafaa82f8c0f402f98aa9618dc"
+  },
+  "round41_entry": {
+    "sequence": 11,
+    "family_id": "round41_form4_cluster_eight_reserved_comparisons",
+    "protocol_v1_1_sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd",
+    "preregistration_receipt_v1_1_sha256": "90440b0ae74dbbe91c45ab885f9ad5e1e1457392b4eaff9265c5f7588bdc883c",
+    "entry_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085"
+  },
+  "ledger_after_round41": {
+    "path": "artifacts/short_term_global_trial_ledger.json",
+    "sha256": "0240f3c36edca35a86c077a94116067a7d1560e4329968df33abbdcaffbb4b49",
+    "entry_count": 12,
+    "current_lower_bound": 6287,
+    "chain_head_sha256": "c0e754cee5603c5eb9d2d142db1af6ec21b465d3492097b02112b94a18574085"
+  },
+  "state_at_seal": {
+    "authorized_real_form4_rows": 0,
+    "candidate_selection_count": 0,
+    "strategy_run_count": 0,
+    "performance_result_present": false,
+    "paper_authorized": false,
+    "real_money_action_usd": 0
+  },
+  "today_action": "今天不下單"
+}

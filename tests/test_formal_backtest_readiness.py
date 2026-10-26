@@ -10,6 +10,7 @@ from usfddk.formal_backtest_readiness import (
     FORMAL_BASELINES,
     FORMAL_GLOBAL_SEARCH_TRIALS,
     FORMAL_PBO_PATHS,
+    FORMAL_PREREGISTRATION_GLOBAL_SEARCH_TRIALS,
     FORMAL_PREREGISTRATION_PROTOCOL_SHA256,
     FORMAL_READINESS_VERSION,
     FormalBacktestReadinessError,
@@ -46,8 +47,7 @@ def test_round18_controls_and_attacks_are_exact(result: dict) -> None:
         f"{index:02d}" for index in range(1, 19)
     ]
     assert all(
-        row["rejected"]
-        and row["observed_error_code"] == row["expected_error_code"]
+        row["rejected"] and row["observed_error_code"] == row["expected_error_code"]
         for row in result["attacks"]
     )
 
@@ -57,15 +57,20 @@ def test_formal_policy_is_frozen_before_results(result: dict) -> None:
     assert policy["baselines"] == list(FORMAL_BASELINES)
     assert policy["baselines"][-1] == "first_top10_equal_then_drift"
     assert policy["statistics"]["global_search_trials"] == FORMAL_GLOBAL_SEARCH_TRIALS
+    assert FORMAL_PREREGISTRATION_GLOBAL_SEARCH_TRIALS == 6_208
+    assert FORMAL_GLOBAL_SEARCH_TRIALS == 6_287
     assert policy["statistics"]["pbo_paths"] == list(FORMAL_PBO_PATHS)
     assert policy["execution"]["costs_bps"] == [10, 25, 50]
     assert policy["execution"]["starting_capital_usd"] == 1_000
-    assert policy["execution"]["cash_return_policy"] == (
-        "zero_percent_uninvested_cash"
-    )
+    assert policy["execution"]["cash_return_policy"] == ("zero_percent_uninvested_cash")
     assert result["protocol_integrity"]["passed"] is True
     assert len(result["protocol_integrity"]["hash_checks"]) == 13
     assert all(result["protocol_integrity"]["hash_checks"].values())
+    ledger = result["protocol_integrity"]["global_trial_ledger"]
+    assert ledger["original_preregistration_trials"] == 6_208
+    assert ledger["current_lower_bound"] == 6_287
+    assert ledger["exact_global_count_claimed"] is False
+    assert ledger["reserved_unrun_family_count"] == 1
     assert FORMAL_PREREGISTRATION_PROTOCOL_SHA256 == (
         "4534130e245c97b6718e21a658708bd763c7046317a2b355c09b2589a8a3e083"
     )
@@ -76,6 +81,8 @@ def test_synthetic_control_never_promotes_formal_or_paper(result: dict) -> None:
     assert control["formal_stock_backtest_authorized"] is False
     assert control["contains_provider_rows"] is False
     assert control["run_id_bound"] is True
+    assert "global_trial_ledger_sha256" in control["input_bindings"]
+    assert "global_trial_ledger_protocol_sha256" in control["input_bindings"]
     assert result["formal_stock_backtest_input_ready"] is False
     assert result["formal_stock_backtest_completed"] is False
     assert result["strategy_run_count"] == 0
@@ -161,14 +168,12 @@ def test_actual_state_remains_unpromoted(result: dict) -> None:
 
 def test_committed_machine_and_site_receipts_match_round18(result: dict) -> None:
     machine = json.loads(
-        (
-            ROOT / "artifacts/short_term_formal_backtest_readiness_validation.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "artifacts/short_term_formal_backtest_readiness_validation.json").read_text(
+            encoding="utf-8"
+        )
     )
     site = json.loads(
-        (
-            ROOT / "site/data/short-term-formal-backtest-readiness.json"
-        ).read_text(encoding="utf-8")
+        (ROOT / "site/data/short-term-formal-backtest-readiness.json").read_text(encoding="utf-8")
     )
     assert machine == result
     assert site == _site_summary(result)

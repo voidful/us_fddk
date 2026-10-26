@@ -100,7 +100,7 @@ def _source_spec(source: str) -> tuple[str, str, str, float | None, float | None
         "sec_form_4": (
             "FORM4",
             "P",
-            "open_market_purchase",
+            "open_or_private_purchase",
             12_500,
             12_500,
             "direct",

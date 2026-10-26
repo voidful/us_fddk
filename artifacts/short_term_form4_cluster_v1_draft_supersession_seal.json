@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "historical_v1_draft_superseded_before_authorized_data_candidate_selection_or_result",
+  "sealed_at": "2026-08-09T21:51:49Z",
+  "historical_v1_protocol": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL.md",
+    "sha256": "c0b8370f5139d7076d9b4bc52fd8514c3b57a4bb4917b9890720d15d78d8c28e"
+  },
+  "historical_v1_receipt_immutable": {
+    "path": "artifacts/short_term_form4_cluster_protocol_receipt.json",
+    "sha256": "077b877f7b04acf5aa9fcbcb2efcd4e99bc894f6a85846a616f549745126b383"
+  },
+  "superseding_v1_1_protocol": {
+    "path": "docs/SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md",
+    "sha256": "0ba74da7e77119679f1ae178a2dcabe57e96267d6c6564ed3741bcf11739a3dd"
+  },
+  "supersession_reasons": [
+    "v1_frozen_at_preceded_the_final_v1_protocol_bytes",
+    "v1_required_six_source_20_of_20_for_a_form4_only_candidate",
+    "v1_did_not_close_amendment_joint_economics_or_cluster_retry_ambiguities",
+    "v1_global_trial_lower_bound_omitted_39_seen_round24_to_round28_hypotheses"
+  ],
+  "historical_v1_strategy_run_count": 0,
+  "authorized_real_form4_rows": 0,
+  "candidate_selection_count": 0,
+  "performance_result_present": false,
+  "paper_authorized": false,
+  "real_money_action_usd": 0,
+  "today_action": "今天不下單"
+}

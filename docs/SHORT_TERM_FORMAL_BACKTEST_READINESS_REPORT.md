@@ -1,6 +1,8 @@
 # 短線個股第十八輪：正式回測就緒報告
 
-證據截至：2026-08-04
+原始正式輸入證據截至：2026-08-04
+
+試驗帳本治理截至：2026-08-10
 
 ## 結論先行
 
@@ -31,7 +33,11 @@ SHA-256；合成控制共有 22 個短樣本 session，沒有供應商列。
 - 顯示資金：US$1,000，容許 fractional shares；
   現金回報固定 0%，QQQ 補位不是現金。
 - Newey–West lag 沿用既有公式；DSR 固定懲罰
-  6,208 次全專案路徑，不重設為 1。
+  6,287 次全專案路徑，不重設為 1。
+- 第十八輪原始收據仍保留 6,208；第 24–28 輪
+  已查看的 39 個共同假說、第 29／30／38／39 輪、本地未發佈負結果的最低三路徑，以及
+  第 41 輪八個事前預留比較均只可追加，令目前保守下限為
+  6,287。帳本明示這是下限、不是虛構的精確總數。
 - PBO 固定 4 條既有路徑、
   10 段 CSCV；不以 PBO 勝出版本替換正式候選。
 
@@ -54,7 +60,7 @@ SHA-256；合成控制共有 22 個短樣本 session，沒有供應商列。
 | 13 | 公司行動單次入賬 | 通過 | 派息、拆股、退市、現金及 successor 只計一次 |
 | 14 | 四個公平 baseline | 通過 | 四個 baseline 名稱、次序及漂移語義固定 |
 | 15 | 固定時段及資金口徑 | 通過 | 固定兩半、滾動窗口、危機段及 US$1,000 |
-| 16 | 固定統計及多重測試 | 通過 | NW／PSR／6,208-trial DSR／四路十段 PBO 固定 |
+| 16 | 固定統計及多重測試 | 通過 | NW／PSR／6,287-trial 下限 DSR／四路十段 PBO 固定 |
 | 17 | 新輸出及一次性 | 通過 | 預留輸出不存在；正式執行須原子建立且只可一次 |
 | 18 | 決策邊界分離 | 通過 | 合成只通過形狀控制；正式／Paper／實金均未升級 |
 
@@ -75,7 +81,7 @@ SHA-256；合成控制共有 22 個短樣本 session，沒有供應商列。
 | 11 | RF 日回報量級 2% | `risk_free_value_invalid` | 拒收 |
 | 12 | RF source record 重複 | `risk_free_provenance_invalid` | 拒收 |
 | 13 | run ID 未綁定輸入 | `formal_run_id_mismatch` | 拒收 |
-| 14 | DSR trials 改為 6,207 | `formal_statistics_policy_mismatch` | 拒收 |
+| 14 | DSR trials 改為 6,286 | `formal_statistics_policy_mismatch` | 拒收 |
 | 15 | 漂移 baseline 改名／改義 | `formal_baseline_policy_mismatch` | 拒收 |
 | 16 | 成本由 50 改 40 bps | `formal_execution_policy_mismatch` | 拒收 |
 | 17 | 輸出目錄已存在 | `formal_run_already_exists` | 拒收 |
@@ -97,6 +103,9 @@ session 及 12 次完成輪選；不回填歷史，也不代表實金授權或�
 - [Kenneth R. French Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library.html)
 - [Fama/French factors 及一個月國庫券 RF 說明](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library/f-f_factors.html)
 - [第十八輪事前登記](SHORT_TERM_FORMAL_BACKTEST_PREREGISTRATION.md)
+- [全域試驗次數不可回減帳本](SHORT_TERM_GLOBAL_TRIAL_LEDGER_PROTOCOL.md)
+- [第 41 輪 Form 4 v1.0 歷史草稿](SHORT_TERM_FORM4_CLUSTER_PROTOCOL.md)
+- [第 41 輪 Form 4 v1.1 有效事前修訂](SHORT_TERM_FORM4_CLUSTER_PROTOCOL_AMENDMENT_V1_1.md)
 - [短線 v1.1 協議](SHORT_TERM_HIGH_RETURN_PROTOCOL.md)
 - [第十七輪本地隔離入口報告](SHORT_TERM_LOCAL_QUARANTINE_INTAKE_REPORT.md)
 
