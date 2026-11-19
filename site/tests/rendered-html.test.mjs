@@ -1264,7 +1264,11 @@ test("v25 passes three frozen product paths but remains gated by forward Paper e
   if (v25.paper.observation_segment) {
     assert.equal(v25.paper.observation_segment.inherited_forward_sessions, 0);
     assert.equal(v25.paper.observation_segment.backfilled_forward_sessions, 0);
-    assert.equal(v25.paper.observation_segment.preserved_receipts, 15);
+    const archive = v25.paper.observation_segment.archive_path;
+    const manifest = JSON.parse(await readFile(new URL(`../../${archive}/v25_segment_manifest.json`, import.meta.url), "utf8"));
+    assert.equal(v25.paper.observation_segment.preserved_receipts, manifest.prior_ledger.receipts);
+    assert.ok(manifest.prior_ledger.receipts > 0);
+    assert.equal(v25.paper.observation_segment.id, v25.paper.started_at);
     assert.ok(html.includes("前瞻紀錄於"));
     assert.ok(html.includes("重新開始"));
     assert.ok(html.includes("舊回報不計入本段"));

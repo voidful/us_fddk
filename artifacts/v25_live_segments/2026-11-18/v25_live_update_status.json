@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T07:52:04.898271Z",
+  "previous_data_through": null,
+  "data_through": "2026-11-18",
+  "expected_session": "2026-11-18",
+  "data_advanced": true,
+  "idempotent_no_new_session": false,
+  "state_changed_without_new_session": false,
+  "manual_review_required": true,
+  "state_write_applied": true,
+  "site_rebuild_required": false,
+  "private_deploy_candidate": false,
+  "reference_trade_allowed": false,
+  "snapshot": {
+    "path": "/private/tmp/us-v25-segment-20261119/snapshot_v25_live_20261118_e986b42e.zip",
+    "panel_sha256": "e986b42e771748bcb6259fc3afb183497b96ee1b22e68dc820b75d95d3c0f91d",
+    "archive_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+    "rows": 99,
+    "start": "2026-07-01",
+    "end": "2026-11-18",
+    "tickers": [
+      "GLD",
+      "SHY",
+      "SPY",
+      "VUG"
+    ],
+    "contract": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "last_session": "2026-11-18",
+        "expected_session": "2026-11-18",
+        "last_close_coverage": 1.0,
+        "thin_tickers": {},
+        "positive_price_fraction": 1.0,
+        "suspicious_last_moves": {},
+        "ohlc_violations": 0,
+        "latest_positive_volume": 1.0
+      }
+    }
+  },
+  "accounts": {
+    "candidate": {
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "51d9e0359ea4ea13636038e08e0c61d3e691632a1a19728b7799cdd2881749f3",
+      "proposed_performance_state_sha256": "51d9e0359ea4ea13636038e08e0c61d3e691632a1a19728b7799cdd2881749f3"
+    },
+    "SPY": {
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "37e6a336a8e43b5bae56795f9132d54e0cd785fcdcde2c8d5c0ee3765a80452c",
+      "proposed_performance_state_sha256": "37e6a336a8e43b5bae56795f9132d54e0cd785fcdcde2c8d5c0ee3765a80452c"
+    },
+    "matched": {
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
+      "mode": "live",
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "1bd1521492ad72df4e7499a7c348ba3a3d18d9723456e386f44707568c2e5a3f",
+      "proposed_performance_state_sha256": "1bd1521492ad72df4e7499a7c348ba3a3d18d9723456e386f44707568c2e5a3f"
+    }
+  },
+  "forward_evidence": {
+    "promotion_protocol": {
+      "schema_version": 2,
+      "frozen_at_utc": "2026-08-03T00:00:24Z",
+      "frozen_before_first_forward_fill": true,
+      "minimum_new_sessions": 252,
+      "minimum_completed_monthly_rebalances_excluding_initial_allocation": 6,
+      "minimum_annualized_edge": 0.001,
+      "require_positive_edge_in_both_fixed_halves": true,
+      "minimum_active_newey_west_t": 1.96,
+      "require_drawdown_not_worse_than_both_benchmarks": true,
+      "benchmarks": [
+        "SPY",
+        "matched_80_VUG_20_SHY"
+      ]
+    },
+    "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
+    "as_of": "2026-11-18",
+    "started_at": "2026-11-18",
+    "forward_sessions": 0,
+    "minimum_sessions": 252,
+    "remaining_sessions": 252,
+    "filled_orders_including_initial_allocation": 0,
+    "initial_allocations": 0,
+    "account_fill_counts": {
+      "candidate": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      },
+      "SPY": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      },
+      "matched_80_VUG_20_SHY": {
+        "filled_orders": 0,
+        "initial_allocations": 0,
+        "completed_rebalances": 0
+      }
+    },
+    "filled_rebalances": 0,
+    "minimum_filled_rebalances": 6,
+    "remaining_filled_rebalances": 6,
+    "integrity_violations": 0,
+    "candidate": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "SPY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "matched_80_VUG_20_SHY": {
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
+    },
+    "return_difference_vs_SPY": 0.0,
+    "return_difference_vs_matched": 0.0,
+    "forward_diagnostics": {
+      "SPY": {
+        "annualized_return_difference": 0.0,
+        "persistence_available": false,
+        "first_half_annualized_difference": null,
+        "second_half_annualized_difference": null,
+        "active_newey_west": {
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
+        }
+      },
+      "matched_80_VUG_20_SHY": {
+        "annualized_return_difference": 0.0,
+        "persistence_available": false,
+        "first_half_annualized_difference": null,
+        "second_half_annualized_difference": null,
+        "active_newey_west": {
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
+        }
+      }
+    },
+    "gates": {
+      "all_accounts_live_and_same_start": true,
+      "all_accounts_same_as_of": true,
+      "all_accounts_same_snapshot": true,
+      "all_accounts_same_cost_and_cash": true,
+      "all_accounts_same_session_path": true,
+      "all_accounts_same_execution_clock": true,
+      "all_accounts_same_order_path": true,
+      "all_accounts_same_fill_counts": true,
+      "at_least_252_new_sessions": false,
+      "at_least_6_filled_rebalances": false,
+      "zero_integrity_violations": true,
+      "all_accounts_exactly_one_initial_allocation": false,
+      "candidate_return_above_SPY": false,
+      "candidate_return_above_matched": false,
+      "candidate_drawdown_not_worse_than_SPY": false,
+      "candidate_drawdown_not_worse_than_matched": false,
+      "candidate_annualized_edge_at_least_10bp_vs_SPY": false,
+      "candidate_annualized_edge_at_least_10bp_vs_matched": false,
+      "candidate_outperforms_SPY_in_both_halves": false,
+      "candidate_outperforms_matched_in_both_halves": false,
+      "candidate_active_newey_west_t_at_least_1_96_vs_SPY": false,
+      "candidate_active_newey_west_t_at_least_1_96_vs_matched": false
+    },
+    "live_confirmed": false
+  },
+  "decision": "new_segment_prepared_requires_activation_review"
+}

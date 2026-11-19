@@ -3,113 +3,53 @@
   "mode": "live",
   "strategy": "v25 80% VUG／20% GLD（隔離候選 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
-  "created_at": "2026-10-11T11:16:40.919603+00:00",
-  "updated_at": "2026-10-15T09:18:02.883788+00:00",
+  "created_at": "2026-11-19T07:52:04.890988+00:00",
+  "updated_at": "2026-11-19T07:52:04.891669+00:00",
   "initial_cash": 100000.0,
-  "cash": 1.2789769243681803e-13,
+  "cash": 100000.0,
   "cost_bps": 10.0,
-  "as_of": "2026-10-14",
-  "holdings": {
-    "VUG": {
-      "shares": 868.6020874312105,
-      "last_price": 89.87000274658203,
-      "market_value": 78061.27198312977
+  "as_of": "2026-11-18",
+  "holdings": {},
+  "pending_order": {
+    "signal_date": "2026-10-30",
+    "queued_at": "2026-11-18",
+    "execute_after": "2026-11-18",
+    "target_weights": {
+      "VUG": 0.8,
+      "GLD": 0.2
     },
-    "GLD": {
-      "shares": 52.22033074139785,
-      "last_price": 375.989990234375,
-      "market_value": 19634.321645494012
-    }
+    "status": "pending"
   },
-  "pending_order": null,
-  "order_history": [
-    {
-      "signal_date": "2026-09-30",
-      "queued_at": "2026-10-09",
-      "execute_after": "2026-10-09",
-      "target_weights": {
-        "VUG": 0.8,
-        "GLD": 0.2
-      },
-      "status": "filled",
-      "filled_at": "2026-10-12",
-      "turnover": 0.999000999000999,
-      "cost": 99.9000999000999
-    }
-  ],
-  "transactions": [
-    {
-      "date": "2026-10-12",
-      "signal_date": "2026-09-30",
-      "ticker": "VUG",
-      "side": "BUY",
-      "shares": 868.6020874312105,
-      "price": 92.01000213623047,
-      "notional": 79920.07992007992,
-      "cost": 79.92007992007993
-    },
-    {
-      "date": "2026-10-12",
-      "signal_date": "2026-09-30",
-      "ticker": "GLD",
-      "side": "BUY",
-      "shares": 52.22033074139785,
-      "price": 382.6099853515625,
-      "notional": 19980.01998001998,
-      "cost": 19.980019980019982
-    }
-  ],
+  "order_history": [],
+  "transactions": [],
   "equity_curve": [
     {
-      "date": "2026-10-09",
+      "date": "2026-11-18",
       "equity": 100000.0,
       "cash": 100000.0,
       "turnover": 0.0,
       "cost": 0.0,
       "drawdown": 0.0
-    },
-    {
-      "date": "2026-10-12",
-      "equity": 99554.69383614109,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.999000999000999,
-      "cost": 99.9000999000999,
-      "drawdown": -0.004453061638589162
-    },
-    {
-      "date": "2026-10-13",
-      "equity": 99625.17585708362,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.0037482414291637456
-    },
-    {
-      "date": "2026-10-14",
-      "equity": 97695.59362862378,
-      "cash": 1.2789769243681803e-13,
-      "turnover": 0.0,
-      "cost": 0.0,
-      "drawdown": -0.02304406371376211
     }
   ],
   "adjustment_rebases": [],
-  "total_costs": 99.9000999000999,
-  "snapshot_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
-  "started_at": "2026-10-09",
+  "total_costs": 0.0,
+  "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+  "started_at": "2026-11-18",
   "observation_segment": {
     "schema_version": 1,
-    "id": "2026-10-09",
+    "id": "2026-11-18",
     "reason": "missed_live_sessions",
-    "prior_started_at": "2026-07-31",
-    "prior_data_through": "2026-08-28",
-    "prior_forward_sessions": 20,
-    "missed_sessions": 29,
-    "preserved_receipts": 15,
+    "prior_started_at": "2026-10-09",
+    "prior_data_through": "2026-10-14",
+    "prior_forward_sessions": 3,
+    "missed_sessions": 25,
+    "preserved_receipts": 4,
     "inherited_forward_sessions": 0,
     "backfilled_forward_sessions": 0,
-    "archive_path": "artifacts/v25_live_segments/2026-10-09",
-    "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
-    "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+    "archive_path": "artifacts/v25_live_segments/2026-11-18",
+    "activation_authorization": "Owner approved recovery and upload after disclosure of reset, preservation and publication consequences.",
+    "activation_authorization_recorded_at_utc": "2026-11-19T07:52:10.618043Z",
+    "activated_at_utc": "2026-11-19T07:52:10.618043Z"
   }
 }

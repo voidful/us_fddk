@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "reason": "missed_live_sessions",
+  "continuity_failure": "v25_live_continuity_gap: 上次 v25 Paper 資料日 2026-10-14 與最近完成 XNYS session 2026-11-18 相隔 25 個交易日；自動流程拒絕歷史補填，需人工覆核",
+  "observed_at_utc": "2026-11-19T07:52:00.032043Z",
+  "prior_started_at": "2026-10-09",
+  "prior_data_through": "2026-10-14",
+  "prior_forward_sessions": 3,
+  "prior_ledger": {
+    "ok": true,
+    "receipts": 4,
+    "head_sha256": "61ca2485f9a1fafef23a1bdd0bd121c93b6af1d975a00651d3504adb7d5ef93b"
+  },
+  "prior_files": {
+    "candidate": {
+      "original_path": "artifacts/paper_v25_state.json",
+      "preserved_path": "prior/paper_v25_state.json",
+      "sha256": "f3f60cf79fda3a3e41e52db460a8baf0468fcf1be85fe3cbb194b17b7b6d62fb"
+    },
+    "SPY": {
+      "original_path": "artifacts/paper_v25_spy_state.json",
+      "preserved_path": "prior/paper_v25_spy_state.json",
+      "sha256": "883cbf4186a1612f929701cbd3ec9cd007457135974be37d052566957eb9faab"
+    },
+    "matched": {
+      "original_path": "artifacts/paper_v25_matched_state.json",
+      "preserved_path": "prior/paper_v25_matched_state.json",
+      "sha256": "efef17f5d1306d4c99db874231cea6768a938fb7e6dc9ae94de80c25dc9fd09d"
+    },
+    "ledger": {
+      "original_path": "artifacts/v25_live_evidence_ledger.jsonl",
+      "preserved_path": "prior/v25_live_evidence_ledger.jsonl",
+      "sha256": "f33004f0a3714053267c8f80c07605a94a1a719ce149e3a06e1e34a7a5d2e90b"
+    }
+  },
+  "new_started_at": "2026-11-18",
+  "new_forward_sessions": 0,
+  "new_filled_rebalances": 0,
+  "inherited_forward_sessions": 0,
+  "backfilled_forward_sessions": 0,
+  "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
+  "minimum_new_sessions": 252,
+  "minimum_completed_rebalances": 6,
+  "live_confirmed": false,
+  "activation_applied": true,
+  "deployment_applied": false,
+  "activated_at_utc": "2026-11-19T07:52:10.618043Z",
+  "snapshot_path": "artifacts/v25_live_segments/2026-11-18/snapshot_v25_live_20261118_e986b42e.zip",
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-11-18",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-10-09",
+    "prior_data_through": "2026-10-14",
+    "prior_forward_sessions": 3,
+    "missed_sessions": 25,
+    "preserved_receipts": 4,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-11-18",
+    "activation_authorization": "Owner approved recovery and upload after disclosure of reset, preservation and publication consequences.",
+    "activation_authorization_recorded_at_utc": "2026-11-19T07:52:10.618043Z",
+    "activated_at_utc": "2026-11-19T07:52:10.618043Z"
+  },
+  "initial_receipt_sha256": "6a03b48432246b2b7ddee980e55a793128f613b2c2035b500e55dffbbba82a90",
+  "initial_receipt_path": "v25_initial_evidence_ledger.jsonl"
+}
