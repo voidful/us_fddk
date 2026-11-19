@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-10-15T09:18:02.912890Z",
-  "previous_data_through": "2026-10-13",
-  "data_through": "2026-10-14",
-  "expected_session": "2026-10-14",
+  "generated_at_utc": "2026-11-19T07:52:04.898271Z",
+  "previous_data_through": null,
+  "data_through": "2026-11-18",
+  "expected_session": "2026-11-18",
   "data_advanced": true,
   "idempotent_no_new_session": false,
   "state_changed_without_new_session": false,
@@ -13,12 +13,12 @@
   "private_deploy_candidate": true,
   "reference_trade_allowed": false,
   "snapshot": {
-    "path": "/home/runner/work/us_fddk/us_fddk/artifacts/snapshot_v25_live_20261014_f45a4450.zip",
-    "panel_sha256": "f45a445030f7147f8244bb43f80fde1ba0e1ff14cfd227ff17e17b3b19f3a31a",
-    "archive_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
-    "rows": 74,
+    "path": "artifacts/v25_live_segments/2026-11-18/snapshot_v25_live_20261118_e986b42e.zip",
+    "panel_sha256": "e986b42e771748bcb6259fc3afb183497b96ee1b22e68dc820b75d95d3c0f91d",
+    "archive_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+    "rows": 99,
     "start": "2026-07-01",
-    "end": "2026-10-14",
+    "end": "2026-11-18",
     "tickers": [
       "GLD",
       "SHY",
@@ -30,8 +30,8 @@
       "errors": [],
       "warnings": [],
       "stats": {
-        "last_session": "2026-10-14",
-        "expected_session": "2026-10-14",
+        "last_session": "2026-11-18",
+        "expected_session": "2026-11-18",
         "last_close_coverage": 1.0,
         "thin_tickers": {},
         "positive_price_fraction": 1.0,
@@ -43,31 +43,31 @@
   },
   "accounts": {
     "candidate": {
-      "as_of": "2026-10-14",
-      "started_at": "2026-10-09",
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
       "mode": "live",
-      "transactions": 2,
-      "snapshot_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
-      "performance_state_sha256": "ccab2e4c930e3be68c2466ad98500600dc1ba69553f85c45f45ccbb0c70dcd8d",
-      "proposed_performance_state_sha256": "ccab2e4c930e3be68c2466ad98500600dc1ba69553f85c45f45ccbb0c70dcd8d"
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "546d5f35b77bfddbeee65c43d932425d4b77f29ca411e62181d2c21e82104e8f",
+      "proposed_performance_state_sha256": "546d5f35b77bfddbeee65c43d932425d4b77f29ca411e62181d2c21e82104e8f"
     },
     "SPY": {
-      "as_of": "2026-10-14",
-      "started_at": "2026-10-09",
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
       "mode": "live",
-      "transactions": 1,
-      "snapshot_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
-      "performance_state_sha256": "26efe86287f004f2b352631b1664dbe088d6649df940c648f6a6325005c55eec",
-      "proposed_performance_state_sha256": "26efe86287f004f2b352631b1664dbe088d6649df940c648f6a6325005c55eec"
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "4cd5b5cf1e770436c5810205a452980cecdaf483bbedb344aa7a2dcecd6a73fa",
+      "proposed_performance_state_sha256": "4cd5b5cf1e770436c5810205a452980cecdaf483bbedb344aa7a2dcecd6a73fa"
     },
     "matched": {
-      "as_of": "2026-10-14",
-      "started_at": "2026-10-09",
+      "as_of": "2026-11-18",
+      "started_at": "2026-11-18",
       "mode": "live",
-      "transactions": 2,
-      "snapshot_sha256": "c016ef72dc682a3c1ca2d535fb0bdaf705b60ef7cecd74f9be0f5b69ae4626e1",
-      "performance_state_sha256": "c655a391c47bcafad9b0e442663b6b4b1b90119cf47f19930a4306f91ce8825f",
-      "proposed_performance_state_sha256": "c655a391c47bcafad9b0e442663b6b4b1b90119cf47f19930a4306f91ce8825f"
+      "transactions": 0,
+      "snapshot_sha256": "104b26c9f7020dce6c1cb7d9fb1f9b74e55ceaa73eed4f65a0025ab5253e9799",
+      "performance_state_sha256": "502df986c55edcf48833f22486e17255992ed9ffff8eff7f794ac8101cb51af5",
+      "proposed_performance_state_sha256": "502df986c55edcf48833f22486e17255992ed9ffff8eff7f794ac8101cb51af5"
     }
   },
   "forward_evidence": {
@@ -87,27 +87,27 @@
       ]
     },
     "promotion_protocol_sha256": "4333ed5a93f4a36f1731078b94adaa57af8fa204f9c9c2ea1917fe143e1229a6",
-    "as_of": "2026-10-14",
-    "started_at": "2026-10-09",
-    "forward_sessions": 3,
+    "as_of": "2026-11-18",
+    "started_at": "2026-11-18",
+    "forward_sessions": 0,
     "minimum_sessions": 252,
-    "remaining_sessions": 249,
-    "filled_orders_including_initial_allocation": 1,
-    "initial_allocations": 1,
+    "remaining_sessions": 252,
+    "filled_orders_including_initial_allocation": 0,
+    "initial_allocations": 0,
     "account_fill_counts": {
       "candidate": {
-        "filled_orders": 1,
-        "initial_allocations": 1,
+        "filled_orders": 0,
+        "initial_allocations": 0,
         "completed_rebalances": 0
       },
       "SPY": {
-        "filled_orders": 1,
-        "initial_allocations": 1,
+        "filled_orders": 0,
+        "initial_allocations": 0,
         "completed_rebalances": 0
       },
       "matched_80_VUG_20_SHY": {
-        "filled_orders": 1,
-        "initial_allocations": 1,
+        "filled_orders": 0,
+        "initial_allocations": 0,
         "completed_rebalances": 0
       }
     },
@@ -116,45 +116,45 @@
     "remaining_filled_rebalances": 6,
     "integrity_violations": 0,
     "candidate": {
-      "equity": 97695.59362862378,
-      "return": -0.02304406371376211,
-      "max_drawdown": -0.02304406371376211
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
     },
     "SPY": {
-      "equity": 98722.5038546043,
-      "return": -0.012774961453956957,
-      "max_drawdown": -0.012774961453956957
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
     },
     "matched_80_VUG_20_SHY": {
-      "equity": 98038.83023758956,
-      "return": -0.01961169762410442,
-      "max_drawdown": -0.01961169762410442
+      "equity": 100000.0,
+      "return": 0.0,
+      "max_drawdown": 0.0
     },
-    "return_difference_vs_SPY": -0.010269102259805152,
-    "return_difference_vs_matched": -0.00343236608965769,
+    "return_difference_vs_SPY": 0.0,
+    "return_difference_vs_matched": 0.0,
     "forward_diagnostics": {
       "SPY": {
-        "annualized_return_difference": -0.1985015270052658,
+        "annualized_return_difference": 0.0,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
         "active_newey_west": {
-          "mean_daily": -0.0034389514942883004,
-          "annualized": -0.8666157765606517,
-          "t_stat": -3.442320684457377,
-          "lag": 5.0
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
         }
       },
       "matched_80_VUG_20_SHY": {
-        "annualized_return_difference": -0.04833654231530049,
+        "annualized_return_difference": 0.0,
         "persistence_available": false,
         "first_half_annualized_difference": null,
         "second_half_annualized_difference": null,
         "active_newey_west": {
-          "mean_daily": -0.0011509884882668537,
-          "annualized": -0.29004909904324716,
-          "t_stat": -2.9672455967583113,
-          "lag": 5.0
+          "mean_daily": 0.0,
+          "annualized": 0.0,
+          "t_stat": 0.0,
+          "lag": 0.0
         }
       }
     },
@@ -184,5 +184,22 @@
     },
     "live_confirmed": false
   },
-  "decision": "rebuild_and_audit"
+  "decision": "new_segment_activated_rebuild_and_audit",
+  "new_observation_segment": true,
+  "observation_segment": {
+    "schema_version": 1,
+    "id": "2026-11-18",
+    "reason": "missed_live_sessions",
+    "prior_started_at": "2026-10-09",
+    "prior_data_through": "2026-10-14",
+    "prior_forward_sessions": 3,
+    "missed_sessions": 25,
+    "preserved_receipts": 4,
+    "inherited_forward_sessions": 0,
+    "backfilled_forward_sessions": 0,
+    "archive_path": "artifacts/v25_live_segments/2026-11-18",
+    "activation_authorization": "Owner approved recovery and upload after disclosure of reset, preservation and publication consequences.",
+    "activation_authorization_recorded_at_utc": "2026-11-19T07:52:10.618043Z",
+    "activated_at_utc": "2026-11-19T07:52:10.618043Z"
+  }
 }

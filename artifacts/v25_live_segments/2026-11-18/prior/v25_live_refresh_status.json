@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-15T09:18:05.216358Z",
+  "data_through": "2026-10-14",
+  "data_advanced": true,
+  "idempotent_no_new_session": false,
+  "manual_review_required": false,
+  "integrity_ok": true,
+  "private_deploy_allowed": true,
+  "public_paper_status_deploy_allowed": true,
+  "reference_trade_allowed": false,
+  "decision": "deploy_private",
+  "update_status_sha256": "1d7d26a31d9e5bea93054b7c9bb665b498b89da414906642b0d3355bc60c772a",
+  "audit_sha256": "18a302b5100f60bfeecfa7c7209e0c7db582a85708079eb6efda584a47453a53"
+}

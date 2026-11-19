@@ -164,7 +164,7 @@ def test_activated_segment_keeps_the_original_chain_and_zero_count_initial_state
         assert state["observation_segment"]["inherited_forward_sessions"] == 0
         assert state["observation_segment"]["backfilled_forward_sessions"] == 0
     active = json.loads((ROOT / "artifacts/paper_v25_state.json").read_text())
-    assert active["equity_curve"][0]["date"] == "2026-10-09"
+    assert active["equity_curve"][0]["date"] == active["started_at"] == active["observation_segment"]["id"]
     assert active["observation_segment"] == json.loads((ROOT / "artifacts/v25_live_segment.json").read_text())
 
 
@@ -231,3 +231,17 @@ def test_live_fetch_retries_real_panels_without_filling_a_historical_vug_hole(
         )
         assert status["forward_evidence"]["forward_sessions"] == 0
         assert len(list(tmp_path.glob("*.zip"))) == 1
+
+
+def test_current_segment_preserves_prior_bytes_and_initial_receipt() -> None:
+    segment = json.loads((ROOT / "artifacts/v25_live_segment.json").read_text())
+    archive = ROOT / segment["archive_path"]
+    manifest = json.loads((archive / "v25_segment_manifest.json").read_text())
+    for entry in manifest["prior_files"].values():
+        assert hashlib.sha256((archive / entry["preserved_path"]).read_bytes()).hexdigest() == entry["sha256"]
+    prior = verify_v25_reference_ledger(archive / "prior" / LEDGER_NAME)
+    assert prior == manifest["prior_ledger"]
+    assert prior["receipts"] == segment["preserved_receipts"]
+    initial = json.loads((archive / manifest["initial_receipt_path"]).read_text().splitlines()[0])
+    assert initial["receipt_sha256"] == manifest["initial_receipt_sha256"]
+    assert manifest["new_forward_sessions"] == manifest["inherited_forward_sessions"] == manifest["backfilled_forward_sessions"] == 0

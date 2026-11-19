@@ -1,15 +1,16 @@
 {
   "schema_version": 1,
-  "id": "2026-10-09",
+  "id": "2026-11-18",
   "reason": "missed_live_sessions",
-  "prior_started_at": "2026-07-31",
-  "prior_data_through": "2026-08-28",
-  "prior_forward_sessions": 20,
-  "missed_sessions": 29,
-  "preserved_receipts": 15,
+  "prior_started_at": "2026-10-09",
+  "prior_data_through": "2026-10-14",
+  "prior_forward_sessions": 3,
+  "missed_sessions": 25,
+  "preserved_receipts": 4,
   "inherited_forward_sessions": 0,
   "backfilled_forward_sessions": 0,
-  "archive_path": "artifacts/v25_live_segments/2026-10-09",
-  "activation_review_approved_at_utc": "2026-10-11T11:26:55Z",
-  "activated_at_utc": "2026-10-11T11:34:01.770524Z"
+  "archive_path": "artifacts/v25_live_segments/2026-11-18",
+  "activation_authorization": "Owner approved recovery and upload after disclosure of reset, preservation and publication consequences.",
+  "activation_authorization_recorded_at_utc": "2026-11-19T07:52:10.618043Z",
+  "activated_at_utc": "2026-11-19T07:52:10.618043Z"
 }
