@@ -4,21 +4,21 @@
   "strategy": "v25 80% VUG／20% GLD（隔離候選 Paper）",
   "execution_clock": "signal at close t; rebalance at adjusted open t+1",
   "created_at": "2026-11-19T07:52:04.890988+00:00",
-  "updated_at": "2026-11-20T13:26:58.646841+00:00",
+  "updated_at": "2026-11-21T12:54:25.027375+00:00",
   "initial_cash": 100000.0,
   "cash": 1.2789769243681803e-13,
   "cost_bps": 10.0,
-  "as_of": "2026-11-19",
+  "as_of": "2026-11-20",
   "holdings": {
     "VUG": {
       "shares": 962.0811389633295,
-      "last_price": 79.94000244140625,
-      "market_value": 76908.76859755946
+      "last_price": 75.69000244140625,
+      "market_value": 72819.92375696532
     },
     "GLD": {
       "shares": 58.785511630520624,
-      "last_price": 335.17999267578125,
-      "market_value": 19703.727357759955
+      "last_price": 322.8699951171875,
+      "market_value": 18980.077853107563
     }
   },
   "pending_order": null,
@@ -75,11 +75,19 @@
       "turnover": 0.999000999000999,
       "cost": 99.9000999000999,
       "drawdown": -0.03387504044680578
+    },
+    {
+      "date": "2026-11-20",
+      "equity": 91800.00161007288,
+      "cash": 1.2789769243681803e-13,
+      "turnover": 0.0,
+      "cost": 0.0,
+      "drawdown": -0.08199998389927121
     }
   ],
   "adjustment_rebases": [],
   "total_costs": 99.9000999000999,
-  "snapshot_sha256": "04db1bfb36f638b5ed70008a01cec76192222d05a32448e39b16f46d8192101f",
+  "snapshot_sha256": "57069b5282844af163358a5c347012bba15da474e13b8c38d361a2b5b823ceec",
   "started_at": "2026-11-18",
   "observation_segment": {
     "schema_version": 1,
