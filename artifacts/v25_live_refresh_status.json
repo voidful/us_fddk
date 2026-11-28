@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-26T14:12:57.103044Z",
-  "data_through": "2026-11-25",
+  "generated_at_utc": "2026-11-28T13:27:09.269485Z",
+  "data_through": "2026-11-27",
   "data_advanced": true,
   "idempotent_no_new_session": false,
   "manual_review_required": false,
@@ -10,6 +10,6 @@
   "public_paper_status_deploy_allowed": true,
   "reference_trade_allowed": false,
   "decision": "deploy_private",
-  "update_status_sha256": "3c09d052a3b73c936ae7b410a5c0ab144a01292646b903175baeb9d7ddeec483",
-  "audit_sha256": "72142f6b5cd0cdfbdb9df900f3c63a8b4c95eeb76307333e3a9d92c72497c01f"
+  "update_status_sha256": "f97987f0a7bd184a9c17c8cef9ba7f82321616eafe33f895a96941bca9865cd9",
+  "audit_sha256": "495ef981dbaf7f309f0bcc9062ffc464bafcc99361c067c50200696aa2c92d6d"
 }
